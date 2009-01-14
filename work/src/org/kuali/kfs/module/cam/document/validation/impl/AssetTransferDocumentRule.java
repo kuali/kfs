@@ -322,14 +322,14 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getBuildingCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING);
-            if (ObjectUtils.isNull(assetTransferDocument.getBuilding()) || !assetTransferDocument.getBuilding().isActive()) {
+            if (ObjectUtils.isNull(assetTransferDocument.getBuilding())) { 
                 putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetTransferDocument.getBuildingCode(), assetTransferDocument.getCampusCode());
                 valid &= false;
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getBuildingRoomNumber())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM);
-            if (ObjectUtils.isNull(assetTransferDocument.getBuildingRoom()) || !assetTransferDocument.getBuildingRoom().isActive()) {
+            if (ObjectUtils.isNull(assetTransferDocument.getBuildingRoom())) { 
                 putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetTransferDocument.getBuildingCode(), assetTransferDocument.getBuildingRoomNumber(), assetTransferDocument.getCampusCode());
                 valid &= false;
             }
@@ -376,11 +376,10 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             valid &= false;
         }
         
-        // check if account is active
+        // check if account is valid
         Account organizationOwnerAccount = assetTransferDocument.getOrganizationOwnerAccount();
-        if (ObjectUtils.isNotNull(organizationOwnerAccount) && (organizationOwnerAccount.isExpired() || !organizationOwnerAccount.isActive())) {
-            // show error if account is not active
-            putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_NOT_ACTIVE, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetTransferDocument.getOrganizationOwnerAccountNumber());
+        if (ObjectUtils.isNotNull(organizationOwnerAccount) && (organizationOwnerAccount.isExpired())) {
+            putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_INVALID, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetTransferDocument.getOrganizationOwnerAccountNumber());
             valid &= false;
         }
         else if (getAssetService().isCapitalAsset(asset) && !asset.getAssetPayments().isEmpty()) {

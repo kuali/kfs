@@ -7,8 +7,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AssetTransferDocument" parent="AssetTransferDocument-parentBean" />
-
-  <bean id="AssetTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="AssetTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">  
     <property name="label" value="Asset Transfer" />
     <property name="shortLabel" value="Asset Transfer" />
     <property name="summary" value="&amp;nbsp;" />
@@ -49,6 +48,27 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetTransferDocument-oldOrganizationOwnerAccountNumber" />
       </list>
     </property>
+
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="campus"
+              p:attributeToHighlightOnFail="campusCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="building"
+              p:attributeToHighlightOnFail="buildingCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="buildingRoom"
+              p:attributeToHighlightOnFail="buildingRoomNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organizationOwnerAccount"
+              p:attributeToHighlightOnFail="organizationOwnerAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organizationOwnerChartOfAccounts"
+              p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />              
+      </list>
+    </property>
+    
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="postalZipCode">

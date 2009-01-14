@@ -59,13 +59,11 @@ public class ChartServiceImpl implements ChartService {
      * @see org.kuali.kfs.coa.service.ChartService#getAllChartCodes()
      */
     public List<String> getAllChartCodes() {
-        Collection charts = chartDao.getAll();
-        List chartCodes = new ArrayList();
-        for (Iterator iter = charts.iterator(); iter.hasNext();) {
-            Chart element = (Chart) iter.next();
-            chartCodes.add(element.getChartOfAccountsCode());
+        Collection<Chart> charts = chartDao.getAll();
+        List<String> chartCodes = new ArrayList<String>();
+        for ( Chart chart : charts ) {
+            chartCodes.add( chart.getChartOfAccountsCode() );
         }
-
         return chartCodes;
     }
 

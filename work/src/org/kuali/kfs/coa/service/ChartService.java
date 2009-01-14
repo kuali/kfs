@@ -44,9 +44,9 @@ public interface ChartService extends ChartHierarchyService {
     /**
      * Retrieves all of the charts in the system and returns them in a List.
      * 
-     * @return A List of chart objects.
+     * @return A List of chart codes.
      */
-    public List getAllChartCodes();
+    public List<String> getAllChartCodes();
 
     /**
      * Retrieves a map of reportsTo relationships (e.g. A reports to B, B reports to B, C reports to A)

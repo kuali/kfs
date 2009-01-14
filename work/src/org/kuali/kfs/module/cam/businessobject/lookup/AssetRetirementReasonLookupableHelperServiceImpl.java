@@ -29,6 +29,7 @@ import org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -58,7 +59,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
      *      java.lang.String)
      */
     @Override
-    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys) {
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
         AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObject;
         
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
@@ -99,7 +100,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE);
         parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE+"::"+assetRetirementReason.getRetirementReasonCode());
         setBackLocation(KFSConstants.MAINTENANCE_ACTION);
-        return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys);
+        return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys, businessObjectRestrictions);
     }
 
     /**

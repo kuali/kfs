@@ -36,6 +36,7 @@ import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -155,8 +156,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl impleme
         }
 
         // check if field is a secure
-        String displayWorkgroup = ddService.getAttributeDisplayWorkgroup(getBoClass(), fieldName);
-        if (StringUtils.isNotBlank(displayWorkgroup)) {
+        if (SpringContext.getBean(BusinessObjectAuthorizationService.class).attributeValueNeedsToBeEncryptedOnFormsAndLinks(getBoClass(), fieldName)) {
             try {
                 fieldValue = encryptionService.encrypt(fieldValue);
             }

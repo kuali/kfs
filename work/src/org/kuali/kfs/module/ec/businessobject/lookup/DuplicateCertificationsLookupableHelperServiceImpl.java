@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.kfs.module.ec.businessobject.DuplicateCertificationsReport;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -51,7 +52,7 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
     }
     
     @Override
-    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List pkNames) {
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List pkNames, BusinessObjectRestrictions businessObjectRestrictions) {
         return getEmptyAnchorHtmlData();
     }
     

@@ -32,6 +32,7 @@ import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -244,7 +245,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map, java.lang.String)
      */
     @Override
-    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List pkNames) {
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List pkNames, BusinessObjectRestrictions businessObjectRestrictions) {
         return getEmptyAnchorHtmlData();
     }
 

@@ -152,14 +152,6 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     }
     
     protected void putInactivationBlockingErrorOnPage(ObjectCode objectCode, InactivationBlockingMetadata inactivationBlockingMetadata, int index) {
-        // confirm that the object code primary keys are not authorized to a specific workgroup, because this code won't honor the authorization
-        String yearWorkgroup = ddService.getAttributeDisplayWorkgroup(ObjectCode.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        String chartWorkgroup = ddService.getAttributeDisplayWorkgroup(ObjectCode.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        String objectCodeWorkgroup = ddService.getAttributeDisplayWorkgroup(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        if (StringUtils.isNotBlank(yearWorkgroup) || StringUtils.isNotBlank(chartWorkgroup) || StringUtils.isNotBlank(objectCodeWorkgroup)) {
-            throw new RuntimeException("Unexpected that Object Code primary keys are authorized to specific workgroups");
-        }
-        
         String objectCodeSummaryString = objectCode.getUniversityFiscalYear() + " - " + objectCode.getChartOfAccountsCode() + " - " + objectCode.getFinancialObjectCode();
         
         Properties parameters = new Properties();

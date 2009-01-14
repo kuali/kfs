@@ -285,13 +285,13 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * @param boDDEntry the data dictionary entry for the accounting line
      */
     protected void setShouldShowSecure(Field field, BusinessObjectEntry boDDEntry) {
-        if (field.isSecure()) {
+        /*if (field.isSecure()) {
             String workgroupName = boDDEntry.getAttributeDefinition(field.getPropertyName()).getDisplayWorkgroup();
         
             if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, workgroupName)) {
                 field.setDisplayMaskValue(field.getPropertyValue());
             }
-        }
+        }*/
     }
     /**
      * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getAccountingDocument()

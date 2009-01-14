@@ -34,6 +34,8 @@ import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquira
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
@@ -104,30 +106,32 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
 
         List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
         List returnKeys = getReturnKeys();
+        Person user = GlobalVariables.getUserSession().getPerson();
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {
             LOG.debug("Doing lookup for " + element.getClass());
+            BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
             String returnUrl = 
-                getReturnUrl(element, lookupForm, returnKeys).constructCompleteHtmlTag();
+                getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions).constructCompleteHtmlTag();
 
             if (element instanceof PersistableBusinessObject) {
                 if (element instanceof SegmentedBusinessObject) {
                     LOG.debug("segmented property names " + ((SegmentedBusinessObject) element).getSegmentedPropertyNames());
                     
-                    Collection<Column> columns = getColumns(element);
-                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element, pkNames));
+                    Collection<Column> columns = getColumns(element, businessObjectRestrictions);
+                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element, pkNames, businessObjectRestrictions));
 
                     for (String propertyName : ((SegmentedBusinessObject) element).getSegmentedPropertyNames()) {
-                        columns.add(setupResultsColumn(element, propertyName));
+                        columns.add(setupResultsColumn(element, propertyName, businessObjectRestrictions));
                     }
                     
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     resultTable.add(row);
                 }
                 else {
-                    Collection<Column> columns = getColumns(element);
+                    Collection<Column> columns = getColumns(element, businessObjectRestrictions);
                     
-                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element, pkNames));
+                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element, pkNames, businessObjectRestrictions));
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     resultTable.add(row);
                 }
@@ -142,7 +146,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
      * @param attributeName
      * @return Column
      */
-    protected Column setupResultsColumn(BusinessObject element, String attributeName) {
+    protected Column setupResultsColumn(BusinessObject element, String attributeName, BusinessObjectRestrictions businessObjectRestrictions) {
         Column col = new Column();
 
         col.setPropertyName(attributeName);
@@ -206,7 +210,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
         col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
         col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
 
-        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue);
+        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
         col.setPropertyValue(propValue);
 
 
@@ -223,11 +227,11 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
      * @param bo
      * @return Collection<Column>
      */
-    protected Collection<Column> getColumns(BusinessObject bo) {
+    protected Collection<Column> getColumns(BusinessObject bo, BusinessObjectRestrictions businessObjectRestrictions) {
         Collection<Column> columns = new ArrayList<Column>();
 
         for (String attributeName : getBusinessObjectDictionaryService().getLookupResultFieldNames(getBusinessObjectClass())) {
-            columns.add(setupResultsColumn(bo, attributeName));
+            columns.add(setupResultsColumn(bo, attributeName, businessObjectRestrictions));
         }
         return columns;
     }

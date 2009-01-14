@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -122,7 +123,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlTitleText(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
      */
     @Override
-    protected String getActionUrlTitleText(BusinessObject businessObject, String displayText, List pkNames){
+    protected String getActionUrlTitleText(BusinessObject businessObject, String displayText, List pkNames, BusinessObjectRestrictions businessObjectRestrictions){
         BatchJobStatus job = (BatchJobStatus) businessObject;
         String titleText = displayText+" "
             +getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(getBusinessObjectClass().getName()).getObjectLabel()

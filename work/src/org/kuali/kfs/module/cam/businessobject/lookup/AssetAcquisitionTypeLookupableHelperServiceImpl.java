@@ -25,6 +25,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -53,7 +54,7 @@ public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookup
      *      java.util.Map, java.lang.String)
      */
     @Override
-    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys) {
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
         AssetAcquisitionType assetAcquisitionType = (AssetAcquisitionType) businessObject;
         
         if (initializingAssetGlobal && !assetAcquisitionType.isActive()) {
@@ -66,7 +67,7 @@ public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookup
             parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
             parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE + "::" + assetAcquisitionType.getAcquisitionTypeCode());
             setBackLocation(KFSConstants.MAINTENANCE_ACTION);
-            return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys);
+            return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys, businessObjectRestrictions);
         }
     }
 

@@ -34,6 +34,8 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentS
 import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
@@ -78,6 +80,8 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         }
         List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
         List returnKeys = getReturnKeys();
+        Person user = GlobalVariables.getUserSession().getPerson();
+        
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {
             LOG.debug("Doing lookup for " + element.getClass());
@@ -85,6 +89,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
             CustomerInvoiceWriteoffLookupResult result = ((CustomerInvoiceWriteoffLookupResult) element);
             List<String> customerInvoiceDocumentAttributesForDisplay = result.getCustomerInvoiceDocumentAttributesForDisplay();
             
+            BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(result, user);
             //add list of customer invoice document sub rows
             List<ResultRow> subResultRows = new ArrayList<ResultRow>();
             for (CustomerInvoiceDocument customerInvoiceDocument : result.getCustomerInvoiceDocuments()) {
@@ -92,7 +97,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
                 List<Column> subResultColumns = new ArrayList<Column>();
                 
                 for (String propertyName : customerInvoiceDocumentAttributesForDisplay) {
-                    subResultColumns.add(setupResultsColumn(customerInvoiceDocument, propertyName));
+                    subResultColumns.add(setupResultsColumn(customerInvoiceDocument, propertyName, businessObjectRestrictions));
                 }
                 
                 ResultRow subResultRow = new ResultRow((List<Column>) subResultColumns, "", "");
@@ -101,11 +106,11 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
             }
             
             //create main customer header row
-            Collection<Column> columns = getColumns(element);
-            HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys);
+            Collection<Column> columns = getColumns(element, businessObjectRestrictions);
+            HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
             CustomerInvoiceWriteoffLookupResultRow row = 
                 new CustomerInvoiceWriteoffLookupResultRow((List<Column>) columns, subResultRows, 
-                        returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames));
+                        returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
             resultTable.add(row);
         }
 
@@ -149,7 +154,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      * @param attributeName
      * @return Column
      */
-    protected Column setupResultsColumn(BusinessObject element, String attributeName) {
+    protected Column setupResultsColumn(BusinessObject element, String attributeName, BusinessObjectRestrictions businessObjectRestrictions) {
         Column col = new Column();
 
         col.setPropertyName(attributeName);
@@ -213,7 +218,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         // comparator
         col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
         col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue);
+        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
         col.setPropertyValue(propValue);
 
         if (StringUtils.isNotBlank(propValue)) {
@@ -229,11 +234,11 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      * @param bo
      * @return Collection<Column>
      */
-    protected Collection<Column> getColumns(BusinessObject bo) {
+    protected Collection<Column> getColumns(BusinessObject bo, BusinessObjectRestrictions businessObjectRestrictions) {
         Collection<Column> columns = new ArrayList<Column>();
 
         for (String attributeName : getBusinessObjectDictionaryService().getLookupResultFieldNames(bo.getClass())) {
-            columns.add(setupResultsColumn(bo, attributeName));
+            columns.add(setupResultsColumn(bo, attributeName, businessObjectRestrictions));
         }
         return columns;
     }

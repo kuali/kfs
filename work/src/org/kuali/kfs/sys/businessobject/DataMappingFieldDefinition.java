@@ -92,15 +92,16 @@ public class DataMappingFieldDefinition extends PersistableBusinessObjectBase {
     }
     
     public String getMaskPattern() {
-        if (attributeDefinition.getDisplayMask().getMaskFormatter() instanceof MaskFormatterLiteral) {
+        // TODO: see how to handle the multiple mask formatters that may appear on an AttributeSecurity object
+        /*if (attributeDefinition.getDisplayMask().getMaskFormatter() instanceof MaskFormatterLiteral) {
             return ((MaskFormatterLiteral)attributeDefinition.getDisplayMask().getMaskFormatter()).getLiteral();
         }
         else if (attributeDefinition.getDisplayMask().getMaskFormatter() instanceof MaskFormatterSubString) {
             return new StringBuffer(((MaskFormatterSubString)attributeDefinition.getDisplayMask().getMaskFormatter()).getMaskLength()).append(" ").append(((MaskFormatterSubString)attributeDefinition.getDisplayMask().getMaskFormatter()).getMaskCharacter()).append(" characters").toString();
         }
-        else {
+        else {*/
             return "Unknown MaskFormatter";
-        } 
+        //} 
     }
 
     public String getNamespaceCode() {

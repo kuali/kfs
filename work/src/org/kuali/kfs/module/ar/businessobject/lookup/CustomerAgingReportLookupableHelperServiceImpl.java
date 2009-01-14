@@ -44,12 +44,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -228,13 +231,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             }
 
             // Encrypt value if it is a secure field
-            String displayWorkgroup = dataDictionaryService.getAttributeDisplayWorkgroup(bo.getClass(), fieldNm);
-
             if (fieldConversions.containsKey(fieldNm)) {
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
 
-            if (StringUtils.isNotBlank(displayWorkgroup) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, displayWorkgroup)) {
+            if (SpringContext.getBean(BusinessObjectAuthorizationService.class).attributeValueNeedsToBeEncryptedOnFormsAndLinks(bo.getClass(), fieldNm)) {
                 // try {
                 // fieldVal = encryptionService.encrypt(fieldVal);
                 // }
@@ -282,11 +283,14 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         boolean hasReturnableRow = false;
 
+        Person user = GlobalVariables.getUserSession().getPerson();
+        
         try {
             // iterate through result list and wrap rows with return url and action urls
             for (Iterator iter = displayList.iterator(); iter.hasNext();) {
                 BusinessObject element = (BusinessObject) iter.next();
 
+                BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
                 // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(),
                 // lookupForm.getLookupableImplServiceName());
                 // String actionUrls = getActionUrls(element);
@@ -347,7 +351,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                             col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
                             col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
 
-                            propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue);
+                            propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
                             col.setPropertyValue(propValue);
 
                             // add correct label for sysparam

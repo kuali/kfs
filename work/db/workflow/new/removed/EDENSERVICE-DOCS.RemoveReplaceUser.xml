@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>EDENSERVICE-DOCS.RemoveReplaceUser</name>
+<parent>EDENSERVICE-DOCS</parent>
+<docHandler>${workflow.url}/RemoveReplace.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Workgroup Approval"/>
+          <requests name="Workgroup Approval" nextNode="Rule Approval"/>
+          <requests name="Rule Approval"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="Adhoc Routing"/>
+<role name="Workgroup Approval">
+<ruleTemplate>RemoveReplaceWorkgroupTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Rule Approval">
+<ruleTemplate>RemoveReplaceRuleTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+</documentTypes>
+</data>

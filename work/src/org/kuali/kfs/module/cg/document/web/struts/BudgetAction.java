@@ -43,7 +43,6 @@ import org.kuali.kfs.module.cg.document.validation.event.RunAuditEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -51,6 +50,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class handles Actions for Research Administration.
@@ -136,9 +136,8 @@ public class BudgetAction extends ResearchDocumentActionBase {
         budgetForm.setMethodToCall(KFSConstants.SAVE_METHOD);
 
         // Check if user has permission to save
-        // TODO this method is gone.  fix for kim
-//        budgetForm.populateAuthorizationFields(SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(budgetForm.getBudgetDocument()));
-        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+        Map documentActions = budgetForm.getDocumentActions();       
+        if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
             super.save(mapping, form, request, response);
         }
 

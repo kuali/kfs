@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGConstants;
@@ -35,12 +36,14 @@ import org.kuali.kfs.module.cg.businessobject.RoutingFormSubcontractor;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
-import org.kuali.kfs.module.cg.document.authorization.BudgetDocumentAuthorizer;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -48,6 +51,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -502,11 +506,15 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 Document document = documentService.getByDocumentHeaderId(routingFormDocument.getRoutingFormBudgetNumber());
                 if (BudgetDocument.class.isAssignableFrom(document.getClass())) {
                     BudgetDocument budgetDocument = (BudgetDocument) document;
+                    
+                    String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(BudgetDocument.class);
+                    FinancialSystemTransactionalDocumentPresentationController presentationController = (FinancialSystemTransactionalDocumentPresentationController)SpringContext.getBean(DocumentTypeService.class).getDocumentPresentationController(documentTypeName);
+                    FinancialSystemTransactionalDocumentAuthorizerBase budgetAdjustmentDocumentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(documentTypeName);
+                    Person person = GlobalVariables.getUserSession().getPerson();
 
-                    // see if this user can vew/modify the budget
-                    BudgetDocumentAuthorizer budgetDocumentAuthorizer = new BudgetDocumentAuthorizer();
-                    Map budgetAuthorizationsMap = budgetDocumentAuthorizer.getEditMode(budgetDocument, GlobalVariables.getUserSession().getPerson());
-                    if ((!budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) || (budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE") && budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE"))) {
+                    Set<String> editModes = presentationController.getEditModes(budgetDocument);
+                    editModes = budgetAdjustmentDocumentAuthorizer.getEditModes(budgetDocument, person, editModes);
+                    if (!editModes.contains(AuthorizationConstants.EditMode.FULL_ENTRY) && !editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
                         errorMap.putError("routingFormBudgetNumber1", CGKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
                         return false;
                     }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.cg.document.web.struts;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,8 +29,8 @@ import org.kuali.kfs.module.cg.document.validation.event.EnterModularEvent;
 import org.kuali.kfs.module.cg.document.validation.event.SaveModularEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class handles Actions for the Budget Modular page.
@@ -78,9 +80,8 @@ public class BudgetModularAction extends BudgetAction {
 
         // check business rules
         boolean rulePassed = true;
-        // TODO this method is gone fix for kim
-//        budgetForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(budgetForm.getBudgetDocument()));
-        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+        Map documentActions = budgetForm.getDocumentActions();       
+        if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
             rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveModularEvent(budgetForm.getDocument()));
         }
 

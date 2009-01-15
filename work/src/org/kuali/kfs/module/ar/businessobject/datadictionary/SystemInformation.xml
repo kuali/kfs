@@ -50,7 +50,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="SystemInformation-organizationRemitToStateCode" />
         <ref bean="SystemInformation-organizationRemitToZipCode" />
         <ref bean="SystemInformation-universityFederalEmployerIdentificationNumber" />
-        <ref bean="SystemInformation-cashControlWorkgroup" />
       </list>
     </property>
 	<property name="relationships" >
@@ -395,22 +394,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="SystemInformation-organizationRemitToZipCode-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToZipCode">
   </bean>
   
-  <bean id = "SystemInformation-cashControlWorkgroup" parent="SystemInformation-cashControlWorkgroup-parentBean" />
-  
-  <bean id="SystemInformation-cashControlWorkgroup-parentBean" abstract="true" parent="AttributeDefinition" >
-  	<property name="name" value="cashControlWorkgroup" />
-    <property name="label" value="Lockbox Workgroup" />
-    <property name="shortLabel" value="Lockbox Wrkgrp" />
-    <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:allowUnderscore="true" />
-    </property>
-    <property name="control" >
-      <bean parent="WorkflowWorkgroupControlDefinition" />
-    </property>
-  </bean>
-
 <!-- Business Object Inquiry Definition -->
 
 
@@ -437,8 +420,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                     p:attributeName="financialDocumentInitiatorIdentifier" />                    
               <bean parent="FieldDefinition"
                     p:attributeName="lockboxNumber" />        	  
-			  <bean parent="FieldDefinition"
-        	  		p:attributeName="cashControlWorkgroup" />                        
              </list>
           </property>
         </bean>                     

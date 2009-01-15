@@ -45,7 +45,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private String wireSubAccountNumber;
     private String wireObjectCode;
     private String wireSubObjectCode;    
-    private String cashControlWorkgroup;
     
 	private ObjectCode creditCardFinancialObject;
 	private SubObjectCode universityClearingSubObject;
@@ -871,14 +870,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
      */
     public String getSystemInformationViewer() {
         return "View System Information";
-    }
-
-    public String getCashControlWorkgroup() {
-        return cashControlWorkgroup;
-    }
-
-    public void setCashControlWorkgroup(String cashControlWorkgroup) {
-        this.cashControlWorkgroup = cashControlWorkgroup;
     }
 
 }

@@ -19,8 +19,8 @@
     <property name="documentTypeCode" value="BT" />
     <property name="sessionDocument" value="true" />    
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="BenefitExpenseTransferDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="BenefitExpenseTransferDocument-workflowAttributes" />
     </property>
     
     <property name="validationMap" ref="BenefitExpenseTransferDocument-validations" />
@@ -36,38 +36,23 @@
     		</entry>    		
     	</map>
     </property>  
-
-
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="BenefitExpenseTransferDocument-workflowProperties" parent="BenefitExpenseTransferDocument-workflowProperties-parentBean" />
-
-  <bean id="BenefitExpenseTransferDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines.account" />
-            </list>
-          </property>
-        </bean>
-      </list>
+<!-- Exported Workflow Attributes -->
+  <bean id="BenefitExpenseTransferDocument-workflowAttributes" parent="BenefitExpenseTransferDocument-workflowAttributes-parentBean" />
+  
+    <bean id="BenefitExpenseTransferDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+  	<property name="routingTypeDefinitions">
+    	<map>
+    		<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
+    		<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+    		<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+    		<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    	</map>
     </property>
   </bean>
-  
+
   <!-- Validations -->
   
   <bean id="BenefitExpenseTransferDocument-validations" parent="BenefitExpenseTransferDocument-validations-parentBean" />

@@ -29,7 +29,7 @@
 	<kra-b:budgetOverview />
 
         <div id="globalbuttons" class="globalbuttons">
-          <c:if test="${KualiForm.documentActionFlags.canRoute}">
+          <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_ROUTE]}">
 	          <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_complete.gif" styleClass="globalbuttons" property="methodToCall.route" alt="Complete Budget" />
 	        </c:if>
         </div>

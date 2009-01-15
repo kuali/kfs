@@ -81,6 +81,14 @@ public class BudgetDocumentPresentationController extends FinancialSystemTransac
      */
     @Override
     protected boolean canSave(Document document) {
-        return false;
+        return true;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canAnnotate(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canAnnotate(Document document) {
+        return true;
     }
 }

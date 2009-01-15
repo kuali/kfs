@@ -20,7 +20,7 @@
 	htmlFormAction="researchBudgetParameters"
 	headerDispatch="saveParameters"
 	headerTabActive="parameters"
-	showTabButtons="true"
+	showTabButtons="true" renderMultipart="true"
 	auditCount="${AuditErrors['parametersAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS_LESS_DOCUMENT}" />

@@ -40,9 +40,27 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
         setRemitToNameEditable(readOnlyPropertyNames);
         setOrgPostalZipCodeEditable(readOnlyPropertyNames);
+        setBillingOrgFieldsEditable(readOnlyPropertyNames, document);
         return readOnlyPropertyNames;
     }
 
+    /**
+     * 
+     * Billing Chart/Org are always read-only on an edit.  Always.
+     * 
+     * They are editable on an Add, but only if KIM lets you in on an Add, 
+     * but thats handled elsewhere.
+     * 
+     * @param readOnlyPropertyNames
+     * @param document
+     */
+    private void setBillingOrgFieldsEditable(Set<String> readOnlyPropertyNames, MaintenanceDocument document) {
+        if (document.isEdit()) {
+            readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE);
+            readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE);
+        }
+    }
+    
     /**
      * 
      * Sets the Remit-To Name (ie, OrgCheckPayableToName) to read only if thats how the system parameters are 

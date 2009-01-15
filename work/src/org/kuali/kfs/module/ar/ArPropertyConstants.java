@@ -156,9 +156,12 @@ public class ArPropertyConstants {
 
     // OrganizationOptions
     public static class OrganizationOptionsFields {
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+        public static final String ORGANIZATION_CODE = "organizationCode";
         public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
         public static final String ORGANIZATION_CHECK_PAYABLE_TO_NAME = "organizationCheckPayableToName";
+        public static final String ORGANIZATION_REMIT_TO_ADDRESS_SECTION_ID = "Edit Organization Options";
         public static final String ORGANIZATION_REMIT_TO_ADDRESS_NAME = "organizationRemitToAddressName";
         public static final String ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS = "organizationRemitToLine1StreetAddress";
         public static final String ORGANIZATION_REMIT_TO_LINE2_STREET_ADDRESS = "organizationRemitToLine2StreetAddress";

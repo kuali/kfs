@@ -32,23 +32,37 @@ public class OrganizationOptionsAuthorizer extends FinancialSystemMaintenanceDoc
 
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
 
         FinancialSystemMaintenanceDocument maintDoc = (FinancialSystemMaintenanceDocument) businessObject;
         OrganizationOptionsMaintainableImpl newMaintainable = (OrganizationOptionsMaintainableImpl) maintDoc.getNewMaintainableObject();
         
-        if (newMaintainable != null) {
-            OrganizationOptions orgOpts = (OrganizationOptions) newMaintainable.getBusinessObject();
-            if (orgOpts != null && StringUtils.isNotBlank(orgOpts.getChartOfAccountsCode()) && StringUtils.isNotBlank(orgOpts.getOrganizationCode())) {
-                attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, orgOpts.getChartOfAccountsCode());
-                attributes.put(KfsKimAttributes.ORGANIZATION_CODE, orgOpts.getOrganizationCode());
-            }
-            if (orgOpts != null && StringUtils.isNotBlank(orgOpts.getProcessingChartOfAccountCode()) && StringUtils.isNotBlank(orgOpts.getProcessingOrganizationCode())) {
-                attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, orgOpts.getProcessingChartOfAccountCode());
-                attributes.put(KfsKimAttributes.ORGANIZATION_CODE, orgOpts.getProcessingOrganizationCode());
+        // Only load the billing chart/org and processing chart/org into the 
+        // role qualification if its an Edit.
+        //
+        // If its a New, then only someone 
+        // in the AR Processor role can launch, and thats a non-qualified role.
+        //
+        // Edit launches can be done by an AR Biller or AR Processor, but only if 
+        // their home org matches either the BillingOrg or ProcessingOrg.
+        //
+        // The KIM role config should do all that for us, as long as we load up the 
+        // proper qualifications at the proper time.
+        //
+        if (maintDoc.isEdit()) {
+            if (newMaintainable != null) {
+                OrganizationOptions orgOpts = (OrganizationOptions) newMaintainable.getBusinessObject();
+                if (StringUtils.isNotBlank(orgOpts.getChartOfAccountsCode()) && StringUtils.isNotBlank(orgOpts.getOrganizationCode())) {
+                    attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, orgOpts.getChartOfAccountsCode());
+                    attributes.put(KfsKimAttributes.ORGANIZATION_CODE, orgOpts.getOrganizationCode());
+                }
+                if (StringUtils.isNotBlank(orgOpts.getProcessingChartOfAccountCode()) && StringUtils.isNotBlank(orgOpts.getProcessingOrganizationCode())) {
+                    attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, orgOpts.getProcessingChartOfAccountCode());
+                    attributes.put(KfsKimAttributes.ORGANIZATION_CODE, orgOpts.getProcessingOrganizationCode());
+                }
             }
         }
         
-        super.addRoleQualification(businessObject, attributes);
     }
 
 }

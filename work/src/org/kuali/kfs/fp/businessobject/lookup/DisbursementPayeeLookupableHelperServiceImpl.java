@@ -121,8 +121,8 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
         }
 
-        String firstName = (String) fieldValues.get(KNSPropertyConstants.PERSON_FIRST_NAME);
-        String lastName = (String) fieldValues.get(KNSPropertyConstants.PERSON_LAST_NAME);
+        String firstName = (String) fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME);
+        String lastName = (String) fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME);
         boolean isPersonNameEntered = StringUtils.isNotBlank(firstName) || StringUtils.isNotBlank(lastName);
 
         // only can use the person first and last name fields or the vendor name field, but not both.
@@ -130,8 +130,8 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
             String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION;
 
             String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);
-            String firstNameLabel = this.getAttribueLabel(KNSPropertyConstants.PERSON_FIRST_NAME);
-            String lastNameLabel = this.getAttribueLabel(KNSPropertyConstants.PERSON_LAST_NAME);
+            String firstNameLabel = this.getAttribueLabel(KFSPropertyConstants.PERSON_FIRST_NAME);
+            String lastNameLabel = this.getAttribueLabel(KFSPropertyConstants.PERSON_LAST_NAME);
 
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
         }

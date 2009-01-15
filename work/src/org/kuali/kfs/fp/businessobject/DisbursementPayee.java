@@ -89,8 +89,8 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
         fieldConversionMap.put(KFSPropertyConstants.VENDOR_NAME, KFSPropertyConstants.VENDOR_NAME);
         fieldConversionMap.put(KFSPropertyConstants.VENDOR_NUMBER, KFSPropertyConstants.VENDOR_NUMBER);
 
-        fieldConversionMap.put(KNSPropertyConstants.PERSON_FIRST_NAME, VendorPropertyConstants.VENDOR_FIRST_NAME);
-        fieldConversionMap.put(KNSPropertyConstants.PERSON_LAST_NAME, VendorPropertyConstants.VENDOR_LAST_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, VendorPropertyConstants.VENDOR_FIRST_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, VendorPropertyConstants.VENDOR_LAST_NAME);
 
         fieldConversionMap.put(KNSPropertyConstants.ACTIVE, KFSPropertyConstants.ACTIVE_INDICATOR);
 
@@ -107,8 +107,8 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
 
         fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, "externalId");
 
-        fieldConversionMap.put(KNSPropertyConstants.PERSON_FIRST_NAME, KNSPropertyConstants.PERSON_FIRST_NAME);
-        fieldConversionMap.put(KNSPropertyConstants.PERSON_LAST_NAME, KNSPropertyConstants.PERSON_LAST_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KFSPropertyConstants.PERSON_FIRST_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KFSPropertyConstants.PERSON_LAST_NAME);
 
         fieldConversionMap.put(KFSPropertyConstants.EMPLOYEE_ID, KFSPropertyConstants.EMPLOYEE_ID);
         fieldConversionMap.put(KNSPropertyConstants.ACTIVE, KNSPropertyConstants.ACTIVE);

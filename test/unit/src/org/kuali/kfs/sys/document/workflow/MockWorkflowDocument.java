@@ -301,24 +301,6 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     }
 
     /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#appSpecificRouteDocumentToUser(java.lang.String, java.lang.String,
-     *      int, java.lang.String, org.kuali.rice.kew.clientapp.vo.UserIdDTO, java.lang.String, boolean)
-     */
-    public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, int priority, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
-        // TODO Auto-generated method stub
-
-    }
-
-    /**
-     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#appSpecificRouteDocumentToWorkgroup(java.lang.String,
-     *      java.lang.String, int, java.lang.String, org.kuali.rice.kew.clientapp.vo.WorkgroupIdDTO, java.lang.String, boolean)
-     */
-    public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, int priority, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
-        // TODO Auto-generated method stub
-
-    }
-
-    /**
      * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#setTitle(java.lang.String)
      */
     public void setTitle(String title) throws WorkflowException {
@@ -606,6 +588,38 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     public boolean userIsRoutedByUser(Person user) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#adHocRouteDocumentToGroup(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.String)
+     */
+    public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions, String actionRequestLabel) throws WorkflowException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#adHocRouteDocumentToGroup(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean)
+     */
+    public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#adHocRouteDocumentToPrincipal(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.String)
+     */
+    public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions, String actionRequestLabel) throws WorkflowException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#adHocRouteDocumentToPrincipal(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean)
+     */
+    public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException {
+        // TODO Auto-generated method stub
+        
     }
 
     

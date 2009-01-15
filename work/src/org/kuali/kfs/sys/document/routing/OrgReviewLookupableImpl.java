@@ -160,7 +160,7 @@ public class OrgReviewLookupableImpl /*implements WorkflowLookupable*/ {
      * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getLookupInstructions()
      */
     public String getLookupInstructions() {
-        return Utilities.getKNSParameterValue(KEWConstants.DEFAULT_KIM_NAMESPACE, KNSConstants.DetailTypes.RULE_DETAIL_TYPE, KEWConstants.RULE_SEARCH_INSTRUCTION);
+        return Utilities.getKNSParameterValue(KEWConstants.KEW_NAMESPACE, KNSConstants.DetailTypes.RULE_DETAIL_TYPE, KEWConstants.RULE_SEARCH_INSTRUCTION);
     }
 
     /**

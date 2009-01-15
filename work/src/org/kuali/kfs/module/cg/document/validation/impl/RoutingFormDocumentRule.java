@@ -50,8 +50,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -508,8 +508,8 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     BudgetDocument budgetDocument = (BudgetDocument) document;
                     
                     String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(BudgetDocument.class);
-                    FinancialSystemTransactionalDocumentPresentationController presentationController = (FinancialSystemTransactionalDocumentPresentationController)SpringContext.getBean(DocumentTypeService.class).getDocumentPresentationController(documentTypeName);
-                    FinancialSystemTransactionalDocumentAuthorizerBase budgetAdjustmentDocumentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(documentTypeName);
+                    FinancialSystemTransactionalDocumentPresentationController presentationController = (FinancialSystemTransactionalDocumentPresentationController)SpringContext.getBean(DocumentHelperService.class).getDocumentPresentationController(documentTypeName);
+                    FinancialSystemTransactionalDocumentAuthorizerBase budgetAdjustmentDocumentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(documentTypeName);
                     Person person = GlobalVariables.getUserSession().getPerson();
 
                     Set<String> editModes = presentationController.getEditModes(budgetDocument);

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
@@ -55,6 +56,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -223,40 +225,28 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
             // These are taxable
             VendorDetail vendDetail = SpringContext.getBean(VendorService.class).getVendorDetail(pd.getDisbVchrVendorHeaderIdNumberAsInteger(), pd.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
-            String vndrOwnrCode = vendDetail.getVendorHeader().getVendorOwnershipCode();
-            String vndrOwnrCatCode = vendDetail.getVendorHeader().getVendorOwnershipCategoryCode();
+            String vendorOwnerCode = vendDetail.getVendorHeader().getVendorOwnershipCode();
+            String vendorOwnerCategoryCode = vendDetail.getVendorHeader().getVendorOwnershipCategoryCode();
             String payReasonCode = pd.getDisbVchrPaymentReasonCode();
 
-            // ((VH.vndr_ownr_cd IN ('NP', 'FC')
-            // OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd IS NULL))
-            // AND PD.dv_pmt_reas_cd IN ('H', 'J'))
-            if ((("NP".equals(vndrOwnrCode) || "FC".equals(vndrOwnrCode)) || ("CP".equals(vndrOwnrCode) && StringUtils.isBlank(vndrOwnrCatCode))) && ("H".equals(payReasonCode) || "J".equals(payReasonCode))) {
+            ParameterEvaluator parameterEvaluator1 = this.parameterService.getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_BY_OWNERSHIP_CODES_PARAMETER_NAME, PdpParameterConstants.NON_TAXABLE_PAYMENT_REASON_CODES_BY_OWNERSHIP_CODES_PARAMETER_NAME, vendorOwnerCode, payReasonCode);
+            ParameterEvaluator parameterEvaluator2 = this.parameterService.getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY_PARAMETER_NAME, PdpParameterConstants.NON_TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY_PARAMETER_NAME, vendorOwnerCategoryCode, payReasonCode);
+            
+            if ( parameterEvaluator1.evaluationSucceeds() ) pg.setTaxablePayment(Boolean.TRUE);
+            
+            else if (this.parameterService.getParameterValue(DvToPdpExtractStep.class, PdpParameterConstants.CORPORATION_OWNERSHIP_TYPE_PARAMETER_NAME).equals("CP") &&
+                      StringUtils.isEmpty(vendorOwnerCategoryCode) &&
+                      this.parameterService.getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_FOR_BLANK_CORPORATION_OWNERSHIP_TYPE_CATEGORIES_PARAMETER_NAME, payReasonCode).evaluationSucceeds()) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
-
-            // OR
-            // ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H')
-            // AND PD.dv_pmt_reas_cd IN ('C', 'E', 'H', 'L', 'J'))
-            else if (("CP".equals(vndrOwnrCode) && "H".equals(vndrOwnrCatCode)) && ("C".equals(payReasonCode) || "E".equals(payReasonCode) || "H".equals(payReasonCode) || "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
+            
+            else if (this.parameterService.getParameterValue(DvToPdpExtractStep.class, PdpParameterConstants.CORPORATION_OWNERSHIP_TYPE_PARAMETER_NAME).equals("CP")
+                        && !StringUtils.isEmpty(vendorOwnerCategoryCode)
+                        && parameterEvaluator2.evaluationSucceeds() ) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
-
-            // OR
-            // ((VH.vndr_ownr_cd IN ('NR', 'ID', 'PT')
-            // OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H'))
-            // AND PD.dv_pmt_reas_cd IN ('A', 'C', 'E', 'H', 'R', 'T', 'X', 'Y', 'L', 'J'))
-            else if ((("NR".equals(vndrOwnrCode) || "ID".equals(vndrOwnrCode) || "PT".equals(vndrOwnrCode)) || ("CP".equals(vndrOwnrCode) && "H".equals(vndrOwnrCatCode))) && ("A".equals(payReasonCode) || "C".equals(payReasonCode) || "E".equals(payReasonCode) || "H".equals(payReasonCode) || "R".equals(payReasonCode) || "T".equals(payReasonCode) || "X".equals(payReasonCode) || "Y".equals(payReasonCode) || "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
-                pg.setTaxablePayment(Boolean.TRUE);
-            }
-
-            // OR
-            // ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'L')
-            // AND PD.dv_pmt_reas_cd IN ('A', 'E', 'H', 'R', 'T', 'X', 'L', 'J')))
-            else if (("CP".equals(vndrOwnrCode) && "L".equals(vndrOwnrCatCode)) && ("A".equals(payReasonCode) || "X".equals(payReasonCode) || "E".equals(payReasonCode) || "H".equals(payReasonCode) || "R".equals(payReasonCode) || "T".equals(payReasonCode) || "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
-                pg.setTaxablePayment(Boolean.TRUE);
-            }
+            
         }
-
         pg.setCity(pd.getDisbVchrPayeeCityName());
         pg.setCountry(pd.getDisbVchrPayeeCountryCode());
         pg.setLine1Address(pd.getDisbVchrPayeeLine1Addr());

@@ -40,6 +40,7 @@ import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
@@ -434,7 +435,11 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
             saveAsset.getAssetLocations().add(offCampusLocation);
         }
-        // save details
+        // save details        
+        offCampusLocation.setAssetLocationContactName(document.getOffCampusName());
+        offCampusLocation.setAssetLocationState(document.getOffCampusState());
+        offCampusLocation.setPostalZipCode(document.getPostalZipCode());
+        offCampusLocation.setAssetLocationCountryCode(document.getOffCampusCountryCode());
         offCampusLocation.setAssetLocationStreetAddress(document.getOffCampusAddress());
         offCampusLocation.setAssetLocationCityName(document.getOffCampusCityName());
         offCampusLocation.setAssetLocationStateCode(document.getOffCampusStateCode());

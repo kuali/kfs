@@ -15,19 +15,7 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
-import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.InactiveDocumentTypeAuthorizationException;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Authorizer for the Budget Adjustment document.

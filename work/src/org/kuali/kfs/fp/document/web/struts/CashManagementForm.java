@@ -41,7 +41,6 @@ import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants.DepositConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
@@ -68,7 +67,6 @@ public class CashManagementForm extends KualiDocumentFormBase {
         super();
 
         setDocument(new CashManagementDocument());
-        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
         depositHelpers = new ArrayList();
 
         setFormatterType("document.cashDrawerStatus", CashDrawerStatusCodeFormatter.class);

@@ -36,11 +36,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class RoutingFormAction extends ResearchDocumentActionBase {
 
@@ -154,10 +153,8 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
 
-        // Check if user has permission to save
-        // TODO this method is gone fix for kim
-//        routingForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(routingForm.getRoutingFormDocument()));
-        if (!"TRUE".equals(routingForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+        Map documentActions = routingForm.getDocumentActions();       
+        if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
             super.save(mapping, form, request, response);
         }
 
@@ -169,15 +166,14 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
 
     protected void setApprovalsMessage(RoutingForm routingForm) {
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
-// TODO this method is gone, fix for kim
-        //        routingForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(routingForm.getRoutingFormDocument()));
-        DocumentActionFlags flags = routingForm.getDocumentActionFlags();
-        if (flags.getCanRoute() || flags.getCanApprove()) {
+
+        Map documentActions = routingForm.getDocumentActions();       
+        if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_ROUTE) || documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_APPROVE)) {
             Person user = GlobalVariables.getUserSession().getPerson();
             if (routingForm.getRoutingFormDocument().isUserProjectDirector(user.getPrincipalId())) {
                 routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, CGConstants.APPROVALS_PROJECT_DIRECTOR_WORDING));
             }
-            else if (routingFormDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equalsIgnoreCase(user.getPrincipalName())) {
+            else if (routingFormDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(user)) {
                 routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, CGConstants.APPROVALS_INITIATOR_WORDING));
             }
             else {

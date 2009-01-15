@@ -31,8 +31,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -47,8 +45,6 @@ public class DepositWizardForm extends KualiForm {
     private List<Check> depositableCashieringChecks;
     private List<DepositWizardCashieringCheckHelper> depositWizardCashieringCheckHelpers;
     private List<CashReceiptDocument> checkFreeCashReceipts;
-    
-    protected DocumentActionFlags documentActionFlags;
 
     // Deposit fields
     private Bank bank;
@@ -376,24 +372,5 @@ public class DepositWizardForm extends KualiForm {
             this.depositWizardCashieringCheckHelpers.add(new DepositWizardCashieringCheckHelper());
         }
         return this.depositWizardCashieringCheckHelpers.get(index);
-    }
-
-    /**
-     * Gets the documentActionFlags attribute.
-     * 
-     * @return Returns the documentActionFlags.
-     */
-    public DocumentActionFlags getDocumentActionFlags() {
-        return documentActionFlags;
-    }
-
-    /**
-     * Sets the documentActionFlags attribute value.
-     * 
-     * @param documentActionFlags The documentActionFlags to set.
-     */
-    public void setDocumentActionFlags(DocumentActionFlags documentActionFlags) {
-        this.documentActionFlags = documentActionFlags;
-    }
-    
+    }    
 }

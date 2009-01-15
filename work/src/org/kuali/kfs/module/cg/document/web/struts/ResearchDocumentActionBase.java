@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,20 +38,22 @@ import org.kuali.rice.kim.service.AuthenticationService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.rule.event.AddAdHocRoutePersonEvent;
 import org.kuali.rice.kns.rule.event.AddAdHocRouteWorkgroupEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase {
 
+    /**
+     * Constructs a ResearchDocumentActionBase.java.
+     */
     public ResearchDocumentActionBase() {
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -119,8 +122,8 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
 
         // check authorization
-        DocumentActionFlags flags = getDocumentActionFlags(researchDocument);
-        if (!flags.getCanAdHocRoute()) {
+        Map documentActions = researchForm.getDocumentActions();       
+        if (!documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
             throw buildAuthorizationException("ad-hoc route", researchDocument);
         }
 
@@ -159,8 +162,8 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
 
         // check authorization
-        DocumentActionFlags flags = getDocumentActionFlags(researchDocument);
-        if (!flags.getCanAdHocRoute()) {
+        Map documentActions = researchForm.getDocumentActions();       
+        if (!documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
             throw buildAuthorizationException("ad-hoc route", researchDocument);
         }
 

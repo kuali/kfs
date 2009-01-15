@@ -27,20 +27,7 @@
     <property name="summary" value="Customer Address Type maintenance document" />
     <property name="description" value="Document used to create or update Customer Address Type objects" />
     <property name="documentTypeName" value="CustomerAddressTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CATY" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="workflowAttributes">
     	<ref bean="CustomerAddressTypeMaintenanceDocument-workflowAttributes" />
     </property>

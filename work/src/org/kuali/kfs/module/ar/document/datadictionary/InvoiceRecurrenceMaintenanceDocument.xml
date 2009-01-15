@@ -26,24 +26,11 @@
     <property name="documentTypeName" value="InvoiceRecurrenceMaintenanceDocument" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrencePreRules" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrenceRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="INVR" />
     <property name="webScriptFiles" >
       <list>
         <value>../dwr/interface/CustomerInvoiceDocumentService.js</value>
         <value>../scripts/ar/customerInvoiceObjectInfo.js</value>
-      </list>
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
       </list>
     </property>
     <property name="workflowAttributes">

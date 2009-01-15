@@ -97,20 +97,7 @@
     <property name="description" value="Document used to create or update Organization Accounting Default objects" />
     <property name="documentTypeName" value="OrganizationAccountingDefaultMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDefaultRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.OrganizationAccountingDefaultAuthorizer" />
     <property name="documentTypeCode" value="OADF" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>AR_ROLE_MAINTAINERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="workflowAttributes">
     	<ref bean="OrganizationAccountingDefaultMaintenanceDocument-workflowAttributes" />
     </property>

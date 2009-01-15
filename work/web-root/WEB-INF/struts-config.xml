@@ -736,7 +736,7 @@
 		<action path="/pdp/format"
 			type="org.kuali.kfs.pdp.web.struts.FormatAction"
 			name="PdpFormatForm"
-			scope="request" parameter="methodToCall" validate="false"
+			scope="session" parameter="methodToCall" validate="false"
 			attribute="KualiForm">
 			<forward name="selection" path="/jsp/modules/pdp/format/formatSelection.jsp" />
 			<forward name="continue" path="/jsp/modules/pdp/format/formatContinue.jsp" />

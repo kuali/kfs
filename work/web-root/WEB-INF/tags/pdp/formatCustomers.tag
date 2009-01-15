@@ -36,12 +36,6 @@
 			
 			 <tr>
             <logic:iterate id="customer" name="KualiForm" property="customers" indexId="ctr">
-            	        <html:hidden property="customer[${ctr}].versionNumber" />
-	                    <html:hidden property="customer[${ctr}].objectId" />
-	                    <html:hidden property="customer[${ctr}].chartCode" />
-	                    <html:hidden property="customer[${ctr}].unitCode" />
-	                    <html:hidden property="customer[${ctr}].subUnitCode" />
-	                    <html:hidden property="customer[${ctr}].id" />
 	                    <tr>
 	                      <td class="${dataCell}">
                             <kul:htmlControlAttribute property="customer[${ctr}].selectedForFormat" attributeEntry="${dummyAttributes.genericBoolean}" />

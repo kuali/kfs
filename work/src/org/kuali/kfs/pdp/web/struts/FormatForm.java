@@ -18,6 +18,9 @@ package org.kuali.kfs.pdp.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
@@ -25,7 +28,7 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
- * This class...
+ * Struts Action Form for Format Checks/ACH
  */
 public class FormatForm extends KualiForm {
 
@@ -203,5 +206,17 @@ public class FormatForm extends KualiForm {
      */
     public void setFormatProcessSummary(FormatProcessSummary formatProcessSummary) {
         this.formatProcessSummary = formatProcessSummary;
+    }
+    
+    /**
+     * @see org.apache.struts.action.ActionForm#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void reset(ActionMapping arg0, HttpServletRequest arg1) {
+        super.reset(arg0, arg1);
+
+        for (CustomerProfile customer : customers) {
+            customer.setSelectedForFormat(false);
+        }
     }
 }

@@ -45,10 +45,6 @@
 			</tr>
 			
 			<logic:iterate id="range" name="KualiForm" property="ranges" indexId="ctr">
-               <html:hidden property="range[${ctr}].physCampusProcCode" />
-		       <html:hidden property="range[${ctr}].bank.bankName" />
-		       <html:hidden property="range[${ctr}].disbursementTypeCode" />
-		       <html:hidden property="range[${ctr}].lastAssignedDisbNbr" />
             <tr>
               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.physCampusProcCode}" property="range[${ctr}].physCampusProcCode" readOnly="true" /></th>
               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${bankAttributes.bankName}" property="range[${ctr}].bank.bankName" readOnly="true" /></td>

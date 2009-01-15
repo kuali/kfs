@@ -48,13 +48,6 @@
 			
 			<logic:iterate id="result" name="KualiForm" property="formatProcessSummary.processSummaryList" indexId="ctr">
             <tr>
-              
-               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.chartCode" />
-               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.unitCode" />
-               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.subUnitCode" />
-               <html:hidden property="formatProcessSummary.processSummary[${ctr}].customer.customerShortName" />
-               <html:hidden property="formatProcessSummary.processSummary[${ctr}].processTotalCount" />
-               <html:hidden property="formatProcessSummary.processSummary[${ctr}].processTotalAmount" />
                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.sortGroupName}" property="formatProcessSummary.processSummary[${ctr}].sortGroupName" readOnly="true" /></td>
                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${customerProfileAttributes.customerShortName}" property="formatProcessSummary.processSummary[${ctr}].customer.customerShortName" readOnly="true" /></td>
                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.payments}" property="formatProcessSummary.processSummary[${ctr}].processTotalCount" readOnly="true" /></td>
@@ -65,10 +58,8 @@
          <tr>
             <td class="total-line">&nbsp;</td>
             <td class="total-line">Total</td>
-            <html:hidden property="formatProcessSummary.totalCount" />
             <td class="total-line">${KualiForm.formatProcessSummary.totalCount}</td>
             <td class="total-line"><b>${KualiForm.currencyFormattedTotalAmount}</b></td>
-            <html:hidden property="formatProcessSummary.totalAmount" />
          </tr>
 
 		</table>

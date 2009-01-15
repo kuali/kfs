@@ -7,24 +7,17 @@
 <docHandler>${application.url}/researchRoutingFormMainPage.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Split"/>
-          <split name="Split" nextNode="ResearchRisk">
-            <branch name="Adhoc Approvers Branch">
-              <requests name="ResearchAdHoc" nextNode="Final Notification"/>
-            </branch>
-            <branch name="Org Review Branch">
-              <requests name="OrganizationHierarchy" nextNode="Final Notification"/>
-            </branch>
-            <join name="Final Notification"/>
-          </split>
-          <requests name="ResearchRisk"/>
+          <start name="AdHoc" nextNode="ResearchAdHoc"/>
+          <requests name="ResearchAdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="ResearchRisk"/>
+          <requests name="ResearchRisk" nextNode="QuestionType" />
+          <requests name="QuestionType" />
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="AdHoc"/>
-
 <role name="ResearchAdHoc">
-<!--<ruleTemplate>KualiResearchAdhocApproverTemplate</ruleTemplate>-->
+<!--<ruleTemplate>KualiResearchOrgReviewTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="OrganizationHierarchy">
@@ -35,8 +28,10 @@
 <!--<ruleTemplate>KualiResearchRiskTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<split name="Split"/>
-<join name="Final Notification"/>
+<role name="QuestionType">
+<!--<ruleTemplate>KualiResearchRiskTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
 </routeNodes>
 </documentType>
 </documentTypes>

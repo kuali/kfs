@@ -832,6 +832,12 @@
 		<property name="orgService">
 			<ref bean="organizationService" />
 		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="sysInfoService">
+			<ref bean="systemInformationService" />
+		</property>
 	</bean>	
 	
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />

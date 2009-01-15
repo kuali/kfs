@@ -24,9 +24,12 @@ import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.service.AccountsReceivableAuthorizationService;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -38,6 +41,8 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
     private FinancialSystemUserService knsAuthzService;
     private BusinessObjectService boService;
     private OrganizationService orgService;
+    private UniversityDateService universityDateService;
+    private SystemInformationService sysInfoService;
     
     public boolean currentUserBelongsToBillingOrg() {
         Person currentUser = ValueFinderUtil.getCurrentPerson();
@@ -93,11 +98,11 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         return personHomeOrg(currentUser);
     }
     
-    private boolean isOrgABillingOrg(Organization org) {
+    public boolean isOrgABillingOrg(Organization org) {
         return isOrgABillingOrg(org.getChartOfAccountsCode(), org.getOrganizationCode());
     }
     
-    private boolean isOrgABillingOrg(String chartOfAccountsCode, String organizationCode) {
+    public boolean isOrgABillingOrg(String chartOfAccountsCode, String organizationCode) {
         
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartOfAccountsCode);
@@ -105,6 +110,23 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         OrganizationOptions organizationOptions = (OrganizationOptions) boService.findByPrimaryKey(OrganizationOptions.class, criteria);
         
         return (organizationOptions != null);
+    }
+    
+    public boolean isOrgAProcessingOrgInCurrentFiscalYear(Organization org) {
+        return isOrgAProcessingOrgInCurrentFiscalYear(org.getChartOfAccountsCode(), org.getOrganizationCode());
+    }
+
+    public boolean isOrgAProcessingOrgInCurrentFiscalYear(String chartOfAccountsCode, String organizationCode) {
+        SystemInformation sysInfo = sysInfoService.getByProcessingChartOrgAndFiscalYear(chartOfAccountsCode, organizationCode, universityDateService.getCurrentFiscalYear());
+        return (sysInfo != null);
+    }
+    
+    public boolean getBillingOrgsInProcessingOrg(Organization org) {
+        throw new UnsupportedOperationException("This method is not yet implemented.");
+    }
+    
+    public boolean getBillingOrgsInProcessingOrg(String chartOfAccountsCode, String organizationCode) {
+        throw new UnsupportedOperationException("This method is not yet implemented.");
     }
     
     public void setKnsAuthzService(FinancialSystemUserService knsAuthzService) {
@@ -117,6 +139,14 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
 
     public void setOrgService(OrganizationService orgService) {
         this.orgService = orgService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
+    public void setSysInfoService(SystemInformationService sysInfoService) {
+        this.sysInfoService = sysInfoService;
     }
 
 }

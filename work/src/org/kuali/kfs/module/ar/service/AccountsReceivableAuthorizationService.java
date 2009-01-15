@@ -56,4 +56,16 @@ public interface AccountsReceivableAuthorizationService {
      */
     public Organization currentUserHomeOrg();
     
+    public boolean isOrgABillingOrg(Organization org);
+
+    public boolean isOrgABillingOrg(String chartOfAccountsCode, String organizationCode);
+    
+    public boolean isOrgAProcessingOrgInCurrentFiscalYear(Organization org);
+
+    public boolean isOrgAProcessingOrgInCurrentFiscalYear(String chartOfAccountsCode, String organizationCode);
+    
+    public boolean getBillingOrgsInProcessingOrg(Organization org);
+    
+    public boolean getBillingOrgsInProcessingOrg(String chartOfAccountsCode, String organizationCode);
+    
 }

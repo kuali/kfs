@@ -53,19 +53,6 @@
         <value>../scripts/ar/customerAddress.js</value>
       </list>
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>kualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-        
-      </list>
-    </property>
     <property name="workflowAttributes">
     	<ref bean="CustomerMaintenanceDocument-workflowAttributes" />
     </property>

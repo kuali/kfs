@@ -76,12 +76,12 @@
             <bean parent="TextControlDefinition" p:size="11"/>
         </property>
         <property name="attributeSecurity">
-		<bean class="org.kuali.rice.kns.datadictionary.AttributeSecurity">
-  			<property name="mask" value="true" /> 
-			<property name="maskFormatter">
-  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
-  			</property>
-  		</bean>
+			<bean parent="AttributeSecurity">
+	  			<property name="mask" value="true" /> 
+				<property name="maskFormatter">
+	  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+	  			</property>
+	  		</bean>
   		</property>
     </bean>
     <bean id="Customer-customerTaxTypeCode" parent="Customer-customerTaxTypeCode-parentBean"/>

@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.service.BalanceService;
@@ -29,6 +28,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class contains the test cases that can be applied to the method in BalanceLookupableImpl class.

@@ -22,8 +22,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorType;
-import org.kuali.kfs.vnd.fixture.VendorTestConstants.AddressTypes;
 import org.kuali.kfs.vnd.fixture.VendorTestConstants.AddressRequiredFields;
+import org.kuali.kfs.vnd.fixture.VendorTestConstants.AddressTypes;
 import org.kuali.kfs.vnd.fixture.VendorTestConstants.StatesZips;
 
 /**

@@ -205,7 +205,7 @@
   </bean>
   <bean id="PaymentRequestAccount-referenceTypeCode" parent="PaymentRequestAccount-referenceTypeCode-parentBean" />
 
-  <bean id="PaymentRequestAccount-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="PaymentRequestAccount-referenceTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

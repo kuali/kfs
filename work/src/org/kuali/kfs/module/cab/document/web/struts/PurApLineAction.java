@@ -40,8 +40,7 @@ import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -53,6 +52,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class PurApLineAction extends KualiAction {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
@@ -720,19 +720,23 @@ public class PurApLineAction extends KualiAction {
      * @return
      */
     private String getDocHandlerForwardLink(String docTypeName, String documentNumber) {
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        DocumentType documentType = documentTypeService.findByName(docTypeName);
-        String docHandlerUrl = documentType.getDocHandlerUrl();
+        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
+        try {
+            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(docTypeName);
+            String docHandlerUrl = docType.getDocTypeHandlerUrl();
+            if (docHandlerUrl.indexOf("?") == -1) {
+                docHandlerUrl += "?";
+            }
+            else {
+                docHandlerUrl += "&";
+            }
 
-        if (docHandlerUrl.indexOf("?") == -1) {
-            docHandlerUrl += "?";
+            docHandlerUrl += KNSConstants.PARAMETER_DOC_ID + "=" + documentNumber + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
+            return docHandlerUrl;
         }
-        else {
-            docHandlerUrl += "&";
+        catch (WorkflowException e) {
+            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
         }
-
-        docHandlerUrl += KNSConstants.PARAMETER_DOC_ID + "=" + documentNumber + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
-        return docHandlerUrl;
     }
 
     /**

@@ -19,13 +19,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.ItemsAccounts;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public enum ItemAccountsFixture {
 

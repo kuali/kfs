@@ -48,7 +48,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -152,7 +152,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderAmendmentDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -182,7 +182,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
 
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderVoidDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -206,7 +206,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
 
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderCloseDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -227,7 +227,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderReopenDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -248,7 +248,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderPaymentHoldDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -269,7 +269,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRemoveHoldDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -295,7 +295,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
             return false;       
         
         // check user authorization
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
         if (automaticIndicator) {
             // for APO use authorization for PurchaseOrderRetransmitDocument, which is anybody
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRetransmitDocument.class);
@@ -325,7 +325,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         can = can && editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
         
         // check user authorization: same as retransmit init, since whoever can init retransmit PO shall be able to print
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
         if (automaticIndicator) {
             // for APO use authorization for PurchaseOrderRetransmitDocument, which is anybody
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRetransmitDocument.class);
@@ -363,7 +363,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
             PurApWorkflowIntegrationService service = SpringContext.getBean(PurApWorkflowIntegrationService.class);
             can = service.isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), user);
             if (!can) {
-                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
                 can = documentAuthorizer.isAuthorized(purchaseOrder, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.PRINT_PO, user.getPrincipalId());               
             }
         }
@@ -392,7 +392,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         
         // check user authorization: same as print PO
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             can = documentAuthorizer.isAuthorized(purchaseOrder, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.PRINT_PO, user.getPrincipalId());              
         }
 
@@ -430,7 +430,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderSplitDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -448,7 +448,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderSplitDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -467,7 +467,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(LineItemReceivingDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -488,7 +488,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
             can = documentAuthorizer.isAuthorized(purchaseOrder, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.RESEND_PO, user.getPrincipalId());
         }
       
@@ -503,7 +503,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      */
     public boolean canAssignSensitiveData() {
         // check user authorization
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(purchaseOrder);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrder);
         return documentAuthorizer.isAuthorized(purchaseOrder, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.ASSIGN_SENSITIVE_DATA, user.getPrincipalId());
     }
 

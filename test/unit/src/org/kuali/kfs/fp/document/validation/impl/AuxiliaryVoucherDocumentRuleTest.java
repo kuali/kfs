@@ -39,14 +39,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -58,6 +55,8 @@ import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 
 @ConfigureContext(session = khuntley)
 public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
@@ -69,7 +68,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         AccountingLine accountingLine = (AccountingLine) accountingDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(GL_DEBIT_CODE);
 
-        assertTrue(IsDebitTestUtils.isDebit(SpringContext.getBean(DocumentTypeService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     public void testIsDebit_creditCode() throws Exception {
@@ -77,7 +76,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         AccountingLine accountingLine = (AccountingLine) accountingDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(GL_CREDIT_CODE);
 
-        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DocumentTypeService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     public void testIsDebit_blankValue() throws Exception {
@@ -85,7 +84,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         AccountingLine accountingLine = (AccountingLine) accountingDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(" ");
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DocumentTypeService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
 
@@ -94,7 +93,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         AccountingLine accountingLine = (AccountingLine) accountingDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(GL_DEBIT_CODE);
 
-        assertTrue(IsDebitTestUtils.isDebit(SpringContext.getBean(DocumentTypeService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     public void testIsDebit_errorCorrection_creditCode() throws Exception {
@@ -102,7 +101,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         AccountingLine accountingLine = (AccountingLine) accountingDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(GL_CREDIT_CODE);
 
-        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DocumentTypeService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     public void testIsDebit_errorCorrection_blankValue() throws Exception {
@@ -110,7 +109,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         AccountingLine accountingLine = (AccountingLine) accountingDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(" ");
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DocumentTypeService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
 

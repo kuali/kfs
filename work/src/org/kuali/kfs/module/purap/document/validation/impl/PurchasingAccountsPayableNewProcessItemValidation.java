@@ -29,6 +29,8 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PurchasingAccountsPayableNewProcessItemValidation extends GenericValidation {
@@ -49,6 +51,15 @@ public class PurchasingAccountsPayableNewProcessItemValidation extends GenericVa
         return success;
     }
     
+    protected String getDocumentTypeLabel(String documentTypeName) {
+        try {
+            return KNSServiceLocator.getWorkflowInfoService().getDocType(documentTypeName).getDocTypeLabel();
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
+        }
+    }
+
     /**
      * Determines whether the document will require account validation to be done on all of its items.
      * 

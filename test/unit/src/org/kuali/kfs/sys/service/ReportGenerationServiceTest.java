@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.AccountFixture;
 import org.kuali.kfs.sys.fixture.SubAccountFixture;
 import org.kuali.kfs.sys.report.ReportInfo;
-import org.kuali.kfs.sys.service.ReportGenerationService;
 
 @ConfigureContext
 public class ReportGenerationServiceTest extends KualiTestBase {

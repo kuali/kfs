@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,7 +25,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep;
@@ -35,14 +33,7 @@ import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.Formatter;
-import org.kuali.rice.kns.web.ui.Column;
 
 /**
  * This class tests the CustomerAgingReport lookup and totals calculations

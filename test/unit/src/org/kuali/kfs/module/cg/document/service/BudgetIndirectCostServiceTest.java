@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
@@ -33,6 +32,7 @@ import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiInteger;
 
 @ConfigureContext
 public class BudgetIndirectCostServiceTest extends KualiTestBase {

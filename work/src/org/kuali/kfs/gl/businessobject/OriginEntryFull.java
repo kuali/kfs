@@ -30,10 +30,10 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -53,13 +53,13 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private ProjectCode project;
-    private DocumentType documentType;
+    private GeneralLedgerInputType generalLedgerInputType;
     private UniversityDate universityDate;
     private SystemOptions option;
     private AccountingPeriod accountingPeriod;
     private UniversityDate reversalDate;
     private OriginationCode origination;
-    private DocumentType referenceDocumentType;
+    private GeneralLedgerInputType referenceGeneralLedgerInputType;
 
     public OriginEntryFull(GeneralLedgerPendingEntry glpe) {
         accountNumber = glpe.getAccountNumber();
@@ -217,12 +217,12 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.chart = chart;
     }
 
-    public DocumentType getDocumentType() {
-        return documentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
     public ObjectCode getFinancialObject() {
@@ -305,13 +305,12 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.origination = origination;
     }
 
-
-    public DocumentType getReferenceDocumentType() {
-        return referenceDocumentType;
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+        return referenceGeneralLedgerInputType;
     }
 
-    public void setReferenceDocumentType(DocumentType referenceDocumentType) {
-        this.referenceDocumentType = referenceDocumentType;
+    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
 
     public static OriginEntryFull copyFromOriginEntryable(OriginEntry oe) {

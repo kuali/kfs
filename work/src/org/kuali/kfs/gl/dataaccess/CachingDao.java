@@ -36,11 +36,9 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
-import org.kuali.kfs.module.ld.businessobject.LaborObject;
-import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.rice.kns.bo.DocumentType;
 
 public interface CachingDao {
     /**
@@ -121,20 +119,20 @@ public interface CachingDao {
     public SubObjectCode getFinancialSubObject(OriginEntry entry);
 
     /**
-     * Get document type for given origin entryable
+     * Get GL input type for given origin entryable
      * 
-     * @param entry the origin entry to retrieve the document type of
-     * @return the related document type record, or null if not found
+     * @param entry the origin entry to retrieve the GL input type of
+     * @return the related GeneralLedgerInputType record, or null if not found
      */
-    public DocumentType getDocumentType(OriginEntry entry);
+    public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry entry);
 
     /**
-     * Get the reference document type for the given origin entryable
+     * Get the reference GL input type for the given origin entryable
      * 
-     * @param entry origin entryable to lookup the reference document type for
-     * @return the related reference DocumentType record, or null if not found
+     * @param entry origin entryable to lookup the reference GL input type for
+     * @return the related reference GeneralLedgerInputType record, or null if not found
      */
-    public DocumentType getReferenceDocumentType(OriginEntry entry);
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry entry);
 
     /**
      * Retrieves the project code for the given origin entryable

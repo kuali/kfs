@@ -216,7 +216,7 @@
   </bean>
   
   <bean id="AssetPayment-financialDocumentTypeCode" parent="AssetPayment-financialDocumentTypeCode-parentBean" />
-  <bean id="AssetPayment-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="AssetPayment-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
     <property name="shortLabel" value="Doc. Type" />
   </bean>

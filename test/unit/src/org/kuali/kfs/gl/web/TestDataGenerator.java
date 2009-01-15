@@ -25,10 +25,10 @@ import java.util.Properties;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * A class that reads fixtures as property files and then sets the fields of

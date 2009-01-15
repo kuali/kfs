@@ -28,9 +28,9 @@ import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -65,7 +65,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     private String hrmsCompany;
     private String setid;
     private Date transactionDateTimeStamp;
-    private DocumentType referenceFinancialDocumentType;
+    private GeneralLedgerInputType referenceGeneralLedgerInputType;
     private OriginationCode referenceFinancialSystemOrigination;
     private AccountingPeriod payrollEndDateFiscalPeriod;
 
@@ -126,7 +126,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setLaborLedgerOriginalFinancialSubObjectCode(t.getLaborLedgerOriginalFinancialSubObjectCode());
         setHrmsCompany(t.getHrmsCompany());
         setSetid(t.getSetid());
-        setReferenceFinancialDocumentType(t.getReferenceFinancialDocumentType());
+        setReferenceGeneralLedgerInputType(t.getReferenceGeneralLedgerInputType());
         setReferenceFinancialSystemOrigination(t.getReferenceFinancialSystemOrigination());
         setPayrollEndDateFiscalPeriod(t.getPayrollEndDateFiscalPeriod());
     }
@@ -596,21 +596,21 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     }
 
     /**
-     * Gets the referenceFinancialDocumentType
+     * Gets the referenceGeneralLedgerInputType attribute. 
      * 
-     * @return Returns the referenceFinancialDocumentType.
+     * @return Returns the referenceGeneralLedgerInputType.
      */
-    public DocumentType getReferenceFinancialDocumentType() {
-        return referenceFinancialDocumentType;
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+        return referenceGeneralLedgerInputType;
     }
 
     /**
-     * Sets the referenceFinancialDocumentType
+     * Sets the referenceGeneralLedgerInputType attribute value.
      * 
-     * @param referenceFinancialDocumentType The referenceFinancialDocumentType to set.
+     * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
      */
-    public void setReferenceFinancialDocumentType(DocumentType referenceFinancialDocumentType) {
-        this.referenceFinancialDocumentType = referenceFinancialDocumentType;
+    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
 
     /**

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
@@ -27,6 +26,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceDetailServiceTest extends KualiTestBase {

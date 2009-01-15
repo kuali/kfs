@@ -25,8 +25,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
@@ -39,6 +37,8 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceService;
 
 @ConfigureContext
 public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {

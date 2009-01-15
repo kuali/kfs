@@ -21,9 +21,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -38,8 +35,9 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetTransferServiceTest extends KualiTestBase {
 

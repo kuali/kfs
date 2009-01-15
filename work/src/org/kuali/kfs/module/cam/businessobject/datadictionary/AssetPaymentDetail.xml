@@ -84,7 +84,7 @@
   </bean>
   
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode" parent="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" />
-  <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="expenditureFinancialDocumentTypeCode" />
     <property name="shortLabel" value="Doc. Type" />
     <property name="required" value="true" />
@@ -243,7 +243,7 @@
   </bean>
   
   <bean id="AssetPaymentDetail-referenceTypeCode" parent="AssetPaymentDetail-referenceTypeCode-parentBean" />
-  <bean id="AssetPaymentDetail-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="AssetPaymentDetail-referenceTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

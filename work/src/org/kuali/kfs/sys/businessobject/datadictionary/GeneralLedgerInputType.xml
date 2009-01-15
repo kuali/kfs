@@ -1,0 +1,174 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="GeneralLedgerInputType" parent="GeneralLedgerInputType-parentBean" />
+
+  <bean id="GeneralLedgerInputType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType" />
+    <property name="inquiryDefinition" >
+      <ref bean="GeneralLedgerInputType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="GeneralLedgerInputType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="inputTypeCode" />
+    <property name="objectLabel" value="General Ledger Input Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="GeneralLedgerInputType-inputTypeCode" />
+        <ref bean="GeneralLedgerInputType-documentTypeName" />
+        <ref bean="GeneralLedgerInputType-documentTypeActiveIndicator" />
+        <ref bean="GeneralLedgerInputType-transactionScrubberOffsetGenerationIndicator" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="GeneralLedgerInputType-inputTypeCode" parent="GeneralLedgerInputType-inputTypeCode-parentBean" />
+
+  <bean id="GeneralLedgerInputType-inputTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true" />
+    <property name="shortLabel" value="Type Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="General Ledger Input Type Code" />
+    <property name="name" value="inputTypeCode" />
+    <property name="label" value="Input Type Code" />
+    <property name="description" value="The code for the business function of all documents of this type." />
+  </bean>
+  <bean id="GeneralLedgerInputType-documentTypeName" parent="GeneralLedgerInputType-documentTypeName-parentBean" />
+
+  <bean id="GeneralLedgerInputType-documentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true" />
+    <property name="shortLabel" value="Doc Type Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="documentTypeName" />
+    <property name="name" value="documentTypeName" />
+    <property name="label" value="Document Type Name" />
+    <property name="description" value="documentTypeName Description..." />
+  </bean>
+  <bean id="GeneralLedgerInputType-documentTypeActiveIndicator" parent="GeneralLedgerInputType-documentTypeActiveIndicator-parentBean" />
+
+  <bean id="GeneralLedgerInputType-documentTypeActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false" />
+    <property name="shortLabel" value="Active" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="documentTypeActiveIndicator" />
+    <property name="name" value="documentTypeActiveIndicator" />
+    <property name="label" value="Document Type Active" />
+    <property name="description" value="documentTypeActiveIndicator Description..." />
+  </bean>
+
+  <bean id="GeneralLedgerInputType-transactionScrubberOffsetGenerationIndicator" parent="GeneralLedgerInputType-transactionScrubberOffsetGenerationIndicator-parentBean" />
+
+  <bean id="GeneralLedgerInputType-transactionScrubberOffsetGenerationIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false" />
+    <property name="shortLabel" value="Scrubber Offset Generated" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="transactionScrubberOffsetGenerationIndicator" />
+    <property name="name" value="transactionScrubberOffsetGenerationIndicator" />
+    <property name="label" value="Transaction Scrubber Offset Generation Indicator" />
+    <property name="description" value="transactionScrubberOffsetGenerationIndicator Description..." />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="GeneralLedgerInputType-inquiryDefinition" parent="GeneralLedgerInputType-inquiryDefinition-parentBean" />
+
+  <bean id="GeneralLedgerInputType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="inputTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentTypeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentTypeActiveIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionScrubberOffsetGenerationIndicator" />
+            </list>
+          </property>
+          <property name="title" value="General Ledger Input Type" />
+        </bean>
+      </list>
+    </property>
+    <property name="title" value="General Ledger Input Type Inquiry" />
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+  <bean id="GeneralLedgerInputType-lookupDefinition" parent="GeneralLedgerInputType-lookupDefinition-parentBean" />
+
+  <bean id="GeneralLedgerInputType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="instructions" value="Lookup a General Ledger Input Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>inputTypeCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="inputTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTypeActiveIndicator"
+              p:defaultValue="Y" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionScrubberOffsetGenerationIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="inputTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTypeActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionScrubberOffsetGenerationIndicator" />
+      </list>
+    </property>
+    <property name="title" value="General Ledger Input Type Lookup" />
+  </bean>
+
+</beans>

@@ -37,7 +37,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -143,9 +143,9 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         extraButtons.clear();
 
         CustomerInvoiceDocument invoiceDocument = (CustomerInvoiceDocument) getDocument();
-        DocumentTypeService docTypeService = SpringContext.getBean(DocumentTypeService.class);
+        DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);
         TransactionalDocumentPresentationController presoController = 
-                (TransactionalDocumentPresentationController) docTypeService.getDocumentPresentationController(invoiceDocument);
+                (TransactionalDocumentPresentationController) docHelperService.getDocumentPresentationController(invoiceDocument);
         
         Set<String> editModes = presoController.getEditModes(invoiceDocument);
         if (editModes.contains(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON)) {

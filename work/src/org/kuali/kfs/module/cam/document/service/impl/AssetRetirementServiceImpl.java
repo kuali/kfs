@@ -47,7 +47,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -266,7 +266,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAllowedRetireMultipleAssets(java.lang.String)
      */
     public boolean isAllowedRetireMultipleAssets(String retirementReasonCode, MaintenanceDocument maintenanceDocument) {
-        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(maintenanceDocument);
+        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.RETIRE_MULTIPLE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         

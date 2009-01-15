@@ -38,8 +38,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -92,7 +91,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     }
 
     protected HtmlData getMergeUrl(Asset asset) {
-        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(CamsConstants.ASSET_RETIREMENT_DOCUMENT_TYPE_NAME);
+        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.ASSET_RETIREMENT_DOCUMENT_TYPE_NAME);
         // TODO following doesn't work because asset isn't a Document
         //boolean isAuthorized = documentAuthorizer.isAuthorized(asset, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MERGE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         boolean isAuthorized = true;
@@ -171,7 +170,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     }
 
     protected HtmlData getSeparateUrl(Asset asset) {
-        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(CamsConstants.ASSET_RETIREMENT_DOCUMENT_TYPE_NAME);
+        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.ASSET_RETIREMENT_DOCUMENT_TYPE_NAME);
         // TODO following doesn't work because asset isn't a Document
         //boolean isAuthorized = documentAuthorizer.isAuthorized(asset, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.SEPARATE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         boolean isAuthorized = true;

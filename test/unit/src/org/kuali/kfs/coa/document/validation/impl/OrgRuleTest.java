@@ -27,6 +27,8 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 
 @ConfigureContext(session = khuntley)

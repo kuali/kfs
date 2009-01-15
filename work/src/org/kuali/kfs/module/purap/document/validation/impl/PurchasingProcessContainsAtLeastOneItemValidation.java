@@ -20,10 +20,10 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PurchasingProcessContainsAtLeastOneItemValidation extends GenericValidation {
@@ -43,7 +43,7 @@ public class PurchasingProcessContainsAtLeastOneItemValidation extends GenericVa
                 return true;
             }
         }
-        String documentType = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
+        String documentType = getDocumentTypeLabel(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType());
 
         if (!valid) {
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
@@ -51,4 +51,14 @@ public class PurchasingProcessContainsAtLeastOneItemValidation extends GenericVa
 
         return valid;
     }
+
+    protected String getDocumentTypeLabel(String documentTypeName) {
+        try {
+            return KNSServiceLocator.getWorkflowInfoService().getDocType(documentTypeName).getDocTypeLabel();
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
+        }
+    }
+
 }

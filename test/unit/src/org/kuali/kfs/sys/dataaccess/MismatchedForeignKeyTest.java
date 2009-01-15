@@ -19,10 +19,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.dbplatform.KualiDBPlatformOracle;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.dbplatform.KualiDBPlatformOracle;
 
 @ConfigureContext
 public class MismatchedForeignKeyTest extends KualiTestBase {

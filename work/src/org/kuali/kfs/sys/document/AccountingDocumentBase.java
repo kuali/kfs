@@ -55,7 +55,6 @@ import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -326,7 +325,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      */
     public FinancialSystemTransactionalDocumentEntry getDataDictionaryEntry() {
         if (dataDictionaryEntry == null) {
-            dataDictionaryEntry = (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(getClass()));
+            dataDictionaryEntry = (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DataDictionaryService.class).getValidDocumentTypeNameByClass(getClass()));
         }
         return dataDictionaryEntry;
     }

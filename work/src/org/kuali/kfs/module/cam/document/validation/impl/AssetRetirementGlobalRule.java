@@ -46,7 +46,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -380,7 +380,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateNonMoveableAsset(Asset asset, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
-        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(maintenanceDocument);
+        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.RETIRE_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 

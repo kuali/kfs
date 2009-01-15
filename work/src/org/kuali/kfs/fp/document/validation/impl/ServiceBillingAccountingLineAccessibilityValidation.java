@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLin
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -101,8 +101,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * @return true if the current user can access the given account on source accounting line; otherwise, false
      */
     private boolean isSourceLineAccountAccessible(AccountingDocument accountingDocument, Account account, Person user) {
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        AccountingDocumentAuthorizer accountingDocumentAuthorizer = (AccountingDocumentAuthorizer) documentTypeService.getDocumentAuthorizer(accountingDocument);
+        AccountingDocumentAuthorizer accountingDocumentAuthorizer = (AccountingDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(accountingDocument);
 
         String principalId = user.getPrincipalId();
         String namespaceCode = KFSConstants.ParameterNamespaces.FINANCIAL;

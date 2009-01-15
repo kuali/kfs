@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DocumentHelperService;
 
 
 /**
@@ -56,7 +57,7 @@ public class AuxiliaryVoucherAction extends VoucherAction {
 //            // must call this here, because execute in the super method will never have control for this particular action
 //            // this is called in the parent by super.execute()
 //            Document document = avForm.getDocument();
-//            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(document);
+//            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
 //            avForm.populateAuthorizationFields(documentAuthorizer);
         }
         else { // otherwise call the super

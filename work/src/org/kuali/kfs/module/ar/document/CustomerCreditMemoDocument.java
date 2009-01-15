@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.TaxService;
@@ -38,7 +39,6 @@ import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -519,11 +519,11 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Returns the financial document type code for the given document, using the DocumentTypeService
-     * @return the financial document type code for the given document
+     * Returns the general ledger input type code for the given document, using the GeneralLedgerInputTypeService
+     * @return the general ledger input type code for the given document
      */
     public String getFinancialDocumentTypeCode() {
-        return SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(this.getClass());
+        return SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(this.getClass()).getInputTypeCode();
     }
     
     /**

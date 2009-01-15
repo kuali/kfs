@@ -58,7 +58,7 @@
 
   <bean id="AccountDelegateModelDetail-financialDocumentTypeCode" parent="AccountDelegateModelDetail-financialDocumentTypeCode-parentBean" />
 
-  <bean id="AccountDelegateModelDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="AccountDelegateModelDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
     <property name="forceUppercase" value="true" />
   </bean>

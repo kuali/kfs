@@ -47,7 +47,6 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -138,7 +137,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         // Check if user has permission to save
         // TODO this method is gone.  fix for kim
-//        budgetForm.populateAuthorizationFields(SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(budgetForm.getBudgetDocument()));
+//        budgetForm.populateAuthorizationFields(SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(budgetForm.getBudgetDocument()));
         if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             super.save(mapping, form, request, response);
         }

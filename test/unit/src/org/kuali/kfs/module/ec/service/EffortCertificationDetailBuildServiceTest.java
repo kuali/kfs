@@ -15,18 +15,11 @@
  */
 package org.kuali.kfs.module.ec.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
-import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborModuleService;
-import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
@@ -35,6 +28,9 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.PersistenceService;
 
 @ConfigureContext
 public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {

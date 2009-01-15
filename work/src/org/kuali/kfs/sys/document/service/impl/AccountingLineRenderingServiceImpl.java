@@ -36,7 +36,6 @@ import org.kuali.kfs.sys.document.service.AccountingLineRenderingTransformation;
 import org.kuali.kfs.sys.document.service.AccountingLineTableTransformation;
 import org.kuali.kfs.sys.document.web.AccountingLineTableRow;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.kfs.sys.document.web.TableJoiningWithHeader;
 import org.kuali.kfs.sys.document.web.renderers.CheckboxRenderer;
 import org.kuali.kfs.sys.document.web.renderers.CurrencyRenderer;
 import org.kuali.kfs.sys.document.web.renderers.DateRenderer;
@@ -54,7 +53,7 @@ import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 
@@ -69,7 +68,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
     private AccountingLineAuthorizationTransformer accountingLineAuthorizationTransformer;
     private List<AccountingLineRenderingTransformation> preTablificationTransformations;
     private List<AccountingLineTableTransformation> postTablificationTransformations;
-    private DocumentTypeService documentTypeService;
+    private DocumentHelperService documentHelperService;
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRenderingService#performPreTablificationTransformations(java.util.List, org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition, org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, java.util.Map, java.lang.String)
@@ -136,7 +135,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      * @return an authorizer for the document
      */
     protected AccountingDocumentAuthorizer getDocumentAuthorizer(AccountingDocument document) {
-        AccountingDocumentAuthorizer accountingDocumentAuthorizer = (AccountingDocumentAuthorizer) getDocumentTypeService().getDocumentAuthorizer(document);
+        AccountingDocumentAuthorizer accountingDocumentAuthorizer = (AccountingDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
         return accountingDocumentAuthorizer;
     }
 
@@ -375,11 +374,11 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
         return (KualiAccountingDocumentFormBase)GlobalVariables.getKualiForm();
     }
     
-    private DocumentTypeService getDocumentTypeService() {
-        if (documentTypeService == null) {
-            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+    private DocumentHelperService getDocumentHelperService() {
+        if (documentHelperService == null) {
+            documentHelperService = SpringContext.getBean(DocumentHelperService.class);
         }
-        return documentTypeService;
+        return documentHelperService;
     }
 }
 

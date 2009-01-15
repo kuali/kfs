@@ -22,10 +22,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborModuleService;
@@ -45,6 +41,10 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.PersistenceService;
 
 @ConfigureContext
 public class EffortCertificationExtractServiceTest extends KualiTestBase {

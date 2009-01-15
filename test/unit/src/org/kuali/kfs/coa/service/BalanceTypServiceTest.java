@@ -17,11 +17,11 @@ package org.kuali.kfs.coa.service;
 
 import java.util.HashMap;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class tests the BalanceType service.

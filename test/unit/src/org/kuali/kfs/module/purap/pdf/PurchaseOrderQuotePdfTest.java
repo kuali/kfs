@@ -19,24 +19,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext
 public class PurchaseOrderQuotePdfTest extends KualiTestBase {

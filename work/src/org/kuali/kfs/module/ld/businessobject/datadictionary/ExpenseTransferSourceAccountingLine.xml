@@ -281,7 +281,7 @@
   </bean>
   <bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode" parent="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" />
 
-  <bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

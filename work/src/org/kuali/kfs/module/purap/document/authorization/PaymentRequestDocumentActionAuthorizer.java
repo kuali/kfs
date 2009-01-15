@@ -32,7 +32,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -81,7 +81,7 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
         
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(paymentRequest);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequest);
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PaymentRequestDocument.class);
             can = documentAuthorizer.canInitiate(documentTypeName, user);
         }
@@ -129,7 +129,7 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
         if (can) {
             can = paymentRequest.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
             if (!can) {
-                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(paymentRequest);
+                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequest);
                 can = documentAuthorizer.isAuthorized(paymentRequest, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.HOLD_PREQ, user.getPrincipalId());                
             }
         }
@@ -153,7 +153,7 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
 
         // check user authorization
         if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(paymentRequest);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequest);
             can = documentAuthorizer.isAuthorized(paymentRequest, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.REMOVE_HOLD_PREQ, user.getPrincipalId());
         }
 
@@ -203,7 +203,7 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
         if (can) {
             can = user.getPrincipalId().equals(paymentRequest.getLastActionPerformedByPersonId());
             if (!can) {
-                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(paymentRequest);
+                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequest);
                 can = documentAuthorizer.isAuthorized(paymentRequest, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.REMOVE_CANCEL_PREQ, user.getPrincipalId());
             }
         }

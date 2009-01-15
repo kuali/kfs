@@ -24,11 +24,10 @@ import javax.xml.xpath.XPathExpressionException;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import org.kuali.rice.kew.exception.InvalidXmlException;
 import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * This class...

@@ -695,6 +695,7 @@ public class KFSPropertyConstants {
     public static final String FUND_GROUP_CODE = "fundGroupCode";
     public static final String GENERAL_LEDGER_PENDING_ENTRIES = "generalLedgerPendingEntries";
     public static final String GENERAL_LEDGER_PENDING_ENTRY = "generalLedgerPendingEntry";
+    public static final String GENERAL_LEDGER_INPUT_TYPE_CODE = "inputTypeCode";
     public static final String GENERIC_AMOUNT = KNSPropertyConstants.GENERIC_AMOUNT;
     public static final String GENERIC_BIG_TEXT = KNSPropertyConstants.GENERIC_BIG_TEXT;
     public static final String GENERIC_BOOLEAN = KNSPropertyConstants.GENERIC_BOOLEAN;

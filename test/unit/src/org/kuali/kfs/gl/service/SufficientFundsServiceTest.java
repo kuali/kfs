@@ -18,14 +18,14 @@ package org.kuali.kfs.gl.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.Guid;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * Tests the sufficient funds service

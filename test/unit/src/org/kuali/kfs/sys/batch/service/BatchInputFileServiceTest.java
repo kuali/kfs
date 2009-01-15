@@ -34,7 +34,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kim.service.PersonService;
 
 /**
  * Tests the BatchInputFileService. TEST DEPENDENCIES The following are external configurations not setup by the test case that are

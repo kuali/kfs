@@ -20,7 +20,6 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -31,7 +30,7 @@ import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -113,7 +112,7 @@ public class CashManagementStatusAction extends KualiAction {
     public ActionForward openExisting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashManagementStatusForm cform = (CashManagementStatusForm) form;
 
-        String cmDocTypeName = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
+        String cmDocTypeName = SpringContext.getBean(DataDictionaryService.class).getValidDocumentTypeNameByClass(CashManagementDocument.class);
 
         Properties params = new Properties();
         params.setProperty("methodToCall", "docHandler");

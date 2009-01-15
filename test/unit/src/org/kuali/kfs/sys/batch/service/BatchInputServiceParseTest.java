@@ -31,7 +31,6 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.XMLParseException;
-import org.kuali.kfs.sys.suite.RelatesTo;
 
 /**
  * Tests for the service parse method.

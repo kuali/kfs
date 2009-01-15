@@ -68,7 +68,7 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
     // // check bank specification is enabled and the code should be viewable for this document type. set flag accordingly
     // boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
     // if (bankSpecificationEnabled) {
-    // String documentTypeCode = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(document.getClass());
+    // String documentTypeCode = SpringContext.getBean(DocumentHelperService.class).getDocumentTypeCodeByClass(document.getClass());
     // ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(Bank.class,
     // KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeCode);
     //

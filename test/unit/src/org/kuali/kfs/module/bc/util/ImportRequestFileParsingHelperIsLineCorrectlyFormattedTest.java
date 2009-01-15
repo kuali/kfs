@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.bc.util;
 
 import org.kuali.kfs.module.bc.fixture.ImportRequestFilelLineFixture;
-import org.kuali.kfs.module.bc.util.ImportRequestFileParsingHelper;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 public class ImportRequestFileParsingHelperIsLineCorrectlyFormattedTest extends KualiTestBase {

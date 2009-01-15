@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -77,7 +77,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
             fields.addAll(Arrays.asList(CamsConstants.Asset.FABRICATION_INFORMATION_FIELDS));
         }
         
-        AssetAuthorizer documentAuthorizer = (AssetAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(document);
+        AssetAuthorizer documentAuthorizer = (AssetAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
         boolean isAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.EDIT_WHEN_TAGGED_PRIOR_FISCAL_YEAR, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();

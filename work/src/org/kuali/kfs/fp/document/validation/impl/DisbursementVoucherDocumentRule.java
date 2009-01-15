@@ -51,7 +51,7 @@ import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -146,7 +146,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
         // but only if the document is enroute
         if (!isAccessible && financialDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-            DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(financialDocument);
+            DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(financialDocument);
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing
             // workgroup then the line is accessible
             DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;

@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.batch;
 
 
-import org.kuali.kfs.gl.batch.BalanceForwardStep;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

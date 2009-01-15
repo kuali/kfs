@@ -104,8 +104,8 @@
 		<property name="homeOriginationService">
 			<ref bean="homeOriginationService" />
 		</property>
-		<property name="documentTypeService">
-			<ref bean="documentTypeService" />
+		<property name="generalLedgerInputTypeService">
+			<ref bean="generalLedgerInputTypeService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

@@ -35,9 +35,9 @@ import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -101,8 +101,8 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     private BalanceType balanceType;
     private AccountingPeriod universityFiscalPeriod;
     private AccountingPeriod payrollEndDateFiscalPeriod;
-    private DocumentType documentType;
-    private DocumentType referenceDocumentType;
+    private GeneralLedgerInputType generalLedgerInputType;
+    private GeneralLedgerInputType referenceGeneralLedgerInputType;
     private SystemOptions option;
     private OriginationCode referenceOriginationCode;
     private ProjectCode project;
@@ -1065,22 +1065,37 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     }
 
     /**
-     * Gets the documentType
-     * 
-     * @return Returns the documentType.
+     * Gets the generalLedgerInputType attribute. 
+     * @return Returns the generalLedgerInputType.
      */
-    public DocumentType getDocumentType() {
-        return documentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
     /**
-     * Sets the documentType
-     * 
-     * @param documentType The documentType to set.
+     * Sets the generalLedgerInputType attribute value.
+     * @param generalLedgerInputType The generalLedgerInputType to set.
      */
     @Deprecated
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
+    }
+
+    /**
+     * Gets the referenceGeneralLedgerInputType attribute. 
+     * @return Returns the referenceGeneralLedgerInputType.
+     */
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+        return referenceGeneralLedgerInputType;
+    }
+
+    /**
+     * Sets the referenceGeneralLedgerInputType attribute value.
+     * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
+     */
+    @Deprecated
+    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
 
     /**
@@ -1176,25 +1191,6 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     @Deprecated
     public void setProject(ProjectCode project) {
         this.project = project;
-    }
-
-    /**
-     * Gets the referenceDocumentType
-     * 
-     * @return Returns the referenceDocumentType.
-     */
-    public DocumentType getReferenceDocumentType() {
-        return referenceDocumentType;
-    }
-
-    /**
-     * Sets the referenceDocumentType
-     * 
-     * @param referenceDocumentType The referenceDocumentType to set.
-     */
-    @Deprecated
-    public void setReferenceDocumentType(DocumentType referenceDocumentType) {
-        this.referenceDocumentType = referenceDocumentType;
     }
 
     /**

@@ -50,7 +50,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -368,7 +368,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         boolean assetMovable = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
         
-        AssetTransferDocumentAuthorizer documentAuthorizer = (AssetTransferDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(assetTransferDocument);
+        AssetTransferDocumentAuthorizer documentAuthorizer = (AssetTransferDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(assetTransferDocument);
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         if(!assetMovable && !isAuthorizedTransferMovable) {

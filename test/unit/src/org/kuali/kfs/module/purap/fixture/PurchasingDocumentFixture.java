@@ -17,8 +17,6 @@ package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
 
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
@@ -26,6 +24,8 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum PurchasingDocumentFixture {
 

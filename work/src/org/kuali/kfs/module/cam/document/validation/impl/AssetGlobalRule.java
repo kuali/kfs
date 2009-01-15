@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -163,7 +164,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
 
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE);                       
-            if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode()) && ObjectUtils.isNull(assetPaymentDetail.getExpenditureFinancialDocumentType())) {
+            if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode()) && ObjectUtils.isNull(assetPaymentDetail.getExpenditureGeneralLedgerInputType())) {
                 label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);                
                 valid &= false;
@@ -360,7 +361,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateDocumentTypeForNonNew(assetGlobal.getAcquisitionTypeCode(), assetPaymentDetail);
         }
 
-        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(maintenanceDocument);
+        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.ADD_NEGATIVE_PAYMENTS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
@@ -545,7 +546,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             maxTotalPaymentByAsset = totalPayment;
         }
 
-        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(document);
+        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
         boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
@@ -691,7 +692,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (!getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
             success &= validateAccount(assetGlobal);
 
-            AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(document);
+            AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
             boolean isAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, 
                     CamsConstants.PermissionNames.USE_ACQUISITION_TYPE_NEW, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             

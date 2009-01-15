@@ -58,8 +58,8 @@ import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -147,7 +147,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         // check user authorization
         Person user = GlobalVariables.getUserSession().getPerson();
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(documentTypeName);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(documentTypeName);
         documentAuthorizer.canInitiate(documentTypeName, user);
 
         // check cash drawer

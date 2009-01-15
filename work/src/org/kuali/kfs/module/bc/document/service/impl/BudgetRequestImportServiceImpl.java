@@ -59,8 +59,8 @@ import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,7 +83,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     private LaborModuleService laborModuleService;
     private BudgetParameterService budgetParameterService;
     private OptionsService optionsService;
-    private DocumentTypeService documentTypeService;
+    private DocumentHelperService documentHelperService;
     private DocumentService documentService;
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetRequestImportServiceImpl.class);
@@ -330,7 +330,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                         throw new RuntimeException("Fail to retrieve budget document for doc id " + header.getDocumentNumber());
                     }
 
-                    TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) documentTypeService.getDocumentAuthorizer(document);
+                    TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
                     hasAccess = documentAuthorizer.isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId());
                 }
 
@@ -718,13 +718,13 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     }
 
     @NonTransactional
-    protected DocumentTypeService getDocumentTypeService() {
-        return documentTypeService;
+    public DocumentHelperService getDocumentHelperService() {
+        return documentHelperService;
     }
 
     @NonTransactional
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
+    public void setDocumentHelperService(DocumentHelperService documentHelperService) {
+        this.documentHelperService = documentHelperService;
     }
 
     @NonTransactional

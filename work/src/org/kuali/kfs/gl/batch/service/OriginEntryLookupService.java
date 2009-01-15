@@ -16,6 +16,7 @@
 package org.kuali.kfs.gl.batch.service;
 
 import java.sql.Date;
+
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -33,9 +34,9 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.rice.kns.bo.DocumentType;
 
 /**
  * An interface of methods that duplicate the relationships that OriginEntryFull has.
@@ -117,20 +118,20 @@ public interface OriginEntryLookupService {
     public SubObjectCode getFinancialSubObject(OriginEntry entry);
 
     /**
-     * Get document type for given origin entryable
+     * Get general ledger input type for given origin entryable
      * 
-     * @param entry the origin entry to retrieve the document type of
-     * @return the related document type record, or null if not found
+     * @param entry the origin entry to retrieve the GL input type of
+     * @return the related GeneralLedgerInputType record, or null if not found
      */
-    public DocumentType getDocumentType(OriginEntry entry);
+    public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry entry);
 
     /**
-     * Get the reference document type for the given origin entryable
+     * Get the reference general ledger input type for the given origin entryable
      * 
-     * @param entry origin entryable to lookup the reference document type for
-     * @return the related reference DocumentType record, or null if not found
+     * @param entry origin entryable to lookup the reference GL input type for
+     * @return the related reference GeneralLedgerInputType record, or null if not found
      */
-    public DocumentType getReferenceDocumentType(OriginEntry entry);
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry entry);
 
     /**
      * Retrieves the project code for the given origin entryable

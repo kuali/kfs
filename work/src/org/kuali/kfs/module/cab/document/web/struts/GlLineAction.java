@@ -34,12 +34,13 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
  * Struts action class that handles GL Line Processing Screen actions
@@ -99,17 +100,23 @@ public class GlLineAction extends KualiAction {
      * @return URL that handles the document
      */
     protected String prepareDocHandlerUrl(Document maintDoc, String docTypeName) {
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        DocumentType documentType = documentTypeService.findByName(docTypeName);
-        String docHandler = documentType.getDocHandlerUrl();
-        if (docHandler.indexOf("?") == -1) {
-            docHandler += "?";
+        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
+        try {
+            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(docTypeName);
+            String docHandlerUrl = docType.getDocTypeHandlerUrl();
+            if (docHandlerUrl.indexOf("?") == -1) {
+                docHandlerUrl += "?";
+            }
+            else {
+                docHandlerUrl += "&";
+            }
+
+            docHandlerUrl += "docId=" + maintDoc.getDocumentNumber() + "&command=displayDocSearchView";
+            return docHandlerUrl;
         }
-        else {
-            docHandler += "&";
+        catch (WorkflowException e) {
+            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
         }
-        docHandler += "docId=" + maintDoc.getDocumentNumber() + "&command=displayDocSearchView";
-        return docHandler;
     }
 
 
@@ -186,7 +193,7 @@ public class GlLineAction extends KualiAction {
         Document document = glLineService.createAssetPaymentDocument(submitList, defaultGeneralLedgerEntry);
         return new ActionForward(prepareDocHandlerUrl(document, CabConstants.ASSET_PAYMENT_DOCUMENT), true);
     }
-
+    
     /**
      * This method will process the view document request by clicking on a specific document.
      * 
@@ -199,17 +206,23 @@ public class GlLineAction extends KualiAction {
      */
     public ActionForward viewDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String documentId = request.getParameter("documentNumber");
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        DocumentType documentType = documentTypeService.findByDocumentId(Long.valueOf(documentId));
-        String docHandler = documentType.getDocHandlerUrl();
-        if (docHandler.indexOf("?") == -1) {
-            docHandler += "?";
+        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
+        try {
+            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(Long.valueOf(documentId));
+            String docHandlerUrl = docType.getDocTypeHandlerUrl();
+            if (docHandlerUrl.indexOf("?") == -1) {
+                docHandlerUrl += "?";
+            }
+            else {
+                docHandlerUrl += "&";
+            }
+
+            docHandlerUrl += "docId=" + documentId + "&command=displayDocSearchView";
+            return new ActionForward(docHandlerUrl, true);
         }
-        else {
-            docHandler += "&";
+        catch (WorkflowException e) {
+            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
         }
-        docHandler += "docId=" + documentId + "&command=displayDocSearchView";
-        return new ActionForward(docHandler, true);
     }
 
     /**

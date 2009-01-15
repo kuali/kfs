@@ -18,13 +18,13 @@ package org.kuali.kfs.module.cg.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriodTest;
 import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 @ConfigureContext
 public class BudgetIndirectCostFormHelperTest extends KualiTestBase {

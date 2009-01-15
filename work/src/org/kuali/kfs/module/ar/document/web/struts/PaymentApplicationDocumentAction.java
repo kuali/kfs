@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -49,7 +48,6 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -62,7 +60,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private DocumentTypeService documentTypeService;
     private WorkflowDocumentService workflowDocumentService;
     private PaymentApplicationDocumentService paymentApplicationDocumentService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
@@ -77,7 +74,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         super();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         documentService = SpringContext.getBean(DocumentService.class);
-        documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
         paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
         customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);

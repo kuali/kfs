@@ -29,11 +29,9 @@ import static org.kuali.kfs.sys.fixture.AccountFixture.EXPIRIED_ACCOUNT_NO_CONTI
 import static org.kuali.kfs.sys.fixture.ObjectCodeFixture.OBJECT_CODE_BUDGETED_OBJECT_CODE;
 import static org.kuali.kfs.sys.fixture.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET_OBJECT_CODE;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -42,6 +40,8 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * This class tests some methods of AccountingLineRuleUtil.

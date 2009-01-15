@@ -20,8 +20,8 @@ import java.sql.Date;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.rice.kns.bo.DocumentType;
 
 /**
  * Labor business object for Labor Transaction
@@ -74,7 +74,7 @@ public interface LaborTransaction extends Transaction {
 
     public String getSetid();
 
-    public DocumentType getReferenceFinancialDocumentType();
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType();
 
     public OriginationCode getReferenceFinancialSystemOrigination();
 

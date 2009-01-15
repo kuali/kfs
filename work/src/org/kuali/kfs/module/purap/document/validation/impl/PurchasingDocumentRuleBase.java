@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
@@ -36,18 +35,11 @@ import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
-import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingCapitalAssetLocationRule;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingItemCapitalAssetRule;
 import org.kuali.kfs.module.purap.document.validation.ChangeSystemPurapRule;
@@ -71,6 +63,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.rice.kns.document.Document;
@@ -78,7 +71,7 @@ import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -256,6 +249,15 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
 
         return true;
     }
+    
+    protected String getDocumentTypeLabel(String documentTypeName) {
+        try {
+            return KNSServiceLocator.getWorkflowInfoService().getDocType(documentTypeName).getDocTypeLabel();
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
+        }
+    }
 
     /**
      * Validates that the document contains at least one item.
@@ -271,7 +273,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 return true;
             }
         }
-        String documentType = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
+        String documentType = getDocumentTypeLabel(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType());
 
         if (!valid) {
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);

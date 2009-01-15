@@ -27,10 +27,9 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -71,7 +70,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private SubAccount subAccount;
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
-    private DocumentType documentType;
+    private GeneralLedgerInputType generalLedgerInputType;
 
     private List<GeneralLedgerEntryAsset> generalLedgerEntryAssets;
     private List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts;
@@ -682,23 +681,20 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the documentType attribute.
-     * 
-     * @return Returns the documentType
+     * Gets the generalLedgerInputType attribute. 
+     * @return Returns the generalLedgerInputType.
      */
-    public DocumentType getDocumentType() {
-        return documentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
     /**
-     * Sets the documentType attribute.
-     * 
-     * @param documentType The documentType to set.
+     * Sets the generalLedgerInputType attribute value.
+     * @param generalLedgerInputType The generalLedgerInputType to set.
      */
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
-
 
     /**
      * Gets the active attribute.

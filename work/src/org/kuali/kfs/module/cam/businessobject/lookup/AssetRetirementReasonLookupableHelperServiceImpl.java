@@ -31,11 +31,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
@@ -65,7 +63,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         
         if (initializingAssetRetirement) {
-            AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(CamsConstants.ASSET_RETIREMENT_DOCUMENT_TYPE_NAME);
+            AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.ASSET_RETIREMENT_DOCUMENT_TYPE_NAME);
             
             if (assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
                 // TODO following doesn't work because asset isn't a Document

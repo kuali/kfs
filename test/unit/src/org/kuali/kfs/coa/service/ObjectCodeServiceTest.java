@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class tests the ObjectCode service.

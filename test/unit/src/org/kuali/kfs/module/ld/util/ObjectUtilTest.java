@@ -23,10 +23,10 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class ObjectUtilTest extends TestCase {
 

@@ -70,7 +70,7 @@
   </bean>
   <bean id="AccountDelegate-financialDocumentTypeCode" parent="AccountDelegate-financialDocumentTypeCode-parentBean" />
 
-  <bean id="AccountDelegate-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="AccountDelegate-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="AccountDelegate-accountDelegateSystemId" parent="AccountDelegate-accountDelegateSystemId-parentBean" />

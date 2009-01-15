@@ -17,18 +17,15 @@ package org.kuali.kfs.module.ar.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
 
 @ConfigureContext(session = khuntley)
 public class CashControlDocumentServiceTest extends KualiTestBase {

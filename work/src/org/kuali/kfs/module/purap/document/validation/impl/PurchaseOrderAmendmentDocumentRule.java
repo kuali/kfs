@@ -15,30 +15,22 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.vnd.businessobject.CommodityCode;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -105,7 +97,7 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
                 return true;
             }
         }
-        String documentType = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
+        String documentType = getDocumentTypeLabel(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType());
         GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
 
         return false;

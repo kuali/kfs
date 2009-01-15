@@ -28,9 +28,9 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -542,6 +542,21 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
     public void setSalaryAdministrationPlan(String salaryAdministrationPlan);
 
     /**
+     * Gets the generalLedgerInputType attribute.
+     *  
+     * @return Returns the generalLedgerInputType.
+     */
+    public GeneralLedgerInputType getGeneralLedgerInputType();
+
+    /**
+     * Sets the generalLedgerInputType attribute value.
+     * 
+     * @param generalLedgerInputType The generalLedgerInputType to set.
+     */
+    @Deprecated
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType);
+
+    /**
      * Gets the grade
      * 
      * @return Returns the grade
@@ -757,21 +772,6 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
     public void setBalanceType(BalanceType balanceType);
 
     /**
-     * Gets the documentType
-     * 
-     * @return Returns the documentType.
-     */
-    public DocumentType getDocumentType();
-
-    /**
-     * Sets the documentType
-     * 
-     * @param documentType The documentType to set.
-     */
-    @Deprecated
-    public void setDocumentType(DocumentType documentType);
-
-    /**
      * Gets the financialObjectType
      * 
      * @return Returns the financialObjectType.
@@ -847,19 +847,19 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
     public void setProject(ProjectCode project);
 
     /**
-     * Gets the referenceDocumentType
+     * Gets the referenceGeneralLedgerInputType attribute.
      * 
-     * @return Returns the referenceDocumentType.
+     * @return Returns the referenceGeneralLedgerInputType.
      */
-    public DocumentType getReferenceDocumentType();
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType();
 
     /**
-     * Sets the referenceDocumentType
+     * Sets the referenceGeneralLedgerInputType attribute value.
      * 
-     * @param referenceDocumentType The referenceDocumentType to set.
+     * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
      */
     @Deprecated
-    public void setReferenceDocumentType(DocumentType referenceDocumentType);
+    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType);
 
     /**
      * Gets the referenceOriginationCode

@@ -29,7 +29,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.actiontaken.service.ActionTakenService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.service.PersonService;
 
 /**
  * 

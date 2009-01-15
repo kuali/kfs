@@ -26,8 +26,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
@@ -41,6 +39,8 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 @ConfigureContext
 public class LaborLedgerBalancePosterTest extends KualiTestBase {

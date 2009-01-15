@@ -33,8 +33,8 @@ import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -58,6 +58,7 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -66,7 +67,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,7 +92,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private PurapRunDateService purapRunDateService;
     private PdpEmailService paymentFileEmailService;
     private BankService bankService;
-    private DocumentTypeService documentTypeService;
+    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
     private PurapAccountingServiceImpl purapAccountingService;
 
     /**
@@ -457,7 +457,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             List<String> preqDocIds = new ArrayList<String>();
             List<String> cmDocIds = new ArrayList<String>();
 
-            String creditMemoDocTypeCode = documentTypeService.getDocumentTypeCodeByClass(VendorCreditMemoDocument.class);
+            String creditMemoDocTypeCode = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(VendorCreditMemoDocument.class).getInputTypeCode();
 
             List<PaymentDetail> pds = paymentGroup.getPaymentDetails();
             for (PaymentDetail payDetail : pds) {
@@ -521,7 +521,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
         }
 
-        String creditMemoDocType = documentTypeService.getDocumentTypeCodeByClass(VendorCreditMemoDocument.class);
+        String creditMemoDocType = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(VendorCreditMemoDocument.class).getInputTypeCode();
         paymentDetail.setFinancialDocumentTypeCode(creditMemoDocType);
         paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
 
@@ -606,7 +606,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentDetail.setOrganizationDocNbr(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
         }
 
-        String paymentRequestDocType = documentTypeService.getDocumentTypeCodeByClass(PaymentRequestDocument.class);
+        String paymentRequestDocType = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(PaymentRequestDocument.class).getInputTypeCode();
         paymentDetail.setFinancialDocumentTypeCode(paymentRequestDocType);
         paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
         
@@ -669,7 +669,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param documentType
      */
     private void addAccounts(AccountsPayableDocument accountsPayableDocument, PaymentDetail paymentDetail, String documentType) {
-        String creditMemoDocType = documentTypeService.getDocumentTypeCodeByClass(VendorCreditMemoDocument.class);
+        String creditMemoDocType = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(VendorCreditMemoDocument.class).getInputTypeCode();
         List<SourceAccountingLine> sourceAccountingLines = purapAccountingService.generateSourceAccountsForVendorRemit(accountsPayableDocument);
         for (SourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
           KualiDecimal lineAmount = sourceAccountingLine.getAmount();  
@@ -691,7 +691,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentDetail.addAccountDetail(paymentAccountDetail);
         }
 //ORIGINAL METHOD
-//        String creditMemoDocType = documentTypeService.getDocumentTypeCodeByClass(CreditMemoDocument.class);
+//        String creditMemoDocType = getGeneralLedgerInputTypeService().getInputTypeCodeByClass(CreditMemoDocument.class);
 //
 //        // Calculate the total amount for each account across all items
 //        Map<AccountingInfo, KualiDecimal> accountTotals = new HashMap<AccountingInfo, KualiDecimal>();
@@ -1186,16 +1186,23 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * Sets the documentTypeService attribute value.
-     * 
-     * @param documentTypeService The documentTypeService to set.
+     * Gets the generalLedgerInputTypeService attribute. 
+     * @return Returns the generalLedgerInputTypeService.
      */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
+    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+        return generalLedgerInputTypeService;
+    }
+
+    /**
+     * Sets the generalLedgerInputTypeService attribute value.
+     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     */
+    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 
     public void setPurapAccountingService(PurapAccountingServiceImpl purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
-}
+    }
 }
 

@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.fp.batch.service.impl;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.rice.kim.bo.Person;
 
 /**
@@ -42,7 +44,7 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
     public boolean userMayUseToClaim(Person claimingUser) {
         boolean userMayUse = super.userMayUseToClaim(claimingUser);
         if (userMayUse) {
-            userMayUse = getDocumentTypeService().getDocumentTypeByName(getClaimingDocumentWorkflowDocumentType()).isDocumentTypeActiveIndicator();
+            userMayUse = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(getClaimingDocumentWorkflowDocumentType()).isDocumentTypeActiveIndicator();
         }
         return userMayUse;
     }

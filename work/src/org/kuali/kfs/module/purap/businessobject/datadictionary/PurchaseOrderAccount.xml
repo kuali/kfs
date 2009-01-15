@@ -205,7 +205,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-referenceTypeCode" parent="PurchaseOrderAccount-referenceTypeCode-parentBean" />
 
-  <bean id="PurchaseOrderAccount-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="PurchaseOrderAccount-referenceTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

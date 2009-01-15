@@ -21,9 +21,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.spring.Logged;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborModuleService;
@@ -35,6 +32,9 @@ import org.kuali.kfs.sys.SpringContextForBatchRunner;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.Log4jConfigurer;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.spring.Logged;
 
 /**
  * This batch runner is just for testing purpose and used by effort team members.

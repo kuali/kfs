@@ -37,19 +37,20 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -386,14 +387,12 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         // set the document type to that of a Distrib. Of Income and Expense if it's a recode
         if (isRecodeType()) {
-            offsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
+            offsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(DistributionOfIncomeAndExpenseDocument.class).getInputTypeCode());
 
             // set the posting period
             java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
             offsetEntry.setUniversityFiscalPeriodCode(SpringContext.getBean(AccountingPeriodService.class).getByDate(today).getUniversityFiscalPeriodCode()); // use
-                                                                                                                                                                // current
-                                                                                                                                                                // period
-                                                                                                                                                                // code
         }
 
         // now set the offset entry to the specific offset object code for the AV generated offset fund balance; only if it's an
@@ -503,7 +502,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         // since these offsets are
         // specific to Distrib. of Income and Expense documents - we need to do a deep copy though so we don't do this by reference
         GeneralLedgerPendingEntry explicitEntryDeepCopy = new GeneralLedgerPendingEntry(explicitEntry);
-        explicitEntryDeepCopy.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+        explicitEntryDeepCopy.setFinancialDocumentTypeCode(SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(DistributionOfIncomeAndExpenseDocument.class).getInputTypeCode());
 
         // set the posting period to current, because DI GLPEs for recodes should post to the current period
         java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
@@ -587,7 +586,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         recodeGlpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
 
         // set the document type to that of a Distrib. Of Income and Expense
-        recodeGlpe.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+        recodeGlpe.setFinancialDocumentTypeCode(SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(DistributionOfIncomeAndExpenseDocument.class).getInputTypeCode());
 
         // set the object type code base on the value of the explicit entry
         recodeGlpe.setFinancialObjectTypeCode(getObjectTypeCodeForRecodeDistributionOfIncomeAndExpenseEntry(explicitEntry));

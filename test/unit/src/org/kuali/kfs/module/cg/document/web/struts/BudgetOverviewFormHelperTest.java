@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.cg.document.web.struts;
 
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.

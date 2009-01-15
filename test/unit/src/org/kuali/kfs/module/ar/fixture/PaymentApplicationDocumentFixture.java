@@ -24,7 +24,6 @@ import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;

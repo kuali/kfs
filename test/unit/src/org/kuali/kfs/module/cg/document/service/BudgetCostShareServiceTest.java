@@ -20,16 +20,16 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertEquality;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.InstitutionCostSharePersonnel;
-import org.kuali.kfs.sys.suite.AnnotationTestSuite;
-import org.kuali.kfs.sys.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.CrossSectionSuite;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class tests service methods in BudgetCostShareService.

@@ -18,9 +18,9 @@ package org.kuali.kfs.module.ar.fixture;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Fixture class for customer invoice details

@@ -51,18 +51,18 @@ import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -86,7 +86,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     private KualiCodeService kualiCodeService;
     private BankService bankService;
     private OriginationCodeService originationCodeService;
-    private DocumentTypeService documentTypeService;
+    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
@@ -229,7 +229,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                 // validate doc type if given
                 if (StringUtils.isNotBlank(paymentDetail.getFinancialDocumentTypeCode())) {
                     try {
-                        DocumentType documentType = documentTypeService.getDocumentTypeByCode(paymentDetail.getFinancialDocumentTypeCode());
+                        GeneralLedgerInputType generalLedgerInputType = generalLedgerInputTypeService.getGeneralLedgerInputTypeByInputTypeCode(paymentDetail.getFinancialDocumentTypeCode());
                     }
                     catch (UnknownDocumentTypeException e) {
                         errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialDocumentTypeCode());
@@ -758,12 +758,11 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Sets the documentTypeService attribute value.
-     * 
-     * @param documentTypeService The documentTypeService to set.
+     * Sets the generalLedgerInputTypeService attribute value.
+     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
      */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
+    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 
 }

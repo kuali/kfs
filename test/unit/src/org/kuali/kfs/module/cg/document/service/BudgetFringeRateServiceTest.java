@@ -19,11 +19,11 @@
  */
 package org.kuali.kfs.module.cg.document.service;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class...

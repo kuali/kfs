@@ -178,7 +178,7 @@
   </bean>
   <bean id="LedgerEntry-financialDocumentTypeCode" parent="LedgerEntry-financialDocumentTypeCode-parentBean" />
 
-  <bean id="LedgerEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="LedgerEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="LedgerEntry-financialSystemOriginationCode" parent="LedgerEntry-financialSystemOriginationCode-parentBean" />

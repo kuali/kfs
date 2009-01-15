@@ -17,13 +17,13 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.AmountsLimitsFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
 public class RequisitionDocumentRuleTest extends PurapRuleTestBase {

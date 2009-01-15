@@ -192,8 +192,8 @@
 		<property name="lockService">
 			<ref bean="lockService" />
 		</property>		
-		<property name="documentTypeService">
-			<ref bean="documentTypeService" />
+		<property name="documentHelperService">
+			<ref bean="documentHelperService" />
 		</property>	
 		<property name="documentService">
 			<ref bean="documentService" />
@@ -366,8 +366,8 @@
 	</bean>	
 
 	<bean id="budgetConstructionDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoOjb">
-	    <property name="documentTypeService">
-	       <ref bean="documentTypeService"/>
+	    <property name="generalLedgerInputTypeService">
+	       <ref bean="generalLedgerInputTypeService"/>
 	    </property>   
         <property name="kualiModuleService">
             <ref bean="kualiModuleService" />
@@ -398,8 +398,8 @@
 	</bean>
 
 	<bean id="bcOrganizationBCDocumentSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.OrganizationBCDocumentSearchDaoJdbc">
-	    <property name="documentTypeService">
-	      <ref bean="documentTypeService" />
+	    <property name="generalLedgerInputTypeService">
+	      <ref bean="generalLedgerInputTypeService" />
 	    </property>
 	</bean>
 	
@@ -841,8 +841,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
-		<property name="documentTypeService">
-			<ref bean="documentTypeService" />
+		<property name="documentHelperService">
+			<ref bean="documentHelperService" />
 		</property>	
 		<property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />

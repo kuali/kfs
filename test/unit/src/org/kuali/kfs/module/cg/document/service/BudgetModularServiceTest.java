@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.AgencyExtension;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -35,6 +34,7 @@ import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This class tests service methods in BudgetModularService.

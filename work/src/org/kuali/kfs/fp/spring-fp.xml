@@ -331,7 +331,6 @@
 
 	<bean id="cashReceiptCoverSheetService" class="org.kuali.kfs.fp.document.service.impl.CashReceiptCoverSheetServiceImpl">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
-		<property name="documentTypeService" ref="documentTypeService" />
 	</bean>
 
 	<bean id="budgetAdjustmentLaborBenefitsService" class="org.kuali.kfs.fp.document.service.impl.BudgetAdjustmentLaborBenefitsServiceImpl">
@@ -403,7 +402,6 @@
 	<bean id="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl">
 		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
 		<property name="documentService"><ref bean="documentService" /></property>
-		<property name="documentTypeService"><ref bean="documentTypeService" /></property>
 		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
 		<property name="parameterService"><ref bean="parameterService" /></property>
 	</bean>

@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.sys.document.workflow;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAttributeTestUtil;
-
 import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class...

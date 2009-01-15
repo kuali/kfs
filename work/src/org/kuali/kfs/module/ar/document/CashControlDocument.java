@@ -28,13 +28,14 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
@@ -52,7 +53,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     private KualiDecimal cashControlTotalAmount = KualiDecimal.ZERO;
     private String lockboxNumber;
     private String bankCode;
-
+    
     private PaymentMedium customerPaymentMedium;
     private AccountingPeriod universityFiscalPeriod;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
@@ -76,10 +77,12 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         electronicPaymentClaims = new ArrayList<ElectronicPaymentClaim>();
         // retrieve value from param table and set to default
         try {
-            String documentTypeCode = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DocumentTypeService.class).getClassByName("CashControlDocument").getCanonicalName()).getDocumentTypeCode();
+            DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
+            DocumentEntry docEntry = ddService.getDataDictionary().getDocumentEntry(ddService.getValidDocumentClassByTypeName("CashControlDocument").getCanonicalName());
+            String documentTypeCode = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(docEntry.getDocumentTypeName()).getInputTypeCode();
             bankCode = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
         }
-        catch (Exception x) {
+        catch(Exception x) {
             LOG.error("Problem occurred setting default bank code for cash control document", x);
         }
     }
@@ -363,7 +366,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-        String documentType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(GeneralErrorCorrectionDocument.class);
+        String documentType = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(GeneralErrorCorrectionDocument.class).getInputTypeCode();
         if (explicitEntry.getFinancialDocumentTypeCode().equalsIgnoreCase(documentType)) {
             explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(postable));
 
@@ -440,13 +443,11 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
-
+    
 
     /**
      * The Cash Control document doesn't generate general ledger pending entries based off of the accounting lines on the document
-     * 
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
-     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
@@ -559,16 +560,14 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         Document document = null;
         try {
             document = documentService.getByDocumentHeaderId(getReferenceFinancialDocumentNumber());
-        }
-        catch (WorkflowException we) {
-
+        } catch(WorkflowException we) {
+            
         }
         return document;
     }
 
     /**
-     * Gets the bankCode attribute.
-     * 
+     * Gets the bankCode attribute. 
      * @return Returns the bankCode.
      */
     public String getBankCode() {
@@ -577,13 +576,12 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the bankCode attribute value.
-     * 
      * @param bankCode The bankCode to set.
      */
     public void setBankCode(String bankCode) {
         this.bankCode = bankCode;
     }
-
+    
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT.equals(nodeName) && ArConstants.PaymentMediumCode.WIRE_TRANSFER.equals(getCustomerPaymentMediumCode())) {

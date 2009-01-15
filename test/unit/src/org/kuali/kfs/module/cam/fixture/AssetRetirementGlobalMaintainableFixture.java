@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 

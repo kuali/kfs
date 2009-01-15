@@ -34,6 +34,7 @@
 		<%-- 
 		<li><portal:portalLink displayTitle="true" title="Workflow User Removal / Replacement" url="${ConfigProperties.workflow.url}/RemoveReplace.do" /></li>
 		--%>
+        <li><portal:portalLink displayTitle="true" title="Document Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.doctype.bo.DocumentType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="KIM person lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.Person&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     </ul>
 </div>

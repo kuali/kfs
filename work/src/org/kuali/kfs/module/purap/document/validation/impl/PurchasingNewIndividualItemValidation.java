@@ -28,10 +28,8 @@ import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
-import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -130,7 +128,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
                 return true;
             }
         }
-        String documentType = dataDictionaryService.getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
+        String documentType = getDocumentTypeLabel(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType());
 
         if (!valid) {
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);

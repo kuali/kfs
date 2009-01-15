@@ -15,14 +15,12 @@
  */
 package org.kuali.kfs.sys.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE2_TOF;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
@@ -32,6 +30,8 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This class tests the AccountingLine service.

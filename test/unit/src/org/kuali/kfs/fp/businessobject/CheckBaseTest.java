@@ -18,11 +18,11 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.sql.Date;
 
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class...
@@ -39,7 +39,7 @@ public class CheckBaseTest extends KualiTestBase {
     private static final String DOC_HDR_ID = "999999";
     private static final Integer SEQ_ID = new Integer(1);
     private static final Integer DEPOSIT_LINE_NUMBER = new Integer(1);
-    private static final String DOCUMENT_TYPE = "CR";
+    private static final String GENERAL_LEDGER_INPUT_TYPE = "CR";
     private static final String CASHIERING_SOURCE = "R";
 
     @Override
@@ -57,7 +57,7 @@ public class CheckBaseTest extends KualiTestBase {
         crchk.setSequenceId(SEQ_ID);
         crchk.setVersionNumber(VER_NBR);
         crchk.setCashieringRecordSource(CASHIERING_SOURCE);
-        crchk.setFinancialDocumentTypeCode(DOCUMENT_TYPE);
+        crchk.setFinancialDocumentTypeCode(GENERAL_LEDGER_INPUT_TYPE);
     }
 
     public void testCashReceiptCheckPojo() {
@@ -70,7 +70,7 @@ public class CheckBaseTest extends KualiTestBase {
         assertEquals(GUID, crchk.getObjectId());
         assertEquals(SEQ_ID, crchk.getSequenceId());
         assertEquals(VER_NBR, crchk.getVersionNumber());
-        assertEquals(DOCUMENT_TYPE, crchk.getFinancialDocumentTypeCode());
+        assertEquals(GENERAL_LEDGER_INPUT_TYPE, crchk.getFinancialDocumentTypeCode());
         assertEquals(CASHIERING_SOURCE, crchk.getCashieringRecordSource());
     }
 }

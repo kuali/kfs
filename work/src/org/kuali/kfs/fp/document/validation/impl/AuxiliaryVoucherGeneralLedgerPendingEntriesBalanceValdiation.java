@@ -19,17 +19,17 @@ import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_BALANCE;
 
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Validation that checks that the general ledger pending entries associated with an auxiliary voucher
@@ -55,7 +55,7 @@ public class AuxiliaryVoucherGeneralLedgerPendingEntriesBalanceValdiation extend
 
         for (GeneralLedgerPendingEntry glpe : getAccountingDocumentForValidation().getGeneralLedgerPendingEntries()) {
             // make sure we are looking at only the explicit entries that aren't DI types
-            if (!glpe.isTransactionEntryOffsetIndicator() && !glpe.getFinancialDocumentTypeCode().equals(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class))) {
+            if (!glpe.isTransactionEntryOffsetIndicator() && !glpe.getFinancialDocumentTypeCode().equals(SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(DistributionOfIncomeAndExpenseDocument.class).getInputTypeCode())) {
                 if (GL_CREDIT_CODE.equals(glpe.getTransactionDebitCreditCode())) {
                     creditAmount = creditAmount.add(glpe.getTransactionLedgerEntryAmount());
                 }

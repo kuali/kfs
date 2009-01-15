@@ -18,6 +18,12 @@ package org.kuali.kfs.sys.document.validation;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -29,13 +35,6 @@ import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-
-import org.kuali.rice.kew.exception.WorkflowException;
 
 @ConfigureContext
 public abstract class MaintenanceRuleTestBase extends KualiTestBase {

@@ -229,7 +229,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkFinancialDocumentTypeCode(LaborTransaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        if (StringUtils.isBlank(documentTypeCode) || ObjectUtils.isNull(transaction.getDocumentType())) {
+        if (StringUtils.isBlank(documentTypeCode) || ObjectUtils.isNull(transaction.getGeneralLedgerInputType())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, documentTypeCode, Message.TYPE_FATAL);
         }
         return null;

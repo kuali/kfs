@@ -20,12 +20,12 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceDetailChartCodeReceivableValidationTest extends KualiTestBase {

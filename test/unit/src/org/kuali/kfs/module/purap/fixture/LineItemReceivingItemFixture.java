@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Fixture class for Purchase Order Item.

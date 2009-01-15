@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.ParseException;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;

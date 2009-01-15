@@ -75,12 +75,9 @@
       <property name="persistenceDao" ref="persistenceDao" />
     </bean>
 
-	<bean id="documentTypeService" class="org.kuali.kfs.sys.service.impl.DocumentTypeServiceImpl">
+	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 	
@@ -88,8 +85,8 @@
     <property name="documentDao">
       <ref bean="documentDao" />
     </property>
-    <property name="documentTypeService">
-      <ref bean="documentTypeService" />
+    <property name="documentHelperService">
+      <ref bean="documentHelperService" />
     </property>
     <property name="dateTimeService">
       <ref bean="dateTimeService" />

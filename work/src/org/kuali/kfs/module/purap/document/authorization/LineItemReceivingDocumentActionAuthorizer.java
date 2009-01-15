@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -53,7 +53,7 @@ public class LineItemReceivingDocumentActionAuthorizer {
     public boolean canCreateCorrection() {
         Person user = GlobalVariables.getUserSession().getPerson();
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CorrectionReceivingDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(documentTypeName);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(documentTypeName);
         boolean isUserAuthorized = documentAuthorizer.canInitiate(documentTypeName, user);
         return SpringContext.getBean(ReceivingService.class).canCreateCorrectionReceivingDocument(receivingLine) && isUserAuthorized;
     }

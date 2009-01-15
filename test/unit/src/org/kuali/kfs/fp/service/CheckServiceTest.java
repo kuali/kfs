@@ -21,17 +21,17 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.mhkozlow;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CheckBase;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.DocumentTestUtils;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.DocumentTestUtils;
-import org.kuali.kfs.fp.businessobject.Check;
-import org.kuali.kfs.fp.businessobject.CheckBase;
-import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class tests the Check service.

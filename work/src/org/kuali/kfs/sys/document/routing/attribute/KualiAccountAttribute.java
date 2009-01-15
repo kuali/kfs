@@ -34,13 +34,14 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.rice.kew.engine.RouteContext;
 
 import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
@@ -55,7 +56,6 @@ import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.w3c.dom.Document;
@@ -566,7 +566,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             if ((DOCUMENT_TYPE_TRANSLATION.containsKey(workfowDocumentType)) && (DOCUMENT_TYPE_TRANSLATION.get(workfowDocumentType) != null)) {
                 workfowDocumentType = DOCUMENT_TYPE_TRANSLATION.get(workfowDocumentType);
             }
-            String kualiDocumentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeCodeByTypeName(workfowDocumentType);
+            String kualiInputTypeCode = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(workfowDocumentType).getInputTypeCode(); 
             String annotation = "";
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName)) {
                 FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
@@ -578,14 +578,14 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             }
             else if (FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
-                UserId primaryDelegate = getPrimaryDelegation(role, kualiDocumentType);
+                UserId primaryDelegate = getPrimaryDelegation(role, kualiInputTypeCode);
                 if (primaryDelegate != null) {
                     members.add(primaryDelegate);
                 }
             }
             else if (FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
-                members.addAll(getSecondaryDelegations(role, kualiDocumentType));
+                members.addAll(getSecondaryDelegations(role, kualiInputTypeCode));
             }
             else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
                 String accountSupervisorId = getUnqualifiedAccountSupervisorIdFromString(qualifiedRole);

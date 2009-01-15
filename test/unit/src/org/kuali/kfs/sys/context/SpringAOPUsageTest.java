@@ -17,6 +17,12 @@ package org.kuali.kfs.sys.context;
 
 import java.lang.reflect.Method;
 
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.coa.service.impl.BalanceTypServiceImpl;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.impl.AbstractStaticConfigurationServiceImpl;
@@ -27,12 +33,6 @@ import org.kuali.rice.kns.util.cache.MethodCacheNoCopyInterceptor;
 import org.kuali.rice.kns.util.spring.CacheNoCopy;
 import org.kuali.rice.kns.util.spring.Cached;
 import org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationFilter;
-import org.kuali.kfs.coa.service.BalanceTypService;
-import org.kuali.kfs.coa.service.PriorYearAccountService;
-import org.kuali.kfs.coa.service.impl.BalanceTypServiceImpl;
-import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.suite.AnnotationTestSuite;
-import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.transaction.TransactionDefinition;

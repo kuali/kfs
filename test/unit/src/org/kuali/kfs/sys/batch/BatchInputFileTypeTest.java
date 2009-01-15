@@ -18,8 +18,6 @@ package org.kuali.kfs.sys.batch;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorInputFileType;
@@ -27,6 +25,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants.TestConstants.Data4;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * Tests the collector and pcdo instances of BatchInputFileType.

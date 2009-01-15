@@ -26,7 +26,6 @@ import java.util.Properties;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
@@ -36,6 +35,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.SpringContextForBatchRunner;
 import org.kuali.kfs.sys.TestDataPreparator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class TestDataLoader {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestDataLoader.class);

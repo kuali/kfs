@@ -41,10 +41,10 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 
 /**
@@ -124,25 +124,23 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * Get document type for given origin entryable
+     * Get GL input type for given origin entryable
      * 
-     * @param entry the origin entry to retrieve the document type of
-     * @return the related document type record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getDocumentType(org.kuali.module.gl.bo.OriginEntry)
+     * @param entry the origin entry to retrieve the GL input type of
+     * @return the related GeneralLedgerInputType record, or null if not found
      */
-    public DocumentType getDocumentType(OriginEntry entry) {
-        return cachingDao.getDocumentType(entry);
+    public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry entry) {
+        return cachingDao.getGeneralLedgerInputType(entry);
     }
 
     /**
-     * Get the reference document type for the given origin entryable
+     * Get the reference GL input type for the given origin entryable
      * 
-     * @param entry origin entryable to lookup the reference document type for
-     * @return the related reference DocumentType record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getReferenceDocumentType(org.kuali.module.gl.bo.OriginEntry)
+     * @param entry origin entryable to lookup the reference GL input type for
+     * @return the related reference GeneralLedgerInputType record, or null if not found
      */
-    public DocumentType getReferenceDocumentType(OriginEntry entry) {
-        return cachingDao.getReferenceDocumentType(entry);
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry entry) {
+        return cachingDao.getReferenceGeneralLedgerInputType(entry);
     }
 
     /**

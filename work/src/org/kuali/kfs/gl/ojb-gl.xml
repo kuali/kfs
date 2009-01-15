@@ -101,7 +101,7 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="documentType" class-ref="org.kuali.rice.kns.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="generalLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 
@@ -122,7 +122,7 @@
         <foreignkey field-ref="financialDocumentReversalDate" />
     </reference-descriptor>
 
-    <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.rice.kns.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="referenceGeneralLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -252,11 +252,11 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="documentType" class-ref="org.kuali.rice.kns.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="generalLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.rice.kns.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="referenceGeneralLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
     </reference-descriptor>
     
@@ -351,7 +351,7 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="documentType" class-ref="org.kuali.rice.kns.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="generalLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 
@@ -433,7 +433,7 @@
         <foreignkey field-ref="subObjectCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="documentType" class-ref="org.kuali.rice.kns.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="generalLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentTypeCode" />
     </reference-descriptor>
     

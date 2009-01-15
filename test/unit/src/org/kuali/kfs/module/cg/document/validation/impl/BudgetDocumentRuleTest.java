@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.businessobject.BudgetTask;
@@ -29,6 +27,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 
 /**

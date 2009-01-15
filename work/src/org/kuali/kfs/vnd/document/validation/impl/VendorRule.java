@@ -17,7 +17,6 @@ package org.kuali.kfs.vnd.document.validation.impl;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,28 +51,18 @@ import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.FieldRestriction;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentRestrictions;
-import org.kuali.rice.kns.exception.UnknownDocumentIdException;
-import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Business rules applicable to VendorDetail document.
@@ -172,7 +161,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 //        }
 //
 //        // get the correct documentAuthorizer for this document
-//        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) documentTypeService.getDocumentAuthorizer(document);
+//        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
 //
 //        // get a new instance of MaintenanceDocumentAuthorizations for this context
 //        MaintenanceDocumentRestrictions auths = SpringContext.getBean(BusinessObjectAuthorizationService.class).getMaintenanceDocumentRestrictions(document, user);

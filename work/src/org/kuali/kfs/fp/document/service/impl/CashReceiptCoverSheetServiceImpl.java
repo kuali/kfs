@@ -28,7 +28,7 @@ import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -48,7 +48,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
     private static Log LOG = LogFactory.getLog(CashReceiptCoverSheetService.class);
     
     private DataDictionaryService dataDictionaryService;
-    private DocumentTypeService documentTypeService;
+    private DocumentHelperService documentHelperService;
 
     public static final String CR_COVERSHEET_TEMPLATE_NM = "CashReceiptCoverSheetTemplate.pdf";
 
@@ -111,7 +111,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @see org.kuali.kfs.fp.document.validation.impl.CashReceiptDocumentRule#isCoverSheetPrintable(org.kuali.kfs.fp.document.CashReceiptFamilyBase)
      */
     public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc) {
-        CashReceiptDocumentAuthorizer authorizer = (CashReceiptDocumentAuthorizer) getDocumentTypeService().getDocumentAuthorizer(crDoc);
+        CashReceiptDocumentAuthorizer authorizer = (CashReceiptDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(crDoc);
         return authorizer.isCoverSheetPrintable(crDoc);
     }
     
@@ -375,20 +375,21 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
     }
 
     /**
-     * Gets the documentTypeService attribute. 
-     * @return Returns the documentTypeService.
+     * Gets the documentHelperService attribute. 
+     * @return Returns the documentHelperService.
      */
-    public DocumentTypeService getDocumentTypeService() {
-        return documentTypeService;
+    public DocumentHelperService getDocumentHelperService() {
+        return documentHelperService;
     }
 
     /**
-     * Sets the documentTypeService attribute value.
-     * @param documentTypeService The documentTypeService to set.
+     * Sets the documentHelperService attribute value.
+     * @param documentHelperService The documentHelperService to set.
      */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
+    public void setDocumentHelperService(DocumentHelperService documentHelperService) {
+        this.documentHelperService = documentHelperService;
     }
+
 }
 
 

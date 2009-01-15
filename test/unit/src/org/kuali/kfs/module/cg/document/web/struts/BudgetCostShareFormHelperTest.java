@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cg.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnelTest;
@@ -34,6 +33,7 @@ import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
 import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.

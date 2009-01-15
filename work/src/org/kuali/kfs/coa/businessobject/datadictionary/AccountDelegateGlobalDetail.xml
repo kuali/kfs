@@ -61,7 +61,7 @@
 
   <bean id="AccountDelegateGlobalDetail-financialDocumentTypeCode" parent="AccountDelegateGlobalDetail-financialDocumentTypeCode-parentBean" />
 
-  <bean id="AccountDelegateGlobalDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="AccountDelegateGlobalDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="AccountDelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator" parent="AccountDelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator-parentBean" />

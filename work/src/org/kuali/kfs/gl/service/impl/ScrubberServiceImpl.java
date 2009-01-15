@@ -33,8 +33,8 @@ import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +47,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceImpl.class);
 
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private DocumentTypeService documentTypeService;
+    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -75,7 +75,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         sp.scrubGroupReportOnly(group, documentNumber);
         sp.setReferenceLookup(null);
@@ -91,7 +91,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         sp.scrubEntries();
         sp.setReferenceLookup(null);
@@ -113,7 +113,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
 
         // this service is especially developed to support collector scrubbing, demerger, and report generation
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         ScrubberStatus result = sp.scrubCollectorBatch(batch, collectorReportData);
         sp.setReferenceLookup(null);
@@ -130,21 +130,21 @@ public class ScrubberServiceImpl implements ScrubberService {
     }
 
     /**
-     * Sets the documentTypeService attribute value.
-     * 
-     * @param documentTypeService The documentTypeService to set.
-     */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
-    }
-
-    /**
      * Sets the scrubberValidator attribute value.
      * 
      * @param sv The scrubberValidator to set.
      */
     public void setScrubberValidator(ScrubberValidator sv) {
         scrubberValidator = sv;
+    }
+
+    /**
+     * Sets the generalLedgerInputTypeService attribute value.
+     * 
+     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     */
+    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 
     /**

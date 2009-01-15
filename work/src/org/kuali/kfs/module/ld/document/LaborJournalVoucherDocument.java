@@ -18,9 +18,6 @@ package org.kuali.kfs.module.ld.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.DocumentType;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherAccountingLineParser;
@@ -29,8 +26,11 @@ import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 // @latex.ClassSignatureStart
 /**
@@ -41,7 +41,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
     private String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
     private List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
-    private DocumentType documentType;
+    private GeneralLedgerInputType generalLedgerInputType;
 
     /**
      * Constructs a LaborJournalVoucherDocument.java.
@@ -118,21 +118,19 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * Gets the documentType attribute.
-     * 
-     * @return Returns the documentType.
+     * Gets the generalLedgerInputType attribute. 
+     * @return Returns the generalLedgerInputType.
      */
-    public DocumentType getDocumentType() {
-        return documentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
     /**
-     * Sets the documentType attribute value.
-     * 
-     * @param documentType The documentType to set.
+     * Sets the generalLedgerInputType attribute value.
+     * @param generalLedgerInputType The generalLedgerInputType to set.
      */
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
     /**

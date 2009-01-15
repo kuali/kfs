@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -21,7 +21,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private boolean active;
 
     // References
-    private DocumentType documentType;
+    private GeneralLedgerInputType generalLedgerInputType;
     private FinancialSystemDocumentHeader documentHeader;
     private List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets;
     
@@ -125,20 +125,20 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
 
     /**
-     * Gets the documentType attribute. 
-     * @return Returns the documentType.
+     * Gets the generalLedgerInputType attribute. 
+     * @return Returns the generalLedgerInputType.
      */
-    public DocumentType getDocumentType() {
-        return documentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
 
     /**
-     * Sets the documentType attribute value.
-     * @param documentType The documentType to set.
+     * Sets the generalLedgerInputType attribute value.
+     * @param generalLedgerInputType The generalLedgerInputType to set.
      */
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
 

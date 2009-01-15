@@ -20,13 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class tests the AccountingPeriod business object from a persistence standpoint using the BusinessObjectService.

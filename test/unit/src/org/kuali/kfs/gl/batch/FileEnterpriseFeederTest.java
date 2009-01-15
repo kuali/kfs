@@ -31,8 +31,6 @@ import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.kfs.gl.batch.service.impl.FileEnterpriseFeederServiceImpl;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -41,6 +39,8 @@ import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class tests the enterprise feeder service. The concept of a file set is pervasive throughout this test. A file set consists

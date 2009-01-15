@@ -21,11 +21,10 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.DocumentType;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -43,7 +42,7 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
     private Date accountDelegateStartDate;
 
     private Person accountDelegate;
-    private DocumentType documentType;
+    private GeneralLedgerInputType generalLedgerInputType;
 
     /**
      * Default constructor.
@@ -62,22 +61,20 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
     }
 
     /**
-     * Gets the documentType attribute.
-     * 
-     * @return Returns the documentType.
+     * Gets the generalLedgerInputType attribute. 
+     * @return Returns the generalLedgerInputType.
      */
-    public DocumentType getDocumentType() {
-        return documentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
     /**
-     * Sets the documentType attribute value.
-     * 
-     * @param documentType The documentType to set.
+     * Sets the generalLedgerInputType attribute value.
+     * @param generalLedgerInputType The generalLedgerInputType to set.
      * @deprecated
      */
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
     /**

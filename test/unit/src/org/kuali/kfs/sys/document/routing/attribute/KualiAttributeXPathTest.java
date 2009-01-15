@@ -26,7 +26,6 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
-
 import org.kuali.rice.kew.exception.InvalidXmlException;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 

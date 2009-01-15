@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;

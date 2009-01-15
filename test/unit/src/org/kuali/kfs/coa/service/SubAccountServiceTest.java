@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.coa.service;
 
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.SubAccountFixture;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class tests the SubAccount service.

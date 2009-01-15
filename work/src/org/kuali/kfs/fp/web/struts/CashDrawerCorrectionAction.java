@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -129,7 +129,7 @@ public class CashDrawerCorrectionAction extends KualiAction {
     }
 
     private ActionForward returnToSender() {
-        String cmDocTypeName = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
+        String cmDocTypeName = SpringContext.getBean(DataDictionaryService.class).getValidDocumentTypeNameByClass(CashManagementDocument.class);
 
         Properties params = new Properties();
         params.setProperty("methodToCall", "docHandler");

@@ -46,6 +46,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -329,7 +330,7 @@ public class CertificationReportAction extends EffortCertificationAction {
      */
     private boolean isSummarizeDetailLinesRendered(CertificationReportForm certificationReportForm) {
         Document document = certificationReportForm.getDocument();
-        DocumentAuthorizer documentAuthorizer = KNSServiceLocator.getDocumentTypeService().getDocumentAuthorizer(document);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
         
         Map<String, String> editMode = certificationReportForm.getEditingMode();
 

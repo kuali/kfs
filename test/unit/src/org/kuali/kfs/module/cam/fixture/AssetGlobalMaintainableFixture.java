@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.fixture;
 
 import java.io.IOException;
 import java.util.Properties;
+
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 
 public enum AssetGlobalMaintainableFixture {

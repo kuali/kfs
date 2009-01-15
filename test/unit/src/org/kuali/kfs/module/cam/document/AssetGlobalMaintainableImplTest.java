@@ -19,18 +19,14 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
-import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
 import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.module.cam.fixture.AssetGlobalMaintainableFixture;
-import org.kuali.kfs.module.cam.fixture.AssetRetirementGlobalMaintainableFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
@@ -38,7 +34,6 @@ import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
 //@ConfigureContext(session = khuntley, shouldCommitTransactions = true)

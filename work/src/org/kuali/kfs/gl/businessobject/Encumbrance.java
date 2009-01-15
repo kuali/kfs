@@ -25,9 +25,9 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -64,7 +64,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
     private Chart chart;
     private Account account;
     private SubObjectCode financialSubObject;
-    private DocumentType documentType;
+    private GeneralLedgerInputType generalLedgerInputType;
 
     private ObjectCode financialObject;
     private BalanceType balanceType;
@@ -478,21 +478,19 @@ public class Encumbrance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the documentType attribute.
-     * 
-     * @return Returns the documentType.
+     * Gets the generalLedgerInputType attribute. 
+     * @return Returns the generalLedgerInputType.
      */
-    public DocumentType getDocumentType() {
-        return documentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
     /**
-     * Sets the documentType attribute value.
-     * 
-     * @param documentType The documentType to set.
+     * Sets the generalLedgerInputType attribute value.
+     * @param generalLedgerInputType The generalLedgerInputType to set.
      */
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
     /**

@@ -33,15 +33,13 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-
-import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 /**
  * Struts action class for Salary Expense Transfer Document. This class extends the parent FinancialSystemTransactionalDocumentActionBase
  * class, which contains all common action methods. Since the SEP follows the basic transactional document pattern, there are no
@@ -166,7 +164,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     protected ActionForward handleEffortValidationErrors(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String caller, boolean questionAsked) throws Exception {
         SalaryExpenseTransferDocument salaryExpenseDocument = (SalaryExpenseTransferDocument) ((KualiDocumentFormBase) form).getDocument();
         
-        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(salaryExpenseDocument);        
+        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(salaryExpenseDocument);        
         
         boolean isAdmin = documentAuthorizer.isAuthorized(salaryExpenseDocument, LaborConstants.LABOR_MODULE_CODE, 
                  LaborConstants.PermissionNames.OVERRIDE_TRANSFER_IMPACTING_EFFORT_CERTIFICATION, 

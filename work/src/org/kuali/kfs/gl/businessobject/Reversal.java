@@ -29,8 +29,8 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -75,7 +75,7 @@ public class Reversal extends PersistableBusinessObjectBase implements Transacti
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private ProjectCode project;
-    private DocumentType documentType;
+    private GeneralLedgerInputType generalLedgerInputType;
     private UniversityDate universityDate;
     private SystemOptions option;
     private AccountingPeriod accountingPeriod;
@@ -618,13 +618,13 @@ public class Reversal extends PersistableBusinessObjectBase implements Transacti
     public void setChart(Chart chart) {
         this.chart = chart;
     }
-
-    public DocumentType getDocumentType() {
-        return documentType;
+    
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
     public ObjectCode getFinancialObject() {

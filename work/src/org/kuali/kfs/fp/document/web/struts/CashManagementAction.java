@@ -48,8 +48,8 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -132,7 +132,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
     private CashManagementDocumentAuthorizer getDocumentAuthorizer() {
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(documentTypeName);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(documentTypeName);
 
         return (CashManagementDocumentAuthorizer) documentAuthorizer;
     }

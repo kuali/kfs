@@ -24,11 +24,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
-import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -105,10 +101,10 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
     @Override
     public List<ExtraButton> getExtraButtons() {
         List<ExtraButton> buttons = super.getExtraButtons();
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        final Set<String> documentActionsFromPresentationController = documentTypeService.getDocumentPresentationController(getDocument())
+        DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
+        final Set<String> documentActionsFromPresentationController = documentHelperService.getDocumentPresentationController(getDocument())
                 .getDocumentActions(getDocument());
-        final Set<String> documentActionsFromAuthorizer = documentTypeService.getDocumentAuthorizer(getDocument())
+        final Set<String> documentActionsFromAuthorizer = documentHelperService.getDocumentAuthorizer(getDocument())
                 .getDocumentActions(getDocument(), GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
         if (documentActionsFromAuthorizer.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
             buttons.add(generateErrorCorrectionButton());

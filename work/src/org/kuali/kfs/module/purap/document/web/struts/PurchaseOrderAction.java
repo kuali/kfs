@@ -59,7 +59,6 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedAddQuoteToVendorEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent;
-import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -76,8 +75,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1140,7 +1139,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // we only need to set the editing mode to displayRetransmitTab if it's not yet
         // in the editingMode.
         if (!kualiDocumentFormBase.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(po);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(po);
          // TODO this method is gone, fix for kim
 //            kualiDocumentFormBase.populateAuthorizationFields(documentAuthorizer);
         }

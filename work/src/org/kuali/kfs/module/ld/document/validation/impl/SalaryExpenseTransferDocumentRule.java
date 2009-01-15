@@ -43,10 +43,9 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -79,7 +78,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         boolean isAdmin = false;
         
-        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(expenseTransferDocument);        
+        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(expenseTransferDocument);        
         
         isAdmin = documentAuthorizer.isAuthorized(expenseTransferDocument, LaborConstants.LABOR_MODULE_CODE, 
                  LaborConstants.PermissionNames.OVERRIDE_TRANSFER_IMPACTING_EFFORT_CERTIFICATION, 

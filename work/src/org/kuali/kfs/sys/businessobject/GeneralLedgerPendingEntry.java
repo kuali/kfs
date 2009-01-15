@@ -34,7 +34,6 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -73,7 +72,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private boolean transactionEntryOffsetIndicator;
     private Date transactionEntryProcessedTs;
 
-    private DocumentType documentType;
+    private GeneralLedgerInputType generalLedgerInputType;
     private FinancialSystemDocumentHeader documentHeader;
 
     private SystemOptions option;
@@ -89,7 +88,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private OriginationCode originationCode;
     private ProjectCode project;
     private OriginationCode referenceOriginationCode;
-    private DocumentType referenceDocumentType;
+    private GeneralLedgerInputType referenceGeneralLedgerInputType;
     
     @Deprecated
     private transient AccountingPeriod accountingPeriod;
@@ -140,7 +139,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         transactionEntryOffsetIndicator = original.isTransactionEntryOffsetIndicator();
         transactionEntryProcessedTs = original.getTransactionEntryProcessedTs();
         
-        documentType = original.getDocumentType();
+        generalLedgerInputType = original.getGeneralLedgerInputType();
         documentHeader = original.getDocumentHeader();
 
         option = original.getOption();
@@ -155,15 +154,15 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         originationCode = original.getOriginationCode();
         project = original.getProject();
         referenceOriginationCode = original.getReferenceOriginationCode();
-        referenceDocumentType = original.getReferenceDocumentType();
+        referenceGeneralLedgerInputType = original.getReferenceGeneralLedgerInputType();
     }
 
-    public DocumentType getReferenceDocumentType() {
-        return referenceDocumentType;
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+        return referenceGeneralLedgerInputType;
     }
 
-    public void setReferenceDocumentType(DocumentType referenceDocumentType) {
-        this.referenceDocumentType = referenceDocumentType;
+    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
 
     public OriginationCode getReferenceOriginationCode() {
@@ -736,21 +735,19 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the documentType attribute.
-     * 
-     * @return Returns the documentType.
+     * Gets the generalLedgerInputType attribute. 
+     * @return Returns the generalLedgerInputType.
      */
-    public DocumentType getDocumentType() {
-        return documentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
     /**
-     * Sets the documentType attribute value.
-     * 
-     * @param documentType The documentType to set.
+     * Sets the generalLedgerInputType attribute value.
+     * @param generalLedgerInputType The generalLedgerInputType to set.
      */
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
     /**

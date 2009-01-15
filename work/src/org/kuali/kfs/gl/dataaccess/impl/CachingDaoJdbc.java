@@ -15,13 +15,8 @@
  */
 package org.kuali.kfs.gl.dataaccess.impl;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,14 +42,13 @@ import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.springframework.transaction.annotation.Transactional;
 
 //TODO is it right to extend this
 public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingDao {
@@ -71,7 +65,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     PreparedStatement subObjCdPreparedSelect;
     PreparedStatement a21SubAccountPreparedSelect;
     PreparedStatement projectCodePreparedSelect;
-    PreparedStatement documentTypePreparedSelect;
+    PreparedStatement generalLedgerInputTypePreparedSelect;
     PreparedStatement objectTypePreparedSelect;
     PreparedStatement balanceTypPreparedSelect;
     PreparedStatement chartPreparedSelect;
@@ -232,36 +226,38 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return originEntryChart;
     }
     
-    public DocumentType getReferenceDocumentType(OriginEntry originEntry) {
-        return getDocumentType(originEntry.getReferenceFinancialDocumentTypeCode());
+    public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry entry) {
+        return getGeneralLedgerInputType(entry.getFinancialDocumentTypeCode());
     }
-    public DocumentType getDocumentType(OriginEntry originEntry) {
-        return getDocumentType(originEntry.getFinancialDocumentTypeCode());
+
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry entry) {
+        return getGeneralLedgerInputType(entry.getReferenceFinancialDocumentTypeCode());
     }
-    public DocumentType getDocumentType(String financialDocumentTypeCode) {
-        DocumentType documentType = null;
-        String key = "KRNS_DOC_TYP_T:" + financialDocumentTypeCode;
+
+    public GeneralLedgerInputType getGeneralLedgerInputType(String generalLedgerInputTypeCode) {
+        GeneralLedgerInputType generalLedgerInputType = null;
+        String key = "GL_INPUT_TYP_T:" + generalLedgerInputTypeCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
-                documentType = (DocumentType) value;
+                generalLedgerInputType = (GeneralLedgerInputType) value;
             }
         } else {
             try {
-                documentTypePreparedSelect.setString(1, financialDocumentTypeCode);
-                ResultSet rs = documentTypePreparedSelect.executeQuery();
+                generalLedgerInputTypePreparedSelect.setString(1, generalLedgerInputTypeCode);
+                ResultSet rs = generalLedgerInputTypePreparedSelect.executeQuery();
                 if (rs.next()) {
-                    documentType = new DocumentType();
-                    documentType.setDocumentTypeCode(financialDocumentTypeCode);
-                    dataCache.put(key, documentType);
-                } else { LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); }
+                    generalLedgerInputType = new GeneralLedgerInputType();
+                    generalLedgerInputType.setInputTypeCode(generalLedgerInputTypeCode);
+                    dataCache.put(key, generalLedgerInputType);
+                } else { LOG.debug("GeneralLedgerInputType not found: " + key); dataCache.put(key, " "); }
                 if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
                 rs.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        return documentType;
+        return generalLedgerInputType;
     }
     
     public SystemOptions getOption(OriginEntry originEntry) {
@@ -972,7 +968,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 subObjCdPreparedSelect = connection.prepareStatement("select fin_subobj_actv_cd from ca_sub_object_cd_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ?");
                 a21SubAccountPreparedSelect = connection.prepareStatement("select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr from ca_a21_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
                 projectCodePreparedSelect = connection.prepareStatement("select proj_active_cd from ca_project_t where project_cd = ?");
-                documentTypePreparedSelect = connection.prepareStatement("select 1 from KRNS_DOC_TYP_T where doc_typ_cd = ?");
+                generalLedgerInputTypePreparedSelect = connection.prepareStatement("select 1 from GL_INPUT_TYP_T where doc_typ_cd = ?");
                 objectTypePreparedSelect = connection.prepareStatement("select fund_balance_cd, fin_objtyp_dbcr_cd, fin_obj_typ_icr_cd, ROW_ACTV_IND from ca_obj_type_t where fin_obj_typ_cd = ?");
                 balanceTypPreparedSelect = connection.prepareStatement("select fin_offst_gnrtn_cd, fin_baltyp_enc_cd, ROW_ACTV_IND from ca_balance_type_t where fin_balance_typ_cd = ?");
                 chartPreparedSelect = connection.prepareStatement("select fin_coa_active_cd, fin_cash_obj_cd, fin_ap_obj_cd, FND_BAL_OBJ_CD from ca_chart_t where fin_coa_cd = ?");

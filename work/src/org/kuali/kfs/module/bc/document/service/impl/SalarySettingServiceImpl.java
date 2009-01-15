@@ -53,15 +53,15 @@ import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -85,7 +85,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private BenefitsCalculationService benefitsCalculationService;
     private OptionsService optionsService;
     private LockService lockService;
-    private DocumentTypeService documentTypeService;
+    private DocumentHelperService documentHelperService;
     private DocumentService documentService;
     private BudgetConstructionProcessorService budgetConstructionProcessorService;
 
@@ -804,7 +804,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             throw new RuntimeException("Fail to retrieve budget document for doc id " + budgetConstructionHeader.getDocumentNumber());
         }
 
-        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) documentTypeService.getDocumentAuthorizer(document);
+        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
 
         boolean hasEditAccess = documentAuthorizer.isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId());
         appointmentFunding.setDisplayOnlyMode(!hasEditAccess);
@@ -1086,12 +1086,22 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * Sets the documentTypeService attribute value.
-     * 
-     * @param documentTypeService The documentTypeService to set.
+     * Gets the documentHelperService attribute. 
+     * @return Returns the documentHelperService.
      */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
+    public DocumentHelperService getDocumentHelperService() {
+        if (documentHelperService == null) {
+            documentHelperService = SpringContext.getBean(DocumentHelperService.class);
+        }
+        return documentHelperService;
+    }
+
+    /**
+     * Sets the documentHelperService attribute value.
+     * @param documentHelperService The documentHelperService to set.
+     */
+    public void setDocumentHelperService(DocumentHelperService documentHelperService) {
+        this.documentHelperService = documentHelperService;
     }
 
     /**

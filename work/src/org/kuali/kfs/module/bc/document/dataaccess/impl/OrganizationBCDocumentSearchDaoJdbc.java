@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 
 /**
  * This class...
@@ -30,7 +30,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
     private static String[] buildAccountManagerDelegateListTemplates = new String[3];
 
-    private DocumentTypeService documentTypeService;
+    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
 
     public OrganizationBCDocumentSearchDaoJdbc() {
 
@@ -248,8 +248,8 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      *      java.lang.Integer)
      */
     public int buildAccountManagerDelegateList(String principalName, Integer universityFiscalYear) {
-        String budgetDocumentType = documentTypeService.getDocumentTypeCodeByClass(BudgetConstructionDocument.class);
-        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, budgetDocumentType, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
+        String budgetGeneralLedgerInputType = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(BudgetConstructionDocument.class).getInputTypeCode();
+        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, budgetGeneralLedgerInputType, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
       
         // update level chart and org
         getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[1], principalName);
@@ -266,12 +266,19 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     }
 
     /**
-     * Sets the documentTypeService attribute value.
-     * 
-     * @param documentTypeService The documentTypeService to set.
+     * Gets the generalLedgerInputTypeService attribute. 
+     * @return Returns the generalLedgerInputTypeService.
      */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
+    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+        return generalLedgerInputTypeService;
+    }
+
+    /**
+     * Sets the generalLedgerInputTypeService attribute value.
+     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     */
+    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 
 }

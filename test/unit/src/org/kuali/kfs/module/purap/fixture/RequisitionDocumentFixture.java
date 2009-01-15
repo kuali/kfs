@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -23,7 +22,7 @@ import org.kuali.kfs.module.purap.fixture.TaxFixture.TaxTestCaseFixture;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum RequisitionDocumentFixture {
 

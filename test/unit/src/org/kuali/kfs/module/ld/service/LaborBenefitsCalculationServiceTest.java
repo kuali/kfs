@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants.TestConstants.BenefitsCalculationServiceImplTest;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * junit test for LaborBenefitsCalculationServiceImplTest

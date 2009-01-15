@@ -22,8 +22,9 @@ import javax.xml.xpath.XPathExpressionException;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -78,7 +79,7 @@ public class AccountingLineClassDeterminer {
      */
     public AccountingLineClassDeterminer(String documentTypeName) {
         try {
-            Class c = SpringContext.getBean(DocumentTypeService.class).getClassByName(documentTypeName);
+            Class c = SpringContext.getBean(DataDictionaryService.class).getValidDocumentClassByTypeName(documentTypeName);
             accountingDocument = getAccountingDocumentFromClass(c);
         }
         catch (InstantiationException e) {
@@ -104,7 +105,7 @@ public class AccountingLineClassDeterminer {
             throw new IllegalArgumentException("getSourceAccountingLineClassName method of KualiWorkflowUtils requires a documentTypeName String that corresponds to a class that implments AccountingDocument");
         }
         
-        String docTypeName = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(documentClass);
+        String docTypeName = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(documentClass).getInputTypeCode();
         return (AccountingDocument) documentClass.newInstance();
     }
     

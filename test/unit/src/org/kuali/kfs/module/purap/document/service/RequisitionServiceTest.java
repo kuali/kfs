@@ -25,7 +25,6 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Includes tests of the methods in RequisitionService.  For tests of isAutomaticPurchaseOrderAllowed,

@@ -28,8 +28,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -105,5 +105,5 @@ public interface Transaction {
 
     public SubObjectCode getFinancialSubObject();
 
-    public DocumentType getDocumentType();
+    public GeneralLedgerInputType getGeneralLedgerInputType();
 }

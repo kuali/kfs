@@ -57,8 +57,8 @@ import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -87,7 +87,7 @@ public class DepositWizardAction extends KualiAction {
 
         // check authorization manually, since the auth-check isn't inherited by this class
         String cmDocTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer cmDocAuthorizer = SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(cmDocTypeName);
+        DocumentAuthorizer cmDocAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(cmDocTypeName);
         Person luser = GlobalVariables.getUserSession().getPerson();
         cmDocAuthorizer.canInitiate(cmDocTypeName, luser);
 
@@ -568,7 +568,7 @@ public class DepositWizardAction extends KualiAction {
      *         documentId
      */
     private ActionForward returnToSender(String cmDocId) {
-        String cmDocTypeName = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
+        String cmDocTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
 
         Properties params = new Properties();
         params.setProperty("methodToCall", "docHandler");

@@ -312,7 +312,7 @@ function loadDocumentTypeInfo(documentTypeCodeFieldName, documentTypeNameFieldNa
 				setRecipientValue( documentTypeNameFieldName, wrapError( "doc type not found" ), true );
 			}
 		};
-		DocumentTypeService.getDocumentTypeByCode( documentTypeCode, dwrReply );
+		GeneralLedgerInputTypeService.getGeneralLedgerInputTypeByInputTypeCode( documentTypeCode, dwrReply );
     }
 }
 

@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.Guid;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
@@ -34,7 +31,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=false)
 

@@ -17,8 +17,6 @@ package org.kuali.kfs.fp.document.service;
 
 import java.util.List;
 
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
@@ -27,6 +25,8 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class tests the DisbursementVoucherTax service.

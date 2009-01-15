@@ -54,17 +54,16 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.DocumentType;
-import org.kuali.rice.kns.bo.DocumentTypeAttribute;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -98,7 +97,7 @@ public class ScrubberProcess {
 
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private DocumentTypeService documentTypeService;
+    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
     private OriginEntryService originEntryService;
     private OriginEntryLiteService originEntryLiteService;
     private OriginEntryGroupService originEntryGroupService;
@@ -157,10 +156,10 @@ public class ScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, DocumentTypeService documentTypeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, GeneralLedgerInputTypeService generalLedgerInputTypeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-        this.documentTypeService = documentTypeService;
+        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
         this.originEntryService = originEntryService;
         this.originEntryLiteService = originEntryLiteService;
         this.originEntryGroupService = originEntryGroupService;
@@ -1523,25 +1522,11 @@ public class ScrubberProcess {
 
         // do nothing if flexible offset is enabled and scrubber offset indicator of the document
         // type code is turned off in the document type table
-        String documentTypeCode = scrubbedEntry.getFinancialDocumentTypeCode();
-        DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
-        if (flexibleOffsetAccountService.getEnabled()) {
-            if (ObjectUtils.isNull(documentType.getDocumentTypeAttributes()) || (documentType.getDocumentTypeAttributes().isEmpty())) {
-                return true;
-            } else {
-                for (DocumentTypeAttribute attribute : documentType.getDocumentTypeAttributes()) {
-                    if (KFSConstants.DocumentTypeAttributes.TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY.equals(attribute.getKey())) {
-                        if (!KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE.equals(attribute.getValue())) {
-                            return true;
-                        }
-                        break;
-                    }
-                }
-            }
+        String generalLedgerInputTypeCode = scrubbedEntry.getFinancialDocumentTypeCode();
+        GeneralLedgerInputType generalLedgerInputType = generalLedgerInputTypeService.getGeneralLedgerInputTypeByInputTypeCode(generalLedgerInputTypeCode);
+        if ((!generalLedgerInputType.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled()) {
+            return true;
         }
-//        if ((!documentType.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled()) {
-//            return true;
-//        }
 
         // Create an offset
         OriginEntryFull offsetEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
@@ -1600,7 +1585,7 @@ public class ScrubberProcess {
         offsetEntry.setOrganizationDocumentNumber(null);
         offsetEntry.setOrganizationReferenceId(null);
         offsetEntry.setReferenceFinancialDocumentTypeCode(null);
-        offsetEntry.setReferenceDocumentType(null);
+        offsetEntry.setReferenceGeneralLedgerInputType(null);
         offsetEntry.setReferenceFinancialSystemOriginationCode(null);
         offsetEntry.setReferenceFinancialDocumentNumber(null);
         offsetEntry.setTransactionEncumbranceUpdateCode(null);

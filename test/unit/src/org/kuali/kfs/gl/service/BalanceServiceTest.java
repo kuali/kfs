@@ -17,7 +17,6 @@ package org.kuali.kfs.gl.service;
 
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -25,6 +24,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * various tests for BalanceService, especially as it supports Account business rules; using hardcoded SQL for bootstrapping

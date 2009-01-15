@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
@@ -68,9 +68,9 @@ public class CustomerCreditMemoDocumentForm extends FinancialSystemTransactional
         extraButtons.clear();
 
         CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument) getDocument();
-        DocumentTypeService docTypeService = SpringContext.getBean(DocumentTypeService.class);
+        DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);
         TransactionalDocumentPresentationController presoController = 
-                (TransactionalDocumentPresentationController) docTypeService.getDocumentPresentationController(creditMemoDoc);
+                (TransactionalDocumentPresentationController) docHelperService.getDocumentPresentationController(creditMemoDoc);
         Set<String> editModes = presoController.getEditModes(creditMemoDoc);
 
         //  special buttons for the first 'init' screen

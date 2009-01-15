@@ -298,7 +298,8 @@
 		</property>
 	</bean>
 
-	
+    <bean id="generalLedgerInputTypeService" class="org.kuali.kfs.sys.service.impl.GeneralLedgerInputTypeServiceImpl" />
+
 	<bean id="taxService" class="org.kuali.kfs.sys.service.impl.TaxServiceImpl">
 		<property name="taxRegionService">
 			<ref bean="taxRegionService" />
@@ -531,8 +532,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" /> 
 		</property>
-		<property name="documentTypeService">
-			<ref bean="documentTypeService" /> 
+		<property name="generalLedgerInputTypeService">
+			<ref bean="generalLedgerInputTypeService" /> 
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" /> 

@@ -22,19 +22,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.document.service.AssetTransferService;
-import org.kuali.kfs.module.cam.fixture.AssetTransferFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
 public class EquipmentLoanOrReturnDocumentTest extends KualiTestBase {

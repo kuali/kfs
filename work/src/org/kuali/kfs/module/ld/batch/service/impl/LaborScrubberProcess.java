@@ -54,10 +54,10 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -76,7 +76,7 @@ public class LaborScrubberProcess {
 
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private DocumentTypeService documentTypeService;
+    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -129,10 +129,10 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, DocumentTypeService documentTypeService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, GeneralLedgerInputTypeService generalLedgerInputTypeService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-        this.documentTypeService = documentTypeService;
+        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
         this.laborOriginEntryService = laborOriginEntryService;
         this.originEntryGroupService = originEntryGroupService;
         this.dateTimeService = dateTimeService;
@@ -753,7 +753,7 @@ public class LaborScrubberProcess {
         scrubbedEntry.setHrmsCompany(unscrubbedEntry.getHrmsCompany());
         scrubbedEntry.setSetid(unscrubbedEntry.getSetid());
         scrubbedEntry.setTransactionDateTimeStamp(unscrubbedEntry.getTransactionDateTimeStamp());
-        scrubbedEntry.setReferenceFinancialDocumentType(unscrubbedEntry.getReferenceFinancialDocumentType());
+        scrubbedEntry.setReferenceGeneralLedgerInputType(unscrubbedEntry.getReferenceGeneralLedgerInputType());
         scrubbedEntry.setReferenceFinancialSystemOrigination(unscrubbedEntry.getReferenceFinancialSystemOrigination());
         scrubbedEntry.setPayrollEndDateFiscalPeriod(unscrubbedEntry.getPayrollEndDateFiscalPeriod());
 

@@ -16,19 +16,13 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import java.math.BigDecimal;
-import java.util.List;
 
-import org.apache.commons.lang.enums.Enum;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionPostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegionRate;
 import org.kuali.kfs.sys.businessobject.TaxRegionState;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class TaxFixture {
 

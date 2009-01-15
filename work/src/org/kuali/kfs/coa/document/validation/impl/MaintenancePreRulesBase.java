@@ -23,7 +23,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PreRulesContinuationBase;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -34,7 +33,6 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
 
     private KualiConfigurationService configService;
     private AccountService accountService;
-    private DocumentTypeService documentTypeService;
 
     /**
      * Constructs a MaintenancePreRulesBase class and injects some services through setters
@@ -50,7 +48,6 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         // SpringContext, and configure the bean defs for spring.
         setAccountService(SpringContext.getBean(AccountService.class));
         setConfigService(SpringContext.getBean(KualiConfigurationService.class));
-        setDocumentTypeService(SpringContext.getBean(DocumentTypeService.class));
     }
 
     public void setAccountService(AccountService accountService) {
@@ -171,15 +168,6 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
 
     public KualiConfigurationService getConfigService() {
         return configService;
-    }
-
-
-    protected final DocumentTypeService getDocumentTypeService() {
-        return documentTypeService;
-    }
-
-    public final void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
     }
 
 }

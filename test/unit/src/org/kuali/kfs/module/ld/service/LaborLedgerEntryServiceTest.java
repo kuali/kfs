@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
 import org.kuali.kfs.module.ld.util.LedgerEntryForTesting;
@@ -32,6 +31,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 @ConfigureContext
 public class LaborLedgerEntryServiceTest extends KualiTestBase {

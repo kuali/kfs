@@ -19,10 +19,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceCustomerNumberValidationTest extends KualiTestBase {

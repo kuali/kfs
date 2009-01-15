@@ -20,15 +20,15 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
@@ -57,7 +57,7 @@ public class FinancialProcessingAccountingLineAuthorizer extends AccountingLineA
      */
     protected boolean salesTaxUnviewable(AccountingDocument document, AccountingLine line) {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String docTypeCode = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(document.getClass());
+        String docTypeCode = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(document.getClass()).getInputTypeCode();
         ParameterEvaluator docTypeEvaluator = parameterService.getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, FinancialProcessingAccountingLineAuthorizer.SALES_TAX_DOCUMENT_TYPES_PARAMETER_NAME, docTypeCode);
         if (!docTypeEvaluator.evaluationSucceeds()) return true;
         if (!StringUtils.isEmpty(line.getFinancialObjectCode()) && !StringUtils.isEmpty(line.getAccountNumber())) {

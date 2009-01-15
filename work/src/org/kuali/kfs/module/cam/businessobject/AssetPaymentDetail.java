@@ -7,9 +7,9 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -31,7 +31,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     // bo references    
     private AccountingPeriod financialDocumentPostingPeriod;
-    private DocumentType expenditureFinancialDocumentType;
+    private GeneralLedgerInputType expenditureGeneralLedgerInputType;
     private OriginationCode expenditureFinancialSystemOrigination;
 
 
@@ -168,13 +168,13 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
     }
 
-    public DocumentType getExpenditureFinancialDocumentType() {
-        return expenditureFinancialDocumentType;
+    public GeneralLedgerInputType getExpenditureGeneralLedgerInputType() {
+        return expenditureGeneralLedgerInputType;
     }
 
-    
-    public void setExpenditureFinancialDocumentType(DocumentType expenditureFinancialDocumentType) {
-        this.expenditureFinancialDocumentType = expenditureFinancialDocumentType;
+
+    public void setExpenditureGeneralLedgerInputType(GeneralLedgerInputType expenditureGeneralLedgerInputType) {
+        this.expenditureGeneralLedgerInputType = expenditureGeneralLedgerInputType;
     }
 
 

@@ -24,6 +24,11 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.document.validation.impl.ParameterRule;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.bo.ParameterDetailType;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
@@ -33,11 +38,6 @@ import org.kuali.rice.kns.datadictionary.HelpDefinition;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.document.validation.impl.ParameterRule;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.suite.AnnotationTestSuite;
-import org.kuali.kfs.sys.suite.PreCommitSuite;
 
 @ConfigureContext
 @AnnotationTestSuite(PreCommitSuite.class)

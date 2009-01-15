@@ -18,6 +18,8 @@ package org.kuali.kfs.integration.purap;
 import java.sql.Date;
 import java.util.List;
 
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+
 
 /**
  * Methods needed to interface with a Purchasing/Accounts Payable module
@@ -60,13 +62,13 @@ public interface PurchasingAccountsPayableModuleService {
     /**
      * This method...
      * 
-     * @param documentTypeCode
+     * @param generalLedgerInputType
      * @return
      */
-    public boolean isPurchasingBatchDocument(String documentTypeCode);
+    public boolean isPurchasingBatchDocument(String generalLedgerInputType);
 
-    public void handlePurchasingBatchCancels(String documentNumber, String documentTypeCode, boolean primaryCancel, boolean disbursedPayment);
+    public void handlePurchasingBatchCancels(String documentNumber, String generalLedgerInputType, boolean primaryCancel, boolean disbursedPayment);
 
-    public void handlePurchasingBatchPaids(String documentNumber, String documentTypeCode, Date processDate);
+    public void handlePurchasingBatchPaids(String documentNumber, String generalLedgerInputType, Date processDate);
 
 }

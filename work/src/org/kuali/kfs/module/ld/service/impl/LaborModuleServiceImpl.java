@@ -43,12 +43,12 @@ import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -129,7 +129,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
     public int countPendingSalaryExpenseTransfer(String emplid) {
-        String documentTypeCode = getDocumentTypeService().getDocumentTypeCodeByClass(SalaryExpenseTransferDocument.class);
+        String documentTypeCode = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(SalaryExpenseTransferDocument.class).getInputTypeCode();
 
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(KFSPropertyConstants.EMPLID, emplid);
@@ -287,12 +287,12 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * Gets the documentTypeService attribute.
+     * Gets the generalLedgerInputTypeService attribute.
      * 
-     * @return an implementation of the documentTypeService.
+     * @return an implementation of the generalLedgerInputTypeService.
      */
-    public DocumentTypeService getDocumentTypeService() {
-        return SpringContext.getBean(DocumentTypeService.class);
+    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+        return SpringContext.getBean(GeneralLedgerInputTypeService.class);
     }
 
     /**

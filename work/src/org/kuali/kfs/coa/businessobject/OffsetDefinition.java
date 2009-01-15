@@ -17,8 +17,8 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -38,7 +38,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private BalanceType financialBalanceType;
-    private DocumentType financialDocumentType;
+    private GeneralLedgerInputType generalLedgerInputType;
 
     /**
      * Default no-arg constructor.
@@ -218,18 +218,22 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @return Returns the financialDocumentType.
+     * Gets the generalLedgerInputType attribute.
+     * 
+     * @return Returns the generalLedgerInputType.
      */
-    public DocumentType getFinancialDocumentType() {
-        return financialDocumentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
     /**
-     * @param financialDocumentType The financialDocumentType to set.
+     * Sets the generalLedgerInputType attribute value.
+     * 
+     * @param generalLedgerInputType The generalLedgerInputType to set.
      * @deprecated
      */
-    public void setFinancialDocumentType(DocumentType financialDocumentType) {
-        this.financialDocumentType = financialDocumentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
     /**

@@ -17,9 +17,9 @@ package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
 
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public enum DeliveryRequiredDateFixture {
     DELIVERY_REQUIRED_EQUALS_CURRENT_DATE(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight()),

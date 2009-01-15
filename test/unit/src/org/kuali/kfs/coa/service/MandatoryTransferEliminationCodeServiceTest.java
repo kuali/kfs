@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.coa.service;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -23,6 +22,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.CrossSectionSuite;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class tests the MandatoryTransferEliminationCode service.

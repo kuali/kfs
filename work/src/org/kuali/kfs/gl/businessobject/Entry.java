@@ -30,10 +30,10 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -82,8 +82,8 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private ProjectCode project;
-    private DocumentType documentType;
-    private DocumentType referenceDocumentType;
+    private GeneralLedgerInputType generalLedgerInputType;
+    private GeneralLedgerInputType referenceGeneralLedgerInputType;
     private UniversityDate universityDate;
     private SystemOptions option;
     private AccountingPeriod accountingPeriod;
@@ -216,6 +216,24 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    /**
+     * Gets the generalLedgerInputType attribute. 
+     * 
+     * @return Returns the generalLedgerInputType.
+     */
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
+    }
+
+    /**
+     * Sets the generalLedgerInputType attribute value.
+     * 
+     * @param generalLedgerInputType The generalLedgerInputType to set.
+     */
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
     /**
@@ -700,14 +718,6 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
         this.chart = chart;
     }
 
-    public DocumentType getDocumentType() {
-        return documentType;
-    }
-
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
-    }
-
     public ObjectCode getFinancialObject() {
         return financialObject;
     }
@@ -812,20 +822,21 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     }
 
     /**
-     * Gets the referenceDocumentType attribute.
+     * Gets the referenceGeneralLedgerInputType attribute. 
      * 
-     * @return Returns the referenceDocumentType.
+     * @return Returns the referenceGeneralLedgerInputType.
      */
-    public DocumentType getReferenceDocumentType() {
-        return referenceDocumentType;
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+        return referenceGeneralLedgerInputType;
     }
 
     /**
-     * Sets the referenceDocumentType attribute value.
+     * Sets the referenceGeneralLedgerInputType attribute value.
      * 
-     * @param referenceDocumentType The referenceDocumentType to set.
+     * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
      */
-    public void setReferenceDocumentType(DocumentType referenceDocumentType) {
-        this.referenceDocumentType = referenceDocumentType;
+    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
+
 }

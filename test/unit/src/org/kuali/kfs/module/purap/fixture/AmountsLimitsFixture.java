@@ -19,13 +19,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.AmountsLimits;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum AmountsLimitsFixture {
     ZERO_AMOUNT_SMALL_LIMIT(AmountsLimits.ZERO, AmountsLimits.SMALL_POSITIVE_AMOUNT), SMALL_AMOUNT_SMALL_LIMIT(AmountsLimits.SMALL_POSITIVE_AMOUNT, AmountsLimits.SMALL_POSITIVE_AMOUNT), LARGE_AMOUNT_SMALL_LIMIT(AmountsLimits.LARGE_POSITIVE_AMOUNT, AmountsLimits.SMALL_POSITIVE_AMOUNT), ;

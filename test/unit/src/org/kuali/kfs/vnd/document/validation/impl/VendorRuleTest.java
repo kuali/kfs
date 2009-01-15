@@ -16,9 +16,9 @@
 package org.kuali.kfs.vnd.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+
 import java.util.List;
 
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -29,6 +29,7 @@ import org.kuali.kfs.vnd.fixture.VendorContractPurchaseOrderLimitAmountPresenceF
 import org.kuali.kfs.vnd.fixture.VendorRuleAddressStateZipFixture;
 import org.kuali.kfs.vnd.fixture.VendorRuleAddressTypeFixture;
 import org.kuali.kfs.vnd.fixture.VendorRuleFaxNumberFixture;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
  * This class should contain all tests of methods implementing Vendor rules. For this purpose, we need to set up the parts of a

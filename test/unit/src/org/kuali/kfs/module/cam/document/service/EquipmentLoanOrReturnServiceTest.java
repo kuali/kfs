@@ -21,8 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.impl.BusinessObjectServiceImpl;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.impl.EquipmentLoanOrReturnServiceImpl;
@@ -31,6 +29,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kns.service.impl.BusinessObjectServiceImpl;
+import org.kuali.rice.kns.util.DateUtils;
 
 public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
     private static final int THREE_DAYS_LATER = 3;

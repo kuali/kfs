@@ -335,8 +335,8 @@
 		<property name="systemInformationService">
 			<ref bean="systemInformationService" />
 		</property>
-	    <property name="documentTypeService">
-			<ref bean="documentTypeService" />
+	    <property name="generalLedgerInputTypeService">
+			<ref bean="generalLedgerInputTypeService" />
 		</property>
         <property name="chartService">
 			<ref bean="chartService" />
@@ -416,7 +416,6 @@
 	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.module.ar.document.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
 		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
 		<property name="documentService"><ref bean="documentService" /></property>
-	    <property name="documentTypeService"><ref bean="documentTypeService" /></property>
 		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
 		<property name="cashControlDocumentService"><ref bean="cashControlDocumentService" /></property>
 		<property name="kualiConfigurationService">

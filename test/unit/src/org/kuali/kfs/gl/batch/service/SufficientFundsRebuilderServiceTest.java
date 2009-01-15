@@ -19,8 +19,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.Guid;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
@@ -32,6 +30,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * Tests the SufficientFundsRebuilderService

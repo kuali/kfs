@@ -20,8 +20,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.kuali.rice.kns.service.ConfigurableDateService;
-import org.kuali.rice.kns.service.impl.ConfigurableDateTimeServiceImpl;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -29,6 +27,8 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.ConfigurableDateService;
+import org.kuali.rice.kns.service.impl.ConfigurableDateTimeServiceImpl;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceDueDateValidationTest extends KualiTestBase {

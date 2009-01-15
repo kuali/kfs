@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.web.TestDataGenerator;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -36,6 +33,9 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceService;
 
 /**
  * This class contains test cases that can be applied to methods in Account Status Current Funds class.

@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;

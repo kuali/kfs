@@ -34,11 +34,11 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -425,7 +425,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceTypeCode())) {
             accountingLine.refreshReferenceObject("referenceType");
-            DocumentType referenceType = accountingLine.getReferenceType();
+            GeneralLedgerInputType referenceType = accountingLine.getReferenceGeneralLedgerInputType();
             valid &= isValidReferenceTypeCode(referenceType, accountingLineEntry);
         }
         valid &= hasRequiredOverrides(accountingLine, accountingLine.getOverrideCode());
@@ -450,7 +450,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    private static boolean isValidReferenceTypeCode(DocumentType referenceType, BusinessObjectEntry accountingLineEntry) {
+    private static boolean isValidReferenceTypeCode(GeneralLedgerInputType referenceType, BusinessObjectEntry accountingLineEntry) {
         return checkExistence(referenceType, accountingLineEntry, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSPropertyConstants.REFERENCE_TYPE_CODE);
     }
     

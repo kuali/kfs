@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import java.math.BigDecimal;
-
 import org.apache.commons.lang.StringUtils;
 
 public class ElectronicInvoiceParserFixture {

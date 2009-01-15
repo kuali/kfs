@@ -20,9 +20,9 @@ import java.sql.Date;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocumentBase implements LedgerPostingDocument {
     static private transient DateTimeService dateTimeService;
     static private transient AccountingPeriodService accountingPeriodService;
-    static private transient DocumentTypeService documentTypeService;
+    static private transient GeneralLedgerInputTypeService generalLedgerInputTypeService;
        
     protected AccountingPeriod accountingPeriod;
     protected Integer postingYear;
@@ -133,18 +133,19 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
     }
     
     /**
-     * Returns the financial document type code for the given document, using the DocumentTypeService
+     * Returns the financial document type code for the given document, using the GeneralLedgerInputTypeService
      * @return the financial document type code for the given document
      */
     public String getFinancialDocumentTypeCode() {
-        return getDocumentTypeService().getDocumentTypeCodeByClass(this.getClass());
+        return getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(this.getClass()).getInputTypeCode();
     }
     
-    public static DocumentTypeService getDocumentTypeService() {
-        if ( documentTypeService == null ) {
-            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+
+    public static GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+        if ( generalLedgerInputTypeService == null ) {
+            generalLedgerInputTypeService = SpringContext.getBean(GeneralLedgerInputTypeService.class);
         }
-        return documentTypeService;
+        return generalLedgerInputTypeService;
     }
 
     public static DateTimeService getDateTimeService() {

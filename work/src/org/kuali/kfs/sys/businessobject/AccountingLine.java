@@ -26,7 +26,6 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.SalesTax;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -97,19 +96,18 @@ public interface AccountingLine extends PersistableBusinessObject, GeneralLedger
     public void setReferenceOrigin(OriginationCode referenceOrigin);
 
     /**
-     * This method returns the referenceType associated with the referenceTypeCode
-     * 
-     * @return referenceType
+     * Gets the referenceGeneralLedgerInputType attribute.
+     *  
+     * @return Returns the referenceGeneralLedgerInputType.
      */
-    public DocumentType getReferenceType();
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType();
 
     /**
-     * This method sets the referenceType, this is only to be used by OJB
+     * Sets the referenceGeneralLedgerInputType attribute value.
      * 
-     * @param referenceType
-     * @deprecated
+     * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
      */
-    public void setReferenceType(DocumentType referenceType);
+    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType);
 
     /**
      * @param organizationReferenceId The organizationReferenceId to set.

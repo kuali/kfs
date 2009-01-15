@@ -127,7 +127,6 @@
 				<value>dwr/interface/SubObjectCodeService.js</value>
 				<value>dwr/interface/ProjectCodeService.js</value>
 				<value>dwr/interface/OriginationCodeService.js</value>
-				<value>dwr/interface/DocumentTypeService.js</value>
 				<value>scripts/kfs/objectInfo.js</value>
 			</list>
 		</property>

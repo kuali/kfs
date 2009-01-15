@@ -46,6 +46,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -55,7 +56,6 @@ import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -506,7 +506,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         
         // Get handles to the services we need
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        GeneralLedgerInputTypeService generalLedgerInputTypeService = SpringContext.getBean(GeneralLedgerInputTypeService.class);
         BalanceTypService balanceTypeService = SpringContext.getBean(BalanceTypService.class);
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         SystemInformationService systemInformationService = SpringContext.getBean(SystemInformationService.class);
@@ -517,8 +517,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         
         // Document type codes
-        String cashControlDocumentTypeCode = documentTypeService.getDocumentTypeCodeByClass(CashControlDocument.class);
-        String paymentApplicationDocumentTypeCode = documentTypeService.getDocumentTypeCodeByClass(PaymentApplicationDocument.class); 
+        String cashControlDocumentTypeCode = generalLedgerInputTypeService.getGeneralLedgerInputTypeByDocumentClass(CashControlDocument.class).getInputTypeCode();
+        String paymentApplicationDocumentTypeCode = generalLedgerInputTypeService.getGeneralLedgerInputTypeByDocumentClass(PaymentApplicationDocument.class).getInputTypeCode(); 
         
         // The processing chart and org comes from the current user.
         // It will be the same as the chart and org on the cash control document if there is one.

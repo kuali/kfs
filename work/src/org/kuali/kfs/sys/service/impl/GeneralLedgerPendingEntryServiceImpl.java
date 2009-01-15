@@ -59,6 +59,7 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -66,7 +67,6 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.exception.ReferentialIntegrityException;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -457,7 +457,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @return whether the entry was populated successfully
      */
     public boolean populateBankOffsetGeneralLedgerPendingEntry(Bank bank, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName) {
-        bankOffsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(financialDocument.getClass()));
+        bankOffsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(financialDocument.getClass()).getInputTypeCode());
         bankOffsetEntry.setVersionNumber(1L);
         bankOffsetEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
         Timestamp transactionTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());

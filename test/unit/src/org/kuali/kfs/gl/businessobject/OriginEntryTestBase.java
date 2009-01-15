@@ -27,20 +27,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.ConfigurableDateService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.rice.kns.service.ConfigurableDateService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
 
 /**
  * OriginEntryTestBase...the uberpowerful base of a lot of GL tests.  Basically, this class provides

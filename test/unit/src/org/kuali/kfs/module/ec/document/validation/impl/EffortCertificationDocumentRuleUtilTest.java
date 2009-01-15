@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
@@ -35,6 +34,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * unit tests for the methods in EffortCertificationDocumentRuleUtil

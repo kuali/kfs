@@ -17,9 +17,7 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.sys.ConfigureContext;

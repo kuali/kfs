@@ -24,9 +24,9 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 
 /**
  * Default implementation of the <code>BankService</code> interface.
@@ -37,7 +37,7 @@ public class BankServiceImpl implements BankService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankServiceImpl.class);
     
     private BusinessObjectService businessObjectService;
-    private DocumentTypeService documentTypeService;
+    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
     private ParameterService parameterService;
 
     /**
@@ -54,7 +54,7 @@ public class BankServiceImpl implements BankService {
      * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.Class)
      */
     public Bank getDefaultBankByDocType(Class documentClass) {
-        String documentTypeCode = documentTypeService.getDocumentTypeCodeByClass(documentClass);
+        String documentTypeCode = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(documentClass).getInputTypeCode();
         if (StringUtils.isBlank(documentTypeCode)) {
             throw new RuntimeException("Document type not found for document class: " + documentClass.getName());
         }
@@ -95,12 +95,19 @@ public class BankServiceImpl implements BankService {
     }
 
     /**
-     * Sets the documentTypeService attribute value.
-     * 
-     * @param documentTypeService The documentTypeService to set.
+     * Gets the generalLedgerInputTypeService attribute. 
+     * @return Returns the generalLedgerInputTypeService.
      */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
+    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+        return generalLedgerInputTypeService;
+    }
+
+    /**
+     * Sets the generalLedgerInputTypeService attribute value.
+     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     */
+    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 
     /**

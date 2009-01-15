@@ -20,8 +20,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -35,14 +33,10 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.LookupDefinition;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 @AnnotationTestSuite(PreCommitSuite.class)
@@ -50,31 +44,6 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
     private DataDictionary dataDictionary;
-
-    public void testAllDataDictionaryDocumentTypesExistInDocumentTypeTable() throws Exception {
-        List<String> documentTypeCodes = new ArrayList<String>();
-        for (DocumentType type : (Collection<DocumentType>) SpringContext.getBean(BusinessObjectService.class).findAll(DocumentType.class)) {
-            documentTypeCodes.add(type.getDocumentTypeCode());
-        }
-        // Using HashSet since duplicate objects would otherwise be returned
-        HashSet<DocumentEntry> documentEntries = new HashSet(dataDictionary.getDocumentEntries().values());
-        List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
-        for (DocumentEntry documentEntry : documentEntries) {
-            String code = documentEntry.getDocumentTypeCode();
-            if (!documentTypeCodes.contains(code) && !"RUSR".equals(code) && code!=null) {//Rice documents sometimes have null doc types.
-                ddEntriesWithMissingTypes.add(code + " (" + documentEntry.getDocumentTypeName() + ")");
-            }
-            else {
-                documentTypeCodes.remove(code);
-            }
-        }
-        if (documentTypeCodes.size() > 0) {
-            System.err.print("superfluousTypesDefinedInDatabase: " + documentTypeCodes);
-        }
-
-        assertEquals("dataDictionaryDocumentTypesNotDefinedInDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
-
-    }
 
     public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
         List<String> workflowDocumentTypeNames = new ArrayList<String>();
@@ -157,27 +126,4 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
     }
     
-    public void testAllKFSDocumentNamesAgreeWithDataDictionaryLabel() throws Exception {
-        String errorString = "";
-        int badNameCount = 0;
-        for (DocumentEntry documentEntry : dataDictionary.getDocumentEntries().values()) {
-            String label = documentEntry.getLabel();
-            String docType = documentEntry.getDocumentTypeCode();
-            HashMap docFields = new HashMap();
-            docFields.put("documentTypeCode", docType);
-            DocumentType dt = ((DocumentType) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, docFields));
-            if ( dt != null ) {
-                String docName = dt.getDocumentName();
-                if (!label.equals(docName)){
-                    errorString = errorString+"Name for doc type "+docType+" of "+docName+" does not match label, "+label+".\n"; 
-                    badNameCount = badNameCount + 1;
-                }
-            } else {
-                // ignore - these will be caught by a different test
-//                errorString = errorString+"Unable to find document type for code: " + docType + " label: " + label + ".\n"; 
-//                badNameCount = badNameCount + 1;
-            }
-        }
-        assertEquals(badNameCount+" Doc Types exist with bad names: \n"+errorString, 0, badNameCount );   
-    }
 }

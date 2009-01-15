@@ -20,9 +20,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.sql.Date;
 import java.util.Calendar;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
@@ -33,6 +30,9 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
 public class PurapServiceTest extends KualiTestBase {

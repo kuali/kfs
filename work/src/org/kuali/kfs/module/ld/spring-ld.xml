@@ -215,8 +215,8 @@
 		<property name="flexibleOffsetAccountService">
 			<ref bean="flexibleOffsetAccountService" />
 		</property>
-		<property name="documentTypeService">
-			<ref bean="documentTypeService" />
+		<property name="generalLedgerInputTypeService">
+			<ref bean="generalLedgerInputTypeService" />
 		</property>
 		<property name="laborOriginEntryService">
 			<ref bean="laborOriginEntryService" />

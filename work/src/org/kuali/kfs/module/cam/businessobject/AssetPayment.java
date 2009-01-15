@@ -11,12 +11,12 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -68,7 +68,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private SubObjectCode financialSubObject;
     private ProjectCode project;
     private AccountingPeriod financialDocumentPostingPeriod;
-    private DocumentType documentType;
+    private GeneralLedgerInputType generalLedgerInputType;
     private DocumentHeader documentHeader;
     private OriginationCode financialSystemOrigination;
     private SystemOptions option;
@@ -1047,22 +1047,20 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the documentType attribute.
-     * 
-     * @return Returns the documentType.
+     * Gets the generalLedgerInputType attribute. 
+     * @return Returns the generalLedgerInputType.
      */
-    public DocumentType getDocumentType() {
-        return documentType;
+    public GeneralLedgerInputType getGeneralLedgerInputType() {
+        return generalLedgerInputType;
     }
 
     /**
-     * Sets the documentType attribute value.
-     * 
-     * @param documentType The documentType to set.
+     * Sets the generalLedgerInputType attribute value.
+     * @param generalLedgerInputType The generalLedgerInputType to set.
      * @deprecated
      */
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+        this.generalLedgerInputType = generalLedgerInputType;
     }
 
     /**

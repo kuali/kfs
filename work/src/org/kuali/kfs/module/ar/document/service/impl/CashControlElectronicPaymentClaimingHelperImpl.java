@@ -30,13 +30,15 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -45,7 +47,6 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
 
     private DataDictionaryService dataDictionaryService;
     private DocumentService documentService;
-    private DocumentTypeService documentTypeService;
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private CashControlDocumentService cashControlDocumentService;
     private KualiConfigurationService kualiConfigurationService;
@@ -152,7 +153,8 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentCode()
      */
     public String getDocumentCode() {
-        return dataDictionaryService.getDataDictionary().getDocumentEntry(documentTypeService.getClassByName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName()).getDocumentTypeCode();
+        DocumentEntry docEntry = getDataDictionaryService().getDataDictionary().getDocumentEntry(getDataDictionaryService().getValidDocumentClassByTypeName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName());
+        return SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(docEntry.getDocumentTypeName()).getInputTypeCode();
     }
 
     /**
@@ -168,7 +170,12 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentLabel()
      */
     public String getDocumentLabel() {
-        return dataDictionaryService.getDataDictionary().getDocumentEntry(documentTypeService.getClassByName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName()).getLabel();
+        try {
+            return KNSServiceLocator.getWorkflowInfoService().getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
+        }
     }
 
     /**
@@ -229,24 +236,6 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
-    }
-
-    /**
-     * This method gets document type service value
-     * 
-     * @return documentTypeService
-     */
-    public DocumentTypeService getDocumentTypeService() {
-        return documentTypeService;
-    }
-
-    /**
-     * This method sets documentTypeService value
-     * 
-     * @param documentTypeService
-     */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
     }
 
     /**

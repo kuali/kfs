@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
@@ -68,9 +68,9 @@ public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransact
         extraButtons.clear();
 
         CustomerInvoiceWriteoffDocument writeoffDoc = (CustomerInvoiceWriteoffDocument) getDocument();
-        DocumentTypeService docTypeService = SpringContext.getBean(DocumentTypeService.class);
+        DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
         TransactionalDocumentPresentationController presoController = 
-                (TransactionalDocumentPresentationController) docTypeService.getDocumentPresentationController(writeoffDoc);
+                (TransactionalDocumentPresentationController) documentHelperService.getDocumentPresentationController(writeoffDoc);
         Set<String> editModes = presoController.getEditModes(writeoffDoc);
 
         if (editModes.contains(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB)) {

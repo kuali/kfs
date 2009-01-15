@@ -46,8 +46,8 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
@@ -57,7 +57,7 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao {
 
-    private DocumentTypeService documentTypeService;
+    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
     private KualiModuleService kualiModuleService;
 
     /**
@@ -341,7 +341,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         // active BC account delegates are marked with the BC document type or the special "ALL" document type
         List docTypes = new ArrayList();
         docTypes.add(BCConstants.DOCUMENT_TYPE_CODE_ALL);
-        docTypes.add(documentTypeService.getDocumentTypeCodeByClass(BudgetConstructionDocument.class));
+        docTypes.add(getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(BudgetConstructionDocument.class).getInputTypeCode());
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
@@ -510,21 +510,28 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * Sets the documentTypeService attribute value.
-     * 
-     * @param documentTypeService The documentTypeService to set.
-     */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
-    }
-
-    /**
      * Sets the kualiModuleService attribute value.
      * 
      * @param kualiModuleService The kualiModuleService to set.
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+
+    /**
+     * Gets the generalLedgerInputTypeService attribute. 
+     * @return Returns the generalLedgerInputTypeService.
+     */
+    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+        return generalLedgerInputTypeService;
+    }
+
+    /**
+     * Sets the generalLedgerInputTypeService attribute value.
+     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     */
+    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 
 }

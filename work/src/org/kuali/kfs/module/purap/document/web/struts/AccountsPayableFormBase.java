@@ -30,11 +30,11 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -155,7 +155,6 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     public String getDisbursementInfoUrl() {
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
 
         String orgCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
         String subUnitCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
@@ -168,7 +167,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
         parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, getDocument().getDocumentNumber());
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeService.getDocumentTypeByName(getDocTypeName()).getDocumentTypeCode());
+        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(getDocTypeName()).getInputTypeCode());
         parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE, orgCode);
         parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE, subUnitCode);
 

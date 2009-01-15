@@ -18,11 +18,6 @@ package org.kuali.kfs.sys.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
@@ -42,8 +37,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.AccountingLineRule;
-
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * IsDebitTestUtils
@@ -192,7 +190,7 @@ public class IsDebitTestUtils {
     }
 
     /**
-     * @param documentTypeService
+     * @param dataDictionaryService
      * @param dataDicitionaryService
      * @param financialDocument
      * @param accountingLine
@@ -200,8 +198,8 @@ public class IsDebitTestUtils {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public static boolean isDebit(DocumentTypeService documentTypeService, DataDictionaryService dataDicitionaryService, AccountingDocument financialDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
-        String documentTypeName = documentTypeService.getDocumentTypeNameByClass(financialDocument.getClass());
+    public static boolean isDebit(DataDictionaryService dataDictionaryService, DataDictionaryService dataDicitionaryService, AccountingDocument financialDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
+        String documentTypeName = dataDictionaryService.getValidDocumentTypeNameByClass(financialDocument.getClass());
         AccountingLineRule rule = (AccountingLineRule) dataDicitionaryService.getDataDictionary().getDocumentEntry(documentTypeName).getBusinessRulesClass().newInstance();
 
         return financialDocument.isDebit(accountingLine);
@@ -209,7 +207,7 @@ public class IsDebitTestUtils {
 
 
     /**
-     * @param documentTypeService
+     * @param dataDictionaryService
      * @param dataDicitionaryService
      * @param financialDocument
      * @param accountingLine
@@ -217,10 +215,10 @@ public class IsDebitTestUtils {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public static boolean isDebitIllegalStateException(DocumentTypeService documentTypeService, DataDictionaryService dataDicitionaryService, AccountingDocument financialDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
+    public static boolean isDebitIllegalStateException(DataDictionaryService dataDictionaryService, DataDictionaryService dataDicitionaryService, AccountingDocument financialDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
         boolean failedAsExpected = false;
         try {
-            IsDebitTestUtils.isDebit(documentTypeService, dataDicitionaryService, financialDocument, accountingLine);
+            IsDebitTestUtils.isDebit(dataDictionaryService, dataDicitionaryService, financialDocument, accountingLine);
 
         }
         catch (IllegalStateException e) {
@@ -232,7 +230,7 @@ public class IsDebitTestUtils {
     }
 
     /**
-     * @param documentTypeService
+     * @param dataDictionaryService
      * @param dataDicitionaryService
      * @param financialDocument
      * @param accountingLine
@@ -240,10 +238,10 @@ public class IsDebitTestUtils {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public static boolean isErrorCorrectionIllegalStateException(DocumentTypeService documentTypeService, DataDictionaryService dataDicitionaryService, AccountingDocument financialDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
+    public static boolean isErrorCorrectionIllegalStateException(DataDictionaryService dataDictionaryService, DataDictionaryService dataDicitionaryService, AccountingDocument financialDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
         boolean failedAsExpected = false;
         try {
-            IsDebitTestUtils.isDebit(documentTypeService, dataDicitionaryService, financialDocument, accountingLine);
+            IsDebitTestUtils.isDebit(dataDictionaryService, dataDicitionaryService, financialDocument, accountingLine);
 
         }
         catch (IllegalStateException e) {

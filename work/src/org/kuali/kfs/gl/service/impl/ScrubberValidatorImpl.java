@@ -40,13 +40,12 @@ import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.service.ScrubberValidator;
-import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.batch.LaborScrubberStep;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -57,7 +56,6 @@ import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
@@ -661,9 +659,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateDocumentType(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateDocumentType() started");
 
-        DocumentType originEntryDocumentType = referenceLookup.get().getDocumentType(originEntry);
+        GeneralLedgerInputType originEntryInputType = referenceLookup.get().getGeneralLedgerInputType(originEntry);
 //DocumentType originEntryDocumentType = getDocumentType(originEntry.getFinancialDocumentTypeCode());
-        if (originEntryDocumentType == null) {
+        if (originEntryInputType == null) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, originEntry.getFinancialDocumentTypeCode(), Message.TYPE_FATAL);
         }
 
@@ -1017,13 +1015,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 errors.add(MessageBuilder.buildMessage(KFSKeyConstants.ERROR_REF_DOC_NOT_BE_SPACE, Message.TYPE_FATAL));
             }
         }
-        else {
+         else {
             workingEntry.setReferenceFinancialDocumentNumber(originEntry.getReferenceFinancialDocumentNumber());
 
             if (!typeCodeNullIndicator){
                 // Validate reference document type
-                DocumentType originEntryReferenceDocumentType = referenceLookup.get().getReferenceDocumentType(originEntry);
-                if (originEntryReferenceDocumentType != null) {
+                GeneralLedgerInputType originEntryReferenceInputType = referenceLookup.get().getReferenceGeneralLedgerInputType(originEntry);
+                if (originEntryReferenceInputType != null) {
                     workingEntry.setReferenceFinancialDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
                 }
                 else {

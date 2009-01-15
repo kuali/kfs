@@ -36,7 +36,6 @@ import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -86,7 +85,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private ProjectCode project;
     private BalanceType balanceTyp;
     private OriginationCode referenceOrigin;
-    private DocumentType referenceType;
+    private GeneralLedgerInputType referenceGeneralLedgerInputType;
     private SalesTax salesTax;
 
     /**
@@ -223,22 +222,20 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * This method returns the referenceType associated with the referenceTypeCode
-     * 
-     * @return referenceType
+     * Gets the referenceGeneralLedgerInputType attribute. 
+     * @return Returns the referenceGeneralLedgerInputType.
      */
-    public DocumentType getReferenceType() {
-        return referenceType;
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+        return referenceGeneralLedgerInputType;
     }
 
+
     /**
-     * This method sets the referenceType, this is only to be used by OJB
-     * 
-     * @param referenceType
-     * @deprecated
+     * Sets the referenceGeneralLedgerInputType attribute value.
+     * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
      */
-    public void setReferenceType(DocumentType referenceType) {
-        this.referenceType = referenceType;
+    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
 
 

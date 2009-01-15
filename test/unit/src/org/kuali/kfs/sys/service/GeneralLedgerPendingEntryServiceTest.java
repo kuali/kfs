@@ -17,13 +17,13 @@ package org.kuali.kfs.sys.service;
 
 import java.util.Iterator;
 
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class tests the GeneralLedgerPending service.

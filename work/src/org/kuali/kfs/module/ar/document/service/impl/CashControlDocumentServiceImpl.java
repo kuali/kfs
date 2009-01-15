@@ -34,9 +34,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -44,7 +45,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -56,7 +56,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     private GeneralLedgerPendingEntryService glpeService;
     private OptionsService optionsService;
     private SystemInformationService systemInformationService;
-    private DocumentTypeService documentTypeService;
+    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
     private ChartService chartService;
     private UniversityDateService universityDateService;
 
@@ -161,9 +161,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // build an accounting line that will be used to create the glpe
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // get document type for the glpes
-        String documentType = documentTypeService.getDocumentTypeCodeByClass(CashReceiptDocument.class);
+        String generalLedgerInputType = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(CashReceiptDocument.class).getInputTypeCode();
         // create and add the new explicit entry based on this accounting line
-        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
+        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, generalLedgerInputType);
         // create and add the offset entry
         success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
@@ -205,16 +205,16 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // build dummy accounting line for gl population
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // get document type for the glpes
-        String documentType = documentTypeService.getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class);
+        String generalLedgerInputType = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(DistributionOfIncomeAndExpenseDocument.class).getInputTypeCode();
         // create and add the new explicit entry based on this accounting line
-        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
+        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, generalLedgerInputType);
         // create and add the offset entry
         success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
         // build dummy accounting line for gl creation
         accountingLine = buildAccountingLine(systemInformation.getWireAccountNumber(), systemInformation.getWireSubAccountNumber(), systemInformation.getWireObjectCode(), systemInformation.getWireSubObjectCode(), systemInformation.getWireChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // create and add the new explicit entry based on this accounting line
-        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
+        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, generalLedgerInputType);
         // create and add the offset entry
         success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
@@ -255,14 +255,14 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // build dummy accounting line for gl creation
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getCreditCardObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
         //get document type for the glpes
-        String documentType = documentTypeService.getDocumentTypeCodeByClass(GeneralErrorCorrectionDocument.class);
+        String generalLedgerInputType = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(GeneralErrorCorrectionDocument.class).getInputTypeCode();
         // create and add the new explicit entry based on this accounting line
-        createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
+        createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, generalLedgerInputType);
 
         // build dummy accounting line for gl creation
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // create and add the new explicit entry based on this accounting line
-        createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
+        createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, generalLedgerInputType);
 
         return success;
     }
@@ -410,19 +410,19 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * This method gets the document type service
-     * @return
+     * Gets the generalLedgerInputTypeService attribute. 
+     * @return Returns the generalLedgerInputTypeService.
      */
-    public DocumentTypeService getDocumentTypeService() {
-        return documentTypeService;
+    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+        return generalLedgerInputTypeService;
     }
 
     /**
-     * This method sets the document type service
-     * @param documentTypeService
+     * Sets the generalLedgerInputTypeService attribute value.
+     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
      */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
+    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 
     /**

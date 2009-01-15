@@ -57,8 +57,8 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -1594,7 +1594,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @return true if user would have edit permission, false otherwise
      */
     protected boolean hasEditPermission(BudgetConstructionDocument document, String orgLevelCode, Person user) {
-        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentTypeService.class).getDocumentAuthorizer(document);
+        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
 
         AttributeSet roleQualifiers = new AttributeSet();
         roleQualifiers.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, orgLevelCode);

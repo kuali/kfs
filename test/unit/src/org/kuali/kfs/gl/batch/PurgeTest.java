@@ -20,13 +20,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.Guid;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * Tests the PurgeStep

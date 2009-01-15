@@ -21,9 +21,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.workflow.FinancialSystemPropertySerializabilityEvaluator;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -32,10 +30,8 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.datadictionary.WorkflowProperties;
 import org.kuali.rice.kns.document.TransactionalDocumentBase;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.documentserializer.AlwaysFalsePropertySerializabilityEvaluator;
 import org.kuali.rice.kns.util.documentserializer.AlwaysTruePropertySerializibilityEvaluator;
@@ -141,9 +137,9 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
      */
     public void toErrorCorrection() throws WorkflowException, IllegalStateException {
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        final Set<String> documentActionsFromPresentationController = documentTypeService.getDocumentPresentationController(this).getDocumentActions(this);
-        final Set<String> documentActionsFromAuthorizer = documentTypeService.getDocumentAuthorizer(this).getDocumentActions(this, GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
+        DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
+        final Set<String> documentActionsFromPresentationController = documentHelperService.getDocumentPresentationController(this).getDocumentActions(this);
+        final Set<String> documentActionsFromAuthorizer = documentHelperService.getDocumentAuthorizer(this).getDocumentActions(this, GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
         if (!documentActionsFromAuthorizer.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
             throw new IllegalStateException(this.getClass().getName() + " does not support document-level error correction");
         }

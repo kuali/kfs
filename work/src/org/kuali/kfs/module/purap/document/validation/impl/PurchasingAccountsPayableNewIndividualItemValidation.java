@@ -27,12 +27,12 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -55,7 +55,16 @@ public class PurchasingAccountsPayableNewIndividualItemValidation extends Generi
         }
         return success;
     }
-    
+
+    protected String getDocumentTypeLabel(String documentTypeName) {
+        try {
+            return KNSServiceLocator.getWorkflowInfoService().getDocType(documentTypeName).getDocTypeLabel();
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
+        }
+    }
+
     /**
      * Performs validations for below the line items. If the unit price is zero, and the system parameter indicates that the item
      * should not allow zero, then the validation fails. If the unit price is positive and the system parameter indicates that the

@@ -234,7 +234,7 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-referenceTypeCode" parent="LaborJournalVoucherDetail-referenceTypeCode-parentBean" />
 
-  <bean id="LaborJournalVoucherDetail-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="LaborJournalVoucherDetail-referenceTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

@@ -17,8 +17,6 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
-
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;

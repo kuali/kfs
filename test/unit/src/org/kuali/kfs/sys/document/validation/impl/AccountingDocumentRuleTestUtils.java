@@ -21,10 +21,6 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertSparselyEqualBean;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.RouteDocumentRule;
-import org.kuali.rice.kns.rule.SaveDocumentRule;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -35,6 +31,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
 import org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.RouteDocumentRule;
+import org.kuali.rice.kns.rule.SaveDocumentRule;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
 

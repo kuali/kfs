@@ -217,7 +217,7 @@
   </bean>
   <bean id="ProcurementCardTargetAccountingLine-referenceTypeCode" parent="ProcurementCardTargetAccountingLine-referenceTypeCode-parentBean" />
 
-  <bean id="ProcurementCardTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  <bean id="ProcurementCardTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

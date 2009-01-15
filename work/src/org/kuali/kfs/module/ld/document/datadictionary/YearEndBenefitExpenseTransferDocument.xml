@@ -19,8 +19,8 @@
     <property name="documentTypeCode" value="YEBT" />
     <property name="sessionDocument" value="true" />    
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="YearEndBenefitExpenseTransferDocument-workflowProperties" />
+    <property name="workflowAttributes" >
+      <ref bean="YearEndBenefitExpenseTransferDocument-workflowAttributes" />
     </property>
     <property name="validationMap" ref="YearEndBenefitExpenseTransferDocument-validations" />
     <property name="accountingLineGroups">
@@ -38,33 +38,11 @@
     
   </bean>
 
-<!-- Exported Workflow Properties -->
+<!-- Exported Workflow Attributes -->
+ <bean id="YearEndBenefitExpenseTransferDocument-workflowAttributes" parent="YearEndBenefitExpenseTransferDocument-workflowAttributes-parentBean" />
+  
+ <bean id="YearEndBenefitExpenseTransferDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 
-
-  <bean id="YearEndBenefitExpenseTransferDocument-workflowProperties" parent="YearEndBenefitExpenseTransferDocument-workflowProperties-parentBean" />
-
-  <bean id="YearEndBenefitExpenseTransferDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines" />
-              <bean parent="WorkflowProperty"
-                    p:path="sourceAccountingLines.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="targetAccountingLines.account" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
 
   <!-- Validations -->
   

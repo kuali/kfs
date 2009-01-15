@@ -57,7 +57,10 @@ public class ChartManagerRoleTest extends KualiTestBase {
             
             for ( RoleMembershipInfo rmi : chartManagers ) {
                 Person chartManager = SpringContext.getBean(PersonService.class).getPerson( rmi.getMemberId() );
+                System.out.println( chartManager );                
                 assertNotNull( "unable to retrieve person object for principalId: " + rmi.getMemberId(), chartManager );
+                assertFalse( "name should not have been blank", chartManager.getName().equals("") );
+                assertFalse( "campus code should not have been blank", chartManager.getCampusCode().equals("") );
             }
         }
     }

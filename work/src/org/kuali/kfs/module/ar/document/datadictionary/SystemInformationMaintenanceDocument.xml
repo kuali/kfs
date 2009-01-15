@@ -95,20 +95,7 @@
     <property name="description" value="Document used to create or update System Information" />
     <property name="documentTypeName" value="SystemInformationMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.SystemInformationRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ARSI" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="workflowAttributes">
     	<ref bean="SystemInformationMaintenanceDocument-workflowAttributes" />
     </property>

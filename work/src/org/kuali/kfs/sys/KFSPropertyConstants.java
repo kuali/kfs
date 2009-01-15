@@ -20,6 +20,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 
@@ -953,15 +954,14 @@ public class KFSPropertyConstants {
     public static final String PERSON_APPROVAL_CHART_OF_ACCT_CD = "personApprovalChartOfAcctCd";
     public static final String PERSON_APPROVAL_RC = "personApprovalRc";
     public static final String PERSON_APPROVAL_RC_CODE = "personApprovalRcCode";
-    public static final String PERSON_BASE_SALARY_AMOUNT = KNSPropertyConstants.PERSON_BASE_SALARY_AMOUNT;
-    public static final String PERSON_CAMPUS_ADDRESS = KNSPropertyConstants.PERSON_CAMPUS_ADDRESS;
-    public static final String PERSON_EMAIL_ADDRESS = KNSPropertyConstants.PERSON_EMAIL_ADDRESS;
-    public static final String PERSON_FIRST_NAME = KNSPropertyConstants.PERSON_FIRST_NAME;
+    public static final String PERSON_BASE_SALARY_AMOUNT = KIMPropertyConstants.Person.BASE_SALARY_AMOUNT;
+    public static final String PERSON_EMAIL_ADDRESS = KNSPropertyConstants.EMAIL_ADDRESS;
+    public static final String PERSON_FIRST_NAME = KIMPropertyConstants.Person.FIRST_NAME;
     public static final String PERSON_FROM_LIST = "personFromList";
     public static final String PERSON_IN_FINANCIAL_PROCESS_CODE = "personInFinancialProcessCode";
-    public static final String PERSON_LAST_NAME = KNSPropertyConstants.PERSON_LAST_NAME;
-    public static final String PERSON_LOCAL_PHONE_NUMBER = KNSPropertyConstants.PERSON_LOCAL_PHONE_NUMBER;
-    public static final String PERSON_NAME = KNSPropertyConstants.PERSON_NAME;
+    public static final String PERSON_LAST_NAME = KIMPropertyConstants.Person.LAST_NAME;
+    public static final String PERSON_LOCAL_PHONE_NUMBER = KIMPropertyConstants.Person.PHONE_NUMBER;
+    public static final String PERSON_NAME = KIMPropertyConstants.Person.NAME;
     public static final String PERSON_NAME_PREFIX_TEXT = "personNamePrefixText";
     public static final String PERSON_NAME_SUFFIX_TEXT = "personNameSuffixText";
     public static final String PERSON_ORIGINATION = "personOrigination";
@@ -974,10 +974,10 @@ public class KFSPropertyConstants {
     public static final String PERSON_SECRETARIAL_CLERICAL_INDICATOR = "personSecretarialClericalIndicator";
     public static final String PERSON_SENIOR_KEY_INDICATOR = "personSeniorKeyIndicator";
     public static final String PERSON_SOCIAL_SECURITY_NBR_ID = "personSocialSecurityNbrId";
-    public static final String PERSON_UNIVERSAL_IDENTIFIER = KNSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER;
+    public static final String PERSON_UNIVERSAL_IDENTIFIER = KIMPropertyConstants.Person.PRINCIPAL_ID;
     public static final String PERSON_UPDATE_ABILITY_CODE = "personUpdateAbilityCode";
     public static final String PERSON_UPDATE_ABILITY_NUMBER = "personUpdateAbilityNumber";
-    public static final String PERSON_USER_ID = KNSPropertyConstants.PERSON_USER_IDENTIFIER;
+    public static final String PERSON_USER_ID = KIMPropertyConstants.Person.PRINCIPAL_NAME;
     public static final String PERSON_USER_IDENTIFIER = "principalName";
     public static final String PERSON_WEEKS_AMOUNT = "personWeeksAmount";
     public static final String PERSON_WEEKS_JUSTIFICATION_TEXT = "personWeeksJustificationText";

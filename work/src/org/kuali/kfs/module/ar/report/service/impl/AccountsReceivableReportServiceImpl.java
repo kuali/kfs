@@ -54,6 +54,7 @@ import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoReportDataHolder;
 import org.kuali.kfs.module.ar.report.util.CustomerInvoiceReportDataHolder;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementDetailReportDataHolder;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementReportDataHolder;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -191,8 +192,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         List<CustomerCreditMemoDetailReportDataHolder> details = new ArrayList<CustomerCreditMemoDetailReportDataHolder>();
         CustomerCreditMemoDetailReportDataHolder detailDataHolder;
         for (CustomerCreditMemoDetail detail : detailsList) {
-            detailDataHolder = new CustomerCreditMemoDetailReportDataHolder(detail, detail.getCustomerInvoiceDetail());
-            details.add(detailDataHolder);
+//            if(detail.getCreditMemoLineTotalAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                detailDataHolder = new CustomerCreditMemoDetailReportDataHolder(detail, detail.getCustomerInvoiceDetail());
+                details.add(detailDataHolder);
+//            }
         }
 
         reportDataHolder.setDetails(details);
@@ -528,16 +531,17 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
         List<File> reports = new ArrayList<File>();
         for (CustomerInvoiceDocument invoice : invoices) {
-            if (invoice.isOpenInvoiceIndicator()) {
-                Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
-                for (CustomerCreditMemoDocument doc : creditMemos) {
-                    doc.populateCustomerCreditMemoDetailsAfterLoad();
-                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+            if(invoice.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
+                if (invoice.isOpenInvoiceIndicator()) {
+                    Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+                    for (CustomerCreditMemoDocument doc : creditMemos) {
+                        doc.populateCustomerCreditMemoDetailsAfterLoad();
+                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+                        details.add(detail);
+                    }
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
                     details.add(detail);
                 }
-                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
-                details.add(detail);
-
             }
             reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
             details.clear();
@@ -561,16 +565,17 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         List<File> reports = new ArrayList<File>();
 
         for (CustomerInvoiceDocument invoice : invoiceList) {
-            if (invoice.isOpenInvoiceIndicator()) {
-                Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
-                for (CustomerCreditMemoDocument doc : creditMemos) {
-                    doc.populateCustomerCreditMemoDetailsAfterLoad();
-                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+            if(invoice.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
+                if (invoice.isOpenInvoiceIndicator()) {
+                    Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+                    for (CustomerCreditMemoDocument doc : creditMemos) {
+                        doc.populateCustomerCreditMemoDetailsAfterLoad();
+                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+                        details.add(detail);
+                    }
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
                     details.add(detail);
                 }
-                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
-                details.add(detail);
-
             }
             reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
             details.clear();
@@ -595,18 +600,20 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         List<File> reports = new ArrayList<File>();
         for (CustomerInvoiceDocument invoice : invoiceList) {
-            if (invoice.isOpenInvoiceIndicator()) {
-                Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
-                for (CustomerCreditMemoDocument doc : creditMemos) {
-                    doc.populateCustomerCreditMemoDetailsAfterLoad();
-                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+            if(invoice.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
+                if (invoice.isOpenInvoiceIndicator()) {
+                    Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+                    for (CustomerCreditMemoDocument doc : creditMemos) {
+                        doc.populateCustomerCreditMemoDetailsAfterLoad();
+                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+                        details.add(detail);
+                    }
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
                     details.add(detail);
                 }
-                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
-                details.add(detail);
+                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
+                details.clear();
             }
-            reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
-            details.clear();
         }
         return reports;
     }

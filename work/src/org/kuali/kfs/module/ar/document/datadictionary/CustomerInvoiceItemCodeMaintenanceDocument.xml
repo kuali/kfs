@@ -60,6 +60,8 @@
     <property name="description" value="Document used to create or update Invoice Item Codes" />
     <property name="documentTypeName" value="CustomerInvoiceItemCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceItemCodeRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceItemCodeAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceItemCodePresentationController" />
     <property name="documentTypeCode" value="IICO" />
     <property name="workflowAttributes">
     	<ref bean="CustomerInvoiceItemCodeMaintenanceDocument-workflowAttributes" />

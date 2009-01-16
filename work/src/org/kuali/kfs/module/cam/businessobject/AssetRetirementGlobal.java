@@ -276,14 +276,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @param mergedTargetCapitalAssetNumber The mergedTargetCapitalAssetNumber to set.
      */
     public void setMergedTargetCapitalAssetNumber(Long mergedTargetCapitalAssetNumber) {
-        if (StringUtils.isBlank(this.mergedTargetCapitalAssetDescription)) {
-            Asset asset = new Asset();
-            asset.setCapitalAssetNumber(mergedTargetCapitalAssetNumber);
-            asset = (Asset) SpringContext.getBean(BusinessObjectService.class).retrieve(asset);
-            if (ObjectUtils.isNotNull(asset)) {
-                setMergedTargetCapitalAssetDescription(asset.getCapitalAssetDescription());
-            }
-        }
         this.mergedTargetCapitalAssetNumber = mergedTargetCapitalAssetNumber;
     }
 

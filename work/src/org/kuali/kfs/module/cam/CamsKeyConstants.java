@@ -36,7 +36,9 @@ public class CamsKeyConstants {
 
     public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
     public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";    
-    public static final String ERROR_ASSET_RETIRED_NOEDIT = "error.asset.retired.noedit";
+    public static final String ERROR_ASSET_RETIRED_CAPITAL = "error.asset.retired.capital";
+    public static final String ERROR_ASSET_RETIRED_NON_CAPITAL_ACTIVE = "error.asset.retired.non.capital.active";
+    public static final String ERROR_ASSET_RETIRED_ACT_NON_CAPITAL_2003 = "error.asset.retired.act.non.capital.2003";
     public static final String ERROR_FABRICATION_ESTIMATED_TOTAL_AMOUNT_REQUIRED = "error.asset.fabrication.totalAmount.required";
     public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED = "error.asset.fabrication.completionDate.required";
     public static final String ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED = "error.asset.fabrication.lifeLimit.required";

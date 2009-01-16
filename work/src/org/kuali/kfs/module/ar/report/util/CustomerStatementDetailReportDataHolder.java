@@ -25,12 +25,14 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class CustomerStatementDetailReportDataHolder {
     
     private String documentNumber;
     private Date documentFinalDate;
+    private String documentFinalDateString;
     private String documentDescription;
     private KualiDecimal financialDocumentTotalAmountCharge;
     private KualiDecimal financialDocumentTotalAmountCredit;
@@ -47,7 +49,7 @@ public class CustomerStatementDetailReportDataHolder {
            financialDocumentTotalAmountCharge = docHeader.getFinancialDocumentTotalAmount();
        }
        documentNumber = docHeader.getDocumentNumber();
-       documentFinalDate = docHeader.getDocumentFinalDate();
+       this.setDocumentFinalDate(docHeader.getDocumentFinalDate());
        this.docType = docType;
        orgName = processingOrg.getOrganizationName();
        
@@ -88,11 +90,21 @@ public class CustomerStatementDetailReportDataHolder {
     }
 
     /**
+     * 
+     * This method formats the date value into a string that can then be used
+     * @return
+     */
+    public String getDocumentFinalDateString() {
+        return documentFinalDateString;
+    }
+
+    /**
      * Sets the documentFinalDate attribute value.
      * @param documentFinalDate The documentFinalDate to set.
      */
     public void setDocumentFinalDate(Date documentFinalDate) {
         this.documentFinalDate = documentFinalDate;
+        this.documentFinalDateString = SpringContext.getBean(DateTimeService.class).toDateString(documentFinalDate);
     }
 
     /**

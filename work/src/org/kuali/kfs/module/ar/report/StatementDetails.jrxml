@@ -50,6 +50,7 @@
 	<field name="documentDescription" class="java.lang.String"/>
 	<field name="financialDocumentTotalAmountCredit" class="org.kuali.rice.kns.util.KualiDecimal"/>
 	<field name="financialDocumentTotalAmountCharge" class="org.kuali.rice.kns.util.KualiDecimal"/>
+	<field name="documentFinalDateString" class="java.lang.String"/>
 
 
 		<group  name="details" minHeightToStartNewPage="265" >
@@ -211,7 +212,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
 					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{documentFinalDate}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{documentFinalDateString}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

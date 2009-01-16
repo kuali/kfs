@@ -4,6 +4,7 @@
 <documentType>
 <name>AssetGlobalMaintenanceDocument</name>
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<label>Asset Global</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>

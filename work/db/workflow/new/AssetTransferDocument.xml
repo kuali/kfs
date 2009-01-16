@@ -4,6 +4,7 @@
 <documentType>
 <name>AssetTransferDocument</name>
 <parent>CapitalAssetManagementTransactionalDocument</parent>
+<label>Asset Transfer</label>
 <docHandler>${application.url}/camsAssetTransfer.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

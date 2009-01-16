@@ -136,7 +136,7 @@
     	</property>
   </bean>
   
-    <bean id="DocumentValuePathGroup-AssetLocationGlobalMaintenanceDocument-OrganizationHierarchy-assetLocationGlobalDetails" parent="DocumentValuePathGroup-CapitalAssetManagementDocument-documentType">
+    <bean id="DocumentValuePathGroup-AssetLocationGlobalMaintenanceDocument-OrganizationHierarchy-assetLocationGlobalDetails" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AssetDetail-chartAndOrgCode">
     			<property name="collectionPath" value="newMaintainableObject.businessObject.assetLocationGlobalDetails" />

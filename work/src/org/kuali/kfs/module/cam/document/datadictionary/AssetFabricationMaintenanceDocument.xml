@@ -57,7 +57,7 @@
     			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     				<property name="documentValues">
 	    				<list>
-	    					<value>newMaintainableObject.businessObject.organizationOwnerChartOfAccountsCode</value>
+	    					<value>newMaintainableObject.businessObject.organizationOwnerAccount.organization.organizationPhysicalCampus.campusCode</value>
 	    					<value>newMaintainableObject.businessObject.organizationOwnerAccount.organizationCode</value>	    					
 	    				</list>
     				</property>

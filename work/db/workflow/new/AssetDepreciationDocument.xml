@@ -4,6 +4,7 @@
 <documentType>
 <name>AssetDepreciationDocument</name>
 <parent>CapitalAssetManagementTransactionalDocument</parent>
+<label>Asset Depreciation</label>
 </documentType>
 </documentTypes>
 </data>

@@ -11,13 +11,6 @@
   </bean>
   
   <!--  Define DocumentValuePathGroup base --> 
-  <bean id="DocumentValuePathGroup-CapitalAssetManagementDocument-documentType" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" abstract="true">
-    	<property name="documentValues">
-    		<list>
-    			<value>documentHeader.workflowDocument.documentType</value>
-    		</list>
-    	</property>
-   	</bean>
     
   <!--  Define DocumentCollectionPath base --> 
     <bean id="DocumentCollectionPath-AssetDetail-chartAndOrgCode" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
@@ -44,7 +37,6 @@
 	    				<list>
 	    					<value>newMaintainableObject.businessObject.organizationOwnerChartOfAccountsCode</value>
 	    					<value>newMaintainableObject.businessObject.organizationOwnerAccount.organizationCode</value>	    					
-	    					<value>documentHeader.workflowDocument.documentType</value>	    					
 	    				</list>
     				</property>
     			</bean>

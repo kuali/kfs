@@ -4,6 +4,7 @@
 <documentType>
 <name>AssetRetirementGlobalMaintenanceDocument</name>
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<label>Asset Retirement Global</label>
 <routePaths>
         
         <routePath>

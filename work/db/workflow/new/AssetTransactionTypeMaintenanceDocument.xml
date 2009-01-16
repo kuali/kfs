@@ -4,7 +4,7 @@
 <documentType>
 <name>AssetTransactionTypeMaintenanceDocument</name>
 <parent>PurchasingAccountsPayableSimpleMaintenanceDocument</parent>
-
+<label>Asset Transaction Type</label>
 </documentType>
 </documentTypes>
 </data>

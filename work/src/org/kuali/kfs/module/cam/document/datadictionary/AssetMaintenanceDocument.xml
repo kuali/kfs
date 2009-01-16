@@ -788,8 +788,6 @@
       </list>
     </property>
   </bean>
-
-
   
   <bean id="AssetMaintenanceDocument-workflowAttributes" parent="AssetMaintenanceDocument-workflowAttributes-parentBean" />
 	

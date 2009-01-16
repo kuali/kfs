@@ -4,6 +4,7 @@
 <documentType>
 <name>AssetDepreciationMethodMaintenanceDocument</name>
 <parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+<label>Asset Depreciation Method</label>
 
 </documentType>
 </documentTypes>

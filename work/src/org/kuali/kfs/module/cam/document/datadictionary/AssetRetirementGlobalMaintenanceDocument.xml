@@ -362,7 +362,7 @@
     	</property>
     </bean>
     
-    <bean id="DocumentValuePathGroup-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy-assetRetirementGlobalDetails" parent="DocumentValuePathGroup-CapitalAssetManagementDocument-documentType">
+    <bean id="DocumentValuePathGroup-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy-assetRetirementGlobalDetails" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AssetDetail-chartAndOrgCode">
     			<property name="collectionPath" value="newMaintainableObject.businessObject.assetRetirementGlobalDetails" />

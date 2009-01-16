@@ -4,6 +4,7 @@
 <documentType>
 <name>AssetAcquisitionTypeMaintenanceDocument</name>
 <parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+<label>Asset Acquisition Type</label>
 </documentType>
 </documentTypes>
 </data>

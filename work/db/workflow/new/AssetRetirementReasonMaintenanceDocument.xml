@@ -4,6 +4,7 @@
 <documentType>
 <name>AssetRetirementReasonMaintenanceDocument</name>
 <parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+<label>Asset Retirement Reason</label>
 
 </documentType>
 </documentTypes>

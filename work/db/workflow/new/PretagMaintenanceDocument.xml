@@ -4,6 +4,7 @@
 <documentType>
 <name>PretagMaintenanceDocument</name>
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<label>Pre-Asset Tagging</label>
 
 </documentType>
 </documentTypes>

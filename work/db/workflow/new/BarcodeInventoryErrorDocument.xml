@@ -4,6 +4,7 @@
 <documentType>
 <name>BarcodeInventoryErrorDocument</name>
 <parent>CapitalAssetManagementTransactionalDocument</parent>
+<label>Barcode Inventory Error</label>
 <docHandler>${application.url}/camsBarcodeInventoryError.do?methodToCall=docHandler</docHandler>
 
 </documentType>

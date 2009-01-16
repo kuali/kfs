@@ -4,6 +4,7 @@
 <documentType>
 <name>AssetFabricationMaintenanceDocument</name>
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<label>Asset Fabrication</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>

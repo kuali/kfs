@@ -4,6 +4,7 @@
 <documentType>
 <name>AccountsReceivableComplexMaintenanceDocument</name>
 <parent>FinancialSystemComplexMaintenanceDocument</parent>
+<label>Accounts Receivable Complex MaintenanceDocument</label>
 </documentType>
 </documentTypes>
 </data>

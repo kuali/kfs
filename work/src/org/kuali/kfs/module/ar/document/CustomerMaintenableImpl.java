@@ -23,12 +23,18 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
@@ -122,8 +128,28 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
 
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        // TODO - what is the condition required for this split?
-        return true;
+        if ("RequiresApproval".equals(nodeName)) {
+            try {
+                DocumentService documentService = SpringContext.getBean(DocumentService.class);
+                FinancialSystemMaintenanceDocument maintDoc = (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(this.documentNumber);
+                if (maintDoc.isNew()) {
+                    // while creating a new customer, route when created by web application
+                    String initiatorPrincipalId = maintDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+                    PersonService<Person> personService = SpringContext.getBean(PersonService.class);
+                    Person initiatorPerson = personService.getPerson(initiatorPrincipalId);
+                    if (initiatorPerson != null && !KFSConstants.SYSTEM_USER.equals(initiatorPerson.getPrincipalName())) {
+                        return true;
+                    }
+                }
+                else if (maintDoc.isEdit()) {
+                    // editing a customer always requires approval
+                    return true;
+                }
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return false;
     }
-
 }

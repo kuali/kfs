@@ -7,13 +7,13 @@
 <label>Customer</label>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Approval No Approval Split"/>
-          <split name="Approval No Approval Split">
-            <branch name="ApprovalBranch">
-              <requests name="Manager" nextNode="Join"/>
+          <start name="AdHoc" nextNode="RequiresApproval"/>
+          <split name="RequiresApproval">
+            <branch name="True">
+              <requests name="Management" nextNode="Join"/>
             </branch>
-            <branch name="NoApprovalBranch">
-              <simple name="Do Nothing" nextNode="Join"/>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
             </branch>
             <join name="Join"/>
           </split>
@@ -21,14 +21,13 @@
       </routePaths>
 <routeNodes>
 <start name="AdHoc"/>
-<role name="Manager">
-<!--<ruleTemplate>KualiVendorDocumentTypeTemplate</ruleTemplate>-->
+<role name="Management">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<split name="Approval No Approval Split">
+<split name="RequiresApproval">
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
-<simple name="Do Nothing">
+<simple name="NoOp">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <join name="Join"/>

@@ -17,7 +17,7 @@
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
-	htmlFormAction="researchBudgetOutput" headerDispatch="output"
+	htmlFormAction="researchBudgetOutput" headerDispatch="output" renderMultipart="true"
 	headerTabActive="output">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

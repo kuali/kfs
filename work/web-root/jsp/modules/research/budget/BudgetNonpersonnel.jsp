@@ -18,7 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
 	headerTitle="Research Administration - Non-Personnel Expenses"
-	htmlFormAction="researchBudgetNonpersonnel"
+	htmlFormAction="researchBudgetNonpersonnel" renderMultipart="true"
 	headerTabActive="nonpersonnel" showTabButtons="true"
 	headerDispatch="saveNonpersonnel">
 

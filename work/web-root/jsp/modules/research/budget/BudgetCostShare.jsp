@@ -19,7 +19,7 @@
 	documentTypeName="KualiBudgetDocument"
 	headerTitle="Research Administration - Cost Share"
 	htmlFormAction="researchBudgetCostShare" showTabButtons="true"
-	headerDispatch="saveBudgetCostShare" headerTabActive="costshare"
+	headerDispatch="saveBudgetCostShare" headerTabActive="costshare" renderMultipart="true"
 	auditCount="${AuditErrors['costShareAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

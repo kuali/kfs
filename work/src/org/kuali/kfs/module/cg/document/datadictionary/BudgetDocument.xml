@@ -29,7 +29,9 @@
     <property name="documentTypeCode" value="KBD" />
     <property name="allowsNoteDelete" value="true" />
     <property name="displayTopicFieldInNotes" value="true" />
+    <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
+    
     <property name="headerNavigationList" >
       <list>
         <bean parent="HeaderNavigation">

@@ -18,7 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
 	headerTitle="Research Administration - Overview"
-	htmlFormAction="researchBudgetOverview" showTabButtons="true"
+	htmlFormAction="researchBudgetOverview" showTabButtons="true" renderMultipart="true"
 	headerDispatch="overview" headerTabActive="overview">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

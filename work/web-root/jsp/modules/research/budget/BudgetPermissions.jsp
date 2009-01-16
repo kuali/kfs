@@ -20,7 +20,7 @@
 	headerTitle="Research Administration - Permissions"
 	htmlFormAction="researchBudgetPermissions" 
 	showTabButtons="true"
-	headerDispatch="save"
+	headerDispatch="save" renderMultipart="true"
 	headerTabActive="permissions">
 	
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

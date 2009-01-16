@@ -23,7 +23,8 @@
     
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.RoutingFormDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.RoutingFormDocumentPresentationController" />
-     
+    
+    <property name="sessionDocument" value="true" /> 
     <property name="documentTypeCode" value="KRFD" />
     <property name="allowsNoteDelete" value="true" />
     <property name="displayTopicFieldInNotes" value="true" />

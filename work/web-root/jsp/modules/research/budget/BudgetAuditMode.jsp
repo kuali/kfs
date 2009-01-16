@@ -20,7 +20,7 @@
 	headerTitle="Research Administration - Audit Mode"
 	htmlFormAction="researchBudgetAuditMode" 
 	headerDispatch="auditmode"
-	headerTabActive="auditmode"
+	headerTabActive="auditmode" renderMultipart="true"
 	showTabButtons="${!empty AuditErrors}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

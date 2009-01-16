@@ -18,7 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
 	headerTitle="Research Administration - Non-Personnel Copy Over"
-	htmlFormAction="researchBudgetNonpersonnelCopyOver"
+	htmlFormAction="researchBudgetNonpersonnelCopyOver" renderMultipart="true"
 	headerTabActive="nonpersonnel" showTabButtons="true">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

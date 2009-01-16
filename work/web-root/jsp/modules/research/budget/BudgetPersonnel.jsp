@@ -21,7 +21,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
 	htmlFormAction="researchBudgetPersonnel" showTabButtons="true"
-	headerDispatch="savePersonnel" headerTabActive="personnel"
+	headerDispatch="savePersonnel" headerTabActive="personnel" renderMultipart="true"
 	auditCount="${AuditErrors['personnelAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

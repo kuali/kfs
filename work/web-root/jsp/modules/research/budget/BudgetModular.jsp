@@ -18,7 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
 	htmlFormAction="researchBudgetModular" headerDispatch="save"
-	headerTabActive="modular" showTabButtons="true"
+	headerTabActive="modular" showTabButtons="true" renderMultipart="true"
 	auditCount="${AuditErrors['modularSoftAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

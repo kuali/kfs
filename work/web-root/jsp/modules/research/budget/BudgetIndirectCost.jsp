@@ -18,7 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
 	headerTitle="Research Administration - Indirect Costs"
-	htmlFormAction="researchBudgetIndirectCost"
+	htmlFormAction="researchBudgetIndirectCost" renderMultipart="true"
 	headerDispatch="save" headerTabActive="indirectcost">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

@@ -4,7 +4,6 @@
 <documentType>
 <name>ChartComplexMaintenanceDocument</name>
 <parent>FinancialSystemComplexMaintenanceDocument</parent>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 
 </documentType>
 </documentTypes>

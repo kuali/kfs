@@ -5,7 +5,6 @@
 <name>InvoiceRecurrenceMaintenanceDocument</name>
 <parent>AccountsReceivableComplexMaintenanceDocument</parent>
 <label>Invoice Recurrence</label>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>

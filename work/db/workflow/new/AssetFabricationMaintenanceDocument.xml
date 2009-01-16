@@ -4,7 +4,6 @@
 <documentType>
 <name>AssetFabricationMaintenanceDocument</name>
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>

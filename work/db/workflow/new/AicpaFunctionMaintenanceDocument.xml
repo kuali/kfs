@@ -4,7 +4,6 @@
 <documentType>
 <name>AICPAFunctionMaintenanceDocument</name>
 <parent>KualiSimpleMaintenanceDocument</parent>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 </documentType>
 </documentTypes>
 </data>

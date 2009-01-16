@@ -5,7 +5,6 @@
 <name>VendorMaintenanceDocument</name>
 <label>VendorMaintenanceDocument</label>
 <parent>VendorComplexMaintenanceDocument</parent>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Approval No Approval Split"/>

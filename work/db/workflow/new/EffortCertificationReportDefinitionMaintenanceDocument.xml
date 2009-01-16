@@ -4,7 +4,6 @@
 <documentType>
 <name>EffortCertificationReportDefinitionMaintenanceDocument</name>
 <parent>EffortCertificationSimpleMaintenanceDocument</parent>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 
 </documentType>
 </documentTypes>

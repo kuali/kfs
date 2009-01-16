@@ -4,7 +4,6 @@
 <documentType>
 <name>AddressTypeMaintenanceDocument</name>
 <parent>VendorSimpleMaintenanceDocument</parent>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 </documentType>
 </documentTypes>
 </data>

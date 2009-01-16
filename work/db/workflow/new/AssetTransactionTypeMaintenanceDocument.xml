@@ -4,7 +4,6 @@
 <documentType>
 <name>AssetTransactionTypeMaintenanceDocument</name>
 <parent>PurchasingAccountsPayableSimpleMaintenanceDocument</parent>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 
 </documentType>
 </documentTypes>

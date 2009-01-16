@@ -4,7 +4,6 @@
 <documentType>
 <name>OrganizationReversionCategoryMaintenanceDocument</name>
 <parent>ChartSimpleMaintenanceDocument</parent>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 
 </documentType>
 </documentTypes>

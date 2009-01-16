@@ -5,7 +5,6 @@
 <name>OrganizationOptionsMaintenanceDocument</name>
 <parent>AccountsReceivableComplexMaintenanceDocument</parent>
 <label>Organization Options</label>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="OrganizationHierarchy"/>

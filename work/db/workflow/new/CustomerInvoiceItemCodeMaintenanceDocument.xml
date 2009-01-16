@@ -5,7 +5,6 @@
 <name>CustomerInvoiceItemCodeMaintenanceDocument</name>
 <parent>AccountsReceivableSimpleMaintenanceDocument</parent>
 <label>Customer Invoice Item Code</label>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 
 </documentType>
 </documentTypes>

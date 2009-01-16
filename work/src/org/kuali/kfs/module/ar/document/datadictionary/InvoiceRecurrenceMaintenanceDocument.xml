@@ -121,7 +121,7 @@
 	<bean id="DocumentValuePathGroup-InvoiceRecurrenceMaintenanceDocument-Account-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 	<property name="documentCollectionPath">
 		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
-			<property name="collectionPath" value="newMaintainable.businessObject.customerInvoiceDocument.sourceAccountingLines" />
+			<property name="collectionPath" value="newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines" />
 		</bean>
 	</property>
 	</bean>
@@ -129,7 +129,7 @@
         <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
         <property name="documentValues">
         	<list>
-        		<value>newMaintainable.businessObject.customerInvoiceDocument.sourceAccountingLines.chartOfAccountsCode</value>
+        		<value>newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines.chartOfAccountsCode</value>
         	</list>
         </property>
     </bean>
@@ -137,7 +137,7 @@
         <property name="searchingAttribute" ref="SearchingAttribute-accountNumber" />
         <property name="documentValues">
         	<list>
-        		<value>newMaintainable.businessObject.customerInvoiceDocument.sourceAccountingLines.accountNumber</value>
+        		<value>newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines.accountNumber</value>
         	</list>
         </property>
     </bean>     

@@ -20,6 +20,7 @@
 <kul:page showDocumentInfo="false" htmlFormAction="budgetPositionSalarySetting" renderMultipart="true"
 	showTabButtons="true" docTitle="${KualiForm.documentTitle}" transactionalDocument="false">
 	
+<%-- FIXME: remove when verified
 	<c:forEach items="${KualiForm.documentActions}" var="action">
       <html:hidden property="documentActions(${action.key})"/>
     </c:forEach>
@@ -27,6 +28,7 @@
     <c:forEach items="${KualiForm.editingMode}" var="mode">
       <html:hidden property="editingMode(${mode.key})"/>
     </c:forEach>
+--%>
 
     <bc:positionSalarySetting readOnly="${readOnly}" />
 	<kul:panelFooter />

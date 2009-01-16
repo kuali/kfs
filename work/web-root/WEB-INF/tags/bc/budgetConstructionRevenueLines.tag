@@ -64,6 +64,7 @@
                 
 			<tr>
               <kul:htmlAttributeHeaderCell literalLabel="Add:" scope="row" rowspan="1">
+<%-- FIXME: hidden for JS lookups to work and to have fully qualified newline remove when fix is in place --%>
                   <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
                   <html:hidden property="newRevenueLine.documentNumber"/>
                   <html:hidden property="newRevenueLine.universityFiscalYear"/>
@@ -96,7 +97,7 @@
                   detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', "
                   detailField="financialSubObject.financialSubObjectCodeName"
                   attributes="${pbglRevenueAttributes}" lookup="true" inquiry="true"
-                  boClassSimpleName="SubObjCd"
+                  boClassSimpleName="SubObjectCode"
                   readOnly="false"
                   displayHidden="false"
                   lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"
@@ -169,7 +170,7 @@
                   detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', "
                   detailField="financialSubObject.financialSubObjectCdshortNm"
                   attributes="${pbglRevenueAttributes}" lookup="${doLookupOrInquiry}" inquiry="${doLookupOrInquiry}"
-                  boClassSimpleName="SubObjCd"
+                  boClassSimpleName="SubObjectCode"
                   readOnly="true"
                   displayHidden="false"
                   rowSpan="${rowspan}"

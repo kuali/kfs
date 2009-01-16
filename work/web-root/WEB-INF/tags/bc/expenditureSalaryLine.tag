@@ -23,6 +23,8 @@
 <c:set var="accountingLine" value="salarySettingExpansion" />
 <c:set var="colSpan" value="7" />
 
+<%-- FIXME: remove when verified --%>
+<%--
 <html:hidden property="returnAnchor" />
 <html:hidden property="returnFormKey" />
 <html:hidden property="backLocation" />
@@ -44,6 +46,7 @@
 <html:hidden property="salarySettingExpansion.financialBalanceTypeCode" />
 <html:hidden property="salarySettingExpansion.financialObjectTypeCode" />
 <html:hidden property="salarySettingExpansion.versionNumber" />
+--%>
 
 						
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Expenditure Salary Line">
@@ -125,7 +128,10 @@
 				
 				<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubFundGroup" 
 					keyValues="subFundGroupCode=${KualiForm.salarySettingExpansion.account.subFundGroupCode}" render="true">
+<%-- FIXME: remove when verified --%>
+<%--
 					<html:hidden write="true" property="salarySettingExpansion.account.subFundGroupCode" />
+--%>
 				</kul:inquiry>
 			</kul:htmlControlAttribute>
 
@@ -139,7 +145,10 @@
 				
 				<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Org"
 					keyValues="chartOfAccountsCode=${KualiForm.salarySettingExpansion.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.salarySettingExpansion.account.organizationCode}" render="true">
+<%-- FIXME: remove when verified --%>
+<%--
 					<html:hidden write="true" property="salarySettingExpansion.account.organizationCode" />
+--%>
 				</kul:inquiry>
 			</kul:htmlControlAttribute>
 

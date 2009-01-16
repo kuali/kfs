@@ -20,6 +20,7 @@
 <kul:page showDocumentInfo="false" docTitle="Quick Salary Setting" transactionalDocument="false"
 	htmlFormAction="budgetQuickSalarySetting" renderMultipart="true" showTabButtons="true">
 	
+<%--
     <c:forEach items="${KualiForm.documentActions}" var="action">
       <html:hidden property="documentActions(${action.key})"/>
     </c:forEach>
@@ -27,6 +28,7 @@
 	<c:forEach items="${KualiForm.editingMode}" var="mode">
   		<html:hidden property="editingMode(${mode.key})"/>
 	</c:forEach>
+--%>
     
 	<kul:tabTop tabTitle="Quick Salary Setting" defaultOpen="true" tabErrorKey="${BCConstants.ErrorKey.QUICK_SALARY_SETTING_TAB_ERRORS}">
 		<div class="tab-container" align=center>

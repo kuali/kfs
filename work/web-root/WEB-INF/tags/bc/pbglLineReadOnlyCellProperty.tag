@@ -55,10 +55,13 @@
     >
     <c:choose>
         <c:when test="${empty formattedNumberValue}">
-            <html:hidden write="true" property="${property}" style="${textStyle}" />
+            <bean:write name="KualiForm" property="${property}"/>&nbsp;
+<%-- FIXME: remove when verified --%>
+<%--        <html:hidden write="true" property="${property}" style="${textStyle}" />--%>
         </c:when>
         <c:otherwise>
-            <html:hidden write="false" property="${property}" style="${textStyle}" />
+<%-- FIXME: remove when verified --%>
+<%--        <html:hidden write="false" property="${property}" style="${textStyle}" />--%>
             ${formattedNumberValue}
         </c:otherwise>
     </c:choose>

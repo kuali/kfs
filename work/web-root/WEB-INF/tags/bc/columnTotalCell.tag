@@ -46,10 +46,13 @@
 <span class="nowrap">
     <c:choose>
         <c:when test="${empty formattedNumberValue}">
-            <html:hidden write="true" property="${cellProperty}" disabled="${disableHiddenField}" style="${textStyle}" />
+            <bean:write name="KualiForm" property="${cellProperty}"/>&nbsp;
+<%-- FIXME: remove when verified --%>
+<%--        <html:hidden write="true" property="${cellProperty}" disabled="${disableHiddenField}" style="${textStyle}" />--%>
         </c:when>
         <c:otherwise>
-            <html:hidden write="false" property="${cellProperty}" disabled="${disableHiddenField}" style="${textStyle}" />
+<%-- FIXME: remove when verified --%>
+<%--        <html:hidden write="false" property="${cellProperty}" disabled="${disableHiddenField}" style="${textStyle}" />--%>
             ${formattedNumberValue}
         </c:otherwise>
     </c:choose>

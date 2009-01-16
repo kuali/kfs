@@ -20,6 +20,8 @@
 <c:set var="tableWidth" value="100%"/>
 <c:set var="isKeyFieldsLocked" value="${KualiForm.singleAccountMode}"/>
 
+<%-- FIXME: remove when verified --%>
+<%--
 <html:hidden property="returnAnchor" />
 <html:hidden property="returnFormKey" />
 <html:hidden property="backLocation" />
@@ -33,6 +35,7 @@
 <html:hidden property="budgetByAccountMode" />
 <html:hidden property="addLine" />
 <html:hidden property="salarySettingClosed" />
+--%>
 
 <kul:tabTop tabTitle="Incumbent" defaultOpen="true">
 	<div class="tab-container" align=center>
@@ -103,7 +106,7 @@
 				</c:if>
 				
 				<c:if test="${canUndelete}">	
-					<html:image property="methodToCall.revertSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+					<html:image property="methodToCall.undeleteSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-undelete.gif" 
 						title="undelete Salary Setting Line ${status.index}"
 						alt="undelete Salary Setting Line ${status.index}" styleClass="tinybutton" />

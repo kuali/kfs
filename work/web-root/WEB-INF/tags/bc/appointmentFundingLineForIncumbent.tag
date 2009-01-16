@@ -44,14 +44,18 @@
 
 <c:set var="colspan" value="${countOfMajorColumns}" />
 
+<%-- FIXME: remove when JS lookup use is fixed --%>
 <html:hidden property="${fundingLineName}.universityFiscalYear" />
 <html:hidden property="${fundingLineName}.emplid" />
+
+<%-- FIXME: remove when verified --%>
+<%--
 <html:hidden property="${fundingLineName}.positionObjectChangeIndicator" />
 <html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />
 <html:hidden property="${fundingLineName}.versionNumber" /> 
 <html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
-
 <html:hidden property="${fundingLineName}.persistedDeleteIndicator" /> 
+
 <html:hidden property="${fundingLineName}.newLineIndicator" />
 <html:hidden property="${fundingLineName}.purged" />
 
@@ -59,6 +63,7 @@
 <html:hidden property="${fundingLineName}.displayOnlyMode" /> 
 <html:hidden property="${fundingLineName}.override2PlugMode" />
 <html:hidden property="${fundingLineName}.budgetable" />
+--%>
 
 <table border="0" cellpadding="0" cellspacing="0" style="width: ${tableWidth}; text-align: left; margin-left: auto; margin-right: auto;">    
 	<tr>
@@ -77,7 +82,9 @@
 	
 	<tr> 
 	  	<bc:pbglLineDataCell dataCellCssClass="datacell" dataFieldCssClass="nobord"
-	    	accountingLine="${fundingLineName}" attributes="${pbcafAttributes}"
+	    	accountingLine="${fundingLineName}"
+	    	cellProperty="${fundingLineName}.appointmentFundingDeleteIndicator"
+	    	attributes="${pbcafAttributes}"
 		    field="appointmentFundingDeleteIndicator" readOnly="false"
 		    fieldAlign="center" disabled="true"
 		    anchor="salaryexistingLineLineAnchor${lineIndex}" />

@@ -32,6 +32,8 @@
 
       <tr>
           <kul:htmlAttributeHeaderCell align="left" attributeEntry="${pbglAttributes.universityFiscalYear}" >
+<%-- FIXME: remove when verified --%>
+<%--
               <html:hidden property="returnAnchor" />
               <html:hidden property="returnFormKey" />
               <html:hidden property="backLocation" />
@@ -46,6 +48,7 @@
               <html:hidden property="financialObjectTypeCode" />
               <html:hidden property="monthlyPersisted" />
               <html:hidden property="budgetableDocument" />
+--%>
           </kul:htmlAttributeHeaderCell>
           <kul:htmlAttributeHeaderCell attributeEntry="${pbglAttributes.chartOfAccountsCode}" />
           <kul:htmlAttributeHeaderCell attributeEntry="${pbglAttributes.accountNumber}" />
@@ -137,7 +140,9 @@
       
       <tr>
           <kul:htmlAttributeHeaderCell align="right" literalLabel="Period" scope="col">
+<%-- FIXME: remove when verified --%>
               <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
+<%--
               <html:hidden property="budgetConstructionMonthly.documentNumber" />
               <html:hidden property="budgetConstructionMonthly.universityFiscalYear" />
               <html:hidden property="budgetConstructionMonthly.chartOfAccountsCode" />
@@ -148,6 +153,7 @@
               <html:hidden property="budgetConstructionMonthly.financialBalanceTypeCode" />
               <html:hidden property="budgetConstructionMonthly.financialObjectTypeCode" />
               <html:hidden property="budgetConstructionMonthly.versionNumber" />
+--%>
           </kul:htmlAttributeHeaderCell>
           <kul:htmlAttributeHeaderCell align="left" literalLabel="Amount" scope="col" />
       </tr>

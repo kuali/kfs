@@ -31,7 +31,10 @@
 			<span class="subhead-left">Salary Line Detail</span>
     		<span class="subhead-right">   			   			
 		   		<c:if test="${not readOnly}">	    
+<%-- FIXME: remove when verified --%>
+<%--
 			    	<html:hidden property="hideAdjustmentMeasurement"/>
+--%>
 			    	
 			    	<c:set var="hideOrShow" value="${KualiForm.hideAdjustmentMeasurement ? 'show' : 'hide'}" />
 			    	<html:image property="methodToCall.toggleAdjustmentMeasurement" 
@@ -87,6 +90,8 @@
 			field="appointmentFundingDeleteIndicator" rowSpan="${rowspan}" readOnly="false"
 			fieldAlign="left" disabled="${true}">
 			
+<%-- FIXME: remove when verified --%>
+<%--
 			<html:hidden property="${fundingLineName}.universityFiscalYear" />
 			<html:hidden property="${fundingLineName}.chartOfAccountsCode" />
 			<html:hidden property="${fundingLineName}.accountNumber" />
@@ -108,6 +113,7 @@
 			<html:hidden property="${fundingLineName}.versionNumber" />
 			<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
 			<html:hidden property="${fundingLineName}.newLineIndicator" />
+--%>
 		</bc:pbglLineDataCell>
 	
 		<%-- Position Number --%>	

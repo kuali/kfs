@@ -39,6 +39,8 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
 
+    private static final String REQUIRES_APPROVAL_NODE = "RequiresApproval";
+
     @Override
     @SuppressWarnings("unchecked")
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
@@ -126,9 +128,16 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
 
     }
 
+    /**
+     * Answers true for 2 conditions...
+     * <li>a)New customer created by non-batch (web) user</li>
+     * <li>b)Any edit to an existing customer record</li>
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#answerSplitNodeQuestion(java.lang.String)
+     */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if ("RequiresApproval".equals(nodeName)) {
+        if (REQUIRES_APPROVAL_NODE.equals(nodeName)) {
             try {
                 DocumentService documentService = SpringContext.getBean(DocumentService.class);
                 FinancialSystemMaintenanceDocument maintDoc = (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(this.documentNumber);

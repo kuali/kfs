@@ -1736,6 +1736,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
+     * Answers true when invoice recurrence details are provided by the user
+     * 
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override

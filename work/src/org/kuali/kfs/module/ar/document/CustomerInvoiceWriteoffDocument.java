@@ -336,7 +336,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         boolean hasWriteoffClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffOffsetOption);
 
         String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD);
-        boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD_DISALLOW.equals( writeoffTaxGenerationOption );
+        boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD_DISALLOW.equals(writeoffTaxGenerationOption);
 
         boolean hasClaimOnCashOffset = hasReceivableClaimOnCashOffset || hasWriteoffClaimOnCashOffset;
 
@@ -346,7 +346,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
             addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
             sequenceHelper.increment();
             addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
-            addSalesTaxGLPEs( sequenceHelper, glpeSourceDetail, hasWriteoffTaxClaimOnCashOffset, amount);
+            addSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasWriteoffTaxClaimOnCashOffset, amount);
         }
         else {
             amount = customerInvoiceDetail.getOpenAmount();
@@ -393,7 +393,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, amount);
     }
 
-    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasWriteoffTaxClaimOnCashOffset, KualiDecimal amount){
+    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasWriteoffTaxClaimOnCashOffset, KualiDecimal amount) {
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
         WriteoffCustomerInvoiceDetail writeoffCustomerInvoiceDetail = new WriteoffCustomerInvoiceDetail(customerInvoiceDetail, this);
 
@@ -475,9 +475,14 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         }
     }
 
+    /**
+     * Answers true when invoice write off amount is greater than default approved amount ($50???)
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        // TODO add a new system parameter for WRITEOFF_DFLT_APPRVL_AMOUNT
+        // FIXME add a new system parameter for WRITEOFF_DFLT_APPRVL_AMOUNT
         if (REQUIRES_APPROVAL_NODE.equals(nodeName) && WRITEOFF_DFLT_APPRVL_AMOUNT.isLessThan(getInvoiceWriteoffAmount())) {
             return true;
         }

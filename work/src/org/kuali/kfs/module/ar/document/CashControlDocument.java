@@ -53,7 +53,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     private KualiDecimal cashControlTotalAmount = KualiDecimal.ZERO;
     private String lockboxNumber;
     private String bankCode;
-    
+
     private PaymentMedium customerPaymentMedium;
     private AccountingPeriod universityFiscalPeriod;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
@@ -82,7 +82,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
             String documentTypeCode = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(docEntry.getDocumentTypeName()).getInputTypeCode();
             bankCode = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
         }
-        catch(Exception x) {
+        catch (Exception x) {
             LOG.error("Problem occurred setting default bank code for cash control document", x);
         }
     }
@@ -443,11 +443,13 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
-    
+
 
     /**
      * The Cash Control document doesn't generate general ledger pending entries based off of the accounting lines on the document
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * 
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
@@ -560,14 +562,16 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         Document document = null;
         try {
             document = documentService.getByDocumentHeaderId(getReferenceFinancialDocumentNumber());
-        } catch(WorkflowException we) {
-            
+        }
+        catch (WorkflowException we) {
+
         }
         return document;
     }
 
     /**
-     * Gets the bankCode attribute. 
+     * Gets the bankCode attribute.
+     * 
      * @return Returns the bankCode.
      */
     public String getBankCode() {
@@ -576,12 +580,18 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the bankCode attribute value.
+     * 
      * @param bankCode The bankCode to set.
      */
     public void setBankCode(String bankCode) {
         this.bankCode = bankCode;
     }
-    
+
+    /**
+     * Answers true when document payment medium is WIRE transfer
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT.equals(nodeName) && ArConstants.PaymentMediumCode.WIRE_TRANSFER.equals(getCustomerPaymentMediumCode())) {
@@ -590,6 +600,12 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         return false;
     }
 
+    /**
+     * This is a helper method added to support workflow attribute configuration. This method helps to avoid attribute name mismatch
+     * between ProcessingChartOfAccountCode and chartOfAccountsCode
+     * 
+     * @return ProcessingChartOfAccountCode
+     */
     public String getChartOfAccountsCode() {
         if (getAccountsReceivableDocumentHeader() != null) {
             return getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
@@ -597,6 +613,12 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         return null;
     }
 
+    /**
+     * This is a helper method added to support workflow attribute configuration. This method helps to avoid attribute name mismatch
+     * between ProcessingOrganizationCode and organizationCode
+     * 
+     * @return ProcessingOrganizationCode
+     */
     public String getOrganizationCode() {
         if (getAccountsReceivableDocumentHeader() != null) {
             return getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();

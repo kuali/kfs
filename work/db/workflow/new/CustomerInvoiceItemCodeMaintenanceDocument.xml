@@ -4,8 +4,6 @@
 <documentType>
 <name>CustomerInvoiceItemCodeMaintenanceDocument</name>
 <parent>AccountsReceivableSimpleMaintenanceDocument</parent>
-<label>Customer Invoice Item Code</label>
-
 </documentType>
 </documentTypes>
 </data>

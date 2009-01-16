@@ -6,7 +6,6 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>CashControlDocument</name>
-			<label>Cash Control</label>
 			<parent>AccountsReceivableTransactionalDocument</parent>
 			<docHandler>
 				${application.url}/arCashControlDocument.do?methodToCall=docHandler

@@ -4,7 +4,6 @@
 <documentType>
 <name>SystemInformationMaintenanceDocument</name>
 <parent>AccountsReceivableSimpleMaintenanceDocument</parent>
-<label>SystemInformation</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Management"/>

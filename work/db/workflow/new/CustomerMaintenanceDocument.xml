@@ -4,7 +4,6 @@
 <documentType>
 <name>CustomerMaintenanceDocument</name>
 <parent>AccountsReceivableComplexMaintenanceDocument</parent>
-<label>Customer</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="RequiresApproval"/>

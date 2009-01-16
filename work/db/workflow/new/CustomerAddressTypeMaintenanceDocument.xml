@@ -4,7 +4,6 @@
 <documentType>
 <name>CustomerAddressTypeMaintenanceDocument</name>
 <parent>AccountsReceivableSimpleMaintenanceDocument</parent>
-<label>Customer Address Type</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Management"/>

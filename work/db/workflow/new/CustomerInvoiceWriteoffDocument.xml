@@ -4,7 +4,6 @@
 <documentType>
 <name>CustomerInvoiceWriteoffDocument</name>
 <parent>AccountsReceivableTransactionalDocument</parent>
-<label>Customer Invoice Writeoff</label>
 <docHandler>${application.url}/arCustomerInvoiceWriteoffDocument.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

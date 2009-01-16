@@ -4,7 +4,6 @@
 <documentType>
 <name>InvoiceRecurrenceMaintenanceDocument</name>
 <parent>AccountsReceivableComplexMaintenanceDocument</parent>
-<label>Invoice Recurrence</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>

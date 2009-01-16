@@ -4,7 +4,6 @@
 <documentType>
 <name>PaymentMediumMaintenanceDocument</name>
 <parent>AccountsReceivableSimpleMaintenanceDocument</parent>
-<label>Payment Medium</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Management"/>

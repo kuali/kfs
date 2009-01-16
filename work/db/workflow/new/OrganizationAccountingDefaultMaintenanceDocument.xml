@@ -4,7 +4,6 @@
 <documentType>
 <name>OrganizationAccountingDefaultMaintenanceDocument</name>
 <parent>AccountsReceivableComplexMaintenanceDocument</parent>
-<label>Organization Accounting Default</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="OrganizationHierarchy"/>

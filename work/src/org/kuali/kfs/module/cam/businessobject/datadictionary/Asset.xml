@@ -70,12 +70,7 @@
         <ref bean="Asset-representativeUniversalIdentifier" />
         <ref bean="Asset-assetRepresentative.principalName" />
         <ref bean="Asset-assetRepresentative.name" />
-
-        <!-- ref bean="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" />
-        <ref bean="EquipmentLoanOrReturnDocument-borrowerPerson.principalName" />
-        <ref bean="EquipmentLoanOrReturnDocument-borrowerPerson.name" / -->
         <ref bean="Asset-loanOrReturnInfo.borrowerPerson.name" />
-
         <ref bean="Asset-organizationOwnerAccountNumber" />
         <ref bean="Asset-organizationOwnerChartOfAccountsCode" />
         <ref bean="Asset-organizationOwnerAccount.organizationCode" />
@@ -156,6 +151,9 @@
         <ref bean="Asset-assetPayments.paymentSequenceNumber" />
         <ref bean="Asset-assetPayments.purchaseOrderNumber" />
         <ref bean="Asset-assetPayments.documentNumber" />
+
+		<!--  ref bean="Asset-assetPayments-lookup"/   -->
+
       </list>
     </property>
     <property name="relationships" >
@@ -221,18 +219,25 @@
         </dd:relationship>
       </list>
     </property>
-    <!-- property name="inactivationBlockingDefinitions">
-      <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="building"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="buildingRoom"/>
-      </list>
-    </property -->
   </bean>
 
 <!-- Attribute Definitions --> 
-   
+<!-- Attribute Definitions -->
+<!--  bean id="Asset-assetPayments-lookup" parent="Asset-assetPayments-lookup-parentBean" />
+<bean id="Asset-assetPayments-lookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="lookup" />
+	<property name="label" value="Lookup link" />
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="Payment Information Lookup Link"
+		/>
+	</property>
+</bean -->
+
+
+
   <bean id="Asset-organizationOwnerAccount.organizationCode" parent="Asset-organizationOwnerAccount.organizationCode-parentBean" />
   <bean id="Asset-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
     <property name="name" value="organizationOwnerAccount.organizationCode" />
@@ -477,14 +482,21 @@
   <bean id="Asset-inventoryStatusCode" parent="Asset-inventoryStatusCode-parentBean" />
   <bean id="Asset-inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
     <property name="label" value="Asset Status" />
+    <property name="name" value="inventoryStatusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="shortLabel" value="Asset Status" />
+    <property name="maxLength" value="1" />
     <property name="control" >
+      <bean parent="TextControlDefinition" p:size="1" />
+    </property>
+    <!-- property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetStatus"
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="true"
             p:keyAttribute="inventoryStatusCode"
             p:labelAttribute="inventoryStatusName" />
-    </property>
+    </property -->
   </bean>
   
   <bean id="Asset-nationalStockNumber" parent="Asset-nationalStockNumber-parentBean" />
@@ -1952,7 +1964,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="agencyNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="inventoryStatusCode" />
+              p:attributeName="inventoryStatusCode"/>
         <bean parent="FieldDefinition"
               p:attributeName="conditionCode"
               p:noLookup="true" />

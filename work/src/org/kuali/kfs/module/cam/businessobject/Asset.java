@@ -2,8 +2,10 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -14,6 +16,7 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -23,9 +26,11 @@ import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -929,7 +934,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public void setInventoryStatusCode(String inventoryStatusCode) {
         this.inventoryStatusCode = inventoryStatusCode;
     }
-
 
     /**
      * Gets the campusTagNumber attribute.
@@ -1886,5 +1890,16 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.hiddenFieldForError = hiddenFieldForError;
     }
 
+/*    public String getLookup() {
+        Properties params = new Properties();
+        params.put("methodToCall", "search");
+        params.put("docFormKey", "88888888");
+        params.put("hideReturnLink","true");        
+        params.put("capitalAssetNumber",this.getCapitalAssetNumber().toString());
+        params.put("returnLocation", "portal.do");
+        params.put("businessObjectClassName","org.kuali.kfs.module.cam.businessobject.AssetPayment");
+        
+        return UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
+    }*/    
+//a href="lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=2053" target="_blank" class="portal_link" title="Payment Information">Click here</a>                   
 }
-

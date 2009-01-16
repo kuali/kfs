@@ -111,6 +111,11 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         else if (ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffGenerationOption)) {
             success &= doesOrganizationAccountingDefaultHaveWriteoffInformation(customerInvoiceWriteoffDocument);
         }
+        
+        String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD);
+        if (ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD_DISALLOW.equals(writeoffTaxGenerationOption)) {
+            success &= doesOrganizationAccountingDefaultHaveWriteoffInformation(customerInvoiceWriteoffDocument);
+        }
 
         return success;
     }

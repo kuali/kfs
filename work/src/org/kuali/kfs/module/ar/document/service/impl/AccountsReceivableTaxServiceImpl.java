@@ -77,7 +77,13 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
         }
         */
         
-        //if address of billing org's postal code isn't the same as shipping address, return false??? 
+        //check if postal code of shipping address isn't the same as billing address. If not, the item is not taxable.
+        if (ObjectUtils.isNotNull(customerInvoiceDocument.getShippingZipCode())){ 
+            if (!StringUtils.equals(customerInvoiceDocument.getShippingStateCode(), customerInvoiceDocument.getBillingStateCode())){
+                return false;
+            }
+        }
+
         
         return true;
     }

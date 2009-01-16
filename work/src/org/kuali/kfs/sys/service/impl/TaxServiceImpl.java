@@ -112,8 +112,7 @@ public class TaxServiceImpl implements TaxService {
             if (ObjectUtils.isNotNull((taxRegion.getEffectiveTaxRegionRate(dateOfTransaction))))
                 totalTaxRate = totalTaxRate.add(taxRegion.getEffectiveTaxRegionRate(dateOfTransaction).getTaxRate());
         }
-        
-        KualiDecimal pretaxAmount = amountWithTax.divide(new KualiDecimal(totalTaxRate.add(BigDecimal.ONE)));
+        KualiDecimal pretaxAmount = new KualiDecimal(amountWithTax.bigDecimalValue().divide(totalTaxRate.add(BigDecimal.ONE)));
 
         return pretaxAmount;
     }

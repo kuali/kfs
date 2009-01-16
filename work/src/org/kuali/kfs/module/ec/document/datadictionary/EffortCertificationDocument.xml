@@ -110,18 +110,110 @@
   <bean id="EffortCertificationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
+  
   <!-- Exported Workflow Attributes -->
+
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" />
+  
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+	  <property name="documentValues">
+	  	<list>
+	  		<value>effortCertificationDetailLines.account.chartOfAccountsCode</value>
+	   	</list>
+	</property>
+  </bean>
+
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode" parent="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean" />
+  
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
+	  <property name="documentValues">
+	  	<list>
+	  		<value>effortCertificationDetailLines.account.organizationCode</value>
+	   	</list>
+	</property>
+  </bean>   
+   
+  <bean id="EffortCertificationDocument-DocumentValuePathGroup" parent="EffortCertificationDocument-DocumentValuePathGroup-parentBean" />
+  
+  <bean id="EffortCertificationDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+			<list>
+				<value>chartOfAccountsCode</value>
+				<value>accountNumber</value>	    					
+			</list>
+		</property>
+  </bean>
+  
+  <bean id="RoutingType-EffortCertificationDocument-ProjectManagement" parent="RoutingType-EffortCertificationDocument-parentBean" />
+  
+  <bean id="RoutingType-EffortCertificationDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-accountNumber" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="EffortCertificationDocument-DocumentValuePathGroup" />    			
+    		</list>
+    	</property>
+  </bean>
+ 
   <bean id="EffortCertificationDocument-workflowAttributes" parent="EffortCertificationDocument-workflowAttributes-parentBean" />
 
   <bean id="EffortCertificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" >
 	  <property name="searchingTypeDefinitions">
 	  		<list>
-	  
+    			<ref bean="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode" />
+    			<ref bean="EffortCertificationDocument-SearchingTypeDefinition-organizationCode" />	  		
+
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument" />
+    						<property name="attributeName" value="emplid" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>emplid</value>
+    					</list>
+    				</property>
+    			</bean>	 
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument" />
+    						<property name="attributeName" value="universityFiscalYear" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>universityFiscalYear</value>
+    					</list>
+    				</property>
+    			</bean>	  		
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument" />
+    						<property name="attributeName" value="effortCertificationReportNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>effortCertificationReportNumber</value>
+    					</list>
+    				</property>
+    			</bean>	 
 	  		</list>
   	  </property>
   	  <property name="routingTypeDefinitions">
   	  		<map>
-  	  			<!-- no qualifiers for ProjectManagement -->
+  	  			<entry key="ProjectManagement" value-ref="RoutingType-EffortCertificationDocument-ProjectManagement" />
   	  			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly" />
   	  			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
   	  			

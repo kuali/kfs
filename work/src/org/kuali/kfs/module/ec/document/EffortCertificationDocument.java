@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
@@ -38,10 +40,13 @@ import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -54,6 +59,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class EffortCertificationDocument extends FinancialSystemTransactionalDocumentBase implements GenericRoutingInfo {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
+    private static final String DO_AWARD_SPLIT = "Do Award Split";
+    private static final String DO_RECREATE_SPLIT = "Do Recreate Split";
+    
     private String effortCertificationReportNumber;
     private boolean effortCertificationDocumentCode;
     private Integer universityFiscalYear;
@@ -765,5 +773,32 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
     }
+    
+    /**
+     * Provides answers to the following splits:
+     * Do Award Split
+     * Do Recreate Split
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(EffortCertificationDocument.DO_AWARD_SPLIT)) return isDoAwardSplit();
+        if (nodeName.equals(EffortCertificationDocument.DO_RECREATE_SPLIT)) return isDoRecreateSplit();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+    
+    /**
+     * @return boolean value 
+     */
+    protected boolean isDoAwardSplit() {
+        return this.isEffortDistributionChanged();
+    }
+    
+    /**
+     * @return boolean value
+     */
+    protected boolean isDoRecreateSplit() {
+        return this.getEffortCertificationDocumentCode();
+    } 
 }
 

@@ -38,5 +38,9 @@
         <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CustomerInvoiceDocument'/></li>
         <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CustomerCreditMemoDocument'/></li>
     </ul>
+ 	<strong>Effort Certification</strong><br/>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title='Effort Certification' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=EffortCertificationDocument'/></li>
+    </ul>    
     </div>
 <channel:portalChannelBottom />

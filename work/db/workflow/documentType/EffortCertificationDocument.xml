@@ -68,7 +68,7 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>org.kuali.kfs.module.ec.document.routing.node.DoEffortCertificationAwardRoutingSplitNode</type>
+          <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
         </split>
         <requests name="Award Workgroup">
           <activationType>S</activationType>
@@ -97,7 +97,7 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>org.kuali.kfs.module.ec.document.routing.node.DoEffortCertificationRecreateRoutingSplitNode</type>
+          <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
         </split>
         <requests name="Recreate Workgroup">
           <activationType>S</activationType>

@@ -47,6 +47,7 @@ import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -197,10 +198,8 @@ public class RequisitionServiceImpl implements RequisitionService {
             requisition.setVendorDetail(vendorDetail);
 
             if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && ObjectUtils.isNull(requisition.getVendorContractGeneratedIdentifier())) {
-                //FIXME after KIM is done, fix this to retrieve the REQ initiator's campus for the lookup
- //               Person initiator = personService.getPerson(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
-//                VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, initiator.getCampusCode());
-                VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, requisition.getDeliveryCampusCode());
+               Person initiator = personService.getPerson(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+                VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, initiator.getCampusCode());
                 if (b2bContract != null) {
                     return "Standard requisition with no contract selected but a B2B contract exists for the selected vendor.";
                 }

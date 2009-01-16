@@ -20,7 +20,7 @@
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument" />
     <!-- property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" /-->
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController" />
     <property name="documentTypeCode" value="POSP" />
     <property name="workflowProperties" >

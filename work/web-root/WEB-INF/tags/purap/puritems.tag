@@ -31,7 +31,7 @@
 <c:set var="unorderedItemAccountEntry"	value="${(not empty KualiForm.editingMode['unorderedItemAccountEntry'])}" />
 <c:set var="amendmentEntryWithUnpaidPreqOrCM" value="${(amendmentEntry && (KualiForm.document.containsUnpaidPaymentRequestsOrCreditMemos))}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
-<c:set var="lockTaxAmountEntry" value="${(not empty KualiForm.editingMode['lockTaxAmountEntry'])}" />
+<c:set var="lockTaxAmountEntry" value="${(not empty KualiForm.editingMode['lockTaxAmountEntry']) || !fullEntryMode}" />
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 
 <c:set var="mainColumnCount" value="12"/>

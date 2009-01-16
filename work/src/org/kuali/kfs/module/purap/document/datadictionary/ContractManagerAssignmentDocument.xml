@@ -15,7 +15,7 @@
     <property name="documentTypeName" value="ContractManagerAssignmentDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ContractManagerAssignmentDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ContractManagerAssignmentDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.ContractManagerAssignmentDocumentPresentationController" />
     <property name="documentTypeCode" value="ACM" />
     <property name="sessionDocument" value="true" />

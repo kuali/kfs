@@ -88,10 +88,12 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
 
+        //TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data
+        
+        
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicatePaymentRequestCheck(mapping, form, request, response, paymentRequestDocument);
         if (forward != null) {
-
             return forward;
         }
 

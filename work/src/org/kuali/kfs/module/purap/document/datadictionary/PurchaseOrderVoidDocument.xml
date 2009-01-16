@@ -19,7 +19,7 @@
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderVoidDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderVoidDocumentPresentationController" />
     <property name="documentTypeCode" value="POV" />
     <property name="workflowProperties" >

@@ -15,8 +15,12 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.document.service.RequisitionService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 
 
 public class ContractManagerAssignmentDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
@@ -24,6 +28,23 @@ public class ContractManagerAssignmentDocumentPresentationController extends Fin
     @Override
     protected boolean canSave(Document document) {
         return false;
+    }
+
+    /**
+     * Override this method to add extra validation, so that when there's no requisition to
+     * assign contract manager, an error message will be displayed, instead of creating an
+     * ContractManagerAssignmentDocument.
+     * 
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
+     */
+    @Override
+    public boolean canInitiate(String documentTypeName) {
+        int numberOfRequisitions = SpringContext.getBean(RequisitionService.class).getCountOfRequisitionsAwaitingContractManagerAssignment();
+        if (numberOfRequisitions == 0) {
+            throw new DocumentInitiationAuthorizationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[] { documentTypeName });
+        }
+
+        return super.canInitiate(documentTypeName);
     }
 
 }

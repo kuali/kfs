@@ -18,18 +18,18 @@ package org.kuali.kfs.module.purap.document.authorization;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
-import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -37,6 +37,91 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 public class PurchaseOrderDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+
+//FIXME hjs: do we need this??
+//  else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
+//  if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson())) {
+//      /*
+//       * code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the
+//       * actions... this is needed because document service calls this method (getDocumentActionFlags) before it will
+//       * allow a workflow action to be performed
+//       */
+//      if (ObjectUtils.isNotNull(po.getOverrideWorkflowButtons()) && (po.getOverrideWorkflowButtons())) {
+//          /*
+//           * if document is in pending transmission status and current user has document transmission action request then
+//           * assume that the transmit button/action whatever it might be will take associated workflow action for user
+//           * automatically
+//           */
+//          flags.setCanApprove(false);
+//          flags.setCanDisapprove(false);
+//          flags.setCanAcknowledge(false);
+//          flags.setCanFYI(false);
+//      }
+//  }
+//}
+
+    
+    @Override
+    protected boolean canCancel(Document document) {
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        
+        if (poDocument.isPendingSplit()) {
+            return false;
+        }
+
+        return super.canSave(document);
+    }
+
+    @Override
+    protected boolean canClose(Document document) {
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        
+        if (poDocument.isPendingSplit()) {
+            return false;
+        }
+
+        return super.canSave(document);
+    }
+
+    @Override
+    protected boolean canReload(Document document) {
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        
+        if (poDocument.isPendingSplit()) {
+            return false;
+        }
+
+        return super.canSave(document);
+    }
+
+    @Override
+    protected boolean canSave(Document document) {
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        
+        if (poDocument.isPendingSplit()) {
+            return false;
+        }
+
+        return super.canSave(document);
+    }
+    
+    @Override
+    protected boolean canRoute(Document document) {
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        String statusCode = poDocument.getStatusCode();
+
+        if (StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT) || 
+                StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_VENDOR) || 
+                StringUtils.equals(statusCode, PurchaseOrderStatuses.QUOTE)) {
+            return false;
+        }
+        
+        if (poDocument.isPendingSplit()) {
+            return false;
+        }
+
+        return super.canRoute(document);
+    }
 
     @Override
     public Set<String> getEditModes(Document document) {
@@ -65,18 +150,9 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
             editModes.add(RequisitionEditMode.ALLOW_POSTING_YEAR_ENTRY);
         }
 
-        //TODO add description of editmode (hjs)
-        if (!poDocument.isUseTaxIndicator() && 
-                (PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) || 
-                        PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(poDocument.getStatusCode()) ||
-                        PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()) ||
-                        PurchaseOrderStatuses.QUOTE.equals(poDocument.getStatusCode()) ||
-                        PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()))) {
-            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.CLEAR_ALL_TAXES);
-        }
-
-        //if use tax, don't allow editing of tax fields
-        if(poDocument.isUseTaxIndicator()){
+        // if use tax, don't allow editing of tax fields
+        if (poDocument.isUseTaxIndicator()) {
+            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES);
             editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_TAX_AMOUNT_ENTRY);
         }
         
@@ -121,4 +197,5 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
         
         return editModes;
     }
+
 }

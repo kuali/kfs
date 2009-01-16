@@ -24,7 +24,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetLocation;
@@ -35,11 +43,27 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderCloseDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
+import org.kuali.kfs.module.purap.document.PurchaseOrderPaymentHoldDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderRemoveHoldDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument;
+import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -295,108 +319,473 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
-        // always refresh auth, to accommodate the change from request to scope obj, so that auth always gets refreshed; 
-        // otherwise extra buttons won't show correctly
-        PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode(), getDocumentActions());
-            
-        //add buttons from PurapFormBase
         super.getExtraButtons();        
-        String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         Map buttonsMap = createButtonsMap();                    
         
         // no other extra buttons except the following shall appear on "Assign Sensitive Data" page
         // and these buttons use the same permissions as the "Assign Sensitive Data" button
-        if (isAssigningSensitiveData() && auth.canAssignSensitiveData()) {
+        if (isAssigningSensitiveData() && canAssignSensitiveData()) {
             extraButtons.clear();
-            ExtraButton submitSensitiveDataButton = (ExtraButton) buttonsMap.get("methodToCall.submitSensitiveData");
-            extraButtons.add(submitSensitiveDataButton);
-            ExtraButton cancelSensitiveDataButton = (ExtraButton) buttonsMap.get("methodToCall.cancelSensitiveData");
-            extraButtons.add(cancelSensitiveDataButton);
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.submitSensitiveData"));
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelSensitiveData"));
             return extraButtons;
         }
                 
-        if (auth.canRetransmit()) {
-            ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");    
-            extraButtons.add(retransmitButton);
+        if (canRetransmit()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.retransmitPo"));
         }
         
-        if (auth.canPrintRetransmit()) {
-            ExtraButton printingRetransmitButton = (ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo");
-            extraButtons.add(printingRetransmitButton);
+        if (canPrintRetransmit()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo"));
         }
 
-        if (auth.canPreviewPrintPo()) {
-            ExtraButton printingPreviewButton = (ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo");
-            extraButtons.add(printingPreviewButton);
+        if (canPreviewPrintPo()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo"));
         }
         
-        if (auth.canFirstTransmitPrintPo()) {
-            ExtraButton printButton = (ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo");
-            extraButtons.add(printButton);
+        if (canFirstTransmitPrintPo()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo"));
         }
 
-        if (auth.canReopen()) {
-            ExtraButton reopenButton = (ExtraButton) buttonsMap.get("methodToCall.reopenPo");
-            extraButtons.add(reopenButton);
+        if (canReopen()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.reopenPo"));
         }
 
-        if (auth.canClose()) {
-            ExtraButton closeButton = (ExtraButton) buttonsMap.get("methodToCall.closePo");
-            extraButtons.add(closeButton);
+        if (canClose()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.closePo"));
         }
         
-        if (auth.canHoldPayment()) {
-            ExtraButton paymentHoldButton = (ExtraButton) buttonsMap.get("methodToCall.paymentHoldPo");
-            extraButtons.add(paymentHoldButton);
+        if (canHoldPayment()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.paymentHoldPo"));
         }
 
-        if (auth.canAmend()) {
-            ExtraButton amendButton = (ExtraButton) buttonsMap.get("methodToCall.amendPo");
-            extraButtons.add(amendButton);             
+        if (canAmend()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.amendPo"));             
         }
         
-        if (auth.canVoid()) {
-            ExtraButton voidButton = (ExtraButton) buttonsMap.get("methodToCall.voidPo");
-            extraButtons.add(voidButton);
+        if (canVoid()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.voidPo"));
         }
         
-        if (auth.canRemoveHold()) {
-            ExtraButton removeHoldButton = (ExtraButton) buttonsMap.get("methodToCall.removeHoldPo");
-            extraButtons.add(removeHoldButton);
+        if (canRemoveHold()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.removeHoldPo"));
         }
         
-        if (auth.canResendCxml()) {
-            ExtraButton resendPoCxmlButton = (ExtraButton) buttonsMap.get("methodToCall.resendPoCxml");
-            extraButtons.add(resendPoCxmlButton);
+        if (canResendCxml()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.resendPoCxml"));
         }
         
-        if (auth.canCreateReceiving()){
-            ExtraButton receivingButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingLine");
-            extraButtons.add(receivingButton);
+        if (canCreateReceiving()){
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.createReceivingLine"));
         }
         
-        if (auth.canSplitPo()){
-            ExtraButton splitPoButton = (ExtraButton) buttonsMap.get("methodToCall.splitPo");
-            extraButtons.add(splitPoButton);
+        if (canSplitPo()){
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.splitPo"));
         }
         
-        if (auth.canContinuePoSplit()){
-            ExtraButton continueButton = (ExtraButton) buttonsMap.get("methodToCall.continuePurchaseOrderSplit");
-            extraButtons.add(continueButton);
-            ExtraButton cancelSplitButton = (ExtraButton) buttonsMap.get("methodToCall.cancelPurchaseOrderSplit");
-            extraButtons.add(cancelSplitButton);
+        if (canContinuePoSplit()){
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.continuePurchaseOrderSplit"));
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelPurchaseOrderSplit"));
         }
         
-        if (auth.canAssignSensitiveData()){
-            ExtraButton assignSensitiveDataButton = (ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData");
-            extraButtons.add(assignSensitiveDataButton);
+        if (canAssignSensitiveData()){
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData"));
         }
 
         return extraButtons;
     }        
     
+    /**
+     * Determines whether to display the amend button for the purchase order document.
+     * The document status must be open, and the purchase order must be current and not pending, 
+     * and the user must be in purchasing group. 
+     * These are same as the conditions for displaying the payment hold button. 
+     * In addition to these conditions, we also have to check that there is no In Process Payment Requests nor Credit Memos associated with the PO.
+     * 
+     * @return boolean true if the amend button can be displayed.
+     */
+    public boolean canAmend() {
+        // check PO status etc
+        boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+        can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
+        
+        // in addition, check conditions about No In Process PREQ and CM) 
+        if (can) {
+            List<PaymentRequestView> preqViews = getPurchaseOrderDocument().getRelatedViews().getRelatedPaymentRequestViews();
+            if ( preqViews != null ) {
+                for (PaymentRequestView preqView : preqViews) {
+                    if (StringUtils.equalsIgnoreCase(preqView.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                        return false;
+                    }
+                }
+            }            
+            List<CreditMemoView> cmViews = getPurchaseOrderDocument().getRelatedViews().getRelatedCreditMemoViews();
+            if ( cmViews != null ) {
+                for (CreditMemoView cmView : cmViews) {
+                    if (StringUtils.equalsIgnoreCase(cmView.getCreditMemoStatusCode(), CreditMemoStatuses.IN_PROCESS)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderAmendmentDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+
+        return can;
+    }
     
+    /**
+     * Determines whether to display the void button for the purchase order document. Conditions:
+     * PO is in Pending Print status, or is in Open status and has no PREQs against it;
+     * PO's current indicator is true and pending indicator is false;
+     * and the user is a member of the purchasing group).
+     * 
+     * @return boolean true if the void button can be displayed.
+     */
+    private boolean canVoid() {
+        // check PO status etc
+        boolean can = getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
+               
+        if (can) {
+            boolean pendingPrint = PurchaseOrderStatuses.PENDING_PRINT.equals(getPurchaseOrderDocument().getStatusCode());
+            boolean open = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+            List<PaymentRequestView> preqViews = getPurchaseOrderDocument().getRelatedViews().getRelatedPaymentRequestViews();
+            boolean hasPaymentRequest = preqViews != null && preqViews.size() > 0;
+            can = pendingPrint || (open && !hasPaymentRequest);
+        }
+
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderVoidDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+
+        return can;        
+    }
+    
+    /**
+     * Determines whether to display the close order button to close the purchase order document. Conditions:
+     * PO must be in Open status; must have at least one Payment Request in any status other than "In Process", 
+     * and the PO cannot have any Payment Requests in "In Process" status. 
+     * This button is available to all faculty/staff.
+     * 
+     * @return boolean true if the close order button can be displayed.
+     */
+    private boolean canClose() {        
+        // invoke the validation in the business rule class to find out whether this purchase order is eligible to be closed
+        //TODO why calling processRouteDocument instead of processValidation ???
+        PurchaseOrderCloseDocumentRule rule = new PurchaseOrderCloseDocumentRule();
+        boolean can = rule.processRouteDocument(getPurchaseOrderDocument());
+
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderCloseDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+
+        return can;        
+    }
+    
+    /**
+     * Determines whether to display the open order button to reopen the purchase order document.
+     * Conditions: PO status is close, PO is current and not pending, and the user is in purchasing group.
+     * 
+     * @return boolean true if the reopen order button can be displayed.
+     */
+    public boolean canReopen() {
+        // check PO status etc
+        boolean can = PurchaseOrderStatuses.CLOSED.equals(getPurchaseOrderDocument().getStatusCode());
+        can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
+        
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderReopenDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+
+        return can;
+    }
+    
+    /**
+     * Determines whether to display the amend and payment hold buttons for the purchase order document.
+     * Conditions: PO status must be open, must be current and not pending, and the user must be in purchasing group.
+     * 
+     * @return boolean true if the payment hold button can be displayed.
+     */
+    public boolean canHoldPayment() {
+        // check PO status etc
+        boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+        can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
+        
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderPaymentHoldDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+
+        return can;        
+    }
+    
+    /**
+     * Determines whether to display the remove hold button for the purchase order document.
+     * Conditions are: PO status must be payment hold, must be current and not pending, and the user must be in purchasing group.
+     * 
+     * @return boolean true if the remove hold button can be displayed.
+     */
+    public boolean canRemoveHold() {
+        // check PO status etc
+        boolean can = PurchaseOrderStatuses.PAYMENT_HOLD.equals(getPurchaseOrderDocument().getStatusCode());
+        can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
+        
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRemoveHoldDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+
+        return can;        
+    }
+        
+    /**
+     * Determines whether to display the retransmit button. Conditions: 
+     * PO status must be open, and must be current and not pending, and the last transmit date must not be null. 
+     * If the purchase order is an Automated Purchase Order (APO) and does not have any sensitive data set to true, 
+     * then any users can see the retransmit button, otherwise, only users in the purchasing group can see it.
+     * 
+     * @return boolean true if the retransmit button can be displayed.
+     */
+    public boolean canRetransmit() {
+        // check PO status etc
+        boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+        can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
+        can = can && getPurchaseOrderDocument().getPurchaseOrderLastTransmitTimestamp() != null;
+        
+        if (!can)
+            return false;       
+        
+        // check user authorization
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+        if (getPurchaseOrderDocument().getPurchaseOrderAutomaticIndicator()) {
+            // for APO use authorization for PurchaseOrderRetransmitDocument, which is anybody
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRetransmitDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+        else {
+            // for NON_APO use authorization for PurchaseOrderDocument, which is purchasing user
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());            
+        }
+        
+        return can;
+    }
+
+    /**
+     * Determines whether to display the button to print the pdf on a retransmit document. 
+     * We're currently sharing the same button image as the button for creating a retransmit document but this may change someday. 
+     * This button should only appear on Retransmit Document. If it is an Automated Purchase Order (APO) 
+     * then any users can see this button, otherwise, only users in the purchasing group can see it.
+     * 
+     * @return boolean true if the print retransmit button can be displayed.
+     */
+    public boolean canPrintRetransmit() {
+        // check PO status etc
+        boolean can = getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT);
+        can = can && PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(getPurchaseOrderDocument().getStatusCode());
+        can = can && editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
+        
+        // check user authorization: same as retransmit init, since whoever can init retransmit PO shall be able to print
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+        if (getPurchaseOrderDocument().getPurchaseOrderAutomaticIndicator()) {
+            // for APO use authorization for PurchaseOrderRetransmitDocument, which is anybody
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRetransmitDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+        else {
+            // for NON_APO use authorization for PurchaseOrderDocument, which is purchasing user
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());            
+        }
+      
+        return can;
+    }
+    
+    /**
+     * Determines whether to display the button to print the pdf for the first time transmit. 
+     * Conditions: PO status is Pending Print or the transmission method is changed to PRINT during the amendment. 
+     * User is either in Purchasing group or an action is requested of them for the document transmission route node.
+     * 
+     * @return boolean true if the print first transmit button can be displayed.
+     */
+    public boolean canFirstTransmitPrintPo() {
+        // status shall be Pending Print, or the transmission method is changed to PRINT during amendment, 
+        boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(getPurchaseOrderDocument().getStatusCode());
+        if (!can) {
+            can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+            can = can && getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();
+            can = can && getPurchaseOrderDocument().getPurchaseOrderLastTransmitTimestamp() == null;
+            String method = getPurchaseOrderDocument().getPurchaseOrderTransmissionMethodCode();
+            can = can && method != null && method.equals(PurapConstants.POTransmissionMethods.PRINT);
+        }
+        
+        // user is either authorized or an action is requested of them for the document transmission route node, 
+        if (can) {
+            PurApWorkflowIntegrationService service = SpringContext.getBean(PurApWorkflowIntegrationService.class);
+            can = service.isActionRequestedOfUserAtNodeName(getPurchaseOrderDocument().getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson());
+            if (!can) {
+                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+                can = documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.PRINT_PO, GlobalVariables.getUserSession().getPerson().getPrincipalId());               
+            }
+        }
+        
+        return can;
+    }
+    
+    /**
+     * Determines whether to display the print preview button for the first time transmit. Conditions are:
+     * available prior to the document going to final;
+     * available for only a certain number of PO transmission types which are stored in a parameter (default to PRIN and FAX);
+     * viewable by new workgroup (default to PA_PUR_USERS).
+     * 
+     * @return boolean true if the preview print button can be displayed.
+     */
+   public boolean canPreviewPrintPo() {
+        // PO is prior to FINAL
+        boolean can = !getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();
+
+        // transmission method must be one of those specified by the parameter
+        if (can) {
+            List<String> methods = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_PO_PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES);
+            String method = getPurchaseOrderDocument().getPurchaseOrderTransmissionMethodCode();
+            can = (methods == null || methods.contains(method));
+        }
+        
+        // check user authorization: same as print PO
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            can = documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.PRINT_PO, GlobalVariables.getUserSession().getPerson().getPrincipalId());              
+        }
+
+        return can;
+    }
+
+    /**
+     * Determines if a Split PO Document can be created from this purchase order. Conditions: 
+     * The parent PO status is either "In Process" or "Awaiting Purchasing Review"; requisition source is not B2B; has at least 2 items, 
+     * and PO is not in the process of being split; user must be in purchasing group.
+     * 
+     * @return boolean true if the split PO button can be displayed.
+     */
+    public boolean canSplitPo() {
+        // PO must be in either "In Process" or "Awaiting Purchasing Review"
+        boolean can = PurchaseOrderStatuses.IN_PROCESS.equals(getPurchaseOrderDocument().getStatusCode());
+        can = can && !getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute(); 
+        can = can || PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(getPurchaseOrderDocument().getStatusCode());
+        
+        // can't split a SplitPO Document, according to new specs
+        can = can && !(getPurchaseOrderDocument() instanceof PurchaseOrderSplitDocument); 
+        
+        // can't initiate another split during the splitting process. 
+        can = can && !editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
+        
+        // Requisition Source must not be B2B.
+        can = can && !getPurchaseOrderDocument().getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B);
+        
+        // PO must have more than one line item.
+        if (can) {
+            List<PurApItem> items = (List<PurApItem>)getPurchaseOrderDocument().getItems();
+            int itemsBelowTheLine = PurApItemUtils.countBelowTheLineItems(items);
+            can = items.size() - itemsBelowTheLine > 1;
+        }
+        
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderSplitDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+              
+        return can;
+    }
+    
+    /**
+     * Determines whether the PO is in a status that signifies it has enough information to generate a Split PO.
+     * 
+     * @return  True if the PO can continue to be split.
+     */
+    public boolean canContinuePoSplit() {
+        boolean can = editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
+        
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderSplitDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+              
+        return can;        
+    }
+    
+    /**
+     * Determines if a line item receiving document can be created for the purchase order.
+     * 
+     * @return boolean true if the receiving document button can be displayed.
+     */
+    public boolean canCreateReceiving() {       
+        // check PO status and item info 
+        boolean can = SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(getPurchaseOrderDocument());
+        
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(LineItemReceivingDocument.class);
+            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+        }
+              
+        return can;
+    }
+    
+    /**
+     * Determines whether to display the resend po button for the purchase order document.
+     * Conditions: PO status must be error sending cxml, must be current and not pending, and the user must be in purchasing group.
+     * 
+     * @return boolean true if the resend po button shall be displayed.
+     */
+    public boolean canResendCxml() {
+        // check PO status etc
+        boolean can = PurchaseOrderStatuses.CXML_ERROR.equals(getPurchaseOrderDocument().getStatusCode());
+        can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
+        
+        // check user authorization
+        if (can) {
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            can = documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.RESEND_PO, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        }
+      
+        return can;
+    }
+        
+    /**
+     * Determines whether the current user has the authorization to assign sensitive data to the PO in its current status,
+     * and thus show the assign sensitive data button.
+     * 
+     * @return boolean true if the assign sensitive data button shall be displayed.
+     */
+    public boolean canAssignSensitiveData() {
+        // check user authorization
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+        return documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.ASSIGN_SENSITIVE_DATA, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+    }
+
     /**
      * Creates a MAP for all the buttons to appear on the Purchase Order Form, and sets the attributes of these buttons.
      * 
@@ -538,12 +927,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         if (StringUtils.isNotEmpty(getPurchaseOrderDocument().getStatusChange())){
             return getPurchaseOrderDocument().getStatusChange();
         } else {
-            if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurapConstants.PurchaseOrderStatuses.IN_PROCESS)){
-                return PurapConstants.PurchaseOrderStatuses.IN_PROCESS;
-            } else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)){
-                return PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT;
-            }else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR)){
-                return PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR;   
+            if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.IN_PROCESS)){
+                return PurchaseOrderStatuses.IN_PROCESS;
+            } else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)){
+                return PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT;
+            }else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.WAITING_FOR_VENDOR)){
+                return PurchaseOrderStatuses.WAITING_FOR_VENDOR;   
             }else{
                 return null;
             }

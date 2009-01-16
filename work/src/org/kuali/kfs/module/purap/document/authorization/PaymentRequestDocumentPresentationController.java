@@ -164,6 +164,7 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
 
         // if use tax, don't allow editing of tax fields
         if (paymentRequestDocument.isUseTaxIndicator()) {
+            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES);
             editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.LOCK_TAX_AMOUNT_ENTRY);
         }
 
@@ -200,6 +201,9 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
             }
         }
 
+        if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.VENDOR_TAX_REVIEW)) {
+            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_AREA_EDITABLE);
+        }
         return editModes;
     }
         

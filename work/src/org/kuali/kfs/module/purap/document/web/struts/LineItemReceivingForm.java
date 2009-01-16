@@ -23,11 +23,17 @@ import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
+import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
-import org.kuali.kfs.module.purap.document.authorization.LineItemReceivingDocumentActionAuthorizer;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
@@ -86,26 +92,27 @@ public class LineItemReceivingForm extends ReceivingFormBase {
         extraButtons.clear();
         Map buttonsMap = createButtonsMap();
         
-        LineItemReceivingDocumentActionAuthorizer auth = new LineItemReceivingDocumentActionAuthorizer(this.getLineItemReceivingDocument(), getEditingMode());        
-
         String displayInitTab = (String) getEditingMode().get(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB);
         if (ObjectUtils.isNotNull(displayInitTab) && displayInitTab.equalsIgnoreCase("true")) {
-            ExtraButton continueButton = (ExtraButton) buttonsMap.get("methodToCall.continueReceivingLine");
-            extraButtons.add(continueButton);
-
-            ExtraButton clearButton = (ExtraButton) buttonsMap.get("methodToCall.clearInitFields");
-            extraButtons.add(clearButton);
-
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.continueReceivingLine"));
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.clearInitFields"));
         }
         else {
-            if (auth.canCreateCorrection()) {
-                ExtraButton correctionButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingCorrection");
-                extraButtons.add(correctionButton);
+            if (canCreateCorrection()) {
+                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.createReceivingCorrection"));
             }
         }
         
         return extraButtons;
     }        
+
+    private boolean canCreateCorrection() {
+        Person user = GlobalVariables.getUserSession().getPerson();
+        String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CorrectionReceivingDocument.class);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(documentTypeName);
+        boolean isUserAuthorized = documentAuthorizer.canInitiate(documentTypeName, user);
+        return SpringContext.getBean(ReceivingService.class).canCreateCorrectionReceivingDocument(getLineItemReceivingDocument()) && isUserAuthorized;
+    }
 
     /**
      * Creates a MAP for all the buttons to appear on the Receiving Line Form, and sets the attributes of these buttons.

@@ -144,7 +144,7 @@ public class CamsPropertyConstants {
         public static final String REQUISITION_NUMBER = "requisitionNumber";
         public static final String DOCUMENT_NUMBER = "expenditureFinancialDocumentNumber";
         public static final String DOCUMENT_TYPE_CODE = "expenditureFinancialDocumentTypeCode";
-        public static final String DOCUMENT_TYPE = "expenditureFinancialDocumentType";
+        public static final String DOCUMENT_TYPE = "expenditureGeneralLedgerInputType";
         public static final String ORIGINATION_CODE = "expenditureFinancialSystemOriginationCode";
         public static final String ORIGINATION = "expenditureFinancialSystemOrigination";
         public static final String DOCUMENT_POSTING_DATE = "expenditureFinancialDocumentPostedDate";

@@ -538,6 +538,44 @@
 				path="/jsp/modules/budget/BudgetConstructionImportExport.jsp" />
 		</action>
 
+		<action path="/budgetMonthlyBudget" name="MonthlyBudgetForm"
+			input="/jsp/modules/budget/MonthlyBudget.jsp"
+			type="org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetAction"
+			scope="session" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/modules/budget/MonthlyBudget.jsp" />
+		</action>
+
+		<action path="/budgetQuickSalarySetting" name="QuickSalarySettingForm"
+			input="/jsp/modules/budget/QuickSalarySetting.jsp"
+			type="org.kuali.kfs.module.bc.document.web.struts.QuickSalarySettingAction"
+			scope="session" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/modules/budget/QuickSalarySetting.jsp" />
+		</action>
+
+		<action path="/budgetPositionSalarySetting" name="PositionSalarySettingForm"
+			input="/jsp/modules/budget/PositionSalarySetting.jsp"
+			type="org.kuali.kfs.module.bc.document.web.struts.PositionSalarySettingAction"
+			scope="session" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/modules/budget/PositionSalarySetting.jsp" />
+			<forward name="organizationSalarySettingReturning" path="/jsp/modules/budget/OrganizationSalarySettingReturning.jsp" />
+		</action>
+
+		<action path="/budgetIncumbentSalarySetting" name="IncumbentSalarySettingForm"
+			input="/jsp/modules/budget/IncumbentSalarySetting.jsp"
+			type="org.kuali.kfs.module.bc.document.web.struts.IncumbentSalarySettingAction"
+			scope="session" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/modules/budget/IncumbentSalarySetting.jsp" />
+			<forward name="organizationSalarySettingReturning" path="/jsp/modules/budget/OrganizationSalarySettingReturning.jsp" />
+		</action>
+
 		<action path="/researchBudget*" name="BudgetForm"
 			input="/jsp/modules/research/budget/Budget{1}.jsp"
 			type="org.kuali.kfs.module.cg.document.web.struts.Budget{1}Action"

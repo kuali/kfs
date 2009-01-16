@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -87,6 +88,14 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         ActionForward forward = super.execute(mapping, form, request, response);
         salarySettingForm.postProcessBCAFLines();
 
+        // re-init the session form if session scoped
+        if (salarySettingForm.getMethodToCall().equals("refresh")){
+            if (BCConstants.MAPPING_SCOPE_SESSION.equals(mapping.getScope())){
+                HttpSession sess = request.getSession(Boolean.FALSE);
+                String formName = mapping.getAttribute();
+                sess.setAttribute(formName, salarySettingForm);
+            }
+        }
         return forward;
     }
     
@@ -364,6 +373,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      * return after salary setting is closed
      */
     protected ActionForward returnAfterClose(SalarySettingBaseForm salarySettingForm, ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        this.cleanupAnySessionForm(mapping, request);
         if (salarySettingForm.isBudgetByAccountMode()) {
             salarySettingForm.getCallBackMessages().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
             return this.returnToCaller(mapping, salarySettingForm, request, response);

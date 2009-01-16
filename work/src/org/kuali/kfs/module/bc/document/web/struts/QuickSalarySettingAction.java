@@ -104,6 +104,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.INTENDED_INCUMBENT, BudgetConstructionIntendedIncumbent.class.getName(), parameters);
 
+        this.cleanupAnySessionForm(mapping, request);
         return new ActionForward(lookupUrl, true);
     }
 
@@ -134,6 +135,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP, BudgetConstructionPosition.class.getName(), parameters);
 
+        this.cleanupAnySessionForm(mapping, request);
         return new ActionForward(lookupUrl, true);
     }
 
@@ -150,6 +152,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         if (salarySettingExpansion == null) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_SALARY_SETTING_EXPANSION_NOT_FOUND);
+            this.cleanupAnySessionForm(mapping, request);
             return this.returnToCaller(mapping, form, request, response);
         }
 
@@ -168,6 +171,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         }
 
         String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.INCUMBENT_SALARY_SETTING_ACTION);
+        this.cleanupAnySessionForm(mapping, request);
         return new ActionForward(salarySettingURL, true);
     }
 
@@ -181,6 +185,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         }
 
         String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.POSITION_SALARY_SETTING_ACTION);
+        this.cleanupAnySessionForm(mapping, request);
         return new ActionForward(salarySettingURL, true);
     }
 

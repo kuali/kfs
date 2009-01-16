@@ -18,6 +18,8 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -126,6 +128,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                 populateRevenueLine(bcDoc, this.getNewRevenueLine());
 
             }
+            else {
+                this.populatePBGLLine(this.getNewRevenueLine());
+            }
 
             if (methodToCall.equals(BCConstants.INSERT_EXPENDITURE_LINE_METHOD)) {
                 PendingBudgetConstructionGeneralLedger expLine = getNewExpenditureLine();
@@ -137,6 +142,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
                 populateExpenditureLine(bcDoc, this.getNewExpenditureLine());
 
+            }
+            else {
+                this.populatePBGLLine(this.getNewExpenditureLine());
             }
 
             // this is needed to retrieve ref objects, esp budgetConstructionMonthly
@@ -889,5 +897,16 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     public boolean isEditAllowed() {
         return getDocumentActions().keySet().contains(KNSConstants.KUALI_ACTION_CAN_EDIT);
     }
-    
+
+// TODO used to workaround KIM access problems remove this hack when no longer needed
+//    /**
+//     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDocumentActions()
+//     */
+//    @Override
+//    public Map getDocumentActions() {
+//        Map documentActions = super.getDocumentActions();
+//        documentActions.put(KNSConstants.KUALI_ACTION_CAN_EDIT, Boolean.TRUE);
+//        return documentActions;
+//    }
+//    
 }

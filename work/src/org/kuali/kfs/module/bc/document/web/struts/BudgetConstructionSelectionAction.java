@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -127,6 +128,11 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
                     // clear out all BC related Objects(forms) stored in GlobalVariables.UserSession
                     // to help prevent memory leaks if the user fails to use application control flow
                     GlobalVariables.getUserSession().removeObjectsByPrefix(BCConstants.FORMKEY_PREFIX);
+                    
+                    // clear out any session object form attribute
+                    HttpSession sess = request.getSession(Boolean.FALSE);
+                    sess.removeAttribute(BCConstants.MAPPING_ATTRIBUTE_KUALI_FORM);
+
                 } else {
                     budgetConstructionSelectionForm.setSessionInProgressDetected(true);
                     GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_NOTCLEANED);

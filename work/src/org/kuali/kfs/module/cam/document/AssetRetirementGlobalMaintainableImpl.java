@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -81,7 +81,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         String retirementReason = ((AssetRetirementGlobal) getBusinessObject()).getRetirementReasonCode();
         if (nodeName.equals(this.RETIRED_ASSET_TRANSFERRED_EXTERNALLY)) return CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER.equalsIgnoreCase(retirementReason);
         if (nodeName.equals(this.RETIRED_ASSET_SOLD_OR_GIFTED)) return CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(retirementReason) || CamsConstants.AssetRetirementReasonCode.GIFT.equalsIgnoreCase(retirementReason);;
-        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
     /**
@@ -307,6 +307,19 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
         assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
         routingInfo.add(assetTagNumberRoutingData);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
+     */
+    @Override
+    public void addNewLineToCollection(String collectionName) {
+        super.addNewLineToCollection(collectionName);
+
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
+        if (StringUtils.isBlank(assetRetirementGlobal.getMergedTargetCapitalAssetDescription()) && ObjectUtils.isNotNull(assetRetirementGlobal.getMergedTargetCapitalAssetNumber())) {
+            assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
+        }
     }
 
     @Override

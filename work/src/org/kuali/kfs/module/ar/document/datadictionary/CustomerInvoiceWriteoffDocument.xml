@@ -132,7 +132,7 @@
         <property name="searchingAttribute" ref="SearchingAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" />
         <property name="documentValues">
         	<list>
-        		<value>customerInvoiceDocument.sourceAccountingLines.invoiceWriteoffAmount</value>
+        		<value>invoiceWriteoffAmount</value>
         	</list>
         </property>
     </bean>

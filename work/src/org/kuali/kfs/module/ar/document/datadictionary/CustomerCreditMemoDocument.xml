@@ -154,7 +154,7 @@
         <property name="searchingAttribute" ref="SearchingAttribute-CustomerCreditMemoDocument-crmTotalAmount" />
         <property name="documentValues">
         	<list>
-        		<value>invoice.sourceAccountingLines.crmTotalAmount</value>
+        		<value>crmTotalAmount</value>
         	</list>
         </property>
     </bean>

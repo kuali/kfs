@@ -30,7 +30,7 @@ import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.service.impl.RoleServiceImpl;
 
 @ConfigureContext
-public class RoleServiceImplTest extends KualiTestBase {
+public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
 
     protected Person regionalBudgetManager;
     protected Person universityAdministrationBudgetManager;

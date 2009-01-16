@@ -15,6 +15,7 @@
  */
 package org.kuali.rice.kns.workflow.attribute;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.role.QualifierResolver;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
@@ -102,14 +102,17 @@ public class DataDictionaryQualifierResolver implements QualifierResolver {
         final DocumentEntry documentEntry = getDocumentEntry(context);
         final RoutingTypeDefinition routingTypeDefinition = getWorkflowAttributeDefintion(documentEntry, routeLevel);
         final Document document = getDocument(context, documentEntry.getDocumentClass());
+        List<AttributeSet> qualifiers = null;
         
         if (document != null && routingTypeDefinition != null) {
-            List<AttributeSet> qualifiers = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class).resolveRoutingTypeQualifiers(document, routingTypeDefinition);
-            decorateWithCommonQualifiers(qualifiers, document, documentEntry, routeLevel);
-            return qualifiers;
+            qualifiers = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class).resolveRoutingTypeQualifiers(document, routingTypeDefinition);
+        } else {
+            qualifiers = new ArrayList<AttributeSet>();
+            AttributeSet basicQualifier = new AttributeSet();
+            qualifiers.add(basicQualifier);
         }
-        
-        return null;
+        decorateWithCommonQualifiers(qualifiers, document, documentEntry, routeLevel);
+        return qualifiers;
     }
 
     /**

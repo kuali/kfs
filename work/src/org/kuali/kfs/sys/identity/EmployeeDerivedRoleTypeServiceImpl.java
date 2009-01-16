@@ -28,6 +28,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -57,7 +58,7 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         List<String> principalIds = new ArrayList<String>();
 
-        String principalId = qualification.get(KimConstants.PropertyNames.PRINCIPAL_ID);
+        String principalId = qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID);
 
         if(hasApplicationRole(principalId, null, namespaceCode, roleName, qualification))
             principalIds.add( principalId );

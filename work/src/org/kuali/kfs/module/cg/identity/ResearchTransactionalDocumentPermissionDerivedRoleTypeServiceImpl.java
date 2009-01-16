@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
+import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kim.util.KimConstants;
 
 public class ResearchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase {
@@ -29,7 +30,7 @@ public class ResearchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl e
 
     @Override
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
-        AdhocPerson adhocPerson = getResearchDocumentPermissionsService().getAdHocPerson(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER), qualification.get(KimConstants.PropertyNames.PRINCIPAL_ID));
+        AdhocPerson adhocPerson = getResearchDocumentPermissionsService().getAdHocPerson(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER), qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID));
         if ((adhocPerson == null) || CGConstants.RoutingFormPermissionTypes.PERMISSION_READ_CODE.equals(adhocPerson.getPermissionCode())) {
             AttributeSet unmatchableQualification = new AttributeSet();
             unmatchableQualification.put(KfsKimAttributes.DOCUMENT_NUMBER, UNMATCHABLE_QUALIFICATION);

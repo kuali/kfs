@@ -34,6 +34,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
@@ -66,25 +67,19 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
             AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.ASSET_RETIREMENT_DOCUMENT_TYPE_NAME);
             
             if (assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
-                // TODO following doesn't work because asset isn't a Document
-                //boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.USE_RESTRICTED_RETIREMENT_REASON, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                boolean isAuthorized = true;
+                boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.USE_RESTRICTED_RETIREMENT_REASON, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 
                 if (!isAuthorized) {
                     return getEmptyAnchorHtmlData();
                 }
             } else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
-                // TODO following doesn't work because asset isn't a Document
-                //boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MERGE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                boolean isAuthorized = true;
+                boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MERGE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 
                 if (!isAuthorized) {
                     return getEmptyAnchorHtmlData();
                 }
             } else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(assetRetirementReason.getRetirementReasonCode())) {
-                // TODO following doesn't work because asset isn't a Document
-                //boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.RAZE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                boolean isAuthorized = true;
+                boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.RAZE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 
                 if (!isAuthorized) {
                     return getEmptyAnchorHtmlData();

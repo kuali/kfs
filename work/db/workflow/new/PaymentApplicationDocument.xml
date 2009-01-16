@@ -4,6 +4,7 @@
 <documentType>
 <name>PaymentApplicationDocument</name>
 <parent>AccountsReceivableTransactionalDocument</parent>
+<label>Payment Application</label>
 <docHandler>${application.url}/arPaymentApplicationDocument.do?methodToCall=docHandler</docHandler>
 
 </documentType>

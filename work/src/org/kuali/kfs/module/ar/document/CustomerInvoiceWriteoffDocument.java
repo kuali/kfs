@@ -334,7 +334,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
         String writeoffOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         boolean hasWriteoffClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffOffsetOption);
-        
+
         String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD);
         boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD_DISALLOW.equals( writeoffTaxGenerationOption );
 
@@ -477,11 +477,10 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        // TODO add a new system parameter for WRITEOFF_DFLT_APPRVL_AMOUNT
         if (REQUIRES_APPROVAL_NODE.equals(nodeName) && WRITEOFF_DFLT_APPRVL_AMOUNT.isLessThan(getInvoiceWriteoffAmount())) {
             return true;
         }
         return false;
     }
-
-
 }

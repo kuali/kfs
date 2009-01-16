@@ -4,6 +4,7 @@
 <documentType>
 <name>CustomerTypeMaintenanceDocument</name>
 <parent>AccountsReceivableSimpleMaintenanceDocument</parent>
+<label>Customer Type</label>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

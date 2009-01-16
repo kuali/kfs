@@ -79,7 +79,7 @@
   <bean id="CashControlDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="CashControlDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" />
   
   <bean id="CashControlDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+	<property name="searchingAttribute" ref="SearchingAttribute-CashControlDocument-processingChartOfAccountCode" />
 	  <property name="documentValues">
 	  	<list>
 	  		<value>chartOfAccountsCode</value>
@@ -90,7 +90,7 @@
   <bean id="CashControlDocument-SearchingTypeDefinition-organizationCode" parent="CashControlDocument-SearchingTypeDefinition-organizationCode-parentBean" />
   
   <bean id="CashControlDocument-SearchingTypeDefinition-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
+	<property name="searchingAttribute" ref="SearchingAttribute-CashControlDocument-processingOrganizationCode" />
 	  <property name="documentValues">
 	  	<list>
 	  		<value>organizationCode</value>
@@ -114,8 +114,8 @@
   <bean id="RoutingType-CashControlDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-organizationCode" />
+		        <ref bean="RoutingAttribute-CashControlDocument-processingChartOfAccountCode" />
+		        <ref bean="RoutingAttribute-CashControlDocument-processingOrganizationCode" />
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
@@ -140,5 +140,20 @@
     			<entry key="Lockbox" value-ref="RoutingType-CashControlDocument-Lockbox" />
     		</map>
     	</property>
+  </bean>
+  <bean id="RoutingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode" />
+  <bean id="SearchingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode" />
+
+  <bean id="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode" abstract="true">
+	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+	<property name="attributeName" value="processingChartOfAccountCode" />
+  </bean>
+
+  <bean id="RoutingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingOrganizationCode" />
+  <bean id="SearchingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CashControlDocument-processingOrganizationCode" />
+
+  <bean id="WorkflowAttribute-CashControlDocument-processingOrganizationCode" abstract="true">
+	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+	<property name="attributeName" value="processingOrganizationCode" />
   </bean>
   </beans>

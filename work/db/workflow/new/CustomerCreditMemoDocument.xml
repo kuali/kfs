@@ -4,6 +4,7 @@
 <documentType>
 <name>CustomerCreditMemoDocument</name>
 <parent>AccountsReceivableTransactionalDocument</parent>
+<label>Customer Credit Memo</label>
 <docHandler>${application.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

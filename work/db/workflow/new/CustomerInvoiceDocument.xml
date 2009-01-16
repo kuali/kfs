@@ -4,17 +4,18 @@
 <documentType>
 <name>CustomerInvoiceDocument</name>
 <parent>AccountsReceivableTransactionalDocument</parent>
+<label>Customer Invoice</label>
 <docHandler>${application.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="HasReccurence"/>
           <split name="HasReccurence">
             <branch name="True">
-            	<requests name="Account" nextNode="Reccurence"/>
+              <requests name="Account" nextNode="Reccurence"/>
               <requests name="Reccurence" nextNode="Join"/>
             </branch>
             <branch name="False">
-              <simple name="Do Nothing" nextNode="Join"/>
+              <simple name="NoOp" nextNode="Join"/>
             </branch>
             <join name="Join"/>
           </split>
@@ -25,13 +26,13 @@
 <role name="Account">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Recurrence">
+<role name="Reccurence">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <split name="HasReccurence">
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
-<simple name="Do Nothing">
+<simple name="NoOp">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <join name="Join"/>

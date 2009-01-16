@@ -30,7 +30,6 @@
 			<routeNodes>
 				<start name="AdHoc" />
 				<role name="Lockbox">
-					<!--<ruleTemplate>LockboxTemplate</ruleTemplate>-->
 					<qualifierResolverClass>
 						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
@@ -43,7 +42,6 @@
 				</role>
 				<split name="AssociatedWithElectronicPayment">
 					<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
-					<!-- <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type> -->
 				</split>
 				<simple name="NoOp">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>

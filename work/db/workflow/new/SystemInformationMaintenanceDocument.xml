@@ -4,6 +4,7 @@
 <documentType>
 <name>SystemInformationMaintenanceDocument</name>
 <parent>AccountsReceivableSimpleMaintenanceDocument</parent>
+<label>SystemInformation</label>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

@@ -4,6 +4,7 @@
 <documentType>
 <name>PaymentMediumMaintenanceDocument</name>
 <parent>AccountsReceivableSimpleMaintenanceDocument</parent>
+<label>Payment Medium</label>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

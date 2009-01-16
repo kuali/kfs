@@ -17,8 +17,6 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -1737,27 +1735,16 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         this.quickApply = quickApply;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (HAS_RECCURENCE_NODE.equals(nodeName)) {
-            if (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails())) {
+            if (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate() != null) {
                 return true;
-}
-       }
+            }
+        }
         return false;
-    }
-
-    public String getChartOfAccountsCode() {
-        if (getAccountsReceivableDocumentHeader() != null) {
-            return getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
-        }
-        return null;
-    }
-
-    public String getOrganizationCode() {
-        if (getAccountsReceivableDocumentHeader() != null) {
-            return getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
-        }
-        return null;
     }
 }

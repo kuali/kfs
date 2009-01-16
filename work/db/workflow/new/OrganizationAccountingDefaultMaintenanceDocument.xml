@@ -4,6 +4,7 @@
 <documentType>
 <name>OrganizationAccountingDefaultMaintenanceDocument</name>
 <parent>AccountsReceivableComplexMaintenanceDocument</parent>
+<label>Organization Accounting Default</label>
 <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

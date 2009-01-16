@@ -19,20 +19,19 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
 
-public class CustomerMaintenableImpl extends KualiMaintainableImpl {
+public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
 
     @Override
     @SuppressWarnings("unchecked")
@@ -85,7 +84,7 @@ public class CustomerMaintenableImpl extends KualiMaintainableImpl {
         if (collectionName.equalsIgnoreCase(ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES)) {
 
             CustomerAddress customerAddress = (CustomerAddress) businessObject;
-            
+
             // set default address name to customer name
             customerAddress.setCustomerAddressName(customer.getCustomerName());
 
@@ -120,5 +119,11 @@ public class CustomerMaintenableImpl extends KualiMaintainableImpl {
         return businessObject;
 
     }
-   
+
+    @Override
+    protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        // TODO - what is the condition required for this split?
+        return true;
+    }
+
 }

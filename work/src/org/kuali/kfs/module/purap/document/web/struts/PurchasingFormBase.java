@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -27,12 +26,10 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
-import org.kuali.kfs.module.purap.document.authorization.PurchasingDocumentActionAuthorizer;
-import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
@@ -368,16 +365,15 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
 
     @Override
     public List<ExtraButton> getExtraButtons() {
-        extraButtons.clear();    
-        if(getAuth()==null){
-            return extraButtons;
-        }
+        extraButtons.clear();
+        boolean canUserEdit = documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-            // add the calculate button
-            if (getAuth().canCalculate()) {
-                addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
-            }
-            
+
+        // add the calculate button if the user can edit
+        if (canUserEdit) {
+            addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+        }
+
         return extraButtons;
     }
 
@@ -405,6 +401,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         this.initialZipCode = initialZipCode;
     }
 
-    public abstract PurchasingDocumentActionAuthorizer getAuth();
+    //FIXME hjs: hopefully can get rid of this
+//    public abstract PurchasingDocumentActionAuthorizer getAuth();
 
 }

@@ -75,11 +75,10 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
             editModes.add(PurapAuthorizationConstants.RequisitionEditMode.CLEAR_ALL_TAXES);
         }
 
-//TODO hjs - how to handle FULL_ENTRY mode?
-//        //if full entry, and not use tax, allow editing
-//        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !poDocument.isUseTaxIndicator()){
-//            editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.TAX_AMOUNT_CHANGEABLE, "TRUE");
-//        }
+        //if use tax, don't allow editing of tax fields
+        if(poDocument.isUseTaxIndicator()){
+            editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_TAX_AMOUNT_ENTRY);
+        }
         
         // check if purap tax is enabled
         boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                

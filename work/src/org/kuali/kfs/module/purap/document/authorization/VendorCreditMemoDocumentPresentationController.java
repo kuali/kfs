@@ -15,11 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,20 +23,12 @@ import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
@@ -109,36 +97,24 @@ public class VendorCreditMemoDocumentPresentationController extends FinancialSys
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument)document;
         Set<String> editModes = new HashSet<String>();
 
-//TODO hjs how to decide if can be edited pre extract
-//        String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-//        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup) && 
-//                (creditMemoDocument.getExtractedTimestamp() == null) && 
-//                (! workflowDocument.isAdHocRequested()) &&
-//                (! PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(creditMemoDocument.getStatusCode()))) {
-//            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
-//        }
-        // make sure ap user can edit certain fields
-//        if (preqDocAuth.canEditPreExtractFields() && !preqDocAuth.isAdHocRequested() && !vendorCreditMemoDocument.isPaymentRequestedCancelIndicator()) {
-//            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.EDIT_PRE_EXTRACT);
-//        }
-
         if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
             editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB);
         }
         
+        if (!vendorCreditMemoDocument.isExtracted() && 
+                !workflowDocument.isAdHocRequested() &&
+                !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getStatusCode())) {
+            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.EDIT_PRE_EXTRACT);
+        }
+
         if (!vendorCreditMemoDocument.isSourceDocumentPaymentRequest()) {
             editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.LOCK_VENDOR_ENTRY);
         }
         
-        //TODO check this logic (used to check FULL_ENTRY)
-        if(canEdit(vendorCreditMemoDocument)){
-            //Use tax indicator editing is enabled
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.USE_TAX_INDICATOR_CHANGEABLE);
-            
-            if (!vendorCreditMemoDocument.isUseTaxIndicator()) {
-                //if full entry, and not use tax, allow editing
-                editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_AMOUNT_CHANGEABLE);
-            }
+        // only allow tax editing and display the "clear all taxes" button if doc is not using use tax
+        if (vendorCreditMemoDocument.isUseTaxIndicator()) {
+            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES);
+            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.LOCK_TAX_AMOUNT_ENTRY);
         }
 
         // See if purap tax is enabled
@@ -147,6 +123,13 @@ public class VendorCreditMemoDocumentPresentationController extends FinancialSys
             editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
         }
 
+        //TODO hjs-is this right?  check to see if the checkbox is showing up for non-AP folks
+        if (!vendorCreditMemoDocument.isSourceVendor() &&
+                !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(vendorCreditMemoDocument) && 
+                PurapConstants.PurchaseOrderStatuses.CLOSED.equals(vendorCreditMemoDocument.getPurchaseOrderDocument().getStatusCode())) {
+            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.ALLOW_REOPEN_PURCHASE_ORDER);
+        }
+        
         return editModes;
     }
 

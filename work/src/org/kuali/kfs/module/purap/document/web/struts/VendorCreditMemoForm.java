@@ -22,18 +22,15 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
@@ -79,30 +76,11 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
     }
 
     /**
-     * This method determines if a user is able to reopen a purchase order. This is used by the checkbox "reopen PO" on the credit
-     * memo form.
-     * 
-     * @return - true if able to reopen a purchase order, false otherwise
-     */
-    public boolean isAbleToReopenPurchaseOrder() {
-        boolean valid = false;
-
-        VendorCreditMemoDocument creditMemo = (VendorCreditMemoDocument) this.getDocument();
-
-        if (!creditMemo.isSourceVendor() &&
-                SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo) == false && isApUser() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {
-
-            valid = true;
-        }
-
-        return valid;
-    }
-
-    /**
      * Helper method to indicate if the current document has reached full document entry.
      * 
      * @return - true if document has been fully entered, false otherwise
      */
+    //TODO hjs-should we consider making this an editmode instead of a method on the form?
     public boolean isFullDocumentEntryCompleted() {
         VendorCreditMemoDocument creditMemo = (VendorCreditMemoDocument) this.getDocument();
         return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo);
@@ -137,9 +115,8 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
             }
 
             // add the calculate button
-            String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-            boolean isApUser = KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup);
-            if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(cmDocument) == false && isApUser) {
+            boolean canUserEdit = documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+            if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(cmDocument) == false && canUserEdit) {
                 addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
             }
         }

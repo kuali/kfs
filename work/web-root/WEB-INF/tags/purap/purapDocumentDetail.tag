@@ -26,7 +26,7 @@
 <%@ attribute name="editableFundingSource" required="false"
 			  description="Is fundingsourcecode editable?."%>
 
-<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:if test="${empty editableFundingSource}">
 	<c:set var="editableFundingSource" value="false" />
 </c:if>
@@ -35,11 +35,6 @@
 	<c:if test="${KualiForm.document.receivingDocumentRequiredIndicator eq 'true'}">	
 		<c:set var="readOnlyReceivingRequired" value="true" />
 	</c:if>
-</c:if>
-
-<c:set var="useTaxIndicatorChangeable" value="false" scope="request" />	
-<c:if test="${!empty KualiForm.editingMode['useTaxIndicatorChangeable']}">
-    <c:set var="useTaxIndicatorChangeable" value="true" scope="request" />
 </c:if>
 
 <c:set var="useTaxIndicatorButton" value="changeusetax" scope="request" />
@@ -113,7 +108,7 @@
 	            property="document.useTaxIndicator"
 	            attributeEntry="${documentAttributes.useTaxIndicator}"
 	            readOnly="${true}"/>
-			<c:if test="${useTaxIndicatorChangeable}">			
+			<c:if test="${fullEntryMode}">			
 			&nbsp;
 			<html:image property="methodToCall.changeUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"/>
 			</c:if>

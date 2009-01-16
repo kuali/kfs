@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
@@ -25,6 +28,7 @@ import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMod
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,6 +39,18 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 
 public class RequisitionDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+
+    @Override
+    protected boolean canEdit(Document document) {
+        RequisitionDocument reqDocument = (RequisitionDocument)document;
+        if (!RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode()) &&
+                !reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) &&
+                !reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
+            //unless the Requisition is in the Content or Account route level, editing is not allowed
+            return false;
+        }
+        return super.canEdit(document);
+    }
 
     @Override
     public Set<String> getEditModes(Document document) {
@@ -51,33 +67,22 @@ public class RequisitionDocumentPresentationController extends FinancialSystemTr
             editModes.add(RequisitionEditMode.LOCK_B2B_ENTRY);
         }
 
-        // if not B2B requisition, users can edit the posting year if within a given amount of time set in a parameter
+        // if not B2B requisition, the posting year cannot be edited if within a given amount of time set in a parameter
         if (!RequisitionSources.B2B.equals(reqDocument.getRequisitionSourceCode()) && 
-                SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
-                (RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode()) || 
-                        RequisitionStatuses.AWAIT_CONTENT_REVIEW.equals(reqDocument.getStatusCode()) || 
-                        RequisitionStatuses.AWAIT_FISCAL_REVIEW.equals(reqDocument.getStatusCode()))) {
+                SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear()) {
             editModes.add(RequisitionEditMode.ALLOW_POSTING_YEAR_ENTRY);
         }
 
-        //TODO add description of editmode (hjs)
-        if (!reqDocument.isUseTaxIndicator() && 
-                (RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode()) || 
-                        RequisitionStatuses.AWAIT_CONTENT_REVIEW.equals(reqDocument.getStatusCode()) || 
-                        RequisitionStatuses.AWAIT_FISCAL_REVIEW.equals(reqDocument.getStatusCode()))) {
-            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.CLEAR_ALL_TAXES);
+        // check if purap tax is enabled
+        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        if (salesTaxInd) {
+            editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
         }
 
-//TODO hjs - how to handle FULL_ENTRY mode?
-//        //if full entry, and not use tax, allow editing
-//        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !reqDocument.isUseTaxIndicator()){
-//            editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.TAX_AMOUNT_CHANGEABLE, "TRUE");
-//        }
-        
-        // check if purap tax is enabled
-        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
-        if(salesTaxInd){
-            editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
+        // only allow tax editing and display the "clear all taxes" button if doc is not using use tax
+        if (reqDocument.isUseTaxIndicator()) {
+            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.CLEAR_ALL_TAXES);
+            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.LOCK_TAX_AMOUNT_ENTRY);
         }
 
         // set display mode for Receiving Address section according to parameter value
@@ -97,37 +102,26 @@ public class RequisitionDocumentPresentationController extends FinancialSystemTr
             editModes.add(RequisitionEditMode.LOCK_CONTENT_ENTRY);
         }
 
-//FIXME hjs-fix this so that FO's can't edit data besides the accts
          // FISCAL OFFICER ROUTE LEVEL - Approvers can edit only the accounting lines that they own and no other detail on REQ.
-//        else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
-//            List lineList = new ArrayList();
-//            for (Iterator iter = reqDocument.getItems().iterator(); iter.hasNext();) {
-//                RequisitionItem item = (RequisitionItem) iter.next();
-//                lineList.addAll(item.getSourceAccountingLines());
-//                // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
-//                
-//                if (item.getSourceAccountingLines().size() == 0) {
-//                    editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-//                    editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.ALLOW_ITEM_ENTRY, item.getItemIdentifier());
-//                }
-//            }
-//
-//            if (userOwnsAnyAccountingLine(kfsUser, lineList)) {
-//                // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
-//                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-//                editMode = KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
-//            }
-//            
-//            editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_ADDRESS_TO_VENDOR, "TRUE");
-//        }
+        else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
 
-//         // SUB-ACCOUNT ROUTE LEVEL, BASE ORG REVIEW ROUTE LEVEL, SEPARATION OF DUTIES ROUTE LEVEL, and Adhoc - Approvers in these route levels cannot edit any detail on REQ.
-//        else {
-//            // VIEW_ENTRY that is already being set is sufficient, but need to remove FULL_ENTRY
-//            editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);                
-//        }
-//        
-//        editModeMap.put(editMode, "TRUE");
+            // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
+            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.RESTRICT_FISCAL_ENTRY);
+
+            List lineList = new ArrayList();
+            for (Iterator iter = reqDocument.getItems().iterator(); iter.hasNext();) {
+                RequisitionItem item = (RequisitionItem) iter.next();
+                lineList.addAll(item.getSourceAccountingLines());
+                // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
+                
+                if (item.getSourceAccountingLines().size() == 0) {
+                    editModes.add(PurapAuthorizationConstants.RequisitionEditMode.RESTRICT_FISCAL_ENTRY);
+                    //FIXME hjs-this is a problem because we can't put the id in the map anymore
+//                    editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.ALLOW_ITEM_ENTRY, item.getItemIdentifier());
+                }
+            }
+
+        }
 
         return editModes;
     }

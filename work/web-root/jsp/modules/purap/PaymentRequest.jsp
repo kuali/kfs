@@ -20,7 +20,7 @@
     htmlFormAction="purapPaymentRequest" renderMultipart="true"
     showTabButtons="true">
 
-    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />    
     <c:set var="taxInfoViewable" value="${KualiForm.editingMode['taxInfoViewable']}" scope="request" />
     <c:set var="taxAreaEditable" value="${KualiForm.editingMode['taxAreaEditable']}" scope="request" />
@@ -57,7 +57,6 @@
 		<purap:vendor
 	        documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}" 
 	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
-		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->		
 	
 		<purap:paymentRequestInvoiceInfo 
 			documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"

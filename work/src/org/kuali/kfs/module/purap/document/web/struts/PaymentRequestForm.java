@@ -17,20 +17,15 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
@@ -40,8 +35,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Struts Action Form for Payment Request document.
  */
 public class PaymentRequestForm extends AccountsPayableFormBase {
-
-    private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
 
     /**
      * Indicates whether tax has been calculated based on the tax area data.
@@ -56,7 +49,6 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         super();
         setDocument(new PaymentRequestDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
-        setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
     }
     
     public boolean isCalculatedTax() {
@@ -101,61 +93,11 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     }
 
     /**
-     * Recreates the purchase order vendor stipulation line using the current user and current date stamp.
-     * 
-     * @return - PO vendor stipulation based on current but with current user and date stamp.
-     */
-    public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
-        PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
-        setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
-
-        // aPurchaseOrderVendorStipulationLine.setDocumentNumber(getPurchaseOrderDocument().getDocumentNumber());
-        aPurchaseOrderVendorStipulationLine.setVendorStipulationAuthorEmployeeIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        aPurchaseOrderVendorStipulationLine.setVendorStipulationCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-
-        return aPurchaseOrderVendorStipulationLine;
-    }
-
-    public PurchaseOrderVendorStipulation getNewPurchaseOrderVendorStipulationLine() {
-        return newPurchaseOrderVendorStipulationLine;
-    }
-
-    public void setNewPurchaseOrderVendorStipulationLine(PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine) {
-        this.newPurchaseOrderVendorStipulationLine = newPurchaseOrderVendorStipulationLine;
-    }
-
-    /**
-     * Determines if the payment request document has reached the INITIATE status.
-     * 
-     * @return - true if preq is initiated, false otherwise
-     */
-    public boolean isPaymentRequestInitiated() {
-        return StringUtils.equals(this.getPaymentRequestDocument().getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE);
-    }
-
-    /**
-     * Determines if a user is able to close a purchase order. This is used by the checkbox "close PO" on the payment request form.
-     * 
-     * @return - true if able to close a PO, false otherwise
-     */
-    public boolean isAbleToClosePurchaseOrder() {
-        boolean valid = false;
-
-        PaymentRequestDocument preq = (PaymentRequestDocument) this.getDocument();
-
-        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq) == false && isApUser() && PurapConstants.PurchaseOrderStatuses.OPEN.equals(preq.getPurchaseOrderDocument().getStatusCode())) {
-
-            valid = true;
-        }
-
-        return valid;
-    }
-
-    /**
      * Helper method to indicate if the current document has reached full document entry.
      * 
      * @return - true if document has reached full entry, false otherwise
      */
+    //TODO hjs-should we consider making this an editmode instead of a method on the form?
     public boolean isFullDocumentEntryCompleted() {
         PaymentRequestDocument preq = (PaymentRequestDocument) this.getDocument();
         return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq);
@@ -169,10 +111,12 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     @Override
     public List<ExtraButton> getExtraButtons() {        
         extraButtons.clear(); // clear out the extra buttons array
-        PaymentRequestDocument preqDoc = this.getPaymentRequestDocument();
+        PaymentRequestDocument paymentRequestDocument = this.getPaymentRequestDocument();
         String externalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preqDoc, getDocumentActions());
+        
+        //FIXME hjs-can we get rid of this? check user logic
+        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument, getDocumentActions());
 
         if (preqDocAuth.canContinue()) {
             addExtraButton("methodToCall.continuePREQ", externalImageURL + "buttonsmall_continue.gif", "Continue");
@@ -201,6 +145,12 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
             // add the calculate button
             if (preqDocAuth.canCalculate()) {
                 addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+            }
+            
+            boolean canProcessorCancel = getEditingMode().containsKey(PurapAuthorizationConstants.PaymentRequestEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL);
+            boolean canManagerCancel = getEditingMode().containsKey(PurapAuthorizationConstants.PaymentRequestEditMode.ACCOUNTS_PAYABLE_MANAGER_CANCEL);
+            if (canProcessorCancel || canManagerCancel) {
+                addExtraButton("methodToCall.cancel", externalImageURL + "buttonsmall_cancel.gif", "Cancel");
             }
         }
 

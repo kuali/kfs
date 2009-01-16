@@ -37,6 +37,7 @@
     <property name="documentTypeName" value="VendorMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorPreRules" />
     <property name="documentTypeCode" value="PVEN" />
     <property name="workflowProperties" >

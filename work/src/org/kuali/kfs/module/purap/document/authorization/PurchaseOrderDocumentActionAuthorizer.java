@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +57,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * buttons on Purchase Order Document.
  * 
  */
-public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentActionAuthorizer {
+public class PurchaseOrderDocumentActionAuthorizer implements Serializable {
 
     private boolean currentIndicator;
     private boolean pendingActionIndicator;
@@ -68,15 +68,9 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
     private Map documentActions;
     private Person user;
     
-    /**
-     * Constructs a PurchaseOrderDocumentActionAuthorizer.
-     * 
-     * @param po A PurchaseOrderDocument
-     */
-    public PurchaseOrderDocumentActionAuthorizer(PurchaseOrderDocument purchaseOrder, Map editingMode) {
-        this(purchaseOrder, editingMode, new HashMap());
-    }
-    
+    private String docStatus;
+    private String documentType;
+
     /**
      * Constructs a PurchaseOrderDocumentActionAuthorizer.
      * 
@@ -101,7 +95,6 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      * 
      * @return boolean true if the calculate button shall be displayed.
      */
-    @Override
     public boolean canCalculate() {
         // check PO status etc
         boolean can = docStatus.equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
@@ -379,7 +372,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      * 
      * @return boolean true if the preview print button can be displayed.
      */
-    public boolean canPreviewPrintPo() {
+   public boolean canPreviewPrintPo() {
         // PO is prior to FINAL
         boolean can = !purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsFinal();
 
@@ -399,6 +392,11 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         return can;
     }
 
+//FIXME hjs
+//    public boolean canCreateReceiving() {        
+//      return SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(purchaseOrder) && isUserAuthorized;
+//    }
+    
     /**
      * Determines if a Split PO Document can be created from this purchase order. Conditions: 
      * The parent PO status is either "In Process" or "Awaiting Purchasing Review"; requisition source is not B2B; has at least 2 items, 

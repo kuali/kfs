@@ -20,7 +20,7 @@
 	htmlFormAction="purapRequisition" renderMultipart="true"
 	showTabButtons="true">
 
-    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+    <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
  
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"

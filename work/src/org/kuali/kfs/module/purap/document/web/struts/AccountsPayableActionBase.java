@@ -397,6 +397,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableDocument document = (AccountsPayableDocument) apForm.getDocument();
 
         // validate cancel rules
+        //FIXME hjs-this is checking user logic and using the actionauthorizers
         boolean rulePassed = KNSServiceLocator.getKualiRuleService().applyRules(new CancelAccountsPayableEvent(document));
 
         if (!rulePassed) {

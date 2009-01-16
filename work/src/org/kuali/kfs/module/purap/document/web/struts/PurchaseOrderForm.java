@@ -37,7 +37,6 @@ import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
-import org.kuali.kfs.module.purap.document.authorization.PurchasingDocumentActionAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -56,7 +55,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
     private PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
     private Long awardedVendorNumber;
-    PurchaseOrderDocumentActionAuthorizer auth;
     
     // Retransmit.
     private String[] retransmitItemsSelected = {};
@@ -144,15 +142,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         setDocument(purchaseOrderDocument);
     }
     
-    @Override
-    public PurchasingDocumentActionAuthorizer getAuth() {
-        return auth;
-    }
-
-    public void setAuth(PurchaseOrderDocumentActionAuthorizer auth) {
-        this.auth = auth;
-    }
-
     public String getSplitNoteText() {
         return splitNoteText;
     }
@@ -309,7 +298,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // always refresh auth, to accommodate the change from request to scope obj, so that auth always gets refreshed; 
         // otherwise extra buttons won't show correctly
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-        auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode(), getDocumentActions());
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode(), getDocumentActions());
             
         //add buttons from PurapFormBase
         super.getExtraButtons();        

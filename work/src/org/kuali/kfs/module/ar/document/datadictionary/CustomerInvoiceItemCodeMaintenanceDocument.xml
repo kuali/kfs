@@ -14,6 +14,7 @@
     <property name="maintainableClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceItemCodeMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
+        <ref bean="CustomerInvoiceItemCodeMaintenanceDocument-EditBillingOrg" />
         <ref bean="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes" />
         <ref bean="CustomerInvoiceItemCodeMaintenanceDocument-EditItemCodeDefaultAccount" />
       </list>
@@ -68,11 +69,11 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes" parent="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes-parentBean" />
+  <bean id="CustomerInvoiceItemCodeMaintenanceDocument-EditBillingOrg" parent="CustomerInvoiceItemCodeMaintenanceDocument-EditBillingOrg-parentBean" />
 
-  <bean id="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Invoice Item Code" />
-    <property name="title" value="Edit Invoice Item Code" />
+  <bean id="CustomerInvoiceItemCodeMaintenanceDocument-EditBillingOrg-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Billing Organization" />
+    <property name="title" value="Edit Billing Organization" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
@@ -83,6 +84,17 @@
               p:name="organizationCode"
               p:required="true"
               p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes" parent="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes-parentBean" />
+
+  <bean id="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Invoice Item Code" />
+    <property name="title" value="Edit Invoice Item Code" />
+    <property name="maintainableItems" >
+      <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="invoiceItemCode"
               p:required="true" />

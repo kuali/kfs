@@ -171,6 +171,12 @@ public class ArPropertyConstants {
         public static final String ORGANIZATION_POSTAL_ZIP_CODE = "organizationPostalZipCode";
     }
     
+    // CustomerInvoiceItemCodes
+    public static class CustomerInvoiceItemCodes {
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+        public static final String ORGANIZATION_CODE = "organizationCode";
+    }
+    
     // PaymentApplicationDocument
     public static class PaymentApplicationDocumentFields {
         public static final String AMOUNT_TO_BE_APPLIED = "customerInvoiceDetail[0].amountToBeApplied";

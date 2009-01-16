@@ -107,7 +107,9 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
      */
     public boolean checkAuthorization(Person user, File batchFile) {
-        return customerLoadService.checkAuthorization(user, batchFile);
+        // we dont do anything here anymore as the KIM permissions 
+        // handle this now.
+        return true;
     }
 
     /**

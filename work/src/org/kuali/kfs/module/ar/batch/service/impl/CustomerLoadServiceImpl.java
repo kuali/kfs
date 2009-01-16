@@ -49,7 +49,6 @@ import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerRule;
-import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
@@ -58,7 +57,6 @@ import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -838,11 +836,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return existingCustomer;
     }
     
-    public boolean checkAuthorization(Person user, File batchFile) {
-        Person fsUser = fsUserService.getPerson(user.getPrincipalId());
-        return ARUtil.isUserInArBillingOrg(fsUser);
-    }
-
     public FinancialSystemUserService getKnsAuthorizationService() {
         return knsAuthorizationService;
     }

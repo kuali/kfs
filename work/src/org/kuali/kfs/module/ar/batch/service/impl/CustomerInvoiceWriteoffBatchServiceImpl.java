@@ -198,15 +198,6 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
             throw new RuntimeException("The Person who initiated this batch could not be retrieved.");
         }
         
-        //  retrieve the creation time from the batch
-        //java.util.Date createdOn;
-        //try {
-        //   createdOn = dateTimeService.convertToDateTime(batchVO.getSubmittedOn());
-        //}
-        //catch (ParseException e) {
-        //    throw new RuntimeException("The 'submittedOn' value [" + batchVO.getSubmittedOn() + "] could not be converted to a Date.", e);
-        //}
-        
         String createdOn = batchVO.getSubmittedOn();
         
         //  retrieve the user note

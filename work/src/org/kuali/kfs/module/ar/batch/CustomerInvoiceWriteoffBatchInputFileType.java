@@ -75,21 +75,7 @@ public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTyp
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#validate(java.lang.Object)
      */
     public boolean validate(Object parsedFileContents) {
-        //TODO dont think we need this
         return true;
-        
-        //  attempt to cast the parsedFileContents into the expected type
-//        List<CustomerDigesterVO> customerVOs = null;
-//        try {
-//            customerVOs = (List<CustomerDigesterVO>) parsedFileContents;
-//        }
-//        catch (Exception e) {
-//            LOG.error("Could not convert the passed-in parsedFileContents of type [" + parsedFileContents.getClass().toString() + 
-//                    "] to List<CustomerDigesterVO>.");
-//            throw new RuntimeException("Could not convert the passed-in parsedFileContents of type [" + parsedFileContents.getClass().toString() + 
-//                    "] to List<CustomerDigesterVO>.", e);
-//        }
-//        return customerLoadService.validate(customerVOs);
     }
 
     /**

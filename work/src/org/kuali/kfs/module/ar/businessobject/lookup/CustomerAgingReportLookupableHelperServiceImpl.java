@@ -122,6 +122,16 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Collection<CustomerInvoiceDetail> invoiceDetails = new ArrayList<CustomerInvoiceDetail>(); // default max is 10?
 
         Collection<CustomerInvoiceDocument> invoices = null;
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        try {
+            reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
+        }
+        catch (ParseException e) {
+            reportRunDate = today;
+            // MJM Auto-generated catch block
+            e.printStackTrace();
+        }
 //        total0to30 = KualiDecimal.ZERO;
 //        total31to60 = KualiDecimal.ZERO;
 //        total61to90 = KualiDecimal.ZERO;
@@ -147,7 +157,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             else {               
                 CustomerInvoiceDocumentBatchStep newbatch = new CustomerInvoiceDocumentBatchStep();
                 try {
-                    newbatch.execute(accountNumber, new Date());
+                    newbatch.execute(accountNumber, reportRunDate);
                 }
                 catch (InterruptedException e) {
                     // do nada
@@ -155,17 +165,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             }          
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
-        Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-        try {
-            reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
-        }
-        catch (ParseException e) {
-            reportRunDate=today;
-            // MJM Auto-generated catch block
-            e.printStackTrace();
-        }
 
         Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
         

@@ -71,65 +71,73 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     private static final String RUN_INDICATOR_PARAMETER_WORKGROUP = "FP_OPERATIONS";
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        
+
         GlobalVariables.clear();
         GlobalVariables.setUserSession(new UserSession("khuntley"));
-        
+
         Date billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         List<String> customernames;
-        
-        if ((jobName.length() <=8 ) && (jobName.length() >= 4)) {
+
+        if ((jobName.length() <= 8) && (jobName.length() >= 4)) {
             setCustomerInvoiceDocumentService(SpringContext.getBean(CustomerInvoiceDocumentService.class));
             setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
             setDocumentService(SpringContext.getBean(DocumentService.class));
             setDateTimeService(SpringContext.getBean(DateTimeService.class));
 
             customernames = Arrays.asList(jobName);
-        }
-        else {
-            customernames = Arrays.asList("ABB2","3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272");
+        } else {
+            customernames = Arrays.asList("ABB2", "3MC17500", "ACE21725", "ANT7297", "CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272");
         }
 
         // create non-random data
-        for (int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++) {
-
-            billingDate = DateUtils.addDays(billingDate, -30);
-
-            createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $10 entries
-            createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $20 entries
-            createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $30 entries
-
-            Thread.sleep(500);
-
-        }
-
-        // create lockboxes for the non-random invoices
-        int seqNbr = 2000;
-        int scenarioNbr =1;
-        for (String createdInvoice : createdInvoices){
-          createLockboxesForFunctionalTesting(createdInvoice, String.valueOf(seqNbr), scenarioNbr);
-          Thread.sleep(500);
-          seqNbr++;
-          if (scenarioNbr<=6) scenarioNbr++;
-            else scenarioNbr = 1;
-        }
-
-        // create random data
-        for (String customername : customernames) {
-
-            billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-
-            for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
+        if (customernames.size() > 1) {
+            for (int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++) {
 
                 billingDate = DateUtils.addDays(billingDate, -30);
 
-                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, 0, null, null, "1031400", "BL");
+                createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $10 entries
+                createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $20 entries
+                createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $30 entries
+
                 Thread.sleep(500);
 
             }
         }
 
+        // easy dynamic data creation
+        if (customernames.size() == 1) {
+            billingDate = jobRunDate;
+            createCustomerInvoiceDocumentForFunctionalTesting(customernames.get(0), billingDate, 1, new KualiDecimal(10), new BigDecimal(1), "1111111", "BA");  // $10 entries
+            Thread.sleep(500);
+        }
 
+        // create lockboxes for the non-random invoices
+        int seqNbr = 2100;
+        int scenarioNbr = 1;
+        for (String createdInvoice : createdInvoices) {
+            createLockboxesForFunctionalTesting(createdInvoice, String.valueOf(seqNbr), scenarioNbr);
+            Thread.sleep(500);
+            seqNbr++;
+            if (scenarioNbr <= 6) scenarioNbr++;
+            else scenarioNbr = 1;
+        }
+
+        // create random data
+        if (customernames.size() > 1) {
+        for (String customername : customernames) {
+
+            billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+
+            for (int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++) {
+
+                billingDate = DateUtils.addDays(billingDate, -30);
+
+                createCustomerInvoiceDocumentForFunctionalTesting(customername, billingDate, 0, null, null, "1031400", "BL");
+                Thread.sleep(500);
+
+            }
+        }
+        }
 
         setInitiatedParameter();
         return true;

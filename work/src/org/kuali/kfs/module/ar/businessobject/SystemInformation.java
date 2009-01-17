@@ -8,8 +8,10 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.StateService;
@@ -17,7 +19,7 @@ import org.kuali.rice.kns.service.StateService;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class SystemInformation extends PersistableBusinessObjectBase {
+public class SystemInformation extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private Integer universityFiscalYear;
 	private String processingChartOfAccountCode;
@@ -63,6 +65,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private ObjectCode wireObject;
     private SubObjectCode wireSubObject;
     private Person financialDocumentInitiator;
+    private SystemOptions universityFiscal;
     
 	public Person getFinancialDocumentInitiator() {
 	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
@@ -326,7 +329,16 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	public void setLockboxNumber(String lockboxNumber) {
 		this.lockboxNumber = lockboxNumber;
 	}
-
+	
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active
+     * 
+     */
+    public boolean isActive() { 
+        return active;
+    }
 
 	/**
 	 * Gets the active attribute.
@@ -870,6 +882,24 @@ public class SystemInformation extends PersistableBusinessObjectBase {
      */
     public String getSystemInformationViewer() {
         return "View System Information";
+    }
+
+    /**
+     * Gets the universityFiscal attribute.
+     * 
+     * @return Returns the universityFiscal.
+     */
+    public SystemOptions getUniversityFiscal() {
+        return universityFiscal;
+    }
+
+    /**
+     * Sets the universityFiscal attribute value.
+     * 
+     * @param universityFiscal The universityFiscal to set.
+     */
+    public void setUniversityFiscal(SystemOptions universityFiscal) {
+        this.universityFiscal = universityFiscal;
     }
 
 }

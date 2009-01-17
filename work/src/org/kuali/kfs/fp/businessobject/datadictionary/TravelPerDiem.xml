@@ -17,7 +17,7 @@
     <property name="objectLabel" value="Disbursement Voucher Travel Per Diem" />
     <property name="attributes" >
       <list>
-        <ref bean="TravelPerDiem-fiscalYear" />
+        <ref bean="TravelPerDiem-universityFiscalYear" />
         <ref bean="TravelPerDiem-perDiemCountryName" />
         <ref bean="TravelPerDiem-perDiemCountryText" />
       </list>
@@ -27,10 +27,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="TravelPerDiem-fiscalYear" parent="TravelPerDiem-fiscalYear-parentBean" />
+  <bean id="TravelPerDiem-universityFiscalYear" parent="TravelPerDiem-universityFiscalYear-parentBean" />
 
-  <bean id="TravelPerDiem-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fiscalYear" />
+  <bean id="TravelPerDiem-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityFiscalYear" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Year" />
@@ -84,7 +84,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="fiscalYear" />
+                    p:attributeName="universityFiscalYear" />
               <bean parent="FieldDefinition"
                     p:attributeName="perDiemCountryName" />
               <bean parent="FieldDefinition"
@@ -116,7 +116,7 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="fiscalYear"
+              p:attributeName="universityFiscalYear"
               p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
         <bean parent="FieldDefinition"
               p:attributeName="perDiemCountryName" />
@@ -125,7 +125,7 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="fiscalYear" />
+              p:attributeName="universityFiscalYear" />
         <bean parent="FieldDefinition"
               p:attributeName="perDiemCountryName" />
         <bean parent="FieldDefinition"

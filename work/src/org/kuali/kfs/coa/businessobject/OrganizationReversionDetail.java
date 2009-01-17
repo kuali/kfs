@@ -38,6 +38,7 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
     private Chart chartOfAccounts;
     private OrganizationReversionCategory organizationReversionCategory;
     private SystemOptions universityFiscal;
+    private OrganizationReversion organizationReversion;
 
     /**
      * Default constructor.
@@ -251,6 +252,24 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
      */
     public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
+    }
+    
+    /**
+     * Gets the organizationReversion attribute.
+     * 
+     * @return Returns the organizationReversion.
+     */
+    public OrganizationReversion getOrganizationReversion() {
+        return organizationReversion;
+    }
+
+    /**
+     * Sets the organizationReversion attribute value.
+     * 
+     * @param organizationReversion The organizationReversion to set.
+     */
+    public void setOrganizationReversion(OrganizationReversion organizationReversion) {
+        this.organizationReversion = organizationReversion;
     }
 
     /**

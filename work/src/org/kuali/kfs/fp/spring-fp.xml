@@ -58,6 +58,13 @@
 				<value>disbursementVoucherPreDisbursementProcessorExtractJob</value>
 			</list>
 		</property>
+		<property name="fiscalYearMakers">
+          <list>
+            <ref bean="wireChargeFiscalYearMaker" />
+            <ref bean="travelPerDiemFiscalYearMaker" />
+            <ref bean="fiscalYearFunctionControlFiscalYearMaker" />
+          </list>	
+        </property>
 	</bean>
 
     <bean id="fpModuleService" parent="fpModuleService-parentBean"/>
@@ -443,6 +450,23 @@
 		</property>
 	</bean>
 	
+    <bean id="wireChargeFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.WireCharge" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
+		  </set>
+		</property>	
+	</bean>	
+	
+    <bean id="travelPerDiemFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TravelPerDiem" /> 
+	</bean>	
+	
+    <bean id="fiscalYearFunctionControlFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl" /> 
+	</bean>	
+	
 	<!-- validations -->
 	<import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
 	<import resource="document/validation/configuration/InternalBillingValidation.xml" />
@@ -465,7 +489,7 @@
 	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
 	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
-
+	
     <bean id="paymentMethodRoleTypeService" class="org.kuali.kfs.fp.identity.PaymentMethodRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">

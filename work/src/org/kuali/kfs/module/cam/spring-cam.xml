@@ -59,7 +59,11 @@
 				<value>assetDepreciationBatchJob</value>
 			</list>
 		</property>
-
+		<property name="fiscalYearMakers">
+          <list>
+            <ref bean="assetObjectCodeFiscalYearMaker" />
+          </list>	
+        </property>
 		<!-- Asset Depreciation batch - START -->				
 		<property name="triggerNames">
 			<list>
@@ -342,5 +346,9 @@
 	      p:localServiceName="assetDerivedRoleTypeService" />
 	  </property>
 	</bean>
+	
+	<bean id="assetObjectCodeFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetObjectCode" /> 
+	</bean>	
 
 </beans>

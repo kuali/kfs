@@ -56,7 +56,13 @@
 				<value>laborPurgeJob</value>
 			</list>
 		</property>
-		
+        <property name="fiscalYearMakers">
+          <list>
+            <ref bean="benefitsCalculationFiscalYearMaker" />
+            <ref bean="laborObjectDefinitionFiscalYearMaker" />
+            <ref bean="positionObjectBenefitDefinitionFiscalYearMaker" />
+          </list>	
+        </property>  		
 		<property name="externalizableBusinessObjectImplementations">
             <map>
 				<entry key="org.kuali.kfs.integration.ld.LaborLedgerBalance" value="org.kuali.kfs.module.ld.businessobject.LedgerBalance" />
@@ -960,9 +966,6 @@
 		<property name="personService">
 			<ref bean="personService" />
 		</property>	
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>											
 	</bean>	
 		
 	<bean id="expenseTransferAccountingLineService" class="org.kuali.kfs.sys.service.impl.AccountingLineServiceImpl">
@@ -1011,6 +1014,30 @@
 	</bean>
 
 	<bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForEffortCertificationLookupableHelperServiceImpl" autowire="byName" singleton="false"/>
+	
+	<bean id="benefitsCalculationFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" /> 
+	    <property name="carryForwardInactive" value="true" />
+	</bean>	
+	
+    <bean id="laborObjectDefinitionFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LaborObject" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
+		  </set>
+		</property>	
+		<property name="carryForwardInactive" value="true" />
+	</bean>	
+	
+	<bean id="positionObjectBenefitDefinitionFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.kfs.module.ld.businessobject.BenefitsCalculation</value>
+		  </set>
+		</property>	
+	</bean>	
 	
 	<!-- validations -->
 	<import resource="document/validation/configuration/LaborValidations.xml" />

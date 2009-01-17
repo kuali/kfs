@@ -59,6 +59,11 @@
 				<value>purgeCorrectionProcessFilesJob</value>
 			</list>
 		</property>
+		<property name="fiscalYearMakers">
+          <list>
+            <ref bean="universityDateFiscalYearMaker" />
+          </list>	
+        </property> 
 	</bean>
 
     <bean id="glModuleService" parent="glModuleService-parentBean"/>
@@ -1674,4 +1679,12 @@
 			<ref bean="dateTimeService" />
 		</property>
 	</bean>
+	
+	<bean id="universityDateFiscalYearMaker" class="org.kuali.kfs.gl.batch.dataaccess.impl.UniversityDateFiscalYearMakerImpl" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.UniversityDate" /> 
+        <property name="twoYearCopy" value="true" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>	
 </beans>

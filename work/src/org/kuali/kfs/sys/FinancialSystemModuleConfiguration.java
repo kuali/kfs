@@ -15,11 +15,43 @@
  */
 package org.kuali.kfs.sys;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.rice.kns.bo.ModuleConfiguration;
 
 /**
  * Slim subclass to enforce class hierarchy not enforced by the parent class' contract.
  */
 public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
+    protected List<FiscalYearMaker> fiscalYearMakers;
+
+    /**
+     * Constructs a FinancialSystemModuleConfiguration.java.
+     */
+    public FinancialSystemModuleConfiguration() {
+        super();
+        
+        fiscalYearMakers = new ArrayList<FiscalYearMaker>();
+    }
+
+    /**
+     * Gets the fiscalYearMakers attribute.
+     * 
+     * @return Returns the fiscalYearMakers.
+     */
+    public List<FiscalYearMaker> getFiscalYearMakers() {
+        return fiscalYearMakers;
+    }
+
+    /**
+     * Sets the fiscalYearMakers attribute value.
+     * 
+     * @param fiscalYearMakers The fiscalYearMakers to set.
+     */
+    public void setFiscalYearMakers(List<FiscalYearMaker> fiscalYearMakers) {
+        this.fiscalYearMakers = fiscalYearMakers;
+    }
 
 }

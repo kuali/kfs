@@ -56,7 +56,15 @@
             <map>
 				<entry key="org.kuali.kfs.integration.ec.EffortCertificationReport" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition" />
             </map>
-        </property>		
+        </property>	
+        
+        <property name="fiscalYearMakers">
+          <list>
+            <ref bean="effortCertificationReportEarnPaygroupFiscalYearMaker" />
+            <ref bean="effortCertificationReportPositionFiscalYearMaker" />
+            <ref bean="effortCertificationReportDefinitionFiscalYearMaker" />
+          </list>	
+        </property>  
 	</bean>
 
     <bean id="ecModuleService" parent="ecModuleService-parentBean"/>
@@ -349,5 +357,27 @@
 	</bean>   	
 	
 	<bean id="effortLedgerBalanceInquirable" class="org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl" singleton="false"/>
+	
+	<bean id="effortCertificationReportEarnPaygroupFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygroup" /> 
+	</bean>
+	
+	<bean id="effortCertificationReportPositionFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition</value>
+		  </set>
+		</property>
+	</bean>
+	
+	<bean id="effortCertificationReportDefinitionFiscalYearMaker" class="org.kuali.kfs.module.ec.batch.dataaccess.impl.EffortCertificationReportDefinitionFiscalYearMakerImpl" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.kfs.coa.businessobject.AccountingPeriod</value>
+		  </set>
+		</property>
+	</bean>
 </beans>
 

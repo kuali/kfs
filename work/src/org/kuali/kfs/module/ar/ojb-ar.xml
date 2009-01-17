@@ -974,6 +974,9 @@
 		<foreignkey field-ref="wireObjectCode" />
 		<foreignkey field-ref="wireSubObjectCode" />
 	</reference-descriptor>
+	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions" table="AR_PRN_INV_OPTN_T">

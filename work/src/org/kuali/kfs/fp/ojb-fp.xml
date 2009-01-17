@@ -1476,7 +1476,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.TravelPerDiem" table="FP_DV_DIEM_T">
-    <field-descriptor name="fiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
+    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
     <field-descriptor name="perDiemCountryName" column="DV_DIEM_CNTRY_NM" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

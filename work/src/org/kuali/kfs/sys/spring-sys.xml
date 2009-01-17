@@ -56,9 +56,14 @@
             <list>
 				<value>scheduleJob</value>
 				<value>purgeJob</value>
+				<value>fiscalYearMakerJob</value>
             </list>
         </property>
-        
+        <property name="fiscalYearMakers">
+          <list>
+            <ref bean="systemOptionsFiscalYearMaker" />
+          </list>	
+        </property>          
     </bean>
 
     <bean id="financialSystemModuleService" parent="financialSystemModuleService-parentBean"/>
@@ -206,6 +211,20 @@
 		</property>
 	</bean>
 	
+	<bean id="fiscalYearMakerJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="fiscalYearMakerStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="fiscalYearMakerStep" class="org.kuali.kfs.sys.batch.FiscalYearMakerStep" parent="step">
+		<property name="fiscalYearMakerService">
+			<ref bean="fiscalYearMakerService" />
+		</property>
+	</bean>
+	
 	<!-- end core batch jobs -->
 	
 	<bean id="financialSystemUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl" />
@@ -254,6 +273,33 @@
 			<ref bean="optionsService" />
 		</property>
 	</bean>
+	
+	<bean id="fiscalYearMakersDao" parent="platformAwareDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakersDaoOjb">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="fiscalYearMakerService" class="org.kuali.kfs.sys.batch.service.impl.FiscalYearMakerServiceImpl">
+		<property name="fiscalYearMakersDao">
+			<ref bean="fiscalYearMakersDao" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>		
+	    <property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>		
+	</bean>
+	
+	<bean id="FiscalYearMaker" parent="platformAwareDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl" abstract="true" >
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+	</bean>
 
 	<bean id="homeOriginationService" class="org.kuali.kfs.sys.service.impl.HomeOriginationServiceImpl">
 		<property name="homeOriginationDao">
@@ -299,7 +345,7 @@
 	</bean>
 
     <bean id="generalLedgerInputTypeService" class="org.kuali.kfs.sys.service.impl.GeneralLedgerInputTypeServiceImpl" />
-
+	
 	<bean id="taxService" class="org.kuali.kfs.sys.service.impl.TaxServiceImpl">
 		<property name="taxRegionService">
 			<ref bean="taxRegionService" />
@@ -352,8 +398,8 @@
 	</bean>
 	
 	-->
-
-
+	
+	
 	<bean id="moduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
         	<bean class="org.kuali.kfs.sys.businessobject.lookup.ModuleLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
@@ -541,13 +587,18 @@
 	</bean>
 
     <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
-    
+
     <bean id="workflowAttributesPropertyResolutionService" class="org.kuali.kfs.sys.document.service.impl.WorkflowAttributePropertyResolutionServiceImpl">
     	<property name="persistenceStructureService"><ref bean="persistenceStructureService" /></property>
     </bean>
 
-	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
+	<bean id="systemOptionsFiscalYearMaker" class="org.kuali.kfs.sys.batch.dataaccess.impl.SystemOptionsFiscalYearMakerImpl" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.SystemOptions" /> 
+		<property name="twoYearCopy" value="true" />
+	</bean>	
 
+	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
+	
     <bean id="employeeDerivedRoleTypeService" class="org.kuali.kfs.sys.identity.EmployeeDerivedRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">

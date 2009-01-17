@@ -1239,7 +1239,12 @@
     <reference-descriptor name="organizationReversionCategory" class-ref="org.kuali.kfs.coa.businessobject.OrganizationReversionCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="organizationReversionCategoryCode" />
     </reference-descriptor>
-
+    
+    <reference-descriptor name="organizationReversion" class-ref="org.kuali.kfs.coa.businessobject.OrganizationReversion" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="organizationCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.OrganizationReversionCategory" table="CA_ORG_RVRSN_CTGRY_T">

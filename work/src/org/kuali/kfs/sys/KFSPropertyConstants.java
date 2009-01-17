@@ -317,6 +317,7 @@ public class KFSPropertyConstants {
     public static final String COMPONENT_CLASS = "componentClass";
     public static final String COMPONENT_LABEL = "componentLabel";
     public static final String DESCRIPTION = KNSPropertyConstants.DESCRIPTION;
+    public static final String EXTENSION = "extension";
     public static final String BUSINESS_OBJECT_COMPONENT_LABEL = "businessObjectComponent." + COMPONENT_LABEL;
     public static final String BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL = "businessObjectProperty." + BUSINESS_OBJECT_COMPONENT_LABEL;
     public static final String FUNCTIONAL_FIELD_DESCRIPTION_DESCRIPTION = "functionalFieldDescription." + DESCRIPTION;

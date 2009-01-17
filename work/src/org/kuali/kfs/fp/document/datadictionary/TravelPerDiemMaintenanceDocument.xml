@@ -19,7 +19,7 @@
     </property>
     <property name="lockingKeys" >
       <list>
-        <value>fiscalYear</value>
+        <value>universityFiscalYear</value>
         <value>perDiemCountryName</value>
       </list>
     </property>
@@ -49,7 +49,7 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="fiscalYear"
+              p:name="universityFiscalYear"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="perDiemCountryName"

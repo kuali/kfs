@@ -31,16 +31,15 @@ import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -52,8 +51,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     private DocumentService documentService;
     private NoteService noteService;
     private KualiConfigurationService kualiConfigurationService;
-    private org.kuali.rice.kim.service.PersonService personService;
-    private WorkflowDocumentService workflowDocumentService;
+    private PersonService personService;
 
     /**
      * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService#validateTransfers(org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument)
@@ -136,8 +134,8 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
         cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
         noteService.save(cancelNote);
         document.addNote(cancelNote);
-
-        workflowDocumentService.disapprove(document.getDocumentHeader().getWorkflowDocument(), "disapproved - failed effort certification checks");
+        
+        documentService.superUserDisapproveDocument(document, "disapproved - failed effort certification checks");
     }
 
     /**
@@ -351,17 +349,9 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
      * 
      * @param personService The personService to set.
      */
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 
-    /**
-     * Sets the workflowDocumentService attribute value.
-     * 
-     * @param workflowDocumentService The workflowDocumentService to set.
-     */
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
 }
 

@@ -25,7 +25,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class is used to represent a Travel Per Diem business object.
  */
 public class TravelPerDiem extends PersistableBusinessObjectBase {
-    private Integer fiscalYear;
+    private Integer universityFiscalYear;
     private String perDiemCountryName;
     private KualiDecimal perDiemRate;
     private String perDiemCountryText;
@@ -40,15 +40,15 @@ public class TravelPerDiem extends PersistableBusinessObjectBase {
     /**
      * @return Returns the fiscalYear.
      */
-    public Integer getFiscalYear() {
-        return fiscalYear;
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
     }
 
     /**
      * @param fiscalYear The fiscalYear to set.
      */
-    public void setFiscalYear(Integer fiscalYear) {
-        this.fiscalYear = fiscalYear;
+    public void setUniversityFiscalYear(Integer fiscalYear) {
+        this.universityFiscalYear = fiscalYear;
     }
 
     /**

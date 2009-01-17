@@ -68,7 +68,13 @@
 			<list>
 				<value>org/kuali/kfs/module/ar/dwr-ar.xml</value>
 			</list>
-		</property>		
+		</property>	
+		<property name="fiscalYearMakers">
+          <list>
+            <ref bean="systemInformationFiscalYearMaker" />
+            <ref bean="organizationAccountingDefaultFiscalYearMaker" />
+          </list>	
+        </property>  	
 	</bean>
 
     <bean id="arModuleService" parent="arModuleService-parentBean"/>
@@ -809,7 +815,7 @@
 	</bean>	
 	
     <bean id="accountsReceivableOrganizationDerivedRoleTypeService" class="org.kuali.kfs.module.ar.identity.AccountsReceivableOrganizationDerivedRoleTypeServiceImpl"
-      p:businessObjectService-ref="businessObjectService" />
+      p:businessObjectService-ref="businessObjectService" />	
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
     	<property name="serviceDefinition">
 		<bean parent="kfsService"
@@ -843,6 +849,26 @@
 		<property name="sysInfoService">
 			<ref bean="systemInformationService" />
 		</property>
+	</bean>	
+	
+	<bean id="systemInformationFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.SystemInformation" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
+		    <value>org.kuali.kfs.coa.businessobject.SubObjectCode</value>
+		  </set>
+		</property>	
+	</bean>	
+	
+	<bean id="organizationAccountingDefaultFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.kfs.coa.businessobject.ObjectCode</value>
+		    <value>org.kuali.kfs.coa.businessobject.SubObjectCode</value>
+		  </set>
+		</property>	
 	</bean>	
 	
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />

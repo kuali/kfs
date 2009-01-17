@@ -15,25 +15,20 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
-public class RequisitionRequiresAccountValidationBranchingValidation extends BranchingValidation {
+public class PurchasingAccountsPayableRequiresAccountValidationBranchingValidation extends BranchingValidation {
     
     public static final String NEEDS_ACCOUNT_VALIDATION = "needsAccountValidation";
     
     private PurApItem itemForValidation;
-    private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
-        if (!(false) || //purapWorkflowIntegrationService.willDocumentStopAtGivenFutureRouteNode((PurchasingAccountsPayableDocument)event.getDocument(), NodeDetailEnum.CONTENT_REVIEW) ||
-            (!itemForValidation.getSourceAccountingLines().isEmpty())) {
+        if (!itemForValidation.getSourceAccountingLines().isEmpty()) {
             return NEEDS_ACCOUNT_VALIDATION;
         } else {
             return KFSConstants.EMPTY_STRING;
@@ -47,13 +42,4 @@ public class RequisitionRequiresAccountValidationBranchingValidation extends Bra
     public void setItemForValidation(PurApItem itemForValidation) {
         this.itemForValidation = itemForValidation;
     }
-
-    public PurApWorkflowIntegrationService getPurapWorkflowIntegrationService() {
-        return purapWorkflowIntegrationService;
-    }
-
-    public void setPurapWorkflowIntegrationService(PurApWorkflowIntegrationService purapWorkflowIntegrationService) {
-        this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
-    }
-
 }

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -269,8 +270,9 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public final void testPurchaseOrderClose() throws Exception {
         // There must be a PREQ against this PO in order to close this PO.
+        changeCurrentUser(appleton);
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
-        preq.setPurchaseOrderIdentifier(poTest.getPurapDocumentIdentifier());
+        preq.setPurchaseOrderIdentifier(poTest.getPurapDocumentIdentifier());        
         AccountingDocumentTestUtils.saveDocument(preq, docService);
         createAndRoutePOChangeDocument(
                 PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT,

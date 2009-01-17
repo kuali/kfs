@@ -90,4 +90,28 @@ public class PaymentRequestPayDateNotPastValidation extends GenericValidation {
         return (PaymentRequestDocument) businessObjectService.findByPrimaryKey(document.getClass(), primaryKeyValues);
     }
 
+    public PurapService getPurapService() {
+        return purapService;
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
+    }
+
+    public PersistenceService getPersistenceService() {
+        return persistenceService;
+    }
+
+    public void setPersistenceService(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
 }

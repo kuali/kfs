@@ -18,7 +18,8 @@
     <property name="documentTypeName" value="PurchaseOrderCloseDocument" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderCloseDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <!-- <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule" /> -->
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderCloseDocumentPresentationController" />
     <property name="documentTypeCode" value="POC" />
@@ -33,6 +34,7 @@
 	    	</entry>
     	</map>
     </property>
+    <property name="validationMap" ref="PurchaseOrderCloseDocument-validations" />
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -72,35 +74,35 @@
 	    	<map>			
 				<entry>
 					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
-					<value>PurchaseOrderCloseDocument-routeDocumentValidation</value>
+					<value>PurchaseOrderClose-routeDocumentValidation</value>
 				</entry>
 				<entry>
 					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
-					<value>PurchaseOrderCloseDocument-approveDocumentValidation</value>
+					<value>PurchaseOrderClose-approveDocumentValidation</value>
 				</entry>		
 				<entry>
 					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
-					<value>PurchaseOrderCloseDocument-addAccountingLineValidation</value>
+					<value>PurchaseOrderClose-addAccountingLineValidation</value>
 				</entry>
 				<entry>
 					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
-					<value>PurchaseOrderCloseDocument-updateAccountingLineValidation</value>
+					<value>PurchaseOrderClose-updateAccountingLineValidation</value>
 				</entry>	
 				<entry>
 					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
-					<value>PurchaseOrderCloseDocument-reviewAccountingLineValidation</value>
+					<value>PurchaseOrderClose-reviewAccountingLineValidation</value>
 				</entry>
 				<entry>
 					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
-					<value>PurchaseOrderCloseDocument-addPurchasingAccountsPayableItemValidation</value>				
+					<value>PurchaseOrderClose-addPurchasingAccountsPayableItemValidation</value>				
 				</entry>
 				<entry>
 					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
-					<value>PurchaseOrderCloseDocument-importPurchasingAccountsPayableItemValidation</value>				
+					<value>PurchaseOrderClose-importPurchasingAccountsPayableItemValidation</value>				
 				</entry>																									
 				<entry>
 					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
-					<value>PaymentRequest-saveDocumentValidation</value>				
+					<value>PurchaseOrderClose-saveDocumentValidation</value>				
 				</entry>												
 		    </map>
 	    </property>	  

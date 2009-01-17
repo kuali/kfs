@@ -21,11 +21,60 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     
 
+	<!-- Route Document Event -->
 	<bean id="PurchaseOrder-routeDocumentValidation" parent="PurchaseOrder-routeDocumentValidation-parentBean" scope="prototype" />
   
   	<bean id="PurchaseOrder-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<list>  				
+  			<list>  				  				  				
+  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+  					<property name="parameterProperties">
+  						<list>
+  							<bean parent="validationFieldConversion">
+  								<property name="sourceEventProperty" value="iterationSubject" />
+  								<property name="targetValidationProperty" value="businessObjectForValidation" />
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>
+
+  				<bean parent="PurchaseOrder-newProcessItemValidation-parentBean" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+				
+				<bean parent="PurchaseOrder-processVendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="PurchaseOrder-processVendorStipulationValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  											
+				
+				<bean parent="Purchasing-capitalAssetValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-paymentInfoValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-deliveryValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  				
+  			</list>
+  		</property>
+  	</bean>
+
+  	<!-- Approve Document Event -->
+  	<bean id="PurchaseOrder-approveDocumentValidation" parent="PurchaseOrder-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="PurchaseOrder-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>  				  				
   				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
   					<property name="parameterProperties">
   						<list>
@@ -45,6 +94,10 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  
 				
+				<bean parent="PurchaseOrder-processVendorStipulationValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  											
+				
 				<bean parent="Purchasing-capitalAssetValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  
@@ -59,21 +112,8 @@
 
 				<bean parent="Purchasing-deliveryValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  
-				
-				<bean parent="PurchaseOrder-processVendorStipulationValidation" scope="prototype">								
-					<property name="quitOnFail" value="false" />
-				</bean>  											
+				</bean>  				
   			</list>
-  		</property>
-  	</bean>
-
-  
-  	<bean id="PurchaseOrder-approveDocumentValidation" parent="PurchaseOrder-approveDocumentValidation-parentBean" scope="prototype" />
-  
-  	<bean id="PurchaseOrder-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
   	</bean>
 
@@ -252,111 +292,5 @@
 			</list>
   		</property>
 	</bean>	
-	
-	
-    <!-- New Process Item Validation Definitions -->
-    <bean id="PurchaseOrder-newProcessItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true"> 								
-        <property name="quitOnFail" value="false" />
-        <property name="validations">
-            <list>
-                <!-- These are the validations from within the loop of items in newProcessItemValidation in
-                     PurchasingAccountsPayableDocumentRuleBase -->
-                <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-                    <property name="collectionProperty" value="document.items" />
-                    <property name="validations">
-                        <list>
-                            <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-                                <property name="parameterProperties">
-                                    <list>
-                                        <bean parent="validationFieldConversion">
-                                            <property name="sourceEventProperty" value="iterationSubject" />
-                                            <property name="targetValidationProperty" value="businessObjectForValidation" />
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                            
-                            <!-- Need to do the itemConsideredEnteredBranchingValidation to determine whether
-                                 we need to call the newIndividualItemValidation (not needed if item is not 
-                                 considered entered -->
-                            <bean parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
-			                    <property name="branchMap">
-				                    <map>
-					                    <entry>
-						                    <key><value>needsIndividualItemValidation</value></key>
-                                            <bean parent="PurchaseOrder-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype"/>
-					                    </entry>
-				                    </map>
-					            </property>
-		                        <property name="parameterProperties">
-						            <list>
-				  	                    <bean parent="validationFieldConversion">
-					   	                    <property name="sourceEventProperty" value="iterationSubject" />
-								            <property name="targetValidationProperty" value="itemForValidation" />
-							            </bean>
-						            </list>
-					            </property>
-				            </bean>
-				            <!-- End of itemConsideredEnteredBranchingValidation -->	
-                        </list>
-                    </property>
-                </bean>	  		
-                <!-- End of the newProcessItemValidation in PurchasingAccountsPayableDocumentRuleBase -->			                
-                <!-- All the validations from newProcessItemValidation in PurchasingDocumentRuleBase -->
-			    <bean parent="Purchasing-processTotalCostValidation" scope="prototype" />
-			    <bean parent="Purchasing-processContainsAtLeastOneItemValidation" scope="prototype" />
-			    <bean parent="Purchasing-processTradeInValidation" scope="prototype" />							    
-            </list>
-        </property>					
-    </bean>  
-
-    <bean id="PurchaseOrder-itemConsideredEnteredCompositeValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true"> 								
-        <property name="quitOnFail" value="false" />
-        <property name="validations">
-            <list>    
-			  
-                <bean parent="PurchaseOrder-newIndividualItemValidation" scope="prototype">
-                    <property name="parameterProperties">
-                        <list>
-                            <bean parent="validationFieldConversion">
-                                <property name="sourceEventProperty" value="iterationSubject" />
-                                <property name="targetValidationProperty" value="itemForValidation" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-				
-				<!-- Need to do the purchaseOrderRequiresAccountValidationBranchingValidation to determine
-				     whether we need to call the processAccountValidation -->
-                <bean parent="PurchaseOrder-requiresAccountValidationBranchingValidation" scope="prototype">
-			        <property name="branchMap">
-				        <map>
-					        <entry>
-						        <key><value>needsAccountValidation</value></key>
-                                <bean parent="Purchasing-processAccountValidation" scope="prototype">
-                                    <property name="parameterProperties">
-                                        <list>
-                                            <bean parent="validationFieldConversion">
-                                                <property name="sourceEventProperty" value="iterationSubject" />
-                                                <property name="targetValidationProperty" value="itemForValidation" />
-                                            </bean>
-                                        </list>
-                                    </property>
-                                </bean>
-							</entry>
-						</map>
-					</property>
-					<property name="parameterProperties">
-			            <list>
-					        <bean parent="validationFieldConversion">
-					            <property name="sourceEventProperty" value="iterationSubject" />
-								<property name="targetValidationProperty" value="itemForValidation" />
-					        </bean>
-						</list>
-					</property>
-				</bean>		
-				<!-- End of purchaseOrderRequiresAccountValidationBranchingValidation -->				            				                        
-            </list>
-        </property>
-    </bean>    	
+		
 </beans>

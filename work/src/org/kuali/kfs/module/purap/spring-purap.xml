@@ -868,5 +868,11 @@
 	<import resource="document/validation/configuration/RequisitionValidation.xml" />
 	<import resource="document/validation/configuration/PurchaseOrderValidation.xml" />
 	<import resource="document/validation/configuration/PurchaseOrderAmendmentValidation.xml" />
+	<import resource="document/validation/configuration/PurchaseOrderCloseDocumentValidation.xml" />
+	<import resource="document/validation/configuration/PurchaseOrderReopenDocumentValidation.xml" />
+	<import resource="document/validation/configuration/PurchaseOrderVoidDocumentValidation.xml" />
+	<import resource="document/validation/configuration/PaymentRequestValidation.xml" />
+	<import resource="document/validation/configuration/VendorCreditMemoValidation.xml" />
+	
 </beans>
 

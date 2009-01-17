@@ -41,7 +41,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class VendorCreditMemoContinuePurapValidation extends GenericValidation {
+public class VendorCreditMemoContinueValidation extends GenericValidation {
 
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;

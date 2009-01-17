@@ -58,4 +58,12 @@ public class PaymentRequestPayDateNotOverThresholdDaysAwayValidation extends Gen
         return true;
     }
 
+    public PurapService getPurapService() {
+        return purapService;
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
+    }
+
 }

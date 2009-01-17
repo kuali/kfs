@@ -48,4 +48,12 @@ public class PaymentRequestDateForContinueValidation extends GenericValidation {
         return valid;
     }
 
+    public PaymentRequestService getPaymentRequestService() {
+        return paymentRequestService;
+    }
+
+    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
+        this.paymentRequestService = paymentRequestService;
+    }
+
 }

@@ -310,4 +310,20 @@ public class AccountingLineValuesAllowedValidationHutch implements Validation {
     public void setAccountingLineParameterPropertyName(String accountingLineParameterPropertyName) {
         this.accountingLineParameterPropertyName = accountingLineParameterPropertyName;
     }
+
+    public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
+        this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
+        this.accountingLineForValidation = accountingLineForValidation;
+    }
+
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
+    }
+
+    public AccountingLine getAccountingLineForValidation() {
+        return accountingLineForValidation;
+    }
 }

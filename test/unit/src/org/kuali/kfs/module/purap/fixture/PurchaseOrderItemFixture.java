@@ -264,6 +264,8 @@ public enum PurchaseOrderItemFixture {
         // iterate over the accounts
         for (PurchaseOrderAccountingLineFixture purchaseOrderAccountMultiFixture : purchaseOrderAccountingLineFixtures) {
             purchaseOrderAccountMultiFixture.addTo(item);
+            //add latest one to source accounting lines
+            purchaseOrderDocument.getSourceAccountingLines().add(item.getSourceAccountingLines().get(item.getSourceAccountingLines().size()-1));
         }
     }
 

@@ -61,8 +61,7 @@
 				
 				<bean parent="Requisition-processAdditionalValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  
-															
+				</bean>  															
   			</list>
   		</property>
   	</bean>
@@ -72,7 +71,44 @@
   
   	<bean id="Requisition-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
+  			<list>
+  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+  					<property name="parameterProperties">
+  						<list>
+  							<bean parent="validationFieldConversion">
+  								<property name="sourceEventProperty" value="iterationSubject" />
+  								<property name="targetValidationProperty" value="businessObjectForValidation" />
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>
+
+				<bean parent="Requisition-newProcessItemValidation-parentBean" scope="prototype" />
+				
+				<bean parent="Purchasing-processVendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+			    <bean parent="Purchasing-capitalAssetValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-paymentInfoValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-deliveryValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+				<bean parent="Requisition-processAdditionalValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>    			
+  			</list>
   		</property>
   	</bean>
 

@@ -24,9 +24,6 @@ import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
 import org.kuali.kfs.fp.document.validation.event.AttributedAddCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.AttributedDeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.AttributedUpdateCheckEvent;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule;
-import org.kuali.kfs.module.purap.document.validation.event.AddAttributedPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -63,7 +60,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 /**
  * A rule that uses the accounting rule engine to perform rule validations.
  */
-public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements AccountingRuleEngineRule, AddAccountingLineRule, DeleteAccountingLineRule, UpdateAccountingLineRule, ReviewAccountingLineRule, AddPurchasingAccountsPayableItemRule, AddCheckRule, DeleteCheckRule, UpdateCheckRule {
+public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements AccountingRuleEngineRule, AddAccountingLineRule, DeleteAccountingLineRule, UpdateAccountingLineRule, ReviewAccountingLineRule, AddCheckRule, DeleteCheckRule, UpdateCheckRule {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingRuleEngineRuleBase.class);
     
     /**
@@ -192,13 +189,6 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
      */
     public boolean processUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         return validateForEvent(new AttributedUpdateAccountingLineEvent("", financialDocument, originalAccountingLine, updatedAccountingLine));
-    }
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule#processAddItemBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.module.purap.businessobject.PurApItem)
-     */
-    public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
-        return validateForEvent(new AddAttributedPurchasingAccountsPayableItemEvent("", financialDocument, item));
     }
 
     /**

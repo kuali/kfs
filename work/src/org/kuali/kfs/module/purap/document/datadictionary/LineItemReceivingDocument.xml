@@ -57,7 +57,8 @@
         <ref bean="LineItemReceivingDocument-vendorStateCode" />
         <ref bean="LineItemReceivingDocument-vendorPostalCode" />
         <ref bean="LineItemReceivingDocument-versionNumber" />
-        <ref bean="LineItemReceivingDocument-awaitingPurchaseOrderOpen" />        
+        <ref bean="LineItemReceivingDocument-awaitingPurchaseOrderOpen" />
+        <ref bean="LineItemReceivingDocument-receivingLineStatusCode" />        
       </list>
     </property>
   </bean>
@@ -426,5 +427,22 @@
     </property>
     <property name="maxLength" value="1" />
   </bean>
+  
+  <bean id="LineItemReceivingDocument-receivingLineStatusCode" parent="LineItemReceivingDocument-receivingLineStatusCode-parentBean" />
+
+<bean id="LineItemReceivingDocument-receivingLineStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<property name="name" value="receivingLineStatusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Receiving Line Status" />
+    <property name="shortLabel" value="Status" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+</bean>
   
 </beans>

@@ -3365,6 +3365,14 @@
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="receivingLineStatusCode" column="RCVNG_LN_STAT_CD" jdbc-type="VARCHAR" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ReceivingLineStatusCode" table="PUR_RCVNG_LN_STAT_T">
+	<field-descriptor name="receivingLineStatusCode" column="RCVNG_LN_STAT_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
+	<field-descriptor name="receivingLineStatusDescription" column="RCVNG_LN_STAT_DESC" jdbc-type="VARCHAR" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.BulkReceivingView" table="PUR_BLK_RCVNG_T">
@@ -3716,6 +3724,7 @@
 	<field-descriptor name="deliveryRequiredDateReasonCode" column="DLVY_REQ_DT_REAS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER" autoincrement="true" sequence-name="AP_PUR_DOC_LNK_ID"/>
+    <field-descriptor name="receivingLineStatusCode" column="RCVNG_LN_STAT_CD" jdbc-type="VARCHAR" />
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -3742,6 +3751,9 @@
     </reference-descriptor>
     <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
+    </reference-descriptor>
+    <reference-descriptor name="receivingLineStatus" class-ref="org.kuali.kfs.module.purap.businessobject.ReceivingLineStatusCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="receivingLineStatusCode" />
     </reference-descriptor>
 </class-descriptor>
 

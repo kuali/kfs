@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
+import org.kuali.kfs.module.purap.businessobject.ReceivingLineStatusCode;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
@@ -72,6 +73,8 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     private Date deliveryRequiredDate;
     private String deliveryInstructionText;
     private String deliveryRequiredDateReasonCode;
+    private String receivingLineStatusCode;
+    private String receivingLineStatusDescription;
 
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
@@ -87,6 +90,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     private Carrier carrier;
     private VendorDetail vendorDetail;
     private DeliveryRequiredDateReason deliveryRequiredDateReason;
+    private ReceivingLineStatusCode receivingLineStatus;
     private Integer purchaseOrderIdentifier;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private transient PurchaseOrderDocument purchaseOrderDocument;
@@ -992,6 +996,30 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     @Override
     public boolean isBoNotesSupport() {
         return true;
+    }
+
+    public ReceivingLineStatusCode getReceivingLineStatus() {
+        return receivingLineStatus;
+    }
+
+    public void setReceivingLineStatus(ReceivingLineStatusCode receivingLineStatus) {
+        this.receivingLineStatus = receivingLineStatus;
+    }
+
+    public String getReceivingLineStatusCode() {
+        return receivingLineStatusCode;
+    }
+
+    public void setReceivingLineStatusCode(String receivingLineStatusCode) {
+        this.receivingLineStatusCode = receivingLineStatusCode;
+    }
+
+    public String getReceivingLineStatusDescription() {
+        return receivingLineStatusDescription;
+    }
+
+    public void setReceivingLineStatusDescription(String receivingLineStatusDescription) {
+        this.receivingLineStatusDescription = receivingLineStatusDescription;
     }
     
 }

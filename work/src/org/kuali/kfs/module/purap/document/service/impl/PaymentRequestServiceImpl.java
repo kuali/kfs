@@ -1361,7 +1361,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 
         //if receiving document required and a receiving line document hasn't been generated
         // still awaiting receiving
-        if(preq.isReceivingDocumentRequiredIndicator() && hasLineItemReceivingDocument == false){
+        if(preq.isReceivingDocumentRequiredIndicator() && hasLineItemReceivingDocument == false && determineReceivingRequirements(preq) == false){
            isAwaitingReceiving = true; 
         }
         

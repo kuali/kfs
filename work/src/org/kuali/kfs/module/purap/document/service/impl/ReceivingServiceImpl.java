@@ -29,20 +29,21 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.businessobject.ItemType;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem;
-import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
+import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
-import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.document.service.LogicContainer;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -594,35 +595,45 @@ public class ReceivingServiceImpl implements ReceivingService {
             
             //if a new item has been added spawn a purchase order amendment
             if( hasNewUnorderedItem((LineItemReceivingDocument)receivingDocument) ){
-                //create a PO amendment
-                PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW);
+                String newSessionUserId = KFSConstants.SYSTEM_USER;
+                try {                    
+                    
+                    LogicContainer logicToRun = new LogicContainer() {
+                        public Object runLogic(Object[] objects) throws Exception {
+                            LineItemReceivingDocument rlDoc = (LineItemReceivingDocument)objects[0];
+                            String poDocNumber = (String)objects[1];
+                            
+                            //create a PO amendment
+                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW);
 
-                //add new lines to amendement
-                addUnorderedItemsToAmendment(amendmentPo, rlDoc);
-                
-                //route amendment
-                try{                    
-                    documentService.routeDocument(amendmentPo, null, null);
+                            //add new lines to amendement
+                            addUnorderedItemsToAmendment(amendmentPo, rlDoc);
+                            
+                            //route amendment
+                            documentService.routeDocument(amendmentPo, null, null);
+
+                            //add note to amendment po document
+                            String note = "Purchase Order Amendment " + amendmentPo.getPurapDocumentIdentifier() + " (document id " + amendmentPo.getDocumentNumber() + ") created for new unordered line items due to Receiving (document id " + rlDoc.getDocumentNumber() + ")";
+                            
+                            Note noteObj = documentService.createNoteFromDocument(amendmentPo, note);
+                            documentService.addNoteToDocument(amendmentPo, noteObj);
+                            noteService.save(noteObj);
+
+                            return null;
+                        }
+                    };
+                    
+                    purapService.performLogicWithFakedUserSession(newSessionUserId, logicToRun, new Object[] { rlDoc, po.getDocumentNumber() });
                 }
                 catch (WorkflowException e) {
                     String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
                     throw new RuntimeException(errorMsg, e);
                 }
-                
-                //add note to amendment po document
-                try{
-                    String note = "Purchase Order Amendment " + amendmentPo.getPurapDocumentIdentifier() + " (document id " + amendmentPo.getDocumentNumber() + ") created for new unordered line items due to Receiving (document id " + rlDoc.getDocumentNumber() + ")";
-                    
-                    Note noteObj = documentService.createNoteFromDocument(amendmentPo, note);
-                    documentService.addNoteToDocument(amendmentPo, noteObj);
-                    noteService.save(noteObj);
-                }catch (Exception e){
-                    String errorMsg = "Note Service Exception caught: " + e.getLocalizedMessage();
-                    throw new RuntimeException(errorMsg, e);                    
+                catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }           
         }
-
     }
     
     /**
@@ -776,7 +787,6 @@ public class ReceivingServiceImpl implements ReceivingService {
         noteService.save(noteObj);        
     }
     
-    //TODO: Implment method
     public String getReceivingDeliveryCampusCode(PurchaseOrderDocument po){
         String deliveryCampusCode = "";
         String latestDocumentNumber = "";

@@ -28,7 +28,7 @@
 		<c:choose>
 			<c:when test="${!isCustomerSelected}">
 		    		No Customer Selected
-		    	</c:when>
+	    	</c:when>
 			<c:otherwise>
 				<table width="100%" cellpadding="0" cellspacing="0"
 					class="datatable">
@@ -37,7 +37,7 @@
 							<c:choose>
 								<c:when test="${empty KualiForm.document.invoicePaidApplieds}">
 								   		No applied payments.
-								   	</c:when>
+							   	</c:when>
 								<c:otherwise>
 									<table width="100%" cellpadding="0" cellspacing="0"
 										class="datatable">
@@ -124,7 +124,7 @@
 											$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />
 										</td>
 										<td>
-											$<c:out value="${KualiForm.document.balanceToBeApplied}" />
+											$<c:out value="${KualiForm.document.unallocatedBalance}" />
 										</td>
 									</c:if>
 									<td>

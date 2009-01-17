@@ -73,7 +73,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
    @Override
     public KualiDecimal getAmount() {
-        return postable.getOpenAmount();
+        return postable.getAmountOpen();
     }
 
    @Override

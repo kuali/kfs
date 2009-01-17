@@ -316,6 +316,12 @@
         <property name="documentService">
             <ref bean="documentService" />
         </property>
+        <property name="invoicePaidAppliedService">
+        	<ref bean="invoicePaidAppliedService" />
+        </property>
+        <property name="universityDateService">
+        	<ref bean="universityDateService"/>
+        </property>
 	</bean>
 	
 	<bean id="cashControlDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CashControlDocumentServiceImpl">

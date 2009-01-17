@@ -3,13 +3,14 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -51,6 +52,10 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
         return _customerInvoiceDocument;
     }
 
+    public PaymentApplicationDocument getPaymentApplicationDocument() throws WorkflowException {
+        return (PaymentApplicationDocument) getDocumentService().getByDocumentHeaderId(getDocumentNumber());
+    }
+    
     /**
 	 * Gets the documentNumber attribute.
 	 * 
@@ -113,7 +118,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 		this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
 	}
 
-
 	/**
 	 * Gets the invoiceItemNumber attribute.
 	 * 
@@ -133,7 +137,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	public void setInvoiceItemNumber(Integer invoiceItemNumber) {
 		this.invoiceItemNumber = invoiceItemNumber;
 	}
-
 
 	/**
 	 * Gets the universityFiscalYear attribute.
@@ -155,7 +158,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 		this.universityFiscalYear = universityFiscalYear;
 	}
 
-
 	/**
 	 * Gets the universityFiscalPeriodCode attribute.
 	 * 
@@ -175,7 +177,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
 		this.universityFiscalPeriodCode = universityFiscalPeriodCode;
 	}
-
 
 	public FinancialSystemDocumentHeader getDocumentHeader() {
         return documentHeader;
@@ -204,7 +205,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	public void setInvoiceItemAppliedAmount(KualiDecimal invoiceItemAppliedAmount) {
 		this.invoiceItemAppliedAmount = invoiceItemAppliedAmount;
 	}
-
 
 	/**
 	 * Gets the invoiceItem attribute.

@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -40,6 +41,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -49,6 +51,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private NonAppliedHoldingService nonAppliedHoldingService;
+    private InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
+    private UniversityDateService universityDateService;
 
     /**
      * 
@@ -67,26 +71,18 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         accountsReceivableDocumentHeader.setDocumentNumber(applicationDocument.getDocumentNumber());
         applicationDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
         
-        // This code is needed for the code below but isn't copied from anywhere.
-        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-        Integer universityFiscalYear = universityDateService.getCurrentFiscalYear();
-        String universityFiscalPeriodCode = universityDateService.getCurrentUniversityDate().getAccountingPeriod().getUniversityFiscalPeriodCode();
-        
         // This code is basically copied from PaymentApplicationDocumentAction.quickApply
         for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
-            updateCustomerInvoiceDetailInfo(applicationDocument, customerInvoiceDetail);
-            Integer invoicePaidAppliedItemNbr = applicationDocument.getInvoicePaidApplieds().size() + 1;
             InvoicePaidApplied invoicePaidApplied = 
                 createInvoicePaidAppliedForInvoiceDetail(
-                    customerInvoiceDetail, applicationDocument.getDocumentNumber(), universityFiscalYear, 
-                    universityFiscalPeriodCode, customerInvoiceDetail.getOpenAmount(), invoicePaidAppliedItemNbr);
+                    customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpenFromDatabase());
             // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
             if (invoicePaidApplied != null) {
                 // add it to the payment application document list of applied payments
                 applicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
-                customerInvoiceDetail.setAmountToBeApplied(customerInvoiceDetail.getAmount());
+                //customerInvoiceDetail.setAmountToBeApplied(customerInvoiceDetail.getAmount());
             }
-            updateCustomerInvoiceDetailInfo(applicationDocument, customerInvoiceDetail);
+            //updateCustomerInvoiceDetailInfo(applicationDocument, customerInvoiceDetail);
         }
         
         return applicationDocument;
@@ -99,7 +95,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      * @throws WorkflowException
      */
     public PaymentApplicationDocument createAndSavePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         PaymentApplicationDocument applicationDocument = createPaymentApplicationToMatchInvoice(customerInvoiceDocument);
         documentService.saveDocument(applicationDocument);
         return applicationDocument;
@@ -134,7 +129,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         }
 
         // Include non-ar funds as well
-        total = total.add(document.getNonInvoicedTotalAmount());
+        total = total.add(document.getSumOfNonInvoiceds());
 
         return total;
     }
@@ -229,53 +224,48 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createInvoicePaidAppliedForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail,
-     *      org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createInvoicePaidAppliedForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail, org.kuali.rice.kns.util.KualiDecimal)
      */
-    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNbr, Integer universityFiscalYear, String universityFiscalPeriodCode, KualiDecimal amount, Integer invoicePaidAppliedItemNbr) {
+    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount) {
 
-        Collection<InvoicePaidApplied> invoicePaidApplieds = customerInvoiceDetail.getInvoicePaidApplieds();
-        InvoicePaidApplied invoicePaidApplied = null;
-        boolean found = false;
-
-        if (invoicePaidApplieds != null && 0 < invoicePaidApplieds.size()) {
-            for (InvoicePaidApplied _invoicePaidApplied : invoicePaidApplieds) {
-                boolean invoicePaidAppliedDocumentNumberEqualsApplicationDocumentNumber = 
-                    _invoicePaidApplied.getDocumentNumber().equals(applicationDocNbr);
-                boolean invoicePaidAppliedFinancialDocumentReferenceInvoiceNumberEqualsCustomerInvoiceDetailDocumentNumber =
-                    _invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber().equals(customerInvoiceDetail.getDocumentNumber());
-                boolean invoicePaidAppliedInvoiceItemNumberEqualsCustomerInvoiceDetailSequenceNumber = 
-                    _invoicePaidApplied.getInvoiceItemNumber().equals(customerInvoiceDetail.getSequenceNumber());
-                
-                if (invoicePaidAppliedDocumentNumberEqualsApplicationDocumentNumber 
-                        && invoicePaidAppliedFinancialDocumentReferenceInvoiceNumberEqualsCustomerInvoiceDetailDocumentNumber
-                        && invoicePaidAppliedInvoiceItemNumberEqualsCustomerInvoiceDetailSequenceNumber) {
-                    _invoicePaidApplied.setInvoiceItemAppliedAmount(amount);
-                    found = true;
-                    break;
-                }
-            }
-        }
-
-        if (!found) {
-            invoicePaidApplied = new InvoicePaidApplied();
-            
-            // set the document number for the invoice paid applied to the payment application document number.
-            invoicePaidApplied.setDocumentNumber(applicationDocNbr);
-            
-            // Set the invoice paid applied ref doc number to the document number for the customer invoice document
-            invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDetail.getDocumentNumber());
-            
-            invoicePaidApplied.setInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
-            invoicePaidApplied.setInvoiceItemAppliedAmount(amount);
-            invoicePaidApplied.setUniversityFiscalYear(universityFiscalYear);
-            invoicePaidApplied.setUniversityFiscalPeriodCode(universityFiscalPeriodCode);
-            invoicePaidApplied.setPaidAppliedItemNumber(invoicePaidAppliedItemNbr);
-        }
+        Integer universityFiscalYear = universityDateService.getCurrentFiscalYear();
+        String universityFiscalPeriodCode = universityDateService.getCurrentUniversityDate().getAccountingPeriod().getUniversityFiscalPeriodCode();
+        
+        InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
+        // set the document number for the invoice paid applied to the payment application document number.
+        invoicePaidApplied.setDocumentNumber(paymentApplicationDocument.getDocumentNumber());
+        
+        // Set the invoice paid applied ref doc number to the document number for the customer invoice document
+        invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDetail.getDocumentNumber());
+        
+        invoicePaidApplied.setInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
+        invoicePaidApplied.setInvoiceItemAppliedAmount(amount);
+        invoicePaidApplied.setUniversityFiscalYear(universityFiscalYear);
+        invoicePaidApplied.setUniversityFiscalPeriodCode(universityFiscalPeriodCode);
+        Integer invoicePaidAppliedItemNumber = 1 + paymentApplicationDocument.getInvoicePaidApplieds().size();
+        invoicePaidApplied.setPaidAppliedItemNumber(invoicePaidAppliedItemNumber);
 
         return invoicePaidApplied;
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#customerInvoiceDetailPairsWithInvoicePaidApplied(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail, org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied)
+     */
+    public boolean customerInvoiceDetailPairsWithInvoicePaidApplied(CustomerInvoiceDetail customerInvoiceDetail, InvoicePaidApplied invoicePaidApplied) {
+        boolean pairs = true;
+        pairs &= customerInvoiceDetail.getSequenceNumber().equals(invoicePaidApplied.getInvoiceItemNumber());
+        pairs &= customerInvoiceDetail.getDocumentNumber().equals(invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber());
+        return pairs;
+    }
+    
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
+    public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
+        this.invoicePaidAppliedService = invoicePaidAppliedService;
+    }
+    
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -288,133 +278,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         this.nonAppliedHoldingService = nonAppliedHoldingService;
     }
     
-    /**
-     * This method update customer invoice detail information.
-     * 
-     * @param applicationDocumentForm
-     * @param customerInvoiceDetail
-     */
-    public void updateCustomerInvoiceDetailInfo(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail) {
-        // update information for customer invoice detail: update the list of invoice paid applieds, compute applied amount and balance(should be done in this order as
-        // balance calculation depends on applied amount )
-        updateCustomerInvoiceDetailAppliedPayments(applicationDocument, customerInvoiceDetail);
-        updateCustomerInvoiceDetailAppliedAmount(customerInvoiceDetail);
-        updateCustomerInvoiceDetailBalance(customerInvoiceDetail);
-        updateAmountAppliedOnDetail(applicationDocument, customerInvoiceDetail);
-    }
-
-    /**
-     * This method updates the applied amount for the given customer invoice detail.
-     * 
-     * @param applicationDocumentForm
-     * @param customerInvoiceDetail
-     */
-    private void updateCustomerInvoiceDetailAppliedAmount(CustomerInvoiceDetail customerInvoiceDetail) {
-        ArrayList<InvoicePaidApplied> invoicePaidApplieds = new ArrayList(customerInvoiceDetail.getInvoicePaidApplieds());
-        KualiDecimal appliedAmount = customerInvoiceDetail.getAppliedAmount();
-
-        // TODO we might want to compute this based on the applied payments on this doc...
-        for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
-            appliedAmount = appliedAmount.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
-        }
-        customerInvoiceDetail.setAppliedAmount(appliedAmount);
-    }
-
-    /**
-     * This method updates the balance for the given customer invoice detail.
-     * 
-     * @param applicationDocumentForm
-     * @param customerInvoiceDetail
-     */
-    public void updateCustomerInvoiceDetailBalance(CustomerInvoiceDetail customerInvoiceDetail) {
-        KualiDecimal totalAmount = customerInvoiceDetail.getAmount();
-        KualiDecimal appliedAmount = customerInvoiceDetail.getAppliedAmount();
-        KualiDecimal balance = totalAmount.subtract(appliedAmount);
-        customerInvoiceDetail.setBalance(balance);
-    }
-
-    /**
-     * This method will update the list of the applied payments for this customer invoice detail taking into account the applied
-     * payments on the form that are not yet saved in the db
-     * 
-     * @param applicationDocumentForm
-     * @param customerInvoiceDetail
-     */
-    public void updateCustomerInvoiceDetailAppliedPayments(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail) {
-        String applicationDocNumber = applicationDocument.getDocumentNumber();
-
-        // get the invoice paid applieds for this detail that where saved in the db for this app doc
-        InvoicePaidAppliedService invoicePaidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);
-        Collection<InvoicePaidApplied> detailInvPaidApplieds = invoicePaidAppliedService.getInvoicePaidAppliedsForCustomerInvoiceDetail(customerInvoiceDetail, applicationDocNumber);
-
-        Collection<InvoicePaidApplied> invPaidAppliedsFormForThisDetail = getInvoicePaidAppliedsForDetail(applicationDocument.getInvoicePaidApplieds(), customerInvoiceDetail);
-
-        Collection<InvoicePaidApplied> invPaidAppliedsToBeAdded = new ArrayList<InvoicePaidApplied>();
-
-        // go over the invoice paid applieds from the form for this detail and check if they are in the detail inv paid applieds list; if not add the in the invPaidAppliedsToBeAdded collection
-        for (InvoicePaidApplied invoicePaidApplied2 : invPaidAppliedsFormForThisDetail) {
-            boolean found = false;
-            for (InvoicePaidApplied invoicePaidApplied1 : detailInvPaidApplieds) {
-
-                String invoiceNumber1 = invoicePaidApplied1.getFinancialDocumentReferenceInvoiceNumber();
-                String invoiceNumber2 = invoicePaidApplied2.getFinancialDocumentReferenceInvoiceNumber();
-                Integer detailNumber1 = invoicePaidApplied1.getInvoiceItemNumber();
-                Integer detailNumber2 = invoicePaidApplied2.getInvoiceItemNumber();
-                Integer paidAppliedNumber1 = invoicePaidApplied1.getPaidAppliedItemNumber();
-                Integer paidAppliedNumber2 = invoicePaidApplied2.getPaidAppliedItemNumber();
-
-                if (invoiceNumber1.equals(invoiceNumber2) && detailNumber1.equals(detailNumber2) && paidAppliedNumber1.equals(paidAppliedNumber2)) {
-                    found = true;
-                    break;
-                }
-
-            }
-            if (!found) {
-                invPaidAppliedsToBeAdded.add(invoicePaidApplied2);
-            }
-        }
-
-        detailInvPaidApplieds.addAll(invPaidAppliedsToBeAdded);
-
-        customerInvoiceDetail.setInvoicePaidApplieds(detailInvPaidApplieds);
-    }
-    
-    /**
-     * This method gets the invoice paid applieds from the form for the given invoice detail
-     * 
-     * @param applicationDocumentForm
-     * @param customerInvoiceDetail
-     * @return
-     */
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForDetail(Collection<InvoicePaidApplied> invPaidAppliedsForm, CustomerInvoiceDetail customerInvoiceDetail) {
-        // get the invoice paid applieds from the form
-        Collection<InvoicePaidApplied> invPaidAppliedsFormForThisDetail = new ArrayList<InvoicePaidApplied>();
-
-        // get the invoice paid applieds from the form for this detail
-        for (InvoicePaidApplied invoicePaidApplied : invPaidAppliedsForm) {
-            if (invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber().equals(customerInvoiceDetail.getDocumentNumber()) && invoicePaidApplied.getInvoiceItemNumber().equals(customerInvoiceDetail.getSequenceNumber())) {
-                invPaidAppliedsFormForThisDetail.add(invoicePaidApplied);
-            }
-        }
-        return invPaidAppliedsFormForThisDetail;
-    }
-
-    /**
-     * This method updates amount to be applied on invoice detail
-     * @param applicationDocumentForm
-     */
-    public void updateAmountAppliedOnDetail(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail) {
-        Collection<InvoicePaidApplied> paidAppliedsFromDocument = applicationDocument.getInvoicePaidApplieds();
-        Collection<InvoicePaidApplied> invoicePaidApplieds = getInvoicePaidAppliedsForDetail(paidAppliedsFromDocument, customerInvoiceDetail);
-        for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
-            customerInvoiceDetail.setAmountToBeApplied(invoicePaidApplied.getInvoiceItemAppliedAmount());
-            //there should be actualy only one paid applied per detail
-            break;
-        }
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
     
 }

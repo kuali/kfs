@@ -440,21 +440,6 @@
 	<field-descriptor name="invoiceItemTaxAmount" column="AR_INV_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="taxableIndicator" column="AR_INV_ITM_TXBL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="invoiceItemDiscountLineNumber" column="AR_INV_ITM_DSCT_LN_NBR" jdbc-type="INTEGER"/>
-
-    <!--
-    <collection-descriptor name="invoicePaidApplieds" element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <orderby name="paidAppliedItemNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="financialDocumentReferenceInvoiceNumber" />
-        <inverse-foreignkey field-ref="invoiceItemNumber" />
-    </collection-descriptor>
-	-->
-    
-    <!--
-	<reference-descriptor name="invoicePaidApplieds" class-ref="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="documentNumber" />
-		<foreignkey field-ref="sequenceNumber" />
-	</reference-descriptor>
-	-->
 	<reference-descriptor name="accountsReceivableSubObject" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="postingYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />

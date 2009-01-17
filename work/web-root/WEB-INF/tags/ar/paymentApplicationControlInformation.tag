@@ -29,9 +29,10 @@
 
 <kul:tab tabTitle="Control Information"
     defaultOpen="${hasRelatedCashControlDocument}"
-    tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
+    tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS},document.hiddenFieldForErrors">
 
     <div class="tab-container" align="center">
+		<html:hidden property="document.hiddenFieldForErrors"/>
 
         <c:choose>
             <c:when test="${!hasRelatedCashControlDocument}">
@@ -58,7 +59,7 @@
               </tr>
               <tr>
                 <th>Balance</th>
-                <td><c:out value="${KualiForm.document.balanceToBeApplied}" /></td>
+                <td><c:out value="${KualiForm.document.unallocatedBalance}" /></td>
               </tr>
               <tr>
                 <th>Payment #</th>

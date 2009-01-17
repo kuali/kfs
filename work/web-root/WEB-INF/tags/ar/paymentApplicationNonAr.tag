@@ -129,7 +129,7 @@
                             attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
                             property="nonInvoicedAddLine.financialDocumentLineAmount"/>
                     </td>
-                    <td><html:image property="methodToCall.addNonAr"
+                    <td><html:image property="methodToCall.applyAllAmounts"
                         src="${ConfigProperties.externalizable.images.url}tinybutton-add1.gif"
                         alt="Add" title="Add" styleClass="tinybutton" /></td>
                 </tr>

@@ -59,7 +59,7 @@
                         </c:forEach>
                         <tr>
                             <td colspan='3' style='text-align: right;'>
-                                <html:image property="methodToCall.quickApply"
+                                <html:image property="methodToCall.applyAllAmounts"
                                     src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
                                     alt="Quick Apply" title="Quick Apply" styleClass="tinybutton" />
                             </td>

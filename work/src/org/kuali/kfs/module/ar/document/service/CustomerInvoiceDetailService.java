@@ -47,7 +47,12 @@ public interface CustomerInvoiceDetailService {
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear();
     
-    
+    /**
+     * This method ...
+     * 
+     * @param accountNumber
+     * @return
+     */
     public List<String> getCustomerInvoiceDocumentNumbersByAccountNumber(String accountNumber);
     
     /**
@@ -66,7 +71,6 @@ public interface CustomerInvoiceDetailService {
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode( String invoiceItemCode, String chartOfAccountsCode, String organizationCode);
     
-    
     /**
      * This method returns a discount customer invoice detail based on a customer invoice detail, the chart of accounts code
      * @param customerInvoiceDetail
@@ -75,7 +79,6 @@ public interface CustomerInvoiceDetailService {
      * @return
      */
     public CustomerInvoiceDetail getDiscountCustomerInvoiceDetail( CustomerInvoiceDetail customerInvoiceDetail, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode );
-    
     
     /**
      * This method returns a discount customer invoice detail for the current year
@@ -96,17 +99,6 @@ public interface CustomerInvoiceDetailService {
      */    
     public CustomerInvoiceDetail getCustomerInvoiceDetail(String documentNumber,Integer sequenceNumber);
     
-    /**
-     * This method returns a customer invoice detail open item amount
-     * 
-     * @param documentNumber
-     * @param invoiceItemCode
-     * @return
-     */  
-    public KualiDecimal getOpenAmount(CustomerInvoiceDetail customerInvoiceDetail);
-
-    public KualiDecimal getOpenAmountByDate(CustomerInvoiceDetail customerInvoiceDetail, Date date);
-
     /**
      * This method is used to recalculate a customer invoice detail based on updated values
      * @param customerInvoiceDetail
@@ -148,51 +140,5 @@ public interface CustomerInvoiceDetailService {
      * @return
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber);
-    
 
-    /**
-     * Calculate the total amount applied to this CustomerInvoiceDetail
-     * 
-     * @param invoiceDetail
-     * @return
-     */
-    public KualiDecimal getAppliedAmountForInvoiceDetail(CustomerInvoiceDetail invoiceDetail);
-
-    /**
-     * @param customerInvoiceDocumentNumber
-     * @param sequenceNumber
-     * @return
-     */
-    public KualiDecimal getAppliedAmountForInvoiceDetail(String customerInvoiceDocumentNumber, Integer sequenceNumber);
-
-    /**
-     * @param customerInvoiceDetail
-     * @return
-     */
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail);
-
-    /**
-     * @param documentNumber
-     * @param sequenceNumber
-     * @return
-     */
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoiceDetail(String documentNumber, Integer sequenceNumber);
-    
-    
-    /**
-     * This method returns a collection of invoice paid applieds that were applied from a specific document
-     * 
-     * @param documentNumber
-     * @return
-     */
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber);
-    
-    
-    /**
-     * This method returns the total applied amount from a specific document to a particular invoice
-     * 
-     * @param documentNumber
-     * @return
-     */
-    public KualiDecimal getAppliedAmountFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber);
 }

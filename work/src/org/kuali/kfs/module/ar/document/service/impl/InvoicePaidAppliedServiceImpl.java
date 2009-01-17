@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -65,32 +67,50 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
         return totalAmountApplied;
     }    
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
-     */
-    @SuppressWarnings("unchecked")
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
-        Map criteria = new HashMap();
-        criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
-        criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
-        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
-    }
+//    /**
+//     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail, org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
+//     */
+//    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument) {
+//        List<InvoicePaidApplied> invoicePaidApplieds = paymentApplicationDocument.getInvoicePaidApplieds();
+//        List<InvoicePaidApplied> relatedInvoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
+//        
+//        for(InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
+//            boolean matches = true;
+//            matches &= invoicePaidApplied.getInvoiceItemNumber().equals(customerInvoiceDetail.getSequenceNumber());
+//            matches &= invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber().equals(customerInvoiceDetail.getDocumentNumber());
+//            if(matches) {
+//                relatedInvoicePaidApplieds.add(invoicePaidApplied);
+//            }
+//        }
+//        return relatedInvoicePaidApplieds;
+//    }
     
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNumber) {
-        Map criteria = new HashMap();
-        criteria.put("documentNumber", customerInvoiceDetail.getDocumentNumber());
-        criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
-        criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
-        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
-    }
+//    /**
+//     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
+//     */
+//    @SuppressWarnings("unchecked")
+//    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
+//        Map criteria = new HashMap();
+//        criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
+//        criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
+//        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+//    }
+//    
+//    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNumber) {
+//        Map criteria = new HashMap();
+//        criteria.put("documentNumber", customerInvoiceDetail.getDocumentNumber());
+//        criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
+//        criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
+//        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+//    }
     
-    public Collection<InvoicePaidApplied> getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
-        Map criteria = new HashMap();
-        criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
-        criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
-        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
-    }
+//    public Collection<InvoicePaidApplied> getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
+//        Map criteria = new HashMap();
+//        criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
+//        criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
+//        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+//        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+//    }
 
 
     /**

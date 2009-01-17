@@ -59,48 +59,8 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     private ParameterService parameterService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private AccountsReceivableTaxService accountsReceivableTaxService;
-
-
     private TaxService taxService;
 
-    // private CustomerInvoiceDetailDao customerInvoiceDetailDao;
-
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAppliedAmountForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
-     */
-    public KualiDecimal getAppliedAmountForInvoiceDetail(CustomerInvoiceDetail invoiceDetail) {
-        KualiDecimal total = new KualiDecimal(0);
-
-        for (InvoicePaidApplied paidApplied : getInvoicePaidAppliedsForInvoiceDetail(invoiceDetail)) {
-            total = total.add(paidApplied.getInvoiceItemAppliedAmount());
-        }
-
-        return total;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getInvoicePaidAppliedsForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
-     */
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
-        return invoicePaidAppliedService.getInvoicePaidAppliedsForCustomerInvoiceDetail(customerInvoiceDetail);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getInvoicePaidAppliedsForInvoiceDetail(java.lang.String,
-     *      java.lang.Integer)
-     */
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoiceDetail(String documentNumber, Integer sequenceNumber) {
-        return getInvoicePaidAppliedsForInvoiceDetail(getCustomerInvoiceDetail(documentNumber, sequenceNumber));
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAppliedAmountForInvoiceDetail(java.lang.String,
-     *      java.lang.Integer)
-     */
-    public KualiDecimal getAppliedAmountForInvoiceDetail(String customerInvoiceDocumentNumber, Integer sequenceNumber) {
-        return getAppliedAmountForInvoiceDetail(getCustomerInvoiceDetail(customerInvoiceDocumentNumber, sequenceNumber));
-    }
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAddCustomerInvoiceDetail(java.lang.Integer,
@@ -302,52 +262,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getOpenAmount(java.lang.Integer,
-     *      org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
-     */
-    public KualiDecimal getOpenAmount(CustomerInvoiceDetail customerInvoiceDetail) {
-        KualiDecimal totalAppliedAmount = KualiDecimal.ZERO;
-        KualiDecimal appliedAmount;
-        KualiDecimal openAmount;
-        KualiDecimal invoiceItemAmount;
-
-        Collection<InvoicePaidApplied> results = invoicePaidAppliedService.getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(customerInvoiceDetail);
-        for (InvoicePaidApplied invoicePaidApplied : results) {
-            appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
-            if (ObjectUtils.isNotNull(appliedAmount))
-                totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
-        }
-        invoiceItemAmount = customerInvoiceDetail.getAmount();
-        openAmount = invoiceItemAmount.subtract(totalAppliedAmount);
-
-        return openAmount;
-    }
-
-    /**
-     * get open amount snapshot from previous date
-     */
-    public KualiDecimal getOpenAmountByDate(CustomerInvoiceDetail customerInvoiceDetail, Date runDate) {
-        KualiDecimal totalAppliedAmount = KualiDecimal.ZERO;
-        KualiDecimal appliedAmount;
-        KualiDecimal openAmount;
-        KualiDecimal invoiceItemAmount;
-        Date invoicePaidDate;
-
-        Collection<InvoicePaidApplied> results = invoicePaidAppliedService.getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(customerInvoiceDetail);
-        for (InvoicePaidApplied invoicePaidApplied : results) {
-            appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
-            invoicePaidDate = invoicePaidApplied.getDocumentHeader().getDocumentFinalDate();
-// get the paid date and use that to limit the adds from below
-            if (ObjectUtils.isNotNull(appliedAmount)&&!invoicePaidDate.after(runDate))
-                totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
-        }
-        invoiceItemAmount = customerInvoiceDetail.getAmount();
-        openAmount = invoiceItemAmount.subtract(totalAppliedAmount);
-
-        return openAmount;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(java.lang.String)
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber) {
@@ -355,22 +269,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         criteria.put("documentNumber", customerInvoiceDocumentNumber);
 
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, criteria);
-    }
-
-
-    public KualiDecimal getAppliedAmountFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber) {
-
-        KualiDecimal appliedAmountFromSpecificDocument = KualiDecimal.ZERO;
-        Collection<InvoicePaidApplied> results = getInvoicePaidAppliedsFromSpecificDocument(documentNumber, referenceCustomerInvoiceDocumentNumber);
-        for (InvoicePaidApplied invoicePaidApplied : results) {
-            appliedAmountFromSpecificDocument = appliedAmountFromSpecificDocument.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
-        }
-
-        return appliedAmountFromSpecificDocument;
-    }
-
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber) {
-        return invoicePaidAppliedService.getInvoicePaidAppliedsFromSpecificDocument(documentNumber, referenceCustomerInvoiceDocumentNumber);
     }
 
     /**
@@ -382,7 +280,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         }
         return getCustomerInvoiceDetailsForInvoice(customerInvoiceDocument.getDocumentNumber());
     }
-
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#updateAccountsReceivableObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)

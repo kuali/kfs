@@ -40,7 +40,7 @@ public class PaymentApplicationIsFullBalanceAppliedValidation extends GenericVal
         if (paymentApplicationDocument.hasCashControlDocument()) {
             KualiDecimal balanceToBeApplied;
             try {
-                balanceToBeApplied = paymentApplicationDocument.getBalanceToBeApplied();
+                balanceToBeApplied = paymentApplicationDocument.getUnallocatedBalance();
             }
             catch (WorkflowException e) {
                 throw new RuntimeException("WorkflowException thrown when trying to retrieve CashControlDocument.", e);

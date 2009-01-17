@@ -45,7 +45,7 @@
                             attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"
                             property="document.nonAppliedHolding.financialDocumentLineAmount"
                             readOnly="${readOnly}" />
-                        <html:image property="methodToCall.commitUnapplied"
+                        <html:image property="methodToCall.applyAllAmounts"
                             src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
                             alt="Commit Unapplied" title="Commit Unapplied" styleClass="tinybutton" />
                     </td>

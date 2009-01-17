@@ -25,6 +25,7 @@ import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -38,7 +39,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     public static boolean validateAllAmounts(PaymentApplicationDocument applicationDocument, List<CustomerInvoiceDetail> invoiceDetails, NonInvoiced newNonInvoiced) throws WorkflowException {
         boolean isValid = validateApplieds(invoiceDetails, applicationDocument);
-        isValid &= validateUnapplied(applicationDocument);
+        isValid &= validateNonAppliedHolding(applicationDocument);
         isValid &= validateNonInvoiced(newNonInvoiced, applicationDocument);
         return isValid;
     }
@@ -49,30 +50,35 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param invoicePaidApplied
      * @return
      */
-    public static boolean validateInvoicePaidApplied(InvoicePaidApplied invoicePaidApplied) {
+    public static boolean validateInvoicePaidApplied(InvoicePaidApplied invoicePaidApplied, String fieldName) throws WorkflowException {
         boolean isValid = true;
         
         invoicePaidApplied.refreshReferenceObject("invoiceItem");
         KualiDecimal amountOwed = invoicePaidApplied.getInvoiceItem().getAmount();
         KualiDecimal amountPaid = invoicePaidApplied.getInvoiceItemAppliedAmount();
         
-        // Get a handle on the global error map
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
         // Can't pay more than you owe.
         if(!amountPaid.isLessEqual(amountOwed)) {
             isValid = false;
-            errorMap.putError(
-                ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
-                ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
+            GlobalVariables.getErrorMap().putError(
+                fieldName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
         }
         
         // Paying zero means nothing.
         if(!amountPaid.isGreaterThan(KualiDecimal.ZERO)) {
             isValid = false;
-            errorMap.putError(
-                ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
-                ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
+            GlobalVariables.getErrorMap().putError(
+                fieldName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_GREATER_THAN_ZERO);
+        }
+        
+        // Can't apply more than the amount received via the related CashControlDocument
+        PaymentApplicationDocument paymentApplicationDocument = invoicePaidApplied.getPaymentApplicationDocument();
+        if(null != paymentApplicationDocument) {
+            if(amountPaid.isGreaterThan(paymentApplicationDocument.getTotalFromCashControl())) {
+                isValid = false;
+                GlobalVariables.getErrorMap().putError(
+                    fieldName,ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
+            }
         }
         
         return isValid;
@@ -91,7 +97,7 @@ public class PaymentApplicationDocumentRuleUtil {
             invoicePaidApplied.refreshReferenceObject("invoiceItem");
             appliedTotal = appliedTotal.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
-        return paymentApplicationDocument.getCashControlTotalAmount().isGreaterEqual(appliedTotal);
+        return paymentApplicationDocument.getTotalFromCashControl().isGreaterEqual(appliedTotal);
     }
 
     /**
@@ -118,7 +124,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateNonInvoicedAmountDoesntExceedCashControlTotal(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
-        return paymentApplicationDocument.getCashControlTotalAmount().isGreaterEqual(paymentApplicationDocument.getNonInvoicedTotalAmount());
+        return paymentApplicationDocument.getTotalFromCashControl().isGreaterEqual(paymentApplicationDocument.getSumOfNonInvoiceds());
     }
     
     /**
@@ -129,7 +135,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateNonInvoicedAmountIsGreaterThanOrEqualToZero(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
-        return KualiDecimal.ZERO.isLessEqual(paymentApplicationDocument.getNonInvoicedTotalAmount());
+        return KualiDecimal.ZERO.isLessEqual(paymentApplicationDocument.getSumOfNonInvoiceds());
     }
 
     /**
@@ -140,7 +146,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateUnappliedAmountDoesntExceedCashControlTotal(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
-        return paymentApplicationDocument.getCashControlTotalAmount().isGreaterEqual(paymentApplicationDocument.getNonAppliedHoldingTotal());
+        return paymentApplicationDocument.getTotalFromCashControl().isGreaterEqual(paymentApplicationDocument.getNonAppliedHoldingAmount());
     }
     
     /**
@@ -151,7 +157,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateUnappliedAmountIsGreaterThanOrEqualToZero(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
-        return KualiDecimal.ZERO.isLessEqual(paymentApplicationDocument.getNonAppliedHoldingTotal());
+        return KualiDecimal.ZERO.isLessEqual(paymentApplicationDocument.getNonAppliedHoldingAmount());
     }
 
     /**
@@ -184,9 +190,9 @@ public class PaymentApplicationDocumentRuleUtil {
                 ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_REQUIRED);
         } else {
             KualiDecimal cashControlBalanceToBeApplied = new KualiDecimal(0);
-            cashControlBalanceToBeApplied = cashControlBalanceToBeApplied.add(paymentApplicationDocument.getCashControlTotalAmount());
+            cashControlBalanceToBeApplied = cashControlBalanceToBeApplied.add(paymentApplicationDocument.getTotalFromCashControl());
             cashControlBalanceToBeApplied.subtract(paymentApplicationDocument.getTotalApplied());
-            cashControlBalanceToBeApplied.subtract(paymentApplicationDocument.getTotalUnapplied());
+            cashControlBalanceToBeApplied.subtract(paymentApplicationDocument.getNonAppliedHoldingAmount());
             
             if (nonArLineAmount.isZero()) {
                 isValid = false;
@@ -213,69 +219,61 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param customerInvoiceDetails
      * @return
      */
-    public static boolean validateApplieds(List<CustomerInvoiceDetail> customerInvoiceDetails, PaymentApplicationDocument document) throws WorkflowException {
+    public static boolean validateApplieds(List<CustomerInvoiceDetail> customerInvoiceDetails, PaymentApplicationDocument paymentAplicationDocument) throws WorkflowException {
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-
-        // Figure out the maximum we should be able to apply.
-        Double outstandingAmount = new Double(0);
-        Double amountWeWouldApply = new Double(0);
-        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
-            KualiDecimal detailAmount = customerInvoiceDetail.getAmount();
-            KualiDecimal detailAppliedAmount = customerInvoiceDetail.getAppliedAmount();
-            outstandingAmount  += detailAmount.subtract(detailAppliedAmount).doubleValue();
-            amountWeWouldApply += customerInvoiceDetail.getAmountToBeApplied().doubleValue();
-        }
-
-        // Amount to be applied is valid only if it's less than or equal to the outstanding amount on the invoice.
+        // Indicates whether the validation succeeded
         boolean isValid = true;
 
-        // If invalid, indicate an error in the UI.
-        
-        // Can't apply more than the total amount of the detail
-        if(!(amountWeWouldApply <= outstandingAmount)) {
-            isValid = false;
-            errorMap.putError(
-                ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
-                ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
+        // Figure out the maximum we should be able to apply.
+        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
+            isValid &= validateAmountAppliedToCustomerInvoiceDetailByPaymentApplicationDocument(customerInvoiceDetail,paymentAplicationDocument);
         }
 
-        // Can't apply a negative amount.
-        if(KualiDecimal.ZERO.doubleValue() > amountWeWouldApply) {
+        return isValid;
+    }
+    
+    /**
+     * @param customerInvoiceDetail
+     * @param paymentApplicationDocument
+     * @return
+     */
+    public static boolean validateAmountAppliedToCustomerInvoiceDetailByPaymentApplicationDocument(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        
+        boolean isValid = true;
+        
+        // This let's us highlight a specific invoice detail line
+        String propertyName = 
+            MessageFormat.format(ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N, customerInvoiceDetail.getSequenceNumber().toString());
+        
+        KualiDecimal detailAmount = customerInvoiceDetail.getAmount();
+        KualiDecimal amountAppliedByAllOtherDocuments = 
+            customerInvoiceDetail.getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument);
+        KualiDecimal amountAppliedByThisDocument = 
+            customerInvoiceDetail.getAmountAppliedBy(paymentApplicationDocument);
+        KualiDecimal totalAppliedAmount = 
+            amountAppliedByAllOtherDocuments.add(amountAppliedByThisDocument);
+        
+        // Can't apply more than the total amount of the detail
+        if(!totalAppliedAmount.isLessEqual(detailAmount)) {
             isValid = false;
-            errorMap.putError(
-                ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
-                ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_GREATER_THAN_ZERO);
+            GlobalVariables.getErrorMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
+        }
+        
+        // Can't apply a negative amount.
+        if(KualiDecimal.ZERO.isGreaterThan(amountAppliedByThisDocument)) {
+            isValid = false;
+            GlobalVariables.getErrorMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_GREATER_THAN_ZERO);
         }
         
         // Can't apply more than the total amount outstanding on the cash control document.
-        if(ObjectUtils.isNotNull(document.getCashControlDocument()) && document.getBalanceToBeApplied().doubleValue() < amountWeWouldApply) {
-            isValid = false;
-            KualiDecimal amountToBeApplied;
-            Integer lineNumber;
-            String actualPropertyName = null;
-            
-            //  decide which line to light
-            for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
-                amountToBeApplied = customerInvoiceDetail.getAmountToBeApplied();
-                if (amountToBeApplied != null) {
-                    if (amountToBeApplied.isGreaterThan(KualiDecimal.ZERO)) {
-                        lineNumber = customerInvoiceDetail.getSequenceNumber().intValue() - 1;
-                        //  make sure the correct line number is lit
-                        actualPropertyName = MessageFormat.format(
-                                ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N, 
-                                lineNumber.toString());
-                    }
-                }
-            }
-            
-            //  only light one amount field, but make sure its a non-zero one, and the last one
-            if (StringUtils.isNotBlank(actualPropertyName)) {
-                errorMap.putError(
-                        actualPropertyName,
-                        ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_BALANCE_TO_BE_APPLIED);
+        CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
+        if(ObjectUtils.isNotNull(cashControlDocument)) {
+            if(cashControlDocument.getCashControlTotalAmount().isLessThan(amountAppliedByThisDocument)) {
+                isValid = false;
+                GlobalVariables.getErrorMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_BALANCE_TO_BE_APPLIED);
             }
         }
+        
         return isValid;
     }
     
@@ -286,11 +284,11 @@ public class PaymentApplicationDocumentRuleUtil {
      * @return
      * @throws WorkflowException
      */
-    public static boolean validateUnapplied(PaymentApplicationDocument applicationDocument) throws WorkflowException {
+    public static boolean validateNonAppliedHolding(PaymentApplicationDocument applicationDocument) throws WorkflowException {
         // The amount of the unapplied attribute must be less than the cash control document amount
         CashControlDetail cashControlDetail = applicationDocument.getCashControlDetail();
         KualiDecimal cashControlTotalAmount = cashControlDetail.getFinancialDocumentLineAmount();
-        KualiDecimal totalUnapplied = applicationDocument.getTotalUnapplied();
+        KualiDecimal totalUnapplied = applicationDocument.getNonAppliedHoldingAmount();
         
         //  if there is no value in Unapplied, then we have nothing to do here
         if (totalUnapplied == null || totalUnapplied.isZero()) {
@@ -304,7 +302,7 @@ public class PaymentApplicationDocumentRuleUtil {
             GlobalVariables.getErrorMap().putError(propertyName, errorKey);
         }
         // The amount of the unapplied can't exceed the remaining balance to be applied 
-        KualiDecimal totalBalanceToBeApplied = applicationDocument.getBalanceToBeApplied();
+        KualiDecimal totalBalanceToBeApplied = applicationDocument.getUnallocatedBalance();
         isValid = KualiDecimal.ZERO.isLessEqual(totalBalanceToBeApplied);
         if(!isValid) {
             String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;

@@ -304,7 +304,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     protected KualiDecimal getCustomerInvoiceDetailOpenPretaxAmount(CustomerInvoiceDetail customerInvoiceDetail) {
         String postalCode = SpringContext.getBean(AccountsReceivableTaxService.class).getPostalCodeForTaxation(getCustomerInvoiceDocument());
         Date dateOfTransaction = getCustomerInvoiceDocument().getBillingDate();
-        KualiDecimal pretaxAmount = SpringContext.getBean(TaxService.class).getPretaxAmount(dateOfTransaction, postalCode, customerInvoiceDetail.getOpenAmount());
+        KualiDecimal pretaxAmount = SpringContext.getBean(TaxService.class).getPretaxAmount(dateOfTransaction, postalCode, customerInvoiceDetail.getAmountOpen());
 
         return pretaxAmount;
     }
@@ -324,7 +324,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
 
         // if invoice item open amount <= 0 -> do not generate GLPEs for this glpeSourceDetail
-        if (!customerInvoiceDetail.getOpenAmount().isPositive())
+        if (!customerInvoiceDetail.getAmountOpen().isPositive())
             return true;
 
         KualiDecimal amount;
@@ -336,7 +336,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         boolean hasWriteoffClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffOffsetOption);
 
         String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD);
-        boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD_DISALLOW.equals(writeoffTaxGenerationOption);
+        boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD_DISALLOW.equals( writeoffTaxGenerationOption );
 
         boolean hasClaimOnCashOffset = hasReceivableClaimOnCashOffset || hasWriteoffClaimOnCashOffset;
 
@@ -346,10 +346,10 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
             addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
             sequenceHelper.increment();
             addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
-            addSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasWriteoffTaxClaimOnCashOffset, amount);
+            addSalesTaxGLPEs( sequenceHelper, glpeSourceDetail, hasWriteoffTaxClaimOnCashOffset, amount);
         }
         else {
-            amount = customerInvoiceDetail.getOpenAmount();
+            amount = customerInvoiceDetail.getAmountOpen();
             addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
             sequenceHelper.increment();
             addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
@@ -393,7 +393,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, amount);
     }
 
-    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasWriteoffTaxClaimOnCashOffset, KualiDecimal amount) {
+    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasWriteoffTaxClaimOnCashOffset, KualiDecimal amount){
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
         WriteoffCustomerInvoiceDetail writeoffCustomerInvoiceDetail = new WriteoffCustomerInvoiceDetail(customerInvoiceDetail, this);
 
@@ -488,4 +488,6 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         }
         return false;
     }
+
+
 }

@@ -218,7 +218,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDocumentPaymentAmount(paymentApplication.getTotalApplied().negated());
 
             // populate Unpaid/Unapplied Amount
-            detail.setUnpaidUnappliedAmount(paymentApplication.getBalanceToBeApplied().negated());
+            detail.setUnpaidUnappliedAmount(paymentApplication.getUnallocatedBalance().negated());
 
             results.add(detail);
         }
@@ -484,7 +484,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 if (ObjectUtils.isNotNull(itemTaxAmount))
                     taxAmount = taxAmount.add(itemTaxAmount);
                             
-                KualiDecimal openItemAmount = ((CustomerInvoiceDetail)invoiceDetail).getOpenAmount();
+                KualiDecimal openItemAmount = ((CustomerInvoiceDetail)invoiceDetail).getAmountOpenFromDatabase();
                 if (ObjectUtils.isNotNull(openItemAmount))
                     openAmount = openAmount.add(openItemAmount);
             }

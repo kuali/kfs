@@ -71,7 +71,12 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         super();
         accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
         customerPaymentMedium = new PaymentMedium();
-        universityFiscalPeriod = new AccountingPeriod();
+
+        // Set the university fiscal year to the current values
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        universityFiscalYear = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
+        universityFiscalPeriod = universityDateService.getCurrentUniversityDate().getAccountingPeriod();
+        
         cashControlDetails = new ArrayList<CashControlDetail>();
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
         electronicPaymentClaims = new ArrayList<ElectronicPaymentClaim>();
@@ -586,6 +591,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     public void setBankCode(String bankCode) {
         this.bankCode = bankCode;
     }
+
 
     /**
      * Answers true when document payment medium is WIRE transfer

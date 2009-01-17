@@ -213,10 +213,10 @@
 																Item Desc
 															</th>
 															<th>
-																Item Tot Amt
+																Item Total Amount
 															</th>
 															<th>
-																Dtl Balance
+																Item Open Amount
 															</th>
 															<th>
 																Apply Amount
@@ -266,14 +266,14 @@
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.balance}"
-																				property="customerInvoiceDetail[${ctr}].balance"
+																				property="customerInvoiceDetail[${ctr}].amountOpen"
 																				readOnly="true" />
 																		</td>
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
 																				styleClass="amount"
-																				attributeEntry="${customerInvoiceDetailAttributes.amountToBeApplied}"
-																				property="customerInvoiceDetail[${ctr}].amountToBeApplied" />
+																				attributeEntry="${customerInvoiceDetailAttributes.amountApplied}"
+																				property="customerInvoiceDetail[${ctr}].amountApplied" />
 																		</td>
 																		<td>
 																			<center>
@@ -289,7 +289,7 @@
 											</tr>
 											<tr>
 												<td style='text-align: right;' colspan='4'>
-													<html:image property="methodToCall.apply"
+													<html:image property="methodToCall.applyAllAmounts"
 														src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
 														alt="Apply" title="Apply" styleClass="tinybutton" />
 												</td>

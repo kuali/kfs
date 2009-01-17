@@ -22,9 +22,20 @@ import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface InvoicePaidAppliedService<T extends AppliedPayment> {
+    
+    /**
+     * This method doesn't go to the database to get related invoice paid applieds.
+     * It looks at a specific document to get the relations worked out.
+     * 
+     * @param customerInvoiceDetail
+     * @param paymentApplicationDocument
+     * @return
+     */
+//    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument);
     
     /**
      * This method takes a list of invoice paid applied moves and uses them to save invoicePaidAppliedMoves
@@ -43,7 +54,6 @@ public interface InvoicePaidAppliedService<T extends AppliedPayment> {
      * @param appliedPayments
      */
     public KualiDecimal getTotalAmountApplied(List<T> appliedPayments);
-    
     
     /**
      * This method returns true if invoice has applied amounts (i.e. from application, credit memo, etc), not including
@@ -70,12 +80,9 @@ public interface InvoicePaidAppliedService<T extends AppliedPayment> {
      * @param customerInvoiceDetail
      * @return
      */
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail);
-    
-    public Collection<InvoicePaidApplied> getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail);
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNumber);
-    
-    
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber);
+//    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail);
+//    public Collection<InvoicePaidApplied> getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail);
+//    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNumber);
+//    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber);
     
 }

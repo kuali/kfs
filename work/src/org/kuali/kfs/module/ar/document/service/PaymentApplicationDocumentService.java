@@ -51,7 +51,7 @@ public interface PaymentApplicationDocumentService {
      * @param amount the amount to be applied
      * @return the created invoice paid applied if it did not exist, null otherwise
      */
-    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNbr, Integer universityFiscalYear, String universityFiscalPeriodCode, KualiDecimal amount, Integer invoicePaidAppliedItemNbr);
+    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount);
     
     /**
      * This method is used in the lockbox process to create a PA document which is then auto-approved when the amount on the invoice matches 
@@ -62,12 +62,22 @@ public interface PaymentApplicationDocumentService {
      */
     public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
 
-    public void updateAmountAppliedOnDetail(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
-    public void updateCustomerInvoiceDetailAppliedPayments(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
-    public void updateCustomerInvoiceDetailBalance(CustomerInvoiceDetail customerInvoiceDetail);
-    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForDetail(Collection<InvoicePaidApplied> appliedPayments, CustomerInvoiceDetail customerInvoiceDetail);
-    public void updateCustomerInvoiceDetailInfo(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
+//    public void updateAmountAppliedOnDetail(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
+//    public void updateCustomerInvoiceDetailAppliedPayments(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
+//    public void updateCustomerInvoiceDetailBalance(CustomerInvoiceDetail customerInvoiceDetail);
+//    public InvoicePaidApplied getMatchingInvoicePaidAppliedForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument);
+//    public void updateCustomerInvoiceDetailInfo(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
     public PaymentApplicationDocument createSaveAndApprovePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument, String approvalAnnotation, List workflowNotificationRecipients) throws WorkflowException;
     public PaymentApplicationDocument createAndSavePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
+    
+    /**
+     * This method returns true if invoicePaidApplied is the applied payment for 
+     * the customer invoice detail based on document number and item/sequence number.
+     * 
+     * @param customerInvoiceDetail
+     * @param invoicePaidApplied
+     * @return
+     */
+    public boolean customerInvoiceDetailPairsWithInvoicePaidApplied(CustomerInvoiceDetail customerInvoiceDetail, InvoicePaidApplied invoicePaidApplied);
     
 }

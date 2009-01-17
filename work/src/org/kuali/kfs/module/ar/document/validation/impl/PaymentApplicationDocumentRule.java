@@ -41,9 +41,14 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         
         // Validate the applied payments
         for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
-            if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied)) {
+            try {
+                if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied,null)) {
+                    isValid = false;
+                    LOG.info("One of the invoice paid applieds for the payment application document is not valid.");
+                }
+            } catch(WorkflowException workflowException) {
                 isValid = false;
-                LOG.info("One of the invoice paid applieds for the payment application document is not valid.");
+                LOG.error("Workflow exception encountered when trying to validate invoiced paid applied on payment application document.", workflowException);
             }
         }
         
@@ -63,7 +68,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         // Validate non applied holdings
         NonAppliedHolding nonAppliedHolding = paymentApplicationDocument.getNonAppliedHolding();
         try {
-            if(!PaymentApplicationDocumentRuleUtil.validateUnapplied(paymentApplicationDocument)) {
+            if(!PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(paymentApplicationDocument)) {
                 isValid = false;
                 LOG.info("The unapplied line on the payment application document is not valid.");
             }
@@ -141,6 +146,9 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         return isValid;
     }
     
+    /**
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         
         //  if the super failed, don't even bother running these rules
@@ -152,7 +160,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
 
         try {
             //  dont let PayApp docs started from CashControl docs through if not all funds are applied
-            if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getBalanceToBeApplied())) {
+            if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getUnallocatedBalance())) {
                 isValid &= false;
                 errorMap.putError(
                     KNSConstants.GLOBAL_ERRORS,

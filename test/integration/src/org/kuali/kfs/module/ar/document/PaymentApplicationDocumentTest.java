@@ -382,7 +382,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
                     paymentApplicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
     
                     // set the new applied amount for the customer invoice detail
-                    sampleInvoiceDetail.setAmountToBeApplied(invoicePaidApplied.getInvoiceItemAppliedAmount());
+                    //sampleInvoiceDetail.setAmountToBeApplied(invoicePaidApplied.getInvoiceItemAppliedAmount());
                 }
             }
             

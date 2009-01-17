@@ -1435,6 +1435,27 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
+     * This method could be a bit dangerous. It's meant to be used only on the 
+     * payment application document, where the modified invoice is never saved.
+     * 
+     * @param customerInvoiceDetails
+     */
+    public void setCustomerInvoiceDetailsWithoutDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails) {
+        List<CustomerInvoiceDetail> customerInvoiceDetailsWithoutDiscounts = getSourceAccountingLines();
+        int sequenceCounter = 0;
+        for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithoutDiscounts) {
+            for(CustomerInvoiceDetail revisedCustomerInvoiceDetail : customerInvoiceDetails) {
+                if(!customerInvoiceDetail.isDiscountLine() && customerInvoiceDetail.getSequenceNumber().equals(revisedCustomerInvoiceDetail.getSequenceNumber())) {
+                    customerInvoiceDetailsWithoutDiscounts.remove(sequenceCounter);
+                    customerInvoiceDetailsWithoutDiscounts.add(sequenceCounter,revisedCustomerInvoiceDetail);
+                }
+            }
+            sequenceCounter+=1;
+        }
+        setSourceAccountingLines(customerInvoiceDetailsWithoutDiscounts);
+    }
+    
+    /**
      * This method will return all the customer invoice details that are discounts
      * 
      * @return
@@ -1735,6 +1756,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         this.quickApply = quickApply;
     }
 
+
     /**
      * Answers true when invoice recurrence details are provided by the user
      * 
@@ -1745,8 +1767,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         if (HAS_RECCURENCE_NODE.equals(nodeName)) {
             if (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate() != null) {
                 return true;
-            }
-        }
+}
+       }
         return false;
     }
 }

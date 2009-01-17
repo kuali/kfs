@@ -31,11 +31,14 @@
         <ref bean="CustomerInvoiceDetail-invoiceItemUnitPrice" />
         <ref bean="CustomerInvoiceDetail-invoiceItemTaxAmount" />
         <ref bean="CustomerInvoiceDetail-taxableIndicator" />
-        <ref bean="CustomerInvoiceDetail-appliedAmount"/>
-        <ref bean="CustomerInvoiceDetail-amountToBeApplied"/>
+        <!-- 
+	        <ref bean="CustomerInvoiceDetail-appliedAmount"/>
+	        <ref bean="CustomerInvoiceDetail-amountToBeApplied"/>
+	        <ref bean="CustomerInvoiceDetail-balance"/>
+         -->
+        <ref bean="CustomerInvoiceDetail-amountApplied"/>
         <ref bean="CustomerInvoiceDetail-sequenceNumber"/>
-        <ref bean="CustomerInvoiceDetail-balance"/>
-        <ref bean="CustomerInvoiceDetail-openAmount"/>
+        <ref bean="CustomerInvoiceDetail-amountOpen"/>
         <ref bean="CustomerInvoiceDetail-writeoffAmount"/>
       </list>
     </property>
@@ -96,7 +99,8 @@
     <property name="description" value="The total dollar amount of check or batch of checks." />
   </bean>
   
-    <bean id="CustomerInvoiceDetail-balance" parent="CustomerInvoiceDetail-balance-parentBean" />
+<!-- 
+  <bean id="CustomerInvoiceDetail-balance" parent="CustomerInvoiceDetail-balance-parentBean" />
 
   <bean id="CustomerInvoiceDetail-balance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="balance" />
@@ -105,12 +109,12 @@
     <property name="required" value="false" />
     <property name="description" value="Total dollar amount including approved and unapproved payment amounts" />
   </bean>
-
+ -->
   
-  <bean id="CustomerInvoiceDetail-openAmount" parent="CustomerInvoiceDetail-openAmount-parentBean" />
+  <bean id="CustomerInvoiceDetail-amountOpen" parent="CustomerInvoiceDetail-amountOpen-parentBean" />
 
-  <bean id="CustomerInvoiceDetail-openAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="openAmount" />
+  <bean id="CustomerInvoiceDetail-amountOpen-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="amountOpen" />
     <property name="label" value="Open Amount" />
     <property name="shortLabel" value="Open Amount" />    
     <property name="required" value="false" />
@@ -303,6 +307,7 @@
     <property name="description" value="Tax indicator" />
   </bean>
   
+  <!-- 
   <bean id="CustomerInvoiceDetail-appliedAmount" parent="CustomerInvoiceDetail-appliedAmount-parentBean" />
 
   <bean id="CustomerInvoiceDetail-appliedAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
@@ -311,14 +316,14 @@
     <property name="shortLabel" value="Applied Amnt" />
     <property name="description" value="The applied amount." />
   </bean>
-  
-  <bean id="CustomerInvoiceDetail-amountToBeApplied" parent="CustomerInvoiceDetail-amountToBeApplied-parentBean" />
 
-  <bean id="CustomerInvoiceDetail-amountToBeApplied-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amountToBeApplied" />
-    <property name="label" value="Amount To Be Applied" />
-    <property name="shortLabel" value="Amnt To Be Applied" />
-    <property name="description" value="The amount to be applied." />
+   -->
+  <bean id="CustomerInvoiceDetail-amountApplied" parent="CustomerInvoiceDetail-amountApplied-parentBean" />
+  <bean id="CustomerInvoiceDetail-amountApplied-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="amountApplied" />
+    <property name="label" value="Amount Applied" />
+    <property name="shortLabel" value="Amount Applied" />
+    <property name="description" value="The amount applied." />
   </bean>
   
   <bean id="CustomerInvoiceDetail-sequenceNumber" parent="CustomerInvoiceDetail-sequenceNumber-parentBean" />

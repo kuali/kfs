@@ -86,7 +86,7 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
                 continue;
             }
 
-            if(custInvoice!=null && customerInvoiceDetailService.getOpenAmount(cid).isNonZero()) {
+            if(custInvoice!=null && cid.getAmountOpenFromDatabase().isNonZero()) {
 
                 Customer customerobj = custInvoice.getCustomer();                        
                 String customerNumber = customerobj.getCustomerNumber();    // tested and works
@@ -100,25 +100,26 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
                     custDetail.setCustomerNumber(customerNumber);
                     knownCustomers.put(customerNumber, custDetail);
                 }
+                KualiDecimal amountOpenOnReportRunDate = cid.getAmountOpenByDateFromDatabase(reportRunDate);
                 if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {                                
-                    custDetail.setUnpaidBalance0to30(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalance0to30()));
-                    total0to30 = total0to30.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
+                    custDetail.setUnpaidBalance0to30(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalance0to30()));
+                    total0to30 = total0to30.add(amountOpenOnReportRunDate);
                 }
                 if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
-                    custDetail.setUnpaidBalance31to60(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalance31to60()));
-                    total31to60 = total31to60.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
+                    custDetail.setUnpaidBalance31to60(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalance31to60()));
+                    total31to60 = total31to60.add(amountOpenOnReportRunDate);
                 }
                 if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
-                    custDetail.setUnpaidBalance61to90(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalance61to90()));
-                    total61to90 = total61to90.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
+                    custDetail.setUnpaidBalance61to90(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalance61to90()));
+                    total61to90 = total61to90.add(amountOpenOnReportRunDate);
                 }
                 if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
-                    custDetail.setUnpaidBalance91toSYSPR(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalance91toSYSPR()));
-                    total91toSYSPR = total91toSYSPR.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
+                    custDetail.setUnpaidBalance91toSYSPR(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalance91toSYSPR()));
+                    total91toSYSPR = total91toSYSPR.add(amountOpenOnReportRunDate);
                 }
                 if (approvalDate.before(cutoffdate120)) {
-                    custDetail.setUnpaidBalanceSYSPRplus1orMore(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate).add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
-                    totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(customerInvoiceDetailService.getOpenAmountByDate(cid,reportRunDate));
+                    custDetail.setUnpaidBalanceSYSPRplus1orMore(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
+                    totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amountOpenOnReportRunDate);
                 }            
             }        
         } 

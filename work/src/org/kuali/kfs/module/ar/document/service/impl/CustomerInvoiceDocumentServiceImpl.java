@@ -215,7 +215,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
         KualiDecimal total = new KualiDecimal(0);
         for (CustomerInvoiceDetail detail : customerInvoiceDetails) {
-             total = total.add(customerInvoiceDetailService.getOpenAmount(detail));
+             total = total.add(detail.getAmountOpenFromDatabase());
              // if this document is not approved yet, add discount (negative item amount) to total open amount
              if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(customerInvoiceDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
                  if (detail.isDiscountLineParent() &&  ObjectUtils.isNotNull(detail.getDiscountCustomerInvoiceDetail())) {

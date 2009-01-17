@@ -27,6 +27,7 @@ import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail;
 import org.kuali.kfs.module.purap.dataaccess.SensitiveDataDao;
+import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -35,7 +36,13 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SensitiveDataServiceImpl.class);
     
     private SensitiveDataDao sensitiveDataDao;
+    private PurchaseOrderDao purchaseOrderDao;
     //private PurchaseOrderService purchaseOrderService;
+
+    
+    public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
+        this.purchaseOrderDao = purchaseOrderDao;
+    }
 
     public SensitiveDataDao getSensitiveDataDao() {
         return sensitiveDataDao;
@@ -68,6 +75,11 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
         }
         
         return sds;
+    }
+    
+    public List<SensitiveData> getSensitiveDatasAssignedByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        Integer poId = purchaseOrderDao.getPurchaseOrderIdForCurrentPurchaseOrderByRelatedDocId(accountsPayablePurchasingDocumentLinkIdentifier);
+        return getSensitiveDatasAssignedByPoId(poId);
     }
     
     /**
@@ -144,5 +156,6 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
         LOG.debug("saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>) started");
         sensitiveDataDao.saveSensitiveDataAssignmentDetails(sdads);
     }
+
     
 }

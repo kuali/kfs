@@ -401,7 +401,4 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         this.initialZipCode = initialZipCode;
     }
 
-    //FIXME hjs: hopefully can get rid of this
-//    public abstract PurchasingDocumentActionAuthorizer getAuth();
-
 }

@@ -41,7 +41,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class PaymentRequestDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
-//FIXME hjs KIM cleanup    
+//FIXME hjs KIM cleanup    move this to geteditmodes to remove the bank edit mode if extracted
 //                //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
 //                if (!paymentRequestDocument.isExtracted()) {
 //                    flags.setCanEditBank(true);
@@ -70,14 +70,15 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         return false;
     }
 
-    @Override
-    protected boolean canClose(Document document) {
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
-            return false;
-        }
-        return super.canClose(document);
-    }
+    //TODO try without this as super should be removing close when doc isnt' saved
+//    @Override
+//    protected boolean canClose(Document document) {
+//        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+//        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
+//            return false;
+//        }
+//        return super.canClose(document);
+//    }
 
     
     @Override
@@ -128,7 +129,7 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
     public Set<String> getEditModes(Document document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
-        Set<String> editModes = new HashSet<String>();
+        Set<String> editModes = super.getEditModes(document);
         
         //add state logic for when an AP processor can cancel the doc
         if (canProcessorCancel(paymentRequestDocument)) {

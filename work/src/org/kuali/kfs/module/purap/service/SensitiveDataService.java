@@ -25,6 +25,8 @@ import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail;
 
 public interface SensitiveDataService {
         
+    public List<SensitiveData> getSensitiveDatasAssignedByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier);
+    
     /**
      * Returns a sensitive data record associated with the given code.
      * @param sensitiveDataCode the code of the sensitive data

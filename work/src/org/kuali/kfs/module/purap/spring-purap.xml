@@ -796,6 +796,9 @@
 		<property name="sensitiveDataDao">
 		    <ref bean="sensitiveDataDao" />
 		</property>
+        <property name="purchaseOrderDao">
+            <ref bean="purchaseOrderDao" />
+        </property>
 	</bean>
 	
 	<bean id="purapObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapObjectCodeDynamicNameLabelGeneratorImpl" />

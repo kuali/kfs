@@ -55,7 +55,7 @@ public class RequisitionDocumentPresentationController extends FinancialSystemTr
     @Override
     public Set<String> getEditModes(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument)document;
-        Set<String> editModes = new HashSet<String>();
+        Set<String> editModes = super.getEditModes(document);
 
         // if vendor has been selected from DB, certain vendor fields are not allowed to be edited
         if (ObjectUtils.isNotNull(reqDocument.getVendorHeaderGeneratedIdentifier())) {

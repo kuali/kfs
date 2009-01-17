@@ -15,7 +15,7 @@
     <property name="documentTypeName" value="PaymentRequestDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentPreRules" />
     <property name="documentTypeCode" value="PREQ" />

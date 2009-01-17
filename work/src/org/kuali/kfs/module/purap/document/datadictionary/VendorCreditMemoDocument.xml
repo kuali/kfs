@@ -15,9 +15,8 @@
     <property name="documentTypeName" value="VendorCreditMemoDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <!-- <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentRule" /> -->
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentPreRules" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.VendorCreditMemoDocumentPresentationController" />
     <property name="documentTypeCode" value="CM" />
      <property name="sessionDocument" value="true" />

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,6 +38,19 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements PurchaseOrderDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDaoOjb.class);
+
+    public Integer getPurchaseOrderIdForCurrentPurchaseOrderByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
+
+        Collection<PurchaseOrderDocument> poList = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PurchaseOrderDocument.class, criteria));
+        for (PurchaseOrderDocument purchaseOrderDocument : poList) {
+            //should be only one
+            return purchaseOrderDocument.getPurapDocumentIdentifier();
+        }
+        return null;
+    }
 
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getDocumentNumberForPurchaseOrderId(java.lang.Integer)

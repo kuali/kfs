@@ -27,6 +27,8 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
  */
 public interface PurchaseOrderDao {
 
+    public Integer getPurchaseOrderIdForCurrentPurchaseOrderByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier);
+    
     /**
      * Retrieves the Purchase Order Document's document number using the purapDocumentIdentifier as criteria
      * 

@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.batch;
 
 
-import org.kuali.rice.kim.bo.Person;
 
 /**
  * Declares methods that must be implemented for batch input file type classes, which provides functionaliy needed to manage files
@@ -38,11 +37,11 @@ public interface BatchInputFileType extends BatchInputType {
      * Constructs a file name using the name given by the user and file contents if necessary. Returned name should not contain file
      * extension.
      * 
-     * @param user - user who is uploading the file
+     * @param principalId - principal id of the user who is uploading the file
      * @param parsedFileContents - object populated with the uploaded file contents
      * @param fileUserIdentifer - file identifier given by user through the batch upload UI
      */
-    public String getFileName(Person user, Object parsedFileContents, String fileUserIdentifer);
+    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer);
 
     /**
      * Returns file extension for the batch input type.

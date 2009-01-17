@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
@@ -46,10 +45,10 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
      *      java.lang.String)
      */
-    public String getFileName(Person user, Object parsedFileContents, String userIdentifier) {
+    public String getFileName(String principalId, Object parsedFileContents, String userIdentifier) {
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
-        String fileName = "pcdo_" + user.getPrincipalName().toLowerCase();
+        String fileName = "pcdo_" + principalId;
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;
         }
@@ -60,16 +59,13 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
 
         return fileName;
     }
-
-
-    /**
-     * Builds the file name using the following construction: All pcdo files start with pcdo_ append the username of the user
-     * uploading the file append the supplied user identifier finally append the current timestamp
-     * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
-     */
-    public boolean checkAuthorization(Person user, File batchFile) {
-        return true;
+    
+    public String getAuthorPrincipalId(File file) {
+        String[] fileNameParts = StringUtils.split(file.getName(), "_");
+        if (fileNameParts.length > 3) {
+            return fileNameParts[2];
+        }
+        return null;
     }
 
     /**

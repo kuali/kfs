@@ -27,7 +27,6 @@ import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -43,7 +42,7 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
      *      java.lang.String)
      */
-    public String getFileName(Person user, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
         StringBuffer buf = new StringBuffer();
@@ -51,13 +50,21 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
         formatter.setLenient(false);
         formatter.format(currentTimestamp, buf, new FieldPosition(0));
 
-        String fileName = PdpConstants.PDP_FILE_UPLOAD_FILE_PREFIX + user.getPrincipalName().toLowerCase();
+        String fileName = PdpConstants.PDP_FILE_UPLOAD_FILE_PREFIX  + "_" + principalId;
         if (StringUtils.isNotBlank(fileUserIdentifer)) {
             fileName += "_" + StringUtils.remove(fileUserIdentifer, " ");
         }
         fileName += "_" + buf.toString();
 
         return fileName;
+    }
+    
+    public String getAuthorPrincipalId(File file) {
+        String[] fileNameParts = StringUtils.split(file.getName(), "_");
+        if (fileNameParts.length > 3) {
+            return fileNameParts[2];
+        }
+        return null;
     }
 
     /**
@@ -75,15 +82,6 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
         paymentFileService.doPaymentFileValidation(paymentFile, GlobalVariables.getErrorMap());
 
         return paymentFile.isPassedValidation();
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
-     */
-    public boolean checkAuthorization(Person user, File batchFile) {
-        String userIdentifier = user.getPrincipalName();
-
-        return StringUtils.contains(batchFile.getName(), userIdentifier.toLowerCase());
     }
 
     /**
@@ -126,6 +124,5 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-
 }
 

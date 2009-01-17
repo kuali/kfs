@@ -21,7 +21,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.DateTimeService;
 
 public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTypeBase {
@@ -36,17 +37,18 @@ public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTyp
      * 
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object, java.lang.String)
      */
-    public String getFileName(Person person, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
         
         //  start with the batch-job-prefix
         StringBuilder fileName = new StringBuilder(FILE_NAME_PREFIX);
         
         //  add the logged-in user name if there is one, otherwise use a sensible default
-        String userName = KFSConstants.SYSTEM_USER;
-        if (person != null) {
-            if (StringUtils.isNotBlank(person.getPrincipalName())) {
-                userName = person.getPrincipalName().toLowerCase();
-            }
+        String userName = null;
+        if (StringUtils.isBlank(principalId)) {
+            userName = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId();
+        }
+        else {
+            userName = principalId;
         }
         fileName.append(FILE_NAME_DELIM + userName);
         
@@ -88,15 +90,6 @@ public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTyp
 
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
-     */
-    public boolean checkAuthorization(Person user, File batchFile) {
-        // this should never allow uploads or downloads via the GUI
-        return false;
-    }
-
-    /**
-     * 
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
     public String getTitleKey() {
@@ -108,5 +101,9 @@ public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTyp
         this.dateTimeService = dateTimeService;
     }
 
+    public String getAuthorPrincipalId(File file) {
+        // this should never allow uploads or downloads via the GUI
+        return null;
+    }
 }
 

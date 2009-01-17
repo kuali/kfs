@@ -191,7 +191,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         }
 
         // defer to batch input type to add any security or other needed information to the file name
-        String saveFileName = batchInputFileType.getDirectoryPath() + "/" + batchInputFileType.getFileName(user, parsedObject, fileUserIdentifier);
+        String saveFileName = batchInputFileType.getDirectoryPath() + "/" + batchInputFileType.getFileName(user.getPrincipalId(), parsedObject, fileUserIdentifier);
         saveFileName += "." + batchInputFileType.getFileExtension();
 
         // consruct the file object and check for existence
@@ -290,7 +290,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @throws FileNotFoundException
      */
     protected boolean canDelete(Person user, BatchInputFileType inputType, File fileToDelete) {
-        if (!inputType.checkAuthorization(user, fileToDelete)) {
+        if (!user.getPrincipalId().equals(inputType.getAuthorPrincipalId(fileToDelete))) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE_FAILED_NOT_AUTHORIZED);
             return false;
         }
@@ -431,8 +431,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
                 File batchFile = filesInBatchDirectory[i];
                 String fileExtension = StringUtils.substringAfterLast(batchFile.getName(), ".");
                 if (batchInputFileType.getFileExtension().equals(fileExtension)) {
-                    boolean userAuthorizedForFile = batchInputFileType.checkAuthorization(user, batchFile);
-                    if (userAuthorizedForFile) {
+                    if (user.getPrincipalId().equals(batchInputFileType.getAuthorPrincipalId(batchFile))) {
                         userFileList.add(batchFile);
                     }
                 }

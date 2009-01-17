@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch;
 
-import org.kuali.kfs.sys.KFSConstants;
 
 
 /**

@@ -69,11 +69,11 @@ public class BatchInputFileTypeTest extends KualiTestBase {
         Person createUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);
         Person nonCreateUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID1);
 
-        String saveFileName = pcdoBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
+        String saveFileName = pcdoBatchInputFileType.getFileName(createUser.getPrincipalId(), parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
 
-        assertTrue("user who created batch file does not have file authorization", pcdoBatchInputFileType.checkAuthorization(createUser, batchFile));
-        assertTrue("other user does not have file authorization", pcdoBatchInputFileType.checkAuthorization(nonCreateUser, batchFile));
+        assertTrue("user who created batch file does not have file authorization", createUser.getPrincipalId().equals(pcdoBatchInputFileType.getAuthorPrincipalId(batchFile)));
+        assertTrue("other user does not have file authorization", nonCreateUser.getPrincipalId().equals(pcdoBatchInputFileType.getAuthorPrincipalId(batchFile)));
     }
 
     /**
@@ -84,11 +84,11 @@ public class BatchInputFileTypeTest extends KualiTestBase {
         Person createUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);
         Person nonCreateUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID1);
 
-        String saveFileName = collectorBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
+        String saveFileName = collectorBatchInputFileType.getFileName(createUser.getPrincipalId(), parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
 
-        assertTrue("user who created batch file does not have file authorization", collectorBatchInputFileType.checkAuthorization(createUser, batchFile));
-        assertFalse("user who did not create batch file has authorization", collectorBatchInputFileType.checkAuthorization(nonCreateUser, batchFile));
+        assertTrue("user who created batch file does not have file authorization", createUser.getPrincipalId().equals(collectorBatchInputFileType.getAuthorPrincipalId(batchFile)));
+        assertFalse("user who did not create batch file has authorization", nonCreateUser.getPrincipalId().equals(collectorBatchInputFileType.getAuthorPrincipalId(batchFile)));
     }
 
 }

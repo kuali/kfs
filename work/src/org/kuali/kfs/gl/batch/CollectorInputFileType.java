@@ -25,7 +25,6 @@ import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
@@ -60,7 +59,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
      *      java.lang.String)
      */
-    public String getFileName(Person user, Object parsedFileContents, String userIdentifier) {
+    public String getFileName(String principalId, Object parsedFileContents, String userIdentifier) {
         CollectorBatch collectorBatch = (CollectorBatch) parsedFileContents;
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
@@ -70,7 +69,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
         formatter.format(currentTimestamp, buf, new FieldPosition(0));
 
         String fileName = "gl_idbilltrans_" + collectorBatch.getChartOfAccountsCode() + collectorBatch.getOrganizationCode();
-        fileName += "_" + user.getPrincipalName().toLowerCase();
+        fileName += "_" + principalId;
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;
         }
@@ -80,31 +79,6 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
         fileName = StringUtils.remove(fileName, " ");
 
         return fileName;
-    }
-
-    /**
-     * Verifies user created the file by checking for the username in the file name.
-     * 
-     * @param user user who created file
-     * @param batchFile uploaded batch file
-     * @return true if user's username in in file
-     * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
-     */
-    public boolean checkAuthorization(Person user, File batchFile) {
-        boolean isAuthorized = false;
-
-        String userIdentifier = user.getPrincipalName();
-        userIdentifier = StringUtils.remove(userIdentifier, " ");
-
-        String[] fileNameParts = StringUtils.split(batchFile.getName(), "_");
-        if (fileNameParts.length > 4) {
-            if (fileNameParts[3].equalsIgnoreCase(userIdentifier.toLowerCase())) {
-                isAuthorized = true;
-            }
-        }
-
-        return isAuthorized;
     }
 
     /**
@@ -147,6 +121,12 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
         this.collectorHelperService = collectorHelperService;
     }
 
-
+    public String getAuthorPrincipalId(File file) {
+        String[] fileNameParts = StringUtils.split(file.getName(), "_");
+        if (fileNameParts.length > 4) {
+            return fileNameParts[3];
+        }
+        return null;
+    }
 }
 

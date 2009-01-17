@@ -442,7 +442,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     
     private String getBatchFilePathAndName(Person person) {
         
-        String filename = batchInputFileType.getFileName(person, "", "");
+        String filename = batchInputFileType.getFileName(person.getPrincipalId(), "", "");
         
         String filepath = batchInputFileType.getDirectoryPath();
         if (!filepath.endsWith("/")) filepath = filepath + "/";

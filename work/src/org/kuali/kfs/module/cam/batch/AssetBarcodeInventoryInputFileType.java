@@ -106,12 +106,20 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * 
      * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.rice.kim.bo.Person, java.lang.String)
      */
-    public String getFileName(String fileType, Person user, String fileUserIdentifer) {
+    public String getFileName(String fileType, String principalId, String fileUserIdentifer) {
         StringBuilder buf = new StringBuilder();
         fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
         fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getFileExtension());
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(principalId).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getFileExtension());
         return buf.toString();
+    }
+
+    public String getAuthorPrincipalId(File file) {
+        String[] fileNameParts = StringUtils.split(file.getName(), "_");
+        if (fileNameParts.length > 2) {
+            return fileNameParts[2];
+        }
+        return null;
     }
 
     /**
@@ -120,38 +128,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
     public String getFileSetTypeIdentifer() {
         return CamsConstants.BarCodeInventory.FILE_TYPE_INDENTIFIER;
     }
-
-    /**
-     * TODO KIM implementation page seems to indicate this is to be removed. But the implementation of BatchInputFileSetType requires this.
-     * 
-     * Return true if user is authorized to access batch file
-     * 
-     * @param user authorized user
-     * @param batchFile file being checked for authorization
-     * @return true if user is authorized to download or delete
-     * 
-     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
-     */
-    public boolean checkAuthorization(Person user, File batchFile) {
-        boolean isAuthorized = false;
-
-        String userIdentifier = user.getPrincipalName();
-        userIdentifier = StringUtils.remove(userIdentifier, " ");
-
-        if (!batchFile.getName().startsWith(FILE_NAME_PREFIX)) {
-            return false;
-        }
-
-        String[] fileNameParts = StringUtils.split(batchFile.getName(), FILE_NAME_PART_DELIMITER);
-        if (fileNameParts.length > 2) {
-            if (fileNameParts[2].equalsIgnoreCase(userIdentifier.toLowerCase())) {
-                isAuthorized = true;
-            }
-        }
-        return isAuthorized;
-    }
-
-
+    
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */

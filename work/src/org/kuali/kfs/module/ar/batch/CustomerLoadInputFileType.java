@@ -25,7 +25,8 @@ import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.DateTimeService;
 
 public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
@@ -41,17 +42,18 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
      * 
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object, java.lang.String)
      */
-    public String getFileName(Person user, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
         
         //  start with the batch-job-prefix
         StringBuilder fileName = new StringBuilder(FILE_NAME_PREFIX);
         
         //  add the logged-in user name if there is one, otherwise use a sensible default
-        String userName = KFSConstants.SYSTEM_USER;
-        if (user != null) {
-            if (StringUtils.isNotBlank(user.getPrincipalName())) {
-                userName = user.getPrincipalName().toLowerCase();
-            }
+        String userName = null;
+        if (StringUtils.isBlank(principalId)) {
+            userName = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId();
+        }
+        else {
+            userName = principalId;
         }
         fileName.append(FILE_NAME_DELIM + userName);
         
@@ -104,16 +106,6 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
 
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
-     */
-    public boolean checkAuthorization(Person user, File batchFile) {
-        // we dont do anything here anymore as the KIM permissions 
-        // handle this now.
-        return true;
-    }
-
-    /**
-     * 
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
     public String getTitleKey() {
@@ -128,5 +120,12 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
         this.customerLoadService = customerLoadService;
     }
 
+    public String getAuthorPrincipalId(File file) {
+        String[] fileNameParts = StringUtils.split(file.getName(), FILE_NAME_DELIM);
+        if (fileNameParts.length > 3) {
+            return fileNameParts[2];
+        }
+        return null;
+    }
 }
 

@@ -68,7 +68,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        return inputType.getDirectoryPath(fileType) + File.separator + inputType.getFileName(fileType, user, fileUserIdentifier);
+        return inputType.getDirectoryPath(fileType) + File.separator + inputType.getFileName(fileType, user.getPrincipalId(), fileUserIdentifier);
     }
 
     /**
@@ -84,7 +84,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        return getTempDirectoryName() + File.separator + inputType.getFileName(fileType, user, fileUserIdentifier);
+        return getTempDirectoryName() + File.separator + inputType.getFileName(fileType, user.getPrincipalId(), fileUserIdentifier);
     }
     /**
      * Generates the file name of the done file, if supported by the underlying input type
@@ -147,7 +147,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
             File file = new File(fileName);
             if (file.exists()) {
-                if (!inputType.checkAuthorization(user, file)) {
+                if (!user.getPrincipalId().equals(inputType.getAuthorPrincipalId(file))) {
                     GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_SET_NOT_AUTHORIZED);
                     return false;
                 }
@@ -179,7 +179,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     public File download(Person user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
         String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
         File file = new File(fileName);
-        if (!inputType.checkAuthorization(user, file)) {
+        if (!user.getPrincipalId().equals(inputType.getAuthorPrincipalId(file))) {
             LOG.error("User " + user.getPrincipalName() + " is not authorized to download the following file: " + file.getName());
             throw new AuthorizationException(user.getPrincipalName(), "download", inputType.getFileSetTypeIdentifer());
         }

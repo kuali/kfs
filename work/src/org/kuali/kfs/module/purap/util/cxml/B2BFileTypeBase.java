@@ -18,11 +18,10 @@ package org.kuali.kfs.module.purap.util.cxml;
 import java.io.File;
 
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kim.bo.Person;
 
 public abstract class B2BFileTypeBase  extends BatchInputFileTypeBase{
 
-    public String getFileName(Person user, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -31,13 +30,13 @@ public abstract class B2BFileTypeBase  extends BatchInputFileTypeBase{
         // TODO Auto-generated method stub
         return false;
     }
-
-    public boolean checkAuthorization(Person user, File batchFile) {
+    
+    public String getTitleKey() {
         // TODO Auto-generated method stub
-        return false;
+        return null;
     }
 
-    public String getTitleKey() {
+    public String getAuthorPrincipalId(File file) {
         // TODO Auto-generated method stub
         return null;
     }

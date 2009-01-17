@@ -20,7 +20,6 @@ import java.io.File;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kim.bo.Person;
 
 /**
  * Batch input type for the electronic invoice job.
@@ -36,7 +35,7 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
         return PurapConstants.ELECTRONIC_INVOICE_FILE_TYPE_INDENTIFIER;
     }
 
-    public String getFileName(Person user, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
         return null;
     }
 
@@ -44,12 +43,12 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
         return true;
     }
 
-    public boolean checkAuthorization(Person user, File batchFile) {
-        return true;
-    }
-
     public String getTitleKey() {
         return PurapKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_EINVOICE;
+    }
+
+    public String getAuthorPrincipalId(File file) {
+        return null;
     }
 }
 

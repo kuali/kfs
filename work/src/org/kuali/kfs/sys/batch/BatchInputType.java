@@ -17,27 +17,19 @@ package org.kuali.kfs.sys.batch;
 
 import java.io.File;
 
-import org.kuali.rice.kim.bo.Person;
-
 
 /**
  * Objects implementing this interface provide metadata necessary for the batch upload screen to operate properly
  */
 public interface BatchInputType {
-
     /**
-     * Checks fine grained security on the individual file.
-     * 
-     * @param user - user who is requesting the file
-     * @param batchFile - File object
-     * @return true if user has permissions, false otherwise
+     * Obtain the principal id of the user who created the file
      */
-    public boolean checkAuthorization(Person user, File batchFile);
-
+    public String getAuthorPrincipalId(File file);
+    
     /**
      * Returns the key for the application constants message to display as the title for the upload screen.
      */
     public String getTitleKey();
-
 }
 

@@ -20,9 +20,9 @@
       <admininstrationChannel:system />
 </td>
 <td class="content" valign="top">
-      <admininstrationChannel:batch />
-      <admininstrationChannel:serviceBus />
+      <admininstrationChannel:configuration />
 </td>
 <td class="content" valign="top">
-      <admininstrationChannel:workflow />
+      <admininstrationChannel:batch />
+      <admininstrationChannel:monitoring />
 </td>

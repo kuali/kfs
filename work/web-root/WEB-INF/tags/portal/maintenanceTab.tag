@@ -17,22 +17,20 @@
 
 
 <td class="content" valign="top">
-      <maintenanceChannel:workflow />
       <maintenanceChannel:chartOfAccounts />
-      <maintenanceChannel:laborDistribution /> 
-      <maintenanceChannel:budgetConstruction /> 
-      <maintenanceChannel:capitalAsset /> 
-</td>
-<td class="content" valign="top">
       <maintenanceChannel:financialProcessing />
-      <maintenanceChannel:preAward />
-      <maintenanceChannel:postAward />
-      <maintenanceChannel:effortCertification /> 
-      <maintenanceChannel:capitalAssetBuilder /> 
+      <maintenanceChannel:preDisbursementProcessor />
 </td>
 <td class="content" valign="top">
+      <maintenanceChannel:accountsReceivable />
       <maintenanceChannel:vendor />
       <maintenanceChannel:purchasingAccountsPayable />
-      <maintenanceChannel:purchasingAccountsReceivable />
-      <maintenanceChannel:preDisbursementProcessor />
+      <maintenanceChannel:capitalAsset />
+</td>
+<td class="content" valign="top">
+      <maintenanceChannel:contractsAndGrants />
+      <maintenanceChannel:effortCertification /> 
+      <maintenanceChannel:laborDistribution /> 
+      <maintenanceChannel:budgetConstruction /> 
+      <maintenanceChannel:system /> 
 </td>

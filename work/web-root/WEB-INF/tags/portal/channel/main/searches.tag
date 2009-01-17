@@ -18,13 +18,13 @@
 <channel:portalChannelTop channelTitle="Searches" />
 <div class="body">
 	<portal:portalLink displayTitle="true" title="Financial Transactions" url="${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=KualiFinancialDocument" /><br /><br />
+	<strong>Contracts & Grants</strong><br/>
+    <ul class="chan">
+		<li><portal:portalLink displayTitle="true" title='Proposals' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=ProposalMaintenanceDocument'/></li>
+	</ul>
 	<strong>Financial Processing</strong><br/>
     <ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Disbursement Vouchers" url="${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=DisbursementVoucherDocument" /></li>
-	</ul>
-	<strong>Post Award</strong><br/>
-    <ul class="chan">
-		<li><portal:portalLink displayTitle="true" title='Proposals' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=ProposalMaintenanceDocument'/></li>
 	</ul>
 	<strong>Purchasing/Accounts Payable</strong><br/>
     <ul class="chan">

@@ -32,6 +32,12 @@
         <li><portal:portalLink displayTitle="true" title="Budget Construction Selection" url="budgetBudgetConstructionSelection.do?methodToCall=loadExpansionScreen" /></li>
     </ul>
 
+	<strong>Contracts & Grants</strong><br />
+	    <ul class="chan">
+	        <li><portal:portalLink displayTitle="true" title="Research Budget" url="researchBudgetParameters.do?methodToCall=docHandler&command=initiate&docTypeName=BudgetDocument" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Routing Form" url="researchRoutingFormMainPage.do?methodToCall=docHandler&command=initiate&docTypeName=RoutingFormDocument" /></li>
+		</ul>
+
 	<strong>Financial Processing</strong><br />
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Advance Deposit" url="financialAdvanceDeposit.do?methodToCall=docHandler&command=initiate&docTypeName=AdvanceDepositDocument" /></li>
@@ -53,12 +59,6 @@
         <li><portal:portalLink displayTitle="true" title="Benefit Expense Transfer" url="laborBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=BenefitExpenseTransferDocument" /></li>	            
 		<li><portal:portalLink displayTitle="true" title="Salary Expense Transfer" url="laborSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=SalaryExpenseTransferDocument" /></li>	
     </ul>
-
-	<strong>Pre-Award</strong><br />
-	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title="Research Budget" url="researchBudgetParameters.do?methodToCall=docHandler&command=initiate&docTypeName=BudgetDocument" /></li>
-	        <li><portal:portalLink displayTitle="true" title="Routing Form" url="researchRoutingFormMainPage.do?methodToCall=docHandler&command=initiate&docTypeName=RoutingFormDocument" /></li>
-		</ul>
 
 	<strong>Purchasing/Accounts Payable</strong><br />
     <ul class="chan">

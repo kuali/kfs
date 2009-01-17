@@ -17,28 +17,35 @@
 
 <channel:portalChannelTop channelTitle="System" />
 <div class="body">
+	<strong>Identity</strong>
     <ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Data Mapping Field Definition" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<%-- 
-		<li><portal:portalLink displayTitle="true" title="Employee Status" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.EmployeeStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="Employee Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.EmployeeType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="Financial System User" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.Person&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		--%>
-		<li><portal:portalLink displayTitle="true" title="Functional Field Description" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.businessobject.FunctionalFieldDescription&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="Message Of The Day" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.MessageOfTheDay&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>					
-        <li><portal:portalLink displayTitle="true" title="Parameter" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.Parameter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-        <li><portal:portalLink displayTitle="true" title="Parameter Component" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.ParameterDetailType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-        <li><portal:portalLink displayTitle="true" title="Parameter Module" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.ParameterNamespace&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-        <li><portal:portalLink displayTitle="true" title="Parameter Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.ParameterType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="System Options" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.businessobject.SystemOptions&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<%-- 
-		<li><portal:portalLink displayTitle="true" title="Workflow User Removal / Replacement" url="${ConfigProperties.workflow.url}/RemoveReplace.do" /></li>
-		--%>
-        <li><portal:portalLink displayTitle="true" title="Document Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.doctype.bo.DocumentType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="KIM person lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.Person&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="KIM role lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.role.impl.KimRoleImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="KIM permission lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.role.impl.KimPermissionImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="KIM responsibility lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.role.impl.KimResponsibilityImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Person" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.Person&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Group (coming soon)" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.group.impl.KimGroupImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Role" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.role.impl.KimRoleImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Permission" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.role.impl.KimPermissionImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Responsibility" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.role.impl.KimResponsibilityImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	</ul>
+	<strong>Locations</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Campus" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.Campus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Country" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.Country&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="County" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.County&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Postal Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.PostalCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="State" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.State&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	</ul>
+	<strong>Reference</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Address Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.AddressTypeImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Affiliation Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.AffiliationTypeImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Campus Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.CampusType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>        
+        <li><portal:portalLink displayTitle="true" title="Citizenship Status" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.CitizenshipStatusImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Email Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.EmailTypeImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Employment Status" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.EmploymentStatusImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Employment Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.EmploymentTypeImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Entity Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.EntityTypeImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="External Identifier Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.ExternalIdentifierTypeImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Name Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.EntityNameTypeImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Phone Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.reference.impl.PhoneTypeImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     </ul>
 </div>
 <channel:portalChannelBottom />       

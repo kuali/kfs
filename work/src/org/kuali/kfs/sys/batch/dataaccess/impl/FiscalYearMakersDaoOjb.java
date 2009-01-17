@@ -176,7 +176,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         boolean foundParentReference = false;
 
         // get all references for child class
-        HashMap<String, Class<? extends PersistableBusinessObject>> referenceObjects = (HashMap<String, Class<? extends PersistableBusinessObject>>) persistenceStructureService.listReferenceObjectFields(childRecord.getClass());
+        Map<String, Class> referenceObjects = persistenceStructureService.listReferenceObjectFields(childRecord.getClass());
 
         // iterate through to find references with the parent class
         for (String referenceName : referenceObjects.keySet()) {

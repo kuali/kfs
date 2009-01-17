@@ -17,7 +17,7 @@
 
 <td class="content" valign="top">
       <mainChannel:transactions />
-      <mainChannel:yearEndTransactions />
+      <mainChannel:administrativeTransactions />
 </td>
 <td class="content" valign="top">
       <mainChannel:searches />
@@ -25,6 +25,6 @@
 </td>
 <td class="content" valign="top">
       <mainChannel:balanceInquiries />
-      <mainChannel:standardReports />
-      <mainChannel:administrativeTransactions />
+      <mainChannel:reports />
+      <mainChannel:yearEndTransactions />
 </td> 

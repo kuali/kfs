@@ -19,8 +19,8 @@
 <div class="body">
   <strong>Capital Asset Builder</strong>
   <ul class="chan">
-  	 <li><portal:portalLink displayTitle="true" title="Non-Purchasing/Accounts Payable General Ledger Transactions" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	 <li><portal:portalLink displayTitle="true" title="Purchasing/Accounts Payable Transactions" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableProcessingReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+  	 <li><portal:portalLink displayTitle="true" title="Other General Ledger Transactions" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   </ul>
 
   <strong>Capital Asset Management</strong>

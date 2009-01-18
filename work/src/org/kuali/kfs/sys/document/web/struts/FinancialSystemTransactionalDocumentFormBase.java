@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -42,7 +41,6 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
      */
     public FinancialSystemTransactionalDocumentFormBase() {
         super();
-        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
     }
 
     /**

@@ -43,7 +43,6 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.group.KimGroup;
-import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.exception.InfrastructureException;
@@ -68,7 +67,6 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     private CashManagementDao cashManagementDao;
     private CashDrawerService cashDrawerService;
     private ParameterService parameterService;
-    private GroupService kimGroupService;
     private DictionaryValidationService dictionaryValidationService;
 
     /**
@@ -402,27 +400,6 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     public void setCashDrawerService(CashDrawerService cashDrawerService) {
         this.cashDrawerService = cashDrawerService;
     }
-
-
-    /**
-     * Gets the kimGroupService attribute. 
-     * 
-     * @return Returns the org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().
-     */
-    public GroupService getGroupService() {
-        return kimGroupService;
-    }
-
-
-    /**
-     * Sets the kimGroupService attribute value.
-     * 
-     * @param kimGroupService The kimGroupService to set.
-     */
-    public void setGroupService(GroupService kimGroupService) {
-        this.kimGroupService = kimGroupService;
-    }
-
 
     /**
      * Gets the parameterService attribute. 

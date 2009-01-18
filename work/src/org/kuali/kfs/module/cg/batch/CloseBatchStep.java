@@ -28,8 +28,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.KimGroup;
-import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PersonService;
@@ -49,7 +47,6 @@ public class CloseBatchStep extends AbstractStep {
 
     private CloseService closeService;
     private MailService mailService;
-    private GroupService kimGroupService;
     private PersonService<Person> personService;
 
     /**
@@ -94,13 +91,13 @@ public class CloseBatchStep extends AbstractStep {
     // document
     private List<String> getRecipientEmailAddresses() {
         List<String> recipientIds = new ArrayList<String>();
-
-        // retrieve the pricipal ids of CG CFDA batch mail recipient group
-        IdentityManagementService identityManagementService = KIMServiceLocator.getIdentityManagementService();
-        KimGroup workgroup = identityManagementService.getGroupByName(KFSConstants.KFS_GROUP_NAMESPACE, MAIL_RECIPIENTS_GROUP_NAME);
-        if (workgroup == null) {
-            recipientIds.addAll(identityManagementService.getGroupMemberPrincipalIds(workgroup.getGroupId()));
-        }
+// TODO fix for kim
+//        // retrieve the pricipal ids of CG CFDA batch mail recipient group
+//        IdentityManagementService identityManagementService = KIMServiceLocator.getIdentityManagementService();
+//        KimGroup workgroup = identityManagementService.getGroupByName(KFSConstants.KFS_GROUP_NAMESPACE, MAIL_RECIPIENTS_GROUP_NAME);
+//        if (workgroup == null) {
+//            recipientIds.addAll(identityManagementService.getGroupMemberPrincipalIds(workgroup.getGroupId()));
+//        }
 
         // retrieve the pricipal ids of the ad hoc route route person of the current document
         CFDAClose closeDocument = closeService.getMostRecentClose();
@@ -108,12 +105,13 @@ public class CloseBatchStep extends AbstractStep {
         for (AdHocRouteRecipient adHocRoutePerson : adHocRoutePersons) {
             recipientIds.add(adHocRoutePerson.getId());
         }
+     // TODO fix for kim
 
-        // retrieve the pricipal ids in the ad hoc route route workgroups of the current document
-        List<AdHocRouteRecipient> adHocRouteWorkgroups = closeDocument.getAdHocRouteWorkgroups();
-        for (AdHocRouteRecipient adHocRouteWorkgroup : adHocRouteWorkgroups) {
-            recipientIds.addAll(identityManagementService.getGroupMemberPrincipalIds(adHocRouteWorkgroup.getId()));
-        }
+//        // retrieve the pricipal ids in the ad hoc route route workgroups of the current document
+//        List<AdHocRouteRecipient> adHocRouteWorkgroups = closeDocument.getAdHocRouteWorkgroups();
+//        for (AdHocRouteRecipient adHocRouteWorkgroup : adHocRouteWorkgroups) {
+//            recipientIds.addAll(identityManagementService.getGroupMemberPrincipalIds(adHocRouteWorkgroup.getId()));
+//        }
 
         // get the email addresses of all recipients
         List<String> recipientEmailAddresses = new ArrayList<String>();
@@ -168,15 +166,6 @@ public class CloseBatchStep extends AbstractStep {
     }
 
     /**
-     * Sets the {@link GroupService}. For use by Spring.
-     * 
-     * @param kimGroupService The service to be assigned.
-     */
-    public void setGroupService(GroupService kimGroupService) {
-        this.kimGroupService = kimGroupService;
-    }
-
-    /**
      * Set the {@link MailService}. For use by Spring.
      * 
      * @param mailService The service to be assigned.
@@ -193,5 +182,4 @@ public class CloseBatchStep extends AbstractStep {
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
-
 }

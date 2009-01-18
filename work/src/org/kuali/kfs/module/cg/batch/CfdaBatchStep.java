@@ -25,8 +25,6 @@ import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.KimGroup;
-import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.MailService;
@@ -43,7 +41,6 @@ public class CfdaBatchStep extends AbstractStep {
 
     private CfdaService cfdaService;
     private MailService mailService;
-    private GroupService kimGroupService;
     private org.kuali.rice.kim.service.PersonService personService;
 
     /**
@@ -57,23 +54,24 @@ public class CfdaBatchStep extends AbstractStep {
         try {
             CfdaUpdateResults results = cfdaService.update();
 
-            KimGroup workgroup = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, MAIL_RECIPIENTS_GROUP_NAME);
-            if (workgroup == null) {
-                LOG.fatal("Couldn't find workgroup to send notification to.");
-                return true;
-            }
-            List<String> principalIds = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupMemberPrincipalIds(workgroup.getGroupId());
-            for (String id : principalIds) {
-                Person user = personService.getPerson(id);
-                if (user != null) {
-                    String address = user.getEmailAddress();
-                    if (!StringUtils.isEmpty(address)) {
-                        message.addToAddress(address);
-                    }
-                } else {
-                    LOG.info("User " + id + " doesn't exist.");
-                }
-            }
+// TODO fix for kim
+            //            KimGroup workgroup = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, MAIL_RECIPIENTS_GROUP_NAME);
+//            if (workgroup == null) {
+//                LOG.fatal("Couldn't find workgroup to send notification to.");
+//                return true;
+//            }
+//            List<String> principalIds = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupMemberPrincipalIds(workgroup.getGroupId());
+//            for (String id : principalIds) {
+//                Person user = personService.getPerson(id);
+//                if (user != null) {
+//                    String address = user.getEmailAddress();
+//                    if (!StringUtils.isEmpty(address)) {
+//                        message.addToAddress(address);
+//                    }
+//                } else {
+//                    LOG.info("User " + id + " doesn't exist.");
+//                }
+//            }
 
             // TODO this message should come from some config file.
             StringBuilder builder = new StringBuilder();
@@ -136,15 +134,6 @@ public class CfdaBatchStep extends AbstractStep {
      */
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
-    }
-
-    /**
-     * Sets the {@link GroupService}. For use by Spring.
-     * 
-     * @param kimGroupService The service to be assigned.
-     */
-    public void setGroupService(GroupService kimGroupService) {
-        this.kimGroupService = kimGroupService;
     }
 
     /**

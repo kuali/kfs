@@ -177,9 +177,6 @@
         <property name="cfdaService">
             <ref bean="cfdaService" />
         </property>
-        <property name="groupService">
-            <ref bean="kimGroupService" />
-        </property>
         <property name="personService">
             <ref bean="personService" />
         </property>
@@ -204,9 +201,6 @@
     <bean id="closeBatchStep" class="org.kuali.kfs.module.cg.batch.CloseBatchStep" parent="step">
         <property name="closeService">
             <ref bean="closeService" />
-        </property>
-        <property name="groupService">
-            <ref bean="kimGroupService" />
         </property>
         <property name="personService">
             <ref bean="personService" />

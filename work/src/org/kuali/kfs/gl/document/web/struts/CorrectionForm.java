@@ -30,7 +30,6 @@ import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
@@ -137,9 +136,6 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        // create a blank FinancialSystemTransactionalDocumentActionFlags instance, since form-recreation needs it
-        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
-
         // Sync up the groups
         syncGroups();
 
@@ -239,9 +235,6 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         restrictedFunctionalityMode = false;
 
         setDocument(new GeneralLedgerCorrectionProcessDocument());
-
-        // create a blank FinancialSystemTransactionalDocumentActionFlags instance, since form-recreation needs it
-        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
 
         // These are for the blank rows that are used to add criteria/changes
         groups = new ArrayList<GroupHolder>();

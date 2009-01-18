@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -124,9 +125,10 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      */
     public Map getEditModes(AccountingDocument document) {
         AccountingDocumentAuthorizer documentAuthorizer = getDocumentAuthorizer(document);
-        Map editModes = documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson());
-        editModes.putAll(documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson()));
-        return editModes;
+        // TODO fix for KIM
+//        Map editModes = documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson());
+//        editModes.putAll(documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson()));
+        return new HashMap();
     }
  
     /**

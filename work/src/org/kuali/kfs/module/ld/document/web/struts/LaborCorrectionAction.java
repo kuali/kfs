@@ -717,11 +717,12 @@ public class LaborCorrectionAction extends CorrectionAction {
             KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
-            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
-            if (editingMode.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
-                // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
-                updateDocumentSummary(document, null, true);
-            }
+            // TODO fix for KIM
+//            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
+//            if (editingMode.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
+//                // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
+//                updateDocumentSummary(document, null, true);
+//            }
             // else we defer to the values already in the doc, and just don't touch the values
         }
         else {

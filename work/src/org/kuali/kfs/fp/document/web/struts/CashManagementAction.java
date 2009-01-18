@@ -150,7 +150,8 @@ public class CashManagementAction extends KualiDocumentActionBase {
         CashManagementForm cmForm = (CashManagementForm) form;
         CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
 
-        checkDepositAuthorization(cmDoc, DepositConstants.DEPOSIT_TYPE_INTERIM);
+        // TODO fix for KIM
+//        checkDepositAuthorization(cmDoc, DepositConstants.DEPOSIT_TYPE_INTERIM);
 
         String wizardUrl = buildDepositWizardUrl(cmDoc, DepositConstants.DEPOSIT_TYPE_INTERIM);
         return new ActionForward(wizardUrl, true);
@@ -168,32 +169,33 @@ public class CashManagementAction extends KualiDocumentActionBase {
         CashManagementForm cmForm = (CashManagementForm) form;
         CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
 
-        checkDepositAuthorization(cmDoc, DepositConstants.DEPOSIT_TYPE_FINAL);
+        // TODO fix for KIM
+//        checkDepositAuthorization(cmDoc, DepositConstants.DEPOSIT_TYPE_FINAL);
 
         String wizardUrl = buildDepositWizardUrl(cmDoc, DepositConstants.DEPOSIT_TYPE_FINAL);
         return new ActionForward(wizardUrl, true);
     }
 
-    /**
-     * Throws a DocumentAuthorizationException if the current user is not authorized to add a deposit of the given type to the given
-     * document.
-     * 
-     * @param cmDoc
-     * @param depositTypeCode
-     */
-    private void checkDepositAuthorization(CashManagementDocument cmDoc, String depositTypeCode) {
-        // deposits can only be added if the CashDrawer is open
-        if (!cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_OPEN)) {
-            throw new IllegalStateException("CashDrawer '" + cmDoc.getCampusCode() + "' must be open for deposits to be made");
-        }
-
-        // verify user's ability to add a deposit
-        Person user = GlobalVariables.getUserSession().getPerson();
-        Map editModes = getDocumentAuthorizer().getEditMode(cmDoc, user);
-        if (!editModes.containsKey(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS)) {
-            throw buildAuthorizationException("add a deposit", cmDoc);
-        }
-    }
+//    /**
+//     * Throws a DocumentAuthorizationException if the current user is not authorized to add a deposit of the given type to the given
+//     * document.
+//     * 
+//     * @param cmDoc
+//     * @param depositTypeCode
+//     */
+//    private void checkDepositAuthorization(CashManagementDocument cmDoc, String depositTypeCode) {
+//        // deposits can only be added if the CashDrawer is open
+//        if (!cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_OPEN)) {
+//            throw new IllegalStateException("CashDrawer '" + cmDoc.getCampusCode() + "' must be open for deposits to be made");
+//        }
+//
+//        // verify user's ability to add a deposit
+//        Person user = GlobalVariables.getUserSession().getPerson();
+//        Map editModes = getDocumentAuthorizer().getEditMode(cmDoc, user);
+//        if (!editModes.containsKey(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS)) {
+//            throw buildAuthorizationException("add a deposit", cmDoc);
+//        }
+//    }
 
     /**
      * @param cmDoc

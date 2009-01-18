@@ -32,18 +32,18 @@ import org.kuali.rice.kns.document.Document;
 public class EffortCertificationDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentAuthorizer.class);
-   
-     /** @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
-      *  org.kuali.rice.kim.bo.Person)
-      */
-    @Override
-    public Map getEditMode(Document document, Person user) {
-        Map editModeMap = super.getEditMode(document, user);
-        
-        //  set the setHasTotalAmount to true
-        editModeMap.put(EffortCertificationEditMode.HAS_TOTAL_AMOUNT, true);
-        
-        return editModeMap;
-   }
+// TODO fix for kim   
+//     /** @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
+//      *  org.kuali.rice.kim.bo.Person)
+//      */
+//    @Override
+//    public Map getEditMode(Document document, Person user) {
+//        Map editModeMap = super.getEditMode(document, user);
+//        
+//        //  set the setHasTotalAmount to true
+//        editModeMap.put(EffortCertificationEditMode.HAS_TOTAL_AMOUNT, true);
+//        
+//        return editModeMap;
+//   }
 }
 

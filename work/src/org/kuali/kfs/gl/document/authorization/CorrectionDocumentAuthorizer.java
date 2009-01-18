@@ -56,32 +56,32 @@ public class CorrectionDocumentAuthorizer extends FinancialSystemTransactionalDo
 //
 //        return flags;
 //    }
-
-        @Override
-    public Map getEditMode(Document document, Person user) {
-        LOG.debug("getEditMode() started");
-
-        String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
-
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (workflowDocument.stateIsCanceled() || (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() != null)) {
-            editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
-        }
-        else if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            if (workflowDocument.userIsInitiator(user)) {
-                editMode = KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
-            }
-        }
-        else if (workflowDocument.stateIsEnroute()) {
-            editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
-        }
-
-        Map editModeMap = new HashMap();
-        editModeMap.put(editMode, "TRUE");
-
-        LOG.debug("getEditMode() editMode = " + editMode);
-        return editModeMap;
-    }
+// TODO fix for kim
+//        @Override
+//    public Map getEditMode(Document document, Person user) {
+//        LOG.debug("getEditMode() started");
+//
+//        String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+//
+//        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+//
+//        if (workflowDocument.stateIsCanceled() || (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() != null)) {
+//            editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+//        }
+//        else if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+//            if (workflowDocument.userIsInitiator(user)) {
+//                editMode = KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
+//            }
+//        }
+//        else if (workflowDocument.stateIsEnroute()) {
+//            editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+//        }
+//
+//        Map editModeMap = new HashMap();
+//        editModeMap.put(editMode, "TRUE");
+//
+//        LOG.debug("getEditMode() editMode = " + editMode);
+//        return editModeMap;
+//    }
 }
 

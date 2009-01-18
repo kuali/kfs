@@ -400,64 +400,65 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.setInputGroupIdFromLastDocumentLoad(document.getCorrectionInputGroupId());
 
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
-            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
-
-            if (editingMode.get(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null) {
-                // They have saved the document and they are retreiving it to be completed
-                correctionForm.setProcessInBatch(!document.getCorrectionFileDelete());
-                correctionForm.setMatchCriteriaOnly(document.getCorrectionSelection());
-                correctionForm.setEditMethod(document.getCorrectionTypeCode());
-                if (document.getCorrectionInputGroupId() != null) {
-                    if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(document.getCorrectionTypeCode())) {
-                        loadPersistedInputGroup(correctionForm);
-                        correctionForm.setDeleteFileFlag(false);
-                    }
-                    else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(document.getCorrectionTypeCode())) {
-                        // for the "true" param below, when the origin entries are persisted in the CorrectionDocumentService, they
-                        // are likely
-                        // not to have origin entry IDs assigned to them. So, we create pseudo entry IDs that are
-                        // unique within the allEntries list, but not necessarily within the DB. The persistence layer
-                        // is responsible for auto-incrementing entry IDs in the DB.
-                        loadPersistedOutputGroup(correctionForm, true);
-
-                        correctionForm.setManualEditFlag(true);
-                        correctionForm.setEditableFlag(false);
-                        correctionForm.setDeleteFileFlag(false);
-                    }
-                    else if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(document.getCorrectionTypeCode())) {
-                        loadPersistedInputGroup(correctionForm);
-                        correctionForm.setDeleteFileFlag(true);
-                    }
-                    else {
-                        throw new RuntimeException("Unknown edit method " + document.getCorrectionTypeCode());
-                    }
-                    correctionForm.setDataLoadedFlag(true);
-                }
-                else {
-                    correctionForm.setDataLoadedFlag(false);
-                }
-                correctionForm.setShowOutputFlag(false);
-                correctionForm.setInputFileName(document.getCorrectionInputFileName());
-                if (document.getCorrectionInputFileName() != null) {
-                    correctionForm.setChooseSystem(CorrectionDocumentService.SYSTEM_UPLOAD);
-                }
-                else {
-                    correctionForm.setChooseSystem(CorrectionDocumentService.SYSTEM_DATABASE);
-                }
-
-                correctionForm.setPreviousChooseSystem(correctionForm.getChooseSystem());
-                correctionForm.setPreviousEditMethod(correctionForm.getEditMethod());
-                correctionForm.setPreviousInputGroupId(correctionForm.getInputGroupId());
-            }
-            else {
-                // They are calling this from their action list to look at it or approve it
-                correctionForm.setProcessInBatch(!document.getCorrectionFileDelete());
-                correctionForm.setMatchCriteriaOnly(document.getCorrectionSelection());
-
-                // we don't care about setting entry IDs for the records below, so the param is false below
-                loadPersistedOutputGroup(correctionForm, false);
-                correctionForm.setShowOutputFlag(true);
-            }
+            // TODO fix for KIM
+//            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
+//
+//            if (editingMode.get(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null) {
+//                // They have saved the document and they are retreiving it to be completed
+//                correctionForm.setProcessInBatch(!document.getCorrectionFileDelete());
+//                correctionForm.setMatchCriteriaOnly(document.getCorrectionSelection());
+//                correctionForm.setEditMethod(document.getCorrectionTypeCode());
+//                if (document.getCorrectionInputGroupId() != null) {
+//                    if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(document.getCorrectionTypeCode())) {
+//                        loadPersistedInputGroup(correctionForm);
+//                        correctionForm.setDeleteFileFlag(false);
+//                    }
+//                    else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(document.getCorrectionTypeCode())) {
+//                        // for the "true" param below, when the origin entries are persisted in the CorrectionDocumentService, they
+//                        // are likely
+//                        // not to have origin entry IDs assigned to them. So, we create pseudo entry IDs that are
+//                        // unique within the allEntries list, but not necessarily within the DB. The persistence layer
+//                        // is responsible for auto-incrementing entry IDs in the DB.
+//                        loadPersistedOutputGroup(correctionForm, true);
+//
+//                        correctionForm.setManualEditFlag(true);
+//                        correctionForm.setEditableFlag(false);
+//                        correctionForm.setDeleteFileFlag(false);
+//                    }
+//                    else if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(document.getCorrectionTypeCode())) {
+//                        loadPersistedInputGroup(correctionForm);
+//                        correctionForm.setDeleteFileFlag(true);
+//                    }
+//                    else {
+//                        throw new RuntimeException("Unknown edit method " + document.getCorrectionTypeCode());
+//                    }
+//                    correctionForm.setDataLoadedFlag(true);
+//                }
+//                else {
+//                    correctionForm.setDataLoadedFlag(false);
+//                }
+//                correctionForm.setShowOutputFlag(false);
+//                correctionForm.setInputFileName(document.getCorrectionInputFileName());
+//                if (document.getCorrectionInputFileName() != null) {
+//                    correctionForm.setChooseSystem(CorrectionDocumentService.SYSTEM_UPLOAD);
+//                }
+//                else {
+//                    correctionForm.setChooseSystem(CorrectionDocumentService.SYSTEM_DATABASE);
+//                }
+//
+//                correctionForm.setPreviousChooseSystem(correctionForm.getChooseSystem());
+//                correctionForm.setPreviousEditMethod(correctionForm.getEditMethod());
+//                correctionForm.setPreviousInputGroupId(correctionForm.getInputGroupId());
+//            }
+//            else {
+//                // They are calling this from their action list to look at it or approve it
+//                correctionForm.setProcessInBatch(!document.getCorrectionFileDelete());
+//                correctionForm.setMatchCriteriaOnly(document.getCorrectionSelection());
+//
+//                // we don't care about setting entry IDs for the records below, so the param is false below
+//                loadPersistedOutputGroup(correctionForm, false);
+//                correctionForm.setShowOutputFlag(true);
+//            }
             correctionForm.setInputGroupIdFromLastDocumentLoadIsMissing(!originEntryGroupService.getGroupExists(document.getCorrectionInputGroupId()));
         }
 
@@ -1345,11 +1346,12 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
-            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
-            if (editingMode.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
-                // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
-                updateDocumentSummary(document, null, true);
-            }
+            // TODO fix for KIM
+//            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
+//            if (editingMode.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
+//                // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
+//                updateDocumentSummary(document, null, true);
+//            }
             // else we defer to the values already in the doc, and just don't touch the values
         }
         else {

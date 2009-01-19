@@ -30,6 +30,7 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
@@ -105,12 +106,12 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
     public static Map<String, String> getFieldConversionBetweenPayeeAndPerson() {
         Map<String, String> fieldConversionMap = new HashMap<String, String>();
 
-        fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, "externalId");
+        fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
 
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KFSPropertyConstants.PERSON_FIRST_NAME);
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KFSPropertyConstants.PERSON_LAST_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KIMPropertyConstants.Person.FIRST_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KIMPropertyConstants.Person.LAST_NAME);
 
-        fieldConversionMap.put(KFSPropertyConstants.EMPLOYEE_ID, KFSPropertyConstants.EMPLOYEE_ID);
+        fieldConversionMap.put(KFSPropertyConstants.EMPLOYEE_ID, KIMPropertyConstants.Person.EMPLOYEE_ID);
         fieldConversionMap.put(KNSPropertyConstants.ACTIVE, KNSPropertyConstants.ACTIVE);
 
         return fieldConversionMap;

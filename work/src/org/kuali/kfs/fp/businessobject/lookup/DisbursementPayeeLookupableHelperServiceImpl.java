@@ -32,6 +32,7 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
@@ -79,7 +80,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) || StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NAME))) {
             searchResults.addAll(this.getVendorsAsPayees(fieldValues));
         }
-        else if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID))) {
+        else if (StringUtils.isNotBlank(fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID))) {
             searchResults.addAll(this.getPersonAsPayees(fieldValues));
         }
         else {
@@ -107,7 +108,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
 
         String vendorName = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NAME);
         String vendorNumber = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER);
-        String employeeId = (String) fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID);
+        String employeeId = (String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID);
 
         // only can use the vendor name and vendor number fields or the employee id field, but not both.
         boolean isVendorInfoEntered = StringUtils.isNotBlank(vendorName) || StringUtils.isNotBlank(vendorNumber);
@@ -116,13 +117,13 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
 
             String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);
             String vendorNumberLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NUMBER);
-            String employeeIdLabel = this.getAttribueLabel(KFSPropertyConstants.EMPLOYEE_ID);
+            String employeeIdLabel = this.getAttribueLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
 
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
+            GlobalVariables.getErrorMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
         }
 
-        String firstName = (String) fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME);
-        String lastName = (String) fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME);
+        String firstName = (String) fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
+        String lastName = (String) fieldValues.get(KIMPropertyConstants.Person.LAST_NAME);
         boolean isPersonNameEntered = StringUtils.isNotBlank(firstName) || StringUtils.isNotBlank(lastName);
 
         // only can use the person first and last name fields or the vendor name field, but not both.
@@ -130,8 +131,8 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
             String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION;
 
             String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);
-            String firstNameLabel = this.getAttribueLabel(KFSPropertyConstants.PERSON_FIRST_NAME);
-            String lastNameLabel = this.getAttribueLabel(KFSPropertyConstants.PERSON_LAST_NAME);
+            String firstNameLabel = this.getAttribueLabel(KIMPropertyConstants.Person.FIRST_NAME);
+            String lastNameLabel = this.getAttribueLabel(KIMPropertyConstants.Person.LAST_NAME);
 
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
         }
@@ -222,11 +223,11 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         Map<String, String> fieldConversionMap = DisbursementPayee.getFieldConversionBetweenPayeeAndPerson();
         this.replaceFieldKeys(personFieldValues, fieldConversionMap);
 
-        if (fieldConversionMap.containsKey("externalId")) {
-            fieldConversionMap.put("externalIdentifierTypeCode", VendorConstants.TAX_TYPE_SSN);
+        if (fieldConversionMap.containsKey(KIMPropertyConstants.Person.EXTERNAL_ID)) {
+            fieldConversionMap.put(KIMPropertyConstants.Person.EXTERNAL_IDENTIFIER_TYPE_CODE, VendorConstants.TAX_TYPE_SSN);
         }
 
-        fieldConversionMap.put(KNSPropertyConstants.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
+        fieldConversionMap.put(KIMPropertyConstants.Person.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
 
         return personFieldValues;
     }

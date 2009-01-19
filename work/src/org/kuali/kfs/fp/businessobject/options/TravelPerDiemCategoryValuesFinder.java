@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.TravelPerDiem;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -38,7 +39,7 @@ public class TravelPerDiemCategoryValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         Map criteria = new HashMap();
-        criteria.put("fiscalYear", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+        criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
         List boList = (List) SpringContext.getBean(KeyValuesService.class).findMatching(TravelPerDiem.class, criteria);
         List keyValues = new ArrayList();

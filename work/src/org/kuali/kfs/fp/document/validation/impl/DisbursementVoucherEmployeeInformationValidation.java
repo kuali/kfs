@@ -24,8 +24,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -51,7 +51,8 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
             return true;
         }
         
-        Person employee = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeDetail.getDisbVchrEmployeeIdNumber());
+        String employeeId = payeeDetail.getDisbVchrPayeeIdNumber();
+        Person employee = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(employeeId);
         
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
@@ -73,16 +74,6 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
 
         return isValid;
     }
-    
-    /**
-     * Retrieves the Person object from the uuid.
-     * 
-     * @param uuid universal user identifier
-     * @return <code>Person</code>
-     */
-    private Person retrieveEmployee(String uuid) {
-            return SpringContext.getBean(PersonService.class).getPerson(uuid);
-    }
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
@@ -92,14 +83,5 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
-
-    /**
-     * Gets the accountingDocumentForValidation attribute. 
-     * @return Returns the accountingDocumentForValidation.
-     */
-    public AccountingDocument getAccountingDocumentForValidation() {
-        return accountingDocumentForValidation;
-    }
-
 }
 

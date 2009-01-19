@@ -212,7 +212,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Organization-organizationManagerUniversalId" parent="Organization-organizationManagerUniversalId-parentBean" />
 
-  <bean id="Organization-organizationManagerUniversalId-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
+  <bean id="Organization-organizationManagerUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="organizationManagerUniversalId" />
     <property name="label" value="Organization Manager UserID" />
     <property name="shortLabel" value="Manager UserID" />

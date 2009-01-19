@@ -38,26 +38,30 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Pa
         AttributeSet nestedRoleQualification = new AttributeSet(qualification);
         nestedRoleQualification.put(KfsKimAttributes.NAMESPACE_CODE, ArConstants.AR_NAMESPACE_CODE);
         if (PROCESSOR_ROLE_NAME.equals(roleName)) {
-            String processingChart = null;
-            if (qualification.containsKey(PROCESSING_CHART_OF_ACCOUNTS_CODE)) {
-                processingChart = qualification.get(PROCESSING_CHART_OF_ACCOUNTS_CODE);
-            }
-            String processingOrg = null;
-            if (qualification.containsKey(PROCESSING_ORGANIZATION_CODE)) {
-                processingOrg = qualification.get(PROCESSING_ORGANIZATION_CODE);
-            }
+            // if the processing org is specified from the qualifications, use that
+            String processingChart = qualification.get(PROCESSING_CHART_OF_ACCOUNTS_CODE);
+            String processingOrg = qualification.get(PROCESSING_ORGANIZATION_CODE);
+            // however, if the processing chart/org is not specified, pull the OrgOptions record for the
+            // chart/org and get the processing org off that
             if (StringUtils.isBlank(processingChart) || StringUtils.isBlank(processingChart)) {
-                Map<String, Object> arOrgOptPk = new HashMap<String, Object>();
-                arOrgOptPk.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
-                arOrgOptPk.put(KfsKimAttributes.ORGANIZATION_CODE, qualification.get(KfsKimAttributes.ORGANIZATION_CODE));
-                OrganizationOptions oo = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, arOrgOptPk);
-                if (oo != null) {
-                    processingChart = oo.getProcessingChartOfAccountCode();
-                    processingOrg = oo.getProcessingOrganizationCode();
-                }
-                else {
-                    processingChart = UNMATCHABLE_QUALIFICATION;
-                    processingOrg = UNMATCHABLE_QUALIFICATION;
+                String chart = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+                String org = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
+                // if no chart/org pair is is available, then skip the conversion attempt 
+                if (!StringUtils.isBlank(chart) && !StringUtils.isBlank(org)) {
+                    Map<String, Object> arOrgOptPk = new HashMap<String, Object>();
+                    arOrgOptPk.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
+                    arOrgOptPk.put(KfsKimAttributes.ORGANIZATION_CODE, org);
+                    OrganizationOptions oo = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, arOrgOptPk);
+                    if (oo != null) {
+                        processingChart = oo.getProcessingChartOfAccountCode();
+                        processingOrg = oo.getProcessingOrganizationCode();
+                    }
+                    else {
+                        processingChart = UNMATCHABLE_QUALIFICATION;
+                        processingOrg = UNMATCHABLE_QUALIFICATION;
+                    }
+                } else {
+                    // do nothing - don't pass through to the nested role
                 }
             }
             nestedRoleQualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, processingChart);

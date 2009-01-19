@@ -39,7 +39,13 @@
     <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
     <property name="workflowAttributes">
     	<ref bean="NonCheckDisbursementDocument-workflowAttributes" />
-    </property>     
+    </property>  
+     <property name="defaultExistenceChecks" >
+        <bean parent="ReferenceDefinition"
+              p:attributeName="bank"
+              p:attributeToHighlightOnFail="bank"/>
+    </property>
+       
   </bean>
   
      <!-- Validations -->
@@ -120,7 +126,6 @@
     		<list>
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
     			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
-    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">

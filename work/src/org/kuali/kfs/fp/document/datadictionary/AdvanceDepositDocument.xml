@@ -40,6 +40,14 @@
     <property name="workflowAttributes">
     	<ref bean="AdvanceDepositDocument-workflowAttributes" />
     </property>
+    
+    <property name="defaultExistenceChecks" >
+        <bean parent="ReferenceDefinition"
+              p:attributeName="bank"
+              p:collection="advanceDeposits"
+              p:attributeToHighlightOnFail="bank"/>
+    </property>
+    
   </bean>
   
      <!-- Validations -->
@@ -120,7 +128,6 @@
     		<list>
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
     			<ref bean="SearchingType-AccountingDocument-accountNumber" />
-    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
     		</list>
     	</property>
 	</bean>

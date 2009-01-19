@@ -42,6 +42,21 @@
     <property name="workflowAttributes">
     	<ref bean="CreditCardReceiptDocument-workflowAttributes" />
     </property>    
+    
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialDocumentCreditCardVendor"
+              p:collection="creditCardReceipts"
+              p:attributeToHighlightOnFail="financialDocumentCreditCardVendor"/>
+    
+    
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialDocumentCreditCardType"
+              p:collection="creditCardReceipts"
+              p:attributeToHighlightOnFail="financialDocumentCreditCardType"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -134,7 +149,6 @@
     		<list>
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
     			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
-    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
     		</list>
     	</property>
 	</bean>

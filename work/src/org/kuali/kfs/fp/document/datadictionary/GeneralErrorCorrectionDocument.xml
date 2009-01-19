@@ -43,6 +43,7 @@
     <property name="workflowAttributes">
     	<ref bean="GeneralErrorCorrectionDocument-workflowAttributes" />
     </property>
+   
   </bean>
   
    <!-- Validations -->
@@ -143,7 +144,6 @@
     		<list>
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
     			<ref bean="SearchingType-AccountingDocument-accountNumber" />
-    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">

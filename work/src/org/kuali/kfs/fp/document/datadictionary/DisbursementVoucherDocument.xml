@@ -73,6 +73,17 @@
     	</map>
     </property>
     <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />    
+ <!--    <property name="defaultExistenceChecks" >
+     	<list>
+        	<bean parent="ReferenceDefinition"
+              p:attributeName="disbVchrDocumentationLoc"
+              p:attributeToHighlightOnFail="disbVchrDocumentationLoc"/>
+     	    <bean parent="ReferenceDefinition"
+              p:attributeName="bank"
+              p:attributeToHighlightOnFail="bank"/>
+        </list>  
+              
+    </property> -->
   </bean>
 
 <!-- Attribute Definitions -->
@@ -433,7 +444,6 @@
     		<list>
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
     			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
-    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

@@ -18,9 +18,7 @@
     <property name="documentClass" value="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer" />
     <property name="documentTypeCode" value="GLCP" />
-    <property name="workflowAttributes" >
-      <ref bean="GeneralLedgerCorrectionProcessDocument-workflowAttributes" />
-    </property>
+   
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -35,16 +33,5 @@
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
 
-
-  <bean id="GeneralLedgerCorrectionProcessDocument-workflowAttributes" parent="GeneralLedgerCorrectionProcessDocument-workflowAttributes-parentBean" />
-
-  <bean id="GeneralLedgerCorrectionProcessDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-	  	<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
-    		</list>
-    	</property>
-  </bean>
 </beans>

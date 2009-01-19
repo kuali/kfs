@@ -125,7 +125,6 @@
     		<list>
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-targetOnly" />
     			<ref bean="SearchingType-AccountingDocument-accountNumber-targetOnly" />
-    			<ref bean="SearchingType-AccountingDocument-financialDocumentTotalAmount" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">

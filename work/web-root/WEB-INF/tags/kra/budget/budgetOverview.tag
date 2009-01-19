@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <div align="right">
-	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.OVERVIEW_HEADER_TAB}" altText="page help"/>
+	<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.OVERVIEW_HEADER_TAB}" altText="page help"/>
 </div>
 
   <kra-b:budgetDetailSelection includeSummary="true" />

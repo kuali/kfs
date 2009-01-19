@@ -26,7 +26,7 @@
 <html:hidden property="document.budget.institutionCostShareIndicator"/>
 
 <div align="right">
-	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.INDIRECT_COST_HEADER_TAB}" altText="page help"/>
+	<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.INDIRECT_COST_HEADER_TAB}" altText="page help"/>
 </div>
 
 <!--  Spacer and styles.  -->

@@ -21,7 +21,7 @@
   <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
   
 <div align="right">
-	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.PARAMETERS_HEADER_TAB}" altText="page help"/>
+	<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.PARAMETERS_HEADER_TAB}" altText="page help"/>
 </div>
 
        	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />

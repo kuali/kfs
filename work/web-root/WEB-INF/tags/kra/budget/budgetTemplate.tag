@@ -18,7 +18,7 @@
 <kul:errors />
 
 <div align="right">
-	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.TEMPLATE_HEADER_TAB}" altText="page help"/>
+	<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.TEMPLATE_HEADER_TAB}" altText="page help"/>
 </div>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="t3" summary="">

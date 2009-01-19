@@ -27,14 +27,6 @@
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
 <c:set var="sessionDocument" value="${documentEntry.sessionDocument}" />
 
-<c:choose>
-<c:when test="${KualiForm.document.sessionDocument || sessionDocument}">
-</c:when>
-<c:otherwise>
-<html:hidden property="documentActionFlags.hasAmountTotal" />
-</c:otherwise>
-</c:choose>
-
 <kul:documentControls
 transactionalDocument="${transactionalDocument}"
 saveButtonOverride="${saveButtonOverride}"

@@ -90,6 +90,7 @@
                 </c:if>
             </tr>
         </logic:iterate>
+<%-- fix for kim
 		<tr>
 			<c:set var="leadingColSpan" value="${KualiForm.documentActionFlags.canViewBank ? 5 : 4}" />
 	 		<td class="total-line" colspan="${leadingColSpan}">&nbsp;</td>
@@ -98,6 +99,7 @@
                 <td class="total-line">&nbsp;</td>
             </c:if>
 		</tr>
+		--%>
 	</table>
   </div>
 </kul:tab>

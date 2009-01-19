@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiBudgetDocument"
+	documentTypeName="BudgetDocument"
 	htmlFormAction="researchBudgetModular" headerDispatch="save"
 	headerTabActive="modular" showTabButtons="true" renderMultipart="true"
 	auditCount="${AuditErrors['modularSoftAuditErrors'].size}">

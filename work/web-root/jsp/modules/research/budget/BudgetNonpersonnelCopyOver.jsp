@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiBudgetDocument"
+	documentTypeName="BudgetDocument"
 	headerTitle="Research Administration - Non-Personnel Copy Over"
 	htmlFormAction="researchBudgetNonpersonnelCopyOver" renderMultipart="true"
 	headerTabActive="nonpersonnel" showTabButtons="true">

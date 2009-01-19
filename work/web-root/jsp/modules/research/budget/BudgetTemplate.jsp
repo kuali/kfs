@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiBudgetDocument"
+	documentTypeName="BudgetDocument"
 	htmlFormAction="researchBudgetTemplate" headerDispatch="template" renderMultipart="true"
 	headerTabActive="template">
 

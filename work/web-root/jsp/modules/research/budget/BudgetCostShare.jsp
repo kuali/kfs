@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiBudgetDocument"
+	documentTypeName="BudgetDocument"
 	headerTitle="Research Administration - Cost Share"
 	htmlFormAction="researchBudgetCostShare" showTabButtons="true"
 	headerDispatch="saveBudgetCostShare" headerTabActive="costshare" renderMultipart="true"
@@ -50,7 +50,7 @@
 	</logic:iterate>
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.COST_SHARE_HEADER_TAB}" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.COST_SHARE_HEADER_TAB}" altText="page help"/>
 	</div>
 
 	<div id="workarea"><kra-b:budgetCostShareInstitutionDirect /> <kra-b:budgetCostShareIndirect />

@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiBudgetDocument"
+	documentTypeName="BudgetDocument"
 	headerTitle="Research Administration - Permissions"
 	htmlFormAction="researchBudgetPermissions" 
 	showTabButtons="true"
@@ -26,7 +26,7 @@
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.PERMISSIONS_HEADER_TAB}" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.PERMISSIONS_HEADER_TAB}" altText="page help"/>
 	</div>
 
 	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"

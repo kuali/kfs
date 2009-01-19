@@ -19,7 +19,7 @@
 <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiBudgetDocument"
+	documentTypeName="BudgetDocument"
 	htmlFormAction="researchBudgetPersonnel" showTabButtons="true"
 	headerDispatch="savePersonnel" headerTabActive="personnel" renderMultipart="true"
 	auditCount="${AuditErrors['personnelAuditErrors'].size}">
@@ -32,7 +32,7 @@
 	<html:hidden property="document.personnelNextSequenceNumber" />
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.PERSONNEL_HEADER_TAB}" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.PERSONNEL_HEADER_TAB}" altText="page help"/>
 	</div>
 
   <c:if test="${! viewOnly}">

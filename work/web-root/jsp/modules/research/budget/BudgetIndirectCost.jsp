@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiBudgetDocument"
+	documentTypeName="BudgetDocument"
 	headerTitle="Research Administration - Indirect Costs"
 	htmlFormAction="researchBudgetIndirectCost" renderMultipart="true"
 	headerDispatch="save" headerTabActive="indirectcost">

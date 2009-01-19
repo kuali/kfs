@@ -195,16 +195,6 @@ public class BudgetForm extends ResearchDocumentFormBase {
         }
     }
     
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        //return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
-        return true;
-    }
-    
-    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        //return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
-        return true;
-    }
-
     /**
      * @return Returns the internalBillingDocument.
      */

@@ -32,6 +32,9 @@ public interface AccountsReceivableAuthorizationService {
      */
     public boolean personBelongsToBillingOrg(Person person);
     
+    
+    public boolean personBelongsToProcessingOrg(Person person);
+    
     /**
      * 
      * Determines whether the current session user belongs to a Billing Organization.
@@ -40,6 +43,8 @@ public interface AccountsReceivableAuthorizationService {
      * @return
      */
     public boolean currentUserBelongsToBillingOrg();
+
+    public boolean currentUserBelongsToProcessingOrg();
     
     /**
      * 

@@ -52,6 +52,14 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         return personBelongsToBillingOrg(currentUser);
     }
 
+    public boolean currentUserBelongsToProcessingOrg() {
+        Person currentUser = ValueFinderUtil.getCurrentPerson();
+        if (currentUser == null) {
+            throw new IllegalArgumentException("No user session is currently setup, so there is no Current User.");
+        }
+        return personBelongsToProcessingOrg(currentUser);
+    }
+    
     public boolean personBelongsToBillingOrg(Person person) {
         
         //  get the person's org from the kns authz system
@@ -68,6 +76,22 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         return isOrgABillingOrg(personHomeOrg);
     }
 
+    public boolean personBelongsToProcessingOrg(Person person) {
+        //  get the person's org from the kns authz system
+        Organization personHomeOrg = personHomeOrg(person);
+        
+        //  if the person's home org doesn't exist or is not setup right, then fail
+        if (personHomeOrg == null) {
+            return false;
+        }
+        else if (StringUtils.isBlank(personHomeOrg.getOrganizationCode()) || StringUtils.isBlank(personHomeOrg.getChartOfAccountsCode())) {
+            return false;
+        }
+        
+        return isOrgAProcessingOrgInCurrentFiscalYear(personHomeOrg);
+        
+    }
+    
     public Organization personHomeOrg(Person person) {
         if (person == null) {
             throw new IllegalArgumentException("A null or invalid person object was passed in.");

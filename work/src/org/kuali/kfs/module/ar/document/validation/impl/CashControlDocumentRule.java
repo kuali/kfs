@@ -69,7 +69,8 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         ErrorMap errorMap = GlobalVariables.getErrorMap();
 
         if (errorMap.isEmpty()) {
-            isValid &= checkUserOrgOptions(ccDocument);
+//          isValid &= checkUserOrgOptions(ccDocument);
+            isValid &= checkUserSystemInformation(ccDocument);
             isValid &= checkRefDocNumber(ccDocument);
             isValid &= validateCashControlDetails(ccDocument);
         }
@@ -88,7 +89,8 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         CashControlDocument cashControlDocument = (CashControlDocument) document;
 
         if (isValid) {
-            isValid &= checkUserOrgOptions(cashControlDocument);
+//          isValid &= checkUserOrgOptions(cashControlDocument);
+            isValid &= checkUserSystemInformation(cashControlDocument);
             isValid &= checkPaymentMedium(cashControlDocument);
             isValid &= checkRefDocNumber(cashControlDocument);
             isValid &= validateCashControlDetails(cashControlDocument);
@@ -264,6 +266,21 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         if (!ARUtil.isUserInArBillingOrg(ValueFinderUtil.getCurrentPerson())) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ORGANIZATION_CODE, ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG);
+            isValid = false;
+        }
+
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        return isValid;
+
+    }
+    
+    public boolean checkUserSystemInformation(CashControlDocument document) {
+        
+        boolean isValid = true;
+        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+
+        if (!ARUtil.isUserInArProcessingOrg(ValueFinderUtil.getCurrentPerson())) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ORGANIZATION_CODE, ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG);
             isValid = false;
         }

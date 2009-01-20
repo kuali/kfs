@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.role.QualifierResolver;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
@@ -32,6 +33,7 @@ import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * QualifierResolver which uses Data Dictionary defined workflow attributes to gather a collection
@@ -88,6 +90,8 @@ import org.kuali.rice.kns.service.DataDictionaryService;
  * role associated with the responsibility.
  */
 public class DataDictionaryQualifierResolver implements QualifierResolver {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DataDictionaryQualifierResolver.class);
+    
     private static final String KIM_ATTRIBUTE_DOCUMENT_TYPE_NAME = "documentTypeName";
     private static final String KIM_ATTRIBUTE_DOCUMENT_NUMBER = "documentNumber";
     private static final String KIM_ATTRIBUTE_ROUTE_LEVEL_NAME = "routeLevelName";
@@ -134,7 +138,15 @@ public class DataDictionaryQualifierResolver implements QualifierResolver {
         
         Map<String, String> documentNumberCriteria = new HashMap<String, String>();
         documentNumberCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentID);
-        if (documentID != null) return (Document)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(documentClass, documentNumberCriteria);
+        if (documentID != null) {
+            try {
+                return SpringContext.getBean(DocumentService.class).getByDocumentHeaderIdSessionless(documentID);
+            }
+            catch (WorkflowException e) {
+                LOG.error("Unable to retrieve document with system user.", e);
+                return null;
+            }
+        }
         return null;
     }
     

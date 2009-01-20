@@ -179,7 +179,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     @Logged
     public void addRouteLooping(EffortCertificationDocument effortCertificationDocument) {
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-        List<AdHocRouteRecipient> adHocRoutePersons = effortCertificationDocument.getAdHocRoutePersons();
+        List<AdHocRoutePerson> adHocRoutePersons = effortCertificationDocument.getAdHocRoutePersons();
 
         KualiWorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
         String routeLevelName = workflowDocument.getCurrentRouteNodeNames();
@@ -226,12 +226,12 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param actionRequest the given action request
      * @return an adhoc route recipient built from the given information
      */
-    private AdHocRouteRecipient buildAdHocRouteRecipient(String personUserId, String actionRequest) {
-        AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
-        adHocRouteRecipient.setActionRequested(actionRequest);
-        adHocRouteRecipient.setId(personUserId);
+    private AdHocRoutePerson buildAdHocRouteRecipient(String personUserId, String actionRequest) {
+        AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+        adHocRoutePerson.setActionRequested(actionRequest);
+        adHocRoutePerson.setId(personUserId);
 
-        return adHocRouteRecipient;
+        return adHocRoutePerson;
     }
 
     /**

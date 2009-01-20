@@ -31,6 +31,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
@@ -101,8 +102,8 @@ public class CloseBatchStep extends AbstractStep {
 
         // retrieve the pricipal ids of the ad hoc route route person of the current document
         CFDAClose closeDocument = closeService.getMostRecentClose();
-        List<AdHocRouteRecipient> adHocRoutePersons = closeDocument.getAdHocRoutePersons();
-        for (AdHocRouteRecipient adHocRoutePerson : adHocRoutePersons) {
+        List<AdHocRoutePerson> adHocRoutePersons = closeDocument.getAdHocRoutePersons();
+        for (AdHocRoutePerson adHocRoutePerson : adHocRoutePersons) {
             recipientIds.add(adHocRoutePerson.getId());
         }
      // TODO fix for kim

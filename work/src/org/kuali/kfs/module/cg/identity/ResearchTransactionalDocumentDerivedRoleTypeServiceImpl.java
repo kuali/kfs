@@ -30,6 +30,7 @@ import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -61,7 +62,11 @@ public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends Kim
         List<String> principalIds = new ArrayList<String>();
         Document document = getDocument(documentNumber);
         if(CGConstants.CGKimConstants.ROUTING_FORM_ADHOC_ACKNOWLEDGER_KIM_ROLE_NAME.equals(roleName)){
-            principalIds.addAll(document.getAdHocRoutePersons());
+            if (document.getAdHocRoutePersons() != null) {
+                for (AdHocRoutePerson adHocRoutePerson : document.getAdHocRoutePersons()) {
+                    principalIds.add(adHocRoutePerson.getId());
+                }
+            }
         } else if(CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){
             String documentType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
             if(KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE.equals(documentType)){

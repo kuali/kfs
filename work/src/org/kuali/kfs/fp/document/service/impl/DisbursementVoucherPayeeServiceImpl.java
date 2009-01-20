@@ -274,7 +274,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
      * @param priorApprovers
      */
     private void setupFYIs(DisbursementVoucherDocument dvDoc, Set<Person> priorApprovers, String initiatorUserId) {
-        List<AdHocRouteRecipient> adHocRoutePersons = dvDoc.getAdHocRoutePersons();
+        List<AdHocRoutePerson> adHocRoutePersons = dvDoc.getAdHocRoutePersons();
 
         // Add FYI for each approver who has already approved the document
         for (Person approver : priorApprovers) {
@@ -292,11 +292,11 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
      * @param userId
      * @return
      */
-    private AdHocRouteRecipient buildFyiRecipient(String userId) {
-        AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
-        adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
-        adHocRouteRecipient.setId(userId);
-        return adHocRouteRecipient;
+    private AdHocRoutePerson buildFyiRecipient(String userId) {
+        AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+        adHocRoutePerson.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
+        adHocRoutePerson.setId(userId);
+        return adHocRoutePerson;
     }
 
     // get the description of the vendor type with the given vendor type code

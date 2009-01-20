@@ -32,6 +32,7 @@ public class RequisitionRequiresAccountValidationBranchingValidation extends Bra
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
+        //FIXME hjs put this back in once simulation engine is working again KFSMI-2239
         if (!(false) || //purapWorkflowIntegrationService.willDocumentStopAtGivenFutureRouteNode((PurchasingAccountsPayableDocument)event.getDocument(), NodeDetailEnum.CONTENT_REVIEW) ||
             (!itemForValidation.getSourceAccountingLines().isEmpty())) {
             return NEEDS_ACCOUNT_VALIDATION;

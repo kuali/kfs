@@ -3,7 +3,6 @@
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>VendorMaintenanceDocument</name>
-<label>VendorMaintenanceDocument</label>
 <parent>VendorComplexMaintenanceDocument</parent>
 <routePaths>
         <routePath>

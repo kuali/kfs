@@ -35,6 +35,7 @@ import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.kew.dto.RouteHeaderDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -193,7 +194,7 @@ public class GlLineAction extends KualiAction {
         Document document = glLineService.createAssetPaymentDocument(submitList, defaultGeneralLedgerEntry);
         return new ActionForward(prepareDocHandlerUrl(document, CabConstants.ASSET_PAYMENT_DOCUMENT), true);
     }
-    
+
     /**
      * This method will process the view document request by clicking on a specific document.
      * 
@@ -208,8 +209,8 @@ public class GlLineAction extends KualiAction {
         String documentId = request.getParameter("documentNumber");
         KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
         try {
-            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(Long.valueOf(documentId));
-            String docHandlerUrl = docType.getDocTypeHandlerUrl();
+            RouteHeaderDTO routeHeader = kualiWorkflowInfo.getRouteHeader(Long.valueOf(documentId));
+            String docHandlerUrl = routeHeader.getDocumentUrl();
             if (docHandlerUrl.indexOf("?") == -1) {
                 docHandlerUrl += "?";
             }

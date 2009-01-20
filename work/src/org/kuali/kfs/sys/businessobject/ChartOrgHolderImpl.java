@@ -37,6 +37,15 @@ public class ChartOrgHolderImpl implements ChartOrgHolder {
     protected static transient OrganizationService organizationService;
     protected static transient ChartService chartService;
 
+    public ChartOrgHolderImpl() {
+        // TODO Auto-generated constructor stub
+    }
+    
+    public ChartOrgHolderImpl( String chartOfAccountsCode, String organizationCode ) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+        this.organizationCode = organizationCode;
+    }
+    
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
@@ -72,5 +81,29 @@ public class ChartOrgHolderImpl implements ChartOrgHolder {
             chartService = SpringContext.getBean(ChartService.class);
         }
         return chartService;
+    }
+
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if ( !(obj instanceof ChartOrgHolder) ) {
+            return false;
+        }
+        return chartOfAccountsCode.equals(((ChartOrgHolder)obj).getChartOfAccountsCode())
+                && organizationCode.equals(((ChartOrgHolder)obj).getOrganizationCode());
+    }
+    
+    @Override
+    public int hashCode() {
+        return chartOfAccountsCode.hashCode() + organizationCode.hashCode();
     }
 }

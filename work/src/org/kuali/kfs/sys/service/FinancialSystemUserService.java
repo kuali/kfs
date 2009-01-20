@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.sys.service;
 
-import org.kuali.kfs.coa.businessobject.Account;
+import java.util.Collection;
+import java.util.List;
+
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.rice.kim.bo.Person;
 
@@ -37,4 +39,17 @@ public interface FinancialSystemUserService {
      * @return the chart and organization within the specified namespace that the given person belongs to
      */
     ChartOrgHolder getOrganizationByNamespaceCode(Person person, String namespaceCode);
+
+    /**
+     * get the chart and organization within the specified namespace that the given principalId belongs to
+     * 
+     * @param principalId the given person
+     * @param namespaceCode the specified namespace
+     * @return the chart and organization within the specified namespace that the given person belongs to
+     */
+    ChartOrgHolder getOrganizationByNamespaceCode(String principalId, String namespaceCode);
+    
+    Collection<String> getPrincipalIdsForOrganizationUsers( String namespaceCode, ChartOrgHolder chartOrg );
+    
+    Collection<String> getPrincipalIdsForOrganizationUsers( String namespaceCode, List<ChartOrgHolder> chartOrgs );
 }

@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class FinancialSystemUserServiceImpl implements FinancialSystemUserService {
@@ -94,9 +94,20 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         if (person == null) {
             return null;
         }
+        return getOrganizationByNamespaceCode(person.getPrincipalId(), namespaceCode);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.FinancialSystemUserService#getOrganizationByNamespaceCode(org.kuali.rice.kim.bo.Person,
+     *      java.lang.String)
+     */
+    public ChartOrgHolder getOrganizationByNamespaceCode(String principalId, String namespaceCode) {
+        if (principalId == null) {
+            return null;
+        }
         AttributeSet qualification = new AttributeSet(1);
         qualification.put(KfsKimAttributes.NAMESPACE_CODE, namespaceCode);
-        List<AttributeSet> roleQualifiers = getRoleManagementService().getRoleQualifiersForPrincipal(person.getPrincipalId(), KFSConstants.ParameterNamespaces.KFS, OrganizationAndOptionalNamespaceRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
+        List<AttributeSet> roleQualifiers = getRoleManagementService().getRoleQualifiersForPrincipal(principalId, KFSConstants.ParameterNamespaces.KFS, OrganizationAndOptionalNamespaceRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
         ChartOrgHolderImpl result = new ChartOrgHolderImpl();
         if (!roleQualifiers.isEmpty()) {
             result.setChartOfAccountsCode(roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
@@ -104,7 +115,23 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         }
         return result;
     }
-
+    
+    public Collection<String> getPrincipalIdsForOrganizationUsers( String namespaceCode, ChartOrgHolder chartOrg) {
+        AttributeSet qualification = new AttributeSet(1);
+        qualification.put(KfsKimAttributes.NAMESPACE_CODE, namespaceCode);
+        qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
+        qualification.put(KfsKimAttributes.ORGANIZATION_CODE, chartOrg.getOrganizationCode());
+        return getRoleManagementService().getRoleMemberPrincipalIds(KFSConstants.ParameterNamespaces.KFS, OrganizationAndOptionalNamespaceRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, qualification);
+    }
+    
+    public Collection<String> getPrincipalIdsForOrganizationUsers(String namespaceCode, List<ChartOrgHolder> chartOrgs) {
+        List<String> principalIds = new ArrayList<String>();
+        for ( ChartOrgHolder chartOrg : chartOrgs ) {
+            principalIds.addAll( getPrincipalIdsForOrganizationUsers(namespaceCode, chartOrg));
+        }
+        return principalIds;
+    }
+    
     public class ChartOrgHolderImpl implements ChartOrgHolder {
         private String chartOfAccountsCode;
         private String organizationCode;
@@ -136,6 +163,19 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
 
         public void setOrganizationCode(String organizationCode) {
             this.organizationCode = organizationCode;
+        }
+        @Override
+        public boolean equals(Object obj) {
+            if ( !(obj instanceof ChartOrgHolder) ) {
+                return false;
+            }
+            return chartOfAccountsCode.equals(((ChartOrgHolder)obj).getChartOfAccountsCode())
+                    && organizationCode.equals(((ChartOrgHolder)obj).getOrganizationCode());
+        }
+        
+        @Override
+        public int hashCode() {
+            return chartOfAccountsCode.hashCode() + organizationCode.hashCode();
         }
     }
 }

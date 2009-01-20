@@ -143,13 +143,10 @@ public class ChartServiceImpl implements ChartService {
         AttributeSet qualification = new AttributeSet();
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
 
-        List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME));
+        Collection<String> chartManagerList = roleManagementService.getRoleMemberPrincipalIds(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
 
-        Collection<RoleMembershipInfo> roleMemberships = roleManagementService.getRoleMembers(roleIds, qualification);
-        for (RoleMembershipInfo membership : roleMemberships) {
-            chartManagerId = membership.getMemberId();
-            break;
+        if ( !chartManagerList.isEmpty() ) {
+            chartManagerId = chartManagerList.iterator().next();
         }
 
         if (chartManagerId != null) {

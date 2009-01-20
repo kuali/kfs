@@ -23,6 +23,7 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.Summarizable;
@@ -225,8 +226,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     }
 
     public Person getFinCoaManager() {
-        finCoaManager = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(finCoaManagerPrincipalId, finCoaManager);
-        
+        finCoaManager = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(getFinCoaManagerPrincipalId(), finCoaManager);
         return finCoaManager;
     }
 
@@ -544,12 +544,24 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
         this.incBdgtEliminationsFinObjCd = incBdgtEliminationsFinObjCd;
     }
 
+    private static ChartService chartService;
+    
     /**
      * Gets the finCoaManagerPrincipalId attribute.
      * 
      * @return Returns the finCoaManagerPrincipalId.
      */
     public String getFinCoaManagerPrincipalId() {
+        if (StringUtils.isNotBlank(chartOfAccountsCode) && StringUtils.isBlank(finCoaManagerPrincipalId)) {
+            Person chartManager = getChartService().getChartManager(chartOfAccountsCode);
+            if (chartManager != null) {
+                finCoaManager = chartManager;
+                finCoaManagerPrincipalId = chartManager.getPrincipalId();
+            } else {
+                finCoaManagerPrincipalId = null;
+                finCoaManager = null;
+            }
+        }
         return finCoaManagerPrincipalId;
     }
 
@@ -617,8 +629,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
      */
     public String getCodeAndDescription() {
-        String theString = getChartOfAccountsCode() + " - " + getFinChartOfAccountDescription();
-        return theString;
+        return getChartOfAccountsCode() + " - " + getFinChartOfAccountDescription();
     }
 
     public String getCode() {
@@ -629,21 +640,11 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
         return this.finChartOfAccountDescription;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        if (StringUtils.isNotBlank(chartOfAccountsCode) && StringUtils.isBlank(finCoaManagerPrincipalId)) {
-            Person chartManager = SpringContext.getBean(ChartService.class).getChartManager(chartOfAccountsCode);
-            if (chartManager != null) {
-                this.finCoaManager = chartManager;
-                this.finCoaManagerPrincipalId = chartManager.getPrincipalId();
-            }
-        } 
-        
-        super.afterLookup(persistenceBroker);
+    protected static ChartService getChartService() {
+        if ( chartService == null ) {
+            chartService = SpringContext.getBean(ChartService.class);
+        }
+        return chartService;
     }
-    
 }
 

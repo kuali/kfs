@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.docsearch.SearchableAttributeDateTimeValue;
@@ -35,6 +36,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.DocumentCollectionPath;
 import org.kuali.rice.kns.datadictionary.DocumentValuePathGroup;
+import org.kuali.rice.kns.datadictionary.RoutingAttribute;
 import org.kuali.rice.kns.datadictionary.RoutingTypeDefinition;
 import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
@@ -58,8 +60,10 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         
         if (routingTypeDefinition != null) {
             document.populateDocumentForRouting();
+            RoutingAttributeTracker routingAttributeTracker = new RoutingAttributeTracker(routingTypeDefinition.getRoutingAttributes());
             for (DocumentValuePathGroup documentValuePathGroup : routingTypeDefinition.getDocumentValuePathGroups()) {
-                qualifiers.addAll(resolveDocumentValuePath(document, documentValuePathGroup));
+                qualifiers.addAll(resolveDocumentValuePath(document, documentValuePathGroup, routingAttributeTracker));
+                routingAttributeTracker.reset();
             }
         }
         return qualifiers;
@@ -71,17 +75,17 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @param group the DocumentValuePathGroup which tells us which values we want
      * @return a List of AttributeSets
      */
-    protected List<AttributeSet> resolveDocumentValuePath(BusinessObject businessObject, DocumentValuePathGroup group) {
+    protected List<AttributeSet> resolveDocumentValuePath(BusinessObject businessObject, DocumentValuePathGroup group, RoutingAttributeTracker routingAttributeTracker) {
         List<AttributeSet> qualifiers;
         AttributeSet qualifier = new AttributeSet();
         if (group.getDocumentValues() == null && group.getDocumentCollectionPath() == null) {
             throw new IllegalStateException("A document value path group must have the documentValues property set, the documentCollectionPath property set, or both.");
         }
         if (group.getDocumentValues() != null) {
-            addPathValuesToQualifier(businessObject, group.getDocumentValues(), qualifier);
+            addPathValuesToQualifier(businessObject, group.getDocumentValues(), routingAttributeTracker, qualifier);
         }
         if (group.getDocumentCollectionPath() != null) {
-            qualifiers = resolveDocumentCollectionPath(businessObject, group.getDocumentCollectionPath());
+            qualifiers = resolveDocumentCollectionPath(businessObject, group.getDocumentCollectionPath(), routingAttributeTracker);
             for (AttributeSet collectionElementQualifier : qualifiers) {
                 copyQualifications(qualifier, collectionElementQualifier);
             }
@@ -98,7 +102,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @param collectionPath the information about what values to pull from each element of the collection
      * @return a List of AttributeSets
      */
-    protected List<AttributeSet> resolveDocumentCollectionPath(BusinessObject businessObject, DocumentCollectionPath collectionPath) {
+    protected List<AttributeSet> resolveDocumentCollectionPath(BusinessObject businessObject, DocumentCollectionPath collectionPath, RoutingAttributeTracker routingAttributeTracker) {
         List<AttributeSet> qualifiers = new ArrayList<AttributeSet>();
         final Collection collectionByPath = getCollectionByPath(businessObject, collectionPath.getCollectionPath());
         if (!ObjectUtils.isNull(collectionPath)) {
@@ -108,13 +112,15 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
                     AttributeSet qualifier = new AttributeSet();
                     // for each element, we need to get the child qualifiers
                     if (collectionElement instanceof BusinessObject) {
-                        List<AttributeSet> childQualifiers = resolveDocumentCollectionPath((BusinessObject)collectionElement, collectionPath.getNestedCollection());
+                        List<AttributeSet> childQualifiers = resolveDocumentCollectionPath((BusinessObject)collectionElement, collectionPath.getNestedCollection(), routingAttributeTracker);
                         for (AttributeSet childQualifier : childQualifiers) {
+                            routingAttributeTracker.checkPoint();
                             // now we need to get the values for the current element of the collection
-                            addPathValuesToQualifier(collectionElement, collectionPath.getDocumentValues(), qualifier);
+                            addPathValuesToQualifier(collectionElement, collectionPath.getDocumentValues(), routingAttributeTracker, qualifier);
                             // and move all the child keys to the qualifier
                             copyQualifications(childQualifier, qualifier);
                             qualifiers.add(qualifier);
+                            routingAttributeTracker.backUpToCheckPoint();
                         }
                     }
                 }
@@ -122,8 +128,10 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
                 // go through each element in the collection
                 for (Object collectionElement : collectionByPath) {
                     AttributeSet qualifier = new AttributeSet();
-                    addPathValuesToQualifier(collectionElement, collectionPath.getDocumentValues(), qualifier);
+                    routingAttributeTracker.checkPoint();
+                    addPathValuesToQualifier(collectionElement, collectionPath.getDocumentValues(), routingAttributeTracker, qualifier);
                     qualifiers.add(qualifier);
+                    routingAttributeTracker.backUpToCheckPoint();
                 }
             }
         }
@@ -144,31 +152,21 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * Aardvarks values out of a business object and puts them into an AttributeSet, based on a List of paths
      * @param businessObject the business object to get values from
      * @param paths the paths of values to get from the qualifier
+     * @param routingAttribute the RoutingAttribute associated with this qualifier's document value
+     * @param currentRoutingAttributeIndex - the current index of the routing attribute
      * @param qualifier the qualifier to put values into
      */
-    protected void addPathValuesToQualifier(Object businessObject, List<String> paths, AttributeSet qualifier) {
+    protected void addPathValuesToQualifier(Object businessObject, List<String> paths, RoutingAttributeTracker routingAttributes, AttributeSet qualifier) {
         if (ObjectUtils.isNotNull(paths)) {
             for (String path : paths) {
                 // get the values for the paths of each element of the collection
                 final Object value = ObjectUtils.getPropertyValue(businessObject, path);
                 if (value != null) {
-                    qualifier.put(simplifyPath(path), value.toString());
+                    qualifier.put(routingAttributes.getCurrentRoutingAttribute().getAttributeName(), value.toString());
                 }
+                routingAttributes.moveToNext();
             }
         }
-    }
-    
-    /**
-     * Simplifies the path name to the last portion of a possibly nested path
-     * @param path a possibly nested property path
-     * @return a simplified path
-     */
-    protected String simplifyPath(String path) {
-       final int lastDot = path.lastIndexOf('.');
-       if (lastDot >= 0) {
-           return path.substring(lastDot + 1);
-       }
-       return path;
     }
     
     /**
@@ -440,5 +438,61 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
+    }
+    
+    /**
+     * Inner helper class which will track which routing attributes have been used
+     */
+    class RoutingAttributeTracker {
+        
+        private List<RoutingAttribute> routingAttributes;
+        private int currentRoutingAttributeIndex;
+        private Stack<Integer> checkPoints;
+        
+        /**
+         * Constructs a WorkflowAttributePropertyResolutionServiceImpl
+         * @param routingAttributes the routing attributes to track
+         */
+        public RoutingAttributeTracker(List<RoutingAttribute> routingAttributes) {
+            this.routingAttributes = routingAttributes;
+            checkPoints = new Stack<Integer>();
+        }
+        
+        /**
+         * @return the routing attribute hopefully associated with the current qualifier
+         */
+        public RoutingAttribute getCurrentRoutingAttribute() {
+            return routingAttributes.get(currentRoutingAttributeIndex);
+        }
+        
+        /**
+         * Moves this routing attribute tracker to its next routing attribute
+         */
+        public void moveToNext() {
+            currentRoutingAttributeIndex += 1;
+        }
+        
+        /**
+         * Check points at the current routing attribute, so that this position is saved
+         */
+        public void checkPoint() {
+            checkPoints.push(new Integer(currentRoutingAttributeIndex));
+        }
+        
+        /**
+         * Returns to the point of the last check point
+         */
+        public void backUpToCheckPoint() {
+            currentRoutingAttributeIndex = checkPoints.pop().intValue();
+        }
+        
+        /**
+         * Resets this RoutingAttributeTracker, setting the current RoutingAttribute back to the top one and
+         * clearing the check point stack
+         */
+        public void reset() {
+            currentRoutingAttributeIndex = 0;
+            checkPoints.clear();
+        }
     }
 }

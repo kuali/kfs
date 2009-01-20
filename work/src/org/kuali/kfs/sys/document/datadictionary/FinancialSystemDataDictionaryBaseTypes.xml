@@ -387,14 +387,14 @@
 	   		</list>
    		</property>
    	</bean>    
-    <bean id="DocumentValuePathGroup-AccountingDocument-SubFund-sourceAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    <bean id="DocumentValuePathGroup-AccountingDocument-SubFund-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-subFundGroupCode">
     			<property name="collectionPath" value="sourceAccountingLines" />
     		</bean>
     	</property>
     </bean>
-    <bean id="DocumentValuePathGroup-AccountingDocument-SubFund-targetAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    <bean id="DocumentValuePathGroup-AccountingDocument-SubFund-targetAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-subFundGroupCode">
     			<property name="collectionPath" value="targetAccountingLines" />
@@ -446,14 +446,14 @@
 	   		</list>
    		</property>
    	</bean>    
-    <bean id="DocumentValuePathGroup-AccountingDocument-Award-sourceAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    <bean id="DocumentValuePathGroup-AccountingDocument-Award-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-contractsAndGrantsAccountResponsibilityId">
     			<property name="collectionPath" value="sourceAccountingLines" />
     		</bean>
     	</property>
     </bean>
-    <bean id="DocumentValuePathGroup-AccountingDocument-Award-targetAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    <bean id="DocumentValuePathGroup-AccountingDocument-Award-targetAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-contractsAndGrantsAccountResponsibilityId">
     			<property name="collectionPath" value="targetAccountingLines" />

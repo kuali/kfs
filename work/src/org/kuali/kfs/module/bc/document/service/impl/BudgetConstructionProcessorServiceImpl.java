@@ -46,7 +46,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
     public List<Organization> getProcessorOrgs(Person person) {
         List<Organization> processorOrgs = new ArrayList<Organization>();
 
-        List<AttributeSet> allQualifications = roleManagementService.getRoleQualifiersForPrincipal(person.getPrincipalId(), getBudgetProcessorRoleIds(), null);
+        List<AttributeSet> allQualifications = roleManagementService.getRoleQualifiersForPrincipalIncludingNested(person.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME, null);
         for (AttributeSet attributeSet : allQualifications) {
             String chartOfAccountsCode = attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             String organizationCode = attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE);

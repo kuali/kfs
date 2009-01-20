@@ -1905,10 +1905,14 @@
                           p:attributeName="period12Depreciation1Amount" />
                     <bean parent="FieldDefinition"
                           p:attributeName="paymentSequenceNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="capitalAssetNumber" />
                   </list>
                 </property>
                 <property name="summaryFields" >
                   <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="capitalAssetNumber" />
                     <bean parent="FieldDefinition"
                           p:attributeName="paymentSequenceNumber" />
                     <bean parent="FieldDefinition"

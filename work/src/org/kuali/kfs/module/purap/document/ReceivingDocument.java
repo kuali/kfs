@@ -197,4 +197,8 @@ public interface ReceivingDocument extends TransactionalDocument, PurapItemOpera
     public void setPurchaseOrderDocument(PurchaseOrderDocument po);
     
     public void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException;
+
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier();
+
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier);
 }

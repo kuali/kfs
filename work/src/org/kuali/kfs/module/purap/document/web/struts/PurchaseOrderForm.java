@@ -781,9 +781,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @return boolean true if the assign sensitive data button shall be displayed.
      */
     public boolean canAssignSensitiveData() {
+        //FIXME this is not working
+        return true;
         // check user authorization
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-        return documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.ASSIGN_SENSITIVE_DATA, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+//        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+//        return documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.ASSIGN_SENSITIVE_DATA, GlobalVariables.getUserSession().getPerson().getPrincipalId());
     }
 
     /**

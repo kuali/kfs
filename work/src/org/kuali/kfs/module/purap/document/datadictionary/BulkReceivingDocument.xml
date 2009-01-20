@@ -20,7 +20,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
      <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.BulkReceivingDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentPresentationController" />
     <property name="documentTypeCode" value="RCVB" />
     <property name="attributes" >

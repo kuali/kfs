@@ -693,6 +693,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // reset the sensitive data related fields in the po form
         poForm.setAssigningSensitiveData(false);
         
+        loadDocument(poForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }          
 

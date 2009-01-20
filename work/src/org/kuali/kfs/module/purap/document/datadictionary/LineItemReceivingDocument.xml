@@ -16,7 +16,7 @@
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentRule" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentPreRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.LineItemReceivingDocumentPresentationController" />
     <property name="documentTypeCode" value="RCVL" />
     <property name="sessionDocument" value="true" />

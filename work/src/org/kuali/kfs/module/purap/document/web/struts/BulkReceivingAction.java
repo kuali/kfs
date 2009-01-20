@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -39,91 +40,78 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
-
     private static final Logger LOG = Logger.getLogger(BulkReceivingAction.class);
     
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {       
-        
         super.createDocument(kualiDocumentFormBase);
-
         BulkReceivingForm blkForm = (BulkReceivingForm)kualiDocumentFormBase;
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument)blkForm.getDocument();
         
         blkRecDoc.setPurchaseOrderIdentifier( blkForm.getPurchaseOrderId() );
-        
+
         blkRecDoc.initiateDocument();
-        
     }
 
-    public ActionForward continueBulkReceiving(ActionMapping mapping, 
-                                               ActionForm form, 
-                                               HttpServletRequest request, 
-                                               HttpServletResponse response) 
-    throws Exception {
-    
-        BulkReceivingForm blkForm = (BulkReceivingForm)form;
-        BulkReceivingDocument blkRecDoc = (BulkReceivingDocument)blkForm.getDocument();
+    public ActionForward continueBulkReceiving(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BulkReceivingForm blkForm = (BulkReceivingForm) form;
+        BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkForm.getDocument();
         
-        //perform duplicate check
+        if (ObjectUtils.isNotNull(blkRecDoc.getPurchaseOrderIdentifier())) {
+            // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
+            blkRecDoc.setAccountsPayablePurchasingDocumentLinkIdentifier(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(blkRecDoc.getPurchaseOrderIdentifier()).getAccountsPayablePurchasingDocumentLinkIdentifier());
+
+            //TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data (add this to all other docs except acm doc)
+            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(blkRecDoc).isAuthorizedByTemplate(blkRecDoc, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+                throw buildAuthorizationException("initiate document", blkRecDoc);
+            }
+        }
+
+        // perform duplicate check
         ActionForward forward = isDuplicateDocumentEntry(mapping, form, request, response, blkRecDoc);
-        if( forward != null ){
+        if (forward != null) {
             return forward;
         }
-        
-        //populate and save bulk Receiving Document from Purchase Order        
+
+        // populate and save bulk Receiving Document from Purchase Order
         SpringContext.getBean(BulkReceivingService.class).populateAndSaveBulkReceivingDocument(blkRecDoc);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    public ActionForward clearInitFields(ActionMapping mapping, 
-                                         ActionForm form, 
-                                         HttpServletRequest request, 
-                                         HttpServletResponse response) 
-    throws Exception {
-        
+    public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
+
         blkRecDoc.clearInitFields();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        
     }
 
-    private ActionForward isDuplicateDocumentEntry(ActionMapping mapping, 
-                                                   ActionForm form, 
-                                                   HttpServletRequest request, 
-                                                   HttpServletResponse response, 
-                                                   BulkReceivingDocument bulkReceivingDocument) 
-    throws Exception {
-        
+    private ActionForward isDuplicateDocumentEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, BulkReceivingDocument bulkReceivingDocument) throws Exception {
         ActionForward forward = null;
         HashMap<String, String> duplicateMessages = SpringContext.getBean(BulkReceivingService.class).bulkReceivingDuplicateMessages(bulkReceivingDocument);
-        
-        if (duplicateMessages != null && 
-            !duplicateMessages.isEmpty()) {
+
+        if (duplicateMessages != null && !duplicateMessages.isEmpty()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
 
-                return this.performQuestionWithoutInput(mapping, 
-                                                        form, 
-                                                        request, 
-                                                        response, 
-                                                        PurapConstants.BulkReceivingDocumentStrings.DUPLICATE_BULK_RECEIVING_DOCUMENT_QUESTION,
-                                                        duplicateMessages.get(PurapConstants.BulkReceivingDocumentStrings.DUPLICATE_BULK_RECEIVING_DOCUMENT_QUESTION), 
-                                                        KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.BulkReceivingDocumentStrings.DUPLICATE_BULK_RECEIVING_DOCUMENT_QUESTION, duplicateMessages.get(PurapConstants.BulkReceivingDocumentStrings.DUPLICATE_BULK_RECEIVING_DOCUMENT_QUESTION), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
             }
 
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-            if ((PurapConstants.BulkReceivingDocumentStrings.DUPLICATE_BULK_RECEIVING_DOCUMENT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {                
+            if ((PurapConstants.BulkReceivingDocumentStrings.DUPLICATE_BULK_RECEIVING_DOCUMENT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }
@@ -131,15 +119,10 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         return forward;
     }
     
-    public ActionForward printReceivingTicket(ActionMapping mapping, 
-                                              ActionForm form, 
-                                              HttpServletRequest request, 
-                                              HttpServletResponse response) 
-    throws Exception {
-        
+    public ActionForward printReceivingTicket(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String blkDocId = request.getParameter("docId");
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
-        
+
         try {
             // will throw validation exception if errors occur
             SpringContext.getBean(BulkReceivingService.class).performPrintReceivingTicketPDF(blkDocId, baosPDF);
@@ -171,7 +154,8 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
             baosPDF.writeTo(sos);
             sos.flush();
 
-        }finally {
+        }
+        finally {
             if (baosPDF != null) {
                 baosPDF.reset();
             }
@@ -179,16 +163,11 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
 
         return null;
     }
-    
-    public ActionForward printReceivingTicketPDF(ActionMapping mapping, 
-                                                 ActionForm form, 
-                                                 HttpServletRequest request, 
-                                                 HttpServletResponse response) 
-    throws Exception {
-        
+
+    public ActionForward printReceivingTicketPDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
-        
+
         String basePath = getBasePath(request);
         String docId = blkRecDoc.getDocumentNumber();
         String methodToCallPrintPurchaseOrderPDF = "printReceivingTicket";
@@ -203,10 +182,8 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         return mapping.findForward("printReceivingTicketPDF");
     }
     
-    private String getUrlForPrintReceivingTicket(String basePath, 
-                                                 String docId, 
-                                                 String methodToCall) {
-        
+    private String getUrlForPrintReceivingTicket(String basePath, String docId, String methodToCall) {
+
         StringBuffer result = new StringBuffer(basePath);
         result.append("/purapBulkReceiving.do?methodToCall=");
         result.append(methodToCall);
@@ -218,17 +195,10 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
     }
     
     @Override
-    public ActionForward refresh(ActionMapping mapping, 
-                                 ActionForm form, 
-                                 HttpServletRequest request, 
-                                 HttpServletResponse response) 
-    throws Exception {
-        
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
-        
         String refreshCaller = blkRecForm.getRefreshCaller();
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         PhoneNumberService phoneNumberService = SpringContext.getBean(PhoneNumberService.class);
 
         // Format phone numbers
@@ -237,19 +207,14 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         blkRecDoc.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(blkRecDoc.getDeliveryToPhoneNumber()));
 
         // Refreshing the fields after returning from a vendor lookup in the vendor tab
-        if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL) && 
-            blkRecDoc.getVendorDetailAssignedIdentifier() != null && 
-            blkRecDoc.getVendorHeaderGeneratedIdentifier() != null) {
-            
+        if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL) && blkRecDoc.getVendorDetailAssignedIdentifier() != null && blkRecDoc.getVendorHeaderGeneratedIdentifier() != null) {
+
             // retrieve vendor based on selection from vendor lookup
             blkRecDoc.refreshReferenceObject("vendorDetail");
             blkRecDoc.setVendorName(blkRecDoc.getVendorDetail().getVendorName());
 
             // populate default address based on selected vendor
-            VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).
-                                                getVendorDefaultAddress(blkRecDoc.getVendorDetail().getVendorAddresses(), 
-                                                                        blkRecDoc.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), 
-                                                                        "");
+            VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(blkRecDoc.getVendorDetail().getVendorAddresses(), blkRecDoc.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
             if (ObjectUtils.isNotNull(defaultAddress)) {
                 blkRecDoc.setVendorLine1Address(defaultAddress.getVendorLine1Address());
                 blkRecDoc.setVendorLine2Address(defaultAddress.getVendorLine2Address());
@@ -266,7 +231,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
                 // retrieve address based on selection from address lookup
                 VendorAddress refreshVendorAddress = new VendorAddress();
                 refreshVendorAddress.setVendorAddressGeneratedIdentifier(blkRecDoc.getVendorAddressGeneratedIdentifier());
-                refreshVendorAddress = (VendorAddress) businessObjectService.retrieve(refreshVendorAddress);
+                refreshVendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(refreshVendorAddress);
                 if (ObjectUtils.isNotNull(refreshVendorAddress)) {
                     blkRecDoc.setVendorLine1Address(refreshVendorAddress.getVendorLine1Address());
                     blkRecDoc.setVendorLine2Address(refreshVendorAddress.getVendorLine2Address());
@@ -282,9 +247,9 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
             if (request.getParameter("document.deliveryCampusCode") != null) {
                 // returning from a building or campus lookup on the delivery tab
-                
+
                 if (request.getParameter("document.deliveryBuildingName") == null) {
-                    //came from campus lookup not building, so clear building
+                    // came from campus lookup not building, so clear building
                     blkRecDoc.setDeliveryBuildingCode("");
                     blkRecDoc.setDeliveryBuildingLine1Address("");
                     blkRecDoc.setDeliveryBuildingLine2Address("");
@@ -293,9 +258,9 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
                     blkRecDoc.setDeliveryStateCode("");
                     blkRecDoc.setDeliveryPostalCode("");
                     blkRecDoc.setDeliveryCountryCode("");
-                } 
+                }
                 else {
-                    //came from building lookup then turn off "OTHER" and clear room and line2address
+                    // came from building lookup then turn off "OTHER" and clear room and line2address
                     blkRecDoc.setDeliveryBuildingOtherIndicator(false);
                     blkRecDoc.setDeliveryBuildingRoomNumber("");
                     blkRecDoc.setDeliveryBuildingLine2Address("");

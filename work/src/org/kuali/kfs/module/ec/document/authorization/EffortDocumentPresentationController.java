@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ec.document.authorization;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 
@@ -67,4 +68,14 @@ public class EffortDocumentPresentationController extends FinancialSystemTransac
         
         return canDisapproveValue;
     }
+    
+  @Override
+  public Set<String> getEditModes(Document document) {
+      Set<String> editModeMap = super.getEditModes(document);
+      
+      //  set the setHasTotalAmount to true
+      editModeMap.add(EffortCertificationEditMode.HAS_TOTAL_AMOUNT);
+      
+      return editModeMap;
+ }    
 }

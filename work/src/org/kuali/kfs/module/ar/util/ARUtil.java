@@ -36,6 +36,10 @@ public class ARUtil {
         return getArAuthzService().personBelongsToBillingOrg(user);
     }
     
+    public static boolean isUserInArProcessingOrg(Person user) {
+        return getArAuthzService().personBelongsToProcessingOrg(user);
+    }
+    
     //  keep a local static reference cached
     private static AccountsReceivableAuthorizationService getArAuthzService() {
         if (arAuthzService == null) {

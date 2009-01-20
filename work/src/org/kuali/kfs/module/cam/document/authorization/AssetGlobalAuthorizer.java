@@ -37,9 +37,15 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
 
-        AssetGlobal assetGlobal = (AssetGlobal) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
-        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        AssetGlobal assetGlobal = null;
+        if (businessObject instanceof MaintenanceDocument) {
+            assetGlobal = (AssetGlobal) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
+        }
+        else {
+            assetGlobal = (AssetGlobal) businessObject;
+        }
         
+        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)){
             Asset spearateAsset = assetGlobal.getSeparateSourceCapitalAsset();
             

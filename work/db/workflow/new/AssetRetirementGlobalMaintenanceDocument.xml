@@ -4,14 +4,12 @@
 <documentType>
 <name>AssetRetirementGlobalMaintenanceDocument</name>
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
-<label>Asset Retirement Global</label>
 <routePaths>
         
         <routePath>
           <start name="AdHoc" nextNode="Account"/>
-          <requests name="Account" nextNode="OrganizationHierarchy"/>
-          <requests name="OrganizationHierarchy"  nextNode="RetiredAssetTransferredExternally"/>
-		  <split name="RetiredAssetTransferredExternally" nextNode="RetiredAssetSoldOrGifted">
+          <requests name="Account" nextNode="RetiredAssetTransferredExternally"/>
+		  <split name="RetiredAssetTransferredExternally" nextNode="OrganizationHierarchy">
 						<branch name="True">
 							<requests name="Manager"  nextNode="JoinRetiredAssetTransferredExternally"/>
 						</branch>
@@ -20,6 +18,7 @@
 						</branch>
 						<join name="JoinRetiredAssetTransferredExternally"/>
 		  </split>
+          <requests name="OrganizationHierarchy"  nextNode="RetiredAssetSoldOrGifted"/>
 		  <split name="RetiredAssetSoldOrGifted">
 						<branch name="True">
 							<requests name="Purchasing" nextNode="JoinRetiredAssetSoldOrGifted"/>

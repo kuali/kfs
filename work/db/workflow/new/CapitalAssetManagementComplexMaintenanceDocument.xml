@@ -4,7 +4,6 @@
 <documentType>
 <name>CapitalAssetManagementComplexMaintenanceDocument</name>
 <parent>FinancialSystemComplexMaintenanceDocument</parent>
-<label>CapitalAssetManagementComplexMaintenanceDocument</label>
 </documentType>
 </documentTypes>
 </data>

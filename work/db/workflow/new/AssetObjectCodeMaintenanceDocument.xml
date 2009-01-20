@@ -4,8 +4,6 @@
 <documentType>
 <name>AssetObjectCodeMaintenanceDocument</name>
 <parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
-<label>Asset Object Code</label>
-
 </documentType>
 </documentTypes>
 </data>

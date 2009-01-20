@@ -4,8 +4,6 @@
 <documentType>
 <name>AssetLocationGlobalMaintenanceDocument</name>
 <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
-<label>Asset Location Global</label>
-
 </documentType>
 </documentTypes>
 </data>

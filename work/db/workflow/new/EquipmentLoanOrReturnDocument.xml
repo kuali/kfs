@@ -4,7 +4,6 @@
 <documentType>
 <name>EquipmentLoanOrReturnDocument</name>
 <parent>CapitalAssetManagementTransactionalDocument</parent>
-<label>Equipment Loan/Return</label>
 <docHandler>${application.url}/camsEquipmentLoanOrReturn.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

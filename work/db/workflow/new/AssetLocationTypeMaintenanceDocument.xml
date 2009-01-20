@@ -4,8 +4,6 @@
 <documentType>
 <name>AssetLocationTypeMaintenanceDocument</name>
 <parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
-<label>Asset Location Type</label>
-
 </documentType>
 </documentTypes>
 </data>

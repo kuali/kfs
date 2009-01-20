@@ -4,7 +4,6 @@
 <documentType>
 <name>AssetConditionMaintenanceDocument</name>
 <parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
-<label>Asset Condition</label>
 </documentType>
 </documentTypes>
 </data>

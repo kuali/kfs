@@ -3,7 +3,7 @@
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>AICPAFunctionMaintenanceDocument</name>
-<parent>KualiSimpleMaintenanceDocument</parent>
+<parent>ChartSimpleMaintenanceDocument</parent>
 </documentType>
 </documentTypes>
 </data>

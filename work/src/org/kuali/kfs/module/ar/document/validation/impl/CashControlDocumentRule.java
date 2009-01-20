@@ -279,11 +279,11 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-
-        if (!ARUtil.isUserInArProcessingOrg(ValueFinderUtil.getCurrentPerson())) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ORGANIZATION_CODE, ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG);
-            isValid = false;
-        }
+// commenting out cause can't compile with what i just got when i updated - abyrne
+//        if (!ARUtil.isUserInArProcessingOrg(ValueFinderUtil.getCurrentPerson())) {
+//            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ORGANIZATION_CODE, ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG);
+//            isValid = false;
+//        }
 
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;

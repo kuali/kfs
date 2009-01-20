@@ -40,11 +40,6 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-
-        Person user = ValueFinderUtil.getCurrentPerson();
-        if (!ARUtil.isUserInArSupervisorGroup(user))
-            return super.getEmptyActionUrls();
-
         List<HtmlData> anchorHtmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         anchorHtmlDataList.add(getCustomerOpenItemReportUrl(businessObject));
 

@@ -215,8 +215,8 @@ public class ParameterServiceImpl implements ParameterService {
             Map<String, ParameterDetailType> uniqueParameterDetailTypeMap = new HashMap<String, ParameterDetailType>();
             //dataDictionaryService.getDataDictionary().forceCompleteDataDictionaryLoad();
             for (BusinessObjectEntry businessObjectEntry : dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()) {
-                ParameterDetailType parameterDetailType = getParameterDetailType(businessObjectEntry.getBusinessObjectClass());
                 try {
+                    ParameterDetailType parameterDetailType = getParameterDetailType(businessObjectEntry.getBusinessObjectClass());
                     uniqueParameterDetailTypeMap.put(parameterDetailType.getParameterDetailTypeCode(), parameterDetailType);
                 }
                 catch (Exception e) {
@@ -225,8 +225,8 @@ public class ParameterServiceImpl implements ParameterService {
             }
             for (DocumentEntry documentEntry : dataDictionaryService.getDataDictionary().getDocumentEntries().values()) {
                 if (documentEntry instanceof TransactionalDocumentEntry) {
-                    ParameterDetailType parameterDetailType = getParameterDetailType(documentEntry.getDocumentClass());
                     try {
+                        ParameterDetailType parameterDetailType = getParameterDetailType(documentEntry.getDocumentClass());
                         uniqueParameterDetailTypeMap.put(parameterDetailType.getParameterDetailTypeCode(), parameterDetailType);
                     }
                     catch (Exception e) {
@@ -235,8 +235,8 @@ public class ParameterServiceImpl implements ParameterService {
                 }
             }
             for (Step step : SpringContext.getBeansOfType(Step.class).values()) {
-                ParameterDetailType parameterDetailType = getParameterDetailType(step.getClass());
                 try {
+                    ParameterDetailType parameterDetailType = getParameterDetailType(step.getClass());
                     uniqueParameterDetailTypeMap.put(parameterDetailType.getParameterDetailTypeCode(), parameterDetailType);
                 }
                 catch (Exception e) {

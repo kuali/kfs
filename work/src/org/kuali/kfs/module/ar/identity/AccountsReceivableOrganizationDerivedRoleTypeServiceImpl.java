@@ -15,60 +15,147 @@
  */
 package org.kuali.kfs.module.ar.identity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase {
+public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
     private static final String PROCESSOR_ROLE_NAME = "Processor";
-    public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processing" + KfsKimAttributes.CHART_OF_ACCOUNTS_CODE;
-    public static final String PROCESSING_ORGANIZATION_CODE = "processing" + KfsKimAttributes.ORGANIZATION_CODE;
+    public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE;
+    public static final String PROCESSING_ORGANIZATION_CODE = ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE;
 
-    protected BusinessObjectService businessObjectService;
+    private BusinessObjectService businessObjectService;
+    private FinancialSystemUserService financialSystemUserService;
 
-    @Override
-    public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
-        AttributeSet nestedRoleQualification = new AttributeSet(qualification);
-        nestedRoleQualification.put(KfsKimAttributes.NAMESPACE_CODE, ArConstants.AR_NAMESPACE_CODE);
-        if (PROCESSOR_ROLE_NAME.equals(roleName)) {
+    protected ChartOrgHolder getProcessingChartOrg( AttributeSet qualification ) {
+        ChartOrgHolderImpl chartOrg = null;
+        if ( qualification != null ) {
+            chartOrg = new ChartOrgHolderImpl();
             // if the processing org is specified from the qualifications, use that
-            String processingChart = qualification.get(PROCESSING_CHART_OF_ACCOUNTS_CODE);
-            String processingOrg = qualification.get(PROCESSING_ORGANIZATION_CODE);
-            // however, if the processing chart/org is not specified, pull the OrgOptions record for the
-            // chart/org and get the processing org off that
-            if (StringUtils.isBlank(processingChart) || StringUtils.isBlank(processingChart)) {
-                String chart = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-                String org = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
-                // if no chart/org pair is is available, then skip the conversion attempt 
-                if (!StringUtils.isBlank(chart) && !StringUtils.isBlank(org)) {
-                    Map<String, Object> arOrgOptPk = new HashMap<String, Object>();
-                    arOrgOptPk.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
-                    arOrgOptPk.put(KfsKimAttributes.ORGANIZATION_CODE, org);
-                    OrganizationOptions oo = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, arOrgOptPk);
-                    if (oo != null) {
-                        processingChart = oo.getProcessingChartOfAccountCode();
-                        processingOrg = oo.getProcessingOrganizationCode();
-                    }
-                    else {
-                        processingChart = UNMATCHABLE_QUALIFICATION;
-                        processingOrg = UNMATCHABLE_QUALIFICATION;
-                    }
+            chartOrg.setChartOfAccountsCode( qualification.get(PROCESSING_CHART_OF_ACCOUNTS_CODE) );
+            chartOrg.setOrganizationCode( qualification.get(PROCESSING_ORGANIZATION_CODE) );
+            // otherwise default to the normal chart/org values and derive the processing chart/org
+            if (StringUtils.isBlank(chartOrg.getChartOfAccountsCode()) || StringUtils.isBlank(chartOrg.getOrganizationCode())) {
+                chartOrg.setChartOfAccountsCode( qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );
+                chartOrg.setOrganizationCode( qualification.get(KfsKimAttributes.ORGANIZATION_CODE) );
+                if (StringUtils.isBlank(chartOrg.getChartOfAccountsCode()) || StringUtils.isBlank(chartOrg.getOrganizationCode())) {
+                    return null;
+                }
+                Map<String, Object> arOrgOptPk = new HashMap<String, Object>( 2 );
+                arOrgOptPk.put(ArPropertyConstants.OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
+                arOrgOptPk.put(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE, chartOrg.getOrganizationCode());
+                OrganizationOptions oo = (OrganizationOptions) getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, arOrgOptPk);
+                if (oo != null) {
+                    chartOrg.setChartOfAccountsCode( oo.getProcessingChartOfAccountCode() );
+                    chartOrg.setOrganizationCode( oo.getProcessingOrganizationCode() );
                 } else {
-                    // do nothing - don't pass through to the nested role
+                    chartOrg.setChartOfAccountsCode( PassThruRoleTypeServiceBase.UNMATCHABLE_QUALIFICATION );
+                    chartOrg.setOrganizationCode( PassThruRoleTypeServiceBase.UNMATCHABLE_QUALIFICATION );
                 }
             }
-            nestedRoleQualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, processingChart);
-            nestedRoleQualification.put(KfsKimAttributes.ORGANIZATION_CODE, processingOrg);
         }
-        return nestedRoleQualification;
+        return chartOrg;
     }
+
+    public boolean hasProcessorRole(ChartOrgHolder userOrg, AttributeSet qualification) {
+        ChartOrgHolder processingOrg = getProcessingChartOrg(qualification);
+        // if no org passed, check if their primary org is a processing org
+        if ( processingOrg == null ) {
+            // check the org options for this org
+            Map<String, Object> arProcessOrgCriteria = new HashMap<String, Object>( 2 );
+            arProcessOrgCriteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, userOrg.getChartOfAccountsCode());
+            arProcessOrgCriteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, userOrg.getOrganizationCode());
+            // return true if any matching org options records
+            return getBusinessObjectService().countMatching(OrganizationOptions.class, arProcessOrgCriteria) > 0;
+        } else { // org was passed, user's org must match
+            return processingOrg.equals(userOrg);
+        }        
+    }
+
+    public boolean hasBillerRole(ChartOrgHolder userOrg, AttributeSet qualification) {
+        ChartOrgHolderImpl billingOrg = new ChartOrgHolderImpl();
+        if ( qualification != null ) {
+            billingOrg.setChartOfAccountsCode( qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );
+            billingOrg.setOrganizationCode( qualification.get(KfsKimAttributes.ORGANIZATION_CODE) );
+        }
+        if (StringUtils.isBlank(billingOrg.getChartOfAccountsCode()) || StringUtils.isBlank(billingOrg.getOrganizationCode())) {
+            Map<String, Object> arOrgOptPk = new HashMap<String, Object>( 2 );
+            arOrgOptPk.put(ArPropertyConstants.OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE, userOrg.getChartOfAccountsCode());
+            arOrgOptPk.put(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE, userOrg.getOrganizationCode());
+            return getBusinessObjectService().countMatching(OrganizationOptions.class, arOrgOptPk) > 0;
+        } else {
+            return billingOrg.equals(userOrg);
+        }
+    }
+    
+    
+    @Override
+    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
+        ChartOrgHolder userOrg = getFinancialSystemUserService().getOrganizationByNamespaceCode(principalId, ArConstants.AR_NAMESPACE_CODE);
+        if (PROCESSOR_ROLE_NAME.equals(roleName)) {
+            return hasProcessorRole(userOrg, qualification);
+        } else {  // billing role
+            return hasBillerRole(userOrg, qualification) || hasProcessorRole(userOrg, qualification);
+        }
+    }
+    
+    @Override
+    public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+        Set<String> results = new HashSet<String>();
+        if (PROCESSOR_ROLE_NAME.equals(roleName)) {
+            ChartOrgHolder processingOrg = getProcessingChartOrg(qualification);
+            if ( processingOrg == null ) {
+                // get all users for all processing orgs
+                // build a set
+                List<OrganizationOptions> ooList = (List<OrganizationOptions>)getBusinessObjectService().findAll(OrganizationOptions.class);
+                Set<ChartOrgHolder> chartOrgList = new HashSet<ChartOrgHolder>( ooList.size() );
+                for ( OrganizationOptions oo : ooList ) {
+                    chartOrgList.add( new ChartOrgHolderImpl( oo.getProcessingChartOfAccountCode(), oo.getProcessingOrganizationCode() ) );
+                }
+                results.addAll( getFinancialSystemUserService().getPrincipalIdsForOrganizationUsers(namespaceCode, new ArrayList<ChartOrgHolder>(chartOrgList)));
+            } else {
+                // get all users for the given org
+                results.addAll( getFinancialSystemUserService().getPrincipalIdsForOrganizationUsers(ArConstants.AR_NAMESPACE_CODE, processingOrg) );
+            }
+        } else { // billing role
+            ChartOrgHolderImpl billingOrg = new ChartOrgHolderImpl();
+            if ( qualification != null ) {
+                billingOrg.setChartOfAccountsCode( qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );
+                billingOrg.setOrganizationCode( qualification.get(KfsKimAttributes.ORGANIZATION_CODE) );
+            }
+            if (StringUtils.isBlank(billingOrg.getChartOfAccountsCode()) || StringUtils.isBlank(billingOrg.getOrganizationCode())) {
+                // get all users for all billing orgs
+                List<OrganizationOptions> ooList = (List<OrganizationOptions>)getBusinessObjectService().findAll(OrganizationOptions.class);
+                List<ChartOrgHolder> chartOrgList = new ArrayList<ChartOrgHolder>( ooList.size() );
+                for ( OrganizationOptions oo : ooList ) {
+                    chartOrgList.add( new ChartOrgHolderImpl( oo.getChartOfAccountsCode(), oo.getOrganizationCode() ) );
+                }
+                results.addAll( getFinancialSystemUserService().getPrincipalIdsForOrganizationUsers(namespaceCode, chartOrgList));
+            } else {
+                // get all users for given org
+                results.addAll( getFinancialSystemUserService().getPrincipalIdsForOrganizationUsers(ArConstants.AR_NAMESPACE_CODE, billingOrg) );
+            }
+        }
+        return new ArrayList<String>( results );
+    }
+    
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -77,4 +164,13 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Pa
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+
+    public final FinancialSystemUserService getFinancialSystemUserService() {
+        if (financialSystemUserService == null) {
+            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+        }
+        return financialSystemUserService;
+    }
+
 }

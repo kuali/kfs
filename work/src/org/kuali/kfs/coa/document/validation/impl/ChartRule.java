@@ -59,7 +59,7 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        Person chartManager = personService.getPerson(chart.getFinCoaManagerUniversalId());
+        Person chartManager = personService.getPerson(chart.getFinCoaManagerPrincipalId());
         if ( chartManager == null ) {
             result = false;
             putFieldError("finCoaManagerUniversal.principalName", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);

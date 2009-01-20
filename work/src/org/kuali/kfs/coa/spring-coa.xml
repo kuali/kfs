@@ -127,6 +127,12 @@
 		<property name="chartDao">
 			<ref bean="chartDao" />
 		</property>
+		<property name="roleManagementService">
+			<ref bean="kimRoleManagementService" />
+		</property>
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
 	</bean>
 
 	<bean id="organizationService" class="org.kuali.kfs.coa.service.impl.OrganizationServiceImpl">

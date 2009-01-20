@@ -17,12 +17,15 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.Summarizable;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 
 /**
  * 
@@ -33,7 +36,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
 
     private String finChartOfAccountDescription;
     private boolean active;
-    private String finCoaManagerUniversalId;
+    private String finCoaManagerPrincipalId;
     private String reportsToChartOfAccountsCode;
     private String chartOfAccountsCode;
     private String finAccountsPayableObjectCode;
@@ -59,7 +62,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     private ObjectCode finInternalEncumbranceObj;
     private ObjectCode icrExpenseFinancialObject;
     private ObjectCode fundBalanceObject;
-    private Person finCoaManagerUniversal;
+    private Person finCoaManager;
     private Chart reportsToChartOfAccounts;
 
 
@@ -221,9 +224,10 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
         this.finAccountsReceivableObj = finAccountsReceivableObj;
     }
 
-    public Person getFinCoaManagerUniversal() {
-        finCoaManagerUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
-        return finCoaManagerUniversal;
+    public Person getFinCoaManager() {
+        finCoaManager = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(finCoaManagerPrincipalId, finCoaManager);
+        
+        return finCoaManager;
     }
 
     /**
@@ -232,8 +236,8 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * @param finCoaManagerUniversal The finCoaManagerUniversal to set.
      * @deprecated
      */
-    public void setFinCoaManagerUniversal(Person finCoaManagerUniversal) {
-        this.finCoaManagerUniversal = finCoaManagerUniversal;
+    public void setFinCoaManager(Person finCoaManagerUniversal) {
+        this.finCoaManager = finCoaManagerUniversal;
     }
 
     /**
@@ -540,19 +544,22 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
         this.incBdgtEliminationsFinObjCd = incBdgtEliminationsFinObjCd;
     }
 
-
     /**
-     * @return Returns the finCoaManagerUniversalId.
+     * Gets the finCoaManagerPrincipalId attribute.
+     * 
+     * @return Returns the finCoaManagerPrincipalId.
      */
-    public String getFinCoaManagerUniversalId() {
-        return finCoaManagerUniversalId;
+    public String getFinCoaManagerPrincipalId() {
+        return finCoaManagerPrincipalId;
     }
 
     /**
-     * @param finCoaManagerUniversalId The finCoaManagerUniversalId to set.
+     * Sets the finCoaManagerPrincipalId attribute value.
+     * 
+     * @param finCoaManagerPrincipalId The finCoaManagerPrincipalId to set.
      */
-    public void setFinCoaManagerUniversalId(String finCoaManagerUniversalId) {
-        this.finCoaManagerUniversalId = finCoaManagerUniversalId;
+    public void setFinCoaManagerPrincipalId(String finCoaManagerPrincipalId) {
+        this.finCoaManagerPrincipalId = finCoaManagerPrincipalId;
     }
 
     /**
@@ -622,5 +629,21 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
         return this.finChartOfAccountDescription;
     }
 
+    /**
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        if (StringUtils.isNotBlank(chartOfAccountsCode) && StringUtils.isBlank(finCoaManagerPrincipalId)) {
+            Person chartManager = SpringContext.getBean(ChartService.class).getChartManager(chartOfAccountsCode);
+            if (chartManager != null) {
+                this.finCoaManager = chartManager;
+                this.finCoaManagerPrincipalId = chartManager.getPrincipalId();
+            }
+        } 
+        
+        super.afterLookup(persistenceBroker);
+    }
+    
 }
 

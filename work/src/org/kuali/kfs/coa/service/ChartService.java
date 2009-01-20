@@ -62,5 +62,13 @@ public interface ChartService extends ChartHierarchyService {
      * @return
      */
     public List getChartsThatUserIsResponsibleFor(Person kualiUser);
+    
+    /**
+     * Returns the chart manager form KIM for the given chart code
+     * 
+     * @param chartOfAccountsCode chart code to get manager for
+     * @return chart manager <code>Person</code>
+     */
+    public Person getChartManager(String chartOfAccountsCode);
 }
 

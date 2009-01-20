@@ -20,9 +20,9 @@
       <list>
         <ref bean="Chart-chartOfAccountsCode" />
         <ref bean="Chart-codeAndDescription" />
-        <ref bean="Chart-finCoaManagerUniversalId" />
-        <ref bean="Chart-finCoaManagerUniversal.principalName" />
-        <ref bean="Chart-finCoaManagerUniversal.name" />
+        <ref bean="Chart-finCoaManagerPrincipalId" />
+        <ref bean="Chart-finCoaManager.principalName" />
+        <ref bean="Chart-finCoaManager.name" />
         <ref bean="Chart-finChartOfAccountDescription" />
         <ref bean="Chart-active" />
         <ref bean="Chart-financialCashObjectCode" />
@@ -42,11 +42,11 @@
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="finCoaManagerUniversal" />
+          <property name="objectAttributeName" value="finCoaManager" />
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="finCoaManagerUniversalId"
+                    p:sourceName="finCoaManagerPrincipalId"
                     p:targetName="principalId" />
             </list>
           </property>
@@ -54,10 +54,10 @@
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="finCoaManagerUniversal.principalName"
+                    p:sourceName="finCoaManager.principalName"
                     p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="finCoaManagerUniversal.name"
+                    p:sourceName="finCoaManager.name"
                     p:targetName="name" />
             </list>
           </property>
@@ -149,35 +149,35 @@
             p:size="45" />
     </property>
   </bean>
-  <bean id="Chart-finCoaManagerUniversalId" parent="Chart-finCoaManagerUniversalId-parentBean" />
+  <bean id="Chart-finCoaManagerPrincipalId" parent="Chart-finCoaManagerPrincipalId-parentBean" />
 
-  <bean id="Chart-finCoaManagerUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="finCoaManagerUniversalId" />
-    <property name="label" value="Chart Manager Employee Id" />
+  <bean id="Chart-finCoaManagerPrincipalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="finCoaManagerPrincipalId" />
+    <property name="label" value="Chart Manager Principal Id" />
     <property name="shortLabel" value="Chart Manager" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="finCoaManagerUniversal.principalName" />
+    <property name="displayLabelAttribute" value="finCoaManager.principalName" />
   </bean>
-  <bean id="Chart-finCoaManagerUniversal.principalName" parent="Chart-finCoaManagerUniversal.principalName-parentBean" />
+  <bean id="Chart-finCoaManager.principalName" parent="Chart-finCoaManager.principalName-parentBean" />
 
-  <bean id="Chart-finCoaManagerUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="finCoaManagerUniversal.principalName" />
+  <bean id="Chart-finCoaManager.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="finCoaManager.principalName" />
     <property name="label" value="Chart Manager UserID" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="finCoaManagerUniversal.name"
-            p:universalIdAttributeName="finCoaManagerUniversalId"
-            p:userIdAttributeName="finCoaManagerUniversal.principalName" />
+            p:personNameAttributeName="finCoaManager.name"
+            p:universalIdAttributeName="finCoaManagerPrincipalId"
+            p:userIdAttributeName="finCoaManager.principalName" />
     </property>
   </bean>
-  <bean id="Chart-finCoaManagerUniversal.name" parent="Chart-finCoaManagerUniversal.name-parentBean" />
+  <bean id="Chart-finCoaManager.name" parent="Chart-finCoaManager.name-parentBean" />
 
-  <bean id="Chart-finCoaManagerUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="finCoaManagerUniversal.name" />
+  <bean id="Chart-finCoaManager.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="finCoaManager.name" />
     <property name="label" value="Chart Manager Name" />
     <property name="required" value="false" />
   </bean>
@@ -315,7 +315,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccountsCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="finCoaManagerUniversal.name" />
+                    p:attributeName="finCoaManager.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="finChartOfAccountDescription" />
               <bean parent="FieldDefinition"
@@ -397,7 +397,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="finAccountsPayableObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="finCoaManagerUniversal.name" />
+              p:attributeName="finCoaManager.name" />
       </list>
     </property>
   </bean>

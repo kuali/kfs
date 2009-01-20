@@ -26,19 +26,26 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
  * This class is the service implementation for the Chart structure. This is the default, Kuali delivered implementation.
  */
-
 @NonTransactional
 public class ChartServiceImpl implements ChartService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartServiceImpl.class);
 
     private ChartDao chartDao;
+    private RoleManagementService roleManagementService;
+    private PersonService<Person> personService;
 
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getByPrimaryId(java.lang.String)
@@ -64,6 +71,7 @@ public class ChartServiceImpl implements ChartService {
         for ( Chart chart : charts ) {
             chartCodes.add( chart.getChartOfAccountsCode() );
         }
+
         return chartCodes;
     }
 
@@ -126,6 +134,32 @@ public class ChartServiceImpl implements ChartService {
     }
 
     /**
+     * @see org.kuali.kfs.coa.service.ChartService#getChartManager(java.lang.String)
+     */
+    public Person getChartManager(String chartOfAccountsCode) {
+        String chartManagerId = null;
+        Person chartManager = null;
+
+        AttributeSet qualification = new AttributeSet();
+        qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+
+        List<String> roleIds = new ArrayList<String>();
+        roleIds.add(roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME));
+
+        Collection<RoleMembershipInfo> roleMemberships = roleManagementService.getRoleMembers(roleIds, qualification);
+        for (RoleMembershipInfo membership : roleMemberships) {
+            chartManagerId = membership.getMemberId();
+            break;
+        }
+
+        if (chartManagerId != null) {
+            chartManager = personService.getPerson(chartManagerId);
+        }
+
+        return chartManager;
+    }
+
+    /**
      * @return Returns the chartDao.
      */
     public ChartDao getChartDao() {
@@ -137,6 +171,42 @@ public class ChartServiceImpl implements ChartService {
      */
     public void setChartDao(ChartDao chartDao) {
         this.chartDao = chartDao;
+    }
+
+    /**
+     * Gets the roleManagementService attribute.
+     * 
+     * @return Returns the roleManagementService.
+     */
+    public RoleManagementService getRoleManagementService() {
+        return roleManagementService;
+    }
+
+    /**
+     * Sets the roleManagementService attribute value.
+     * 
+     * @param roleManagementService The roleManagementService to set.
+     */
+    public void setRoleManagementService(RoleManagementService roleManagementService) {
+        this.roleManagementService = roleManagementService;
+    }
+
+    /**
+     * Gets the personService attribute.
+     * 
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        return personService;
+    }
+
+    /**
+     * Sets the personService attribute value.
+     * 
+     * @param personService The personService to set.
+     */
+    public void setPersonService(PersonService<Person> personService) {
+        this.personService = personService;
     }
 
 }

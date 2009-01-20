@@ -11,7 +11,7 @@
 
   <bean id="ChartMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Chart" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.ChartMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="ChartMaintenanceDocument-EditChart" />
@@ -20,8 +20,8 @@
     <property name="defaultExistenceChecks" >
       <list>
         <bean parent="ReferenceDefinition"
-              p:attributeName="finCoaManagerUniversal"
-              p:attributeToHighlightOnFail="finCoaManagerUniversal.principalName"
+              p:attributeName="finCoaManager"
+              p:attributeToHighlightOnFail="finCoaManager.principalName"
               p:displayFieldName="Chart Manager" />
         <bean parent="ReferenceDefinition"
               p:attributeName="financialCashObject"
@@ -104,14 +104,14 @@
               p:name="chartOfAccountsCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="finCoaManagerUniversalId"
+              p:name="finCoaManagerPrincipalId"
               p:unconditionallyReadOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="finCoaManagerUniversal.principalName"
+              p:name="finCoaManager.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="finCoaManagerUniversal.name"
+              p:name="finCoaManager.name"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="finChartOfAccountDescription"

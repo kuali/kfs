@@ -335,10 +335,10 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         List members = new ArrayList();
         Chart chart = null;
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
-            members.add(new AuthenticationUserId(getChart(getUnqualifiedChartFromString(qualifiedRole)).getFinCoaManagerUniversal().getPrincipalName()));
+            members.add(new AuthenticationUserId(getChart(getUnqualifiedChartFromString(qualifiedRole)).getFinCoaManager().getPrincipalName()));
         }
         else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
-            members.add(new AuthenticationUserId(SpringContext.getBean(ChartService.class).getUniversityChart().getFinCoaManagerUniversal().getPrincipalName()));
+            members.add(new AuthenticationUserId(SpringContext.getBean(ChartService.class).getUniversityChart().getFinCoaManager().getPrincipalName()));
         }
         return new ResolvedQualifiedRole(roleName, members);
     }

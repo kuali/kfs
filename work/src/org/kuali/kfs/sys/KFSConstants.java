@@ -1271,6 +1271,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME = "Award Project Director";
         public static final String ACTIVE_FACULTY_OR_STAFF_KIM_ROLE_NAME = "Active Faculty or Staff";
         public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME = "Active Professional Employee";
+        public static final String CHART_MANAGER_KIM_ROLE_NAME = "Chart Manager";
         
         public static final String CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME = "Claim Electronic Payment";
         

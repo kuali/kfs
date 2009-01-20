@@ -176,29 +176,16 @@
   </bean>
   
   <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode" parent="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean" />
-  <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="name" value="defaultPhysicalCampusProcessingCode" />
     <property name="label" value="Campus Process Location" />
     <property name="shortLabel" value="Campus Process Location" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
-    </property>
   </bean>
   
   <bean id="CustomerProfile-chartCode" parent="CustomerProfile-chartCode-parentBean" />
-  <bean id="CustomerProfile-chartCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-chartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="chartCode" />
     <property name="label" value="Chart" />
-    <property name="shortLabel" value="Chart" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
-    </property>
   </bean>
   
   <bean id="CustomerProfile-unitCode" parent="CustomerProfile-unitCode-parentBean" />
@@ -228,68 +215,38 @@
   </bean>
   
   <bean id="CustomerProfile-defaultChartCode" parent="CustomerProfile-defaultChartCode-parentBean" />
-  <bean id="CustomerProfile-defaultChartCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-defaultChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="defaultChartCode" />
     <property name="label" value="Default Chart" />
     <property name="shortLabel" value="Default Chart" />
-    <property name="required" value="true" />
-    <property name="maxLength" value="2" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
-    </property>
   </bean>
   
   <bean id="CustomerProfile-defaultAccountNumber" parent="CustomerProfile-defaultAccountNumber-parentBean" />
-  <bean id="CustomerProfile-defaultAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-defaultAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="name" value="defaultAccountNumber" />
     <property name="label" value="Default Account" />
     <property name="shortLabel" value="Default Account" />
-    <property name="required" value="true" />
-    <property name="maxLength" value="7" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
-    </property>
   </bean>
   
   <bean id="CustomerProfile-defaultSubAccountNumber" parent="CustomerProfile-defaultSubAccountNumber-parentBean" />
-  <bean id="CustomerProfile-defaultSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-defaultSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="name" value="defaultSubAccountNumber" />
     <property name="label" value="Default Sub Account" />
     <property name="shortLabel" value="Default Sub Account" />
-    <property name="required" value="true" />
-    <property name="maxLength" value="5" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
   </bean>
   
   <bean id="CustomerProfile-defaultObjectCode" parent="CustomerProfile-defaultObjectCode-parentBean" />
-  <bean id="CustomerProfile-defaultObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-defaultObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="defaultObjectCode" />
     <property name="label" value="Default Object Code" />
     <property name="shortLabel" value="Default Object Code" />
-    <property name="required" value="true" />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
   </bean>
   
   <bean id="CustomerProfile-defaultSubObjectCode" parent="CustomerProfile-defaultSubObjectCode-parentBean" />
-  <bean id="CustomerProfile-defaultSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-defaultSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="defaultSubObjectCode" />
     <property name="label" value="Default Sub Object Code" />
     <property name="shortLabel" value="Default Sub Object Code" />
-    <property name="required" value="true" />
-    <property name="maxLength" value="3" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
   </bean>
   
   <bean id="CustomerProfile-address1" parent="CustomerProfile-address1-parentBean" />
@@ -718,7 +675,7 @@
   </bean>
   
   <bean id="CustomerProfile-achTransactionType" parent="CustomerProfile-achTransactionType-parentBean" />
-  <bean id="CustomerProfile-achTransactionType-parentBean" abstract="true" parent="ACHTransactionType-code-parentBean">
+  <bean id="CustomerProfile-achTransactionType-parentBean" abstract="true" parent="ACHTransactionType-code">
     <property name="name" value="achTransactionType" />
     <property name="required" value="false" />
   </bean>

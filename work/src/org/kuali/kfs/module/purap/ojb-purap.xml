@@ -3365,7 +3365,6 @@
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="receivingLineStatusCode" column="RCVNG_LN_STAT_CD" jdbc-type="VARCHAR" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ReceivingLineStatusCode" table="PUR_RCVNG_LN_STAT_T">

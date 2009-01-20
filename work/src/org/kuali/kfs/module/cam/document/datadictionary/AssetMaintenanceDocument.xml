@@ -17,9 +17,7 @@
         <ref bean="AssetMaintenanceDocument-FabricationInformation" />
         <ref bean="AssetMaintenanceDocument-LandInformation" />
         <ref bean="AssetMaintenanceDocument-AssetDepreciationInformation" />
-        <ref bean="AssetMaintenanceDocument-ViewMergeHistory" />
         <ref bean="AssetMaintenanceDocument-ViewAssetSeparateHistory" />
-        <ref bean="AssetMaintenanceDocument-ViewRetirementInformation" />
         <ref bean="AssetMaintenanceDocument-ViewEquipmentLoanInformation" />
         <ref bean="AssetMaintenanceDocument-Warranty" />
         <ref bean="AssetMaintenanceDocument-RepairHistory" />
@@ -454,39 +452,7 @@
               p:unconditionallyReadOnly="true" />
       </list>
     </property>
-  </bean>
-  <bean id="AssetMaintenanceDocument-ViewMergeHistory" parent="AssetMaintenanceDocument-ViewMergeHistory-parentBean" />
-
-  <bean id="AssetMaintenanceDocument-ViewMergeHistory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="mergeHistory" />
-    <property name="title" value="View Merge History" />
-    <property name="maintainableItems" >
-      <list>
-        <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="mergeHistory" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail" />
-          <property name="includeAddLine" value="false" />
-          <property name="summaryTitle" value="Source Asset" />
-          <property name="summaryFields" >
-            <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="capitalAssetNumber" />
-            </list>
-          </property>
-          <property name="maintainableFields" >
-            <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="capitalAssetNumber"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="assetRetirementGlobal.retirementDate"
-                    p:unconditionallyReadOnly="true" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+  </bean> 
   <bean id="AssetMaintenanceDocument-ViewAssetSeparateHistory" parent="AssetMaintenanceDocument-ViewAssetSeparateHistory-parentBean" />
 
   <bean id="AssetMaintenanceDocument-ViewAssetSeparateHistory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
@@ -503,79 +469,7 @@
       </list>
     </property>
   </bean>
-  <bean id="AssetMaintenanceDocument-ViewRetirementInformation" parent="AssetMaintenanceDocument-ViewRetirementInformation-parentBean" />
-
-  <bean id="AssetMaintenanceDocument-ViewRetirementInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="retirementInformation" />
-    <property name="title" value="View Retirement Information" />
-    <property name="maintainableItems" >
-      <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.documentNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementReason.retirementReasonName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="Sale" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.buyerDescription"
-              p:unconditionallyReadOnly="true" />      
-        <bean parent="MaintainableFieldDefinition"
-              p:name="salePrice"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="estimatedSellingPrice"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="cashReceiptFinancialDocumentNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementChartOfAccountsCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementAccountNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="Stolen" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusPoliceDepartmentCaseNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="External Transfer/Gift" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementContactName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementInstitutionName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementStreetAddress"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementCityName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementState.postalStateCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.postalZipCode.postalCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="retirementInfo.assetRetirementGlobal.retirementPhoneNumber"
-              p:unconditionallyReadOnly="true" />
-      </list>
-    </property>
-  </bean>
+  
   <bean id="AssetMaintenanceDocument-ViewEquipmentLoanInformation" parent="AssetMaintenanceDocument-ViewEquipmentLoanInformation-parentBean" />
 
   <bean id="AssetMaintenanceDocument-ViewEquipmentLoanInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">

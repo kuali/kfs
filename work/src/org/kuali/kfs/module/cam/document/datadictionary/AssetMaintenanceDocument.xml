@@ -301,6 +301,8 @@
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
+                    p:name="capitalAssetNumber" />
+              <bean parent="MaintainableFieldDefinition"
                     p:name="paymentSequenceNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="financialDocumentPostingDate" />
@@ -405,6 +407,8 @@
                     p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="paymentSequenceNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="capitalAssetNumber" />
             </list>
           </property>
         </bean>

@@ -5,6 +5,7 @@
 <name>EffortCertificationDocument</name>
 <parent>EffortCertificationTransactionalDocument</parent>
 <docHandler>${application.url}/effortEffortCertification.do?methodToCall=docHandler</docHandler>
+<label>Effort Certification Document</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="ProjectManagement"/>
@@ -45,7 +46,7 @@
 <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Award">
+<role name="Award Workgroup">
 <!--<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
@@ -60,9 +61,6 @@
 <type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
 </split>
 <simple name="Award Do Nothing">
-<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-</simple>
-<simple name="Do Nothing">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <simple name="Recreate Do Nothing">

@@ -242,10 +242,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
-        String command = budgetConstructionForm.getCommand();
-
+        
         loadDocument(budgetConstructionForm);
 
         // set flag to have execute perform 2plug adjusment if the doc goes into edit mode later
@@ -262,10 +260,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm
      * @throws WorkflowException
      */
-    private void loadDocument(BudgetConstructionForm budgetConstructionForm) throws WorkflowException {
-
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) kualiDocumentFormBase;
+        
         BudgetConstructionHeader budgetConstructionHeader;
-
         if (budgetConstructionForm.getDocId() != null) {
             HashMap primaryKey = new HashMap();
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocId());
@@ -283,9 +282,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         }
-
-        BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
-        budgetConstructionForm.setDocument(budgetConstructionDocument);
+        
+        kualiDocumentFormBase.setDocId(budgetConstructionHeader.getDocumentNumber());
+        super.loadDocument(kualiDocumentFormBase);
+        
+        BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) kualiDocumentFormBase.getDocument();
 
         // init the benefits calc flags
         budgetConstructionDocument.setBenefitsCalcNeeded(false);
@@ -298,13 +299,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // need this here to do totaling on initial load
         budgetConstructionForm.populatePBGLLines();
         budgetConstructionForm.initializePersistedRequestAmounts();
-
-        KualiWorkflowDocument workflowDoc = budgetConstructionDocument.getDocumentHeader().getWorkflowDocument();
-        budgetConstructionForm.setDocTypeName(workflowDoc.getDocumentType());
-
-        // KualiDocumentFormBase.populate() needs this updated in the session
-        GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
-
     }
 
     /**

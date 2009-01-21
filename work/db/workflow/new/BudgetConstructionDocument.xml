@@ -4,7 +4,6 @@
 <documentType>
 <name>BudgetConstructionDocument</name>
 <parent>BudgetConstructionTransactionalDocument</parent>
-<docHandler>${application.url}/budgetBudgetConstruction.do?methodToCall=docHandler</docHandler>
 
 </documentType>
 </documentTypes>

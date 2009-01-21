@@ -41,6 +41,14 @@ public class BudgetConstructionDocumentPresentationController extends FinancialS
     }
 
     /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canReload(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canReload(Document document) {
+        return false;
+    }
+
+    /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
      */
     @Override

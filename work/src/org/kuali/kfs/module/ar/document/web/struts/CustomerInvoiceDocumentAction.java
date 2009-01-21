@@ -388,18 +388,25 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @throws Exception
      */
     public ActionForward refreshShipToAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument();
-        int customerShipToAddressIdentifier;
+        
+        CustomerAddress customerShipToAddress = null;
         if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerShipToAddressIdentifier())) {
-            customerShipToAddressIdentifier = customerInvoiceDocument.getCustomerShipToAddressIdentifier();
-        } else customerShipToAddressIdentifier = 1;
-        CustomerAddress customerShipToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerShipToAddressIdentifier);
-        if (ObjectUtils.isNotNull(customerShipToAddress)) {
-            customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
-            customerInvoiceDocument.setCustomerShipToAddressOnInvoice(customerShipToAddress);
-            customerInvoiceDocument.setCustomerShipToAddressIdentifier(customerShipToAddressIdentifier);
+            int customerShipToAddressIdentifier = customerInvoiceDocument.getCustomerShipToAddressIdentifier();
+            
+            customerShipToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerShipToAddressIdentifier);
+            if (ObjectUtils.isNotNull(customerShipToAddress)) {
+                customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
+                customerInvoiceDocument.setCustomerShipToAddressOnInvoice(customerShipToAddress);
+                customerInvoiceDocument.setCustomerShipToAddressIdentifier(customerShipToAddressIdentifier);
+            }
         }
+        if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerShipToAddressIdentifier()) | ObjectUtils.isNull(customerShipToAddress)) {
+            customerInvoiceDocument.setCustomerShipToAddress(null);
+            customerInvoiceDocument.setCustomerShipToAddressOnInvoice(null);
+            customerInvoiceDocument.setCustomerShipToAddressIdentifier(null);
+        }
+        
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }    

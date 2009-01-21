@@ -36,34 +36,6 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
 
     private static FinancialSystemUserService financialSystemUserService;
 
-    // TODO fix for kim
-    // /**
-    // * Adds settings for KFS maintenance-document-specific flags.
-    // *
-    // * @see
-    // org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-    // org.kuali.rice.kim.bo.Person)
-    // */
-    // @Override
-    // public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
-    // if ( LOG.isDebugEnabled() ) {
-    // LOG.debug("calling FinancialSystemMaintenanceDocumentAuthorizerBase.getDocumentActionFlags for document '" +
-    // document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
-    // }
-    // FinancialSystemDocumentActionFlags flags = new FinancialSystemDocumentActionFlags(super.getDocumentActionFlags(document,
-    // user));
-    //
-    // // if document implements AmountTotaling interface, then we should display the total
-    // if (document instanceof AmountTotaling) {
-    // flags.setHasAmountTotal(true);
-    // }
-    // else {
-    // flags.setHasAmountTotal(false);
-    // }
-    //
-    // return flags;
-    // }
-
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);

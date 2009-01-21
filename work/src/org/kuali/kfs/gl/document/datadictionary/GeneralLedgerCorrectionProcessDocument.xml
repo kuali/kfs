@@ -18,20 +18,5 @@
     <property name="documentClass" value="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer" />
     <property name="documentTypeCode" value="GLCP" />
-   
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>FP_GENERAL_LEDGER_CORRECTION_PROCESS_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
-
-
 </beans>

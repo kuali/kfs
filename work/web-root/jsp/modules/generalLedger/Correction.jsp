@@ -18,7 +18,7 @@
 <kul:page showDocumentInfo="true" docTitle="${KualiForm.docTitle}"
 	htmlFormAction="${KualiForm.htmlFormAction}" transactionalDocument="false"
 	renderMultipart="true" showTabButtons="true">
-  <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+  <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
   <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
 
@@ -51,7 +51,7 @@
     </kul:tab>
   </c:if>
   <kul:tab tabTitle="Summary" defaultOpen="true" tabErrorKey="summary">
-    <c:if test="${KualiForm.document.correctionTypeCode ne 'R' and (not (KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)) && ((KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputGroupId != null or not empty KualiForm.editingMode['viewOnly'])}" >
+    <c:if test="${KualiForm.document.correctionTypeCode ne 'R' and (not (KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)) && ((KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputGroupId != null or !KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT])}" >
       
       <div class="tab-container" align="center"> 
 	    <table cellpadding="0" class="datatable" summary=""> 
@@ -103,7 +103,7 @@
         </table>
       </div>
     </c:if>
-    <c:if test="${KualiForm.restrictedFunctionalityMode && not KualiForm.persistedOriginEntriesMissing && KualiForm.editingMode['fullEntry']}" >
+    <c:if test="${KualiForm.restrictedFunctionalityMode && not KualiForm.persistedOriginEntriesMissing && KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" >
       <div class="tab-container" align="center"> 
 	    <table cellpadding="0" class="datatable" summary=""> 
           <tr>

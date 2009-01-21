@@ -230,7 +230,7 @@ public class ParameterServiceImpl implements ParameterService {
                         uniqueParameterDetailTypeMap.put(parameterDetailType.getParameterDetailTypeCode(), parameterDetailType);
                     }
                     catch (Exception e) {
-                        LOG.error("The getDataDictionaryAndSpringComponents method of ParameterUtils encountered an exception while trying to create the detail type for transactional document class: " + documentEntry.getDocumentClass(), e);
+                        LOG.error("The getNonDatabaseDetailTypes method of ParameterServiceImpl encountered an exception while trying to create the detail type for transactional document class: " + documentEntry.getDocumentClass(), e);
                     }
                 }
             }

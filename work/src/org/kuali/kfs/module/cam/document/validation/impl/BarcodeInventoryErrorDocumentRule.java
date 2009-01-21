@@ -190,7 +190,10 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         if (ObjectUtils.isNull(campus)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
             result = false;
-        }
+        } else if (!campus.isActive()) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, label);
+            result &= false;
+        }        
         return result;
     }
 
@@ -214,6 +217,9 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
 
         if (ObjectUtils.isNull(building)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
+            result &= false;
+        } else if (!building.isActive()) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, label);
             result &= false;
         }
         return result;
@@ -241,7 +247,12 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         if (ObjectUtils.isNull(room)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
             result = false;
+        } else if (!room.isActive()) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, label);
+            result &= false;
         }
+
+        
         return result;
     }
 
@@ -264,7 +275,11 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         if (ObjectUtils.isNull(condition)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
             result &= false;
+        } else if (!condition.isActive()) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, label);
+            result &= false;
         }
+        
         return result;
     }
 

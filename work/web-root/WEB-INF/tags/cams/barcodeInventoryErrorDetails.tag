@@ -47,7 +47,6 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" width="5%"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.assetConditionCode}" width="5%"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorDescription}" width="20%"/>
-				<!-- kul:htmlAttributeHeaderCell literalLabel="Action" width="5%"/-->
 			</tr>
 			
 			<c:set var="lineNumber" value="${0}"/>

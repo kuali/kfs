@@ -157,7 +157,8 @@ public class CamsKeyConstants {
         public static final String ERROR_CAPITAL_ASSET_IS_RETIRED = "error.document.capitalAsset.retired";
         public static final String ERROR_DUPLICATED_TAG_NUMBER = "error.document.duplicated.tagNumber";
         public static final String ERROR_ASSET_LOCKED = "error.document.locked.asset";
-        public static final String ERROR_INVALID_FILE_TYPE = "error.uploadFile.invalid.type";
+        public static final String ERROR_INVALID_FILE_TYPE = "error.uploadFile.invalid.type";        
+        public static final String ERROR_INACTIVE_FIELD = "error.document.inactive.field";
     }
 
     public static class EquipmentLoanOrReturn {

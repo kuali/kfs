@@ -40,7 +40,7 @@
 <role name="OrganizationHierarchy">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Manager">
+<role name="ExternalTransfer">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Purchasing">

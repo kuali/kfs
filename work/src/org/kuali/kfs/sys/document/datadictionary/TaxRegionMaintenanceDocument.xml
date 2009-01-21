@@ -40,7 +40,9 @@
       </list>
     </property>
     
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionMaintenanceDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionMaintenanceDocumentPresentationController" />
+      
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.TaxRegionRule" />
     
     <property name="authorizations" >

@@ -105,7 +105,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
 
         String principalId = user.getPrincipalId();
         String namespaceCode = KFSConstants.ParameterNamespaces.FINANCIAL;
-        String permissionTemplateName = KFSConstants.SysKimConstants.MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME;
+        String permissionTemplateName = KFSConstants.PermissionTemplate.MODIFY_ACCOUNTING_LINES.name;
 
         AttributeSet permissionDetails = new AttributeSet();
         permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, accountingDocument.getClass().getSimpleName());

@@ -49,7 +49,7 @@ public class FinancialSystemDocumentTypePermissionTypeServiceImpl extends Docume
         for ( KimPermissionInfo kpi : permissionsList ) {
             // special handling when the permission is "Claim Electronic Payment"
             // if it is present and matches, then it takes priority
-            if(KFSConstants.SysKimConstants.CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME.equals(kpi.getTemplate().getName())){
+            if(KFSConstants.PermissionTemplate.CLAIM_ELECTRONIC_PAYMENT.name.equals(kpi.getTemplate().getName())){
                 String qualifierDocumentTypeName = kpi.getDetails().get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
                 if ( documentTypeName==null && qualifierDocumentTypeName==null || 
                         (StringUtils.isNotEmpty(documentTypeName) && StringUtils.isNotEmpty(qualifierDocumentTypeName) 

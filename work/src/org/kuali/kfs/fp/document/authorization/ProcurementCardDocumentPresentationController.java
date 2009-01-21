@@ -67,19 +67,4 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
 
         return super.canEdit(document);
     }
-
-    /**
-     * A helper method for determining the route levels for a given document.
-     * 
-     * @param workflowDocument
-     * @return List
-     */
-    private List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
-        try {
-            return Arrays.asList(workflowDocument.getNodeNames());
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

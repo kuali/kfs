@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -1272,10 +1273,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ACTIVE_FACULTY_OR_STAFF_KIM_ROLE_NAME = "Active Faculty or Staff";
         public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME = "Active Professional Employee";
         public static final String CHART_MANAGER_KIM_ROLE_NAME = "Chart Manager";
-        
-        public static final String CLAIM_ELECTRONIC_PAYMENT_PERMISSION_TEMPLATE_NAME = "Claim Electronic Payment";
-        
-        public static final String MODIFY_ACCOUNTING_LINES_PERMISSION_TEMPLATE_NAME = "Modify Accounting Lines";
     } 
 
     public enum PermissionAttributeValue {
@@ -1287,9 +1284,21 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
             this.value = value;
         }
     }
+    
+    public enum PermissionTemplate {
+        ERROR_CORRECT_DOCUMENT("Error Correct Document"), USE_TRANSACTIONAL_DOCUMENT(KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT),
+        MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment");
+
+        public final String name;
+        private PermissionTemplate(String name) {
+            this.name = name;
+        }
+    }    
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";
 
     public static final String AMOUNT_TOTALING_EDITING_MODE = "amountTotaling";
+    public static final String BANK_ENTRY_VIEWABLE_EDITING_MODE = "bankEntryViewable";
+    public static final String BANK_ENTRY_EDITABLE_EDITING_MODE = "bankEntry";
 }
 

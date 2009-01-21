@@ -35,17 +35,6 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
     private static Log LOG = LogFactory.getLog(CashReceiptDocumentAuthorizer.class);
 
     /**
-     * Overrides to always return false because there is never FO routing or FO approval for CR docs.
-     * 
-     * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.rice.kns.bo.user.KualiUser,
-     *      java.util.List)
-     */
-    @Override
-    protected boolean userOwnsAnyAccountingLine(Person user, List accountingLines) {
-        return false;
-    }
-
-    /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the CR doc.
      * 
      * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,

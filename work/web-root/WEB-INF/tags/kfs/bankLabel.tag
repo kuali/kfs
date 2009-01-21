@@ -16,8 +16,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <%@ attribute name="align" required="false" description="label alignment in cell" %>
-<%-- fix for kim
-<c:if test="${KualiForm.documentActionFlags.canViewBank}">
+<c:if test="${KualiForm.editingMode[Constants.BANK_ENTRY_VIEWABLE_EDITING_MODE]}">
 
   <c:if test="${empty align}">
     <c:set var="align" value="right" />
@@ -26,4 +25,3 @@
   <kul:htmlAttributeHeaderCell attributeEntry="${DataDictionary.Bank.attributes.bankCode}" align="${align}"/>
 
 </c:if>
---%>

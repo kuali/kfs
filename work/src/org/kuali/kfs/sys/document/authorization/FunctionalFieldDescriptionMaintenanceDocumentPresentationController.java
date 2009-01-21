@@ -27,11 +27,14 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 public class FunctionalFieldDescriptionMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
     private static Log LOG = LogFactory.getLog(FinancialSystemMaintenanceDocumentAuthorizerBase.class);
 
+    /**
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> conditionallyReadOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
         conditionallyReadOnlyPropertyNames.add("businessObjectProperty.propertyLabel");
+
         return conditionallyReadOnlyPropertyNames;
     }
 }
-

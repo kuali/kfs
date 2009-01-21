@@ -69,12 +69,16 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
         super.addRoleQualification(businessObject, attributes);
         if (businessObject instanceof Document) {
             Document document = (Document) businessObject;
-            Person initiator = getPersonService().getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+
+            String initiatorPrincipalId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+            Person initiator = getPersonService().getPerson(initiatorPrincipalId);
+            
             ChartOrgHolder initiatorPrimaryOrganization = getFinancialSystemUserService().getOrganizationByNamespaceCode(initiator, attributes.get(KfsKimAttributes.NAMESPACE_CODE));
             if (initiatorPrimaryOrganization != null) {
                 attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, initiatorPrimaryOrganization.getChartOfAccountsCode());
                 attributes.put(KfsKimAttributes.ORGANIZATION_CODE, initiatorPrimaryOrganization.getOrganizationCode());
             }
+            
             attributes.put(KfsKimAttributes.CAMPUS_CODE, initiator.getCampusCode());
         }
     }

@@ -113,7 +113,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     private List<GroupHolder> groups;
 
-    private KualiTableRenderFormMetadata originEntrySearchResultTableMetadata;
+    private transient KualiTableRenderFormMetadata originEntrySearchResultTableMetadata;
 
     public CorrectionForm() {
         super();

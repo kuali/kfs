@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="editingMode" required="true" description="used to decide if items may be edited" type="java.util.Map"%>
-<c:set var="readOnly" value="${not empty editingMode['viewOnly']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:tab tabTitle="Advance Deposits" defaultOpen="true" tabErrorKey="${KFSConstants.ADVANCE_DEPOSITS_LINE_ERRORS}">
 <c:set var="adAttributes" value="${DataDictionary.AdvanceDepositDetail.attributes}" />
@@ -90,16 +90,14 @@
                 </c:if>
             </tr>
         </logic:iterate>
-<%-- fix for kim
 		<tr>
-			<c:set var="leadingColSpan" value="${KualiForm.documentActionFlags.canViewBank ? 5 : 4}" />
+			<c:set var="leadingColSpan" value="${KualiForm.editingMode[Constants.BANK_ENTRY_VIEWABLE_EDITING_MODE] ? 5 : 4}" />
 	 		<td class="total-line" colspan="${leadingColSpan}">&nbsp;</td>
 	  		<td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalAdvanceDepositAmount}</strong></td>
             <c:if test="${not readOnly}">
                 <td class="total-line">&nbsp;</td>
             </c:if>
 		</tr>
-		--%>
 	</table>
   </div>
 </kul:tab>

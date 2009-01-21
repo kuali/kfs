@@ -15,12 +15,8 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
-import java.util.Set;
-
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
-
-public class FinancialSystemMaintenanceDocumentPresentationControllerBase extends MaintenanceDocumentPresentationControllerBase {
+/**
+ * This class implements authorization for Tax District Maintenance Document.
+ */
+public class TaxRegionMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 }

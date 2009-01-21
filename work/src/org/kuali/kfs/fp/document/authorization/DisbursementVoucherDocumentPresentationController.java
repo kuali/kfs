@@ -77,13 +77,4 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         }
 
     }
-
-    private List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
-        try {
-            return Arrays.asList(workflowDocument.getNodeNames());
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

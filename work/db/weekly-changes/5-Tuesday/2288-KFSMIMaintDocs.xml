@@ -1,0 +1,1030 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+
+
+
+<documentType>
+<name>FinancialSystemSimpleMaintenanceDocument</name>
+<parent>FinancialSystemDocument</parent>
+<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+</routeNodes>
+</documentType>
+
+
+
+<documentType>
+<name>FinancialProcessingSimpleMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>FinancialSystemComplexMaintenanceDocument</name>
+<parent>FinancialSystemDocument</parent>
+<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+
+
+
+
+<documentType>
+<name>AccountDelegateGlobalMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Chart"/>
+          <requests name="Chart"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<!-- <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate> -->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Chart">
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate> -->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AccountDelegateMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--  <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate> -->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AccountDelegateModelMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Chart"/>
+          <requests name="Chart"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<!--  <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate> -->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Chart">
+<!--  <ruleTemplate>KualiChartTemplate</ruleTemplate> -->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AccountGlobalMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Chart"/>
+          <requests name="Chart"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<!-- <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Chart">
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+ 
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AccountMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountSupervisor"/>
+          <requests name="AccountSupervisor" nextNode="AccountReview"/>
+          <requests name="AccountReview" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Chart"/>
+          <requests name="Chart" nextNode="Subfund"/>
+          <requests name="Subfund" nextNode="Award"/>
+          <requests name="Award"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="AccountSupervisor">
+<!--  <ruleTemplate>KualiAccountSupervisorTemplate</ruleTemplate> -->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="AccountReview">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Chart">
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Subfund">
+<!--<ruleTemplate>KualiAccountSubFundTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Award">
+<!--<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AccountTypeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>AccountingPeriodMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>AgencyMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>AgencyTypeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>AICPAFunctionMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>AppointmentTypeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>AwardMaintenanceDocument</name>
+<parent>ContractsAndGrantsComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="ResearchRisk"/>
+          <requests name="ResearchRisk"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="ResearchRisk">
+<!--<ruleTemplate>KualiResearchRiskTemplate</ruleTemplate> -->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AwardStatusMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>BalanceTypeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+
+</documentType>
+
+<documentType>
+<name>BankMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>BasicAccountingCategoryMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>BudgetAggregationCodeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>BudgetRecordingLevelMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>BuildingMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+
+<name>CFDAMaintenanceDocument</name>
+
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>CampusMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>CampusTypeMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>CashDrawerMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+<!--docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler-->
+</documentType>
+
+<documentType>
+<name>ChartComplexMaintenanceDocument</name>
+<parent>FinancialSystemComplexMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ChartMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ChartSimpleMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ContractsAndGrantsComplexMaintenanceDocument</name>
+<parent>FinancialSystemComplexMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ContractsAndGrantsRoleCodeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ContractsAndGrantsSimpleMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>CountryMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+<docHandler>${kr.url}/maintenance.do?methodToCall=docHandler</docHandler>
+
+</documentType>
+
+<documentType>
+<name>CountyMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+<docHandler>${kr.url}/maintenance.do?methodToCall=docHandler</docHandler>
+
+</documentType>
+
+<documentType>
+<name>CreditCardTypeMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>CreditCardVendorMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>DisbursementVoucherDocumentationLocationMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>DueDateTypeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>EmployeeStatusMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>EmployeeTypeMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>FederalFunctionMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>FederalFundedCodeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+
+<documentType>
+<name>FiscalYearFunctionControlMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>FunctionControlCodeMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>FunctionalFieldDescriptionMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>FundGroupMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>GeneralLedgerInputTypeMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+</documentType>
+
+<documentType>
+<name>GraduateAssistantRateMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>GrantDescriptionMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>HigherEducationFunctionMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>IndirectCostLookupMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>IndirectCostRecoveryExclusionAccountMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>IndirectCostRecoveryRateMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>IndirectCostRecoveryTypeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Workflow Review"/>
+          <requests name="Workflow Review"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Workflow Review">
+<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>KeywordMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>KualiEmployeeStatusMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>KualiEmployeeTypeMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>LetterOfCreditFundGroupMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>MandatoryTransferEliminationCodeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>MessageOfTheDayMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>NonResidentAlienTaxPercentMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ObjectCodeGlobalMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Chart"/>
+          <requests name="Chart"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Chart">
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>ObjectCodeMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Chart"/>
+          <requests name="Chart"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Chart">
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>ObjectConsolidationMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ObjectLevelMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ObjectSubTypeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ObjectTypeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>OffsetAccountMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>OffsetDefinitionMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>OrganizationMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Chart"/>
+          <requests name="Chart"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Chart">
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>OrganizationReversionCategoryMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>OrganizationReversionGlobalMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Chart"/>
+          <requests name="Chart"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Chart">
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>OrganizationReversionMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>OrganizationTypeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>OriginationCodeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>OwnershipTypeCodeMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ParameterDetailTypeMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ParameterMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>ParameterNamespaceMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ParameterTypeMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>PaymentReasonCodeMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>PostalCodeMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+<docHandler>${kr.url}/maintenance.do?methodToCall=docHandler</docHandler>
+
+</documentType>
+
+<documentType>
+<name>ProjectCodeMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>ProjectTypeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ProposalAwardTypeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>ProposalMaintenanceDocument</name>
+<parent>ContractsAndGrantsComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="ResearchRisk"/>
+          <requests name="ResearchRisk"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="ResearchRisk">
+<!--<ruleTemplate>KualiResearchRiskTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>ProposalPurposeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>ProposalStatusMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+</documentType>
+
+<documentType>
+<name>PurposeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>QuestionTypeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ReportingCodeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ResearchRiskTypeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ResearchTypeCodeMaintenanceDocument</name>
+<parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>ResponsibilityCenterMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>RestrictedStatusMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>RoomMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>StateMaintenanceDocument</name>
+<parent>RiceDocument</parent>
+<docHandler>${kr.url}/maintenance.do?methodToCall=docHandler</docHandler>
+
+</documentType>
+
+<documentType>
+<name>SubAccountMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>SubFundGroupMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>SubFundGroupTypeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>SubObjectCodeGlobalMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountSupervisor"/>
+          <requests name="AccountSupervisor" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Chart"/>
+          <requests name="Chart"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="AccountSupervisor">
+<!--<ruleTemplate>KualiAccountSupervisorTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Chart">
+<!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>SubObjectCodeMaintenanceDocument</name>
+<parent>ChartComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>SufficientFundsCodeMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>SystemOptionsMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>TaxControlCodeMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>TaxIncomeClassCodeMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>TaxRegionMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>TaxRegionTypeMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>TravelCompanyCodeMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>TravelExpenseTypeCodeMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>TravelMileageRateMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>TravelPerDiemMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>UniversityBudgetOfficeFunctionMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>UniversityDateMaintenanceDocument</name>
+<parent>ChartSimpleMaintenanceDocument</parent>
+
+</documentType>
+
+<documentType>
+<name>WireChargeMaintenanceDocument</name>
+<parent>FinancialProcessingSimpleMaintenanceDocument</parent>
+
+</documentType>
+</documentTypes>
+</data>

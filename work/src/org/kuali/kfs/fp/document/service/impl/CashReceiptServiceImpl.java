@@ -42,7 +42,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.exception.InfrastructureException;

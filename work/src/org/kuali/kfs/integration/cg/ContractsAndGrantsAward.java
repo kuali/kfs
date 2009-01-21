@@ -16,13 +16,7 @@
 package org.kuali.kfs.integration.cg;
 
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.List;
-
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kim.bo.group.KimGroup;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 
 public interface ContractsAndGrantsAward extends ExternalizableBusinessObject {

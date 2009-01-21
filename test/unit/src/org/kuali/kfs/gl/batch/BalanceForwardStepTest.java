@@ -96,9 +96,9 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         Iterator kualiGeneratedNonClosedPriorYearAccountGroupIterator = kualiGeneratedNonClosedPriorYearAccountGroups.iterator();
         while (kualiGeneratedNonClosedPriorYearAccountGroupIterator.hasNext()) {
 
-            OriginEntryGroup kimGroup = (OriginEntryGroup) kualiGeneratedNonClosedPriorYearAccountGroupIterator.next();
+            OriginEntryGroup originEntryGroup = (OriginEntryGroup) kualiGeneratedNonClosedPriorYearAccountGroupIterator.next();
 
-            Iterator kualiGeneratedNonClosedPriorYearAccountEntryIterator = entryService.getEntriesByGroup(kimGroup);
+            Iterator kualiGeneratedNonClosedPriorYearAccountEntryIterator = entryService.getEntriesByGroup(originEntryGroup);
 
             while (kualiGeneratedNonClosedPriorYearAccountEntryIterator.hasNext()) {
 

@@ -1286,7 +1286,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     public enum PermissionTemplate {
-        ERROR_CORRECT_DOCUMENT("Error Correct Document"), USE_TRANSACTIONAL_DOCUMENT(KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT),
+        ERROR_CORRECT_DOCUMENT("Error Correct Document"),
         MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment");
 
         public final String name;

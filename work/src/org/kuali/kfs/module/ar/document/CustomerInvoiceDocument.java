@@ -1182,6 +1182,11 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         // Force upper case
         setBilledByOrganizationCode(getBilledByOrganizationCode().toUpperCase());
+        
+        if (ObjectUtils.isNull(getCustomerShipToAddressIdentifier())) {
+            setCustomerShipToAddress(null);
+            setCustomerShipToAddressOnInvoice(null);
+        }
     }
 
 
@@ -1435,26 +1440,26 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * This method could be a bit dangerous. It's meant to be used only on the 
-     * payment application document, where the modified invoice is never saved.
+     * This method could be a bit dangerous. It's meant to be used only on the payment application document, where the modified
+     * invoice is never saved.
      * 
      * @param customerInvoiceDetails
      */
     public void setCustomerInvoiceDetailsWithoutDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails) {
         List<CustomerInvoiceDetail> customerInvoiceDetailsWithoutDiscounts = getSourceAccountingLines();
         int sequenceCounter = 0;
-        for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithoutDiscounts) {
-            for(CustomerInvoiceDetail revisedCustomerInvoiceDetail : customerInvoiceDetails) {
-                if(!customerInvoiceDetail.isDiscountLine() && customerInvoiceDetail.getSequenceNumber().equals(revisedCustomerInvoiceDetail.getSequenceNumber())) {
+        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithoutDiscounts) {
+            for (CustomerInvoiceDetail revisedCustomerInvoiceDetail : customerInvoiceDetails) {
+                if (!customerInvoiceDetail.isDiscountLine() && customerInvoiceDetail.getSequenceNumber().equals(revisedCustomerInvoiceDetail.getSequenceNumber())) {
                     customerInvoiceDetailsWithoutDiscounts.remove(sequenceCounter);
-                    customerInvoiceDetailsWithoutDiscounts.add(sequenceCounter,revisedCustomerInvoiceDetail);
+                    customerInvoiceDetailsWithoutDiscounts.add(sequenceCounter, revisedCustomerInvoiceDetail);
                 }
             }
-            sequenceCounter+=1;
+            sequenceCounter += 1;
         }
         setSourceAccountingLines(customerInvoiceDetailsWithoutDiscounts);
     }
-    
+
     /**
      * This method will return all the customer invoice details that are discounts
      * 
@@ -1725,17 +1730,31 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         Customer customer = accountsReceivableDocumentHeader.getCustomer();
         this.setCustomerName(customer.getCustomerName());
 
-        this.setShippingAddressTypeCode(customerShipToAddress.getCustomerAddressTypeCode());
-        this.setShippingAddressName(customerShipToAddress.getCustomerAddressName());
-        this.setShippingLine1StreetAddress(customerShipToAddress.getCustomerLine1StreetAddress());
-        this.setShippingLine2StreetAddress(customerShipToAddress.getCustomerLine2StreetAddress());
-        this.setShippingCityName(customerShipToAddress.getCustomerCityName());
-        this.setShippingStateCode(customerShipToAddress.getCustomerStateCode());
-        this.setShippingZipCode(customerShipToAddress.getCustomerZipCode());
-        this.setShippingCountryCode(customerShipToAddress.getCustomerCountryCode());
-        this.setShippingAddressInternationalProvinceName(customerShipToAddress.getCustomerAddressInternationalProvinceName());
-        this.setShippingInternationalMailCode(customerShipToAddress.getCustomerInternationalMailCode());
-        this.setShippingEmailAddress(customerShipToAddress.getCustomerEmailAddress());
+        if (ObjectUtils.isNotNull(customerShipToAddress)) {
+            this.setShippingAddressTypeCode(customerShipToAddress.getCustomerAddressTypeCode());
+            this.setShippingAddressName(customerShipToAddress.getCustomerAddressName());
+            this.setShippingLine1StreetAddress(customerShipToAddress.getCustomerLine1StreetAddress());
+            this.setShippingLine2StreetAddress(customerShipToAddress.getCustomerLine2StreetAddress());
+            this.setShippingCityName(customerShipToAddress.getCustomerCityName());
+            this.setShippingStateCode(customerShipToAddress.getCustomerStateCode());
+            this.setShippingZipCode(customerShipToAddress.getCustomerZipCode());
+            this.setShippingCountryCode(customerShipToAddress.getCustomerCountryCode());
+            this.setShippingAddressInternationalProvinceName(customerShipToAddress.getCustomerAddressInternationalProvinceName());
+            this.setShippingInternationalMailCode(customerShipToAddress.getCustomerInternationalMailCode());
+            this.setShippingEmailAddress(customerShipToAddress.getCustomerEmailAddress());
+        } else { 
+            this.setShippingAddressTypeCode(null);
+            this.setShippingAddressName(null);
+            this.setShippingLine1StreetAddress(null);
+            this.setShippingLine2StreetAddress(null);
+            this.setShippingCityName(null);
+            this.setShippingStateCode(null);
+            this.setShippingZipCode(null);
+            this.setShippingCountryCode(null);
+            this.setShippingAddressInternationalProvinceName(null);
+            this.setShippingInternationalMailCode(null);
+            this.setShippingEmailAddress(null);
+        }
     }
 
     /**
@@ -1767,8 +1786,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         if (HAS_RECCURENCE_NODE.equals(nodeName)) {
             if (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate() != null) {
                 return true;
-}
-       }
+            }
+        }
         return false;
     }
 }

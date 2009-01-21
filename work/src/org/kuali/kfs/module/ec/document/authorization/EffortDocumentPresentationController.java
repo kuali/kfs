@@ -68,14 +68,4 @@ public class EffortDocumentPresentationController extends FinancialSystemTransac
         
         return canDisapproveValue;
     }
-    
-  @Override
-  public Set<String> getEditModes(Document document) {
-      Set<String> editModeMap = super.getEditModes(document);
-      
-      //  set the setHasTotalAmount to true
-      editModeMap.add(EffortCertificationEditMode.HAS_TOTAL_AMOUNT);
-      
-      return editModeMap;
- }    
 }

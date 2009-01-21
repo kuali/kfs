@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.bomiddle;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,8 +47,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
-@ConfigureContext(session = khuntley)
-//@ConfigureContext(session = khuntley, shouldCommitTransactions = true)
+@ConfigureContext(session = bomiddle)
 public class AssetPaymentServiceTest extends KualiTestBase {
     private static Logger LOG = Logger.getLogger(AssetPaymentServiceTest.class);
 

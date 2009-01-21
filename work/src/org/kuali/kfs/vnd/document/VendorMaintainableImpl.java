@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
@@ -40,7 +41,6 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.NoteService;
@@ -51,7 +51,7 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class VendorMaintainableImpl extends KualiMaintainableImpl {
+public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorMaintainableImpl.class);
 
     /**
@@ -477,5 +477,21 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
         return super.isRelationshipRefreshable(boClass, relationshipName);
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals("RequiresApproval")) return isApprovalRequired();
+        return super.answerSplitNodeQuestion(nodeName);
+    }
+    
+    /**
+     * Determines if full approval routing for the maintenance document this maintainable is associated with is required
+     * @return true if full approval routing is required, false otherwise
+     */
+    private boolean isApprovalRequired() {
+        return SpringContext.getBean(VendorService.class).shouldVendorRouteForApproval(this.documentNumber);
+    }
 }
 

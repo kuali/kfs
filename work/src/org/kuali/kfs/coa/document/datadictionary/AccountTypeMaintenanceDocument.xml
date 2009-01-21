@@ -35,18 +35,6 @@
     <property name="workflowAttributes" >
       <ref bean="AccountTypeMaintenanceDocument-workflowAttributes" />
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->

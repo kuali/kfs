@@ -64,18 +64,7 @@
         <value>../scripts/kfs/objectInfo.js</value>
       </list>
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+
     <property name="workflowAttributes">
     	<ref bean="ObjectCodeMaintenanceDocument-workflowAttributes" />
     </property>

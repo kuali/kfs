@@ -152,7 +152,7 @@
         <ref bean="Asset-assetPayments.purchaseOrderNumber" />
         <ref bean="Asset-assetPayments.documentNumber" />
 
-		<!--  ref bean="Asset-assetPayments-lookup"/   -->
+		<ref bean="Asset-assetPayments-lookup"/>
 
       </list>
     </property>
@@ -222,21 +222,18 @@
   </bean>
 
 <!-- Attribute Definitions --> 
-<!-- Attribute Definitions -->
-<!--  bean id="Asset-assetPayments-lookup" parent="Asset-assetPayments-lookup-parentBean" />
+<bean id="Asset-assetPayments-lookup" parent="Asset-assetPayments-lookup-parentBean" />
 <bean id="Asset-assetPayments-lookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="lookup" />
-	<property name="label" value="Lookup link" />
+	<property name="label" value="To view the payment lookup for this Asset" />
 	<property name="control" >
 		<bean parent="LinkControlDefinition"
 			p:styleClass="globalLinks"
 			p:target="_blank"
-			p:hrefText="Payment Information Lookup Link"
+			p:hrefText="Click here"
 		/>
 	</property>
-</bean -->
-
-
+</bean>
 
   <bean id="Asset-organizationOwnerAccount.organizationCode" parent="Asset-organizationOwnerAccount.organizationCode-parentBean" />
   <bean id="Asset-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
@@ -489,14 +486,6 @@
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="1" />
     </property>
-    <!-- property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetStatus"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="true"
-            p:keyAttribute="inventoryStatusCode"
-            p:labelAttribute="inventoryStatusName" />
-    </property -->
   </bean>
   
   <bean id="Asset-nationalStockNumber" parent="Asset-nationalStockNumber-parentBean" />
@@ -1905,14 +1894,10 @@
                           p:attributeName="period12Depreciation1Amount" />
                     <bean parent="FieldDefinition"
                           p:attributeName="paymentSequenceNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="capitalAssetNumber" />
                   </list>
                 </property>
                 <property name="summaryFields" >
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="capitalAssetNumber" />
                     <bean parent="FieldDefinition"
                           p:attributeName="paymentSequenceNumber" />
                     <bean parent="FieldDefinition"

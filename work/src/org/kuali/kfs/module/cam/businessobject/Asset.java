@@ -15,6 +15,7 @@ import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Building;
@@ -28,6 +29,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -1890,16 +1892,15 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.hiddenFieldForError = hiddenFieldForError;
     }
 
-/*    public String getLookup() {
+    public String getLookup() {
         Properties params = new Properties();
-        params.put("methodToCall", "search");
-        params.put("docFormKey", "88888888");
-        params.put("hideReturnLink","true");        
-        params.put("capitalAssetNumber",this.getCapitalAssetNumber().toString());
-        params.put("returnLocation", "portal.do");
-        params.put("businessObjectClassName","org.kuali.kfs.module.cam.businessobject.AssetPayment");
-        
-        return UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
-    }*/    
+        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK,"true");        
+        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER,this.getCapitalAssetNumber().toString());
+        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE,"org.kuali.kfs.module.cam.businessobject.AssetPayment");        
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }    
 //a href="lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=2053" target="_blank" class="portal_link" title="Payment Information">Click here</a>                   
 }

@@ -54,21 +54,8 @@ public class BankCodeValidation {
             return false;
         }
 
-        // existence check
         Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(bankCode);
-        if (bank == null) {
-            GlobalVariables.getErrorMap().putError(bankCodeProperty, KFSKeyConstants.ERROR_EXISTENCE, bankCodeLabel);
-
-            return false;
-        }
-
-        // active check
-        if (!bank.isActive()) {
-            GlobalVariables.getErrorMap().putError(bankCodeProperty, KFSKeyConstants.ERROR_INACTIVE, bankCodeLabel);
-
-            return false;
-        }
-
+ 
         // validate deposit
         if (requireDeposit && !bank.isBankDepositIndicator()) {
             GlobalVariables.getErrorMap().putError(bankCodeProperty, KFSKeyConstants.Bank.ERROR_DEPOSIT_NOT_SUPPORTED);

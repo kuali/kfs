@@ -76,7 +76,7 @@
 	<bean id="GeneralErrorCorrection-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" p:quitOnFail="true" />
+  			  	<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" p:quitOnFail="true" />
   				<bean parent="GeneralErrorCorrection-objectTypeValidation" scope="prototype" >
   					<property name="parameterProperties">
            				<list>
@@ -87,7 +87,7 @@
     	       			</list> 
       	          </property>
      	       </bean>
-      	      <bean parent="GeneralErrorCorrection-requiredReferenceFieldValidation" scope="prototype" >
+      	       <bean parent="GeneralErrorCorrection-requiredReferenceFieldValidation" scope="prototype" >
   					<property name="parameterProperties">
        	    			<list>
        		     			<bean parent="validationFieldConversion">
@@ -96,7 +96,7 @@
            		  			</bean>
            				</list> 
            			</property>
-            	</bean>
+            	</bean> 
             </list>
   		</property>
 	</bean>

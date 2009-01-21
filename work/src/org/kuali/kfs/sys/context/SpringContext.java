@@ -19,19 +19,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.cache.MethodCacheInterceptor;
 import org.quartz.Scheduler;
@@ -51,12 +48,20 @@ public class SpringContext {
     protected static final String PLUGIN_CONTEXT_DEFINITION = "spring-rice-startup-standalone-rice.xml";
     protected static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
     protected static ConfigurableApplicationContext applicationContext;
-    protected static Set<Class> SINGLETON_TYPES = new HashSet<Class>();
+    protected static Set<Class<? extends Object>> SINGLETON_TYPES = new HashSet<Class<? extends Object>>();
     protected static Set<String> SINGLETON_NAMES = new HashSet<String>();
-    protected static Map<Class, Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class, Object>();
+    protected static Map<Class<? extends Object>, Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class<? extends Object>, Object>();
     protected static Map<String, Object> SINGLETON_BEANS_BY_NAME_CACHE = new HashMap<String, Object>();
-    protected static Map<Class, Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class, Map>();
+    protected static Map<Class<? extends Object>, Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class<? extends Object>, Map>();
 
+    /**
+     * Use this method to retrieve a service which may or may not be implemented locally.  (That is,
+     * defined in the main Spring ApplicationContext created by Rice.
+     */
+    public static Object getService(String serviceName) {
+        return GlobalResourceLoader.getService(serviceName);
+    }
+    
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
      * NOT the service implementation. 1. there is only one bean of the specified type in our spring context 2. there is only one
@@ -76,35 +81,36 @@ public class SpringContext {
         T bean = null;
         if (SINGLETON_BEANS_BY_TYPE_CACHE.containsKey(type)) {
             bean = (T) SINGLETON_BEANS_BY_TYPE_CACHE.get(type);
-        }
-        else {
+        } else {
             if ( LOG.isDebugEnabled() ) {
                 LOG.debug("Bean not already in cache: " + type + " - calling getBeansOfType() ");
             }
-            try {
-                Collection<T> beansOfType = getBeansOfType(type).values();
+            Collection<T> beansOfType = getBeansOfType(type).values();
+            if ( !beansOfType.isEmpty() ) {
                 if (beansOfType.size() > 1) {
-                    bean = getBean(type, type.getSimpleName().substring(0, 1).toLowerCase() + type.getSimpleName().substring(1));
-                }
-                else {
+                    bean = getBean(type, StringUtils.uncapitalize(type.getSimpleName()) );
+                } else {
                     bean = beansOfType.iterator().next();
                 }
-            }
-            catch (NoSuchBeanDefinitionException nsbde) {
+            } else { // unable to find bean - check GRL
+                // this is needed in case no beans of the given type exist locally
                 if ( LOG.isDebugEnabled() ) {
-                    LOG.debug("Could not find bean of type " + type.getName() + " - checking KNS context");
+                    LOG.debug("Bean not found in local context: " + type.getName() + " - calling GRL");
                 }
-                try {
-                    bean = KNSServiceLocator.getNervousSystemContextBean(type);
-                }
-                catch (Exception e) {
-                    LOG.error(e);
-                    throw new NoSuchBeanDefinitionException("No beans of this type in the in KFS or KNS application contexts: " + type.getName());
+                Object remoteServiceBean = getService( StringUtils.uncapitalize(type.getSimpleName()) );
+                if ( remoteServiceBean != null ) {
+                    if ( type.isAssignableFrom( remoteServiceBean.getClass() ) ) {
+                        bean = (T)remoteServiceBean;
+                    }
                 }
             }
-            if (SINGLETON_TYPES.contains(type) || hasSingletonSuperType(type)) {
-                SINGLETON_TYPES.add(type);
-                SINGLETON_BEANS_BY_TYPE_CACHE.put(type, bean);
+            if ( bean != null ) {
+                if (SINGLETON_TYPES.contains(type) || hasSingletonSuperType(type)) {
+                    SINGLETON_TYPES.add(type);
+                    SINGLETON_BEANS_BY_TYPE_CACHE.put(type, bean);
+                }
+            } else {
+                throw new RuntimeException( "Request for non-existent bean.  Unable to find in local context on on the GRL: " + type.getName() );
             }
         }
         return bean;
@@ -127,22 +133,15 @@ public class SpringContext {
         }
         else {
             if ( LOG.isDebugEnabled() ) {
-                LOG.debug("Bean not already in \"OF_TYPE\" cache: " + type + " - calling getBeansOfType() on KNS and locally");
+                LOG.debug("Bean not already in \"OF_TYPE\" cache: " + type + " - calling getBeansOfType() on Spring context");
             }
             boolean allOfTypeAreSingleton = true;
-            beansOfType = KNSServiceLocator.getBeansOfType(type);
+            beansOfType = applicationContext.getBeansOfType(type);
             for ( String key : beansOfType.keySet() ) {
-                if ( !KNSServiceLocator.isSingleton(key) ) {
-                    allOfTypeAreSingleton = false;
-                }                
-            }
-            Map<String,T> localBeansOfType = applicationContext.getBeansOfType(type);
-            for ( String key : localBeansOfType.keySet() ) {
                 if ( !applicationContext.isSingleton(key) ) {
                     allOfTypeAreSingleton = false;
                 }                
             }
-            beansOfType.putAll( localBeansOfType );
             if ( allOfTypeAreSingleton ) {
                 SINGLETON_TYPES.add(type);
                 SINGLETON_BEANS_OF_TYPE_CACHE.put(type, beansOfType);
@@ -153,39 +152,36 @@ public class SpringContext {
 
     @SuppressWarnings("unchecked")
     private static <T> T getBean(Class<T> type, String name) {
-        verifyProperInitialization();
         T bean = null;
-        boolean isSingleton = true;
         if (SINGLETON_BEANS_BY_NAME_CACHE.containsKey(name)) {
             bean = (T) SINGLETON_BEANS_BY_NAME_CACHE.get(name);
-        }
-        else {
+        } else {
             try {
                 bean = (T) applicationContext.getBean(name);
-                isSingleton = applicationContext.isSingleton(name);
+                if ( applicationContext.isSingleton(name) ) {
+                    SINGLETON_BEANS_BY_NAME_CACHE.put(name, bean);
+                }
             }
             catch (NoSuchBeanDefinitionException nsbde) {
                 if ( LOG.isDebugEnabled() ) {
-                    LOG.debug("Could not find bean named " + name + " - checking KNS context");
+                    LOG.debug("Bean with name and type not found in local context: " + name + "/" + type.getName() + " - calling GRL");
                 }
-                try {
-                    bean = KNSServiceLocator.getNervousSystemContextBean(type, name);
+                Object remoteServiceBean = getService( name );
+                if ( remoteServiceBean != null ) {
+                    if ( type.isAssignableFrom( remoteServiceBean.getClass() ) ) {
+                        bean = (T)remoteServiceBean;
+                        // assume remote beans are services and thus singletons
+                        SINGLETON_BEANS_BY_NAME_CACHE.put(name, bean);
+                    }
                 }
-                catch (Exception e) {
-                    LOG.error(e);
-                    throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
-                }
-            }
-            if ( isSingleton ) {
-                SINGLETON_BEANS_BY_NAME_CACHE.put(name, bean);
+                throw new RuntimeException("No bean of this type and name exist in the application context or from the GRL: " + type.getName() + ", " + name);
             }
         }
         return bean;
     }
 
-    private static boolean hasSingletonSuperType(Class type) {
-        
-        for (Class singletonType : SINGLETON_TYPES) {
+    private static boolean hasSingletonSuperType(Class<? extends Object> type) {
+        for (Class<? extends Object> singletonType : SINGLETON_TYPES) {
             if (singletonType.isAssignableFrom(type)) {
                 return true;
             }
@@ -194,9 +190,8 @@ public class SpringContext {
     }
 
     public static List<MethodCacheInterceptor> getMethodCacheInterceptors() {
-        List<MethodCacheInterceptor> methodCacheInterceptors = new ArrayList();
+        List<MethodCacheInterceptor> methodCacheInterceptors = new ArrayList<MethodCacheInterceptor>();
         methodCacheInterceptors.add(getBean(MethodCacheInterceptor.class));
-        methodCacheInterceptors.add(KNSServiceLocator.getNervousSystemContextBean(MethodCacheInterceptor.class));
         return methodCacheInterceptors;
     }
 
@@ -231,7 +226,7 @@ public class SpringContext {
 
     private static void verifyProperInitialization() {
         if (applicationContext == null) {
-            throw new RuntimeException("Spring not initialized properly.  Initialization has begun and the application context is null." + "Probably spring loaded bean is trying to use KNSServiceLocator before the application context is initialized.");
+            throw new RuntimeException("Spring not initialized properly.  Initialization has begun and the application context is null.  Probably spring loaded bean is trying to use KNSServiceLocator before the application context is initialized.");
         }
     }
 
@@ -252,18 +247,20 @@ public class SpringContext {
                 org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
 
                 public void memoryUsageLow(String springContextId, Map<String, String> memoryUsageStatistics, String deadlockedThreadIds) {
-                    StringBuffer logStatement = new StringBuffer(springContextId).append("\n\tMemory Usage");
-                    for (String memoryType : memoryUsageStatistics.keySet()) {
-                        logStatement.append("\n\t\t").append(memoryType.toUpperCase()).append(": ").append(memoryUsageStatistics.get(memoryType));
-                    }
-                    logStatement.append("\n\tLocked Thread Ids: ").append(deadlockedThreadIds).append("\n\tThread Stacks");
-                    for (Map.Entry<Thread, StackTraceElement[]> threadStackTrace : Thread.getAllStackTraces().entrySet()) {
-                        logStatement.append("\n\t\tThread: name=").append(threadStackTrace.getKey().getName()).append(", id=").append(threadStackTrace.getKey().getId()).append(", priority=").append(threadStackTrace.getKey().getPriority()).append(", state=").append(threadStackTrace.getKey().getState());
-                        for (StackTraceElement stackTraceElement : threadStackTrace.getValue()) {
-                            logStatement.append("\n\t\t\t" + stackTraceElement);
+                    if ( LOG.isInfoEnabled() ) {
+                        StringBuffer logStatement = new StringBuffer(springContextId).append("\n\tMemory Usage");
+                        for (String memoryType : memoryUsageStatistics.keySet()) {
+                            logStatement.append("\n\t\t").append(memoryType.toUpperCase()).append(": ").append(memoryUsageStatistics.get(memoryType));
                         }
+                        logStatement.append("\n\tLocked Thread Ids: ").append(deadlockedThreadIds).append("\n\tThread Stacks");
+                        for (Map.Entry<Thread, StackTraceElement[]> threadStackTrace : Thread.getAllStackTraces().entrySet()) {
+                            logStatement.append("\n\t\tThread: name=").append(threadStackTrace.getKey().getName()).append(", id=").append(threadStackTrace.getKey().getId()).append(", priority=").append(threadStackTrace.getKey().getPriority()).append(", state=").append(threadStackTrace.getKey().getState());
+                            for (StackTraceElement stackTraceElement : threadStackTrace.getValue()) {
+                                logStatement.append("\n\t\t\t" + stackTraceElement);
+                            }
+                        }
+                        LOG.info(logStatement);
                     }
-                    LOG.info(logStatement);
                     MemoryMonitor.setPercentageUsageThreshold(0.95);
                 }
             });

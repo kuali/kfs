@@ -59,7 +59,7 @@ public class CashDrawerCorrectionAction extends KualiAction {
         CashDrawerCorrectionForm cdcForm = (CashDrawerCorrectionForm) form;
         if (cdcForm.getCashDrawer().getCampusCode() == null) {
             String workgroupName = request.getParameter("campusCode");
-            cdcForm.setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroupName, false));
+            cdcForm.setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroupName));
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

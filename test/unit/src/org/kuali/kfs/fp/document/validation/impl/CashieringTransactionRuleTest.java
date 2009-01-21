@@ -452,13 +452,8 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     }
 
     private CashManagementDocument cashManagementDocumentFixture(String testName) {
-        // delete fake cash drawer if we can find it; these ideas are pretty much nicked from CashManagementServiceTest
-        Map deleteCriteria = new HashMap();
-        deleteCriteria.put("campusCode", CMST_CAMPUS);
-        SpringContext.getBean(BusinessObjectService.class).deleteMatching(CashDrawer.class, deleteCriteria);
-
         // create a new cash drawer
-        CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS, true);
+        CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(CMST_CAMPUS);
 
         CashManagementDocument cmDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_CAMPUS, "Document Created for " + testName, "CMD");
         return cmDoc;

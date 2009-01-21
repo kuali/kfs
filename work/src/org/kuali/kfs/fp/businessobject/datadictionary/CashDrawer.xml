@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="CashDrawer" parent="CashDrawer-parentBean" />
 
@@ -45,6 +47,20 @@
         <ref bean="CashDrawer-totalAmount" />
       </list>
     </property>
+    <property name="lookupDefinition">
+    	<ref bean="CashDrawer-lookupDefinition" />
+    </property>
+    <property name="inquiryDefinition">
+    	<ref bean="CashDrawer-inquiryDefinition" />
+    </property>
+    <property name="titleAttribute" value="campusCode" />
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="campus">
+            <dd:primitiveAttribute source="campusCode" target="campusCode" />
+        </dd:relationship>
+      </list>
+    </property> 
   </bean>
 
 <!-- Attribute Definitions -->
@@ -525,6 +541,61 @@
       <bean parent="CurrencyControlDefinition"
             p:formattedMaxLength="12"
             p:size="10" />
+    </property>
+  </bean>
+  
+  <!-- Business Object Inquiry Definition -->
+
+
+  <bean id="CashDrawer-inquiryDefinition" parent="CashDrawer-inquiryDefinition-parentBean" />
+
+  <bean id="CashDrawer-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Cash Drawer Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Cash Drawer" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CashDrawer-lookupDefinition" parent="CashDrawer-lookupDefinition-parentBean" />
+
+  <bean id="CashDrawer-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Cash Drawer Lookup" />
+    <property name="lookupableID" value="cashDrawerLookupable" />
+    <property name="instructions" value="Lookup a Cash Drawer" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>campusCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+      </list>
     </property>
   </bean>
 </beans>

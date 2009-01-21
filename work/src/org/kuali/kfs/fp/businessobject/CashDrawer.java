@@ -16,11 +16,16 @@
 
 package org.kuali.kfs.fp.businessobject;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -53,6 +58,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     private KualiDecimal financialDocumentMiscellaneousAdvanceAmount;
 
     private String referenceFinancialDocumentNumber;
+    private Campus campus;
 
     /**
      * Default constructor.
@@ -1060,6 +1066,22 @@ public class CashDrawer extends PersistableBusinessObjectBase {
                 setFinancialDocumentOtherCentAmount(getFinancialDocumentOtherCentAmount().subtract(detail.getFinancialDocumentOtherCentAmount()));
             }
         }
+    }
+    
+    /**
+     * @return the campus associated with this cash drawer
+     */
+    public Campus getCampus() {
+        if (campusCode != null && (campus == null || !campus.getCampusCode().equals(campusCode))) {
+            campus = retrieveCampus();
+        }
+        return campus;
+    }
+    
+    private Campus retrieveCampus() {
+        Map<String, String> keys = new HashMap<String, String>();
+        keys.put("campusCode", campusCode);
+        return (Campus)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Campus.class, keys);
     }
 
     /**

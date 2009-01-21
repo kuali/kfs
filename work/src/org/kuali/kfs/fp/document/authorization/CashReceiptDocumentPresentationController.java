@@ -47,7 +47,10 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
             CashReceiptDocument cashReceiptDocument = (CashReceiptDocument) document;
 
             String campusCode = cashReceiptDocument.getCampusLocationCode();
-            CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode, true);
+            CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode);
+            if (cashDrawer == null) {
+                throw new RuntimeException("No cash drawer exists for campus code "+campusCode+"; please create on via the Cash Drawer Maintenance Document before attemping to create a CashReceiptDocument for campus "+campusCode);
+            }
             if (cashDrawer == null) {
                 throw new IllegalStateException("There is no cash drawer associated with cash receipt: " + cashReceiptDocument.getDocumentNumber());
             }

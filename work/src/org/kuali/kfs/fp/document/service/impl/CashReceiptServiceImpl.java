@@ -269,7 +269,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new RuntimeException("Cannot find workgroup name for Cash Receipt document: "+crDoc.getDocumentNumber());
         }
         
-        CashDrawer drawer = cashDrawerService.getByCampusCode(campusCode, false);
+        CashDrawer drawer = cashDrawerService.getByCampusCode(campusCode);
         if (drawer == null) {
             throw new RuntimeException("There is no Cash Drawer for Workgroup "+campusCode);
         }

@@ -392,6 +392,14 @@
 			<ref bean="nonResidentAlienTaxPercentLookupableHelperService" />
 		</property>
 	</bean>
+	
+	<bean id="cashDrawerLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.CashDrawerLookupableHelperServiceImpl" />
+	
+	<bean id="cashDrawerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="cashDrawerLookupableHelperService" />
+		</property>
+	</bean>
 
 	<bean id="cashieringTransactionRule" class="org.kuali.kfs.fp.document.validation.impl.CashieringTransactionRule">
 		<property name="cashDrawerService">

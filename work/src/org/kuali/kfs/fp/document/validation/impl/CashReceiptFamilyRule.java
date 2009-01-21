@@ -76,7 +76,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         if (valid) {
             CashReceiptFamilyBase crd = (CashReceiptFamilyBase) approveEvent.getDocument();
 
-            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(crd.getCampusLocationCode(), false);
+            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(crd.getCampusLocationCode());
             if (cd == null) {
                 throw new IllegalStateException("There is no cash drawer associated with unitName '" + crd.getCampusLocationCode() + "' from cash receipt " + crd.getDocumentNumber());
             }

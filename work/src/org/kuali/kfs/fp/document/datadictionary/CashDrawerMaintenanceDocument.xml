@@ -1,0 +1,138 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="CashDrawerMaintenanceDocument" parent="CashDrawerMaintenanceDocument-parentBean" />
+
+  <bean id="CashDrawerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CashDrawer" />
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="CashDrawerMaintenanceDocument-EditCashDrawer" />
+        <ref bean="CashDrawerMaintenanceDocument-EditCurrencyAmounts" />
+        <ref bean="CashDrawerMaintenanceDocument-EditCoinAmounts" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>campusCode</value>
+      </list>
+    </property>
+    <property name="label" value="Cash Drawer" />
+    <property name="shortLabel" value="Cash Drawer" />
+    <property name="summary" value="Cash Drawer Maintenance Document" />
+    <property name="description" value="Document used to create a cash drawer." />
+    <property name="documentTypeName" value="CashDrawerMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="CDS" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="CashDrawerMaintenanceDocument-workflowAttributes" />
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="CashDrawerMaintenanceDocument-EditCashDrawer" parent="CashDrawerMaintenanceDocument-EditCashDrawer-parentBean" />
+
+  <bean id="CashDrawerMaintenanceDocument-EditCashDrawer-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Cash Drawer Section" />
+    <property name="title" value="Edit Campus" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="campusCode"
+              p:required="true" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="CashDrawerMaintenanceDocument-EditCurrencyAmounts" parent="CashDrawerMaintenanceDocument-EditCurrencyAmounts-parentBean" />
+
+  <bean id="CashDrawerMaintenanceDocument-EditCurrencyAmounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Currency Amounts Section" />
+    <property name="title" value="Edit Currency Amounts" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentHundredDollarAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentFiftyDollarAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentTwentyDollarAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentTenDollarAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentFiveDollarAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentTwoDollarAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentOneDollarAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentOtherDollarAmount"
+              p:required="true" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="CashDrawerMaintenanceDocument-EditCoinAmounts" parent="CashDrawerMaintenanceDocument-EditCoinAmounts-parentBean" />
+
+  <bean id="CashDrawerMaintenanceDocument-EditCoinAmounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Cash Drawer Section" />
+    <property name="title" value="Edit Cash Drawer" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentHundredCentAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentFiftyCentAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentTwentyFiveCentAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentTenCentAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentFiveCentAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentOneCentAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentOtherCentAmount"
+              p:required="true" />
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="CashDrawerMaintenanceDocument-workflowAttributes" parent="CashDrawerMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="CashDrawerMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+</beans>

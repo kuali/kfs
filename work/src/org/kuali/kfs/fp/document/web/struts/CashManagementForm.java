@@ -108,7 +108,10 @@ public class CashManagementForm extends KualiDocumentFormBase {
     public void populateCashDrawerSummary() {
         CashManagementDocument cmd = getCashManagementDocument();
         if (cmd != null) {
-            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmd.getCampusCode(), true);
+            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmd.getCampusCode());
+            if (cd == null) {
+                throw new RuntimeException("No cash drawer exists for campus code "+cmd.getCampusCode()+"; please create on via the Cash Drawer Maintenance Document before attemping to create a CashManagementDocument for campus "+cmd.getCampusCode());
+            }
             if (!cd.isClosed()) {
                 cashDrawerSummary = new CashDrawerSummary(cmd);
             }
@@ -1093,7 +1096,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
         if (campusCode != null && getCashManagementDocument() != null) {
             // use that to put the cash drawer back into the cash management document
-            getCashManagementDocument().setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode, false));
+            getCashManagementDocument().setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode));
         }
     }
 

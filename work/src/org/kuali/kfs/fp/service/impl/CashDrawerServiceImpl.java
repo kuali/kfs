@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CashDrawerServiceImpl implements CashDrawerService {
     private BusinessObjectService businessObjectService;
+    private static final String CAMPUS_CODE_PROPERTY = "campusCode";
 
 
     /**
@@ -42,7 +43,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @see org.kuali.kfs.fp.service.CashDrawerService#closeCashDrawer(java.lang.String)
      */
     public void closeCashDrawer(String campusCode) {
-        CashDrawer drawer = getByCampusCode(campusCode, true);
+        CashDrawer drawer = getByCampusCode(campusCode);
         this.closeCashDrawer(drawer);
     }
     
@@ -74,7 +75,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
             throw new IllegalArgumentException("invalid (blank) documentId");
         }
 
-        CashDrawer drawer = getByCampusCode(campusCode, true);
+        CashDrawer drawer = getByCampusCode(campusCode);
         return this.openCashDrawer(drawer, documentId);
     }
     
@@ -112,7 +113,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
             throw new IllegalArgumentException("invalid (blank) documentId");
         }
 
-        CashDrawer drawer = getByCampusCode(campusCode, true);
+        CashDrawer drawer = getByCampusCode(campusCode);
         this.lockCashDrawer(drawer, documentId);
     }
     
@@ -155,7 +156,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
             throw new IllegalArgumentException("invalid (blank) documentId");
         }
 
-        CashDrawer drawer = getByCampusCode(campusCode, true);
+        CashDrawer drawer = getByCampusCode(campusCode);
         this.unlockCashDrawer(drawer, documentId);
     }
 
@@ -193,21 +194,16 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * NOTE: The new instance created if autocreate is set to true is an unpersisted instance.
      * 
      * @param campusCode The campus code used to retrieve the cash drawer.
-     * @param autocreate Flag used to identify if a new cash drawer should be created if one cannot be found for the value provided.
      * @return An instance of a cash drawer matching the value provided.
      * 
      * @see org.kuali.kfs.fp.service.CashDrawerService#findByWorkgroupName(java.lang.String)
      */
-    public CashDrawer getByCampusCode(String campusCode, boolean autocreate) {
+    public CashDrawer getByCampusCode(String campusCode) {
         if (StringUtils.isBlank(campusCode)) {
             throw new IllegalArgumentException("invalid (blank) workgroupName");
         }
 
-        CashDrawer cd = (CashDrawer) businessObjectService.findByPrimaryKey(CashDrawer.class, buildPrimaryKeyMap(campusCode));
-        if (autocreate && (cd == null)) {
-            cd = newCashDrawer(campusCode);
-        }
-        return cd;
+        return (CashDrawer)businessObjectService.findByPrimaryKey(CashDrawer.class, buildPrimaryKeyMap(campusCode));
     }
 
 
@@ -225,21 +221,6 @@ public class CashDrawerServiceImpl implements CashDrawerService {
     }
 
     /**
-     * This method creates a new cash drawer instance, assigns the campus code to the drawer, sets the status of the 
-     * drawer to closed and returns this new instance.
-     * 
-     * @param campusCode The campus code associated with the cash drawer.
-     * @return A newly-created (unpersisted) CashDrawer instance for the given workgroupName.
-     */
-    private CashDrawer newCashDrawer(String campusCode) {
-        CashDrawer drawer = new CashDrawer();
-        drawer.setCampusCode(campusCode);
-        drawer.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
-
-        return drawer;
-    }
-
-    /**
      * This method creates a primary key map by adding the associated workgroup name to a new map instance and returning 
      * this map new instance.
      * 
@@ -248,7 +229,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      */
     private Map buildPrimaryKeyMap(String campusCode) {
         Map keyMap = new HashMap();
-        keyMap.put("CAMPUS_CD", campusCode);
+        keyMap.put(CAMPUS_CODE_PROPERTY, campusCode);
         return keyMap;
     }
 

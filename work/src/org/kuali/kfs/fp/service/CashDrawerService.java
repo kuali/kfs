@@ -99,10 +99,9 @@ public interface CashDrawerService {
      * (non-persisted) CashDrawer instance.
      * 
      * @param campusCode The campus code used to retrieve the cash drawer.
-     * @param autocreate Identifies whether or not a new cash drawer will be created if one does not already exist for the workgroup name provided.
      * @return CashDrawer instance or null
      */
-    public CashDrawer getByCampusCode(String campusCode, boolean autocreate);
+    public CashDrawer getByCampusCode(String campusCode);
     
     /**
      * Calculates the total amount of all the currency in the drawer.  

@@ -118,7 +118,10 @@ public class DepositWizardAction extends KualiAction {
      * @param depositTypeCode
      */
     private void initializeForm(DepositWizardForm dform, CashManagementDocument cmDoc, String depositTypeCode) {
-        CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmDoc.getCampusCode(), true);
+        CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmDoc.getCampusCode());
+        if (cd == null) {
+            throw new RuntimeException("No cash drawer exists for campus code "+cmDoc.getCampusCode()+"; please create on via the Cash Drawer Maintenance Document before attemping to create a CashManagementDocument for campus "+cmDoc.getCampusCode());
+        }
         if (!cd.isOpen()) {
             CashDrawerStatusCodeFormatter f = new CashDrawerStatusCodeFormatter();
 
@@ -423,7 +426,7 @@ public class DepositWizardAction extends KualiAction {
         CurrencyDetail detail = depositForm.getCurrencyDetail();
         if (detail != null) {
             // 1. get the cash drawer
-            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(depositForm.getCashDrawerCampusCode(), false);
+            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(depositForm.getCashDrawerCampusCode());
             // assumptions at this point:
             // 1. a cash drawer does exist for the unit
             // 2. we can ignore negative amounts, because if we have negative amounts, we're actually gaining money (and that will
@@ -492,7 +495,7 @@ public class DepositWizardAction extends KualiAction {
         CoinDetail detail = depositForm.getCoinDetail();
         if (detail != null) {
             // 1. get the cash drawer
-            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(depositForm.getCashDrawerCampusCode(), false);
+            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(depositForm.getCashDrawerCampusCode());
             // assumptions at this point:
             // 1. a cash drawer does exist for the unit
             // 2. we can ignore negative amounts, because if we have negative amounts, we're actually gaining money (and that will

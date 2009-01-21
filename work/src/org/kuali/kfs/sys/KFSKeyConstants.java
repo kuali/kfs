@@ -660,8 +660,24 @@ public class KFSKeyConstants {
         public static final String ERROR_NEW_ITEM_IN_PROCESS_IN_FUTURE = "error.document.cashieringTransaction.newItemInProcessInFuture";
 
         public static final String ERROR_CASH_DRAWER_CORRECTION_NEGATIVE_AMOUNT = "error.cashDrawerCorrection.negativeAmount";
-
-
+    }
+    
+    public static final class CashDrawerMaintenance {
+        public static final String HUNDRED_DOLLAR_AMOUNT_NEGATIVE = "error.document.cashDrawer.hundredDollarAmountNegative";
+        public static final String FIFTY_DOLLAR_AMOUNT_NEGATIVE = "error.document.cashDrawer.fifyDollarAmountNegative";
+        public static final String TWENTY_DOLLAR_AMOUNT_NEGATIVE = "error.document.cashDrawer.twentyDollarAmountNegative";
+        public static final String TEN_DOLLAR_AMOUNT_NEGATIVE = "error.document.cashDrawer.tenDollarAmountNegative";
+        public static final String FIVE_DOLLAR_AMOUNT_NEGATIVE = "error.document.cashDrawer.fiveDollarAmountNegative";
+        public static final String TWO_DOLLAR_AMOUNT_NEGATIVE = "error.document.cashDrawer.twoDollarAmountNegative";
+        public static final String ONE_DOLLAR_AMOUNT_NEGATIVE = "error.document.cashDrawer.oneDollarAmountNegative";
+        public static final String OTHER_DOLLAR_AMOUNT_NEGATIVE = "error.document.cashDrawer.otherDollarAmountNegative";
+        public static final String HUNDRED_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.hundredCentAmountNegative";
+        public static final String FIFTY_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.fiftyCentAmountNegative";
+        public static final String TWENTY_FIVE_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.twentyFiveCentAmountNegative";
+        public static final String TEN_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.tenCentAmountNegative";
+        public static final String FIVE_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.fiveCentAmountNegative";
+        public static final String ONE_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.oneCentAmountNegative";
+        public static final String OTHER_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.otherCentAmountNegative";
     }
 
     public static final class JournalVoucher {

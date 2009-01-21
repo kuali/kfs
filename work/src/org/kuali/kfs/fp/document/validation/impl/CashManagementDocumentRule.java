@@ -116,7 +116,11 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null && cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
             if (cmd.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
                 // now verify that the associated cash drawer is in the appropriate state
-                CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmd.getCampusCode(), true);
+                CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmd.getCampusCode());
+                if (cd == null) {
+                    // we got the rule without having a cash drawer?  freaky...
+                    throw new RuntimeException("No cash drawer exists for campus code "+cmd.getCampusCode()+"; please create on via the Cash Drawer Maintenance Document before attemping to create a CashManagementDocument for campus "+cmd.getCampusCode());
+                }
                 if (!cmd.hasFinalDeposit()) {
                     if (!cd.isOpen()) {
                         throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getCampusCode() + "\" is closed.  It should be open when a cash management document for that verification unit is open and being saved.");

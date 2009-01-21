@@ -39,9 +39,6 @@
     </property>
      <property name="defaultExistenceChecks" >
      	<list>
-        	<bean parent="ReferenceDefinition"
-              p:attributeName="campusCode"
-              p:attributeToHighlightOnFail="campusCode"/>
      	   <bean parent="ReferenceDefinition"
               p:attributeName="bank"
               p:collection="deposits"

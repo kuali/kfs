@@ -151,7 +151,10 @@ public class CashManagementServiceImpl implements CashManagementService {
         documentAuthorizer.canInitiate(documentTypeName, user);
 
         // check cash drawer
-        CashDrawer cd = cashDrawerService.getByCampusCode(campusCode, true);
+        CashDrawer cd = cashDrawerService.getByCampusCode(campusCode);
+        if (cd == null) {
+            throw new RuntimeException("No cash drawer exists for campus code "+campusCode+"; please create on via the Cash Drawer Maintenance Document before attemping to create a CashManagementDocument for campus "+campusCode);
+        }
         String controllingDocId = cd.getReferenceFinancialDocumentNumber();
 
         // KULEDOCS-1475: adding handling for two things which should never happen:
@@ -173,7 +176,10 @@ public class CashManagementServiceImpl implements CashManagementService {
 
             if (forceDrawerClosed) {
                 cashDrawerService.closeCashDrawer(cd);
-                cd = cashDrawerService.getByCampusCode(campusCode, true);
+                cd = cashDrawerService.getByCampusCode(campusCode);
+                if (cd == null) {
+                    throw new RuntimeException("No cash drawer exists for campus code "+campusCode+"; please create on via the Cash Drawer Maintenance Document before attemping to create a CashManagementDocument for campus "+campusCode);
+                }
             }
         }
 
@@ -518,7 +524,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // unlock the cashDrawer, if needed
         if (deposit.getDepositTypeCode() == DepositConstants.DEPOSIT_TYPE_FINAL) {
-            CashDrawer drawer = cashDrawerService.getByCampusCode(deposit.getCashManagementDocument().getCampusCode(), false);
+            CashDrawer drawer = cashDrawerService.getByCampusCode(deposit.getCashManagementDocument().getCampusCode());
             CurrencyDetail currencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(deposit.getCashManagementDocument().getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
             if (currencyDetail != null) {
                 drawer.addCurrency(currencyDetail);
@@ -562,7 +568,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         String campusCode = cmDoc.getCampusCode();
         cashDrawerService.closeCashDrawer(campusCode);
-        CashDrawer cd = cashDrawerService.getByCampusCode(campusCode, false);
+        CashDrawer cd = cashDrawerService.getByCampusCode(campusCode);
 
 
         // finalize the CashReceipts
@@ -724,7 +730,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     public void applyCashieringTransaction(CashManagementDocument cmDoc) {
         if (cmDoc.getCashDrawer() == null) {
-            cmDoc.setCashDrawer(cashDrawerService.getByCampusCode(cmDoc.getCampusCode(), false));
+            cmDoc.setCashDrawer(cashDrawerService.getByCampusCode(cmDoc.getCampusCode()));
         }
         CashieringTransactionRule transactionRule = new CashieringTransactionRule();
         transactionRule.setCashDrawerService(cashDrawerService);

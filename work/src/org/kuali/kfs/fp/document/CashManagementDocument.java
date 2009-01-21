@@ -19,9 +19,11 @@ package org.kuali.kfs.fp.document;
 import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -47,8 +49,10 @@ import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoL
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -70,6 +74,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     private CashieringTransaction currentTransaction;
     private CashDrawer cashDrawer;
+    private Campus campus;
     
     private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
 
@@ -351,7 +356,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         super.processAfterRetrieve();
         // grab the cash drawer
         if (this.getCampusCode() != null) {
-            this.cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(this.getCampusCode(), false);
+            this.cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(this.getCampusCode());
             this.resetCurrentTransaction();
         }
         SpringContext.getBean(CashManagementService.class).populateCashDetailsForDeposit(this);
@@ -558,4 +563,19 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         super.prepareForSave(event);
     }
     
+    /**
+     * @return the campus associated with this cash drawer
+     */
+    public Campus getCampus() {
+        if (campusCode != null && (campus == null || !campus.getCampusCode().equals(campusCode))) {
+            campus = retrieveCampus();
+        }
+        return campus;
+    }
+    
+    private Campus retrieveCampus() {
+        Map<String, String> keys = new HashMap<String, String>();
+        keys.put("campusCode", campusCode);
+        return (Campus)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Campus.class, keys);
+    }
 }

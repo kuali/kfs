@@ -20,19 +20,11 @@
   <bean id="AssetFabricationMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     <property name="searchingTypeDefinitions">
     		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-    						<property name="attributeName" value="capitalAssetNumber" />
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>newMaintainableObject.businessObject.capitalAssetNumber</value>
-    					</list>
-    				</property>
-    			</bean>
+				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-capitalAssetNumber"/>
+				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-campusTagNumber"/>
+				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationOwnerChartOfAccountsCode"/>
+				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationCode"/>
+				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationOwnerAccountNumber"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">

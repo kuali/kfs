@@ -21,6 +21,15 @@
 	   		</list>
    		</property>
     </bean>
+    
+    <bean id="DocumentCollectionPath-AssetDetail-chartAndAccountNumber" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+   		<property name="documentValues">
+	   		<list>
+	   			<value>asset.organizationOwnerChartOfAccountsCode</value>
+	   			<value>asset.organizationOwnerAccountNumber</value>
+	   		</list>
+   		</property>
+   </bean>
   <!--  Define RoutingType base -->
   
   <bean id="RoutingType-CapitalAssetManagementComplexMaintenanceDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
@@ -106,4 +115,77 @@
     		</list>
     	</property>
     </bean>
+    
+    <!--  Define searching type base -->
+    <bean id="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-capitalAssetNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	<property name="searchingAttribute">
+    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    			<property name="attributeName" value="capitalAssetNumber" />
+    		</bean>
+    	</property>
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.capitalAssetNumber</value>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-campusTagNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	<property name="searchingAttribute">
+    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    			<property name="attributeName" value="campusTagNumber" />
+    		</bean>
+    	</property>
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.campusTagNumber</value>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationOwnerChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	<property name="searchingAttribute">
+    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    			<property name="attributeName" value="organizationOwnerChartOfAccountsCode" />
+    		</bean>
+    	</property>
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.organizationOwnerChartOfAccountsCode</value>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	<property name="searchingAttribute">
+    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
+    			<property name="attributeName" value="organizationCode" />
+    		</bean>
+    	</property>
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.organizationOwnerAccount.organizationCode</value>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationOwnerAccountNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	<property name="searchingAttribute">
+    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    			<property name="attributeName" value="organizationOwnerAccountNumber" />
+    		</bean>
+    	</property>
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.organizationOwnerAccountNumber</value>
+    		</list>
+    	</property>
+    </bean>
+    
+    
 </beans>

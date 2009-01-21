@@ -307,41 +307,94 @@
 
   <bean id="AssetRetirementGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     <property name="searchingTypeDefinitions">
-    		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-    						<property name="attributeName" value="capitalAssetNumber" />
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>newMaintainableObject.businessObject.assetRetirementGlobalDetails.capitalAssetNumber</value>
-    					</list>
-    				</property>
-    			</bean>
-    		</list>
-    	</property>
-    	<property name="routingTypeDefinitions">
-    		<map>
-    			<entry key="Account" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-Account" />
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy" />
-    			<!-- no qualifiers for purchasing node -->
-    			<!-- no qualifiers for manager node -->
-    		</map>
+    	<list>
+	    	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		    	<property name="searchingAttribute">
+		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+		    			<property name="attributeName" value="capitalAssetNumber" />
+		    		</bean>
+		    	</property>
+		    	<property name="documentValues">
+		    		<list>
+		    			<value>newMaintainableObject.businessObject.assetRetirementGlobalDetails.capitalAssetNumber</value>
+		    			<value>newMaintainableObject.businessObject.mergedTargetCapitalAssetNumber</value>
+		    		</list>
+		    	</property>
+		    </bean>
+		    
+		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		    	<property name="searchingAttribute">
+		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+		    			<property name="attributeName" value="campusTagNumber" />
+		    		</bean>
+		    	</property>
+		    	<property name="documentValues">
+		    		<list>
+		    			<value>newMaintainableObject.businessObject.assetRetirementGlobalDetails.asset.campusTagNumber</value>
+		    			<value>newMaintainableObject.businessObject.mergedTargetCapitalAsset.campusTagNumber</value>
+		    		</list>
+		    	</property>
+		    </bean>
+	    
+		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		    	<property name="searchingAttribute">
+		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+		    			<property name="attributeName" value="organizationOwnerChartOfAccountsCode" />
+		    		</bean>
+		    	</property>
+		    	<property name="documentValues">
+		    		<list>
+		    			<value>newMaintainableObject.businessObject.assetRetirementGlobalDetails.asset.organizationOwnerChartOfAccountsCode</value>
+		    			<value>newMaintainableObject.businessObject.mergedTargetCapitalAsset.organizationOwnerChartOfAccountsCode</value>
+		    		</list>
+		    	</property>
+		    </bean>
+	    
+		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		    	<property name="searchingAttribute">
+		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
+		    			<property name="attributeName" value="organizationCode" />
+		    		</bean>
+		    	</property>
+		    	<property name="documentValues">
+		    		<list>
+		    			<value>newMaintainableObject.businessObject.assetRetirementGlobalDetails.asset.organizationOwnerAccount.organizationCode</value>
+		    			<value>newMaintainableObject.businessObject.mergedTargetCapitalAsset.organizationOwnerAccount.organizationCode</value>
+		    		</list>
+		    	</property>
+		    </bean>
+	    
+		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		    	<property name="searchingAttribute">
+		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+		    			<property name="attributeName" value="organizationOwnerAccountNumber" />
+		    		</bean>
+		    	</property>
+		    	<property name="documentValues">
+		    		<list>
+		    			<value>newMaintainableObject.businessObject.assetRetirementGlobalDetails.asset.organizationOwnerAccountNumber</value>
+		    			<value>newMaintainableObject.businessObject.mergedTargetCapitalAsset.organizationOwnerAccountNumber</value>
+		    		</list>
+		    	</property>
+		    </bean>
+    	</list>
+    </property>
+    <property name="routingTypeDefinitions">
+    	<map>
+    		<entry key="Account" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-Account" />
+    		<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy" />
+    		<!-- no qualifiers for purchasing node -->
+    		<!-- no qualifiers for manager node -->
+    	</map>
     </property>
   </bean>
    
-   <bean id="DocumentCollectionPath-AssetRetirementGlobalMaintenanceDocument-chartAndAccountNumber" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
-   		<property name="documentValues">
-	   		<list>
-	   			<value>asset.organizationOwnerChartOfAccountsCode</value>
-	   			<value>asset.organizationOwnerAccountNumber</value>
-	   		</list>
-   		</property>
-   </bean>
-   	
+
   <bean id="RoutingType-AssetRetirementGlobalMaintenanceDocument-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
@@ -353,7 +406,7 @@
     		<list>
     			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 	    			<property name="documentCollectionPath">
-    					<bean parent="DocumentCollectionPath-AssetRetirementGlobalMaintenanceDocument-chartAndAccountNumber">
+    					<bean parent="DocumentCollectionPath-AssetDetail-chartAndAccountNumber">
     						<property name="collectionPath" value="newMaintainableObject.businessObject.assetRetirementGlobalDetails" />
     					</bean>
     				</property>

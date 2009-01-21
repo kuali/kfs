@@ -23,7 +23,6 @@
   
  <!-- workflow attributes -->
   <bean id="AssetDepreciationDocument-workflowAttributes" parent="AssetDepreciationDocument-workflowAttributes-parentBean" />
-
   <bean id="AssetDepreciationDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

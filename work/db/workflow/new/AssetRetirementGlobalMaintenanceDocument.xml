@@ -11,7 +11,7 @@
           <requests name="Account" nextNode="RetiredAssetTransferredExternally"/>
 		  <split name="RetiredAssetTransferredExternally" nextNode="OrganizationHierarchy">
 						<branch name="True">
-							<requests name="Manager"  nextNode="JoinRetiredAssetTransferredExternally"/>
+							<requests name="ExternalTransfer"  nextNode="JoinRetiredAssetTransferredExternally"/>
 						</branch>
 						<branch name="False">
 							<simple name="NoOpExternal" nextNode="JoinRetiredAssetTransferredExternally"/>

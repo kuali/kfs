@@ -3,7 +3,7 @@
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>ElectronicInvoiceRejectDocument</name>
-<parent>KualiBaseDocument</parent>
+<parent>AccountsPayableTransactionalDocument</parent>
 <docHandler>${application.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>

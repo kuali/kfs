@@ -226,6 +226,8 @@
 <bean id="Asset-assetPayments-lookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="lookup" />
 	<property name="label" value="To view the payment lookup for this Asset" />
+    <property name="maxLength" value="0" />
+    <property name="required" value="false"/>    
 	<property name="control" >
 		<bean parent="LinkControlDefinition"
 			p:styleClass="globalLinks"

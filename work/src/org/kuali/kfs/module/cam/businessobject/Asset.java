@@ -17,6 +17,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
+import org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciableAssetsDaoOjb;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
@@ -1899,8 +1900,8 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK,"true");        
         params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER,this.getCapitalAssetNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE,"org.kuali.kfs.module.cam.businessobject.AssetPayment");        
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE,AssetPayment.class.getName());
+        
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }    
-//a href="lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=2053" target="_blank" class="portal_link" title="Payment Information">Click here</a>                   
 }

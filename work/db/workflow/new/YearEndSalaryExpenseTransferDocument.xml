@@ -4,7 +4,6 @@
 <documentType>
 <name>YearEndSalaryExpenseTransferDocument</name>
 <parent>LaborDistributionYearEndTransactionalDocument</parent>
-<docHandler>${application.url}/laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler</docHandler>
 </documentType>
 </documentTypes>
 </data>

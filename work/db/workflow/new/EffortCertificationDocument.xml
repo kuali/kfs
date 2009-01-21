@@ -5,7 +5,6 @@
 <name>EffortCertificationDocument</name>
 <parent>EffortCertificationTransactionalDocument</parent>
 <docHandler>${application.url}/effortEffortCertification.do?methodToCall=docHandler</docHandler>
-<label>Effort Certification Document</label>
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="ProjectManagement"/>

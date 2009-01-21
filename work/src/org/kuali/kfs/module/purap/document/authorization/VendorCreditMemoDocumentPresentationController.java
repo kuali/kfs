@@ -93,9 +93,9 @@ public class VendorCreditMemoDocumentPresentationController extends FinancialSys
      */
     @Override
     public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument)document;
-        Set<String> editModes = new HashSet<String>();
 
         if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
             editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB);

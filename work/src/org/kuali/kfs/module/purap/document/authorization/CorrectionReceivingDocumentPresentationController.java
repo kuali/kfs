@@ -27,7 +27,7 @@ public class CorrectionReceivingDocumentPresentationController extends Financial
     
     @Override
     public Set<String> getEditModes(Document document) {
-        Set<String> editModes = new HashSet<String>();
+        Set<String> editModes = super.getEditModes(document);
 
         // lock vendor input
         editModes.add(PurapAuthorizationConstants.BulkReceivingEditMode.LOCK_VENDOR_ENTRY);

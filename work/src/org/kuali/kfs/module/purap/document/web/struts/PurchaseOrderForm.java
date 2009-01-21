@@ -30,7 +30,6 @@ import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -53,7 +52,6 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument;
-import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
@@ -343,7 +341,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo"));
         }
         
-        if (canFirstTransmitPrintPo()) {
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PRINT_PURCHASE_ORDER)) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo"));
         }
 
@@ -619,36 +617,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return can;
     }
     
-    /**
-     * Determines whether to display the button to print the pdf for the first time transmit. 
-     * Conditions: PO status is Pending Print or the transmission method is changed to PRINT during the amendment. 
-     * User is either in Purchasing group or an action is requested of them for the document transmission route node.
-     * 
-     * @return boolean true if the print first transmit button can be displayed.
-     */
-    public boolean canFirstTransmitPrintPo() {
-        // status shall be Pending Print, or the transmission method is changed to PRINT during amendment, 
-        boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(getPurchaseOrderDocument().getStatusCode());
-        if (!can) {
-            can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
-            can = can && getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();
-            can = can && getPurchaseOrderDocument().getPurchaseOrderLastTransmitTimestamp() == null;
-            String method = getPurchaseOrderDocument().getPurchaseOrderTransmissionMethodCode();
-            can = can && method != null && method.equals(PurapConstants.POTransmissionMethods.PRINT);
-        }
-        
-        // user is either authorized or an action is requested of them for the document transmission route node, 
-        if (can) {
-            PurApWorkflowIntegrationService service = SpringContext.getBean(PurApWorkflowIntegrationService.class);
-            can = service.isActionRequestedOfUserAtNodeName(getPurchaseOrderDocument().getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson());
-            if (!can) {
-                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-                can = documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.PRINT_PO, GlobalVariables.getUserSession().getPerson().getPrincipalId());               
-            }
-        }
-        
-        return can;
-    }
     
     /**
      * Determines whether to display the print preview button for the first time transmit. Conditions are:
@@ -781,6 +749,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @return boolean true if the assign sensitive data button shall be displayed.
      */
     public boolean canAssignSensitiveData() {
+        //FIXME this isn't working
+//        return true;
         // check user authorization
         DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
         return documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.ASSIGN_SENSITIVE_DATA, GlobalVariables.getUserSession().getPerson().getPrincipalId());

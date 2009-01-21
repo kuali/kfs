@@ -57,9 +57,9 @@ public class BulkReceivingDocumentPresentationController extends FinancialSystem
 
     @Override
     public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         BulkReceivingDocument bulkReceivingDocument = (BulkReceivingDocument)document;
-        Set<String> editModes = new HashSet<String>();
 
         // if vendor has been selected from DB, certain vendor fields are not allowed to be edited
         if (ObjectUtils.isNotNull(bulkReceivingDocument.getVendorHeaderGeneratedIdentifier())) {

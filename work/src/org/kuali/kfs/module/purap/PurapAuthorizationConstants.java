@@ -49,6 +49,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String LOCK_TAX_AMOUNT_ENTRY = "lockTaxAmountEntry";
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
         public static final String LOCK_B2B_ENTRY = "lockB2BEntry";
+        public static final String PRINT_PURCHASE_ORDER = "printPurchaseOrder";
     }
 
     public static class PaymentRequestEditMode extends EditMode {
@@ -103,7 +104,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         //public static final String PRINT_RETRANSMITTED_NON_APO = "Print Retransmitted Non APO";
         public static final String PRINT_PO = "Print Purchase Order";
         public static final String RESEND_PO = "Resend Purchase Order";
-        public static final String ASSIGN_SENSITIVE_DATA = "Assign Sensitive Data";
+        public static final String ASSIGN_SENSITIVE_DATA = "assignSensitiveData";
         public static final String HOLD_PREQ = "Add Payment Request Hold";
         public static final String REMOVE_HOLD_PREQ = "Remove Payment Request Hold";
         public static final String REMOVE_CANCEL_PREQ = "Remove Payment Request Cancel";

@@ -38,7 +38,7 @@ public class PurchaseOrderRetransmitDocumentPresentationController extends Purch
 
     @Override
     public Set<String> getEditModes(Document document) {
-        Set<String> editModes = new HashSet<String>();
+        Set<String> editModes = super.getEditModes(document);
         editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
         return editModes;
     }

@@ -36,8 +36,8 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
 
     @Override
     public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        Set<String> editModes = new HashSet<String>();
 
         if (PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
             editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.AMENDMENT_ENTRY);

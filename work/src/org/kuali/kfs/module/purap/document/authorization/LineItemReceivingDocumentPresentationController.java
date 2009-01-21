@@ -55,8 +55,8 @@ public class LineItemReceivingDocumentPresentationController extends FinancialSy
 
     @Override
     public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        Set<String> editModes = new HashSet<String>();
 
         if (workflowDocument.stateIsInitiated()) {
             editModes.add(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB);

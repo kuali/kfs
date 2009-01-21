@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,7 +22,7 @@ import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PurchaseOrderEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -125,18 +124,22 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
 
     @Override
     public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        Set<String> editModes = new HashSet<String>();
 
+        if (canFirstTransmitPrintPo(poDocument)) {
+            editModes.add(PurchaseOrderEditMode.PRINT_PURCHASE_ORDER);
+        }
+        
         // if vendor has been selected from DB, certain vendor fields are not allowed to be edited
         if (ObjectUtils.isNotNull(poDocument.getVendorHeaderGeneratedIdentifier())) {
-            editModes.add(RequisitionEditMode.LOCK_VENDOR_ENTRY);
+            editModes.add(PurchaseOrderEditMode.LOCK_VENDOR_ENTRY);
         }
         
         // if B2B purchase order, certain fields are not allowed to be edited
         if (RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
-            editModes.add(RequisitionEditMode.LOCK_B2B_ENTRY);
+            editModes.add(PurchaseOrderEditMode.LOCK_B2B_ENTRY);
         }
 
         // if not B2B requisition, users can edit the posting year if within a given amount of time set in a parameter
@@ -147,7 +150,7 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
                         PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()) ||
                         PurchaseOrderStatuses.QUOTE.equals(poDocument.getStatusCode()) ||
                         PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()))) {
-            editModes.add(RequisitionEditMode.ALLOW_POSTING_YEAR_ENTRY);
+            editModes.add(PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY);
         }
 
         // if use tax, don't allow editing of tax fields
@@ -165,18 +168,18 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
         // set display mode for Receiving Address section according to parameter value
         boolean displayReceivingAddress = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND);                
         if (displayReceivingAddress) {
-            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.DISPLAY_RECEIVING_ADDRESS);
+            editModes.add(PurchaseOrderEditMode.DISPLAY_RECEIVING_ADDRESS);
         }
             
         // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
         // for ex, contract manager, manual status change, and quote etc
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE);
+            editModes.add(PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE);
         }
         
         // INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the CHART/ORG.
         if (poDocument.isDocumentStoppedInRouteNode(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
-            editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY);
+            editModes.add(PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY);
         }
 
         //FIXME figure out how to get this to work
@@ -191,11 +194,41 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
 
         // Set display mode for Split PO.
         if (poDocument.isPendingSplit()) {
-            editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
+            editModes.add(PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
         }
  
         
         return editModes;
+    }
+
+    /**
+     * Determines whether to display the button to print the pdf for the first time transmit. 
+     * Conditions: PO status is Pending Print or the transmission method is changed to PRINT during the amendment. 
+     * User is either in Purchasing group or an action is requested of them for the document transmission route node.
+     * 
+     * @return boolean true if the print first transmit button can be displayed.
+     */
+    private boolean canFirstTransmitPrintPo(PurchaseOrderDocument purchaseOrderDocument) {
+        // status shall be Pending Print, or the transmission method is changed to PRINT during amendment, 
+        boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrderDocument.getStatusCode());
+        if (!can) {
+            can = PurchaseOrderStatuses.OPEN.equals(purchaseOrderDocument.getStatusCode());
+            can = can && purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal();
+            can = can && purchaseOrderDocument.getPurchaseOrderLastTransmitTimestamp() == null;
+            can = can && PurapConstants.POTransmissionMethods.PRINT.equals(purchaseOrderDocument.getPurchaseOrderTransmissionMethodCode());
+        }
+        
+//        // user is either authorized or an action is requested of them for the document transmission route node, 
+//        if (can) {
+//            PurApWorkflowIntegrationService service = SpringContext.getBean(PurApWorkflowIntegrationService.class);
+//            can = service.isActionRequestedOfUserAtNodeName(purchaseOrderDocument.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson());
+//            if (!can) {
+//                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrderDocument);
+//                can = documentAuthorizer.isAuthorized(purchaseOrderDocument, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.PRINT_PO, GlobalVariables.getUserSession().getPerson().getPrincipalId());               
+//            }
+//        }
+//        
+        return can;
     }
 
 }

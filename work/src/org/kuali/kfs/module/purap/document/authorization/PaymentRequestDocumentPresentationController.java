@@ -127,9 +127,9 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
      */
     @Override
     public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
-        Set<String> editModes = super.getEditModes(document);
         
         //add state logic for when an AP processor can cancel the doc
         if (canProcessorCancel(paymentRequestDocument)) {

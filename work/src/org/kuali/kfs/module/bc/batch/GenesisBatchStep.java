@@ -70,7 +70,6 @@ public class GenesisBatchStep extends AbstractStep {
            runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
            runIndicatorParameter.setParameterConstraintCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
            runIndicatorParameter.setParameterTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
-           runIndicatorParameter.setParameterWorkgroupName(GenesisBatchStep.RUN_INDICATOR_PARAMETER_WORKGROUP);
         }
         runIndicatorParameter.setParameterValue(GenesisBatchStep.RUN_INDICATOR_PARAMETER_VALUE);
         boService.save(runIndicatorParameter);

@@ -27,7 +27,6 @@
         <ref bean="Parameter-parameterTypeCode" />
         <ref bean="Parameter-parameterType.name" />
         <ref bean="Parameter-parameterDetailType.parameterDetailTypeName" />
-        <ref bean="Parameter-parameterWorkgroupName" />
         <ref bean="Parameter-parameterNamespace.codeAndDescription" />
       </list>
     </property>
@@ -148,21 +147,7 @@
     <property name="label" value="Component" />
     <property name="required" value="false" />
   </bean>
-  <bean id="Parameter-parameterWorkgroupName" parent="Parameter-parameterWorkgroupName-parentBean" />
-
-  <bean id="Parameter-parameterWorkgroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="parameterWorkgroupName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Workgroup" />
-    <property name="shortLabel" value="Workgroup" />
-    <property name="maxLength" value="70" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="WorkflowWorkgroupControlDefinition" />
-    </property>
-    <property name="summary" value="ID of workgroup which can edit this parameter." />
-    <property name="description" value="ID of workgroup which can edit this parameter." />
-  </bean>
+ 
   <bean id="Parameter-parameterNamespace.codeAndDescription" parent="Parameter-parameterNamespace.codeAndDescription-parentBean" />
 
   <bean id="Parameter-parameterNamespace.codeAndDescription-parentBean" abstract="true" parent="ParameterNamespace-codeAndDescription">
@@ -199,8 +184,6 @@
                     p:attributeName="parameterDescription" />
               <bean parent="FieldDefinition"
                     p:attributeName="parameterType.name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="parameterWorkgroupName" />
             </list>
           </property>
         </bean>
@@ -240,8 +223,6 @@
               p:attributeName="parameterValue" />
         <bean parent="FieldDefinition"
               p:attributeName="parameterTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="parameterWorkgroupName" />
       </list>
     </property>
     <property name="resultFields" >

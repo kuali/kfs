@@ -95,3 +95,6 @@ INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, AC
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
     VALUES('550', sys_guid(), 1, '63', '289', 'Y')
 /
+
+update krim_role_perm_t set role_id = '89' where perm_id = '272' and role_id = '59'
+/

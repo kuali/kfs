@@ -133,7 +133,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorAttentionName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAttentionName}" property="document.vendorAttentionName" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or lockB2BEntry or displayPaymentRequestFields}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAttentionName}" property="document.vendorAttentionName" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or (lockB2BEntry and (displayRequisitionFields or displayPurchaseOrderFields))}" />
                 </td>
                     
                 <th align=right valign=middle class="bord-l-b">

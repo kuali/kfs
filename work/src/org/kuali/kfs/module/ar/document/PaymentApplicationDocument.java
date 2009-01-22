@@ -524,136 +524,117 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         NonAppliedHolding holding = getNonAppliedHolding();
         if(ObjectUtils.isNotNull(holding)) {
             GeneralLedgerPendingEntry actualCreditUnapplied = new GeneralLedgerPendingEntry();
+            actualCreditUnapplied.setUniversityFiscalYear(getPostingYear());
             actualCreditUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             actualCreditUnapplied.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             actualCreditUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             actualCreditUnapplied.setFinancialObjectCode(unappliedSystemInformation.getUniversityClearingObjectCode());
+            actualCreditUnapplied.setFinancialObjectTypeCode(unappliedSystemInformation.getUniversityClearingObject().getFinancialObjectTypeCode());
+            actualCreditUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualCreditUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
             actualCreditUnapplied.setFinancialSubObjectCode(unappliedSubObjectCode);
-            if(ObjectUtils.isNull(actualCreditUnapplied.getFinancialObject())) {
-                boolean breakFour = true;
-            } else {
-                actualCreditUnapplied.getFinancialObject().refreshNonUpdateableReferences();
-            }
             generatedEntries.add(actualCreditUnapplied);
             
             GeneralLedgerPendingEntry actualDebitUnapplied = new GeneralLedgerPendingEntry();
+            actualDebitUnapplied.setUniversityFiscalYear(getPostingYear());
             actualDebitUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             actualDebitUnapplied.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
             actualDebitUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             actualDebitUnapplied.setFinancialObjectCode(universityClearingAccountObjectCode);
+            actualDebitUnapplied.setFinancialObjectTypeCode(unappliedSystemInformation.getUniversityClearingObject().getFinancialObjectTypeCode());
+            actualDebitUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualDebitUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
-            if(ObjectUtils.isNull(actualDebitUnapplied.getFinancialObject())) {
-                boolean breakThree = true;
-            } else {
-                actualDebitUnapplied.getFinancialObject().refreshNonUpdateableReferences();
+            // Only need the sub object code on the debit if the payment application document was not created via a cash control document
+            if(null == cashControlDocument) {
+                actualDebitUnapplied.setFinancialSubObjectCode(unappliedSubObjectCode);
             }
             generatedEntries.add(actualDebitUnapplied);
             
-            Integer fiscalYearForUnappliedOffsetDefinition = null == cashControlDocument ? currentFiscalYear : cashControlDocument.getPostingYear();
-            OffsetDefinition unappliedOffsetDefinition = 
-                offsetDefinitionService.getByPrimaryId(
-                        fiscalYearForUnappliedOffsetDefinition, processingChartCode, 
-                        cashControlDocumentTypeCode, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            
+            // Offsets for unapplied entries are just offsets to themselves, same info.
+            // So set the values into the offsets based on the values in the actuals.
             GeneralLedgerPendingEntry offsetCreditUnapplied = new GeneralLedgerPendingEntry();
+            offsetCreditUnapplied.setUniversityFiscalYear(actualDebitUnapplied.getUniversityFiscalYear());
             offsetCreditUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-            offsetCreditUnapplied.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
-            offsetCreditUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
-            offsetCreditUnapplied.setFinancialObjectCode(unappliedOffsetDefinition.getFinancialObjectCode());
-            offsetCreditUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
-            if(ObjectUtils.isNull(offsetCreditUnapplied.getFinancialObject())) {
-                boolean breakOne = true;
-            } else {
-                offsetCreditUnapplied.getFinancialObject().refreshNonUpdateableReferences();
-            }
+            offsetCreditUnapplied.setChartOfAccountsCode(actualDebitUnapplied.getChartOfAccountsCode());
+            offsetCreditUnapplied.setAccountNumber(actualDebitUnapplied.getAccountNumber());
+            offsetCreditUnapplied.setFinancialObjectCode(actualDebitUnapplied.getFinancialObjectCode());
+            offsetCreditUnapplied.setFinancialObjectTypeCode(actualDebitUnapplied.getFinancialObjectTypeCode());
+            offsetCreditUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            offsetCreditUnapplied.setTransactionLedgerEntryAmount(actualDebitUnapplied.getTransactionLedgerEntryAmount());
             generatedEntries.add(offsetCreditUnapplied);
             
             GeneralLedgerPendingEntry offsetDebitUnapplied = new GeneralLedgerPendingEntry();
+            offsetDebitUnapplied.setUniversityFiscalYear(actualCreditUnapplied.getUniversityFiscalYear());
             offsetDebitUnapplied.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-            offsetDebitUnapplied.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
-            offsetDebitUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
-            offsetDebitUnapplied.setFinancialObjectCode(unappliedOffsetDefinition.getFinancialObjectCode());
-            offsetDebitUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
-            if(ObjectUtils.isNull(offsetDebitUnapplied.getFinancialObject())) {
-                boolean breakTwo = true;
-            } else {
-                offsetDebitUnapplied.getFinancialObject().refreshNonUpdateableReferences();
-            }
+            offsetDebitUnapplied.setChartOfAccountsCode(actualCreditUnapplied.getChartOfAccountsCode());
+            offsetDebitUnapplied.setAccountNumber(actualCreditUnapplied.getAccountNumber());
+            offsetDebitUnapplied.setFinancialObjectCode(actualCreditUnapplied.getFinancialObjectCode());
+            offsetDebitUnapplied.setFinancialObjectTypeCode(actualCreditUnapplied.getFinancialObjectTypeCode());
+            offsetDebitUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            offsetDebitUnapplied.setTransactionLedgerEntryAmount(actualCreditUnapplied.getTransactionLedgerEntryAmount());
             generatedEntries.add(offsetDebitUnapplied);
         }
         
         // Generate glpes for non-ar
         for(NonInvoiced nonInvoiced : getNonInvoiceds()) {
             // Actual entries
-            GeneralLedgerPendingEntry creditEntryOne = new GeneralLedgerPendingEntry();
-            creditEntryOne.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-            creditEntryOne.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
-            creditEntryOne.setAccountNumber(nonInvoiced.getAccountNumber());
-            creditEntryOne.setFinancialObjectCode(nonInvoiced.getFinancialObjectCode());
-            creditEntryOne.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
-            if(ObjectUtils.isNull(creditEntryOne.getFinancialObject())) {
-                boolean breakFive = true;
-            } else {
-                creditEntryOne.getFinancialObject().refreshNonUpdateableReferences();
-            }
-            generatedEntries.add(creditEntryOne);
+            GeneralLedgerPendingEntry actualCreditEntry = new GeneralLedgerPendingEntry();
+            actualCreditEntry.setUniversityFiscalYear(getPostingYear());
+            actualCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+            actualCreditEntry.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
+            actualCreditEntry.setAccountNumber(nonInvoiced.getAccountNumber());
+            actualCreditEntry.setFinancialObjectCode(nonInvoiced.getFinancialObjectCode());
+            actualCreditEntry.setFinancialObjectTypeCode(nonInvoiced.getFinancialObject().getFinancialObjectTypeCode());
+            actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            actualCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            generatedEntries.add(actualCreditEntry);
             
-            GeneralLedgerPendingEntry debitEntryTwo = new GeneralLedgerPendingEntry();
-            debitEntryTwo.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-            debitEntryTwo.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
-            debitEntryTwo.setAccountNumber(universityClearingAccount.getAccountNumber());
-            debitEntryTwo.setFinancialObjectCode(universityClearingAccountObjectCode);
-            debitEntryTwo.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
-            if(ObjectUtils.isNull(debitEntryTwo.getFinancialObject())) {
-                boolean breakSix = true;
-            } else {
-                debitEntryTwo.getFinancialObject().refreshNonUpdateableReferences();
-            }
-            generatedEntries.add(debitEntryTwo);
+            GeneralLedgerPendingEntry actualDebitEntry = new GeneralLedgerPendingEntry();
+            actualDebitEntry.setUniversityFiscalYear(getPostingYear());
+            actualDebitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            actualDebitEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
+            actualDebitEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
+            actualDebitEntry.setFinancialObjectCode(universityClearingAccountObjectCode);
+            actualDebitEntry.setFinancialObjectTypeCode(nonInvoiced.getFinancialObject().getFinancialObjectTypeCode());
+            actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            actualDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            generatedEntries.add(actualDebitEntry);
 
             // Offset entries
-            GeneralLedgerPendingEntry debitEntryOne = new GeneralLedgerPendingEntry();
-            debitEntryOne.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-            debitEntryOne.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
-            debitEntryOne.setAccountNumber(nonInvoiced.getAccountNumber());
-            
+            GeneralLedgerPendingEntry offsetDebitEntry = new GeneralLedgerPendingEntry();
+            offsetDebitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            offsetDebitEntry.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
+            offsetDebitEntry.setAccountNumber(nonInvoiced.getAccountNumber());
+            offsetDebitEntry.setUniversityFiscalYear(getPostingYear());
             OffsetDefinition debitOffsetDefinition = 
                 offsetDefinitionService.getByPrimaryId(
                     getPostingYear(), nonInvoiced.getChartOfAccountsCode(), 
                     paymentApplicationDocumentTypeCode, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             debitOffsetDefinition.refreshReferenceObject("financialObject");
-            debitEntryOne.setFinancialObjectCode(debitOffsetDefinition.getFinancialObjectCode());
-            debitEntryOne.setFinancialObjectTypeCode(debitOffsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
-            debitEntryOne.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            debitEntryOne.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
-            debitEntryOne.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
-            if(ObjectUtils.isNull(debitEntryOne.getFinancialObject())) {
-                boolean breakSeven = true;
-            } else {
-                debitEntryOne.getFinancialObject().refreshNonUpdateableReferences();
-            }
-            generatedEntries.add(debitEntryOne);
+            offsetDebitEntry.setFinancialObjectCode(debitOffsetDefinition.getFinancialObjectCode());
+            offsetDebitEntry.setFinancialObjectTypeCode(debitOffsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
+            offsetDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            offsetDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            offsetDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            generatedEntries.add(offsetDebitEntry);
             
-            GeneralLedgerPendingEntry creditEntryTwo = new GeneralLedgerPendingEntry();
-            creditEntryTwo.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-            creditEntryTwo.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
-            creditEntryTwo.setAccountNumber(universityClearingAccount.getAccountNumber());
+            GeneralLedgerPendingEntry offsetCreditEntry = new GeneralLedgerPendingEntry();
+            offsetCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+            offsetCreditEntry.setUniversityFiscalYear(getPostingYear());
+            offsetCreditEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
+            offsetCreditEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
             Integer fiscalYearForCreditOffsetDefinition = null == cashControlDocument ? currentFiscalYear : cashControlDocument.getUniversityFiscalYear();
             OffsetDefinition creditOffsetDefinition = 
                 offsetDefinitionService.getByPrimaryId(
                         fiscalYearForCreditOffsetDefinition, processingChartCode, 
                         cashControlDocumentTypeCode, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             creditOffsetDefinition.refreshReferenceObject("financialObject");
-            creditEntryTwo.setFinancialObjectCode(creditOffsetDefinition.getFinancialObjectCode());
-            creditEntryTwo.setFinancialObjectTypeCode(creditOffsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
-            creditEntryTwo.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
-            if(ObjectUtils.isNull(creditEntryTwo.getFinancialObject())) {
-                boolean breakEight = true;
-            } else {
-                creditEntryTwo.getFinancialObject().refreshNonUpdateableReferences();
-            }
-            generatedEntries.add(creditEntryTwo);
+            offsetCreditEntry.setFinancialObjectCode(creditOffsetDefinition.getFinancialObjectCode());
+            offsetCreditEntry.setFinancialObjectTypeCode(creditOffsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
+            offsetCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            offsetCreditEntry.setFinancialDocumentTypeCode(cashControlDocumentTypeCode);
+            offsetCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            generatedEntries.add(offsetCreditEntry);
             
         }
         
@@ -673,79 +654,59 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             ObjectCode accountsReceivableObjectCode = getAccountsReceivableObjectCode(ipa);
             ObjectCode unappliedCashObjectCode = getUnappliedCashObjectCode(ipa);
             
-            GeneralLedgerPendingEntry debitGLPE_1 = new GeneralLedgerPendingEntry();
-            debitGLPE_1.setUniversityFiscalYear(getPostingYear());
-            debitGLPE_1.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
-            debitGLPE_1.setAccountNumber(universityClearingAccount.getAccountNumber());
-            debitGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-            debitGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
-            debitGLPE_1.setFinancialObjectCode(unappliedCashObjectCode.getFinancialObjectCode());
-            debitGLPE_1.setFinancialObjectTypeCode(unappliedCashObjectCode.getFinancialObjectTypeCode());
-            debitGLPE_1.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            debitGLPE_1.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
-            if(ObjectUtils.isNull(debitGLPE_1.getFinancialObject())) {
-                boolean breakNine = true;
-            } else {
-                debitGLPE_1.getFinancialObject().refreshNonUpdateableReferences();
-            }
-            generatedEntries.add(debitGLPE_1);
+            GeneralLedgerPendingEntry actualDebitEntry = new GeneralLedgerPendingEntry();
+            actualDebitEntry.setUniversityFiscalYear(getPostingYear());
+            actualDebitEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
+            actualDebitEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
+            actualDebitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            actualDebitEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
+            actualDebitEntry.setFinancialObjectCode(unappliedCashObjectCode.getFinancialObjectCode());
+            actualDebitEntry.setFinancialObjectTypeCode(unappliedCashObjectCode.getFinancialObjectTypeCode());
+            actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            actualDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            generatedEntries.add(actualDebitEntry);
             sequenceHelper.increment();
             
-            GeneralLedgerPendingEntry creditGLPE_1 = new GeneralLedgerPendingEntry();
-            creditGLPE_1.setUniversityFiscalYear(getPostingYear());
-            creditGLPE_1.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
-            creditGLPE_1.setAccountNumber(universityClearingAccount.getAccountNumber());
-            creditGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-            creditGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
-            creditGLPE_1.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
-            creditGLPE_1.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
-            creditGLPE_1.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            creditGLPE_1.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
-            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_1, sequenceHelper, creditGLPE_1);
-            if(ObjectUtils.isNull(creditGLPE_1.getFinancialObject())) {
-                boolean breakTen = true;
-            } else {
-                creditGLPE_1.getFinancialObject().refreshNonUpdateableReferences();
-            }
-            generatedEntries.add(creditGLPE_1);
+            GeneralLedgerPendingEntry actualCreditEntry = new GeneralLedgerPendingEntry();
+            actualCreditEntry.setUniversityFiscalYear(getPostingYear());
+            actualCreditEntry.setChartOfAccountsCode(universityClearingAccount.getChartOfAccountsCode());
+            actualCreditEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
+            actualCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+            actualCreditEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
+            actualCreditEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
+            actualCreditEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
+            actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            actualCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), actualDebitEntry, sequenceHelper, actualCreditEntry);
+            generatedEntries.add(actualCreditEntry);
             sequenceHelper.increment();
             
-            GeneralLedgerPendingEntry debitGLPE_2 = new GeneralLedgerPendingEntry();
-            debitGLPE_2.setUniversityFiscalYear(getPostingYear());
-            debitGLPE_2.setAccountNumber(billingOrganizationAccount.getAccountNumber());
-            debitGLPE_2.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
-            debitGLPE_2.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-            debitGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
-            debitGLPE_2.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
-            debitGLPE_2.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
-            debitGLPE_2.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            debitGLPE_2.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
-            if(ObjectUtils.isNull(debitGLPE_2.getFinancialObject())) {
-                boolean breakEleven = true;
-            } else {
-                debitGLPE_2.getFinancialObject().refreshNonUpdateableReferences();
-            }
-            generatedEntries.add(debitGLPE_2);
+            GeneralLedgerPendingEntry offsetDebitEntry = new GeneralLedgerPendingEntry();
+            offsetDebitEntry.setUniversityFiscalYear(getPostingYear());
+            offsetDebitEntry.setAccountNumber(billingOrganizationAccount.getAccountNumber());
+            offsetDebitEntry.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
+            offsetDebitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+            offsetDebitEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
+            offsetDebitEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
+            offsetDebitEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
+            offsetDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            offsetDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            generatedEntries.add(offsetDebitEntry);
             sequenceHelper.increment();
 
-            GeneralLedgerPendingEntry creditGLPE_2 = new GeneralLedgerPendingEntry();
-            creditGLPE_2.setUniversityFiscalYear(getPostingYear());
-            creditGLPE_2.setAccountNumber(billingOrganizationAccount.getAccountNumber());
-            creditGLPE_2.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
-            creditGLPE_2.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-            creditGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
-            creditGLPE_2.setFinancialObjectCode(accountsReceivableObjectCode.getFinancialObjectCode());
-            creditGLPE_2.setFinancialObjectTypeCode(accountsReceivableObjectCode.getFinancialObjectTypeCode());
-            creditGLPE_2.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            creditGLPE_2.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
-            creditGLPE_2.refreshNonUpdateableReferences();
-            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_2, sequenceHelper, creditGLPE_2);
-            if(ObjectUtils.isNull(creditGLPE_2.getFinancialObject())) {
-                boolean breakTwelve = true;
-            } else {
-                creditGLPE_2.getFinancialObject().refreshNonUpdateableReferences();
-            }
-            generatedEntries.add(creditGLPE_2);
+            GeneralLedgerPendingEntry offsetCreditEntry = new GeneralLedgerPendingEntry();
+            offsetCreditEntry.setUniversityFiscalYear(getPostingYear());
+            offsetCreditEntry.setAccountNumber(billingOrganizationAccount.getAccountNumber());
+            offsetCreditEntry.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
+            offsetCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            offsetCreditEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
+            offsetCreditEntry.setFinancialObjectCode(accountsReceivableObjectCode.getFinancialObjectCode());
+            offsetCreditEntry.setFinancialObjectTypeCode(accountsReceivableObjectCode.getFinancialObjectTypeCode());
+            offsetCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+            offsetCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            offsetCreditEntry.refreshNonUpdateableReferences();
+            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), offsetDebitEntry, sequenceHelper, offsetCreditEntry);
+            generatedEntries.add(offsetCreditEntry);
             sequenceHelper.increment();
         }
         

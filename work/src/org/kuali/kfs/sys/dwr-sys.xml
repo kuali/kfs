@@ -50,5 +50,12 @@
 	    	<param name="beanName" value="bankService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
+        <convert converter="bean" match="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType">
+            <param name="include" value="inputTypeCode,documentTypeName,documentTypeActiveIndicator" />
+        </convert>
+        <create creator="spring" javascript="GeneralLedgerInputTypeService">
+            <param name="beanName" value="generalLedgerInputTypeService" />
+            <include method="getGeneralLedgerInputTypeByInputTypeCode" />
+        </create>
 	</allow>
 </dwr>

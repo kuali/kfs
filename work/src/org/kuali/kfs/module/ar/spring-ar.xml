@@ -173,6 +173,12 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="sysInfoService">
+			<ref bean="systemInformationService" />
+		</property>
 	</bean>	
 	
 	<bean id="invoiceRecurrenceService" class="org.kuali.kfs.module.ar.batch.service.impl.InvoiceRecurrenceServiceImpl">

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.butt;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
@@ -156,23 +155,6 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
         cashControlDocumentService.addNewCashControlDetail("desc", document, detail1);
 
-    }
-
-    /**
-     * This method tests that checkUserOrgOptions rule returns true when the user organization options are set up
-     */
-    public void testCheckUserOrgOptions_True() {
-        // make sure current user has organization options set up
-        assertTrue(rule.checkUserOrgOptions(document));
-    }
-
-    /**
-     * This method tests that checkUserOrgOptions rule returns false when the user organization options are not set up
-     */
-    public void testCheckUserOrgOptions_False() throws Exception {
-        // change to a user that does not have user organization options set up
-        changeCurrentUser(butt);
-        assertFalse(rule.checkUserOrgOptions(document));
     }
 
     /**

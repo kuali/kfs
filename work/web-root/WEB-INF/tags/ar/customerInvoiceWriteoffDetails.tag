@@ -28,7 +28,7 @@
 			    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemQuantity}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}" hideRequiredAsterisk="true" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.openAmount}" hideRequiredAsterisk="true" />				
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.amountOpen}" hideRequiredAsterisk="true" />				
 				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.writeoffAmount}" hideRequiredAsterisk="true" />
 			</tr>
 			<logic:iterate

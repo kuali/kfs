@@ -49,8 +49,8 @@
 	<!--  Open Amount -->
 	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
-			attributeEntry="${customerInvoiceDetailAttributes.openAmount}"
-			property="${invPropertyName}.openAmount"
+			attributeEntry="${customerInvoiceDetailAttributes.amountOpen}"
+			property="${invPropertyName}.amountOpen"
 			readOnly="true" />
 	</td>
 

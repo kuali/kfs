@@ -35,10 +35,12 @@ import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
 import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 import org.kuali.kfs.pdp.service.FormatService;
+import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.pdp.service.impl.exception.FormatException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -54,8 +56,26 @@ public class FormatAction extends KualiAction {
 
     private FormatService formatService;
 
+    /**
+     * Constructs a FormatAction.java.
+     */
     public FormatAction() {
         formatService = SpringContext.getBean(FormatService.class);
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PdpAuthorizationService authorizationService = SpringContext.getBean(PdpAuthorizationService.class);
+        Person kualiUser = GlobalVariables.getUserSession().getPerson();
+        String methodToCall = findMethodToCall(form, request);
+
+//        if (!authorizationService.hasFormatPermission(kualiUser.getPrincipalId())) {
+//            throw new AuthorizationException(kualiUser.getPrincipalName(), methodToCall, kualiUser.getCampusCode());
+//        }
+        return super.execute(mapping, form, request, response);
     }
 
     /**

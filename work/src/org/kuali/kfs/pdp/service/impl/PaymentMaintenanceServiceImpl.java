@@ -37,6 +37,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.service.EnvironmentService;
+import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PaymentMaintenanceService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
@@ -73,6 +74,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     private BusinessObjectService businessObjectService;
     private PaymentGroupService paymentGroupService;
     private PdpEmailService emailService;
+    private PdpAuthorizationService pdpAuthorizationService;
 
     /**
      * This method changes status for a payment group.
@@ -154,7 +156,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; continue with cancel.");
 
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
-                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)) {
+                if (pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId()) /*|| KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)*/) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
 
@@ -179,7 +181,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 }
             }
             else if (PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus) || PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus)) {
-                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP)) {
+                if (pdpAuthorizationService.hasCancelPaymentPermission(user.getPrincipalId())) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
 
@@ -278,7 +280,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; continue with hold removal.");
 
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
-                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.TAXHOLDERS_GROUP) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)) {
+                if (pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId()) /*|| KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)*/) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
                     LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
@@ -291,7 +293,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 }
             }
             else if (PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus)) {
-                if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP)) {
+                if (pdpAuthorizationService.hasHoldPaymentPermission(user.getPrincipalId())) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
 
@@ -568,5 +570,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     public void setEmailService(PdpEmailService emailService) {
         this.emailService = emailService;
+    }
+
+    public void setPdpAuthorizationService(PdpAuthorizationService pdpAuthorizationService) {
+        this.pdpAuthorizationService = pdpAuthorizationService;
     }
 }

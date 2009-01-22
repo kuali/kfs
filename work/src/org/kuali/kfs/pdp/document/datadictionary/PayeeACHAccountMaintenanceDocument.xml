@@ -35,7 +35,7 @@
     <property name="description" value="Document used to create or update Payee ACH Account objects" />
     <property name="documentTypeName" value="PayeeACHAccountMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.PayeeAchAccountRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.pdp.document.authorization.PayeeAchAccountDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.pdp.document.validation.impl.PayeeAchAccountPreRules" />
     <property name="documentTypeCode" value="PAAT" />
     <property name="webScriptFiles" >
@@ -45,18 +45,6 @@
     </property>
     <property name="workflowProperties" >
       <ref bean="PayeeACHAccountMaintenanceDocument-workflowProperties" />
-    </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
     </property>
   </bean>
 

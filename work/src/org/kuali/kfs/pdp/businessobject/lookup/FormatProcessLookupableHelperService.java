@@ -27,12 +27,15 @@ import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 
@@ -42,6 +45,7 @@ import org.kuali.rice.kns.util.UrlFactory;
 public class FormatProcessLookupableHelperService extends KualiLookupableHelperServiceImpl {
 
     private KualiConfigurationService configurationService;
+    private PdpAuthorizationService pdpAuthorizationService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -58,6 +62,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         if (businessObject instanceof FormatProcess) {
+            Person person = GlobalVariables.getUserSession().getPerson();
             FormatProcess formatProcess = (FormatProcess) businessObject;
             int processId = formatProcess.getPaymentProcIdentifier();
 
@@ -69,7 +74,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
             String url = KFSConstants.EMPTY_STRING;
             String basePath = configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.FORMAT_PROCESS_ACTION;
 
-            if (ObjectUtils.isNotNull(paymentProcess) && !paymentProcess.isFormattedIndicator()) {
+            if (pdpAuthorizationService.hasRemoveFormatLockPermission(person.getPrincipalId()) && ObjectUtils.isNotNull(paymentProcess) && !paymentProcess.isFormattedIndicator()) {
                 Properties params = new Properties();
                 params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CLEAR_FORMAT_PROCESS_ACTION);
                 params.put(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM, UrlFactory.encode(String.valueOf(processId)));
@@ -104,5 +109,13 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
      */
     public void setConfigurationService(KualiConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+
+    /**
+     * This method sets the pdpAuthorizationService.
+     * @param pdpAuthorizationService The pdpAuthorizationService to be set.
+     */
+    public void setPdpAuthorizationService(PdpAuthorizationService pdpAuthorizationService) {
+        this.pdpAuthorizationService = pdpAuthorizationService;
     }
 }

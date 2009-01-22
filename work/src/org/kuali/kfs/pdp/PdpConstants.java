@@ -44,21 +44,21 @@ public class PdpConstants {
         public static String OTHER = "X";
     }
 
-    public static class Groups {
-        // Security Workgroup names
-        public static String CANCEL_GROUP = "PD_CANCEL_USERS";
-        public static String HOLD_GROUP = "PD_HOLD_USERS";
-        public static String LIMITEDVIEW_GROUP = "PD_LIMITED_VIEW";
-        public static String PROCESS_GROUP = "PD_PROCESS_PAYMENTS";
-        public static String RANGES_GROUP = "PD_RANGE_USERS";
-        public static String SUBMIT_GROUP = "PD_SUBMIT_PAYMENT_FILE_USERS";
-        public static String SYSADMIN_GROUP = "PD_SUPER_USERS";
-        public static String TAXHOLDERS_GROUP = "PD_TAX_HOLD_USERS";
-        public static String VIEWALL_GROUP = "PD_VIEW_ALL";
-        public static String VIEWID_GROUP = "PD_VIEW_ID";
-        public static String VIEWBANK_GROUP = "PD_VIEW_BANK";
-        public static String VIEWIDPARTIALBANK_GROUP = "PD_VIEW_ID_AND PARTIAL_BANK";
-    }
+//    public static class Groups {
+//        // Security Workgroup names
+//        public static String CANCEL_GROUP = "PD_CANCEL_USERS";
+//        public static String HOLD_GROUP = "PD_HOLD_USERS";
+//        public static String LIMITEDVIEW_GROUP = "PD_LIMITED_VIEW";
+//        public static String PROCESS_GROUP = "PD_PROCESS_PAYMENTS";
+//        public static String RANGES_GROUP = "PD_RANGE_USERS";
+//        public static String SUBMIT_GROUP = "PD_SUBMIT_PAYMENT_FILE_USERS";
+//        public static String SYSADMIN_GROUP = "PD_SUPER_USERS";
+//        public static String TAXHOLDERS_GROUP = "PD_TAX_HOLD_USERS";
+//        public static String VIEWALL_GROUP = "PD_VIEW_ALL";
+//        public static String VIEWID_GROUP = "PD_VIEW_ID";
+//        public static String VIEWBANK_GROUP = "PD_VIEW_BANK";
+//        public static String VIEWIDPARTIALBANK_GROUP = "PD_VIEW_ID_AND PARTIAL_BANK";
+//    }
 
     public static class DisbursementTypeCodes {
         public static String CHECK = "CHCK";
@@ -144,5 +144,14 @@ public class PdpConstants {
         public static final String AchBankTypeCode_0 = "0";
         public static final String AchBankTypeCode_1 = "1";
         public static final String AchBankTypeCode_2 = "2";
+    }
+    
+    public static class PermissionNames{
+        public static final String CANCEL_PAYMENT = "Cancel Payment";
+        public static final String FORMAT = "Format";
+        public static final String HOLD_PAYMENT_REMOVE_NON_TAX_PAYMENT_HOLD = "Hold Payment / Remove Non-Tax Payment Hold";
+        public static final String REMOVE_FORMAT_LOCK = "Remove Format Lock";
+        public static final String REMOVE_PAYMENT_TAX_HOLD = "Remove Payment Tax Hold";
+        public static final String SET_AS_IMMEDIATE_PAY = "Set as Immmediate Pay";
     }
 }

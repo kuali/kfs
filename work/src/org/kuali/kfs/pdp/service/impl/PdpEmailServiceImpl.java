@@ -159,6 +159,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.HARD_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
+        message.getBccAddresses().addAll(ccAddresses);
 
         CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
         String toAddresses = StringUtils.deleteWhitespace(customer.getProcessingEmailAddr());
@@ -230,6 +231,10 @@ public class PdpEmailServiceImpl implements PdpEmailService {
                 body.append(getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_FILE_THRESHOLD, paymentDetail.getPaymentGroup().getPayeeName(), paymentDetail.getNetPaymentAmount()) + "\n");
             }
         }
+        
+        List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.HARD_EDIT_CC);
+        message.getCcAddresses().addAll(ccAddresses);
+        message.getBccAddresses().addAll(ccAddresses);
 
         message.setMessage(body.toString());
 
@@ -262,6 +267,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         else {
             message.addToAddress(taxEmail);
         }
+        List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.HARD_EDIT_CC);
+        message.getCcAddresses().addAll(ccAddresses);
+        message.getBccAddresses().addAll(ccAddresses);
 
         body.append(getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_FILE_TAX_LOADED) + "\n\n");
         addPaymentFieldsToBody(body, paymentFile.getBatchId().intValue(), paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit(), paymentFile.getCreationDate(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount());
@@ -298,6 +306,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.HARD_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
+        message.getBccAddresses().addAll(ccAddresses);
 
         CustomerProfile customer = batch.getCustomerProfile();
         String toAddresses = StringUtils.deleteWhitespace(customer.getProcessingEmailAddr());
@@ -351,6 +360,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         List<String> ccAddresses = parameterService.getParameterValues(LoadPaymentsStep.class, PdpParameterConstants.SOFT_EDIT_CC);
         message.getCcAddresses().addAll(ccAddresses);
 
+        
+        message.getBccAddresses().addAll(ccAddresses);
+        
         body.append(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_MESSAGE, StringUtils.join(creditMemos, ","), StringUtils.join(paymentRequests, ","), lineTotal, maxNoteLines));
         message.setMessage(body.toString());
 
@@ -372,6 +384,8 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         List<String> toAddressList = parameterService.getParameterValues(ExtractAchPaymentsStep.class, PdpParameterConstants.ACH_SUMMARY_TO_EMAIL_ADDRESS_PARMAETER_NAME);
         message.getToAddresses().addAll(toAddressList);
+        message.getCcAddresses().addAll(toAddressList);
+        message.getBccAddresses().addAll(toAddressList);
 
         message.setFromAddress(mailService.getBatchMailingList());
 
@@ -416,14 +430,20 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             message.addToAddress(paymentGroup.getAdviceEmailAddress());
+            message.addCcAddress(paymentGroup.getAdviceEmailAddress());
+            message.addBccAddress(paymentGroup.getAdviceEmailAddress());
             message.setFromAddress(customer.getAdviceReturnEmailAddr());
             message.setSubject(customer.getAdviceSubjectLine());
         }
         else {
             message.addToAddress(mailService.getBatchMailingList());
+            message.addCcAddress(mailService.getBatchMailingList());
+            message.addBccAddress(mailService.getBatchMailingList());
+
             message.setFromAddress(customer.getAdviceReturnEmailAddr());
             message.setSubject(environmentCode + ": " + customer.getAdviceSubjectLine() + ":" + paymentGroup.getAdviceEmailAddress());
         }
+        
 
         LOG.debug("sending email to " + paymentGroup.getAdviceEmailAddress() + " for disb # " + paymentGroup.getDisbursementNbr());
 

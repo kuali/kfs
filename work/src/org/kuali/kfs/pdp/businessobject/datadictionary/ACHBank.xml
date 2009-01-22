@@ -69,7 +69,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="9" />
     </property>
     <property name="attributeSecurity">
-		<bean class="org.kuali.rice.kns.datadictionary.AttributeSecurity">
+		<bean parent="AttributeSecurity">
   			<property name="mask" value="true" /> 
 			<property name="maskFormatter">
   			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 

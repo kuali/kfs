@@ -422,6 +422,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="paymentGroupService" ref="pdpPaymentGroupService" />
 		<property name="emailService" ref="pdpEmailService"/>
+		<property name="pdpAuthorizationService" ref="pdpAuthorizationService" />
 	</bean>
 	
 	<bean id="pdpAchAdviceNotificationService" class="org.kuali.kfs.pdp.batch.service.impl.AchAdviceNotificationServiceImpl">
@@ -472,6 +473,9 @@
         <property name="lookupDao">
             <ref bean="lookupDao"/>
         </property>
+        <property name="pdpAuthorizationService">
+            <ref bean="pdpAuthorizationService" />
+        </property>
 	</bean>
 
 	<bean id="batchLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -484,6 +488,9 @@
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
+        <property name="pdpAuthorizationService">
+            <ref bean="pdpAuthorizationService" />
+        </property>
 	</bean>
 
 	<bean id="paymentDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -494,6 +501,7 @@
 	
 	<bean id="formatProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype">
         <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="pdpAuthorizationService" ref="pdpAuthorizationService" />
 	</bean>
 
 	<bean id="formatProcessLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -545,6 +553,9 @@
 	      p:service-ref="customerRoleTypeService"
 	      p:localServiceName="customerRoleTypeService" />
 	  </property>
+	</bean>
+	
+    <bean id="pdpAuthorizationService" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl">
 	</bean>
 
 </beans>

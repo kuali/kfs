@@ -30,6 +30,7 @@ import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.dataaccess.impl.util.PdpDataaccessUtil;
 import org.kuali.kfs.pdp.service.BatchMaintenanceService;
+import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -53,6 +54,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     private BatchMaintenanceService batchMaintenanceService;
     private KualiConfigurationService configurationService;
     private LookupDao lookupDao;
+    private PdpAuthorizationService pdpAuthorizationService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -159,7 +161,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             String url = KFSConstants.EMPTY_STRING;
             String basePath = configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.BATCH_SEARCH_DETAIL_ACTION;
 
-            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.CANCEL_GROUP) && batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(batchId)) {
+            if ( pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId()) && batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(batchId)) {
 
                 Properties params = new Properties();
                 params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION);
@@ -172,7 +174,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                 anchorHtmlDataList.add(anchorHtmlData);
             }
             
-            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(person.getPrincipalId(), KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.HOLD_GROUP)) {
+            if ( pdpAuthorizationService.hasHoldPaymentPermission(person.getPrincipalId())) {
 
                 if (batchMaintenanceService.doBatchPaymentsHaveHeldStatus(batchId)) {
 
@@ -301,6 +303,14 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
      */
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
+    }
+
+    /**
+     * This method sets the pdpAuthorizationService.
+     * @param pdpAuthorizationService The pdpAuthorizationService to be set.
+     */
+    public void setPdpAuthorizationService(PdpAuthorizationService pdpAuthorizationService) {
+        this.pdpAuthorizationService = pdpAuthorizationService;
     }
 
 }

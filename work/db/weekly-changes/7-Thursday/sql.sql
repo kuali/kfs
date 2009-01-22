@@ -82,3 +82,9 @@ INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, AC
 
 update krim_perm_t set nm = null where perm_tmpl_id <> '1'
 /
+alter table CA_ORG_T modify ORG_MGR_UNVL_ID varchar2(40) 
+/
+alter table CA_ACCOUNT_T modify ACCT_MGR_UNVL_ID varchar2(40) 
+/
+alter table CA_ACCOUNT_T modify ACCT_FSC_OFC_UID varchar2(40)
+/

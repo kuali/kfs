@@ -79,3 +79,6 @@ INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
     VALUES('548', sys_guid(), 1, '2', '288', 'Y')
 /
+
+update krim_perm_t set nm = null where perm_tmpl_id <> '1'
+/

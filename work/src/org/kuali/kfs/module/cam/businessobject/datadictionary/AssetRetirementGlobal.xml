@@ -147,11 +147,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetInServiceDate" parent="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetInServiceDate-parentBean" />
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetInServiceDate-parentBean" abstract="true" parent="Asset-capitalAssetInServiceDate">
     <property name="name" value="mergedTargetCapitalAsset.capitalAssetInServiceDate" />
-     <property name="attributeSecurity">
-        <bean parent="AttributeSecurity">
-            <property name="readOnly" value="false" />
-        </bean>
-    </property>
   </bean>
 
   <bean id="AssetRetirementGlobal-retirementChartOfAccountsCode" parent="AssetRetirementGlobal-retirementChartOfAccountsCode-parentBean" />

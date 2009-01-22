@@ -37,9 +37,11 @@
                             <th>
                                 Open Amount
                             </th>
-                            <th>
-                                Quick Apply
-                            </th>
+							<c:if test="${readOnly ne true}">
+	                            <th>
+	                                Quick Apply
+	                            </th>
+	                        </c:if>
                         </tr>
                         <c:forEach items="${KualiForm.updatedBalanceInvoices}" var="updatedBalanceInvoice" varStatus="current">
                             <tr>
@@ -50,20 +52,24 @@
                                     $
                                     <c:out value="${updatedBalanceInvoice.openAmount}" />
                                 </td>
-                                <td>
-                                	<center>
-	                                    <html:checkbox property="invoice[${current.index}].quickApply" value="true" />
-	                                </center>
-                                </td>
+								<c:if test="${readOnly ne true}">
+	                                <td>
+	                                	<center>
+		                                    <html:checkbox property="invoice[${current.index}].quickApply" value="true" />
+		                                </center>
+	                                </td>
+	                            </c:if>
                             </tr>
                         </c:forEach>
-                        <tr>
-                            <td colspan='3' style='text-align: right;'>
-                                <html:image property="methodToCall.applyAllAmounts"
-                                    src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
-                                    alt="Quick Apply" title="Quick Apply" styleClass="tinybutton" />
-                            </td>
-                        </tr>
+						<c:if test="${readOnly ne true}">
+	                        <tr>
+	                            <td colspan='3' style='text-align: right;'>
+	                                <html:image property="methodToCall.applyAllAmounts"
+	                                    src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
+	                                    alt="Quick Apply" title="Quick Apply" styleClass="tinybutton" />
+	                            </td>
+	                        </tr>
+	                    </c:if>
                     </table>
                 </c:otherwise>
             </c:choose>

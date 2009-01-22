@@ -40,11 +40,14 @@
 				</th>
 				<td>
 					<kul:htmlControlAttribute
+						readOnly="${readOnly}"
 						attributeEntry="${customerAttributes.customerNumber}"
 						property="document.accountsReceivableDocumentHeader.customerNumber" />
-					<kul:lookup
-						boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
-						fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" />
+					<c:if test="${readOnly ne true}">
+						<kul:lookup
+							boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
+							fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" />
+					</c:if>
 				</td>
 			</tr>
 			<tr>
@@ -53,19 +56,22 @@
 				</th>
 				<td>
 					<kul:htmlControlAttribute
+						readOnly="${readOnly}"
 						attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
 						property="enteredInvoiceDocumentNumber" />
 				</td>
 			</tr>
-			<tr>
-				<td colspan='2'>
-					<center>
-						<html:image property="methodToCall.loadInvoices"
-							src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
-							alt="Load Invoices" title="Load Invoices" styleClass="tinybutton" />
-					</center>
-				</td>
-			</tr>
+			<c:if test="${readOnly ne true}">
+				<tr>
+					<td colspan='2'>
+						<center>
+							<html:image property="methodToCall.loadInvoices"
+								src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+								alt="Load Invoices" title="Load Invoices" styleClass="tinybutton" />
+						</center>
+					</td>
+				</tr>
+			</c:if>
 		</table>
 		<c:choose>
 			<c:when
@@ -81,30 +87,32 @@
 								<tr>
 									<td colspan='2' class='tab-subhead'>
 										<label for="selectedInvoiceDocumentNumber">Invoices</label>
-										<select id="selectedInvoiceDocumentNumber" name="selectedInvoiceDocumentNumber">
-											<c:forEach items="${KualiForm.invoices}" var="invoice">
-												<c:choose>
-													<c:when
-														test="${invoice.documentNumber eq KualiForm.selectedInvoiceDocumentNumber}">
-														<option selected>
-															<c:out value="${invoice.documentNumber}" />
-														</option>
-													</c:when>
-													<c:otherwise>
-														<option>
-															<c:out value="${invoice.documentNumber}" />
-														</option>
-													</c:otherwise>
-												</c:choose>
-											</c:forEach>
-										</select>
-										<logic:iterate id="invoices" name="KualiForm"
-											property="invoices" indexId="ctr">
-										</logic:iterate>
-										<html:image property="methodToCall.goToInvoice"
-											src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
-											alt="Go To Invoice" title="Go To Invoice"
-											styleClass="tinybutton" />
+										<c:if test="${readOnly ne true}">
+											<select id="selectedInvoiceDocumentNumber" name="selectedInvoiceDocumentNumber">
+												<c:forEach items="${KualiForm.invoices}" var="invoice">
+													<c:choose>
+														<c:when
+															test="${invoice.documentNumber eq KualiForm.selectedInvoiceDocumentNumber}">
+															<option selected>
+																<c:out value="${invoice.documentNumber}" />
+															</option>
+														</c:when>
+														<c:otherwise>
+															<option>
+																<c:out value="${invoice.documentNumber}" />
+															</option>
+														</c:otherwise>
+													</c:choose>
+												</c:forEach>
+											</select>
+											<logic:iterate id="invoices" name="KualiForm"
+												property="invoices" indexId="ctr">
+											</logic:iterate>
+											<html:image property="methodToCall.goToInvoice"
+												src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+												alt="Go To Invoice" title="Go To Invoice"
+												styleClass="tinybutton" />
+										</c:if>
 									</td>
 								</tr>
 								<tr>
@@ -143,7 +151,7 @@
 													horizontal="true" />
 												<kul:htmlAttributeHeaderCell
 													labelFor="selectedInvoiceBalance"
-													literalLabel="Balance/Total" horizontal="true" />
+													literalLabel="Open Amount/Total" horizontal="true" />
 												<kul:htmlAttributeHeaderCell
 													labelFor="amountAppliedDirectlyToInvoice"
 													literalLabel="Amount Applied to Invoice" horizontal="true" />
@@ -221,9 +229,11 @@
 															<th>
 																Apply Amount
 															</th>
-															<th>
-																Apply Full Amount
-															</th>
+															<c:if test="${readOnly ne true}">
+																<th>
+																	Apply Full Amount
+																</th>
+															</c:if>
 														</tr>
 														<logic:iterate id="customerInvoiceDetail" name="KualiForm"
 															property="customerInvoiceDetails" indexId="ctr">
@@ -271,15 +281,18 @@
 																		</td>
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
+																				readOnly="${readOnly}"
 																				styleClass="amount"
 																				attributeEntry="${customerInvoiceDetailAttributes.amountApplied}"
 																				property="customerInvoiceDetail[${ctr}].amountApplied" />
 																		</td>
-																		<td>
-																			<center>
-																				<html:checkbox title="Apply Full Amount" property="customerInvoiceDetail[${ctr}].fullApply" value="true" />
-																			</center>
-																		</td>
+																		<c:if test="${readOnly ne true}">
+																			<td>
+																				<center>
+																					<html:checkbox title="Apply Full Amount" property="customerInvoiceDetail[${ctr}].fullApply" value="true" />
+																				</center>
+																			</td>
+																		</c:if>
 																	</tr>
 																</c:otherwise>
 															</c:choose>
@@ -287,6 +300,7 @@
 													</table>
 												</td>
 											</tr>
+											<c:if test="${readOnly ne true}">
 											<tr>
 												<td style='text-align: right;' colspan='4'>
 													<html:image property="methodToCall.applyAllAmounts"
@@ -294,6 +308,7 @@
 														alt="Apply" title="Apply" styleClass="tinybutton" />
 												</td>
 											</tr>
+											</c:if>
 										</table>
 									</td>
 								</tr>

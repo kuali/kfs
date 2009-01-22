@@ -95,7 +95,7 @@
 											Total Unapplied Funds
 										</th>
 										<th class='tab-subhead'>
-											Balance to be Applied
+											Open Amount
 										</th>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
@@ -103,7 +103,7 @@
 											Cash Control
 										</th>
 										<th class='tab-subhead'>
-											Balance to be Applied
+											Open Amount
 										</th>
 									</c:if>
 									<th class='tab-subhead'>

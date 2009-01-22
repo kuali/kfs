@@ -31,11 +31,14 @@
                     <kul:htmlAttributeHeaderCell literalLabel="Customer"/>  
                     <td>
                         <kul:htmlControlAttribute
+                        	readOnly="${readOnly}"
                             attributeEntry="${customerAttributes.customerNumber}"
                             property="nonAppliedHoldingCustomerNumber"/>
-                        <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" autoSearch="true"
-                            fieldConversions="customerNumber:nonAppliedHoldingCustomerNumber"
-                            lookupParameters="nonAppliedHoldingCustomerNumber:customerNumber" />
+						<c:if test="${readOnly ne true}">
+	                        <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" autoSearch="true"
+	                            fieldConversions="customerNumber:nonAppliedHoldingCustomerNumber"
+	                            lookupParameters="nonAppliedHoldingCustomerNumber:customerNumber" />
+                        </c:if>
                     </td>
                     <kul:htmlAttributeHeaderCell literalLabel="Amount"/>  
                     <td>
@@ -44,9 +47,11 @@
                             attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"
                             property="nonAppliedHoldingAmount"
                             readOnly="${readOnly}" />
-                        <html:image property="methodToCall.applyAllAmounts"
-                            src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
-                            alt="Commit Unapplied" title="Commit Unapplied" styleClass="tinybutton" />
+						<c:if test="${readOnly ne true}">
+	                        <html:image property="methodToCall.applyAllAmounts"
+	                            src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
+	                            alt="Commit Unapplied" title="Commit Unapplied" styleClass="tinybutton" />
+	                    </c:if>
                     </td>
                 </tr>
             </table>

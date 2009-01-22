@@ -58,7 +58,7 @@
                 <td>${KualiForm.document.documentHeader.financialDocumentTotalAmount}</td>
               </tr>
               <tr>
-                <th>Balance</th>
+                <th>Open Amount</th>
                 <td><c:out value="${KualiForm.document.unallocatedBalance}" /></td>
               </tr>
               <tr>

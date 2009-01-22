@@ -38,20 +38,10 @@
 <!-- Attribute Definitions -->
   
   <bean id="DisbursementNumberRange-physCampusProcCode" parent="DisbursementNumberRange-physCampusProcCode-parentBean" />
-  <bean id="DisbursementNumberRange-physCampusProcCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DisbursementNumberRange-physCampusProcCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="name" value="physCampusProcCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Campus Processing Location" />
     <property name="shortLabel" value="Campus Processing Location" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
   </bean>
   
   <bean id="DisbursementNumberRange-beginDisbursementNbr" parent="DisbursementNumberRange-beginDisbursementNbr-parentBean" />

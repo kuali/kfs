@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>AssetRetirementGlobalMaintenanceDocument</name>
+<parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<routePaths>
+        
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="RetiredAssetTransferredExternally"/>
+		  <split name="RetiredAssetTransferredExternally" nextNode="OrganizationHierarchy">
+						<branch name="True">
+							<requests name="ExternalTransfer"  nextNode="JoinRetiredAssetTransferredExternally"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOpExternal" nextNode="JoinRetiredAssetTransferredExternally"/>
+						</branch>
+						<join name="JoinRetiredAssetTransferredExternally"/>
+		  </split>
+          <requests name="OrganizationHierarchy"  nextNode="RetiredAssetSoldOrGifted"/>
+		  <split name="RetiredAssetSoldOrGifted">
+						<branch name="True">
+							<requests name="Purchasing" nextNode="JoinRetiredAssetSoldOrGifted"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="JoinRetiredAssetSoldOrGifted"/>
+						</branch>
+						<join name="JoinRetiredAssetSoldOrGifted"/>
+					</split>
+        </routePath>
+        
+        
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="ExternalTransfer">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Purchasing">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+
+<split name="RetiredAssetTransferredExternally">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<split name="RetiredAssetSoldOrGifted">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<simple name="NoOpExternal">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<join name="JoinRetiredAssetTransferredExternally"/>
+<join name="JoinRetiredAssetSoldOrGifted"/>
+</routeNodes>
+</documentType>
+</documentTypes>
+</data>
+

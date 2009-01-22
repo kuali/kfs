@@ -314,7 +314,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		    	</property>
 		    	<property name="documentValues">
 		    		<list>
-		    			<value>asset.organizationOwnerChartOfAccountsCode</value>
+		    			<value>oldOrganizationOwnerChartOfAccountsCode</value>
 		    			<value>organizationOwnerChartOfAccountsCode</value>
 		    		</list>
 		    	</property>
@@ -329,7 +329,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		    	</property>
 		    	<property name="documentValues">
 		    		<list>
-		    			<value>asset.organizationOwnerAccount.organizationCode</value>
+		    			<value>oldOrganizationOwnerAccount.organizationCode</value>
 		    			<value>organizationOwnerAccount.organizationCode</value>
 		    		</list>
 		    	</property>
@@ -344,7 +344,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		    	</property>
 		    	<property name="documentValues">
 		    		<list>
-		    			<value>asset.organizationOwnerAccountNumber</value>
+		    			<value>oldOrganizationOwnerAccountNumber</value>
 		    			<value>organizationOwnerAccountNumber</value>
 		    		</list>
 		    	</property>

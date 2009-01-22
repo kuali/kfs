@@ -15,7 +15,7 @@
         <ref bean="AssetMaintenanceDocument-AssetLocation" />
         <ref bean="AssetMaintenanceDocument-OrganizationInformation" />
         <ref bean="AssetMaintenanceDocument-PaymentInformation" />
-		<ref bean="AssetMaintenanceDocument-AssetPaymentLink" />        
+		<!--  ref bean="AssetMaintenanceDocument-AssetPaymentLink" / -->        
         <ref bean="AssetMaintenanceDocument-FabricationInformation" />
         <ref bean="AssetMaintenanceDocument-LandInformation" />
         <ref bean="AssetMaintenanceDocument-AssetDepreciationInformation" />
@@ -82,7 +82,7 @@
 <!-- Maintenance Section Definitions -->
   <bean id="AssetMaintenanceDocument-AssetPaymentLink" parent="AssetMaintenanceDocument-AssetPaymentLink-parentBean" />
   <bean id="AssetMaintenanceDocument-AssetPaymentLink-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-	<property name="id" value="Payments Lookup" />  
+	<property name="id" value="paymentLookup" />  
     <property name="title" value="Payments Lookup" />
     <property name="maintainableItems" >
       <list>
@@ -455,7 +455,7 @@
               p:unconditionallyReadOnly="true" />
       </list>
     </property>
-  </bean> 
+  </bean>
   <bean id="AssetMaintenanceDocument-ViewAssetSeparateHistory" parent="AssetMaintenanceDocument-ViewAssetSeparateHistory-parentBean" />
 
   <bean id="AssetMaintenanceDocument-ViewAssetSeparateHistory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
@@ -472,7 +472,7 @@
       </list>
     </property>
   </bean>
-  
+
   <bean id="AssetMaintenanceDocument-ViewEquipmentLoanInformation" parent="AssetMaintenanceDocument-ViewEquipmentLoanInformation-parentBean" />
 
   <bean id="AssetMaintenanceDocument-ViewEquipmentLoanInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">

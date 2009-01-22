@@ -112,6 +112,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
             // that are to be hidden for asset edit, see AssetAuthorizer.addMaintenanceDocumentRestrictions
             fields.add(CamsConstants.Asset.SECTION_ID_LAND_INFORMATION);
             fields.add(CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION);
+            fields.add(CamsConstants.Asset.SECTION_ID_PAYMENT_LOOKUP);
             fields.add(CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION);
             fields.add(CamsConstants.Asset.SECTION_ID_HISTORY);
             fields.add(CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION);

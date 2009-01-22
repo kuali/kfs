@@ -145,6 +145,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private KualiDecimal currentMonthDepreciation;
     private Date depreciationDateCopy;
     private transient Integer quantity;
+    private String lookup;
     private boolean tagged;
 
     /**
@@ -1893,7 +1894,14 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.hiddenFieldForError = hiddenFieldForError;
     }
 
+    public void setLookup(String lookup) {
+        this.lookup = lookup;
+    }
+    
     public String getLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+        
         Properties params = new Properties();
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");

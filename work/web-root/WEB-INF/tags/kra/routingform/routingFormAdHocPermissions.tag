@@ -157,7 +157,7 @@
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;
-					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newAdHocOrg.fiscalCampusCode,organizationCode:newAdHocOrg.primaryDepartmentCode" />
+					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:newAdHocOrg.fiscalCampusCode,organizationCode:newAdHocOrg.primaryDepartmentCode" />
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</td>
 				<td class="infoline">

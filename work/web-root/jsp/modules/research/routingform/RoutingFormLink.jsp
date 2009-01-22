@@ -15,12 +15,12 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="routingFormDocumentAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
+<c:set var="routingFormDocumentAttributes" value="${DataDictionary.RoutingFormDocument.attributes}" />
 <c:set var="routingFormBudgetAttributes" value="${DataDictionary.RoutingFormBudget.attributes}" />
 
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiRoutingFormDocument"
+	documentTypeName="RoutingFormDocument"
 	htmlFormAction="researchRoutingFormLink"
 	headerDispatch="save" headerTabActive="link" showTabButtons="true">
   

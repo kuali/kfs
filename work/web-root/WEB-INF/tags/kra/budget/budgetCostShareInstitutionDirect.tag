@@ -281,7 +281,7 @@
 						<div align="left">
 							<c:if test="${empty KualiForm.newInstitutionCostShare.chartOfAccountsCode}">none selected</c:if>
 							<c:if test="${!empty KualiForm.newInstitutionCostShare.chartOfAccountsCode}">${KualiForm.newInstitutionCostShare.chartOfAccountsCode}/${KualiForm.newInstitutionCostShare.organizationCode}</c:if>
-							<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="organizationCode:newInstitutionCostShare.organizationCode,chartOfAccountsCode:newInstitutionCostShare.chartOfAccountsCode" anchor="${currentTabIndex}"/>
+							<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:newInstitutionCostShare.organizationCode,chartOfAccountsCode:newInstitutionCostShare.chartOfAccountsCode" anchor="${currentTabIndex}"/>
 						</div>
 					</td>
 
@@ -350,7 +350,7 @@
 								<c:if test="${empty KualiForm.document.budget.institutionCostShareItems[rowctr].chartOfAccountsCode}">none selected</c:if>
 								<c:if test="${!empty KualiForm.document.budget.institutionCostShareItems[rowctr].chartOfAccountsCode}">${KualiForm.document.budget.institutionCostShareItems[rowctr].chartOfAccountsCode}/${KualiForm.document.budget.institutionCostShareItems[rowctr].organizationCode}</c:if>
 								<c:if test="${!viewOnly}">
-									<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="organizationCode:document.budget.institutionCostShareItems[${rowctr}].organizationCode,chartOfAccountsCode:document.budget.institutionCostShareItems[${rowctr}].chartOfAccountsCode" anchor="${currentTabIndex}"/>
+									<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:document.budget.institutionCostShareItems[${rowctr}].organizationCode,chartOfAccountsCode:document.budget.institutionCostShareItems[${rowctr}].chartOfAccountsCode" anchor="${currentTabIndex}"/>
 								</c:if>
 							</div>
 						</td>

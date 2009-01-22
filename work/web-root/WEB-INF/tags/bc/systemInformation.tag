@@ -177,7 +177,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.kfs.coa.businessobject.Org"
+				    boClassName="org.kuali.kfs.coa.businessobject.Organization"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.document.account.organizationCode}"
 				    render="true">
 				    ${KualiForm.document.account.organizationCode}

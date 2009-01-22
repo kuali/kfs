@@ -15,9 +15,9 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
+<c:set var="routingFormAttributes" value="${DataDictionary.RoutingFormDocument.attributes}" />
 <c:set var="routingFormAgencyAttributes" value="${DataDictionary.RoutingFormAgency.attributes}" />
-<c:set var="cfdaAttributes" value="${DataDictionary.Cfda.attributes}" />
+<c:set var="cfdaAttributes" value="${DataDictionary.CFDA.attributes}" />
 <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}" />
 

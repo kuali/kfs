@@ -18,7 +18,7 @@
 <%@ attribute name="begin" required="true" %>
 <%@ attribute name="end" required="true" %>
 
-<c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
+<c:set var="routingFormAttributes" value="${DataDictionary.RoutingFormDocument.attributes}" />
 <c:set var="routingFormProjectTypeAttributes" value="${DataDictionary.RoutingFormProjectType.attributes}" />
 <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 

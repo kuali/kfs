@@ -143,7 +143,7 @@
 			<kul:htmlControlAttribute property="salarySettingExpansion.account.organizationCode" 
 				attributeEntry="${accountAttributes.organizationCode}" readOnly="true" readOnlyBody="true">
 				
-				<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Org"
+				<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Organization"
 					keyValues="chartOfAccountsCode=${KualiForm.salarySettingExpansion.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.salarySettingExpansion.account.organizationCode}" render="true">
 <%-- FIXME: remove when verified --%>
 <%--

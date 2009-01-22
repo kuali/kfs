@@ -131,8 +131,8 @@
           <tr class="datatable">
             <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personDivisionText}" skipHelpUrl="true"/></th>
             <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personDivisionText" attributeEntry="${routingFormPersonnel.personDivisionText}" readOnly="${viewOnly}"/></td>
-            <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personEmailAddress}" skipHelpUrl="true"/></th>
-            <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personEmailAddress" attributeEntry="${routingFormPersonnel.personEmailAddress}" readOnly="${viewOnly}"/></td>
+            <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.emailAddress}" skipHelpUrl="true"/></th>
+            <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].emailAddress" attributeEntry="${routingFormPersonnel.emailAddress}" readOnly="${viewOnly}"/></td>
           </tr>
         </table>
       </div>

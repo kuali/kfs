@@ -87,7 +87,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         RoutingFormDocument routingFormDocument = (RoutingFormDocument) researchDocument;
 
         // changing this to '0' so it doesn't validate reference objects within a list (Subcontractors was causing a problem).
-        SpringContext.getBean(DictionaryValidationService.class).validateDocumentRecursively(routingFormDocument, 0);
+        SpringContext.getBean(DictionaryValidationService.class).validateDocumentAndUpdatableReferencesRecursively(routingFormDocument, 0, true);
 
         valid &= processRoutingFormAgency(routingFormDocument);
         

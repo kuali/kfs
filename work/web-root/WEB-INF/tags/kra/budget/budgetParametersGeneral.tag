@@ -20,7 +20,7 @@
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="businessObjectClass" value="${DataDictionary.Budget.businessObjectClass}" />
 <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
-<c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
+<c:set var="routingFormAttributes" value="${DataDictionary.RoutingFormDocument.attributes}" />
 
 <script type="text/javascript">
 	function modularVarianceToggle() {

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
+<c:set var="routingFormAttributes" value="${DataDictionary.RoutingFormDocument.attributes}" />
 <c:set var="routingFormPersonnel" value="${DataDictionary.RoutingFormPersonnel.attributes}" />
 <c:set var="routingFormOrganizationCreditPercent" value="${DataDictionary.RoutingFormOrganizationCreditPercent.attributes}" />
 <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
@@ -51,7 +51,7 @@
                   <!-- Following fields are to keep track of personnel page data -->
                   <html:hidden property="newRoutingFormProjectDirector.personLine1Address" />
                   <html:hidden property="newRoutingFormProjectDirector.personPhoneNumber" />
-                  <html:hidden property="newRoutingFormProjectDirector.personEmailAddress" />
+                  <html:hidden property="newRoutingFormProjectDirector.emailAddress" />
                 </th>
                 <td class="infoline">
                   <html:hidden property="newRoutingFormProjectDirector.personToBeNamedIndicator" />
@@ -105,7 +105,7 @@
                     </c:if>
                </div>
                   <c:if test="${!viewOnly}">
-                    &nbsp;<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormProjectDirector.chartOfAccountsCode,organizationCode:newRoutingFormProjectDirector.organizationCode" anchor="${currentTabIndex}" />
+                    &nbsp;<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormProjectDirector.chartOfAccountsCode,organizationCode:newRoutingFormProjectDirector.organizationCode" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
                 <td class="infoline"><div align="center">
@@ -146,7 +146,7 @@
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personPhoneNumber" />
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personFaxNumber" />
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personDivisionText" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personEmailAddress" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].emailAddress" />
                   <th scope="row"><div align="center">${personIndex}</div></th>
                   <td>
                     <html:hidden property="document.routingFormPersonnel[${status.index}].user.name" />
@@ -210,7 +210,7 @@
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                          &nbsp;<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                          &nbsp;<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>
@@ -249,7 +249,7 @@
                   <!-- Following fields are to keep track of personnel page data -->
                   <html:hidden property="newRoutingFormOtherPerson.personLine1Address" />
                   <html:hidden property="newRoutingFormOtherPerson.personPhoneNumber" />
-                  <html:hidden property="newRoutingFormOtherPerson.personEmailAddress" />
+                  <html:hidden property="newRoutingFormOtherPerson.emailAddress" />
                 </th>
                 <td class="infoline">
                   <html:hidden property="newRoutingFormOtherPerson.personToBeNamedIndicator" />
@@ -342,7 +342,7 @@
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personPhoneNumber" />
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personFaxNumber" />
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personDivisionText" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personEmailAddress" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].emailAddress" />
                   <th scope="row"><div align="center">${otherPersonIndex}</div></th>
                   <td>
                     <html:hidden property="document.routingFormPersonnel[${status.index}].user.name" />
@@ -405,7 +405,7 @@
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                          &nbsp;<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                          &nbsp;<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>
@@ -448,7 +448,7 @@
                     <c:otherwise>&nbsp;</c:otherwise>
                   </c:choose>
                   <c:if test="${!viewOnly}">
-                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOrganizationCreditPercent.chartOfAccountsCode,organizationCode:newRoutingFormOrganizationCreditPercent.organizationCode" anchor="${currentTabIndex}" />
+                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOrganizationCreditPercent.chartOfAccountsCode,organizationCode:newRoutingFormOrganizationCreditPercent.organizationCode" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
                 <td class="infoline" colspan=3><div align="center">
@@ -480,7 +480,7 @@
                       <c:otherwise>&nbsp;</c:otherwise>
                     </c:choose>
                     <c:if test="${!viewOnly}">
-                      <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormOrganizationCreditPercents[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormOrganizationCreditPercents[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                      <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormOrganizationCreditPercents[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormOrganizationCreditPercents[${status.index}].organizationCode" anchor="${currentTabIndex}" />
                     </c:if>
                   </td>
                   <td colspan=3><div align="center"><span class="infoline">

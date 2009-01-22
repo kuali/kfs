@@ -43,7 +43,7 @@
           </kul:htmlControlAttribute>
       		-
           <kul:htmlControlAttribute property="previousBranchOrgs[${status.index}].organizationCode" attributeEntry="${pullupOrgAttributes.organizationCode}" readOnly="true" readOnlyBody="true">
-            <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Org" keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}&amp;organizationCode=${item.organizationCode}" render="${!empty KualiForm.previousBranchOrgs[0].organizationCode}"> <html:hidden write="true" property="previousBranchOrgs[${status.index}].organizationCode" />
+            <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Organization" keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}&amp;organizationCode=${item.organizationCode}" render="${!empty KualiForm.previousBranchOrgs[0].organizationCode}"> <html:hidden write="true" property="previousBranchOrgs[${status.index}].organizationCode" />
 	        </kul:inquiry>&nbsp;
           </kul:htmlControlAttribute>
         </td>

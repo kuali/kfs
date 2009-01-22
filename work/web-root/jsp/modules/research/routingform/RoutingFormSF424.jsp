@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiRoutingFormDocument"
+	documentTypeName="RoutingFormDocument"
 	htmlFormAction="researchRoutingFormSF424"
 	headerDispatch="save" headerTabActive="sf424">
 	

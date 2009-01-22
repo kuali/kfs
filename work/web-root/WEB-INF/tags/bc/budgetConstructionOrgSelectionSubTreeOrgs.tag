@@ -69,7 +69,7 @@
                 readOnly="true"
                 readOnlyBody="true">
                 <kul:inquiry
-                    boClassName="org.kuali.kfs.coa.businessobject.Org"
+                    boClassName="org.kuali.kfs.coa.businessobject.Organization"
                     keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}&amp;organizationCode=${item.organizationCode}"
                     render="${!empty KualiForm.selectionSubTreeOrgs[0].organizationCode}">
                 	<html:hidden write="true" property="selectionSubTreeOrgs[${status.index}].organizationCode" />

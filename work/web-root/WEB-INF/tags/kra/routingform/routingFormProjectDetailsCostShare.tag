@@ -62,7 +62,7 @@
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;
-					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormInstitutionCostShare.chartOfAccountsCode,organizationCode:newRoutingFormInstitutionCostShare.organizationCode" />
+					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormInstitutionCostShare.chartOfAccountsCode,organizationCode:newRoutingFormInstitutionCostShare.organizationCode" />
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</td>
@@ -124,7 +124,7 @@
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;
-					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormInstitutionCostShare[${status.index}].organizationCode" />
+					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormInstitutionCostShare[${status.index}].organizationCode" />
 				</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</td>

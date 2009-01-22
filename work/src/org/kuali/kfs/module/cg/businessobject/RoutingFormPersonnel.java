@@ -59,7 +59,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     private String personZipCode;
     private String personPhoneNumber;
     private String personFaxNumber;
-    private String personEmailAddress;
+    private String emailAddress;
     private String personRoleText;
     private boolean personToBeNamedIndicator;
 
@@ -520,21 +520,21 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the personEmailAddress attribute.
+     * Gets the emailAddress attribute.
      * 
-     * @return Returns the personEmailAddress
+     * @return Returns the emailAddress
      */
     public String getEmailAddress() {
-        return personEmailAddress;
+        return emailAddress;
     }
 
     /**
-     * Sets the personEmailAddress attribute.
+     * Sets the emailAddress attribute.
      * 
-     * @param personEmailAddress The personEmailAddress to set.
+     * @param emailAddress The emailAddress to set.
      */
-    public void setEmailAddress(String personEmailAddress) {
-        this.personEmailAddress = personEmailAddress;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
 

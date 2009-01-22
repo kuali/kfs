@@ -41,7 +41,7 @@
                 </th>
                 <td align=left valign=middle class="grid">
                     <kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationCode}" property="orgCode"  />
-                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org"  fieldConversions="organizationCode:orgCode" lookupParameters="orgCode:organizationCode,chartCode:chartOfAccountsCode"/>
+                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization"  fieldConversions="organizationCode:orgCode" lookupParameters="orgCode:organizationCode,chartCode:chartOfAccountsCode"/>
                 </td>                
 				            
             </tr>

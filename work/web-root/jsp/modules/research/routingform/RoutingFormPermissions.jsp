@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiRoutingFormDocument"
+	documentTypeName="RoutingFormDocument"
 	htmlFormAction="researchRoutingFormPermissions"
 	headerDispatch="save" headerTabActive="permissions" showTabButtons="true">
 	
@@ -25,7 +25,7 @@
 	<kra-rf:routingFormHiddenDocumentFields />
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiRoutingFormDocument.documentTypeName}" pageName="Permissions" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Permissions" altText="page help"/>
 	</div>
 	
 	<kra:kraAdHocRecipients adhocType="P" adhocLabel="Permissions" excludeActionRequested="true" disableActionRequested="true" actionRequestedDefault="" editingMode="${KualiForm.editingMode}"/>

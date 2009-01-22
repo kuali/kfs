@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiRoutingFormDocument"
+	documentTypeName="RoutingFormDocument"
 	htmlFormAction="researchRoutingFormProjectDetails"
 	headerDispatch="save" headerTabActive="projectdetails" showTabButtons="true">
 	
@@ -29,7 +29,7 @@
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiRoutingFormDocument.documentTypeName}" pageName="Project Details" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Project Details" altText="page help"/>
 	</div>
 
 	<kra-rf:routingFormProjectDetailsCostShare editingMode="${KualiForm.editingMode}" />

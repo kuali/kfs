@@ -84,7 +84,7 @@
                     <td height="30" colspan="10" class="datacell">
                       <c:if test="${person.fiscalCampusCode ne null and person.primaryDepartmentCode ne null}">${person.fiscalCampusCode} / ${person.primaryDepartmentCode}</c:if>
                       <c:if test="${!viewOnly}">
-                        <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.budget.personnel[${listIndex}].fiscalCampusCode,organizationCode:document.budget.personnel[${listIndex}].primaryDepartmentCode" anchor="${currentTabIndex}" />
+                        <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.budget.personnel[${listIndex}].fiscalCampusCode,organizationCode:document.budget.personnel[${listIndex}].primaryDepartmentCode" anchor="${currentTabIndex}" />
                       </c:if>
                     </td>
                   </tr>

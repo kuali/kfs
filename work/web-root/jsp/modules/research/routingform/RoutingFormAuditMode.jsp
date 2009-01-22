@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiRoutingFormDocument"
+	documentTypeName="RoutingFormDocument"
 	htmlFormAction="researchRoutingFormAuditMode"
 	headerDispatch="auditmode" headerTabActive="auditmode">
 	
@@ -25,7 +25,7 @@
 	<kra-rf:routingFormHiddenDocumentFields />
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiRoutingFormDocument.documentTypeName}" pageName="Audit Mode" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Audit Mode" altText="page help"/>
 	</div>	
 	
 	<kra-rf:routingFormAuditMode />

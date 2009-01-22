@@ -49,7 +49,7 @@
 			        	         </kul:htmlControlAttribute>
 			            	     -
 			                	 <kul:htmlControlAttribute property="pointOfViewOrg.organizationCode" attributeEntry="${pointOfViewOrgAttributes.organizationCode}" readOnly="true" readOnlyBody="true">
-			                   	 	<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Org" keyValues="chartOfAccountsCode=${KualiForm.pointOfViewOrg.chartOfAccountsCode}&amp;organizationCode=${KualiForm.pointOfViewOrg.organizationCode}" render="${!empty KualiForm.pointOfViewOrg.organizationCode}">
+			                   	 	<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Organization" keyValues="chartOfAccountsCode=${KualiForm.pointOfViewOrg.chartOfAccountsCode}&amp;organizationCode=${KualiForm.pointOfViewOrg.organizationCode}" render="${!empty KualiForm.pointOfViewOrg.organizationCode}">
 				      		        	<html:hidden write="true" property="pointOfViewOrg.organizationCode" />
 			      			        </kul:inquiry>
 				                 </kul:htmlControlAttribute>

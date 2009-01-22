@@ -203,7 +203,7 @@
                 readOnly="true"
                 readOnlyBody="true">
                 <kul:inquiry
-                    boClassName="org.kuali.kfs.coa.businessobject.Org"
+                    boClassName="org.kuali.kfs.coa.businessobject.Organization"
                     keyValues="chartOfAccountsCode=${KualiForm.budgetConstructionHeader.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.budgetConstructionHeader.account.organizationCode}"
                     render="${!empty KualiForm.budgetConstructionHeader.account.organizationCode}">
                 	<html:hidden write="true" property="budgetConstructionHeader.account.organizationCode" />

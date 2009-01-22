@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiRoutingFormDocument"
+	documentTypeName="RoutingFormDocument"
 	htmlFormAction="researchRoutingFormNotes" headerDispatch="refresh"
 	headerTabActive="notes" renderMultipart="true" showTabButtons="true">
 	
@@ -25,7 +25,7 @@
 	<kra-rf:routingFormHiddenDocumentFields includeDocumenHeaderIdFields="true" />
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiRoutingFormDocument.documentTypeName}" pageName="Notes" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Notes" altText="page help"/>
 	</div>	
 
 	<kra-rf:routingFormNotes />

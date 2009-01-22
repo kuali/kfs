@@ -26,13 +26,13 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class ParameterConstants {
     @Retention(RetentionPolicy.RUNTIME)
     @Target( { ElementType.TYPE })
-    @interface NAMESPACE {
+    public @interface NAMESPACE {
         String namespace();
     }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target( { ElementType.TYPE })
-    @interface COMPONENT {
+    public @interface COMPONENT {
         String component();
     }
 

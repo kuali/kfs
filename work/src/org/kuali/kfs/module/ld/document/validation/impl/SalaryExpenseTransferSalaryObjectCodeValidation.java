@@ -43,7 +43,7 @@ public class SalaryExpenseTransferSalaryObjectCodeValidation extends GenericVali
         AccountingLine accountingLine = getAccountingLineForValidation();
         
         if (!isSalaryObjectCode(accountingLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, LaborKeyConstants.INVALID_SALARY_OBJECT_CODE_ERROR );
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.OBJECT_CODE, LaborKeyConstants.INVALID_SALARY_OBJECT_CODE_ERROR );
             result = false;
         }
         return result;

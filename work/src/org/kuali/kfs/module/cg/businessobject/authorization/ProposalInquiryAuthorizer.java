@@ -18,20 +18,18 @@ package org.kuali.kfs.module.cg.businessobject.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.inquiry.InquiryPresentationControllerBase;
+import org.kuali.rice.kns.inquiry.InquiryAuthorizerBase;
 
-public class ProposalInquiryPresentationController extends InquiryPresentationControllerBase {
+public class ProposalInquiryAuthorizer extends InquiryAuthorizerBase{
 
     /**
-     * @see org.kuali.rice.kns.inquiry.InquiryPresentationControllerBase#getConditionallyHiddenSectionIds(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.inquiry.InquiryAuthorizerBase#getSecurePotentiallyHiddenSectionIds()
      */
     @Override
-    public Set<String> getConditionallyHiddenSectionIds(BusinessObject businessObject) {
-        Set<String> conditionallyHiddenSectionIds = super.getConditionallyHiddenSectionIds(businessObject);
-        conditionallyHiddenSectionIds.add(CGConstants.SectionId.RESEARCH_RISKS);
+    public Set<String> getSecurePotentiallyHiddenSectionIds() {
+        Set<String> hiddenSectionIds = super.getSecurePotentiallyHiddenSectionIds();       
+        hiddenSectionIds.add(CGConstants.SectionId.RESEARCH_RISKS);
 
-        return conditionallyHiddenSectionIds;
-    }
-
+        return hiddenSectionIds;
+    }   
 }

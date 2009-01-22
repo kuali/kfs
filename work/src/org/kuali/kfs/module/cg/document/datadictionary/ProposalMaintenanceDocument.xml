@@ -65,8 +65,7 @@
     </property>
     <property name="documentTypeName" value="ProposalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.ProposalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentPresentationController" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentAuthorizer" />
     
     <property name="documentTypeCode" value="PRPL" />
     <property name="displayTopicFieldInNotes" value="true" />

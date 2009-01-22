@@ -702,7 +702,7 @@
       </list>
     </property>
     <property name="inquirableClass" value="org.kuali.kfs.module.cg.businessobject.inquiry.ProposalInquirable" />
-    <property name="presentationControllerClass" value="org.kuali.kfs.module.cg.businessobject.authorization.ProposalInquiryPresentationController" />
+    <property name="authorizerClass" value="org.kuali.kfs.module.cg.businessobject.authorization.ProposalInquiryAuthorizer" />
   </bean>
 
 <!-- Business Object Lookup Definition -->

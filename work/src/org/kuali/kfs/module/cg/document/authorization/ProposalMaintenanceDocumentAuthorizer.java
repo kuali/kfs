@@ -18,19 +18,18 @@ package org.kuali.kfs.module.cg.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 
-public class ProposalMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
+public class ProposalMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyHiddenSectionIds(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getSecurePotentiallyHiddenSectionIds()
      */
     @Override
-    public Set<String> getConditionallyHiddenSectionIds(BusinessObject businessObject) {
-        Set<String> conditionallyHiddenSectionIds = super.getConditionallyHiddenSectionIds(businessObject);
-        conditionallyHiddenSectionIds.add(CGConstants.SectionId.RESEARCH_RISKS);
+    public Set<String> getSecurePotentiallyHiddenSectionIds() {
+        Set<String> hiddenSectionIds = super.getSecurePotentiallyHiddenSectionIds();
+        hiddenSectionIds.add(CGConstants.SectionId.RESEARCH_RISKS);
 
-        return conditionallyHiddenSectionIds;
+        return hiddenSectionIds;
     }
 }

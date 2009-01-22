@@ -48,13 +48,6 @@
     	<ref bean="TransferOfFundsDocument-workflowAttributes" />
     </property>
     
-     <property name="defaultExistenceChecks" >
-        <bean parent="ReferenceDefinition"
-              p:attributeName="account.indirectCostRecoveryAcct"
-              p:collection="sourceAccountingLines"
-              p:attributeToHighlightOnFail="account.indirectCostRecoveryAcct"/>
-    </property>
-    
   </bean>
   
   <!-- Validations -->

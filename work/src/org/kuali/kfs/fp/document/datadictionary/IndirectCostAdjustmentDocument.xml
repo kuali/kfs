@@ -42,13 +42,6 @@
     <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
     <property name="workflowAttributes">
     	<ref bean="IndirectCostAdjustmentDocument-workflowAttributes" />
-    </property>    
-    
-    <property name="defaultExistenceChecks" >
-        <bean parent="ReferenceDefinition"
-              p:attributeName="account.indirectCostRecoveryAcct"
-              p:collection="sourceAccountingLines"
-              p:attributeToHighlightOnFail="account.indirectCostRecoveryAcct"/>
     </property>
     
   </bean>

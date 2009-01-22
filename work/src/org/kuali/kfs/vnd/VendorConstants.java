@@ -22,9 +22,7 @@ package org.kuali.kfs.vnd;
 public class VendorConstants {
 
     public static class Workgroups {
-        public static final String WORKGROUP_PURCHASING = "PURCHASING_GROUP";
         public static final String WORKGROUP_VENDOR_CONTRACT = "VENDOR_CONTRACT_GROUP";
-        public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "TAXNBR_ACCESSIBLE_GROUP";
     }
     
     public static class VendorTypes {

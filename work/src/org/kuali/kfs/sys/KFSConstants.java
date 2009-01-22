@@ -690,8 +690,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ADJUSTMENT_RESTRICTION_LEVEL_ACCOUNT = "A";
         public static final String ADJUSTMENT_RESTRICTION_LEVEL_SUBFUND = "S";
         public static final String ADJUSTMENT_RESTRICTION_LEVEL_NONE = "N";
-        public static final String GENERAL_FUND_FUND_GROUP = "GF";
-        public static final String MEDICAL_PRACTICE_SUB_FUND_GROUP = "MPRACT";
         public static final String CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS = "CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS";
         public static final String CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS = "CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS";
     }
@@ -720,8 +718,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String UNIVERSAL_USER_EDIT_WORKGROUP_PARM = "UNIVERSAL_USER_EDIT_GROUP";
         public static final String FINANCIAL_SYSTEM_USER_EDIT_WORKGROUP_PARM = "FINANCIAL_SYSTEM_USER_EDIT_GROUP";
         public static final String SERVICE_BUS_ACCESS_GROUP_PARM = "SERVICE_BUS_ACCESS_GROUP";
-
-        public static final String DEFAULT_COUNTRY = "DEFAULT_COUNTRY";
     }
 
     public static final String MAINTENANCE_ADMIN_WORKGROUP_PARM_NM = "MAINTENANCE_ADMIN_GROUP";
@@ -759,8 +755,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES = "ORGANIZATION_TYPES_NOT_REQUIRING_DEFAULT_ACCOUNT";
         public static final String ORG_MUST_REPORT_TO_SELF_ORG_TYPES = "ORGANIZATION_TYPES_THAT_MUST_REPORT_TO_SELF";
         public static final String ORG_PLANT_WORKGROUP_PARM_NAME = "PLANT_GROUP";
-
-        public static final String ADMINISTRATOR_WORKGROUP = "Maintenance.Admin.Workgroup";
 
         public static final String ACCOUNT_FUND_GROUP_DENOTES_CG = "FUND_GROUP_DENOTES_CG_IND";
         public static final String ACCOUNT_CG_DENOTING_VALUE = "CG_DENOTING_VALUE";
@@ -800,7 +794,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE = "MULTIPLE_VALUE_RESULTS_EXPIRATION_SECONDS";
 
         public static final String ACTIVE_INPUT_TYPES_PARAMETER_NAME = "ACTIVE_FILE_TYPES";
-        public static final String FILE_TYPE_WORKGROUP_PARAMETER_NAME = "UPLOAD_GROUP";
 
         public static final String COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME = "VALIDATION_EMAIL_SUBJECT_LINE";
         public static final String COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME = "ERROR_EMAIL_SUBJECT_LINE";
@@ -1153,9 +1146,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final class CustomerParameter {
         public static final String TAX_NUMBER_REQUIRED_IND = "TAX_NUMBER_REQUIRED_IND";
     }
-    
-    // listing of valid university chart codes
-    public static final String UNIVERSITY_CHART_CODES = "'IU'";
     
     // financial document type codes
     public static final class FinancialDocumentTypeCodes {

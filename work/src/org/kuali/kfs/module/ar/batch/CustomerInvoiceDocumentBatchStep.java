@@ -68,7 +68,6 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     private static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
     private static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; set to NO because the GenesisBatchJob needs to only be run once after database initialization.";
     private static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
-    private static final String RUN_INDICATOR_PARAMETER_WORKGROUP = "FP_OPERATIONS";
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         
@@ -181,7 +180,6 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
        fieldNamesValuesForParameter.put("parameterName",Job.STEP_RUN_PARM_NM);
        fieldNamesValuesForParameter.put("parameterConstraintCode",CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
        fieldNamesValuesForParameter.put("parameterTypeCode",CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
-       fieldNamesValuesForParameter.put("parameterWorkgroupName",CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_WORKGROUP);
 
        // get the primary keys and assign them to values
        List<String> parameterPKFields = psService.getPrimaryKeys(Parameter.class);

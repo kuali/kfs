@@ -20,7 +20,6 @@ package org.kuali.kfs.sys;
  */
 public class KFSParameterKeyConstants implements ParameterKeyConstants {
     public static final String ENABLE_BANK_SPECIFICATION_IND = "ENABLE_BANK_SPECIFICATION_IND";
-    public static final String BANK_EDITABLE_GROUP  = "BANK_EDITABLE_GROUP";
     public static final String DEFAULT_BANK_BY_DOCUMENT_TYPE = "DEFAULT_BANK_BY_DOCUMENT_TYPE";
     public static final String BANK_CODE_DOCUMENT_TYPES = "BANK_CODE_DOCUMENT_TYPES";
 

@@ -37,7 +37,6 @@ import org.kuali.rice.kns.service.MailService;
 public class CfdaBatchStep extends AbstractStep {
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(CfdaBatchStep.class);
-    private static String MAIL_RECIPIENTS_GROUP_NAME = "CG_CFDA_BATCH_NOTIFY";
 
     private CfdaService cfdaService;
     private MailService mailService;
@@ -112,7 +111,8 @@ public class CfdaBatchStep extends AbstractStep {
             return false;
         }
         catch (InvalidAddressException iae) {
-            LOG.warn("The email address for one or more of the members of the " + MAIL_RECIPIENTS_GROUP_NAME + " workgroup is invalid.", iae);
+// TODO: fix for KIM
+//            LOG.warn("The email address for one or more of the members of the " + MAIL_RECIPIENTS_GROUP_NAME + " workgroup is invalid.", iae);
             return true;
         }
         return true;

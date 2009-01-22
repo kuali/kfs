@@ -27,8 +27,6 @@
         <ref bean="AwardAccount-account.accountName" />
         <ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber" />
         <ref bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" />
-        <ref bean="AwardAccount-award.workgroupName" />
-        <ref bean="AwardAccount-award.kimGroupNames" />
         <ref bean="AwardAccount-newCollectionRecord" />
         <ref bean="AwardAccount-active" />
       </list>
@@ -139,16 +137,7 @@
   <bean id="AwardAccount-award.proposal.proposalFederalPassThroughIndicator-parentBean" abstract="true" parent="Proposal-proposalFederalPassThroughIndicator">
     <property name="name" value="award.proposal.proposalFederalPassThroughIndicator" />
   </bean>
-  <bean id="AwardAccount-award.workgroupName" parent="AwardAccount-award.workgroupName-parentBean" />
 
-  <bean id="AwardAccount-award.workgroupName-parentBean" abstract="true" parent="Award-workgroupName">
-    <property name="name" value="award.workgroupName" />
-  </bean>
-  <bean id="AwardAccount-award.kimGroupNames" parent="AwardAccount-award.kimGroupNames-parentBean" />
-
-  <bean id="AwardAccount-award.kimGroupNames-parentBean" abstract="true" parent="Award-kimGroupNames">
-    <property name="name" value="award.kimGroupNames" />
-  </bean>
   <bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean" />
 
   <bean id="AwardAccount-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">

@@ -39,29 +39,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 @NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
-
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getAwardWorkgroupForAccount(java.lang.String,
-     *      java.lang.String)
-     */
-    public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber) {
-        Map<String, Object> awardAccountMap = new HashMap<String, Object>();
-        awardAccountMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        awardAccountMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-
-        Collection<AwardAccount> proposals = getBusinessObjectService().findMatchingOrderBy(AwardAccount.class, awardAccountMap, KFSPropertyConstants.PROPOSAL_NUMBER, false);
-        if (proposals != null && !proposals.isEmpty()) {
-            Long maxProposalNumber = proposals.iterator().next().getProposalNumber();
-
-            Map<String, Object> awardMap = new HashMap<String, Object>();
-            awardMap.put(KFSPropertyConstants.PROPOSAL_NUMBER, maxProposalNumber);
-
-            return ((Award) getBusinessObjectService().findByPrimaryKey(Award.class, awardMap)).getWorkgroupName();
-        }
-
-        return null;
-    }
-
+    
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,
      *      java.lang.String)

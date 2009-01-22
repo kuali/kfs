@@ -20,7 +20,6 @@
       <list>
         <ref bean="Award-routingChart" />
         <ref bean="Award-routingOrg" />
-        <ref bean="Award-kimGroupNames" />
         <ref bean="Award-primaryAwardOrganization.organizationCode" />
         <ref bean="Award-proposal.proposalNumber" />
         <ref bean="Award-proposalNumber" />
@@ -58,7 +57,6 @@
         <ref bean="Award-federalPassThroughAgency.fullName" />
         <ref bean="Award-federalPassThroughFundedAmount" />
         <ref bean="Award-federalPassThroughIndicator" />
-        <ref bean="Award-workgroupName" />
         <ref bean="Award-grantDescriptionCode" />
         <ref bean="Award-letterOfCreditFundGroupCode" />
         <ref bean="Award-oldProposalNumber" />
@@ -177,13 +175,7 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="Award-kimGroupNames" parent="Award-kimGroupNames-parentBean" />
 
-  <bean id="Award-kimGroupNames-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-    <property name="name" value="kimGroupNames" />
-    <property name="label" value="Kuali Workgroup Users" />
-    <property name="shortLabel" value="Kuali Workgroup Users" />
-  </bean>
   <bean id="Award-primaryAwardOrganization.organizationCode" parent="Award-primaryAwardOrganization.organizationCode-parentBean" />
 
   <bean id="Award-primaryAwardOrganization.organizationCode-parentBean" abstract="true" parent="AwardOrganization-organizationCode">
@@ -519,21 +511,7 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
-  <bean id="Award-workgroupName" parent="Award-workgroupName-parentBean" />
 
-  <bean id="Award-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="workgroupName" />
-    <property name="label" value="Workgroup Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="72" />
-    </property>
-  </bean>
   <bean id="Award-grantDescriptionCode" parent="Award-grantDescriptionCode-parentBean" />
 
   <bean id="Award-grantDescriptionCode-parentBean" abstract="true" parent="GrantDescription-grantDescriptionCode">
@@ -655,10 +633,6 @@
                     p:attributeName="federalPassThroughAgency.fullName" />
               <bean parent="FieldDefinition"
                     p:attributeName="federalPassThroughFundedAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="workgroupName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="kimGroupNames" />
               <bean parent="FieldDefinition"
                     p:attributeName="agencyAnalystName" />
               <bean parent="FieldDefinition"
@@ -845,8 +819,6 @@
               p:attributeName="awardStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="federalPassThroughAgencyNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="workgroupName" />
         <bean parent="FieldDefinition"
               p:attributeName="awardPurposeCode" />
         <bean parent="FieldDefinition"

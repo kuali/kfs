@@ -185,8 +185,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="awardDocumentNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="workgroupName" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="agencyAnalystName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="analystTelephoneNumber" />

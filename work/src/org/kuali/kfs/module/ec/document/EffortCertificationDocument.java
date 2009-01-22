@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
@@ -764,7 +763,6 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
         routingInfo.add(organizationRoutingData);
 
         List<String> routingTypes = new ArrayList<String>();
-        routingTypes.add(KualiCGAttribute.class.getSimpleName());
         routingTypes.add(KualiAccountAttribute.class.getSimpleName());
         routingTypes.add(KualiPDAttribute.class.getSimpleName());
 

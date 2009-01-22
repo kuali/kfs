@@ -21,7 +21,6 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.bo.Person;
 
 public interface ContractsAndGrantsModuleService {
-    public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber);
 
     public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber);
 

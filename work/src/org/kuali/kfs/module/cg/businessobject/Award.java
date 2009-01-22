@@ -70,7 +70,6 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     private Timestamp awardCreateTimestamp;
     private Date awardClosingDate;
     private String proposalAwardTypeCode;
-    private String workgroupName;
     private String awardStatusCode;
     private String letterOfCreditFundGroupCode;
     private String grantDescriptionCode;
@@ -615,24 +614,6 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * Gets the workgroupName attribute.
-     * 
-     * @return Returns the workgroupName
-     */
-    public String getWorkgroupName() {
-        return workgroupName;
-    }
-
-    /**
-     * Sets the workgroupName attribute.
-     * 
-     * @param workgroupName The workgroupName to set.
-     */
-    public void setWorkgroupName(String workgroupName) {
-        this.workgroupName = workgroupName;
-    }
-
-    /**
      * Gets the awardStatusCode attribute.
      * 
      * @return Returns the awardStatusCode
@@ -1071,24 +1052,6 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * Returns a KimGroup object whose name is defined by workgroupName.
-     * 
-     * @return KimGroup defined by workgroupName
-     */
-    public KimGroup getWorkgroup() {
-        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, workgroupName);
-    }
-
-    /**
-     * Sets the local workgroupName attribute to the name of the passed in workgroup object.
-     * 
-     * @param workgroup KimGroup object to use to set the local workgroupName attribute.
-     */
-    public void setWorkgroup(KimGroup workgroup) {
-        this.workgroupName = workgroup.getGroupName();
-    }
-
-    /**
      * This method gets the primary award organization.
      * 
      * @return The award organization object marked as primary in the award organizations collection.
@@ -1114,60 +1077,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
         this.routingChart = primaryAwardOrganization.getChartOfAccountsCode();
         this.routingOrg = primaryAwardOrganization.getOrganizationCode();
     }
-
-    /**
-     * Retrieves the list of users assigned to the associated workgroup and builds out a string representation of these users for
-     * display purposes. NOTE: This method is used by the Account and Award Inquiry screens to display users of the associated
-     * workgroup. NOTE: This method currently has not other use outside of the Account Inquiry screen.
-     * 
-     * @return String representation of the users assigned to the associated workgroup.
-     */
-    public String getKimGroupNames() {
-        StringBuffer names = new StringBuffer(20);
-
-        KimGroup finSysWorkgroup = getWorkgroup();
-
-        if (finSysWorkgroup == null) {
-            return "";
-        }
-        else {
-            List<String> principalIds = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupMemberPrincipalIds(workgroup.getGroupId());
-            if (principalIds.isEmpty()) {
-                names.append("Workgroup user list is empty");
-            }
-            else {
-                int i = 0;
-                for (String id : principalIds) {
-                    Person user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(id);
-                    if (user != null) {
-                        names.append(user.getName());
-                    } else { 
-                        names.append("No User Found (principal id: " + id + ")");
-                    }
-                    if (principalIds.size() > 1) {
-                        names.append("; ");
-                    }
-                    i++;
-                }
-            }
-        }
-
-
-        kimGroupNames = names.toString();
-
-        return kimGroupNames;
-    }
-
-    /**
-     * Simple method that simply sets the kimGroupNames attribute by calling the getter, which performs all the necessary parsing
-     * to retrieve the names.
-     * 
-     * @param kimGroupNames Value to be assigned to the kimGroupNames attribute. This value is never actually set.
-     */
-    public void setKimGroupNames(String kimGroupNames) {
-        this.kimGroupNames = getKimGroupNames();
-    }
-
+    
     /**
      * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
      * 

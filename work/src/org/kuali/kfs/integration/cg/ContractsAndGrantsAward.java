@@ -24,16 +24,4 @@ public interface ContractsAndGrantsAward extends ExternalizableBusinessObject {
     public Long getProposalNumber();
 
     public ContractAndGrantsProposal getProposal();
-    
-    public String getWorkgroupName();
-    
-    /**
-     * Retrieves the list of users assigned to the associated workgroup and builds out a string representation of these users for
-     * display purposes. NOTE: This method is used by the Account and Award Inquiry screens to display users of the associated
-     * workgroup. NOTE: This method currently has not other use outside of the Account Inquiry screen.
-     * 
-     * @return String representation of the users assigned to the associated workgroup.
-     */
-    public String getKimGroupNames();
 }
-

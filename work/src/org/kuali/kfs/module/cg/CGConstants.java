@@ -248,5 +248,9 @@ public class CGConstants extends JSTLConstants {
         public static final String ROUTING_FORM_ADHOC_ACKNOWLEDGER_KIM_ROLE_NAME = "Routing Form Ad Hoc Acknowledger";
         public static final String PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME = "Pre-Award Project Director";
     }
+    
+    public static class SectionId{
+        public static final String RESEARCH_RISKS = "Research Risks";
+    }
 
 }

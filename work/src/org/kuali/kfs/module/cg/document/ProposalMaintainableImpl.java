@@ -15,18 +15,11 @@
  */
 package org.kuali.kfs.module.cg.document;
 
-import static org.kuali.kfs.sys.KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS;
-import static org.kuali.kfs.sys.KFSPropertyConstants.PROPOSAL_SUBCONTRACTORS;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector;
@@ -36,28 +29,18 @@ import org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFin
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.util.AssertionUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.ui.Section;
 
 /**
  * Methods for the Proposal maintenance document UI.
  */
-public class ProposalMaintainableImpl extends FinancialSystemMaintainable {  
+public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
     public ProposalMaintainableImpl() {
         super();
     }
@@ -160,7 +143,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
     private void refreshProposal(boolean refreshFromLookup) {
         getProposal().refreshNonUpdateableReferences();
 
-        getNewCollectionLine(PROPOSAL_SUBCONTRACTORS).refreshNonUpdateableReferences();
+        getNewCollectionLine(KFSPropertyConstants.PROPOSAL_SUBCONTRACTORS).refreshNonUpdateableReferences();
 
         refreshNonUpdateableReferences(getProposal().getProposalOrganizations());
         refreshNonUpdateableReferences(getProposal().getProposalSubcontractors());
@@ -176,11 +159,11 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
      */
     private void refreshProposalProjectDirectors(boolean refreshFromLookup) {
         if (refreshFromLookup) {
-            getNewCollectionLine(PROPOSAL_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
+            getNewCollectionLine(KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
             refreshNonUpdateableReferences(getProposal().getProposalProjectDirectors());
         }
         else {
-            refreshWithSecondaryKey((ProposalProjectDirector) getNewCollectionLine(PROPOSAL_PROJECT_DIRECTORS));
+            refreshWithSecondaryKey((ProposalProjectDirector) getNewCollectionLine(KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS));
             for (ProposalProjectDirector ppd : getProposal().getProposalProjectDirectors()) {
                 refreshWithSecondaryKey(ppd);
             }
@@ -200,8 +183,8 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
      * Refreshes the reference to ProjectDirector, giving priority to its secondary key. Any secondary key that it has may be user
      * input, so that overrides the primary key, setting the primary key. If its primary key is blank or nonexistent, then leave the
      * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
-     * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because
-     * it may be coming from the database, without any user input.
+     * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because it may
+     * be coming from the database, without any user input.
      * 
      * @param ppd the ProposalProjectDirector to refresh
      */
@@ -241,37 +224,4 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
         refreshProposal(false);
         super.addNewLineToCollection(collectionName);
     }
-
-    /**
-     * Allows customizing the maintenance document interface to hide research risks to unprivileged users.
-     * 
-     * @param oldMaintainable
-     * @return
-     */
-    @Override
-    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        List<Section> sections = new ArrayList<Section>();
-
-        List<Section> coreSections = getCoreSections(document, oldMaintainable);
-
-        String preAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PRE_AWARD_GROUP);
-        String postAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.POST_AWARD_GROUP);
-
-        Person user = GlobalVariables.getUserSession().getPerson();
-        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, preAwardWorkgroupName) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, postAwardWorkgroupName)) {
-            for (Section section : coreSections) {
-                if (!section.getSectionTitle().equalsIgnoreCase("Research Risks")) {
-                    sections.add(section);
-                }
-                else {
-                    // Do nothing
-                }
-            }
-        }
-        else {
-            sections.addAll(coreSections);
-        }
-        return sections;
-    }
 }
-

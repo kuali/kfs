@@ -63,7 +63,7 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
 
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
 
-    private static Logger LOG = Logger.getLogger(KualiCGAttribute.class);
+    private static Logger LOG = Logger.getLogger(KualiPDAttribute.class);
 
     private boolean required;
     private static XPath xpath;

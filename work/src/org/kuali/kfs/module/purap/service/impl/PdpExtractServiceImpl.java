@@ -683,10 +683,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
           paymentAccountDetail.setAccountNetAmount(sourceAccountingLine.getAmount());
           paymentAccountDetail.setFinChartCode(sourceAccountingLine.getChartOfAccountsCode());
           paymentAccountDetail.setFinObjectCode(sourceAccountingLine.getFinancialObjectCode());
-          paymentAccountDetail.setFinSubObjectCode(sourceAccountingLine.getFinancialSubObjectCode());
+          paymentAccountDetail.setFinSubObjectCode(StringUtils.defaultIfEmpty(sourceAccountingLine.getFinancialSubObjectCode(),KFSConstants.DASH));
           paymentAccountDetail.setOrgReferenceId(sourceAccountingLine.getOrganizationReferenceId());
-          paymentAccountDetail.setProjectCode(sourceAccountingLine.getProjectCode());
-          paymentAccountDetail.setSubAccountNbr(sourceAccountingLine.getSubAccountNumber());
+          paymentAccountDetail.setProjectCode(StringUtils.defaultIfEmpty(sourceAccountingLine.getProjectCode(),KFSConstants.DASH));
+          paymentAccountDetail.setSubAccountNbr(StringUtils.defaultIfEmpty(sourceAccountingLine.getSubAccountNumber(),KFSConstants.DASH));
 
             paymentDetail.addAccountDetail(paymentAccountDetail);
         }
@@ -828,10 +828,18 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentGroup.setCustomerInstitutionNumber(paymentRequestDocument.getVendorCustomerNumber());
         }
 
-        paymentGroup.setLine1Address(paymentRequestDocument.getVendorLine1Address());
-        paymentGroup.setLine2Address(paymentRequestDocument.getVendorLine2Address());
-        paymentGroup.setLine3Address("");
-        paymentGroup.setLine4Address("");
+        if (StringUtils.isEmpty(paymentRequestDocument.getVendorAttentionName())){
+            paymentGroup.setLine1Address(paymentRequestDocument.getVendorLine1Address());
+            paymentGroup.setLine2Address(paymentRequestDocument.getVendorLine2Address());
+            paymentGroup.setLine3Address("");
+            paymentGroup.setLine4Address("");
+        }else{
+            paymentGroup.setLine1Address("ATTN:" + paymentRequestDocument.getVendorAttentionName());
+            paymentGroup.setLine2Address(paymentRequestDocument.getVendorLine1Address());
+            paymentGroup.setLine3Address(paymentRequestDocument.getVendorLine2Address());
+            paymentGroup.setLine4Address("");
+        }
+
         paymentGroup.setCity(paymentRequestDocument.getVendorCityName());
         paymentGroup.setState(paymentRequestDocument.getVendorStateCode());
         paymentGroup.setZipCd(postalCode);
@@ -886,10 +894,18 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentGroup.setCustomerInstitutionNumber(creditMemoDocument.getVendorCustomerNumber());
         }
 
-        paymentGroup.setLine1Address(creditMemoDocument.getVendorLine1Address());
-        paymentGroup.setLine2Address(creditMemoDocument.getVendorLine2Address());
-        paymentGroup.setLine3Address("");
-        paymentGroup.setLine4Address("");
+        if (StringUtils.isEmpty(creditMemoDocument.getVendorAttentionName())){
+            paymentGroup.setLine1Address(creditMemoDocument.getVendorLine1Address());
+            paymentGroup.setLine2Address(creditMemoDocument.getVendorLine2Address());
+            paymentGroup.setLine3Address("");
+            paymentGroup.setLine4Address("");
+        }else{
+            paymentGroup.setLine1Address("ATTN:" + creditMemoDocument.getVendorAttentionName());
+            paymentGroup.setLine2Address(creditMemoDocument.getVendorLine1Address());
+            paymentGroup.setLine3Address(creditMemoDocument.getVendorLine2Address());
+            paymentGroup.setLine4Address("");
+        }
+        
         paymentGroup.setCity(creditMemoDocument.getVendorCityName());
         paymentGroup.setState(creditMemoDocument.getVendorStateCode());
         paymentGroup.setZipCd(postalCode);

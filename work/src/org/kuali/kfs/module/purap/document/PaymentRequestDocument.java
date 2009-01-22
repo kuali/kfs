@@ -68,6 +68,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -104,7 +105,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String recurringPaymentTypeCode;
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
-    private String vendorAttentionName;
     
     // TAX ROUTING FIELDS
     private String taxClassificationCode;
@@ -521,6 +521,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if (vendorAddress != null) {
             this.templateVendorAddress(vendorAddress);
             this.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
+            setVendorAttentionName(StringUtils.defaultString(vendorAddress.getVendorAttentionName()));
         }
         else {
             // set address from PO
@@ -531,6 +532,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             this.setVendorStateCode(po.getVendorStateCode());
             this.setVendorPostalCode(po.getVendorPostalCode());
             this.setVendorCountryCode(po.getVendorCountryCode());
+            
+            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
+
+            if (blankAttentionLine){
+                setVendorAttentionName(StringUtils.EMPTY);
+            }else{
+                setVendorAttentionName(StringUtils.defaultString(po.getVendorAttentionName()));
+            }
         }
 
         if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode()))) {
@@ -1214,13 +1223,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.taxNQIId = taxNQIId;
     }
 
-    public String getVendorAttentionName() {
-        return vendorAttentionName;
-    }
-
-    public void setVendorAttentionName(String vendorAttentionName) {
-        this.vendorAttentionName = vendorAttentionName;
-    }
 }
 
 

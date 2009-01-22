@@ -88,6 +88,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private String vendorCountryCode;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private boolean useTaxIndicator;
+    private String vendorAttentionName;
     
     // NOT PERSISTED IN DB
     private String vendorNumber;
@@ -986,6 +987,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public void setAccountsForRouting(List<SourceAccountingLine> accountsForRouting) {
         this.accountsForRouting = accountsForRouting;
+    }
+    
+    public String getVendorAttentionName() {
+        return vendorAttentionName;
+    }
+
+    public void setVendorAttentionName(String vendorAttentionName) {
+        this.vendorAttentionName = vendorAttentionName;
     }
     
     /**

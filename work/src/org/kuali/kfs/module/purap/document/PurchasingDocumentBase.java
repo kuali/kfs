@@ -137,7 +137,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String vendorShippingPaymentTermsCode;
     private String capitalAssetSystemTypeCode;
     private String capitalAssetSystemStateCode;
-    private String vendorAttentionName;
 
     // NOT PERSISTED IN DB
     private String vendorContractName;
@@ -1097,14 +1096,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setCapitalAssetSystemStateCode(String capitalAssetSystemStateCode) {
         this.capitalAssetSystemStateCode = capitalAssetSystemStateCode;
-    }
-
-    public String getVendorAttentionName() {
-        return vendorAttentionName;
-    }
-
-    public void setVendorAttentionName(String vendorAttentionName) {
-        this.vendorAttentionName = vendorAttentionName;
     }
 
     public CapitalAssetSystemType getCapitalAssetSystemType() {

@@ -22,8 +22,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -40,13 +43,17 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -121,6 +128,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.setVendorStateCode(paymentRequestDocument.getVendorStateCode());
         cmDocument.setVendorPostalCode(paymentRequestDocument.getVendorPostalCode());
         cmDocument.setVendorCountryCode(paymentRequestDocument.getVendorCountryCode());
+        cmDocument.setVendorAttentionName(paymentRequestDocument.getVendorAttentionName());
         cmDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(paymentRequestDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
         // prep the item lines (also collect warnings for later display) this is only done on paymentRequest
@@ -171,6 +179,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         if (vendorAddress != null) {
             cmDocument.templateVendorAddress(vendorAddress);
             cmDocument.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
+            cmDocument.setVendorAttentionName(StringUtils.defaultString(vendorAddress.getVendorAttentionName()));
         }
         else {
             // set address from PO
@@ -181,6 +190,13 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
             cmDocument.setVendorStateCode(purchaseOrderDocument.getVendorStateCode());
             cmDocument.setVendorPostalCode(purchaseOrderDocument.getVendorPostalCode());
             cmDocument.setVendorCountryCode(purchaseOrderDocument.getVendorCountryCode());
+            
+            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
+            if (blankAttentionLine){
+                cmDocument.setVendorAttentionName(StringUtils.EMPTY);
+            }else{
+                cmDocument.setVendorAttentionName(StringUtils.defaultString(purchaseOrderDocument.getVendorAttentionName()));
+            }
         }
 
         populateItemLinesFromPO(cmDocument, expiredOrClosedAccountList);

@@ -268,16 +268,13 @@
 
 	<bean id="DisbursementVoucher-accountingLineAccessibleValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineAccessibleValidation" abstract="true" >
 		<property name="accountService" ref="accountService" />
-		<property name="disbursementVoucherWorkGroupService" ref="disbursementVoucherWorkGroupService" />
 	</bean>
 
 	<bean id="DisbursementVoucher-accountingLineCountValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineCountValidation" abstract="true" />
 
 	<bean id="DisbursementVoucher-accountingLineAmountPositiveValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineAmountPositiveValidation" abstract="true" />
 	
-	<bean id="DisbursementVoucher-accountingLineTotalsValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineTotalsValidation" abstract="true" >
-		<property name="disbursementVoucherWorkGroupService" ref="disbursementVoucherWorkGroupService" />
-	</bean>
+	<bean id="DisbursementVoucher-accountingLineTotalsValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineTotalsValidation" abstract="true" />
 	
 	<bean id="DisbursementVoucher-accountingLineValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineValidation" abstract="true">
 		<property name="parameterService" ref="parameterService" />
@@ -303,9 +300,7 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 	
-	<bean id="DisbursementVoucher-nonResidentAlienInformationValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonResidentAlienInformationValidation" abstract="true">
-		<property name="disbursementVoucherWorkGroupService" ref="disbursementVoucherWorkGroupService" />
-	</bean>
+	<bean id="DisbursementVoucher-nonResidentAlienInformationValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonResidentAlienInformationValidation" abstract="true" />
 	
 	<bean id="DisbursementVoucher-payeeInitiatorValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherPayeeInitiatorValidation" abstract="true" />
 	

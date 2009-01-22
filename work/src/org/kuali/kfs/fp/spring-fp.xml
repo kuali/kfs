@@ -132,12 +132,6 @@
 		</property>		
 	</bean>
 	
-	<bean id="disbursementVoucherWorkGroupService" class="org.kuali.kfs.fp.document.service.impl.DisbursementVoucherWorkGroupServiceImpl">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-	</bean>
-
 	<bean id="cashDrawerService" class="org.kuali.kfs.fp.service.impl.CashDrawerServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

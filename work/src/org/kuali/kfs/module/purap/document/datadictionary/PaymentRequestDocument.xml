@@ -20,8 +20,9 @@
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentPreRules" />
     <property name="documentTypeCode" value="PREQ" />
     <property name="sessionDocument" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="PaymentRequestDocument-workflowProperties" />
+
+    <property name="workflowAttributes">
+    	<ref bean="PaymentRequestDocument-workflowAttributes" />
     </property>
     
     <property name="accountingLineGroups">
@@ -814,35 +815,6 @@
     </property>
   </bean>  
 
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="PaymentRequestDocument-workflowProperties" parent="PaymentRequestDocument-workflowProperties-parentBean" />
-
-  <bean id="PaymentRequestDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.subAccount" />
-              <bean parent="WorkflowProperty"
-                    p:path="status" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
   <!--Payment Request accountingInformation -->
     <bean id="paymentRequestAccountingInformation" parent="paymentRequestAccountingInformation-parent" />
 
@@ -993,4 +965,19 @@
 		</property>
 	</bean>  
     
+    <!-- workflow attributes for routing -->
+    <bean id="PaymentRequestDocument-workflowAttributes" parent="PaymentRequestDocument-workflowAttributes-parentBean" />
+
+    <bean id="PaymentRequestDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="routingTypeDefinitions">
+    		<map>
+    		    <!-- no qualifiers for InvoiceAttachment -->
+                <!-- no qualifiers for PurchaseWasReceived -->
+    		    <!-- no qualifiers for sub-account -->
+    			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+                <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
+    		</map>
+    	</property>
+	</bean>
 </beans>

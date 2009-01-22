@@ -24,9 +24,10 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderAmendmentDocumentPresentationController" />
     <property name="documentTypeCode" value="POA" />
-    <property name="workflowProperties" >
-      <ref bean="PurchaseOrderAmendmentDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="PurchaseOrderAmendmentDocument-workflowAttributes" />
     </property>
+
     <property name="accountingLineGroups">
     	<map>
     		<entry>
@@ -72,35 +73,6 @@
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="PurchaseOrderAmendmentDocument-workflowProperties" parent="PurchaseOrderAmendmentDocument-workflowProperties-parentBean" />
-
-  <bean id="PurchaseOrderAmendmentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="status" />
-              <bean parent="WorkflowProperty"
-                    p:path="contractManager" />
-              <bean parent="WorkflowProperty"
-                    p:path="vendorContract" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
 
   <bean id="PurchaseOrderAmendmentDocument-validations" parent="PurchaseOrderAmendmentDocument-validations-parentBean" />
   
@@ -139,4 +111,16 @@
     </property>	  
   </bean>
 
+    <!-- workflow attributes for routing -->
+    <bean id="PurchaseOrderAmendmentDocument-workflowAttributes" parent="PurchaseOrderAmendmentDocument-workflowAttributes-parentBean" />
+
+    <bean id="PurchaseOrderAmendmentDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="routingTypeDefinitions">
+    		<map>
+    		    <!-- no qualifiers for HasNewUnorderedItems -->
+    			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account" />
+    		</map>
+    	</property>
+	</bean>
+	
 </beans>

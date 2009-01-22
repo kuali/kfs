@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
+      
+
+   	<bean id="RoutingType-VendorMaintenanceDocument-Management" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+			    	<property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.VendorHeader" />
+			    	<property name="attributeName" value="vendorTypeCode" />
+			    </bean>
+	    
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.vendorHeader.vendorTypeCode</value>
+    					</list>
+    				</property>
+			   	</bean>
+    		</list>
+    	</property>
+    </bean>      
+         
+</beans>

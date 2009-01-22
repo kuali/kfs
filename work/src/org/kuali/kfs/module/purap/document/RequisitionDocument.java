@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
@@ -106,6 +107,32 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
+     * Provides answers to the following splits:
+     * AmountRequiresSeparationOfDutiesReview
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) return isSeparationOfDutiesReviewRequired();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+
+    private boolean isSeparationOfDutiesReviewRequired() {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.WorkflowParameters.RequisitionDocument.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
+        // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
+        KualiDecimal totalAmount = documentHeader.getFinancialDocumentTotalAmount();
+        if (ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    
+    /**
      * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria
      * specific to Requisition Document.
      * 
@@ -137,8 +164,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(currentUser, PurapConstants.PURAP_NAMESPACE);
         if (ObjectUtils.isNotNull(purapChartOrg)) {
-            this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
-            this.setOrganizationCode(purapChartOrg.getOrganizationCode());
+        this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
+        this.setOrganizationCode(purapChartOrg.getOrganizationCode());
         }
         this.setDeliveryCampusCode(currentUser.getCampusCode());
         this.setRequestorPersonName(currentUser.getName());
@@ -219,8 +246,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
         // Set fields from the user.
         if (ObjectUtils.isNotNull(purapChartOrg)) {
-            this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
-            this.setOrganizationCode(purapChartOrg.getOrganizationCode());
+        this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
+        this.setOrganizationCode(purapChartOrg.getOrganizationCode());
         }
         this.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
@@ -593,6 +620,5 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public Class getPurchasingCapitalAssetSystemClass() {
         return RequisitionCapitalAssetSystem.class;
     }
-
 }
 

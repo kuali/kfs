@@ -20,6 +20,9 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.LineItemReceivingDocumentPresentationController" />
     <property name="documentTypeCode" value="RCVL" />
     <property name="sessionDocument" value="true" />
+    <property name="workflowAttributes">
+    	<ref bean="LineItemReceivingDocument-workflowAttributes" />
+    </property>
     <property name="attributes" >
       <list>
         <ref bean="LineItemReceivingDocument-documentNumber" />
@@ -445,4 +448,10 @@
     </property>
 </bean>
   
+  <!-- workflow attributes -->
+  <bean id="LineItemReceivingDocument-workflowAttributes" parent="LineItemReceivingDocument-workflowAttributes-parentBean" />
+  
+  <bean id="LineItemReceivingDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  
+    
 </beans>

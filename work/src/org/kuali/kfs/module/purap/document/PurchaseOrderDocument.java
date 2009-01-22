@@ -27,7 +27,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -62,17 +67,24 @@ import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificSer
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms;
 import org.kuali.kfs.vnd.businessobject.ShippingTitle;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
@@ -85,6 +97,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -152,6 +165,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private RecurringPaymentFrequency recurringPaymentFrequency;
     private ContractManager contractManager;
 
+    public static final String FIN_COA_CD_KEY = "fin_coa_cd";
+    private static final String UNIVERSITY_FISCAL_YEAR_KEY = "univ_fiscal_year";
+    private static final String VENDOR_IS_EMPLOYEE = "Employee Vendor";
+    private static final String VENDOR_IS_FOREIGN = "Foreign Vendor";
+    private static final String VENDOR_IS_FOREIGN_EMPLOYEE = "Foreign and Employee Vendor";
     
     /**
      * Default constructor.
@@ -1402,4 +1420,73 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         }
         return true;
     }
+    
+    /**
+     * Provides answers to the following splits:
+     * RequiresContractManagementReview
+     * RequiresBudgetReview
+     * VendorIsEmployeeOrNonResidentAlien
+     * TransmissionMethodIsPrint
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(PurapWorkflowConstants.CONTRACT_MANAGEMENT_REVIEW_REQUIRED)) return isContractManagementReviewRequired();
+        if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) return isBudgetReviewRequired();
+        if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) return isVendorEmployeeOrNonResidentAlien();
+        if (nodeName.equals(PurapWorkflowConstants.TRANSMISSION_METHOD_IS_PRINT)) return isTransmissionMethodPrint();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+    
+    private boolean isContractManagementReviewRequired() {
+        KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(this);
+        return ((ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(this.getTotalDollarAmount()) < 0));
+
+    }
+
+
+    private boolean isBudgetReviewRequired() {
+        boolean alwaysRoutes = true;
+        String documentHeaderId = null;
+        String currentXpathExpression = null;
+        String documentFiscalYearString = this.getPostingYear().toString();
+
+        // if document's fiscal year is less than or equal to the current fiscal year
+        if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0) {
+            if (alwaysRoutes) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    private boolean isVendorEmployeeOrNonResidentAlien() {
+        String vendorHeaderGeneratedId = this.getVendorHeaderGeneratedIdentifier().toString();
+        if (StringUtils.isBlank(vendorHeaderGeneratedId)) {
+            // no vendor header id so can't check for proper tax routing
+            return false;
+        }
+        VendorService vendorService = SpringContext.getBean(VendorService.class);
+        boolean routeDocumentAsEmployeeVendor = vendorService.isVendorInstitutionEmployee(Integer.valueOf(vendorHeaderGeneratedId));
+        boolean routeDocumentAsForeignVendor = vendorService.isVendorForeign(Integer.valueOf(vendorHeaderGeneratedId));
+        if ((!routeDocumentAsEmployeeVendor) && (!routeDocumentAsForeignVendor)) {
+            // no need to route
+            return false;
+        }
+
+        return true;
+    }
+    
+    private boolean isTransmissionMethodPrint() {
+        if (this.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.PRINT)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
 }

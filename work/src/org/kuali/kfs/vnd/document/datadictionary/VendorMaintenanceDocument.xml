@@ -40,9 +40,17 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorPreRules" />
     <property name="documentTypeCode" value="PVEN" />
+    
+    <!--  
     <property name="workflowProperties" >
       <ref bean="VendorMaintenanceDocument-workflowProperties" />
     </property>
+    -->
+    
+    <property name="workflowAttributes">
+    	<ref bean="VendorMaintenanceDocument-workflowAttributes" />
+    </property>
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -746,8 +754,7 @@
   </bean>
 
 <!-- Exported Workflow Properties -->
-
-
+<!--   
   <bean id="VendorMaintenanceDocument-workflowProperties" parent="VendorMaintenanceDocument-workflowProperties-parentBean" />
 
   <bean id="VendorMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
@@ -764,5 +771,19 @@
       </list>
     </property>
   </bean>
+-->
+
+    <!-- workflow attributes for routing -->
+    <bean id="VendorMaintenanceDocument-workflowAttributes" parent="VendorMaintenanceDocument-workflowAttributes-parentBean" />
+
+    <bean id="VendorMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="routingTypeDefinitions">
+    		<map>
+    		    <entry key="Management" value-ref="RoutingType-VendorMaintenanceDocument-Management" />
+    			<!-- no qualifiers for Initiators -->
+    		</map>
+    	</property>
+	</bean>
+    	  	  
 </beans>
 

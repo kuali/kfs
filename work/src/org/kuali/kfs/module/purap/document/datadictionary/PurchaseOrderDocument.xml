@@ -21,9 +21,11 @@
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules" />
     <property name="documentTypeCode" value="PO" />
     <property name="allowsCopy" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="PurchaseOrderDocument-workflowProperties" />
+
+    <property name="workflowAttributes">
+    	<ref bean="PurchaseOrderDocument-workflowAttributes" />
     </property>
+    
     <property name="accountingLineGroups">
     	<map>
     		<entry>
@@ -1206,38 +1208,6 @@
   	<property name="shortLabel" value="Use Tax" />
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="PurchaseOrderDocument-workflowProperties" parent="PurchaseOrderDocument-workflowProperties-parentBean" />
-
-  <bean id="PurchaseOrderDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="commodityCodesForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="status" />
-              <bean parent="WorkflowProperty"
-                    p:path="contractManager" />
-              <bean parent="WorkflowProperty"
-                    p:path="vendorContract" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-  
   
     <!-- Purchase Order accountingInformation -->
     <bean id="purchaseOrderAccountingInformation" parent="purchaseOrderAccountingInformation-parent" />
@@ -1377,4 +1347,21 @@
 		    </map>
 	    </property>	  
     </bean>
+    
+    <!-- workflow attributes for routing -->
+    <bean id="PurchaseOrderDocument-workflowAttributes" parent="PurchaseOrderDocument-workflowAttributes-parentBean" />
+
+    <bean id="PurchaseOrderDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="routingTypeDefinitions">
+    		<map>
+    		    <entry key="ContractManagement" value-ref="RoutingType-PurchaseOrderDocument-ContractManagement" />
+    		    <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity" />
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+                <!-- no qualifiers for RequiresBudgetReview -->
+                <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
+                <!-- no qualifiers for TransmissionMethodIsPrint -->
+    		</map>
+    	</property>
+	</bean>    
+    
 </beans>

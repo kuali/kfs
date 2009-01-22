@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd" 
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RequisitionDocument" parent="RequisitionDocument-parentBean" />
 
@@ -16,13 +19,15 @@
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
+
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentPreRules" />
     <property name="documentTypeCode" value="REQS" />
     <property name="allowsCopy" value="true" />
-     <property name="sessionDocument" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="RequisitionDocument-workflowProperties" />
+    <property name="sessionDocument" value="true" />
+
+    <property name="workflowAttributes">
+    	<ref bean="RequisitionDocument-workflowAttributes" />
     </property>
 
     <property name="accountingLineGroups">
@@ -915,36 +920,6 @@
   	<property name="label" value="Use Tax Indicator" />
   	<property name="shortLabel" value="Use Tax" />
   </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="RequisitionDocument-workflowProperties" parent="RequisitionDocument-workflowProperties-parentBean" />
-
-  <bean id="RequisitionDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.subAccount" />
-              <bean parent="WorkflowProperty"
-                    p:path="commodityCodesForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="status" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
   
   <!-- Requisition accountingInformation -->
     <bean id="requisitionAccountingInformation" parent="requisitionAccountingInformation-parent" />
@@ -1077,4 +1052,51 @@
     </property>
   </bean>  
   	
+    <!-- workflow attributes for routing -->
+    <bean id="RequisitionDocument-workflowAttributes" parent="RequisitionDocument-workflowAttributes-parentBean" />
+
+    <bean id="RequisitionDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+        <property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
+    						<property name="attributeName" value="vendorName" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>vendorName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
+    						<property name="attributeName" value="requisitionOrganizationReference1Text" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>requisitionOrganizationReference1Text</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    
+    	<property name="routingTypeDefinitions">
+    		<map>
+    		    <entry key="Organization" value-ref="RoutingType-RequisitionDocument-Organization" />
+    		    <!-- no qualifiers for sub-account -->
+    			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+                <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity" />
+                <!-- no qualifiers for separation of duties -->
+    		</map>
+    	</property>
+	</bean>
+    	  	
 </beans>

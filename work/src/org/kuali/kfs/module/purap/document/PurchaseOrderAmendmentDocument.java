@@ -21,6 +21,7 @@ import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import java.util.ArrayList;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -136,5 +137,14 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     public void setReceivingDeliveryCampusCode(String receivingDeliveryCampusCode) {
         this.receivingDeliveryCampusCode = receivingDeliveryCampusCode;
     }
-        
+    
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) return isHasNewUnorderedItemsReviewRequires();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    } 
+    
+    private boolean isHasNewUnorderedItemsReviewRequires() {
+        return false;
+    }
 }

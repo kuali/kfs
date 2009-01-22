@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
@@ -539,7 +540,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 setVendorAttentionName(StringUtils.EMPTY);
             }else{
                 setVendorAttentionName(StringUtils.defaultString(po.getVendorAttentionName()));
-            }
+        }
         }
 
         if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode()))) {
@@ -1115,6 +1116,41 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
     }
 
+    /**
+     * Provides answers to the following splits:
+     * PurchaseWasReceived
+     * VendorIsEmployeeOrNonResidentAlien
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(PurapWorkflowConstants.PURCHASE_WAS_RECEIVED)) return wasPurchaseReceived();
+        if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) return isVendorEmployeeOrNonResidentAlien();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+    
+    private boolean wasPurchaseReceived() {
+        return !isAwaitingReceiving();  
+    }
+    
+    private boolean isVendorEmployeeOrNonResidentAlien() {
+        String vendorHeaderGeneratedId = this.getVendorHeaderGeneratedIdentifier().toString();
+        if (StringUtils.isBlank(vendorHeaderGeneratedId)) {
+            // no vendor header id so can't check for proper tax routing
+            return false;
+        }
+        VendorService vendorService = SpringContext.getBean(VendorService.class);
+        boolean routeDocumentAsEmployeeVendor = vendorService.isVendorInstitutionEmployee(Integer.valueOf(vendorHeaderGeneratedId));
+        boolean routeDocumentAsForeignVendor = vendorService.isVendorForeign(Integer.valueOf(vendorHeaderGeneratedId));
+        if ((!routeDocumentAsEmployeeVendor) && (!routeDocumentAsForeignVendor)) {
+            // no need to route
+            return false;
+        }
+
+        return true;
+    }
+    
     public boolean isAwaitingReceiving() {
         return awaitingReceiving;
     }

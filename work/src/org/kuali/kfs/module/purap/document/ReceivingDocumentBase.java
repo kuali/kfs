@@ -26,17 +26,16 @@ import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecif
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kns.service.CountryService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -1022,4 +1021,8 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.receivingLineStatusDescription = receivingLineStatusDescription;
     }
     
+    //TODO: Cathy reminder to fill in this method with the actual code when I'm ready.
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        return true;
+    }
 }

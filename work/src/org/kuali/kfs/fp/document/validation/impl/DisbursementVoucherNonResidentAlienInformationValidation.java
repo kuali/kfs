@@ -21,14 +21,13 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -38,7 +37,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class DisbursementVoucherNonResidentAlienInformationValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherNonResidentAlienInformationValidation.class);
 
-    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService;
     private AccountingDocument accountingDocumentForValidation;
 
     /**
@@ -53,9 +51,10 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         
         Person financialSystemUser = GlobalVariables.getUserSession().getPerson(); 
-        if (!payeeDetail.isDisbVchrAlienPaymentCode() || !disbursementVoucherWorkGroupService.isUserInTaxGroup(financialSystemUser)) {
-            return true;
-        }
+        // TODO fix for kim
+//        if (!payeeDetail.isDisbVchrAlienPaymentCode() || !disbursementVoucherWorkGroupService.isUserInTaxGroup(financialSystemUser)) {
+//            return true;
+//        }
         
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
@@ -147,14 +146,6 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
-    }
-
-    /**
-     * Sets the disbursementVoucherWorkGroupService attribute value.
-     * @param disbursementVoucherWorkGroupService The disbursementVoucherWorkGroupService to set.
-     */
-    public void setDisbursementVoucherWorkGroupService(DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService) {
-        this.disbursementVoucherWorkGroupService = disbursementVoucherWorkGroupService;
     }
 
     /**

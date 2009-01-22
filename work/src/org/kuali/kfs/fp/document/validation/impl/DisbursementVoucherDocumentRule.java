@@ -25,7 +25,6 @@ import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -51,7 +50,6 @@ import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -124,44 +122,6 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         }
 
         return valid;
-    }
-
-    /**
-     * Overrides to call super. If super fails, then we invoke some DV specific rules about FO routing to double check if the
-     * individual has special conditions that they can alter accounting lines by.
-     * 
-     * @param financialdocument submitted disbursement voucher document
-     * @param accountingLine accounting line in disbursement voucher
-     * @param action accounting line action
-     * @return true if accounting line is accessible
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.financial.rules.FinancialDocumentRuleBase.AccountingLineAction)
-     */
-    @Override
-    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
-        // first check parent's isAccessible method for basic FO authz checking
-        boolean isAccessible = accountIsAccessible(financialDocument, accountingLine);
-
-        // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
-        // but only if the document is enroute
-        if (!isAccessible && financialDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-            DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(financialDocument);
-            // if approval is requested and it is special conditions routing and the user is in a special conditions routing
-            // workgroup then the line is accessible
-            DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;
-            if (financialDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && dvDocument.isSpecialRouting() && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
-                isAccessible = true;
-            }
-        }
-
-        // report (and log) errors
-        if (!isAccessible) {
-            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getPerson().getPrincipalName() };
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
-        }
-
-        return isAccessible;
     }
 
     /**

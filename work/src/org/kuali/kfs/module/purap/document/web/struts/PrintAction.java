@@ -63,9 +63,10 @@ public class PrintAction extends KualiAction {
         // call the print service
         PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocNumber);
         Person curUser = GlobalVariables.getUserSession().getPerson();
-        if (!hasPrintAuthorization(po, curUser)) {
-            throw new DocumentInitiationAuthorizationException(KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, new String[]{curUser.getPrincipalName(), "print", "Purchase Order"});
-        }
+        // TODO fix for kim
+//        if (!hasPrintAuthorization(po, curUser)) {
+//            throw new DocumentInitiationAuthorizationException(KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, new String[]{curUser.getPrincipalName(), "print", "Purchase Order"});
+//        }
 
         
         PurchaseOrderVendorQuote poVendorQuote = null;
@@ -128,15 +129,15 @@ public class PrintAction extends KualiAction {
     }
     
     //TODO hjs chagne this for KIM
-    private boolean hasPrintAuthorization(Document document, Person user) {
-        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
-        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
-        if (group != null) {
-            return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
-        } else {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
-        }
-    }
+//    private boolean hasPrintAuthorization(Document document, Person user) {
+//        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
+//        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
+//        if (group != null) {
+//            return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
+//        } else {
+//            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
+//        }
+//    }
 
 }
 

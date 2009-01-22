@@ -232,5 +232,4 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
-    
 }

@@ -17,7 +17,6 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -31,7 +30,6 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineAccessibleValidation.class);
 
     private AccountService accountService;
-    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService;
 
     /**
      * Validates that the given accounting line is accessible for editing by the current user. <strong>This method expects a
@@ -56,10 +54,11 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
 
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing
             // workgroup then the line is accessible
+            // TODO fix for kim
             DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) this.getAccountingDocumentForValidation();
-            if (workflowDocument.isApprovalRequested() && dvDocument.isSpecialRouting() && this.isUserInDisbursementVouchWorkGroups(financialSystemUser)) {
-                isAccessible = true;
-            }
+//            if (workflowDocument.isApprovalRequested() && dvDocument.isSpecialRouting() && this.isUserInDisbursementVouchWorkGroups(financialSystemUser)) {
+//                isAccessible = true;
+//            }
         }
 
         // report errors if the current user can have no access to the account
@@ -74,18 +73,6 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         return isAccessible;
     }
 
-    // determine whether the current user is a member of the specified work groups
-    private boolean isUserInDisbursementVouchWorkGroups(Person financialSystemUser) {
-        boolean isInWorkGroups = true;
-        isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInDvAdminGroup(financialSystemUser);
-        isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInFRNGroup(financialSystemUser);
-        isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInTaxGroup(financialSystemUser);
-        isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInTravelGroup(financialSystemUser);
-        isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInWireGroup(financialSystemUser);
-
-        return isInWorkGroups;
-    }
-
     /**
      * Sets the accountService attribute value.
      * 
@@ -93,14 +80,5 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
      */
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
-    }
-
-    /**
-     * Sets the disbursementVoucherWorkGroupService attribute value.
-     * 
-     * @param disbursementVoucherWorkGroupService The disbursementVoucherWorkGroupService to set.
-     */
-    public void setDisbursementVoucherWorkGroupService(DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService) {
-        this.disbursementVoucherWorkGroupService = disbursementVoucherWorkGroupService;
     }
 }

@@ -18,8 +18,6 @@ import org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceDocumentService
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.group.KimGroup;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -62,7 +60,6 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
                                                              newInvoiceRecurrence.getDocumentTotalRecurrenceNumber());   
         success &= validateMaximumNumberOfRecurrences(newInvoiceRecurrence.getDocumentTotalRecurrenceNumber(),
                                                       newInvoiceRecurrence.getDocumentRecurrenceIntervalCode());
-        success &= validateWorkgroup(newInvoiceRecurrence.getWorkgroupName());
         return success;
     }
 
@@ -235,35 +232,5 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
-    
-    /**
-     * Workgroup must be required and valid.
-     */ 
-    private boolean validateWorkgroup(String workgroupName) {
-        if (ObjectUtils.isNotNull(workgroupName)) {
-            if (!workgroupExistsAndIsActive(workgroupName)) {
-                putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_WORKGROUP_NAME, ArKeyConstants.ERROR_INVOICE_RECURRENCE_WORKGROUP_IS_INVALID, workgroupName);
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Checks whether the given workgroup exists and is active.
-     * 
-     * @param name The name of the workgroup to check.
-     * @return Whether the given workgroup exists and is active.
-     */
-    private static boolean workgroupExistsAndIsActive(String name) {
-        try {
-            KimGroup group = KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, name);
-            return group != null && group.isActive();
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
-
     
 }

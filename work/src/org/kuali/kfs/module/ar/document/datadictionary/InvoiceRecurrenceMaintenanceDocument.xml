@@ -73,9 +73,6 @@
               p:name="documentRecurrenceIntervalCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="workgroupName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="documentInitiatorUserIdentifier"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"

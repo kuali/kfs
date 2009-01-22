@@ -35,8 +35,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.group.KimGroup;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -269,34 +267,6 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
             }
         }
         return true;
-    }
-        
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceService#isValidWorkgroup(String)
-     */
-    public boolean isValidWorkgroup( String workgroupName ) {
-        if (ObjectUtils.isNotNull(workgroupName)) {
-            if (!workgroupExistsAndIsActive(workgroupName)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Checks whether the given workgroup exists and is active.
-     * 
-     * @param name The name of the workgroup to check.
-     * @return Whether the given workgroup exists and is active.
-     */
-    private static boolean workgroupExistsAndIsActive(String name) {
-        try {
-            KimGroup group = KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, name);
-            return group != null && group.isActive();
-        }
-        catch (Exception e) {
-            return false;
-        }
     }
         
     /**

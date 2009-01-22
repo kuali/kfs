@@ -17,16 +17,8 @@ package org.kuali.kfs.module.ar.document.service;
 
 import java.sql.Date;
 
-import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public interface InvoiceRecurrenceDocumentService {
         
@@ -93,14 +85,6 @@ public interface InvoiceRecurrenceDocumentService {
      * @return
      */
     public boolean isValidMaximumNumberOfRecurrences( Integer totalRecurrenceNumber, String intervalCode ) ;
-
-    /**
-     * This method returns true if the workgroup is valid.
-     * 
-     * @param invoiceNumber
-     * @return
-     */
-    public boolean isValidWorkgroup( String workgroupName ) ;
 
     /**
      * This method returns true if the initiator is valid.

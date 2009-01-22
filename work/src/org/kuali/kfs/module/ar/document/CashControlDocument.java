@@ -600,10 +600,15 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT.equals(nodeName) && ArConstants.PaymentMediumCode.WIRE_TRANSFER.equals(getCustomerPaymentMediumCode())) {
-            return true;
+        if (NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT.equals(nodeName)) {
+            if (ArConstants.PaymentMediumCode.WIRE_TRANSFER.equals(getCustomerPaymentMediumCode())) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        return false;
+        throw new UnsupportedOperationException("answerSplitNodeQuestion('" + nodeName + "') called, but no handler setup to deal with this nodeName.");
     }
 
     /**

@@ -99,15 +99,6 @@ public class AccountsReceivableAuthorizationServiceImpl implements AccountsRecei
         
         ChartOrgHolder personChartOrg = knsAuthzService.getOrganizationByNamespaceCode(person, ArConstants.AR_NAMESPACE_CODE);
         
-        // *************************************************************
-        // SPECIAL CASE HANDLING WHILE KIM AUTH IS IN PROGRESS
-        //
-        //TODO remove this later when KIM stuff is stabilized
-        //
-        if (personChartOrg == null || StringUtils.isBlank(personChartOrg.getChartOfAccountsCode()) || StringUtils.isBlank(personChartOrg.getOrganizationCode())) {
-            return orgService.getByPrimaryId(KULUSER_CHART_CD, KULUSER_ORG_CD);
-        }
-
         if (personChartOrg == null) {
             return null;
         }

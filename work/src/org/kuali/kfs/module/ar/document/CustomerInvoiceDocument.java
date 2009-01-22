@@ -1784,10 +1784,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (HAS_RECCURENCE_NODE.equals(nodeName)) {
-            if (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate() != null) {
-                return true;
-            }
+            return hasRecurrence();
         }
-        return false;
+        throw new UnsupportedOperationException("answerSplitNode('" + nodeName + "') was called but no handler for nodeName specified.");
     }
+    
+    private boolean hasRecurrence() {
+        return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) 
+                && getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate() != null);
+    }
+    
 }

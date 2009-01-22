@@ -30,7 +30,6 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.ContinueCustomerInvoiceWriteoffDocumentRule;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -130,7 +129,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         boolean success = true;
 
         String writeoffObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, customerInvoiceDetail.getChartOfAccountsCode());
-        if (StringUtils.isEmpty(writeoffObjectCode)) {
+        if (StringUtils.isBlank(writeoffObjectCode)) {
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST, customerInvoiceDetail.getChartOfAccountsCode());
             success = false;
         }
@@ -152,9 +151,11 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
         if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
-            success &= doesWriteoffAccountNumberExist(organizationAccountingDefault);
-            success &= doesWriteoffChartOfAccountsCodeExist(organizationAccountingDefault);
-            success &= doesWriteoffFinancialObjectCodeExist(organizationAccountingDefault);
+            if (isWriteoffGenerationEnabled()) {
+                success &= doesWriteoffAccountNumberExist(organizationAccountingDefault);
+                success &= doesWriteoffChartOfAccountsCodeExist(organizationAccountingDefault);
+                success &= doesWriteoffFinancialObjectCodeExist(organizationAccountingDefault);
+            }
         }
         else {
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_MUST_EXIST, new String[] { currentFiscalYear.toString(), billByChartOfAccountCode, billedByOrganizationCode });
@@ -165,7 +166,10 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
     }
 
-
+    private boolean isWriteoffGenerationEnabled() {
+        return ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD));
+    }
+    
     /**
      * This method returns true if payment account number is provided and is valid.
      * 
@@ -174,7 +178,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      */
     protected boolean doesWriteoffAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
-        if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffAccountNumber())) {
+        if (StringUtils.isBlank(organizationAccountingDefault.getWriteoffAccountNumber())) {
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_ACCOUNT_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
             return false;
         }
@@ -190,7 +194,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      */
     protected boolean doesWriteoffChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
-        if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffChartOfAccountsCode())) {
+        if (StringUtils.isBlank(organizationAccountingDefault.getWriteoffChartOfAccountsCode())) {
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_CHART_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
             return false;
         }
@@ -205,7 +209,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      * @return
      */
     protected boolean doesWriteoffFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
-        if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
+        if (StringUtils.isBlank(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_OBJECT_CODE_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
             return false;
         }

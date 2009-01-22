@@ -62,7 +62,7 @@ public class FormatAction extends KualiAction {
     public FormatAction() {
         formatService = SpringContext.getBean(FormatService.class);
     }
-    
+
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -72,9 +72,9 @@ public class FormatAction extends KualiAction {
         Person kualiUser = GlobalVariables.getUserSession().getPerson();
         String methodToCall = findMethodToCall(form, request);
 
-//        if (!authorizationService.hasFormatPermission(kualiUser.getPrincipalId())) {
-//            throw new AuthorizationException(kualiUser.getPrincipalName(), methodToCall, kualiUser.getCampusCode());
-//        }
+        if (!authorizationService.hasFormatPermission(kualiUser.getPrincipalId())) {
+            throw new AuthorizationException(kualiUser.getPrincipalName(), methodToCall, kualiUser.getCampusCode());
+        }
         return super.execute(mapping, form, request, response);
     }
 
@@ -189,7 +189,7 @@ public class FormatAction extends KualiAction {
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
     }
-    
+
     /**
      * This method clears all the customer checkboxes.
      * 
@@ -228,7 +228,7 @@ public class FormatAction extends KualiAction {
 
         FormatForm formatForm = (FormatForm) form;
         KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
-        
+
         if (processId != null) {
             formatService.clearUnfinishedFormat(processId.intValue());
         }
@@ -251,7 +251,7 @@ public class FormatAction extends KualiAction {
 
         String processIdParam = request.getParameter(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM);
         Integer processId = Integer.parseInt(processIdParam);
-        
+
         if (processId != null) {
             formatService.resetFormatPayments(processId);
         }

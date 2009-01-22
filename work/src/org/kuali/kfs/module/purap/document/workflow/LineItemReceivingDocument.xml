@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>LineItemReceivingDocument</name>
+<parent>ReceivingTransactionalDocument</parent>
+<docHandler>${application.url}/purapLineItemReceiving.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RelatesToOutstandingTransactions"/>
+          	<split name="RelatesToOutstandingTransactions">
+						<branch name="True">
+							<requests name="OutstandingTransactions" nextNode="Join"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join"/>
+						</branch>
+						<join name="Join"/>
+					</split>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<split name="RelatesToOutstandingTransactions">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+
+<join name="Join"/>
+<role name="OutstandingTransactions">
+<!--<ruleTemplate>AwaitingPurchaseOrderOpenStatusTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+</documentTypes>
+</data>

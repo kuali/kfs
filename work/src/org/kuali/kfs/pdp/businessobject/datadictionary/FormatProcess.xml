@@ -33,17 +33,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="FormatProcess-physicalCampusProcessCode" parent="FormatProcess-physicalCampusProcessCode-parentBean" />
 
-  <bean id="FormatProcess-physicalCampusProcessCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="FormatProcess-physicalCampusProcessCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="name" value="physicalCampusProcessCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Campus Code" />
     <property name="shortLabel" value="Campus" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
-    </property>
   </bean>
   <bean id="FormatProcess-beginFormat" parent="FormatProcess-beginFormat-parentBean" />
 
@@ -55,7 +47,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="FormatProcess-paymentProcIdentifier" parent="FormatProcess-paymentProcIdentifier-parentBean" />
   
-  <bean id="FormatProcess-paymentProcIdentifier-parentBean" abstract="true" parent="GenericAttributes-genericSystemId" >
+  <bean id="FormatProcess-paymentProcIdentifier-parentBean" abstract="true" parent="PaymentProcess-id" >
   	<property name="name" value="paymentProcIdentifier" />
   	<property name="shortLabel" value="Proc Id" />
   	<property name="label" value="Payment Proc Identifier" />

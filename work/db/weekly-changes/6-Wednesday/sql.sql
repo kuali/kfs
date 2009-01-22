@@ -47,3 +47,27 @@ where PARM_NM='RAZE_RETIREMENT_REASONS' and NMSPC_CD='KFS-CAM'
 update krns_parm_t set PARM_DESC_TXT = 'Restricted retirement reasons for plant fund activities (currently used as restricted retirement reasons for buildings.)'
 where PARM_NM='RAZE_RETIREMENT_REASONS' and NMSPC_CD='KFS-CAM'
 / 
+UPDATE KRNS_PARM_T SET NMSPC_CD = 'KFS-SYS' WHERE PARM_DTL_TYP_CD = 'FiscalYearMakerStep'
+/
+insert into krns_parm_t
+(SELECT 'KFS-PURAP', 'Document',
+'BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS', sys_guid(),1,
+'CONFG', 'Y',
+'When the vendor address information is populated on a Payment Request or Credit
+ Memo, indicate whether the attention line should be cleared when the default ad
+dress is a PO type address.',
+'A'
+FROM dual)
+/
+insert into krns_parm_t(nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, cons_cd, txt, parm_desc_txt, parm_typ_cd) values('KFS-FP','DvToPdpExtractStep','CORPORATION_OWNERSHIP_TYPE ', sys_guid(), 1,'A','CP','Vendor Ownership Type representing Corporations','CONFG')
+/
+insert into krns_parm_t(nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, cons_cd, txt, parm_desc_txt, parm_typ_cd) values('KFS-FP','DvToPdpExtractStep','TAXABLE_PAYMENT_REASON_CODES_BY_OWNERSHIP_CODES', sys_guid(), 1,'A','NP=H,J;FC=H,J;NR=A,C,E,H,R,T,X,Y.L,J;ID=A,C,E,H,R,T,X,Y.L,J;PT=A,C,E,H,R,T,X,Y.L,J;','Taxable payment reason codes','CONFG')
+/
+insert into krns_parm_t(nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, cons_cd, txt, parm_desc_txt, parm_typ_cd) values('KFS-FP','DvToPdpExtractStep','NON_TAXABLE_PAYMENT_REASON_CODES_BY_OWNERSHIP_CODES', sys_guid(), 1,'D','','Non-taxable payment reason codes','CONFG')
+/
+insert into krns_parm_t(nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, cons_cd, txt, parm_desc_txt, parm_typ_cd) values('KFS-FP','DvToPdpExtractStep','TAXABLE_PAYMENT_REASON_CODES_FOR_BLANK_CORPORATION_OWNERSHIP_TYPE_CATEGORIES ', sys_guid(), 1,'A','H,J','Taxable payment reason codes for corporations with blank ownership type categories.','CONFG')
+/
+insert into krns_parm_t(nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, cons_cd, txt, parm_desc_txt, parm_typ_cd) values('KFS-FP','DvToPdpExtractStep','TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY', sys_guid(), 1,'A','ME=A,C,E,H,R,T,X,Y,L,J;LE=A,X,E,H,R,T,L,J','Taxable payment reason codes by corporation ownership type category','CONFG')
+/
+insert into krns_parm_t(nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, cons_cd, txt, parm_desc_txt, parm_typ_cd) values('KFS-FP','DvToPdpExtractStep','NON_TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY', sys_guid(), 1,'D','','Non-taxable payment reason codes by corporation ownership type category','CONFG')
+/

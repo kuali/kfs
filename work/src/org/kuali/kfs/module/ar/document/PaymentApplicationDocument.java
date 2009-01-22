@@ -530,7 +530,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditUnapplied.setFinancialObjectCode(unappliedSystemInformation.getUniversityClearingObjectCode());
             actualCreditUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
             actualCreditUnapplied.setFinancialSubObjectCode(unappliedSubObjectCode);
-            actualCreditUnapplied.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(actualCreditUnapplied.getFinancialObject())) {
+                boolean breakFour = true;
+            } else {
+                actualCreditUnapplied.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(actualCreditUnapplied);
             
             GeneralLedgerPendingEntry actualDebitUnapplied = new GeneralLedgerPendingEntry();
@@ -539,7 +543,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             actualDebitUnapplied.setFinancialObjectCode(universityClearingAccountObjectCode);
             actualDebitUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
-            actualDebitUnapplied.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(actualDebitUnapplied.getFinancialObject())) {
+                boolean breakThree = true;
+            } else {
+                actualDebitUnapplied.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(actualDebitUnapplied);
             
             Integer fiscalYearForUnappliedOffsetDefinition = null == cashControlDocument ? currentFiscalYear : cashControlDocument.getPostingYear();
@@ -554,7 +562,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             offsetCreditUnapplied.setFinancialObjectCode(unappliedOffsetDefinition.getFinancialObjectCode());
             offsetCreditUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
-            offsetCreditUnapplied.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(offsetCreditUnapplied.getFinancialObject())) {
+                boolean breakOne = true;
+            } else {
+                offsetCreditUnapplied.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(offsetCreditUnapplied);
             
             GeneralLedgerPendingEntry offsetDebitUnapplied = new GeneralLedgerPendingEntry();
@@ -563,7 +575,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitUnapplied.setAccountNumber(universityClearingAccount.getAccountNumber());
             offsetDebitUnapplied.setFinancialObjectCode(unappliedOffsetDefinition.getFinancialObjectCode());
             offsetDebitUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
-            offsetDebitUnapplied.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(offsetDebitUnapplied.getFinancialObject())) {
+                boolean breakTwo = true;
+            } else {
+                offsetDebitUnapplied.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(offsetDebitUnapplied);
         }
         
@@ -576,7 +592,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditEntryOne.setAccountNumber(nonInvoiced.getAccountNumber());
             creditEntryOne.setFinancialObjectCode(nonInvoiced.getFinancialObjectCode());
             creditEntryOne.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
-            creditEntryOne.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(creditEntryOne.getFinancialObject())) {
+                boolean breakFive = true;
+            } else {
+                creditEntryOne.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(creditEntryOne);
             
             GeneralLedgerPendingEntry debitEntryTwo = new GeneralLedgerPendingEntry();
@@ -585,7 +605,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitEntryTwo.setAccountNumber(universityClearingAccount.getAccountNumber());
             debitEntryTwo.setFinancialObjectCode(universityClearingAccountObjectCode);
             debitEntryTwo.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
-            debitEntryTwo.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(debitEntryTwo.getFinancialObject())) {
+                boolean breakSix = true;
+            } else {
+                debitEntryTwo.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(debitEntryTwo);
 
             // Offset entries
@@ -604,7 +628,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitEntryOne.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             debitEntryOne.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
             debitEntryOne.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
-            debitEntryOne.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(debitEntryOne.getFinancialObject())) {
+                boolean breakSeven = true;
+            } else {
+                debitEntryOne.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(debitEntryOne);
             
             GeneralLedgerPendingEntry creditEntryTwo = new GeneralLedgerPendingEntry();
@@ -620,7 +648,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditEntryTwo.setFinancialObjectCode(creditOffsetDefinition.getFinancialObjectCode());
             creditEntryTwo.setFinancialObjectTypeCode(creditOffsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
             creditEntryTwo.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
-            creditEntryTwo.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(creditEntryTwo.getFinancialObject())) {
+                boolean breakEight = true;
+            } else {
+                creditEntryTwo.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(creditEntryTwo);
             
         }
@@ -651,7 +683,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitGLPE_1.setFinancialObjectTypeCode(unappliedCashObjectCode.getFinancialObjectTypeCode());
             debitGLPE_1.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             debitGLPE_1.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
-            debitGLPE_1.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(debitGLPE_1.getFinancialObject())) {
+                boolean breakNine = true;
+            } else {
+                debitGLPE_1.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(debitGLPE_1);
             sequenceHelper.increment();
             
@@ -666,7 +702,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditGLPE_1.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             creditGLPE_1.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_1, sequenceHelper, creditGLPE_1);
-            creditGLPE_1.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(creditGLPE_1.getFinancialObject())) {
+                boolean breakTen = true;
+            } else {
+                creditGLPE_1.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(creditGLPE_1);
             sequenceHelper.increment();
             
@@ -680,7 +720,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitGLPE_2.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
             debitGLPE_2.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             debitGLPE_2.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
-            debitGLPE_2.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(debitGLPE_2.getFinancialObject())) {
+                boolean breakEleven = true;
+            } else {
+                debitGLPE_2.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(debitGLPE_2);
             sequenceHelper.increment();
 
@@ -696,7 +740,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditGLPE_2.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
             creditGLPE_2.refreshNonUpdateableReferences();
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_2, sequenceHelper, creditGLPE_2);
-            creditGLPE_2.refreshReferenceObject("financialObject");
+            if(ObjectUtils.isNull(creditGLPE_2.getFinancialObject())) {
+                boolean breakTwelve = true;
+            } else {
+                creditGLPE_2.getFinancialObject().refreshNonUpdateableReferences();
+            }
             generatedEntries.add(creditGLPE_2);
             sequenceHelper.increment();
         }

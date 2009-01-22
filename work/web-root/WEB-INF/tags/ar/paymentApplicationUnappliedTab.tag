@@ -20,7 +20,6 @@
     description="If document is in read only mode"%>
 <%@ attribute name="isCustomerSelected" required="true"
     description="Whether or not the customer is set" %>
-<c:set var="nonAppliedHolding" value="${KualiForm.document.nonAppliedHolding}" />
 <c:set var="unappliedAttributes" value="${DataDictionary['NonAppliedHolding'].attributes}" />
 <c:set var="customerAttributes" value="${DataDictionary['Customer'].attributes}" />
 
@@ -33,17 +32,17 @@
                     <td>
                         <kul:htmlControlAttribute
                             attributeEntry="${customerAttributes.customerNumber}"
-                            property="document.nonAppliedHolding.customerNumber"/>
+                            property="nonAppliedHoldingCustomerNumber"/>
                         <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" autoSearch="true"
-                            fieldConversions="customerNumber:document.nonAppliedHolding.customerNumber"
-                            lookupParameters="document.nonAppliedHolding.customerNumber:customerNumber" />
+                            fieldConversions="customerNumber:nonAppliedHoldingCustomerNumber"
+                            lookupParameters="nonAppliedHoldingCustomerNumber:customerNumber" />
                     </td>
                     <kul:htmlAttributeHeaderCell literalLabel="Amount"/>  
                     <td>
                         <kul:htmlControlAttribute
 	                        styleClass="amount"
                             attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"
-                            property="document.nonAppliedHolding.financialDocumentLineAmount"
+                            property="nonAppliedHoldingAmount"
                             readOnly="${readOnly}" />
                         <html:image property="methodToCall.applyAllAmounts"
                             src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"

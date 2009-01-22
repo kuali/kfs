@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -38,6 +39,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentApplicationDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentForm.class);;
@@ -54,6 +56,9 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     private ArrayList<CustomerInvoiceDocument> invoices;
     private Map<String, Collection> appliedPaymentsPerCustomerInvoiceDetail;
     private Integer nextNonInvoicedLineNumber;
+
+    private KualiDecimal nonAppliedHoldingAmount;
+    private String nonAppliedHoldingCustomerNumber;
 
     /**
      * Constructs a PaymentApplicationDocumentForm.java.
@@ -368,6 +373,42 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             for (CustomerInvoiceDocument invoice : this.invoices) {
                 invoice.setQuickApply(false);
             }
+        }
+    }
+
+    public KualiDecimal getNonAppliedHoldingAmount() {
+        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) getDocument();
+        if(ObjectUtils.isNotNull(paymentApplicationDocument.getNonAppliedHolding())) {
+            return paymentApplicationDocument.getNonAppliedHolding().getFinancialDocumentLineAmount();
+        } else {
+            return nonAppliedHoldingAmount;
+        }
+    }
+
+    public void setNonAppliedHoldingAmount(KualiDecimal nonAppliedAmount) {
+        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) getDocument();
+        if(ObjectUtils.isNull(paymentApplicationDocument.getNonAppliedHolding())) {
+            nonAppliedHoldingAmount = nonAppliedAmount;
+        } else {
+            paymentApplicationDocument.getNonAppliedHolding().setFinancialDocumentLineAmount(nonAppliedAmount);
+        }
+    }
+
+    public String getNonAppliedHoldingCustomerNumber() {
+        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) getDocument();
+        if(ObjectUtils.isNotNull(paymentApplicationDocument.getNonAppliedHolding())) {
+            return paymentApplicationDocument.getNonAppliedHolding().getCustomerNumber();
+        } else {
+            return nonAppliedHoldingCustomerNumber;
+        }
+    }
+
+    public void setNonAppliedHoldingCustomerNumber(String nonAppliedCustomerNumber) {
+        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) getDocument();
+        if(ObjectUtils.isNull(paymentApplicationDocument.getNonAppliedHolding())) {
+            this.nonAppliedHoldingCustomerNumber = nonAppliedCustomerNumber;
+        } else {
+            paymentApplicationDocument.getNonAppliedHolding().setCustomerNumber(nonAppliedCustomerNumber);
         }
     }
 }

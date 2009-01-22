@@ -33,6 +33,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -116,7 +117,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     }
     
     public ActionForward applyAllAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    private void doApplicationOfFunds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         
         // Remove all invoice paid applieds from the document because we'll be adding them straight from the form.
@@ -130,18 +134,19 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         applyUnapplied(paymentApplicationDocumentForm);
         
         // Check that we haven't applied more than the cash control total amount
-        KualiDecimal openAmount = paymentApplicationDocument.getCashControlDocument().getCashControlTotalAmount();
-        openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfInvoicePaidApplieds());
-        openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfNonAppliedDistributions());
-        openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfNonInvoicedDistributions());
-        openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfNonInvoiceds());
-        openAmount = openAmount.subtract(paymentApplicationDocument.getNonAppliedHoldingAmount());
-        
-        if(KualiDecimal.ZERO.isGreaterThan(openAmount)) {
-            addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
+        CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
+        if(ObjectUtils.isNotNull(cashControlDocument)) {
+            KualiDecimal openAmount = cashControlDocument.getCashControlTotalAmount();
+            openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfInvoicePaidApplieds());
+            openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfNonAppliedDistributions());
+            openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfNonInvoicedDistributions());
+            openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfNonInvoiceds());
+            openAmount = openAmount.subtract(paymentApplicationDocument.getNonAppliedHoldingAmount());
+            
+            if(KualiDecimal.ZERO.isGreaterThan(openAmount)) {
+                addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
+            }
         }
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     private void applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException{
@@ -206,7 +211,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
         }
 
-        KualiDecimal cashControlTotalAmount = applicationDocument.getCashControlDetail().getFinancialDocumentLineAmount();
         PaymentApplicationDocumentService applicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
 
         // go over the selected invoices and apply full amount to each of their details
@@ -216,9 +220,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(customerInvoiceDocumentNumber);
             
             for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
-
                 applyToCustomerInvoiceDetail(customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmount(), "invoice[" + (customerInvoiceDocumentNumber) + "].quickApply");
-                
             }
 
             if (customerInvoiceDocumentNumber.equals(paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
@@ -251,18 +253,21 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     private void applyUnapplied(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         NonAppliedHolding nonAppliedHolding = applicationDocument.getNonAppliedHolding();
-        if (PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(applicationDocument)) {
-            if (ObjectUtils.isNotNull(nonAppliedHolding)) {
-                // Associate the non applied holding with the payment application document.
-                if (ObjectUtils.isNull(nonAppliedHolding.getReferenceFinancialDocumentNumber())) {
-                    nonAppliedHolding.setReferenceFinancialDocumentNumber(applicationDocument.getDocumentNumber());
-                }
-                // Force the customer number to upper case to the foreign key constraint passes.
-                if (ObjectUtils.isNotNull(nonAppliedHolding.getCustomerNumber())) {
-                    nonAppliedHolding.setCustomerNumber(nonAppliedHolding.getCustomerNumber().toUpperCase());
-                }
-                // businessObjectService.save(nonAppliedHolding);
+        if(ObjectUtils.isNull(nonAppliedHolding)) {
+            if(null != paymentApplicationDocumentForm.getNonAppliedHoldingAmount() || null != paymentApplicationDocumentForm.getNonAppliedHoldingCustomerNumber()) {
+                nonAppliedHolding = new NonAppliedHolding();
+                // It's important to call the following three statements in exactly this order due to the way in which the form returns the non applied values.
+                nonAppliedHolding.setCustomerNumber(paymentApplicationDocumentForm.getNonAppliedHoldingCustomerNumber());
+                nonAppliedHolding.setFinancialDocumentLineAmount(paymentApplicationDocumentForm.getNonAppliedHoldingAmount());
+                nonAppliedHolding.setReferenceFinancialDocumentNumber(applicationDocument.getDocumentNumber());
+                applicationDocument.setNonAppliedHolding(nonAppliedHolding);
+                PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(applicationDocument);
             }
+        } else {
+            nonAppliedHolding.setCustomerNumber(paymentApplicationDocumentForm.getNonAppliedHoldingCustomerNumber());
+            nonAppliedHolding.setFinancialDocumentLineAmount(paymentApplicationDocumentForm.getNonAppliedHoldingAmount());
+            nonAppliedHolding.setReferenceFinancialDocumentNumber(applicationDocument.getDocumentNumber());
+            PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(applicationDocument);
         }
     }
 
@@ -285,7 +290,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * 
      * @param applicationDocumentForm
      */
-    private void initializeForm(PaymentApplicationDocumentForm form) {
+    private void initializeForm(PaymentApplicationDocumentForm form) throws WorkflowException {
         if (null != form) {
             if (null != form.getDocument()) {
                 PaymentApplicationDocument paymentApplicationDocument = form.getPaymentApplicationDocument();
@@ -315,6 +320,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             if (null == form.getNextNonInvoicedLineNumber()) {
                 form.setNextNonInvoicedLineNumber(1);
             }
+            doApplicationOfFunds(form);
         }
     }
 

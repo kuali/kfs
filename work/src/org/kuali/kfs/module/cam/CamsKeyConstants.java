@@ -188,7 +188,6 @@ public class CamsKeyConstants {
         public static final String ERROR_OWNER_ACCT_NUMBER_INVALID = "error.asset.owner.account.number.invalid";
         public static final String ERROR_CAMPUS_TAG_NUMBER_DUPLICATE = "error.asset.campus.tag.number.duplicate";
         public static final String ERROR_CAPITAL_OBJECT_CODE_NOT_ALLOWED = "error.capital.object.code.not.allowed";
-        public static final String ERROR_CAPITAL_OBJECT_CODE_REQUIRED = "error.capital.object.code.required";
         public static final String ERROR_CAPITAL_OBJECT_CODE_INVALID = "error.capital.object.code.invalid";
         public static final String ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED = "error.document.type.code.not.allowed";
         public static final String ERROR_ASSET_TYPE_REQUIRED = "error.valid.capital.asset.type.required";
@@ -198,7 +197,6 @@ public class CamsKeyConstants {
         public static final String ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX = "error.noncapital.asset.payment.max.limit";
         public static final String ERROR_DOCUMENT_POSTING_DATE_REQUIRED = "error.document.posting.date.required";
         public static final String ERROR_INVALID_PAYMENT_AMOUNT = "error.payment.amount.invalid";        
-        public static final String ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE = "error.invalid.fin.object.sub.type.code";
         public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_NUMBER_REQUIRED = "error.expenditure.financial.document.number.required";
         public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_TYPE_CODE_REQUIRED = "error.expenditure.financial.document.type.code.required";
         public static final String ERROR_FINANCIAL_DOCUMENT_POSTING_YEAR_REQUIRED = "error.financial.document.posting.year.required";

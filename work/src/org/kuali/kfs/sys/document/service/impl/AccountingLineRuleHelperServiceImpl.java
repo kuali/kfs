@@ -43,6 +43,7 @@ import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -424,7 +425,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             valid &= isValidReferenceOriginCode(referenceOrigin, accountingLineEntry);
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceTypeCode())) {
-            accountingLine.refreshReferenceObject("referenceType");
+            accountingLine.refreshReferenceObject("referenceGeneralLedgerInputType");
             GeneralLedgerInputType referenceType = accountingLine.getReferenceGeneralLedgerInputType();
             valid &= isValidReferenceTypeCode(referenceType, accountingLineEntry);
         }
@@ -480,5 +481,4 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-
 }

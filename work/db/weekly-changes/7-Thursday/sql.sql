@@ -88,3 +88,10 @@ alter table CA_ACCOUNT_T modify ACCT_MGR_UNVL_ID varchar2(40)
 /
 alter table CA_ACCOUNT_T modify ACCT_FSC_OFC_UID varchar2(40)
 /
+
+INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD) 
+    VALUES('289', sys_guid(), 1, '1', 'Administer Pessimistic Locking', null, 'Y', 'KR-NS')
+/
+INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
+    VALUES('550', sys_guid(), 1, '63', '289', 'Y')
+/

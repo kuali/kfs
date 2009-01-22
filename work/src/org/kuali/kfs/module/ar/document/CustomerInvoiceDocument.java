@@ -1182,7 +1182,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         // Force upper case
         setBilledByOrganizationCode(getBilledByOrganizationCode().toUpperCase());
-        
+
         if (ObjectUtils.isNull(getCustomerShipToAddressIdentifier())) {
             setCustomerShipToAddress(null);
             setCustomerShipToAddressOnInvoice(null);
@@ -1728,7 +1728,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
         accountsReceivableDocumentHeader.refreshReferenceObject("customer");
         Customer customer = accountsReceivableDocumentHeader.getCustomer();
-        this.setCustomerName(customer.getCustomerName());
+        if (ObjectUtils.isNotNull(customer))
+            this.setCustomerName(customer.getCustomerName());
 
         if (ObjectUtils.isNotNull(customerShipToAddress)) {
             this.setShippingAddressTypeCode(customerShipToAddress.getCustomerAddressTypeCode());
@@ -1742,7 +1743,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             this.setShippingAddressInternationalProvinceName(customerShipToAddress.getCustomerAddressInternationalProvinceName());
             this.setShippingInternationalMailCode(customerShipToAddress.getCustomerInternationalMailCode());
             this.setShippingEmailAddress(customerShipToAddress.getCustomerEmailAddress());
-        } else { 
+        }
+        else {
             this.setShippingAddressTypeCode(null);
             this.setShippingAddressName(null);
             this.setShippingLine1StreetAddress(null);
@@ -1788,10 +1790,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         throw new UnsupportedOperationException("answerSplitNode('" + nodeName + "') was called but no handler for nodeName specified.");
     }
-    
+
     private boolean hasRecurrence() {
-        return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) 
-                && getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate() != null);
+        return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate() != null);
     }
-    
+
 }

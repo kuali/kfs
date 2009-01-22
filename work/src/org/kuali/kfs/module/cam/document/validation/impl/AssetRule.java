@@ -331,14 +331,10 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
             for (Asset asset : results) {
                 if (!asset.getCapitalAssetNumber().equals(newAsset.getCapitalAssetNumber())) {
-                    anyFound = true;
+                    putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { newAsset.getCampusTagNumber(), asset.getCapitalAssetNumber().toString(), newAsset.getCapitalAssetNumber().toString() });
+                    valid &= false;
                     break;
                 }
-            }
-
-            if (anyFound) {
-                putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE);
-                valid &= false;
             }
         }
 

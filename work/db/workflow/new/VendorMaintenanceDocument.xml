@@ -6,7 +6,7 @@
 <parent>VendorComplexMaintenanceDocument</parent>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Approval No Approval Split"/>
+          <start name="AdHoc" nextNode="RequiresApproval"/>
           <split name="RequiresApproval">
             <branch name="True">
               <requests name="Management" nextNode="Initiator"/>

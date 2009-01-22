@@ -10,8 +10,8 @@
           <start name="AdHoc" nextNode="HasReccurence"/>
           <split name="HasReccurence">
             <branch name="True">
-              <requests name="Account" nextNode="Reccurence"/>
-              <requests name="Reccurence" nextNode="Join"/>
+              <requests name="Account" nextNode="Recurrence"/>
+              <requests name="Recurrence" nextNode="Join"/>
             </branch>
             <branch name="False">
               <simple name="NoOp" nextNode="Join"/>
@@ -25,7 +25,7 @@
 <role name="Account">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="Reccurence">
+<role name="Recurrence">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <split name="HasReccurence">

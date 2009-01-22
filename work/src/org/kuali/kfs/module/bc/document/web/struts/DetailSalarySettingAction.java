@@ -22,6 +22,7 @@ import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCode
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -77,6 +78,9 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             }
 
             LOG.fatal("Unexpected errors occurred.", e);
+            
+            // re-throw the exception
+            throw new ServletException(e);
         }
 
         return executeAction;

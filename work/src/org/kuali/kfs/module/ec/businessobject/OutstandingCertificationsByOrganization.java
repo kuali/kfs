@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.impl.ParameterConstants.COMPONENT;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
@@ -28,6 +29,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 /**
  * Business object for the outstanding documents by organization report
  */
+@COMPONENT(component="OutstandingCertificationsByOrganization")
 public class OutstandingCertificationsByOrganization extends EffortCertificationDocument {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OutstandingCertificationsByOrganization.class);

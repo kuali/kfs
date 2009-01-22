@@ -20,10 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.sys.service.impl.ParameterConstants.COMPONENT;
 
 /**
  * Business Object for the Effort Certification Document Build Table.
  */
+@COMPONENT(component="EffortCertificationDocumentBuild")
 public class EffortCertificationDocumentBuild extends EffortCertificationDocument {
     private Long effortCertificationBuildNumber;
  

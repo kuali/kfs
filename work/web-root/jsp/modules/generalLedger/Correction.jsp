@@ -15,8 +15,9 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp" %>
 
-<kul:page showDocumentInfo="true" docTitle="${KualiForm.docTitle}"
-	htmlFormAction="${KualiForm.htmlFormAction}" transactionalDocument="false"
+
+<kul:documentPage showDocumentInfo="true" documentTypeName="GeneralLedgerCorrectionProcessDocument"
+	htmlFormAction="${KualiForm.htmlFormAction}"
 	renderMultipart="true" showTabButtons="true">
   <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -842,4 +843,4 @@
   <kul:routeLog/>
   <kul:panelFooter/>
   <kfs:documentControls transactionalDocument="false" />
-</kul:page>
+</kul:documentPage>

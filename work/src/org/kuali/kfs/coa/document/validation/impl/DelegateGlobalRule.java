@@ -18,17 +18,17 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
-import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -505,10 +505,9 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
             success &= false;
             return success;
         }
+        
         Person user = delegateGlobal.getAccountDelegate();
-
-        // user must be of the allowable statuses (A - Active)
-        if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
+        if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
             if (add) {
                 errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "accountDelegate.principalName";
                 putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
@@ -520,8 +519,13 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
             success &= false;
         }
 
-        // user must be of the allowable types (P - Professional)
-        if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
+        String principalId = user.getPrincipalId();
+        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+        String permissionTemplateName = KFSConstants.PermissionTemplate.DEFAULT.name;
+        
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        Boolean isAuthorized = identityManagementService.hasPermissionByTemplateName(principalId, namespaceCode, permissionTemplateName, null);
+        if (!isAuthorized) {
             if (add) {
                 errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "accountDelegate.principalName";
                 putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);

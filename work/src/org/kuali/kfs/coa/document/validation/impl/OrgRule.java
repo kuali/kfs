@@ -28,17 +28,20 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * 
  * This class implements the business rules specific to the {@link Org} Maintenance Document.
  */
 public class OrgRule extends MaintenanceDocumentRuleBase {
@@ -53,7 +56,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     private boolean isHrmsOrgActivated;
 
     /**
-     * 
      * Constructs a OrgRule and pseudo-injects services
      */
     public OrgRule() {
@@ -79,6 +81,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * <li>{@link OrgRule#checkDefaultAccountNumber(MaintenanceDocument)}</li>
      * </ul>
      * This rule fails on rule failure
+     * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -113,6 +116,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * <li>{@link OrgRule#checkDefaultAccountNumber(MaintenanceDocument)}</li>
      * </ul>
      * This rule fails on rule failure
+     * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -148,6 +152,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * <li>{@link OrgRule#checkDefaultAccountNumber(MaintenanceDocument)}</li>
      * </ul>
      * This rule does not fail on rule failure
+     * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -173,8 +178,8 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This checks to see if the org is active
+     * 
      * @return true if the org is inactive or false otherwise
      */
     protected boolean checkExistenceAndActive() {
@@ -193,10 +198,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This checks to see if a user is authorized for plant fields modification. If not then it returns true (without activating
-     * fields). If the org does not have to report to itself then it checks to see if the
-     * plant fields have been filled out correctly and fails if they haven't
+     * fields). If the org does not have to report to itself then it checks to see if the plant fields have been filled out
+     * correctly and fails if they haven't
+     * 
      * @return false if user can edit plant fields but they have not been filled out correctly
      */
     protected boolean checkPlantAttributes() {
@@ -240,10 +245,9 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method enforces the business rules surrounding when an Org becomes closed/inactive.
-     * If we are editing and switching the org to inactive or if it is a new doc and it is marked as inactive
-     * then we assume we are closing the org. If we are not then we return true. If we are then we
-     * return false if there are still active accounts tied to the org
+     * This method enforces the business rules surrounding when an Org becomes closed/inactive. If we are editing and switching the
+     * org to inactive or if it is a new doc and it is marked as inactive then we assume we are closing the org. If we are not then
+     * we return true. If we are then we return false if there are still active accounts tied to the org
      * 
      * @param document
      * @return false if trying to close org but it still has accounts that are active linked to it
@@ -372,8 +376,8 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This checks our {@link Parameter} rules to see if this org needs to report to itself
+     * 
      * @param organization
      * @return true if it does
      */
@@ -382,13 +386,13 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This checks the following conditions:
      * <ul>
      * <li>begin date must be greater than or equal to end date</li>
      * <li>start date must be greater than or equal to today if new Document</li>
      * <li>Reports To Chart/Org should not be same as this Chart/Org</li>
      * </ul>
+     * 
      * @param document
      * @return true if it passes all the rules, false otherwise
      */
@@ -507,33 +511,31 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    
+
     /**
+     * This checks that defaultAccount is present unless ( (orgType = U or C) and ( document is a "create new" or "edit" ))
      * 
-     * This checks that defaultAccount is present unless
-     * ( (orgType = U or C) and ( document is a "create new" or "edit" ))
      * @param document
      * @return false if missing default account number and it is not an exempt type code
      */
     protected boolean checkDefaultAccountNumber(MaintenanceDocument document) {
 
         boolean success = true;
-        boolean missingDefaultAccountNumber;
         boolean exemptOrganizationTypeCode = false;
-        String organizationTypeCode;
-
-        missingDefaultAccountNumber = StringUtils.isBlank(newOrg.getOrganizationDefaultAccountNumber());
+        boolean missingDefaultAccountNumber = StringUtils.isBlank(newOrg.getOrganizationDefaultAccountNumber());
 
         if (ObjectUtils.isNotNull(newOrg.getOrganizationTypeCode())) {
-            organizationTypeCode = newOrg.getOrganizationTypeCode();
+            String organizationTypeCode = newOrg.getOrganizationTypeCode();
             if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
                 exemptOrganizationTypeCode = true;
             }
         }
+
         if (missingDefaultAccountNumber && (!exemptOrganizationTypeCode || (!document.isNew() && !document.isEdit()))) {
             putFieldError("organizationDefaultAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_DEFAULT_ACCOUNT_NUMBER_REQUIRED);
             success &= false;
         }
+
         return success;
     }
 
@@ -581,9 +583,9 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method sets the convenience objects like newOrg and oldOrg, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
-     * all sub-objects from the DB by their primary keys, if available.
+     * This method sets the convenience objects like newOrg and oldOrg, so you have short and easy handles to the new and old
+     * objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load all
+     * sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
      */
@@ -603,18 +605,33 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * @return true if user is part of the group, false otherwise
      */
     protected boolean isPlantAuthorized(Person user) {
+        String principalId = user.getPrincipalId();
+        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+        String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
 
-        // attempt to get the group name that grants access to the Plant fields
-        String allowedPlantWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
+        AttributeSet roleQualifiers = new AttributeSet();
+        roleQualifiers.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, newOrg.getChartOfAccountsCode());
 
-        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, allowedPlantWorkgroup)) {
-            LOG.info("User '" + user.getPrincipalName() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");
-            return true;
-        }
-        else {
-            LOG.info("User '" + user.getPrincipalName() + "' is not a member of the group '" + allowedPlantWorkgroup + "', so they have no access to the Plant fields.");
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, Organization.class.getSimpleName());
+        permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_CHART_CODE);
+
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
+        if (!isAuthorized) {
+            LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant Chart.");
             return false;
         }
+
+        permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER);
+        identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
+        if (!isAuthorized) {
+            LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant account.");
+            return true;
+        }
+
+        LOG.info("User '" + user.getPrincipalName() + "' has access to the Plant fields.");
+        return true;
     }
 }
-

@@ -714,13 +714,12 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static class CoreApcParms {
 
         // Kuali User params
-        public static final String ACTIVE_EMPLOYEE_STATUSES_PARM = "ACTIVE_EMPLOYEE_STATUSES";
         public static final String UNIVERSAL_USER_EDIT_WORKGROUP_PARM = "UNIVERSAL_USER_EDIT_GROUP";
         public static final String FINANCIAL_SYSTEM_USER_EDIT_WORKGROUP_PARM = "FINANCIAL_SYSTEM_USER_EDIT_GROUP";
         public static final String SERVICE_BUS_ACCESS_GROUP_PARM = "SERVICE_BUS_ACCESS_GROUP";
     }
 
-    public static final String MAINTENANCE_ADMIN_WORKGROUP_PARM_NM = "MAINTENANCE_ADMIN_GROUP";
+    @Deprecated public static final String MAINTENANCE_ADMIN_WORKGROUP_PARM_NM = "MAINTENANCE_ADMIN_GROUP";
 
     public static final String ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ACCOUNTING_LINE_IMPORT";
     public static final String ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ORIGIN_ENTRY_IMPORT";
@@ -739,22 +738,12 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CG_ALLOWED_SUBACCOUNT_TYPE_CODES = "SUB_ACCOUNT_TYPES";
 
         // Account parms
-        public static final String ACCOUNT_USER_EMP_STATUSES = "ROLE_EMPLOYEE_STATUSES";
-        public static final String ACCOUNT_USER_EMP_TYPES = "ROLE_EMPLOYEE_TYPES";
         public static final String INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS = "INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS";
         public static final String INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS = "INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS";
-
-        // Delegate parms
-        public static final String DELEGATE_USER_EMP_STATUSES = "EMPLOYEE_STATUSES";
-        public static final String DELEGATE_USER_EMP_TYPES = "EMPLOYEE_TYPES";
-
-        // SubAccount parms
-        public static final String SUBACCOUNT_CG_WORKGROUP_PARM_NAME = "CG_GROUP";
 
         // Org parms
         public static final String DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES = "ORGANIZATION_TYPES_NOT_REQUIRING_DEFAULT_ACCOUNT";
         public static final String ORG_MUST_REPORT_TO_SELF_ORG_TYPES = "ORGANIZATION_TYPES_THAT_MUST_REPORT_TO_SELF";
-        public static final String ORG_PLANT_WORKGROUP_PARM_NAME = "PLANT_GROUP";
 
         public static final String ACCOUNT_FUND_GROUP_DENOTES_CG = "FUND_GROUP_DENOTES_CG_IND";
         public static final String ACCOUNT_CG_DENOTING_VALUE = "CG_DENOTING_VALUE";
@@ -1275,7 +1264,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     public enum PermissionTemplate {
-        ERROR_CORRECT_DOCUMENT("Error Correct Document"),
+        DEFAULT("Default"), ERROR_CORRECT_DOCUMENT("Error Correct Document"),
         MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment");
 
         public final String name;

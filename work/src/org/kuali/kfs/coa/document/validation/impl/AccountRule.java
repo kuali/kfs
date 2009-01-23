@@ -40,9 +40,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -532,15 +534,21 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             return success;
         }
 
-        // user must be of the allowable statuses (A - Active)
-        if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
+        if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
             success &= false;
             putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
         }
 
         // user must be of the allowable types (P - Professional)
-        if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
-            success &= false;
+
+        String principalId = user.getPrincipalId();
+        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+        String permissionTemplateName = KFSConstants.PermissionTemplate.DEFAULT.name;
+        
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        Boolean isAuthorized = identityManagementService.hasPermissionByTemplateName(principalId, namespaceCode, permissionTemplateName, null);
+        if (!isAuthorized) {
+            success = false;
             putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
         }
 
@@ -948,7 +956,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
         boolean result = true;
         Person fiscalOfficer = getKfsUserService().getPerson(fiscalOfficerUserId);
-        if (fiscalOfficer == null || !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isActiveFinancialSystemUser(fiscalOfficer) ) {
+        if (fiscalOfficer == null || !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(fiscalOfficer) ) {
             result = false;
             if ( fiscalOfficer != null ) {
                 putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);

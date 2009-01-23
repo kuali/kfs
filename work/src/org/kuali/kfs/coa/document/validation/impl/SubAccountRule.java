@@ -29,10 +29,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -466,18 +468,27 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @return true if user is part of the group, false otherwise
      */
     protected boolean isCgAuthorized(Person user) {
-
-        // attempt to get the group name that grants access to the CG fields
-        String allowedCgWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(SubAccount.class, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
-
-        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, allowedCgWorkgroup)) {
-            LOG.info("User '" + user.getPrincipalName() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
+        String principalId = user.getPrincipalId();
+        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+        String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
+        
+        String responsibilityId = Integer.toString(newSubAccount.getAccount().getContractsAndGrantsAccountResponsibilityId());        
+        AttributeSet roleQualifiers = new AttributeSet();
+        roleQualifiers.put(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID, responsibilityId);
+        
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, SubAccount.class.getSimpleName());
+        permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.A21_SUB_ACCOUNT);
+        
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
+        if (isAuthorized) {
+            LOG.info("User '" + user.getPrincipalName() + "' has access to the CG fields.");
             return true;
         }
-        else {
-            LOG.info("User '" + user.getPrincipalName() + "' is not a member of the group '" + allowedCgWorkgroup + "', so they have no access to the CG fields.");
-            return false;
-        }
+        
+        LOG.info("User '" + user.getPrincipalName() + "' has no access to the CG fields.");
+        return false;
     }
 
     /**

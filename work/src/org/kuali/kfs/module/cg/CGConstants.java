@@ -38,8 +38,6 @@ public class CGConstants extends JSTLConstants {
         public static final String PERMISSION_READ_DESCRIPTION = "READ";
         public static final String PERMISSION_MOD_DESCRIPTION = "MOD";
     }
-    public static final String POST_AWARD_GROUP = "POST_AWARD_GROUP";
-    public static final String PRE_AWARD_GROUP = "PRE_AWARD_GROUP";
     
     public static final String SHORT_TIMESTAMP_FORMAT = "MM/dd/yyyy";
     public static final String LONG_TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";

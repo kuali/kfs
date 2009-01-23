@@ -22,8 +22,10 @@ import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -286,14 +288,18 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         if (success) {
             Person user = delegateModel.getAccountDelegate();
 
-            // user must be of the allowable statuses (A - Active)
-            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
+            if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
                 GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE, new String[0]);
                 success = false;
             }
 
-            // user must be of the allowable types (P - Professional)
-            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
+            String principalId = user.getPrincipalId();
+            String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+            String permissionTemplateName = KFSConstants.PermissionTemplate.DEFAULT.name;
+            
+            IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+            Boolean isAuthorized = identityManagementService.hasPermissionByTemplateName(principalId, namespaceCode, permissionTemplateName, null);
+            if (!isAuthorized) {
                 GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL, new String[0]);
                 success = false;
             }

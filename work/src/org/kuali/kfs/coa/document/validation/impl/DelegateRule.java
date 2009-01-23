@@ -26,10 +26,10 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -319,19 +319,23 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         Person user = newDelegate.getAccountDelegate();
 
         // user must be an active kuali user
-        if (user == null || !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
+        if (user == null || !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
             success = false;
             putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
         } else {
 
-            // user must be of the allowable statuses (A - Active)
-            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
+            if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
                 success = false;
                 putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
             }
     
-            // user must be of the allowable types (P - Professional)
-            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AccountDelegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
+             String principalId = user.getPrincipalId();
+            String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+            String permissionTemplateName = KFSConstants.PermissionTemplate.DEFAULT.name;
+            
+            IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+            Boolean isAuthorized = identityManagementService.hasPermissionByTemplateName(principalId, namespaceCode, permissionTemplateName, null);
+            if (!isAuthorized) {
                 success = false;
                 putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
             }

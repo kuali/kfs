@@ -75,34 +75,6 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
     }
 
     /**
-     * Show the Payments Lookup tab. This is for assets with large amounts of payments.
-     * 
-     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#addAdditionalSections(java.util.List, org.kuali.rice.kns.bo.BusinessObject)
-     */
-    @Override
-    public void addAdditionalSections(List sections, BusinessObject bo) {
-        if (bo instanceof Asset) {
-            Asset asset = (Asset) bo;
-
-            List rows = new ArrayList();
-
-            Field f = new Field();
-            f.setPropertyName("Payments Lookup");
-            f.setFieldLabel("Payments Lookup");
-            f.setPropertyValue("Click here to view the payment lookup for this asset.");
-            f.setFieldType(Field.HIDDEN);
-            HtmlData hRef = new AnchorHtmlData("lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=" + asset.getCapitalAssetNumber(), KNSConstants.EMPTY_STRING);
-            f.setInquiryURL(hRef);
-            rows.add(new Row(f));
-
-            Section section = new Section();
-            section.setRows(rows);
-            section.setSectionTitle("Payments Lookup");
-            sections.add(section);
-        }
-    }
-
-    /**
      * Hide payments if there are more then the allowable number.
      * 
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
@@ -129,6 +101,5 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
         }
         
         return sections;
-    }
-    
+    }    
 }

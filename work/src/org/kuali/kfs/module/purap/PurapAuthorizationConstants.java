@@ -50,9 +50,13 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
         public static final String LOCK_B2B_ENTRY = "lockB2BEntry";
         public static final String PRINT_PURCHASE_ORDER = "printPurchaseOrder";
+        public static final String PREVIEW_PRINT_PURCHASE_ORDER = "previewPrintPurchaseOrder";
+        public static final String RESEND_PURCHASE_ORDER = "resendPurchaseOrder";
+        public static final String ASSIGN_SENSITIVE_DATA = "assignSensitiveData";
     }
 
     public static class PaymentRequestEditMode extends EditMode {
+        public static final String PURAP_TAX_ENABLED = "purapTaxEnabled"; 
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
@@ -67,6 +71,10 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String ACCOUNTS_PAYABLE_ENTRY = "accountsPayableEntry";
         public static final String ACCOUNTS_PAYABLE_PROCESSOR_CANCEL = "processorCancel";
         public static final String ACCOUNTS_PAYABLE_MANAGER_CANCEL = "managerCancel";
+        public static final String REQUEST_CANCEL = "requestPaymentRequestCancel";
+        public static final String HOLD = "requestPaymentRequestHold";
+        public static final String REMOVE_HOLD = "paymentRequestHoldCancelRemoval";
+        public static final String REMOVE_REQUEST_CANCEL = "paymentRequestHoldCancelRemoval";
     }
 
     public static class CreditMemoEditMode extends EditMode {
@@ -95,18 +103,5 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
     
     public static final String PURAP_TAX_ENABLED = "purapTaxEnabled"; 
     
-    public static class PermissionNames {
-        //TODO check default template names
-        //select * from KRIM_PERM_ATTR_V where PERM_NAMESPACE_CODE = 'KFS-PURAP';
-        //select * from KRIM_ROLE_PERM_V where ROLE_NAMESPACE = 'KFS-PURAP';
-        //public static final String PREVIEW_PRINT_PO = "Preview Print PO";
-        //public static final String PRINT_FIRST_TRANSMIT_PO = "Print First Transmit PO";
-        //public static final String PRINT_RETRANSMITTED_NON_APO = "Print Retransmitted Non APO";
-        public static final String PRINT_PO = "Print Purchase Order";
-        public static final String RESEND_PO = "Resend Purchase Order";
-        public static final String ASSIGN_SENSITIVE_DATA = "assignSensitiveData";
-        public static final String HOLD_PREQ = "Add Payment Request Hold";
-        public static final String REMOVE_HOLD_PREQ = "Remove Payment Request Hold";
-        public static final String REMOVE_CANCEL_PREQ = "Remove Payment Request Cancel";
-    }
+
 }

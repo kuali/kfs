@@ -73,7 +73,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Struts Action Form for Purchase Order document.
  */
 public class PurchaseOrderForm extends PurchasingFormBase {
-    private Integer purchaseOrderIdentifier;
+
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
     private PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
     private Long awardedVendorNumber;
@@ -138,14 +138,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
     public void setNewPurchaseOrderVendorQuote(PurchaseOrderVendorQuote newPurchaseOrderVendorQuote) {
         this.newPurchaseOrderVendorQuote = newPurchaseOrderVendorQuote;
-    }
-
-    public Integer getPurchaseOrderIdentifier() {
-        return purchaseOrderIdentifier;
-    }
-
-    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
-        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
     public String[] getRetransmitItemsSelected() {
@@ -320,29 +312,37 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         super.getExtraButtons();        
         Map buttonsMap = createButtonsMap();                    
         
-        // no other extra buttons except the following shall appear on "Assign Sensitive Data" page
-        // and these buttons use the same permissions as the "Assign Sensitive Data" button
-        if (isAssigningSensitiveData() && canAssignSensitiveData()) {
-            extraButtons.clear();
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.submitSensitiveData"));
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelSensitiveData"));
-            return extraButtons;
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA)){
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData"));
+
+            if (isAssigningSensitiveData()) {
+                // no other extra buttons except the following shall appear on "Assign Sensitive Data" page
+                // and these buttons use the same permissions as the "Assign Sensitive Data" button
+                extraButtons.clear();
+                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.submitSensitiveData"));
+                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelSensitiveData"));
+                return extraButtons;
+            }
         }
-                
+
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PREVIEW_PRINT_PURCHASE_ORDER)) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo"));
+        }
+        
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PRINT_PURCHASE_ORDER)) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo"));
+        }
+
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.RESEND_PURCHASE_ORDER)) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.resendPoCxml"));
+        }
+        
         if (canRetransmit()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.retransmitPo"));
         }
         
         if (canPrintRetransmit()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo"));
-        }
-
-        if (canPreviewPrintPo()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo"));
-        }
-        
-        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PRINT_PURCHASE_ORDER)) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo"));
         }
 
         if (canReopen()) {
@@ -369,10 +369,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.removeHoldPo"));
         }
         
-        if (canResendCxml()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.resendPoCxml"));
-        }
-        
         if (canCreateReceiving()){
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.createReceivingLine"));
         }
@@ -386,10 +382,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelPurchaseOrderSplit"));
         }
         
-        if (canAssignSensitiveData()){
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData"));
-        }
-
         return extraButtons;
     }        
     
@@ -402,7 +394,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the amend button can be displayed.
      */
-    public boolean canAmend() {
+    private boolean canAmend() {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
@@ -497,7 +489,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the reopen order button can be displayed.
      */
-    public boolean canReopen() {
+    private boolean canReopen() {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.CLOSED.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
@@ -518,7 +510,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the payment hold button can be displayed.
      */
-    public boolean canHoldPayment() {
+    private boolean canHoldPayment() {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
@@ -539,7 +531,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the remove hold button can be displayed.
      */
-    public boolean canRemoveHold() {
+    private boolean canRemoveHold() {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.PAYMENT_HOLD.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
@@ -562,14 +554,15 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the retransmit button can be displayed.
      */
-    public boolean canRetransmit() {
+    private boolean canRetransmit() {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
         can = can && getPurchaseOrderDocument().getPurchaseOrderLastTransmitTimestamp() != null;
         
-        if (!can)
+        if (!can) {
             return false;       
+        }
         
         // check user authorization
         DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
@@ -595,7 +588,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the print retransmit button can be displayed.
      */
-    public boolean canPrintRetransmit() {
+    private boolean canPrintRetransmit() {
         // check PO status etc
         boolean can = getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT);
         can = can && PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(getPurchaseOrderDocument().getStatusCode());
@@ -619,41 +612,13 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     
     
     /**
-     * Determines whether to display the print preview button for the first time transmit. Conditions are:
-     * available prior to the document going to final;
-     * available for only a certain number of PO transmission types which are stored in a parameter (default to PRIN and FAX);
-     * viewable by new workgroup (default to PA_PUR_USERS).
-     * 
-     * @return boolean true if the preview print button can be displayed.
-     */
-   public boolean canPreviewPrintPo() {
-        // PO is prior to FINAL
-        boolean can = !getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();
-
-        // transmission method must be one of those specified by the parameter
-        if (can) {
-            List<String> methods = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_PO_PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES);
-            String method = getPurchaseOrderDocument().getPurchaseOrderTransmissionMethodCode();
-            can = (methods == null || methods.contains(method));
-        }
-        
-        // check user authorization: same as print PO
-        if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            can = documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.PRINT_PO, GlobalVariables.getUserSession().getPerson().getPrincipalId());              
-        }
-
-        return can;
-    }
-
-    /**
      * Determines if a Split PO Document can be created from this purchase order. Conditions: 
      * The parent PO status is either "In Process" or "Awaiting Purchasing Review"; requisition source is not B2B; has at least 2 items, 
      * and PO is not in the process of being split; user must be in purchasing group.
      * 
      * @return boolean true if the split PO button can be displayed.
      */
-    public boolean canSplitPo() {
+    private boolean canSplitPo() {
         // PO must be in either "In Process" or "Awaiting Purchasing Review"
         boolean can = PurchaseOrderStatuses.IN_PROCESS.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && !getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute(); 
@@ -690,7 +655,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return  True if the PO can continue to be split.
      */
-    public boolean canContinuePoSplit() {
+    private boolean canContinuePoSplit() {
         boolean can = editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
         
         // check user authorization
@@ -708,7 +673,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the receiving document button can be displayed.
      */
-    public boolean canCreateReceiving() {       
+    private boolean canCreateReceiving() {       
         // check PO status and item info 
         boolean can = SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(getPurchaseOrderDocument());
         
@@ -722,40 +687,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return can;
     }
     
-    /**
-     * Determines whether to display the resend po button for the purchase order document.
-     * Conditions: PO status must be error sending cxml, must be current and not pending, and the user must be in purchasing group.
-     * 
-     * @return boolean true if the resend po button shall be displayed.
-     */
-    public boolean canResendCxml() {
-        // check PO status etc
-        boolean can = PurchaseOrderStatuses.CXML_ERROR.equals(getPurchaseOrderDocument().getStatusCode());
-        can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
-        
-        // check user authorization
-        if (can) {
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            can = documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.RESEND_PO, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        }
-      
-        return can;
-    }
-        
-    /**
-     * Determines whether the current user has the authorization to assign sensitive data to the PO in its current status,
-     * and thus show the assign sensitive data button.
-     * 
-     * @return boolean true if the assign sensitive data button shall be displayed.
-     */
-    public boolean canAssignSensitiveData() {
-        //FIXME this isn't working
-//        return true;
-        // check user authorization
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-        return documentAuthorizer.isAuthorized(getPurchaseOrderDocument(), PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.ASSIGN_SENSITIVE_DATA, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-    }
-
     /**
      * Creates a MAP for all the buttons to appear on the Purchase Order Form, and sets the attributes of these buttons.
      * 

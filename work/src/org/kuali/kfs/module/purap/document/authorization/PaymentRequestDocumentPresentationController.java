@@ -21,11 +21,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants.CreditMemoEditMode;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -132,16 +130,30 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
         
-        //add state logic for when an AP processor can cancel the doc
         if (canProcessorCancel(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL);
         }
         
-        //add state logic for when an AP manager can cancel the doc
         if (canManagerCancel(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.ACCOUNTS_PAYABLE_MANAGER_CANCEL);
         }
         
+        if (canHold(paymentRequestDocument)) {
+            editModes.add(PaymentRequestEditMode.HOLD);
+        }
+
+        if (canRequestCancel(paymentRequestDocument)) {
+            editModes.add(PaymentRequestEditMode.REQUEST_CANCEL);
+        }
+
+        if (canRemoveHold(paymentRequestDocument)) {
+            editModes.add(PaymentRequestEditMode.REMOVE_HOLD);
+        }
+
+        if (canRemoveRequestCancel(paymentRequestDocument)) {
+            editModes.add(PaymentRequestEditMode.REMOVE_REQUEST_CANCEL);
+        }
+
         if (paymentRequestDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.INITIATE)) {
             editModes.add(PaymentRequestEditMode.DISPLAY_INIT_TAB);
         }
@@ -166,22 +178,23 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
 
         // if use tax, don't allow editing of tax fields
         if (paymentRequestDocument.isUseTaxIndicator()) {
-            editModes.add(CreditMemoEditMode.CLEAR_ALL_TAXES);
+            editModes.add(PaymentRequestEditMode.CLEAR_ALL_TAXES);
             editModes.add(PaymentRequestEditMode.LOCK_TAX_AMOUNT_ENTRY);
         }
 
         // See if purap tax is enabled
         boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
-            editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
+            editModes.add(PaymentRequestEditMode.PURAP_TAX_ENABLED);
         }
 
         // tax area tab editable while waiting for tax review
         if (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
             editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
+
         // after tax is approved, the tax tab is viewable to everyone
-        else if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(paymentRequestDocument.getStatusCode())) {
+        if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(paymentRequestDocument.getStatusCode())) {
             editModes.add(PaymentRequestEditMode.TAX_INFO_VIEWABLE);
         }
 
@@ -211,7 +224,8 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         }
         return editModes;
     }
-        
+
+
     private boolean canProcessorCancel(PaymentRequestDocument paymentRequestDocument) {
         // if Payment Request is in INITIATE status, user cannot cancel doc
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
@@ -283,6 +297,72 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         }
 
         return can;
+    }
+
+    /**
+     * Determines whether the PaymentRequest Hold button shall be available. Conditions:
+     * - Payment Request is not already on hold, and
+     * - Payment Request is not already being requested to be canceled, and
+     * - Payment Request has not already been extracted to PDP, and
+     * - Payment Request status is not in the list of "STATUSES_DISALLOWING_HOLD" or document is being adhoc routed; and
+     * 
+     * @return True if the document state allows placing the Payment Request on hold.
+     */
+    private boolean canHold(PaymentRequestDocument paymentRequestDocument) {
+        boolean can = !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isExtracted();
+        if (can) {
+            can = paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
+            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getStatusCode());
+        }
+        
+        return can;
+    }
+
+    /**
+     * Determines whether the Request Cancel PaymentRequest button shall be available. Conditions:
+     * - Payment Request is not already on hold, and
+     * - Payment Request is not already being requested to be canceled, and
+     * - Payment Request has not already been extracted to PDP, and
+     * - Payment Request status is not in the list of "STATUSES_DISALLOWING_REQUEST_CANCEL" or document is being adhoc routed; and
+     * 
+     * @return True if the document state allows placing the request that the Payment Request be canceled.
+     */
+    private boolean canRequestCancel(PaymentRequestDocument paymentRequestDocument) {
+        boolean can = !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isExtracted();
+        if (can) {
+            can = paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
+            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(paymentRequestDocument.getStatusCode());
+        }
+
+        return can;
+    }
+
+    /**
+     * Determines whether the Remove Hold button shall be available. Conditions:
+     * - the hold indicator is set to true
+     * 
+     * Because the state of the Payment Request cannot be changed while the document is on hold, 
+     * we should not have to check the state of the document to remove the hold.  
+     * For example, the document should not be allowed to be approved or extracted while on hold.
+     * 
+     * @return True if the document state allows removing the Payment Request from hold.
+     */
+    private boolean canRemoveHold(PaymentRequestDocument paymentRequestDocument) {
+        return paymentRequestDocument.isHoldIndicator();       
+    }
+
+    /**
+     * Determines whether the Remove Request Cancel button shall be available. Conditions:
+     * - the request cancel indicator is set to true;  and 
+     *   
+     * Because the state of the Payment Request cannot be changed while the document is set to request cancel, 
+     * we should not have to check the state of the document to remove the request cancel.  
+     * For example, the document should not be allowed to be approved or extracted while set to request cancel.
+     *  
+     * @return True if the document state allows removing a request that the Payment Request be canceled.
+     */
+    private boolean canRemoveRequestCancel(PaymentRequestDocument paymentRequestDocument) {
+        return paymentRequestDocument.isPaymentRequestedCancelIndicator();
     }
 
 }

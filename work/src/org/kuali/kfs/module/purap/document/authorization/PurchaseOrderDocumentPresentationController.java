@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,8 +30,12 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -128,8 +133,18 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
+        editModes.add(PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA);
+
         if (canFirstTransmitPrintPo(poDocument)) {
             editModes.add(PurchaseOrderEditMode.PRINT_PURCHASE_ORDER);
+        }
+        
+        if (canPreviewPrintPo(poDocument)) {
+            editModes.add(PurchaseOrderEditMode.PREVIEW_PRINT_PURCHASE_ORDER);
+        }
+        
+        if (canResendCxml(poDocument)) {
+            editModes.add(PurchaseOrderEditMode.RESEND_PURCHASE_ORDER);
         }
         
         // if vendor has been selected from DB, certain vendor fields are not allowed to be edited
@@ -204,31 +219,55 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
     /**
      * Determines whether to display the button to print the pdf for the first time transmit. 
      * Conditions: PO status is Pending Print or the transmission method is changed to PRINT during the amendment. 
-     * User is either in Purchasing group or an action is requested of them for the document transmission route node.
      * 
      * @return boolean true if the print first transmit button can be displayed.
      */
-    private boolean canFirstTransmitPrintPo(PurchaseOrderDocument purchaseOrderDocument) {
+    private boolean canFirstTransmitPrintPo(PurchaseOrderDocument poDocument) {
         // status shall be Pending Print, or the transmission method is changed to PRINT during amendment, 
-        boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrderDocument.getStatusCode());
+        boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(poDocument.getStatusCode());
         if (!can) {
-            can = PurchaseOrderStatuses.OPEN.equals(purchaseOrderDocument.getStatusCode());
-            can = can && purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal();
-            can = can && purchaseOrderDocument.getPurchaseOrderLastTransmitTimestamp() == null;
-            can = can && PurapConstants.POTransmissionMethods.PRINT.equals(purchaseOrderDocument.getPurchaseOrderTransmissionMethodCode());
+            can = PurchaseOrderStatuses.OPEN.equals(poDocument.getStatusCode());
+            can = can && poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal();
+            can = can && poDocument.getPurchaseOrderLastTransmitTimestamp() == null;
+            can = can && PurapConstants.POTransmissionMethods.PRINT.equals(poDocument.getPurchaseOrderTransmissionMethodCode());
         }
-        
-//        // user is either authorized or an action is requested of them for the document transmission route node, 
-//        if (can) {
-//            PurApWorkflowIntegrationService service = SpringContext.getBean(PurApWorkflowIntegrationService.class);
-//            can = service.isActionRequestedOfUserAtNodeName(purchaseOrderDocument.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson());
-//            if (!can) {
-//                DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(purchaseOrderDocument);
-//                can = documentAuthorizer.isAuthorized(purchaseOrderDocument, PurapConstants.PURAP_NAMESPACE, PurapAuthorizationConstants.PermissionNames.PRINT_PO, GlobalVariables.getUserSession().getPerson().getPrincipalId());               
-//            }
-//        }
-//        
+
         return can;
     }
 
+    /**
+     * Determines whether to display the print preview button for the first time transmit. Conditions are:
+     * available while the document is saved or enroute;
+     * available for only a certain number of PO transmission types which are stored in a parameter (default to PRIN and FAX)
+     * 
+     * @return boolean true if the preview print button can be displayed.
+     */
+   private boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
+        // PO is saved or enroute
+        boolean can = poDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved() || poDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+
+        // transmission method must be one of those specified by the parameter
+        if (can) {
+            List<String> methods = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_PO_PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES);
+            String method = poDocument.getPurchaseOrderTransmissionMethodCode();
+            can = (methods == null || methods.contains(method));
+        }
+        
+        return can;
+    }
+
+   /**
+    * Determines whether to display the resend po button for the purchase order document.
+    * Conditions: PO status must be error sending cxml and must be current and not pending.
+    * 
+    * @return boolean true if the resend po button shall be displayed.
+    */
+   private boolean canResendCxml(PurchaseOrderDocument poDocument) {
+       // check PO status etc
+       boolean can = PurchaseOrderStatuses.CXML_ERROR.equals(poDocument.getStatusCode());
+       can = can && poDocument.isPurchaseOrderCurrentIndicator() && !poDocument.isPendingActionIndicator();
+
+       return can;
+   }
+       
 }

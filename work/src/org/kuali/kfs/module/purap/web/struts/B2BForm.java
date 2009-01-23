@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.purap.web.struts;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -31,5 +34,16 @@ public class B2BForm extends KualiForm {
         this.shopUrl = shopUrl;
     }
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && 
+           ("shopCatalogs".equals(methodToCallParameterValue) || "returnFromShopping".equals(methodToCallParameterValue))) {
+            return true;
+        }
+        return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
+    }
 
 }

@@ -1855,7 +1855,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         super.loadDocument(kualiDocumentFormBase);
         PurchaseOrderForm poForm = (PurchaseOrderForm) kualiDocumentFormBase;
         PurchaseOrderDocument po = (PurchaseOrderDocument) poForm.getDocument();
-        poForm.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
         po.setInternalPurchasingLimit(SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(po));
 
         // load sensitive data from DB into the form whenever PO is loaded

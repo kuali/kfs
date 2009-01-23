@@ -26,19 +26,19 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class OrganizationOptionsAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
-    @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
-        super.addRoleQualification(businessObject, attributes);
-        OrganizationOptions organizationOptions = null;
-        if (businessObject instanceof MaintenanceDocument) {
-            organizationOptions = (OrganizationOptions) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
-        }
-        else {
-            organizationOptions = (OrganizationOptions) businessObject;
-        }
-        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, organizationOptions.getChartOfAccountsCode());
-        attributes.put(KfsKimAttributes.ORGANIZATION_CODE, organizationOptions.getOrganizationCode());
-        attributes.put(AccountsReceivableOrganizationDerivedRoleTypeServiceImpl.PROCESSING_CHART_OF_ACCOUNTS_CODE, organizationOptions.getProcessingChartOfAccountCode());
-        attributes.put(AccountsReceivableOrganizationDerivedRoleTypeServiceImpl.PROCESSING_ORGANIZATION_CODE, organizationOptions.getProcessingOrganizationCode());
-    }
+//    @Override
+//    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+//        super.addRoleQualification(businessObject, attributes);
+//        OrganizationOptions organizationOptions = null;
+//        if (businessObject instanceof MaintenanceDocument) {
+//            organizationOptions = (OrganizationOptions) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
+//        }
+//        else {
+//            organizationOptions = (OrganizationOptions) businessObject;
+//        }
+//        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, organizationOptions.getChartOfAccountsCode());
+//        attributes.put(KfsKimAttributes.ORGANIZATION_CODE, organizationOptions.getOrganizationCode());
+//        attributes.put(AccountsReceivableOrganizationDerivedRoleTypeServiceImpl.PROCESSING_CHART_OF_ACCOUNTS_CODE, organizationOptions.getProcessingChartOfAccountCode());
+//        attributes.put(AccountsReceivableOrganizationDerivedRoleTypeServiceImpl.PROCESSING_ORGANIZATION_CODE, organizationOptions.getProcessingOrganizationCode());
+//    }
 }

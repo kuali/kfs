@@ -134,8 +134,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private List<AssetRetirementGlobalDetail> mergeHistory;
     private KualiDecimal federalContribution;
     private AssetRetirementGlobalDetail retirementInfo;
-    private EquipmentLoanOrReturnDocument loanOrReturnInfo;
     private AssetLocation offCampusLocation;
+    private AssetLocation borrowerLocation;
+    private AssetLocation borrowerStorageLocation;
     // calculated depreciation amounts
     private KualiDecimal accumulatedDepreciation;
     private KualiDecimal baseAmount;
@@ -162,22 +163,24 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
     /**
-     * Constructs a Asset object. Includes logic to properly set fields depending if it's creating a new asset or separating an asset
+     * Constructs a Asset object. Includes logic to properly set fields depending if it's creating a new asset or separating an
+     * asset
+     * 
      * @param assetGlobal
      * @param assetGlobalDetail
      * @param separate if it's seprate an asset
      */
     public Asset(AssetGlobal assetGlobal, AssetGlobalDetail assetGlobalDetail, boolean separate) {
         this();
-        
+
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-        
+
         this.setFinancialDocumentPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
         this.setFinancialDocumentPostingPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
         this.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
-        
+
         this.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
-        
+
         this.setInventoryStatusCode(assetGlobal.getInventoryStatusCode());
         this.setConditionCode(assetGlobal.getConditionCode());
         this.setAcquisitionTypeCode(assetGlobal.getAcquisitionTypeCode());
@@ -191,7 +194,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.setCapitalAssetInServiceDate(assetGlobal.getCapitalAssetInServiceDate());
         this.setDepreciationDate(assetGlobal.getCapitalAssetDepreciationDate());
         this.setCreateDate(assetGlobal.getCreateDate());
-        
+
         this.setCapitalAssetNumber(assetGlobalDetail.getCapitalAssetNumber());
         this.setCampusCode(assetGlobalDetail.getCampusCode());
         this.setBuildingCode(assetGlobalDetail.getBuildingCode());
@@ -202,33 +205,34 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.setGovernmentTagNumber(assetGlobalDetail.getGovernmentTagNumber());
         this.setCampusTagNumber(assetGlobalDetail.getCampusTagNumber());
         this.setNationalStockNumber(assetGlobalDetail.getNationalStockNumber());
-        
+
         AssetOrganization assetOrganization = new AssetOrganization();
         assetOrganization.setCapitalAssetNumber(assetGlobalDetail.getCapitalAssetNumber());
         assetOrganization.setOrganizationAssetTypeIdentifier(assetGlobalDetail.getOrganizationAssetTypeIdentifier());
         this.setAssetOrganization(assetOrganization);
-        
+
         this.setActive(true);
-        
+
         if (separate) {
             this.setRepresentativeUniversalIdentifier(assetGlobalDetail.getRepresentativeUniversalIdentifier());
             this.setCapitalAssetTypeCode(assetGlobalDetail.getCapitalAssetTypeCode());
             this.setCapitalAssetDescription(assetGlobalDetail.getCapitalAssetDescription());
             this.setManufacturerName(assetGlobalDetail.getManufacturerName());
             this.setManufacturerModelNumber(assetGlobalDetail.getManufacturerModelNumber());
-            
+
             this.assetOrganization.setOrganizationText(assetGlobalDetail.getOrganizationText());
-        } else {
+        }
+        else {
             this.setRepresentativeUniversalIdentifier(assetGlobal.getRepresentativeUniversalIdentifier());
             this.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
             this.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
             this.setManufacturerName(assetGlobal.getManufacturerName());
             this.setManufacturerModelNumber(assetGlobal.getManufacturerModelNumber());
-            
+
             this.assetOrganization.setOrganizationText(assetGlobal.getOrganizationText());
         }
     }
-    
+
     public KualiDecimal getCurrentMonthDepreciation() {
         return currentMonthDepreciation;
     }
@@ -1719,14 +1723,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.retirementInfo = retirementInfo;
     }
 
-    public EquipmentLoanOrReturnDocument getLoanOrReturnInfo() {
-        return loanOrReturnInfo;
-    }
-
-    public void setLoanOrReturnInfo(EquipmentLoanOrReturnDocument loanOrReturnInfo) {
-        this.loanOrReturnInfo = loanOrReturnInfo;
-    }
-
     public List<AssetLocation> getAssetLocations() {
         return assetLocations;
     }
@@ -1864,7 +1860,8 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
     /**
-     * Technically this is obsolete but necessary because MaintenanceDocumentBase.populateXmlDocumentContentsFromMaintainables has the following hack:<br>
+     * Technically this is obsolete but necessary because MaintenanceDocumentBase.populateXmlDocumentContentsFromMaintainables has
+     * the following hack:<br>
      * ObjectUtils.materializeAllSubObjects(oldBo); // hack to resolve XStream not dealing well with Proxies<br>
      * so as long as that is there we need this setter otherwise a NoSuchMethodException occurs.
      * 
@@ -1873,7 +1870,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public void setAgency(ContractsAndGrantsAgency agency) {
         this.agency = agency;
     }
-    
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -1894,10 +1891,43 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.hiddenFieldForError = hiddenFieldForError;
     }
 
-    public void setLookup(String lookup) {
-        this.lookup = lookup;
+    /**
+     * Gets the borrowerLocation attribute.
+     * 
+     * @return Returns the borrowerLocation.
+     */
+    public AssetLocation getBorrowerLocation() {
+        return borrowerLocation;
     }
-    
+
+    /**
+     * Sets the borrowerLocation attribute value.
+     * 
+     * @param borrowerLocation The borrowerLocation to set.
+     */
+    public void setBorrowerLocation(AssetLocation borrowerLocation) {
+        this.borrowerLocation = borrowerLocation;
+    }
+
+    /**
+     * Gets the borrowerStorageLocation attribute.
+     * 
+     * @return Returns the borrowerStorageLocation.
+     */
+    public AssetLocation getBorrowerStorageLocation() {
+        return borrowerStorageLocation;
+    }
+
+    /**
+     * Sets the borrowerStorageLocation attribute value.
+     * 
+     * @param borrowerStorageLocation The borrowerStorageLocation to set.
+     */
+    public void setBorrowerStorageLocation(AssetLocation borrowerStorageLocation) {
+        this.borrowerStorageLocation = borrowerStorageLocation;
+    }
+
+
     public String getLookup() {
         if (this.getCapitalAssetNumber() == null)
             return "";
@@ -1905,11 +1935,11 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         Properties params = new Properties();
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK,"true");        
-        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER,this.getCapitalAssetNumber().toString());
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE,AssetPayment.class.getName());
-        
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetPayment.class.getName());
+
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
-    }    
+    }
 }

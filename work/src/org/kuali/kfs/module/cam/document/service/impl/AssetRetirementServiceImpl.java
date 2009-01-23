@@ -398,7 +398,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         if (ObjectUtils.isNotNull(payment.getFinancialObject()) && ObjectUtils.isNotNull(asset.getOrganizationOwnerAccount())) {
             String financialObjectSubTypeCode = payment.getFinancialObject().getFinancialObjectSubTypeCode();
 
-            if (assetService.isMovableFinancialObjectSubtypeCode(financialObjectSubTypeCode)) {
+            if (assetService.isAssetMovableCheckByPayment(financialObjectSubTypeCode)) {
                 plantFundAccount = asset.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
             }
             else {

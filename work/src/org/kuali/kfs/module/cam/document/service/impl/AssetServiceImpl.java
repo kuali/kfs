@@ -71,7 +71,7 @@ public class AssetServiceImpl implements AssetService {
         this.documentLockingService = documentLockingService;
     }
 
-    public boolean isAssetMovable(Asset asset) {
+    public boolean isAssetMovableCheckByAsset(Asset asset) {
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
         return asset.getCapitalAssetType().isMovingIndicator();
     }
@@ -230,7 +230,7 @@ public class AssetServiceImpl implements AssetService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isMovableFinancialObjectSubtypeCode(java.lang.String)
      */
-    public boolean isMovableFinancialObjectSubtypeCode(String financialObjectSubTypeCode) {
+    public boolean isAssetMovableCheckByPayment(String financialObjectSubTypeCode) {
         if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
             return true;
         }

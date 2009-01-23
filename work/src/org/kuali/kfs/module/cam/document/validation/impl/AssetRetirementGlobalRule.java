@@ -384,7 +384,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.RETIRE_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
-        if (!getAssetService().isAssetMovable(asset) && !isAuthorized) {
+        if (!getAssetService().isAssetMovableCheckByAsset(asset) && !isAuthorized) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_USER_GROUP_FOR_NON_MOVEABLE_ASSET, asset.getCapitalAssetNumber().toString());
             success = false;
         }

@@ -70,7 +70,7 @@
         <ref bean="Asset-representativeUniversalIdentifier" />
         <ref bean="Asset-assetRepresentative.principalName" />
         <ref bean="Asset-assetRepresentative.name" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerPerson.name" />
+        <ref bean="Asset-borrowerLocation.assetLocationContactName" />
         <ref bean="Asset-organizationOwnerAccountNumber" />
         <ref bean="Asset-organizationOwnerChartOfAccountsCode" />
         <ref bean="Asset-organizationOwnerAccount.organizationCode" />
@@ -115,18 +115,18 @@
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementPhoneNumber" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.buyerDescription" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerAddress" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerCityName" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStateCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerZipCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerCountryCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerPhoneNumber" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStorageAddress" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStorageCityName" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStorageStateCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStorageZipCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountryCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber" />
+        <ref bean="Asset-borrowerLocation.assetLocationStreetAddress" />
+        <ref bean="Asset-borrowerLocation.assetLocationCityName" />
+        <ref bean="Asset-borrowerLocation.assetLocationStateCode" />
+        <ref bean="Asset-borrowerLocation.assetLocationZipCode" />
+        <ref bean="Asset-borrowerLocation.assetLocationCountryCode" />
+        <ref bean="Asset-borrowerLocation.assetLocationPhoneNumber" />
+        <ref bean="Asset-borrowerStorageLocation.assetLocationStreetAddress" />
+        <ref bean="Asset-borrowerStorageLocation.assetLocationCityName" />
+        <ref bean="Asset-borrowerStorageLocation.assetLocationStateCode" />
+        <ref bean="Asset-borrowerStorageLocation.assetLocationZipCode" />
+        <ref bean="Asset-borrowerStorageLocation.assetLocationCountryCode" />
+        <ref bean="Asset-borrowerStorageLocation.assetLocationPhoneNumber" />
         <ref bean="Asset-offCampusLocation.assetLocationContactName" />
         <ref bean="Asset-offCampusLocation.assetLocationStreetAddress" />
         <ref bean="Asset-offCampusLocation.assetLocationCityName" />
@@ -141,12 +141,12 @@
         <ref bean="Asset-assetStatus.inventoryStatusCode" />        
         <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" />
         <ref bean="Asset-inventoryStatus.inventoryStatusCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerState.postalStateCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode" />
-        <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+        <ref bean="Asset-borrowerLocation.assetLocationState.postalStateCode" />
+        <ref bean="Asset-borrowerLocation.postalZipCode.postalCode" />
+        <ref bean="Asset-borrowerLocation.assetLocationCountry.postalCountryName" />
+        <ref bean="Asset-borrowerStorageLocation.assetLocationState.postalStateCode" />
+        <ref bean="Asset-borrowerStorageLocation.postalZipCode.postalCode" />
+        <ref bean="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName" />
         <ref bean="Asset-quantity" />
         <ref bean="Asset-assetPayments.paymentSequenceNumber" />
         <ref bean="Asset-assetPayments.purchaseOrderNumber" />
@@ -226,7 +226,7 @@
 <bean id="Asset-assetPayments-lookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="lookup" />
 	<property name="label" value="To view the payment lookup for this Asset" />
-    <property name="maxLength" value="0" />
+    <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >
 		<bean parent="LinkControlDefinition"
@@ -1156,81 +1156,81 @@
     <property name="shortLabel" value="Buyer" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerPerson.name" parent="Asset-loanOrReturnInfo.borrowerPerson.name-parentBean" />																								
-  <bean id="Asset-loanOrReturnInfo.borrowerPerson.name-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPerson.principalName">
-    <property name="name" value="loanOrReturnInfo.borrowerPerson.name" />
+  <bean id="Asset-borrowerLocation.assetLocationContactName" parent="Asset-borrowerLocation.assetLocationContactName-parentBean" />																								
+  <bean id="Asset-borrowerLocation.assetLocationContactName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPerson.principalName">
+    <property name="name" value="borrowerLocation.assetLocationContactName" />
     <property name="label" value="Name" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerAddress" parent="Asset-loanOrReturnInfo.borrowerAddress-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerAddress">
-    <property name="name" value="loanOrReturnInfo.borrowerAddress" />
+  <bean id="Asset-borrowerLocation.assetLocationStreetAddress" parent="Asset-borrowerLocation.assetLocationStreetAddress-parentBean" />
+  <bean id="Asset-borrowerLocation.assetLocationStreetAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerAddress">
+    <property name="name" value="borrowerLocation.assetLocationStreetAddress" />
     <property name="label" value="Street" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerCityName" parent="Asset-loanOrReturnInfo.borrowerCityName-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerCityName">
-    <property name="name" value="loanOrReturnInfo.borrowerCityName" />
+  <bean id="Asset-borrowerLocation.assetLocationCityName" parent="Asset-borrowerLocation.assetLocationCityName-parentBean" />
+  <bean id="Asset-borrowerLocation.assetLocationCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerCityName">
+    <property name="name" value="borrowerLocation.assetLocationCityName" />
     <property name="label" value="City" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerStateCode" parent="Asset-loanOrReturnInfo.borrowerStateCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStateCode">
-    <property name="name" value="loanOrReturnInfo.borrowerStateCode" />
+  <bean id="Asset-borrowerLocation.assetLocationStateCode" parent="Asset-borrowerLocation.assetLocationStateCode-parentBean" />
+  <bean id="Asset-borrowerLocation.assetLocationStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStateCode">
+    <property name="name" value="borrowerLocation.assetLocationStateCode" />
     <property name="label" value="State" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerZipCode" parent="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerZipCode">
-    <property name="name" value="loanOrReturnInfo.borrowerZipCode" />
+  <bean id="Asset-borrowerLocation.assetLocationZipCode" parent="Asset-borrowerLocation.assetLocationZipCode-parentBean" />
+  <bean id="Asset-borrowerLocation.assetLocationZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerZipCode">
+    <property name="name" value="borrowerLocation.assetLocationZipCode" />
     <property name="label" value="Postal Code" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerCountryCode" parent="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerCountryCode">
-    <property name="name" value="loanOrReturnInfo.borrowerCountryCode" />
+  <bean id="Asset-borrowerLocation.assetLocationCountryCode" parent="Asset-borrowerLocation.assetLocationCountryCode-parentBean" />
+  <bean id="Asset-borrowerLocation.assetLocationCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerCountryCode">
+    <property name="name" value="borrowerLocation.assetLocationCountryCode" />
     <property name="label" value="Country" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerPhoneNumber" parent="Asset-loanOrReturnInfo.borrowerPhoneNumber-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerPhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPhoneNumber">
-    <property name="name" value="loanOrReturnInfo.borrowerPhoneNumber" />
+  <bean id="Asset-borrowerLocation.assetLocationPhoneNumber" parent="Asset-borrowerLocation.assetLocationPhoneNumber-parentBean" />
+  <bean id="Asset-borrowerLocation.assetLocationPhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPhoneNumber">
+    <property name="name" value="borrowerLocation.assetLocationPhoneNumber" />
     <property name="label" value="Phone" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageAddress" parent="Asset-loanOrReturnInfo.borrowerStorageAddress-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageAddress">
-    <property name="name" value="loanOrReturnInfo.borrowerStorageAddress" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationStreetAddress" parent="Asset-borrowerStorageLocation.assetLocationStreetAddress-parentBean" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationStreetAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageAddress">
+    <property name="name" value="borrowerStorageLocation.assetLocationStreetAddress" />
     <property name="label" value="Street" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageCityName" parent="Asset-loanOrReturnInfo.borrowerStorageCityName-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageCityName">
-    <property name="name" value="loanOrReturnInfo.borrowerStorageCityName" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationCityName" parent="Asset-borrowerStorageLocation.assetLocationCityName-parentBean" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageCityName">
+    <property name="name" value="borrowerStorageLocation.assetLocationCityName" />
     <property name="label" value="City" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageStateCode" parent="Asset-loanOrReturnInfo.borrowerStorageStateCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageStateCode">
-    <property name="name" value="loanOrReturnInfo.borrowerStorageStateCode" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationStateCode" parent="Asset-borrowerStorageLocation.assetLocationStateCode-parentBean" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageStateCode">
+    <property name="name" value="borrowerStorageLocation.assetLocationStateCode" />
     <property name="label" value="State" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode" parent="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageZipCode">
-    <property name="name" value="loanOrReturnInfo.borrowerStorageZipCode" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationZipCode" parent="Asset-borrowerStorageLocation.assetLocationZipCode-parentBean" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageZipCode">
+    <property name="name" value="borrowerStorageLocation.assetLocationZipCode" />
     <property name="label" value="Postal Code" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode" parent="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode">
-    <property name="name" value="loanOrReturnInfo.borrowerStorageCountryCode" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationCountryCode" parent="Asset-borrowerStorageLocation.assetLocationCountryCode-parentBean" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode">
+    <property name="name" value="borrowerStorageLocation.assetLocationCountryCode" />
     <property name="label" value="Country" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber" parent="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStoragePhoneNumber">
-    <property name="name" value="loanOrReturnInfo.borrowerStoragePhoneNumber" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationPhoneNumber" parent="Asset-borrowerStorageLocation.assetLocationPhoneNumber-parentBean" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationPhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStoragePhoneNumber">
+    <property name="name" value="borrowerStorageLocation.assetLocationPhoneNumber" />
     <property name="label" value="Phone" />
   </bean>
   
@@ -1328,42 +1328,42 @@
 	<property name="name" value="offCampusLocation.assetLocationCountry.postalCountryName" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  <bean id="Asset-borrowerLocation.assetLocationState.postalStateCode" parent="Asset-borrowerLocation.assetLocationState.postalStateCode-parentBean" />
+  <bean id="Asset-borrowerLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
-    <property name="name" value="loanOrReturnInfo.borrowerState.postalStateCode" />
+    <property name="name" value="borrowerLocation.assetLocationState.postalStateCode" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode" parent="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerPostalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  <bean id="Asset-borrowerLocation.postalZipCode.postalCode" parent="Asset-borrowerLocation.postalZipCode.postalCode-parentBean" />
+  <bean id="Asset-borrowerLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
-    <property name="name" value="loanOrReturnInfo.borrowerPostalZipCode.postalCode" />
+    <property name="name" value="borrowerLocation.postalZipCode.postalCode" />
   </bean>
 
-  <bean id="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
-    <property name="name" value="loanOrReturnInfo.borrowerCountry.postalCountryName" />
+  <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName" parent="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean" />
+  <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+    <property name="name" value="borrowerLocation.assetLocationCountry.postalCountryName" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  <bean id="Asset-borrowerStorageLocation.assetLocationState.postalStateCode" parent="Asset-borrowerStorageLocation.assetLocationState.postalStateCode-parentBean" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
-    <property name="name" value="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
+    <property name="name" value="borrowerStorageLocation.assetLocationState.postalStateCode" />
   </bean>
   
-  <bean id="Asset-loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode" parent="Asset-loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode" parent="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean" />
+  <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
-    <property name="name" value="loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode" />
+    <property name="name" value="borrowerStorageLocation.postalZipCode.postalCode" />
   </bean>
 
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" />
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
-    <property name="name" value="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName" parent="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean" />
+  <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+    <property name="name" value="borrowerStorageLocation.assetLocationCountry.postalCountryName" />
   </bean>
 
   <bean id="Asset-assetPayments.paymentSequenceNumber" parent="Asset-assetPayments.paymentSequenceNumber-parentBean" />
@@ -1675,33 +1675,33 @@
               <bean parent="InquirySubSectionHeaderDefinition"
                     p:attributeName="Borrower Address" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerPerson.name" />
+                    p:attributeName="borrowerLocation.assetLocationContactName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerAddress" />
+                    p:attributeName="borrowerLocation.assetLocationStreetAddress" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerCityName" />
+                    p:attributeName="borrowerLocation.assetLocationCityName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerState.postalStateCode" />
+                    p:attributeName="borrowerLocation.assetLocationState.postalStateCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerPostalZipCode.postalCode" />
+                    p:attributeName="borrowerLocation.postalZipCode.postalCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerCountry.postalCountryName" />
+                    p:attributeName="borrowerLocation.assetLocationCountry.postalCountryName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerPhoneNumber" />
+                    p:attributeName="borrowerLocation.assetLocationPhoneNumber" />
               <bean parent="InquirySubSectionHeaderDefinition"
                     p:attributeName="Stored at Address" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerStorageAddress" />
+                    p:attributeName="borrowerStorageLocation.assetLocationStreetAddress" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerStorageCityName" />
+                    p:attributeName="borrowerStorageLocation.assetLocationCityName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
+                    p:attributeName="borrowerStorageLocation.assetLocationState.postalStateCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerStoragePostalZipCode.postalCode" />
+                    p:attributeName="borrowerStorageLocation.postalZipCode.postalCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+                    p:attributeName="borrowerStorageLocation.assetLocationCountry.postalCountryName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerStoragePhoneNumber" />
+                    p:attributeName="borrowerStorageLocation.assetLocationPhoneNumber" />
             </list>
           </property>
         </bean>

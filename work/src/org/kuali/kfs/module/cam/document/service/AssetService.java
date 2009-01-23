@@ -27,7 +27,7 @@ import org.kuali.rice.kns.document.MaintenanceLock;
  * The interface defines methods for Asset Document
  */
 public interface AssetService {
-    boolean isAssetMovable(Asset asset);
+    boolean isAssetMovableCheckByAsset(Asset asset);
 
     boolean isCapitalAsset(Asset asset);
 
@@ -138,7 +138,7 @@ public interface AssetService {
      * @param financialObjectSubType
      * @return boolean
      */
-    public boolean isMovableFinancialObjectSubtypeCode(String financialObjectSubTypeCode);
+    public boolean isAssetMovableCheckByPayment(String financialObjectSubTypeCode);
 
     /**
      * 

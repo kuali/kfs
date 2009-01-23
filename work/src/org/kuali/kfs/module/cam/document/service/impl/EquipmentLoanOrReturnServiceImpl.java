@@ -16,13 +16,7 @@
 package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -31,7 +25,6 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -73,32 +66,22 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     public void setEquipmentLoanInfo(Asset asset) {
 
         if (asset.getExpectedReturnDate() != null && asset.getLoanReturnDate() == null) {
-            Map<String, Long> params = new HashMap<String, Long>();
-            params.put(CamsPropertyConstants.EquipmentLoanOrReturnDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber());
-            Collection<EquipmentLoanOrReturnDocument> matchingDocs = getBusinessObjectService().findMatching(EquipmentLoanOrReturnDocument.class, params);
-
-            List<EquipmentLoanOrReturnDocument> sortableList = new ArrayList<EquipmentLoanOrReturnDocument>();
-
-            for (EquipmentLoanOrReturnDocument equipmentLoanOrReturn : matchingDocs) {
-                equipmentLoanOrReturn.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturnDocument.DOCUMENT_HEADER);
-                if (equipmentLoanOrReturn.getDocumentHeader() != null && KFSConstants.DocumentStatusCodes.APPROVED.equals(equipmentLoanOrReturn.getDocumentHeader().getFinancialDocumentStatusCode())) {
-                    sortableList.add(equipmentLoanOrReturn);
+            // find borrower and storage address and set those values
+            asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_LOCATIONS);
+            List<AssetLocation> assetLocations = asset.getAssetLocations();
+            if (ObjectUtils.isNotNull(assetLocations)) {
+                for (AssetLocation assetLocation : assetLocations) {
+                    if (CamsConstants.AssetLocationTypeCode.BORROWER.equals(assetLocation.getAssetLocationTypeCode())) {
+                        asset.setBorrowerLocation(assetLocation);
+                    }
+                    if (CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE.equals(assetLocation.getAssetLocationTypeCode())) {
+                        asset.setBorrowerStorageLocation(assetLocation);
+                    }
                 }
-            }
-            Comparator<EquipmentLoanOrReturnDocument> comparator = new Comparator<EquipmentLoanOrReturnDocument>() {
-                public int compare(EquipmentLoanOrReturnDocument o1, EquipmentLoanOrReturnDocument o2) {
-                    // sort descending based on document number
-                    return o2.getDocumentNumber().compareTo(o1.getDocumentNumber());
-                }
-            };
-            Collections.sort(sortableList, comparator);
-
-            if (!sortableList.isEmpty()) {
-                asset.setLoanOrReturnInfo(sortableList.get(0));
             }
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService#updateBorrowerLocation(org.kuali.module.cams.document.EquipmentLoanOrReturn)
      */
@@ -178,4 +161,3 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     }
 
 }
-

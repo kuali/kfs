@@ -366,7 +366,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
             finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
         }
-        boolean assetMovable = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
+        boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(finObjectSubTypeCode);
         
         AssetTransferDocumentAuthorizer documentAuthorizer = (AssetTransferDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(assetTransferDocument);
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, 

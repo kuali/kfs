@@ -76,17 +76,17 @@ public class AssetServiceTest extends KualiTestBase {
     }
 
     public void testIsMovableFinancialObjectSubtypeCode_Success() throws Exception {
-        assertTrue(assetService.isMovableFinancialObjectSubtypeCode("C2"));
+        assertTrue(assetService.isAssetMovableCheckByPayment("C2"));
     }
     
     public void testIsMovableFinancialObjectSubtypeCode_Failure() throws Exception {
-        assertFalse(assetService.isMovableFinancialObjectSubtypeCode("LI"));
+        assertFalse(assetService.isAssetMovableCheckByPayment("LI"));
         
         boolean failedAsExpected = false;
 
         // Test one that doesn't exist, throws exception
         try {
-            assetService.isMovableFinancialObjectSubtypeCode("XY");
+            assetService.isAssetMovableCheckByPayment("XY");
         }
         catch (ValidationException e) {
             failedAsExpected = true;

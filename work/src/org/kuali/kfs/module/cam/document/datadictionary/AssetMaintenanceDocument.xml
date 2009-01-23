@@ -455,7 +455,7 @@
               p:unconditionallyReadOnly="true" />
       </list>
     </property>
-  </bean>
+  </bean> 
   <bean id="AssetMaintenanceDocument-ViewAssetSeparateHistory" parent="AssetMaintenanceDocument-ViewAssetSeparateHistory-parentBean" />
 
   <bean id="AssetMaintenanceDocument-ViewAssetSeparateHistory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
@@ -472,7 +472,7 @@
       </list>
     </property>
   </bean>
-
+  
   <bean id="AssetMaintenanceDocument-ViewEquipmentLoanInformation" parent="AssetMaintenanceDocument-ViewEquipmentLoanInformation-parentBean" />
 
   <bean id="AssetMaintenanceDocument-ViewEquipmentLoanInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
@@ -492,45 +492,45 @@
         <bean parent="MaintainableSubSectionHeaderDefinition"
               p:name="Borrower Address" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerPerson.name"
+              p:name="borrowerLocation.assetLocationContactName"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerAddress"
+              p:name="borrowerLocation.assetLocationStreetAddress"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerCityName"
+              p:name="borrowerLocation.assetLocationCityName"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerStateCode"
+              p:name="borrowerLocation.assetLocationStateCode"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerZipCode"
+              p:name="borrowerLocation.assetLocationZipCode"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerCountryCode"
+              p:name="borrowerLocation.assetLocationCountryCode"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerPhoneNumber"
+              p:name="borrowerLocation.assetLocationPhoneNumber"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableSubSectionHeaderDefinition"
               p:name="Stored at Address" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerStorageAddress"
+              p:name="borrowerStorageLocation.assetLocationStreetAddress"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerStorageCityName"
+              p:name="borrowerStorageLocation.assetLocationCityName"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerStorageStateCode"
+              p:name="borrowerStorageLocation.assetLocationStateCode"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerStorageZipCode"
+              p:name="borrowerStorageLocation.assetLocationZipCode"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerStorageCountryCode"
+              p:name="borrowerStorageLocation.assetLocationCountryCode"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerStoragePhoneNumber"
+              p:name="borrowerStorageLocation.assetLocationPhoneNumber"
               p:unconditionallyReadOnly="true" />
       </list>
     </property>

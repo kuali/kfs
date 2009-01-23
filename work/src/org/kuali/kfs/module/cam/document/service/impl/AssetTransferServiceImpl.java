@@ -145,7 +145,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
                 finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
             }
-            boolean movableAsset = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
+            boolean movableAsset = getAssetService().isAssetMovableCheckByPayment(finObjectSubTypeCode);
             if (isGLPostable(document, asset, movableAsset)) {
                 asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
                 List<AssetPayment> assetPayments = asset.getAssetPayments();

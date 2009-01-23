@@ -72,10 +72,7 @@ public class GlLineServiceImpl implements GlLineService {
         }
         // save the document
         document.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
-        document.getOldMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primary.getGeneralLedgerAccountIdentifier());
-        document.getOldMaintainableObject().setBusinessObject((PersistableBusinessObject) ObjectUtils.deepCopy(assetGlobal));
-        document.getOldMaintainableObject().setBoClass(assetGlobal.getClass());
         document.getNewMaintainableObject().setBusinessObject(assetGlobal);
         document.getNewMaintainableObject().setBoClass(assetGlobal.getClass());
         documentService.saveDocument(document);

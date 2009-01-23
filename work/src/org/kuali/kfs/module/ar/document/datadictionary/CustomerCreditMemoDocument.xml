@@ -16,7 +16,6 @@
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentRule" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentPreRules" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerCreditMemoDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerCreditMemoDocumentPresentationController" />
     <property name="documentTypeCode" value="CRM" />
     <property name="attributes" >

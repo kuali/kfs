@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>AssetTransactionTypeMaintenanceDocument</name>
+<parent>PurchasingAccountsPayableSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>PretagMaintenanceDocument</name>
+<parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<label>Pre-Asset Tagging</label>
+</documentType>
+<documentType>
+<name>AssetAcquisitionTypeMaintenanceDocument</name>
+<parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetConditionMaintenanceDocument</name>
+<parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetDepreciationConventionMaintenanceDocument</name>
+<parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetDepreciationDocument</name>
+<parent>CapitalAssetManagementTransactionalDocument</parent>
+</documentType>
+<documentType>
+<name>AssetDepreciationMethodMaintenanceDocument</name>
+<parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetFabricationMaintenanceDocument</name>
+<parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Management"/>
+          <requests name="Management"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Management">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+<documentType>
+<name>AssetGlobalMaintenanceDocument</name>
+<parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+<documentType>
+<name>AssetLocationGlobalMaintenanceDocument</name>
+<parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetLocationTypeMaintenanceDocument</name>
+<parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetMaintenanceDocument</name>
+<parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetObjectCodeMaintenanceDocument</name>
+<parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetPaymentDocument</name>
+<parent>CapitalAssetManagementTransactionalDocument</parent>
+<docHandler>${application.url}/camsAssetPayment.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PlantFund"/>
+          <requests name="PlantFund"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="PlantFund">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+</routeNodes>
+</documentType>
+<documentType>
+<name>AssetRetirementGlobalMaintenanceDocument</name>
+<parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+<routePaths>
+        
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="RetiredAssetTransferredExternally"/>
+		  <split name="RetiredAssetTransferredExternally" nextNode="OrganizationHierarchy">
+						<branch name="True">
+							<requests name="ExternalTransfer"  nextNode="JoinRetiredAssetTransferredExternally"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOpExternal" nextNode="JoinRetiredAssetTransferredExternally"/>
+						</branch>
+						<join name="JoinRetiredAssetTransferredExternally"/>
+		  </split>
+          <requests name="OrganizationHierarchy"  nextNode="RetiredAssetSoldOrGifted"/>
+		  <split name="RetiredAssetSoldOrGifted">
+						<branch name="True">
+							<requests name="Purchasing" nextNode="JoinRetiredAssetSoldOrGifted"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="JoinRetiredAssetSoldOrGifted"/>
+						</branch>
+						<join name="JoinRetiredAssetSoldOrGifted"/>
+					</split>
+        </routePath>
+        
+        
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="ExternalTransfer">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Purchasing">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+
+<split name="RetiredAssetTransferredExternally">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<split name="RetiredAssetSoldOrGifted">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<simple name="NoOpExternal">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<join name="JoinRetiredAssetTransferredExternally"/>
+<join name="JoinRetiredAssetSoldOrGifted"/>
+</routeNodes>
+</documentType>
+
+<documentType>
+<name>AssetRetirementReasonMaintenanceDocument</name>
+<parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetStatusMaintenanceDocument</name>
+<parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>AssetTransferDocument</name>
+<parent>CapitalAssetManagementTransactionalDocument</parent>
+<docHandler>${application.url}/camsAssetTransfer.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+
+</routeNodes>
+</documentType>
+<documentType>
+<name>AssetTypeMaintenanceDocument</name>
+<parent>CapitalAssetManagementSimpleMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>BarcodeInventoryErrorDocument</name>
+<parent>CapitalAssetManagementTransactionalDocument</parent>
+<label>Barcode Inventory Error</label>
+<docHandler>${application.url}/camsBarcodeInventoryError.do?methodToCall=docHandler</docHandler>
+
+</documentType>
+<documentType>
+<name>CapitalAssetManagementComplexMaintenanceDocument</name>
+<parent>FinancialSystemComplexMaintenanceDocument</parent>
+</documentType>
+<documentType>
+<name>CapitalAssetManagementSimpleMaintenanceDocument</name>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
+
+</documentType>
+<documentType>
+<name>CapitalAssetManagementTransactionalDocument</name>
+<parent>FinancialSystemTransactionalDocument</parent>
+
+</documentType>
+<documentType>
+<name>EquipmentLoanOrReturnDocument</name>
+<parent>CapitalAssetManagementTransactionalDocument</parent>
+<docHandler>${application.url}/camsEquipmentLoanOrReturn.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <requests name="Account" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="Borrower"/>
+          <requests name="Borrower"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="Account">
+<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="OrganizationHierarchy">
+<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Borrower">
+<!--<ruleTemplate>KualiSubFundTemplate</ruleTemplate> -->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+
+</routeNodes>
+</documentType>
+</documentTypes>
+</data>

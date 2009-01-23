@@ -15,7 +15,7 @@
         <ref bean="AssetMaintenanceDocument-AssetLocation" />
         <ref bean="AssetMaintenanceDocument-OrganizationInformation" />
         <ref bean="AssetMaintenanceDocument-PaymentInformation" />
-		<!--  ref bean="AssetMaintenanceDocument-AssetPaymentLink" / -->        
+		<ref bean="AssetMaintenanceDocument-AssetPaymentLink" />        
         <ref bean="AssetMaintenanceDocument-FabricationInformation" />
         <ref bean="AssetMaintenanceDocument-LandInformation" />
         <ref bean="AssetMaintenanceDocument-AssetDepreciationInformation" />

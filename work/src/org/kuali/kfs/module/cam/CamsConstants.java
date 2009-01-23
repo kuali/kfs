@@ -222,7 +222,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_FABRICATION_INFORMATION = "fabricationInformation";
         public static final String SECTION_ID_LAND_INFORMATION = "landInformation";
         public static final String SECTION_ID_PAYMENT_INFORMATION = "paymentInformation";
-        public static final String SECTION_ID_PAYMENT_LOOKUP= "paymentsLookup";
+        public static final String SECTION_ID_PAYMENT_LOOKUP= "paymentLookup";
         public static final String SECTION_ID_DEPRECIATION_INFORMATION = "depreciationInformation";
         public static final String SECTION_ID_MERGE_HISTORY = "mergeHistory";
         public static final String SECTION_ID_HISTORY = "history";

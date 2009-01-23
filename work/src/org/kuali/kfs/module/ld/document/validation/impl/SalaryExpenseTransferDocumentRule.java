@@ -74,8 +74,6 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     protected boolean isValidAmountTransferredByObjectCode(AccountingDocument accountingDocument) {
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
 
-        // check if user is allowed to edit the object code.
-        String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         boolean isAdmin = false;
         
         TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(expenseTransferDocument);        

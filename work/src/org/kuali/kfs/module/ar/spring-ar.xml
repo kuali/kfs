@@ -576,14 +576,6 @@
 	
 	<!-- Workflow Lookupables -->
 	
-	<bean id="systemInformationLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.SystemInformationLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
-	
-	<bean id="systemInformationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="systemInformationLookupHelperService" />
-		</property>
-	</bean>
-	
 	<bean id="customerLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 	
     <bean id="customerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

@@ -31,6 +31,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
@@ -46,7 +47,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     private DataDictionary dataDictionary;
 
     public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
-        List<String> workflowDocumentTypeNames = new ArrayList<String>();
+        HashSet<String> workflowDocumentTypeNames = new HashSet<String>();
         DataSource mySource = SpringContext.getBean(DataSource.class);
         Connection dbCon = null;
         try {
@@ -60,6 +61,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
                     workflowDocumentTypeNames.add(docName);
                 }
             }
+            
         }
         catch (Exception e) {
             throw (e);
@@ -69,7 +71,11 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
         for (DocumentEntry documentEntry : documentEntries) {
             String name = documentEntry.getDocumentTypeName();
-            if (!workflowDocumentTypeNames.contains(name) && !"RiceUserMaintenanceDocument".equals(name)) {
+            String boName = new String(" ");
+            if (documentEntry instanceof FinancialSystemMaintenanceDocumentEntry){
+                boName=((FinancialSystemMaintenanceDocumentEntry)documentEntry).getBusinessObjectClass().getName();
+            }
+            if (!workflowDocumentTypeNames.contains(name) && !"RiceUserMaintenanceDocument".equals(name) && !boName.contains("rice")) {
                 ddEntriesWithMissingTypes.add(name);
             }
             else {
@@ -78,13 +84,32 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         }
 
         if (workflowDocumentTypeNames.size() > 0) {
-            System.err.print("superfluousTypesDefinedInWorkflowDatabase: " + workflowDocumentTypeNames);
-        }
-        assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
+            try{
+                //If documents are parent docs, then they aren't superfluous.
+                String queryString = "select distinct doc_typ_nm from krew_doc_typ_t"
+                    +" where doc_typ_id in (select parnt_id from krew_doc_typ_t"
+                    +" where actv_ind = 1"
+                    +" and cur_ind = 1)";
+                Statement dbAsk = dbCon.createStatement();
+                ResultSet dbAnswer = dbAsk.executeQuery(queryString);
+                while (dbAnswer.next()) {
+                    String docName = dbAnswer.getString(1);
+                    if (StringUtils.isNotBlank(docName)) {
+                        workflowDocumentTypeNames.remove(docName);
+                    }
+                }
+            }catch (Exception e){
+                throw (e);
+            }
+        
+        System.err.print("superfluousTypesDefinedInWorkflowDatabase: " + workflowDocumentTypeNames);
     }
-    
+    assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
+}
+
     private final static Class[] INACTIVATEABLE_LOOKUP_IGNORE_CLASSES = new Class[] { Account.class, BudgetConstructionPosition.class, PendingBudgetConstructionAppointmentFunding.class };
-    // org.kuali.kfs.coa.businessobject.Account is excepted from testActiveFieldExistInLookupAndResultSection because it uses the active-derived Closed? indicator instead (KFSMI-1393)
+    // org.kuali.kfs.coa.businessobject.Account is excepted from testActiveFieldExistInLookupAndResultSection because it uses the
+    // active-derived Closed? indicator instead (KFSMI-1393)
 
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{
         List<Class> noActiveFieldClassList = new ArrayList<Class>();

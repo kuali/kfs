@@ -39,7 +39,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-@ConfigureContext
+@ConfigureContext(shouldCommitTransactions=true)
 @AnnotationTestSuite(PreCommitSuite.class)
 public class ParameterConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(ParameterConfigurationTest.class);
@@ -49,6 +49,7 @@ public class ParameterConfigurationTest extends KualiTestBase {
      * This method...
      * @throws Exception
      */
+    
     public void testValidateParameterComponents() throws Exception {
         Collection<Parameter> params = SpringContext.getBean(BusinessObjectService.class).findAll(Parameter.class);
         ParameterRule paramRule = new ParameterRule();

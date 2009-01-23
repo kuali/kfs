@@ -44,22 +44,6 @@ public class PdpConstants {
         public static String OTHER = "X";
     }
 
-//    public static class Groups {
-//        // Security Workgroup names
-//        public static String CANCEL_GROUP = "PD_CANCEL_USERS";
-//        public static String HOLD_GROUP = "PD_HOLD_USERS";
-//        public static String LIMITEDVIEW_GROUP = "PD_LIMITED_VIEW";
-//        public static String PROCESS_GROUP = "PD_PROCESS_PAYMENTS";
-//        public static String RANGES_GROUP = "PD_RANGE_USERS";
-//        public static String SUBMIT_GROUP = "PD_SUBMIT_PAYMENT_FILE_USERS";
-//        public static String SYSADMIN_GROUP = "PD_SUPER_USERS";
-//        public static String TAXHOLDERS_GROUP = "PD_TAX_HOLD_USERS";
-//        public static String VIEWALL_GROUP = "PD_VIEW_ALL";
-//        public static String VIEWID_GROUP = "PD_VIEW_ID";
-//        public static String VIEWBANK_GROUP = "PD_VIEW_BANK";
-//        public static String VIEWIDPARTIALBANK_GROUP = "PD_VIEW_ID_AND PARTIAL_BANK";
-//    }
-
     public static class DisbursementTypeCodes {
         public static String CHECK = "CHCK";
         public static String ACH = "ACH";

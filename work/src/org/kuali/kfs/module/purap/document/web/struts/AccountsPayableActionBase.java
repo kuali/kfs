@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -129,8 +130,16 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         if (SpringContext.getBean(KualiRuleService.class).applyRules(new PreCalculateAccountsPayableEvent(apDoc))) {
             customCalculate(apDoc);
 
-            // doesn't really matter what happens above we still reset the calculate flag
-            apForm.setCalculated(true);
+            // set calculated flag according to document type and status
+            if (apForm instanceof PaymentRequestForm && apDoc.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+                // set calculated tax flag for tax area calculation 
+                PaymentRequestForm preqForm = (PaymentRequestForm)apForm;
+                preqForm.setCalculatedTax(true);
+            }
+            else {
+                // set calculated flag for document calculation, whether or not the process calculation rule passes, since it only gives warning
+                apForm.setCalculated(true);
+            }
         }
 
         return super.calculate(mapping, form, request, response);

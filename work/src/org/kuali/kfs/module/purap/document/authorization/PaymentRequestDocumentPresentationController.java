@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +24,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.CreditMemoEditMode;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -133,40 +134,40 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         
         //add state logic for when an AP processor can cancel the doc
         if (canProcessorCancel(paymentRequestDocument)) {
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL);
+            editModes.add(PaymentRequestEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL);
         }
         
         //add state logic for when an AP manager can cancel the doc
         if (canManagerCancel(paymentRequestDocument)) {
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.ACCOUNTS_PAYABLE_MANAGER_CANCEL);
+            editModes.add(PaymentRequestEditMode.ACCOUNTS_PAYABLE_MANAGER_CANCEL);
         }
         
         if (paymentRequestDocument.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.INITIATE)) {
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB);
+            editModes.add(PaymentRequestEditMode.DISPLAY_INIT_TAB);
         }
         
         if (ObjectUtils.isNotNull(paymentRequestDocument.getVendorHeaderGeneratedIdentifier())) {
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.LOCK_VENDOR_ENTRY);
+            editModes.add(PaymentRequestEditMode.LOCK_VENDOR_ENTRY);
         }
         
         // always show amount after full entry
         if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
+            editModes.add(PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
         }
         else if (ObjectUtils.isNotNull(paymentRequestDocument.getPurchaseOrderDocument()) && PurapConstants.PurchaseOrderStatuses.OPEN.equals(paymentRequestDocument.getPurchaseOrderDocument().getStatusCode())) {
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_CLOSE_PURCHASE_ORDER);
+            editModes.add(PaymentRequestEditMode.ALLOW_CLOSE_PURCHASE_ORDER);
         }
 
         if (!paymentRequestDocument.isExtracted() && 
             !workflowDocument.isAdHocRequested() && 
             !paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT);
+            editModes.add(PaymentRequestEditMode.EDIT_PRE_EXTRACT);
         }
 
         // if use tax, don't allow editing of tax fields
         if (paymentRequestDocument.isUseTaxIndicator()) {
-            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES);
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.LOCK_TAX_AMOUNT_ENTRY);
+            editModes.add(CreditMemoEditMode.CLEAR_ALL_TAXES);
+            editModes.add(PaymentRequestEditMode.LOCK_TAX_AMOUNT_ENTRY);
         }
 
         // See if purap tax is enabled
@@ -175,18 +176,21 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
             editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
         }
 
-        //FIXME is this the right status?  should it check to see if there is data too?
+        // tax area tab editable while waiting for tax review
+        if (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
+            editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
+        }
         // after tax is approved, the tax tab is viewable to everyone
-        if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(paymentRequestDocument.getStatusCode())) {
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_INFO_VIEWABLE);
+        else if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(paymentRequestDocument.getStatusCode())) {
+            editModes.add(PaymentRequestEditMode.TAX_INFO_VIEWABLE);
         }
 
         if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
             // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.RESTRICT_FISCAL_ENTRY);
+            editModes.add(PaymentRequestEditMode.RESTRICT_FISCAL_ENTRY);
 
             // expense_entry was already added in super, add amount edit mode
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
+            editModes.add(PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
 
             // only do line item check if the hold/cancel indicator is false, otherwise document editing should be turned off.
             if (!paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
@@ -203,7 +207,7 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         }
 
         if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.VENDOR_TAX_REVIEW)) {
-            editModes.add(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_AREA_EDITABLE);
+            editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
         return editModes;
     }

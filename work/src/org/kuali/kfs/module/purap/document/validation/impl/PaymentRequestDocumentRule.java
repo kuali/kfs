@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,6 +30,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -229,10 +229,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      * @see org.kuali.kfs.module.purap.document.validation.CalculateAccountsPayableRule#processCalculateAccountsPayableBusinessRules(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public boolean processCalculateAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) apDocument;
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) apDocument;
         // Give warnings for the following. The boolean results of the calls are not to be used here.
         boolean totalsMatch = validateTotals(paymentRequestDocument);
         boolean payDateOk = validatePayDateNotOverThresholdDaysAway(paymentRequestDocument);
@@ -255,7 +255,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processPreCalculateAccountsPayableBusinessRules(AccountsPayableDocument document) {
         boolean valid = true;
         PaymentRequestDocument preqDocument = (PaymentRequestDocument) document;
-
+        if (preqDocument.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+            valid = validateTaxArea(preqDocument);
+        }
         return valid;
     }
 
@@ -1199,7 +1201,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      * @param paymentRequest - payment request document
      * @return true if all business rules applicable passes; false otherwise.
      */
-    public boolean ProcessPreCalculateTaxAreaBusinessRules(PaymentRequestDocument preq) {
+    public boolean validateTaxArea(PaymentRequestDocument preq) {
         boolean valid = true;        
         ErrorMap errorMap = GlobalVariables.getErrorMap();        
         errorMap.clearErrorPath();

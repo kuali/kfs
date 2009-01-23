@@ -623,7 +623,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * 
      * @return - Accounting Line object for first account of first payment item.
      */
-    private PurApAccountingLine getFirstAccount() {
+    public PurApAccountingLine getFirstAccount() {
         // loop through items, and pick the first item
         if ((getItems() != null) && (!getItems().isEmpty())) {
             PaymentRequestItem itemToUse = null;

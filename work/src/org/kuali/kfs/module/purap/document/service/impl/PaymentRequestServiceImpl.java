@@ -29,10 +29,13 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
+import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
@@ -43,6 +46,7 @@ import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalL
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -63,12 +67,12 @@ import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -76,9 +80,9 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -663,6 +667,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void calculatePaymentRequest(PaymentRequestDocument paymentRequest, boolean updateDiscount) {
         LOG.debug("calculatePaymentRequest() started");
 
+        // calculation just for the tax area, only at tax review stage
+        // by now, the general calculation shall have been done.
+        if (paymentRequest.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+            calculateTaxArea(paymentRequest);
+            return;
+        }
+        
+        // general calculation, i.e. for the whole preq document
         if (ObjectUtils.isNull(paymentRequest.getPaymentRequestPayDate())) {
             paymentRequest.setPaymentRequestPayDate(calculatePayDate(paymentRequest.getInvoiceDate(), paymentRequest.getVendorPaymentTerms()));
         }
@@ -711,7 +723,235 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
 
     }
+    
+    /**
+     * Performs calculations on the tax edit area, generates and adds NRA tax charge items as below the line items, with their accounting lines; 
+     * the calculation will activate updates on the account summary tab and the general ledger entries as well.
+     *
+     * The non-resident alien (NRA) tax lines consist of four possible sets of tax lines: 
+     * - Federal tax lines
+     * - Federal Gross up tax lines
+     * - State tax lines
+     * - State Gross up tax lines
+     * 
+     * Federal tax lines are generated if the federal tax rate in the payment request is not zero.
+     * State tax lines are generated if the state tax rate in the payment request is not zero.
+     * Gross up tax lines are generated if the tax gross up indicator is set on the payment request and the tax rate is not zero.
+     * 
+     * @param preq The payment request the NRA tax lines will be added to.
+     * 
+     */
+    private void calculateTaxArea(PaymentRequestDocument preq) {
 
+        // remove all existing tax items added by previous calculation
+        removeTaxItems(preq);
+        
+        // reserve the grand total excluding any tax amount, to be used as the base to compute all tax items
+        // if we don't reserve this, the pre tax total could be changed as new tax items are added 
+        KualiDecimal taxableAmount = preq.getGrandPreTaxTotal();  
+        
+        // generated and add state tax gross up item and its accounting line, update total amount, 
+        // if gross up indicator is true and tax rate is non-zero
+        if (preq.getGrossUpIndicator() && !KualiDecimal.ZERO.equals(preq.getStateTaxPercent())) {
+            PurApItem stateGrossItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE, taxableAmount);
+            // FIXME which total to update?
+            //preq.setGrandTotal(preq.getGrandTotal().add(stateGrossItem.getExtendedPrice())); // FIXME which total to update?
+        }        
+
+        // generated and add state tax item and its accounting line, update total amount, if tax rate is non-zero
+        if (!KualiDecimal.ZERO.equals(preq.getStateTaxPercent())) {
+            PurApItem stateTaxItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE, taxableAmount);
+            // FIXME which total to update?
+            //preq.setGrandTotal(preq.getGrandTotal().add(stateTaxItem.getExtendedPrice())); 
+        }
+
+        // generated and add federal tax gross up item and its accounting line, update total amount, 
+        // if gross up indicator is true and tax rate is non-zero
+        if (preq.getGrossUpIndicator() && !KualiDecimal.ZERO.equals(preq.getFederalTaxPercent())) {
+            PurApItem federalGrossItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE, taxableAmount);
+            // FIXME which total to update?
+            //preq.setGrandTotal(preq.getGrandTotal().add(federalGrossItem.getExtendedPrice())); 
+        }
+
+        // generated and add federal tax item and its accounting line, update total amount, if tax rate is non-zero
+        if (!KualiDecimal.ZERO.equals(preq.getFederalTaxPercent())) {
+            PurApItem federalTaxItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE, taxableAmount);
+            // FIXME which totals to update?
+            //preq.setGrandTotal(preq.getGrandTotal().add(federalTaxItem.getExtendedPrice())); 
+        }
+
+        //FIXME update account summary?
+        
+        //FIXME update GL entries?
+        
+        //FIXME if user request to add zero tax lines and remove them after tax approval,
+        // then remove the conditions above when adding the tax lines, and
+        // add a branch in PaymentRequestDocument.processNodeChange to call PurapService.deleteUnenteredItems         
+    }
+    
+    /**
+     * Removes all existing NRA tax items from the specified payment request.
+     * 
+     * @param preq The payment request from which all tax items are to be removed.
+     */
+    private void removeTaxItems(PaymentRequestDocument preq) {
+        List<PurApItem> items = (List<PurApItem>) preq.getItems();
+        for (int i=0; i < items.size(); i++) {
+            PurApItem item = items.get(i);
+            String code = item.getItemTypeCode();
+            if (ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE.equals(code) || ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE.equals(code) || 
+                    ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE.equals(code) || ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE.equals(code)) {
+                items.remove(i--);
+            }
+        }
+    }    
+
+    /**
+     * Generates a NRA tax item and adds to the specified payment request, according to the specified item type code.
+     * 
+     * @param preq The payment request the tax item will be added to.
+     * @param itemTypeCode The item type code for the tax item.
+     * @param taxableAmount The amount to which tax is computed against.
+     * @return A fully populated PurApItem instance representing NRA tax amount data for the specified payment request.
+     */
+    private PurApItem addTaxItem(PaymentRequestDocument preq, String itemTypeCode, KualiDecimal taxableAmount) {
+        PurApItem taxItem = null;
+        
+        try {
+            taxItem = (PurApItem)preq.getItemClass().newInstance();
+        }
+        catch (IllegalAccessException e) {
+            throw new InfrastructureException("Unable to access itemClass", e);
+        }
+        catch (InstantiationException e) {
+            throw new InfrastructureException("Unable to instantiate itemClass", e);
+        }
+
+        // add item to preq before adding the accounting line
+        taxItem.setItemTypeCode(itemTypeCode);
+        preq.addItem(taxItem);
+
+        // generate and add tax accounting line
+        PurApAccountingLine taxLine = addTaxAccountingLine(taxItem, taxableAmount);
+        
+        // set extended price amount as now it's calculated when accounting line is generated
+        taxItem.setItemUnitPrice(taxLine.getAmount().bigDecimalValue()); 
+        taxItem.setExtendedPrice(taxLine.getAmount()); 
+        
+        // use item type description as the item description
+        ItemType itemType = new ItemType();
+        itemType.setItemTypeCode(itemTypeCode);
+        itemType = (ItemType) businessObjectService.retrieve(itemType);
+        taxItem.setItemType(itemType);              
+        taxItem.setItemDescription(itemType.getItemTypeDescription());              
+        //FIXME what else need to be set?
+        
+        return taxItem;
+    }
+    
+    /**
+     * Generates a PurAP accounting line and adds to the specified tax item.
+     * 
+     * @param taxItem The specified tax item the accounting line will be associated with. 
+     * @param taxableAmount The amount to which tax is computed against.
+     * @return A fully populated PurApAccountingLine instance for the specified tax item.
+     */
+    private PurApAccountingLine addTaxAccountingLine(PurApItem taxItem, KualiDecimal taxableAmount) {
+        PaymentRequestDocument preq = taxItem.getPurapDocument();
+        PurApAccountingLine taxLine = null;
+        
+        try {        
+            taxLine = (PurApAccountingLine)taxItem.getAccountingLineClass().newInstance();
+        }
+        catch (IllegalAccessException e) {
+            throw new InfrastructureException("Unable to access sourceAccountingLineClass", e);
+        }
+        catch (InstantiationException e) {
+            throw new InfrastructureException("Unable to instantiate sourceAccountingLineClass", e);
+        }
+       
+        // use pre-tax total amount as taxable amount
+        KualiDecimal taxAmount = null;
+        String taxChart = null;
+        String taxAccount = null;
+        String taxObjectCode = null;
+        
+        // obtain accounting line info and calculate tax amount according to item type code
+        if (ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE.equals(taxItem.getItemTypeCode())) {
+            //FIXME get chart, account, object code info from parameters
+            taxChart = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_CHART_SUFFIX);
+            taxAccount = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_ACCOUNT_SUFFIX);
+            taxObjectCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, preq.getTaxClassificationCode());
+
+            if (StringUtils.isBlank(taxChart) || StringUtils.isBlank(taxAccount) || StringUtils.isBlank(taxObjectCode)) {
+                LOG.error("Unable to retrieve federal tax parameters.");
+                throw new RuntimeException("Unable to retrieve federal tax parameters.");
+            }
+            
+            // federal tax amount
+            BigDecimal taxPercent = preq.getFederalTaxPercent();
+            BigDecimal taxDecimal = taxPercent.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
+            taxAmount = new KualiDecimal(taxableAmount.bigDecimalValue().multiply(taxDecimal).negate());                
+        }
+        else if (ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE.equals(taxItem.getItemTypeCode())) {
+            //FIXME use first item's first accounting line for gross line attributes
+            AccountingLine line1 = preq.getFirstAccount();        
+            taxChart = line1.getChartOfAccountsCode();
+            taxAccount = line1.getAccountNumber();
+            taxObjectCode = line1.getFinancialObjectCode();
+
+            // federal tax gross up amount
+            BigDecimal taxPercent = preq.getFederalTaxPercent();
+            BigDecimal taxDecimal = taxPercent.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
+            taxAmount = new KualiDecimal(taxableAmount.bigDecimalValue().multiply(taxDecimal));                
+        }            
+        else if (ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE.equals(taxItem.getItemTypeCode())) {
+            //FIXME get chart, account, object code info from parameters
+            taxChart = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_CHART_SUFFIX);
+            taxAccount = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_ACCOUNT_SUFFIX);
+            taxObjectCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, preq.getTaxClassificationCode());
+
+            if (StringUtils.isBlank(taxChart) || StringUtils.isBlank(taxAccount) || StringUtils.isBlank(taxObjectCode)) {
+                LOG.error("Unable to retrieve state tax parameters.");
+                throw new RuntimeException("Unable to retrieve state tax parameters.");
+            }
+            
+            // state tax amount
+            BigDecimal taxPercent = preq.getStateTaxPercent();
+            BigDecimal taxDecimal = taxPercent.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
+            taxAmount = new KualiDecimal(taxableAmount.bigDecimalValue().multiply(taxDecimal).negate());                                        
+        }
+        else if (ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE.equals(taxItem.getItemTypeCode())) {
+            //FIXME use first item's first accounting line for gross line attributes
+            AccountingLine line1 = preq.getSourceAccountingLine(0);        
+            taxChart = line1.getChartOfAccountsCode();
+            taxAccount = line1.getAccountNumber();
+            taxObjectCode = line1.getFinancialObjectCode();
+
+            // state tax gross up amount
+            BigDecimal taxPercent = preq.getStateTaxPercent();
+            BigDecimal taxDecimal = taxPercent.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
+            taxAmount = new KualiDecimal(taxableAmount.bigDecimalValue().multiply(taxDecimal));                
+        }
+            
+        // populate necessary accounting line fields
+        taxLine.setDocumentNumber(preq.getDocumentNumber());
+        taxLine.setSequenceNumber(preq.getNextSourceLineNumber());
+        taxLine.setChartOfAccountsCode(taxChart);
+        taxLine.setAccountNumber(taxAccount);
+        taxLine.setFinancialObjectCode(taxObjectCode);
+        taxLine.setAmount(taxAmount);
+        //FIXME anything else to set?
+
+        // add the accounting line to the item
+        taxLine.setItemIdentifier(taxItem.getItemIdentifier());
+        taxLine.setPurapItem(taxItem);        
+        taxItem.getSourceAccountingLines().add(taxLine);
+        //FIXME anything else to update?
+        
+        return taxLine;
+    }
+    
     /**
      * Finds the discount item of the payment request document.
      * 
@@ -750,17 +990,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
             if ((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) && (KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0)) {
                 if ((StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, item.getItemType().getItemTypeCode())) && (paymentRequestDocument.getGrandTotal() != null) && ((KualiDecimal.ZERO.compareTo(paymentRequestDocument.getGrandTotal()) != 0))) {
-
                     totalAmount = paymentRequestDocument.getGrandTotal();
-
                     summaryAccounts = purapAccountingService.generateSummary(paymentRequestDocument.getItems());
-
                     distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
-
                 }
                 else {
-
-
                     PurchaseOrderItem poi = item.getPurchaseOrderItem();
                     if ((poi != null) && (poi.getSourceAccountingLines() != null) && (!(poi.getSourceAccountingLines().isEmpty())) && (poi.getExtendedPrice() != null) && ((KualiDecimal.ZERO.compareTo(poi.getExtendedPrice())) != 0)) {
                         // use accounts from purchase order item matching this item

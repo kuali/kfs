@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -195,6 +196,9 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         // check user authorization: whoever can edit can calculate
         can = can && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
 
+        //FIXME this is temporary so that calculate will show up at tax
+        can = can || editingMode.containsKey(PaymentRequestEditMode.TAX_AREA_EDITABLE);
+        
         return can;
     }
 

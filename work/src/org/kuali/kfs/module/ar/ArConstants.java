@@ -78,6 +78,7 @@ public class ArConstants {
         public static final String TOTAL_61_TO_90 = "total61to90";
         public static final String TOTAL_91_TO_SYSPR = "total90toSYSPR";
         public static final String TOTAL_SYSPR_PLUS_1_OR_MORE = "totalSYSPRplus1orMore";
+        public static final String TOTAL_AMOUNT_DUE = "totalAmountDue";
     }    
 
     public static class OrganizationAccountingOptionsConstants {

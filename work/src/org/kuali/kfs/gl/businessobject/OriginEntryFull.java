@@ -55,7 +55,7 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
     private ProjectCode project;
     private GeneralLedgerInputType generalLedgerInputType;
     private UniversityDate universityDate;
-    private SystemOptions option;
+    private SystemOptions systemOptions;
     private AccountingPeriod accountingPeriod;
     private UniversityDate reversalDate;
     private OriginationCode origination;
@@ -249,12 +249,12 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.objectType = objectType;
     }
 
-    public SystemOptions getOption() {
-        return option;
+    public SystemOptions getSystemOptions() {
+        return systemOptions;
     }
 
-    public void setOption(SystemOptions option) {
-        this.option = option;
+    public void setSystemOptions(SystemOptions systemOptions) {
+        this.systemOptions = systemOptions;
     }
 
     public ProjectCode getProject() {

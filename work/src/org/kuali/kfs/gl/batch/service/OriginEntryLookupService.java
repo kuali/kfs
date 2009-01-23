@@ -81,9 +81,9 @@ public interface OriginEntryLookupService {
      * @param entry the origin entry to retrieve the related options record of
      * @return the related Options record, or null if not found
      */
-    public SystemOptions getOption(OriginEntry entry);
+    public SystemOptions getSystemOptions(OriginEntry entry);
     
-    public SystemOptions getOption(Integer fiscalYear);
+    public SystemOptions getSystemOptions(Integer fiscalYear);
 
     /**
      * Get object type for given origin entry

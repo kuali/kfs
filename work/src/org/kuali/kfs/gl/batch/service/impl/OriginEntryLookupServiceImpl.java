@@ -183,12 +183,12 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @return the related Options record, or null if not found
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getOption(org.kuali.module.gl.bo.OriginEntry)
      */
-    public SystemOptions getOption(OriginEntry entry) {
-        return cachingDao.getOption(entry);
+    public SystemOptions getSystemOptions(OriginEntry entry) {
+        return cachingDao.getSystemOptions(entry);
     }
 
-    public SystemOptions getOption(Integer fiscalYear) {
-        return cachingDao.getOption(fiscalYear);
+    public SystemOptions getSystemOptions(Integer fiscalYear) {
+        return cachingDao.getSystemOptions(fiscalYear);
     }
 
     //TODO: should fail the modularization test -- will be moved to Labor

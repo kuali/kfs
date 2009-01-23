@@ -56,4 +56,6 @@ public interface ScrubberService {
      * @param dateTimeService an implementation of dateTimeService to set
      */
     public void setDateTimeService(DateTimeService dateTimeService);
+    
+    public void performDemerger();
 }

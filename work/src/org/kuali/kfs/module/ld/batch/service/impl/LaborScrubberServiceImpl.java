@@ -22,10 +22,13 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryLookupService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -50,6 +53,8 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     private PersistenceService persistenceService;
     private LaborReportService laborReportService;
     private ScrubberValidator scrubberValidator;
+    
+    private String batchFileDirectoryName;
 
     /**
      * @see org.kuali.module.labor.service.ScrubberService#scrubGroupReportOnly(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
@@ -60,8 +65,10 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        sp.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
         sp.scrubGroupReportOnly(group, documentNumber);
+        sp.setReferenceLookup(null);
     }
 
     /**
@@ -73,9 +80,20 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        sp.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
         sp.scrubEntries();
+        sp.setReferenceLookup(null);
     }
+    
+    public void performDemerger() {
+        LOG.debug("performDemerger() started");
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        sp.performDemerger();
+                
+    }
+    
+    
 
     /**
      * Sets the flexibleOffsetAccountService attribute value.
@@ -89,7 +107,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     /**
      * Sets the generalLedgerInputTypeService attribute value.
      * 
-     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     * @param generalLedgerInputTypeService The documentTypeService to set.
      */
     public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
         this.generalLedgerInputTypeService = generalLedgerInputTypeService;
@@ -183,5 +201,9 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      */
     public void setLaborReportService(LaborReportService laborReportService) {
         this.laborReportService = laborReportService;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2007 The Kuali Foundation.
- 
+
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -57,6 +57,8 @@
 				<value>manualPurgeJob</value>
 				<value>clearOldOriginEntriesJob</value>
 				<value>purgeCorrectionProcessFilesJob</value>
+
+				
 			</list>
 		</property>
 		<property name="fiscalYearMakers">
@@ -613,6 +615,7 @@
 		<property name="originEntryLiteService">
 			<ref bean="originEntryLiteService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
 	</bean>
 
 	<bean id="scrubberValidator" class="org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl">
@@ -753,6 +756,10 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
+		</property>
 	</bean>
 
 	<bean id="glEntryService" class="org.kuali.kfs.gl.service.impl.EntryServiceImpl">
@@ -866,6 +873,7 @@
 		<property name="reportService">
 			<ref bean="reportService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
 	</bean>
 
 	<bean id="glCollectorDetailService" class="org.kuali.kfs.gl.service.impl.CollectorDetailServiceImpl">
@@ -895,6 +903,9 @@
 	<bean id="glPostSufficientFundBalances" class="org.kuali.kfs.gl.batch.service.impl.PostSufficientFundBalances">
 		<property name="sufficientFundBalancesDao">
 			<ref bean="glSufficientFundBalancesDao" />
+		</property>
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
 		</property>
 	</bean>
 
@@ -1136,11 +1147,25 @@
 		</property>
 	</bean>
 	
+	<bean id="fileRenameJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="fileRenameStep" />
+			</list>
+		</property>
+	</bean>
+	
+	
 	<bean id="scrubberJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
+				<!--  TODO: converting backupGroupStep from DB to File-->
 				<ref bean="createBackupGroupStep" />
+				<ref bean="scrubberSortStep" />
 				<ref bean="scrubberStep" />
+				<ref bean="demergerSortStep" />
+				<ref bean="demergerStep" />
+				
 			</list>
 		</property>
 		<property name="dependencies">
@@ -1157,10 +1182,12 @@
 	<bean id="posterJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
+				<ref bean="posterSortStep" />
 				<ref bean="posterEntriesStep" />
 				<ref bean="posterReversalStep" />
 				<ref bean="posterIndirectCostRecoveryGenerationStep" />
 				<ref bean="posterIndirectCostRecoveryEntriesStep" />
+				<ref bean="fileRenameStep" />
 			</list>
 		</property>
 		<property name="dependencies">
@@ -1368,7 +1395,44 @@
 			<ref bean="glSufficientFundsRebuilderService" />
 		</property>
 	</bean>
+	
+	<bean id="demergerStep" class="org.kuali.kfs.gl.batch.DemergerStep" parent="step">
+		<property name="scrubberService">
+			<ref bean="glScrubberService" />
+		</property>
+	</bean>
+	
+	<bean id="scrubberSortStep" class="org.kuali.kfs.gl.batch.ScrubberSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+	</bean>
+	
+	<bean id="demergerSortStep" class="org.kuali.kfs.gl.batch.DemergerSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+	</bean>
 
+	<bean id="posterSortStep" class="org.kuali.kfs.gl.batch.PosterSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+	</bean>
+	
+	
+	
+	
+	
+	
+	
+	
+	<bean id="fileRenameStep" class="org.kuali.kfs.gl.batch.FileRenameStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+	</bean>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<bean id="scrubberStep" class="org.kuali.kfs.gl.batch.ScrubberStep" parent="step">
 		<property name="scrubberService">
 			<ref bean="glScrubberService" />

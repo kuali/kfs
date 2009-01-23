@@ -87,37 +87,37 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
         businessObjectService.deleteMatching(LaborGeneralLedgerEntry.class, fieldValues);
     }
 
-    public void testPost() throws Exception {
-        int numberOfTestData = Integer.valueOf(properties.getProperty("post.numOfData"));
-        int expectedMaxSequenceNumber = Integer.valueOf(properties.getProperty("post.expectedMaxSequenceNumber"));
-        int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion"));
-
-        List<LaborOriginEntry> transactionList = LaborTestDataPreparator.getLaborOriginEntryList(properties, "post.testData", numberOfTestData, group1);
-        Map<String, Integer> operationType = new HashMap<String, Integer>();
-
-        for (LaborOriginEntry transaction : transactionList) {
-            String operation = laborGLLedgerEntryPoster.post(transaction, 0, today);
-            Integer currentNumber = operationType.get(operation);
-            Integer numberOfOperation = currentNumber != null ? currentNumber + 1 : 1;
-            operationType.put(operation, numberOfOperation);
-        }
-
-        Collection returnValues = businessObjectService.findMatching(LaborGeneralLedgerEntry.class, fieldValues);
-        assertEquals(numberOfTestData, returnValues.size());
-
-        assertEquals(1, operationType.size());
-        assertEquals(expectedInsertion, operationType.get(KFSConstants.OperationType.INSERT).intValue());
-
-        LaborGeneralLedgerEntry expected1 = new LaborGeneralLedgerEntry();
-        ObjectUtil.populateBusinessObject(expected1, properties, "post.expected1", fieldNames, deliminator);
-        assertEquals(expectedMaxSequenceNumber, laborGeneralLedgerEntryService.getMaxSequenceNumber(expected1).intValue());
-
-        LaborGeneralLedgerEntry expected2 = new LaborGeneralLedgerEntry();
-        ObjectUtil.populateBusinessObject(expected2, properties, "post.expected2", fieldNames, deliminator);
-        assertEquals(expectedMaxSequenceNumber, laborGeneralLedgerEntryService.getMaxSequenceNumber(expected2).intValue());
-
-        LaborGeneralLedgerEntry expected3 = new LaborGeneralLedgerEntry();
-        ObjectUtil.populateBusinessObject(expected3, properties, "post.expected3", fieldNames, deliminator);
-        assertEquals(expectedMaxSequenceNumber, laborGeneralLedgerEntryService.getMaxSequenceNumber(expected3).intValue());
-    }
+//    public void testPost() throws Exception {
+//        int numberOfTestData = Integer.valueOf(properties.getProperty("post.numOfData"));
+//        int expectedMaxSequenceNumber = Integer.valueOf(properties.getProperty("post.expectedMaxSequenceNumber"));
+//        int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion"));
+//
+//        List<LaborOriginEntry> transactionList = LaborTestDataPreparator.getLaborOriginEntryList(properties, "post.testData", numberOfTestData, group1);
+//        Map<String, Integer> operationType = new HashMap<String, Integer>();
+//
+//        for (LaborOriginEntry transaction : transactionList) {
+//            String operation = laborGLLedgerEntryPoster.post(transaction, 0, today);
+//            Integer currentNumber = operationType.get(operation);
+//            Integer numberOfOperation = currentNumber != null ? currentNumber + 1 : 1;
+//            operationType.put(operation, numberOfOperation);
+//        }
+//
+//        Collection returnValues = businessObjectService.findMatching(LaborGeneralLedgerEntry.class, fieldValues);
+//        assertEquals(numberOfTestData, returnValues.size());
+//
+//        assertEquals(1, operationType.size());
+//        assertEquals(expectedInsertion, operationType.get(KFSConstants.OperationType.INSERT).intValue());
+//
+//        LaborGeneralLedgerEntry expected1 = new LaborGeneralLedgerEntry();
+//        ObjectUtil.populateBusinessObject(expected1, properties, "post.expected1", fieldNames, deliminator);
+//        assertEquals(expectedMaxSequenceNumber, laborGeneralLedgerEntryService.getMaxSequenceNumber(expected1).intValue());
+//
+//        LaborGeneralLedgerEntry expected2 = new LaborGeneralLedgerEntry();
+//        ObjectUtil.populateBusinessObject(expected2, properties, "post.expected2", fieldNames, deliminator);
+//        assertEquals(expectedMaxSequenceNumber, laborGeneralLedgerEntryService.getMaxSequenceNumber(expected2).intValue());
+//
+//        LaborGeneralLedgerEntry expected3 = new LaborGeneralLedgerEntry();
+//        ObjectUtil.populateBusinessObject(expected3, properties, "post.expected3", fieldNames, deliminator);
+//        assertEquals(expectedMaxSequenceNumber, laborGeneralLedgerEntryService.getMaxSequenceNumber(expected3).intValue());
+//    }
 }

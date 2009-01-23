@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryLite;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -120,12 +120,12 @@ public class GeneralLedgerPendingEntryReport {
             KualiDecimal totalDocumentDebit = KualiDecimal.ZERO;
             KualiDecimal totalDocumentBlank = KualiDecimal.ZERO;
 
-            OriginEntryFull lastEntry = null;
+            OriginEntryLite lastEntry = null;
 
             boolean firstAccount = true;
 
             while (entries.hasNext()) {
-                OriginEntryFull entry = (OriginEntryFull) entries.next();
+                OriginEntryLite entry = (OriginEntryLite) entries.next();
 
                 String docNumber = entry.getFinancialSystemOriginationCode() + "-" + entry.getDocumentNumber();
 

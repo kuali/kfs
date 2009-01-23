@@ -124,6 +124,15 @@ public class ReportServiceImpl implements ReportService {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
         glper.generateReport(runDate, reportsDirectory, sdf, originEntryService.getEntriesByGroupReportOrder(group));
     }
+    
+    // shawn - we need to change this to make it use file system?
+    public void generatePendingEntryReport(Date runDate, Collection group) {
+        LOG.debug("generatePendingEntryReport() started");
+
+        GeneralLedgerPendingEntryReport glper = new GeneralLedgerPendingEntryReport();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
+        glper.generateReport(runDate, reportsDirectory, sdf, group.iterator());
+    }
 
     /**
      * Generates a report on all pending entries, created by Nightly out

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.service.impl;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.LedgerEntry;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -44,10 +46,12 @@ import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.LaborLedgerUnitOfWork;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -72,6 +76,65 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         oes.setRowCount(laborOriginEntryDao.getGroupCount(groupId));
 
         return oes;
+    }
+    
+    public OriginEntryStatistics getStatistics(String fileName) {
+        LOG.debug("getStatistics() started");
+        OriginEntryStatistics oes = new OriginEntryStatistics();
+        KualiDecimal totalCredit = KualiDecimal.ZERO;
+        KualiDecimal totalDebit = KualiDecimal.ZERO;
+        Integer rowCount = 0;
+        FileReader INPUT_FILE = null;
+        BufferedReader INPUT_FILE_br;
+        try {
+            INPUT_FILE = new FileReader(fileName);
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Collection<LaborOriginEntry> entryCollection = new ArrayList();
+        INPUT_FILE_br = new BufferedReader(INPUT_FILE);
+
+        try {
+            String currentLine = INPUT_FILE_br.readLine();
+            while (currentLine != null) {
+                KualiDecimal amount = KualiDecimal.ZERO;
+                if (!currentLine.substring(109, 126).trim().equals(GeneralLedgerConstants.EMPTY_CODE)) {
+                    try {
+                        amount = new KualiDecimal(currentLine.substring(109, 126).trim());
+
+                        // TODO: Shawn - ask to jeff (Row count should be all rows?)
+                        rowCount++;
+                    }
+                    catch (NumberFormatException e) {
+                    }
+                }
+                else {
+                    amount = KualiDecimal.ZERO;
+                }
+                String debitOrCreditCode = currentLine.substring(126, 127);
+
+                if (debitOrCreditCode.equals(KFSConstants.GL_CREDIT_CODE)) {
+                    totalCredit.add(amount);
+                }
+                else if (debitOrCreditCode.equals(KFSConstants.GL_DEBIT_CODE)) {
+                    totalDebit.add(amount);
+                }
+                currentLine = INPUT_FILE_br.readLine();
+            }
+            INPUT_FILE_br.close();
+        }
+        catch (IOException e) {
+            // FIXME: do whatever should be done here
+            throw new RuntimeException(e);
+        }
+
+        oes.setCreditTotalAmount(totalCredit);
+        oes.setDebitTotalAmount(totalDebit);
+        oes.setRowCount(rowCount);
+
+        return oes;
+
     }
 
     /**

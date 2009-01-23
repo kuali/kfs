@@ -15,14 +15,20 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryLite;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService;
 import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
@@ -49,6 +55,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    private String batchFileDirectoryName;
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#deleteCopiedPendingLedgerEntries()
@@ -62,15 +69,40 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
      */
     public void copyApprovedPendingLedgerEntries() {
         Date runDate = dateTimeService.getCurrentSqlDate();
-        String reportDirectory = ReportRegistry.getReportsDirectory();
-        OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_EDOC, true, true, true);
 
+        String outputFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.BACKUP_FILE;
+        PrintStream outputFilePs;
+        
+        try {
+            outputFilePs  = new PrintStream(outputFile);
+        }
+        catch (IOException e) {
+            // FIXME: do whatever is supposed to be done here
+            throw new RuntimeException(e);
+        }
+        
+        String reportDirectory = ReportRegistry.getReportsDirectory();
+        //OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_EDOC, true, true, true);
+        //TODO: Shawn - might need to change this part to use file not collection
+        Collection<OriginEntryLite> group = new ArrayList();
         Iterator<LaborLedgerPendingEntry> pendingEntries = laborLedgerPendingEntryService.findApprovedPendingLedgerEntries();
+        
+        
+        
         while (pendingEntries != null && pendingEntries.hasNext()) {
             LaborLedgerPendingEntry pendingEntry = pendingEntries.next();
-
+            LaborOriginEntry entry = new LaborOriginEntry(pendingEntry);
             // copy the pending entry to labor origin entry table
-            boolean isSaved = saveAsLaborOriginEntry(pendingEntry, group);
+            // TODO: Shawn - do we need it???
+            //boolean isSaved = saveAsLaborOriginEntry(pendingEntry, group);
+            boolean isSaved = true; 
+            
+            try {
+                outputFilePs.printf("%s\n", entry.getLine());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            
             if (isSaved) {
                 // update the pending entry to indicate it has been copied
                 pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
@@ -78,7 +110,11 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
                 businessObjectService.save(pendingEntry);
             }
         }
-        laborReportService.generateInputSummaryReport(group, ReportRegistry.LABOR_PENDING_ENTRY_SUMMARY, reportDirectory, runDate);
+        
+        outputFilePs.close();
+        
+        //TODO: Shawn - need to change to use file
+        //laborReportService.generateInputSummaryReport(group, ReportRegistry.LABOR_PENDING_ENTRY_SUMMARY, reportDirectory, runDate);
     }
 
     /**
@@ -120,6 +156,26 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
 
             originEntry.setTransactionPostingDate(group.getDate());
             originEntry.setEntryGroupId(group.getId());
+
+            businessObjectService.save(originEntry);
+        }
+        catch (Exception e) {
+            LOG.debug("Fail to copy the pending entry as origin entry" + e);
+            return false;
+        }
+        return true;
+    }
+    
+    /*
+     * save the given pending ledger entry as a labor origin entry
+     */
+    private boolean saveAsLaborOriginEntry(LaborLedgerPendingEntry pendingEntry) {
+        try {
+            LaborOriginEntry originEntry = new LaborOriginEntry();
+            ObjectUtil.buildObject(originEntry, pendingEntry);
+
+            //originEntry.setTransactionPostingDate(group.getDate());
+            //originEntry.setEntryGroupId(group.getId());
 
             businessObjectService.save(originEntry);
         }
@@ -191,5 +247,9 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 }

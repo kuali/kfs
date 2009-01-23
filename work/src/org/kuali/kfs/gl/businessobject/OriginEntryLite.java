@@ -18,7 +18,9 @@ package org.kuali.kfs.gl.businessobject;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -26,6 +28,7 @@ import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -213,7 +216,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
 
     protected String getValue(String line, int s, int e) {
         // String v = line.substring(s, e);
-        return StringUtils.substring(line, s, e).trim();
+        return org.springframework.util.StringUtils.trimTrailingWhitespace(StringUtils.substring(line, s, e));
     }
 
     /**
@@ -302,6 +305,109 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
 
         setTransactionEncumbranceUpdateCode(line.substring(182, 183));
     }
+    
+    
+    
+    public List<Message> setFromTextFileForBatch(String line, int lineNumber) throws LoadException {
+        List<Message> returnList = new ArrayList(); 
+        
+        // Just in case
+        line = org.apache.commons.lang.StringUtils.rightPad(line, 183, ' ');
+        line = line + GeneralLedgerConstants.getSpaceAllOriginEntryFields();
+
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
+            try {
+                setUniversityFiscalYear(new Integer(getValue(line, 0, 4)));
+            }
+            catch (NumberFormatException e) {
+                returnList.add(new Message("Fiscal year '" + line.substring(0, 4) + "' contains an invalid value." , Message.TYPE_FATAL));
+                setUniversityFiscalYear(null);
+            }
+        }
+        else {
+            setUniversityFiscalYear(null);
+        }
+
+        setChartOfAccountsCode(getValue(line, 4, 6));
+        setAccountNumber(getValue(line, 6, 13));
+        setSubAccountNumber(getValue(line, 13, 18));
+        setFinancialObjectCode(getValue(line, 18, 22));
+        setFinancialSubObjectCode(getValue(line, 22, 25));
+        setFinancialBalanceTypeCode(getValue(line, 25, 27));
+        setFinancialObjectTypeCode(getValue(line, 27, 29));
+        setUniversityFiscalPeriodCode(getValue(line, 29, 31));
+        setFinancialDocumentTypeCode(getValue(line, 31, 35));
+        setFinancialSystemOriginationCode(getValue(line, 35, 37));
+        setDocumentNumber(getValue(line, 37, 51));
+        
+        // don't trim sequenceNumber because SpaceTransactionEntrySequenceNumber is "     "
+        if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(51, 56)) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(getValue(line, 51, 56))) {
+            try {
+                setTransactionLedgerEntrySequenceNumber(new Integer(getValue(line, 51, 56)));
+            }
+            catch (NumberFormatException e) {
+                returnList.add(new Message("Transaction Sequence Number '" + line.substring(51, 56) + "' contains an invalid value." , Message.TYPE_FATAL));
+                setTransactionLedgerEntrySequenceNumber(null);
+            }
+        }
+        else {
+            setTransactionLedgerEntrySequenceNumber(null);
+        }
+        
+        setTransactionLedgerEntryDescription(getValue(line, 56, 96));
+        
+        if (!getValue(line, 96, 113).equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 96, 113).trim()));
+            }
+            catch (NumberFormatException e) {
+                returnList.add(new Message("Transaction Amount '" + line.substring(96, 113) + "' contains an invalid value." , Message.TYPE_FATAL));
+                setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
+            }
+        } else {
+            returnList.add(new Message("Transaction Amount cannot be blank." , Message.TYPE_FATAL));
+            setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
+        }
+        
+        setTransactionDebitCreditCode(getValue(line, 113, 114));
+
+        if (!getValue(line, 114, 124).equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setTransactionDate(parseDate(getValue(line, 114, 124), false));
+            }
+            catch (ParseException e) {
+                setTransactionDate(null);
+            }
+        } else {
+            setTransactionDate(null);
+        }
+        
+        setOrganizationDocumentNumber(getValue(line, 124, 134));
+        setProjectCode(getValue(line, 134, 144));
+        setOrganizationReferenceId(getValue(line, 144, 152));
+        setReferenceFinancialDocumentTypeCode(getValue(line, 152, 156));
+        setReferenceFinancialSystemOriginationCode(getValue(line, 156, 158));
+        setReferenceFinancialDocumentNumber(getValue(line, 158, 172));
+        if (!getValue(line, 172, 182).equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setFinancialDocumentReversalDate(parseDate(getValue(line, 172, 182), true));
+            }
+            catch (ParseException e) {
+                setFinancialDocumentReversalDate(null);
+                returnList.add(new Message("Reversal Date '" + line.substring(172, 182) + "' contains an invalid value." , Message.TYPE_FATAL));
+                
+            }
+        } else {
+            setFinancialDocumentReversalDate(null);
+        }
+        
+        setTransactionEncumbranceUpdateCode(getValue(line, 182, 183));
+
+    
+    return returnList;
+    
+    }
+
 
     protected String getField(int size, String value) {
         if (value == null) {
@@ -381,7 +487,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
         sb.append(formatDate(financialDocumentReversalDate));
         sb.append(getField(1, transactionEncumbranceUpdateCode));
         // pad to full length of 173 chars.
-        while (173 > sb.toString().length()) {
+        while (183 > sb.toString().length()) {
             sb.append(' ');
         }
         return sb.toString();

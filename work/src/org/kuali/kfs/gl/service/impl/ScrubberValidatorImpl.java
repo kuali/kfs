@@ -613,7 +613,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
         }
 
-        SystemOptions originEntryOption = referenceLookup.get().getOption(workingEntry.getUniversityFiscalYear());
+        SystemOptions originEntryOption = referenceLookup.get().getSystemOptions(workingEntry.getUniversityFiscalYear());
         if (originEntryOption == null) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, originEntry.getUniversityFiscalYear() + "", Message.TYPE_FATAL);
         }
@@ -922,7 +922,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         else {
             // balance type IS empty. We can't set it if the year isn't set
-            SystemOptions workingEntryOption = referenceLookup.get().getOption(workingEntry);
+            SystemOptions workingEntryOption = referenceLookup.get().getSystemOptions(workingEntry);
 
             if (workingEntryOption != null) {
                 workingEntry.setFinancialBalanceTypeCode(workingEntryOption.getActualFinancialBalanceTypeCd());

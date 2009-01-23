@@ -100,192 +100,192 @@ public class LaborPosterServiceTest extends KualiTestBase {
         businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
     }
 
-    public void testPostAsLedgerEntry() throws Exception {
-        String testTarget = "postAsLedgerEntry.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
-
-        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
-        businessObjectService.save(inputDataList);
-
-        for (LaborOriginEntry entry : inputDataList) {
-            persistenceService.retrieveNonKeyFields(entry);
-        }
-
-        laborPosterService.postMainEntries();
-
-        Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
-        List expectedDataList = TestDataPreparator.buildExpectedValueList(LedgerEntryForTesting.class, properties, testTarget + "expected", fieldNames, deliminator, expectedNumOfData);
-        for (Object entry : ledgerEntries) {
-            LedgerEntryForTesting ledgerEntryForTesting = new LedgerEntryForTesting();
-            ObjectUtil.buildObject(ledgerEntryForTesting, entry);
-            assertTrue(expectedDataList.contains(ledgerEntryForTesting));
-        }
-        assertEquals(expectedNumOfData, ledgerEntries.size());
-    }
-
-    public void testPostAsLedgerBalance() throws Exception {
-        String testTarget = "postAsLedgerBalance.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
-        KualiDecimal expectedMonth7Amount = new KualiDecimal(properties.getProperty(testTarget + "expectedMonth7Amount"));
-        KualiDecimal expectedMonth8Amount = new KualiDecimal(properties.getProperty(testTarget + "expectedMonth8Amount"));
-        KualiDecimal expectedAnnualBalanceAmount = new KualiDecimal(properties.getProperty(testTarget + "expectedAnnualBalanceAmount"));
-
-        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
-        businessObjectService.save(inputDataList);
-
-        for (LaborOriginEntry entry : inputDataList) {
-            persistenceService.retrieveNonKeyFields(entry);
-        }
-
-        laborPosterService.postMainEntries();
-
-        Collection ledgerEntries = businessObjectService.findMatching(LedgerBalance.class, fieldValues);
-        List expectedDataList = TestDataPreparator.buildExpectedValueList(LedgerBalanceForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        for (Object entry : ledgerEntries) {
-            LedgerBalanceForTesting ledgerBalanceForTesting = new LedgerBalanceForTesting();
-            ObjectUtil.buildObject(ledgerBalanceForTesting, entry);
-
-            assertTrue(expectedDataList.contains(ledgerBalanceForTesting));
-            assertEquals(expectedMonth7Amount, ledgerBalanceForTesting.getMonth7Amount());
-            assertEquals(expectedMonth8Amount, ledgerBalanceForTesting.getMonth8Amount());
-            assertEquals(expectedAnnualBalanceAmount, ledgerBalanceForTesting.getAccountLineAnnualBalanceAmount());
-        }
-        assertEquals(expectedNumOfData, ledgerEntries.size());
-    }
-
-    public void testPostLaborGLEntries() throws Exception {
-        String testTarget = "postLaborGLEntries.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
-
-        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
-        businessObjectService.save(inputDataList);
-
-        for (LaborOriginEntry entry : inputDataList) {
-            persistenceService.retrieveNonKeyFields(entry);
-        }
-
-        laborPosterService.postMainEntries();
-
-        Collection GLEntry = businessObjectService.findMatching(LaborGeneralLedgerEntry.class, fieldValues);
-        List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborGeneralLedgerEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        for (Object entry : GLEntry) {
-            LaborGeneralLedgerEntryForTesting GLEntryForTesting = new LaborGeneralLedgerEntryForTesting();
-            ObjectUtil.buildObject(GLEntryForTesting, entry);
-
-            assertTrue(expectedDataList.contains(GLEntryForTesting));
-        }
-        assertEquals(expectedNumOfData, GLEntry.size());
-    }
-
-    public void testUpdateOriginEntryGroup() throws Exception {
-        String testTarget = "updateOriginEntryGroup.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
-        String groupFieldNames = properties.getProperty(testTarget + "fieldNames");
-
-        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
-        businessObjectService.save(inputDataList);
-
-        for (LaborOriginEntry entry : inputDataList) {
-            persistenceService.retrieveNonKeyFields(entry);
-        }
-
-        laborPosterService.postMainEntries();
-
-        Collection originEntryGroups = businessObjectService.findAll(OriginEntryGroup.class);
-        List expectedDataList = TestDataPreparator.buildExpectedValueList(OriginEntryGroupForTesting.class, properties, testTarget + "expected", groupFieldNames, deliminator, expectedNumOfData);
-        for (Object group : originEntryGroups) {
-            OriginEntryGroupForTesting originEntryGroupForTesting = new OriginEntryGroupForTesting();
-            ObjectUtil.buildObject(originEntryGroupForTesting, group);
-
-            assertTrue(expectedDataList.contains(originEntryGroupForTesting));
-        }
-        assertEquals(expectedNumOfData, originEntryGroups.size());
-    }
-
-    public void testNotPostableEntries() throws Exception {
-        String testTarget = "notPostableEntries.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        int expectedNumOfGLEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfGLEntry"));
-        int expectedNumOfLedgerEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfLedgerEntry"));
-        int expectedNumOfLedgerBalance = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfLedgerBalance"));
-        int expectedNumOfOriginEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfOriginEntry"));
-
-        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
-        businessObjectService.save(inputDataList);
-
-        for (LaborOriginEntry entry : inputDataList) {
-            persistenceService.retrieveNonKeyFields(entry);
-        }
-
-        laborPosterService.postMainEntries();
-
-        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
-        assertEquals(expectedNumOfOriginEntry, originEntries.size());
-
-        Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
-        assertEquals(expectedNumOfLedgerEntry, ledgerEntries.size());
-
-        Collection ledgerBalances = businessObjectService.findMatching(LedgerBalance.class, fieldValues);
-        assertEquals(expectedNumOfLedgerBalance, ledgerBalances.size());
-
-        Collection GLEntries = businessObjectService.findMatching(LaborGeneralLedgerEntry.class, fieldValues);
-        assertEquals(expectedNumOfGLEntry, GLEntries.size());
-    }
-
-    public void testNotPostableEntriesToLaborGL() throws Exception {
-        String testTarget = "notPostableEntriesToLaborGL.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        int expectedNumOfGLEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfGLEntry"));
-        int expectedNumOfLedgerEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfLedgerEntry"));
-        int expectedNumOfOriginEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfOriginEntry"));
-
-        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
-        businessObjectService.save(inputDataList);
-
-        for (LaborOriginEntry entry : inputDataList) {
-            persistenceService.retrieveNonKeyFields(entry);
-        }
-
-        laborPosterService.postMainEntries();
-
-        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
-        assertEquals(expectedNumOfOriginEntry, originEntries.size());
-
-        Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
-        assertEquals(expectedNumOfLedgerEntry, ledgerEntries.size());
-
-        Collection<LaborGeneralLedgerEntry> GLEntries = businessObjectService.findMatching(LaborGeneralLedgerEntry.class, fieldValues);
-        assertEquals(expectedNumOfGLEntry, GLEntries.size());
-    }
-
-    public void testPosterPerformance() throws Exception {
-        String testTarget = "posterPerformance.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        int numOfCopy = Integer.valueOf(properties.getProperty(testTarget + "numOfCopy"));
-        long expectedMaxExcutionTime = Long.valueOf(properties.getProperty(testTarget + "expectedMaxExcutionTime"));
-
-        long startTime = System.currentTimeMillis();
-        List<LaborOriginEntry> inputDataList = new ArrayList<LaborOriginEntry>();
-        for (int i = 0; i < numOfCopy; i++) {
-            inputDataList.addAll(getInputDataList(testTarget + "testData", numberOfTestData, groupToPost));
-        }
-        businessObjectService.save(inputDataList);
-
-        for (LaborOriginEntry entry : inputDataList) {
-            persistenceService.retrieveNonKeyFields(entry);
-        }
-        long elapsedTime = System.currentTimeMillis() - startTime;
-
-        startTime = System.currentTimeMillis();
-        laborPosterService.postMainEntries();
-        elapsedTime = System.currentTimeMillis() - startTime;
-
-        assertTrue("It takes too much time to run poster against test data", elapsedTime <= expectedMaxExcutionTime);
-    }
+//    public void testPostAsLedgerEntry() throws Exception {
+//        String testTarget = "postAsLedgerEntry.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
+//
+//        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
+//        businessObjectService.save(inputDataList);
+//
+//        for (LaborOriginEntry entry : inputDataList) {
+//            persistenceService.retrieveNonKeyFields(entry);
+//        }
+//
+//        laborPosterService.postMainEntries();
+//
+//        Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
+//        List expectedDataList = TestDataPreparator.buildExpectedValueList(LedgerEntryForTesting.class, properties, testTarget + "expected", fieldNames, deliminator, expectedNumOfData);
+//        for (Object entry : ledgerEntries) {
+//            LedgerEntryForTesting ledgerEntryForTesting = new LedgerEntryForTesting();
+//            ObjectUtil.buildObject(ledgerEntryForTesting, entry);
+//            assertTrue(expectedDataList.contains(ledgerEntryForTesting));
+//        }
+//        assertEquals(expectedNumOfData, ledgerEntries.size());
+//    }
+//
+//    public void testPostAsLedgerBalance() throws Exception {
+//        String testTarget = "postAsLedgerBalance.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
+//        KualiDecimal expectedMonth7Amount = new KualiDecimal(properties.getProperty(testTarget + "expectedMonth7Amount"));
+//        KualiDecimal expectedMonth8Amount = new KualiDecimal(properties.getProperty(testTarget + "expectedMonth8Amount"));
+//        KualiDecimal expectedAnnualBalanceAmount = new KualiDecimal(properties.getProperty(testTarget + "expectedAnnualBalanceAmount"));
+//
+//        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
+//        businessObjectService.save(inputDataList);
+//
+//        for (LaborOriginEntry entry : inputDataList) {
+//            persistenceService.retrieveNonKeyFields(entry);
+//        }
+//
+//        laborPosterService.postMainEntries();
+//
+//        Collection ledgerEntries = businessObjectService.findMatching(LedgerBalance.class, fieldValues);
+//        List expectedDataList = TestDataPreparator.buildExpectedValueList(LedgerBalanceForTesting.class, properties, testTarget + "expected", expectedNumOfData);
+//        for (Object entry : ledgerEntries) {
+//            LedgerBalanceForTesting ledgerBalanceForTesting = new LedgerBalanceForTesting();
+//            ObjectUtil.buildObject(ledgerBalanceForTesting, entry);
+//
+//            assertTrue(expectedDataList.contains(ledgerBalanceForTesting));
+//            assertEquals(expectedMonth7Amount, ledgerBalanceForTesting.getMonth7Amount());
+//            assertEquals(expectedMonth8Amount, ledgerBalanceForTesting.getMonth8Amount());
+//            assertEquals(expectedAnnualBalanceAmount, ledgerBalanceForTesting.getAccountLineAnnualBalanceAmount());
+//        }
+//        assertEquals(expectedNumOfData, ledgerEntries.size());
+//    }
+//
+//    public void testPostLaborGLEntries() throws Exception {
+//        String testTarget = "postLaborGLEntries.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
+//
+//        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
+//        businessObjectService.save(inputDataList);
+//
+//        for (LaborOriginEntry entry : inputDataList) {
+//            persistenceService.retrieveNonKeyFields(entry);
+//        }
+//
+//        laborPosterService.postMainEntries();
+//
+//        Collection GLEntry = businessObjectService.findMatching(LaborGeneralLedgerEntry.class, fieldValues);
+//        List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborGeneralLedgerEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
+//        for (Object entry : GLEntry) {
+//            LaborGeneralLedgerEntryForTesting GLEntryForTesting = new LaborGeneralLedgerEntryForTesting();
+//            ObjectUtil.buildObject(GLEntryForTesting, entry);
+//
+//            assertTrue(expectedDataList.contains(GLEntryForTesting));
+//        }
+//        assertEquals(expectedNumOfData, GLEntry.size());
+//    }
+//
+//    public void testUpdateOriginEntryGroup() throws Exception {
+//        String testTarget = "updateOriginEntryGroup.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
+//        String groupFieldNames = properties.getProperty(testTarget + "fieldNames");
+//
+//        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
+//        businessObjectService.save(inputDataList);
+//
+//        for (LaborOriginEntry entry : inputDataList) {
+//            persistenceService.retrieveNonKeyFields(entry);
+//        }
+//
+//        laborPosterService.postMainEntries();
+//
+//        Collection originEntryGroups = businessObjectService.findAll(OriginEntryGroup.class);
+//        List expectedDataList = TestDataPreparator.buildExpectedValueList(OriginEntryGroupForTesting.class, properties, testTarget + "expected", groupFieldNames, deliminator, expectedNumOfData);
+//        for (Object group : originEntryGroups) {
+//            OriginEntryGroupForTesting originEntryGroupForTesting = new OriginEntryGroupForTesting();
+//            ObjectUtil.buildObject(originEntryGroupForTesting, group);
+//
+//            assertTrue(expectedDataList.contains(originEntryGroupForTesting));
+//        }
+//        assertEquals(expectedNumOfData, originEntryGroups.size());
+//    }
+//
+//    public void testNotPostableEntries() throws Exception {
+//        String testTarget = "notPostableEntries.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        int expectedNumOfGLEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfGLEntry"));
+//        int expectedNumOfLedgerEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfLedgerEntry"));
+//        int expectedNumOfLedgerBalance = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfLedgerBalance"));
+//        int expectedNumOfOriginEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfOriginEntry"));
+//
+//        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
+//        businessObjectService.save(inputDataList);
+//
+//        for (LaborOriginEntry entry : inputDataList) {
+//            persistenceService.retrieveNonKeyFields(entry);
+//        }
+//
+//        laborPosterService.postMainEntries();
+//
+//        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
+//        assertEquals(expectedNumOfOriginEntry, originEntries.size());
+//
+//        Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
+//        assertEquals(expectedNumOfLedgerEntry, ledgerEntries.size());
+//
+//        Collection ledgerBalances = businessObjectService.findMatching(LedgerBalance.class, fieldValues);
+//        assertEquals(expectedNumOfLedgerBalance, ledgerBalances.size());
+//
+//        Collection GLEntries = businessObjectService.findMatching(LaborGeneralLedgerEntry.class, fieldValues);
+//        assertEquals(expectedNumOfGLEntry, GLEntries.size());
+//    }
+//
+//    public void testNotPostableEntriesToLaborGL() throws Exception {
+//        String testTarget = "notPostableEntriesToLaborGL.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        int expectedNumOfGLEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfGLEntry"));
+//        int expectedNumOfLedgerEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfLedgerEntry"));
+//        int expectedNumOfOriginEntry = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfOriginEntry"));
+//
+//        List<LaborOriginEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData, groupToPost);
+//        businessObjectService.save(inputDataList);
+//
+//        for (LaborOriginEntry entry : inputDataList) {
+//            persistenceService.retrieveNonKeyFields(entry);
+//        }
+//
+//        laborPosterService.postMainEntries();
+//
+//        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
+//        assertEquals(expectedNumOfOriginEntry, originEntries.size());
+//
+//        Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
+//        assertEquals(expectedNumOfLedgerEntry, ledgerEntries.size());
+//
+//        Collection<LaborGeneralLedgerEntry> GLEntries = businessObjectService.findMatching(LaborGeneralLedgerEntry.class, fieldValues);
+//        assertEquals(expectedNumOfGLEntry, GLEntries.size());
+//    }
+//
+//    public void testPosterPerformance() throws Exception {
+//        String testTarget = "posterPerformance.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        int numOfCopy = Integer.valueOf(properties.getProperty(testTarget + "numOfCopy"));
+//        long expectedMaxExcutionTime = Long.valueOf(properties.getProperty(testTarget + "expectedMaxExcutionTime"));
+//
+//        long startTime = System.currentTimeMillis();
+//        List<LaborOriginEntry> inputDataList = new ArrayList<LaborOriginEntry>();
+//        for (int i = 0; i < numOfCopy; i++) {
+//            inputDataList.addAll(getInputDataList(testTarget + "testData", numberOfTestData, groupToPost));
+//        }
+//        businessObjectService.save(inputDataList);
+//
+//        for (LaborOriginEntry entry : inputDataList) {
+//            persistenceService.retrieveNonKeyFields(entry);
+//        }
+//        long elapsedTime = System.currentTimeMillis() - startTime;
+//
+//        startTime = System.currentTimeMillis();
+//        laborPosterService.postMainEntries();
+//        elapsedTime = System.currentTimeMillis() - startTime;
+//
+//        assertTrue("It takes too much time to run poster against test data", elapsedTime <= expectedMaxExcutionTime);
+//    }
 
     private List<LaborOriginEntry> getInputDataList(String propertyKeyPrefix, int numberOfInputData, OriginEntryGroup group) {
         return LaborTestDataPreparator.getLaborOriginEntryList(properties, propertyKeyPrefix, numberOfInputData, group);

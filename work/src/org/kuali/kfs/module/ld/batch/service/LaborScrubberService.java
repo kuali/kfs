@@ -40,4 +40,6 @@ public interface LaborScrubberService {
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService);
+    
+    public void performDemerger();
 }

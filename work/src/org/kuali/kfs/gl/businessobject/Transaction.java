@@ -95,7 +95,7 @@ public interface Transaction {
 
     public BalanceType getBalanceType();
 
-    public SystemOptions getOption();
+    public SystemOptions getSystemOptions();
 
     public ObjectType getObjectType();
 
@@ -106,4 +106,16 @@ public interface Transaction {
     public SubObjectCode getFinancialSubObject();
 
     public GeneralLedgerInputType getGeneralLedgerInputType();
+    
+    public void setChart(Chart chart);
+
+    public void setAccount(Account account);
+
+    public void setFinancialObject(ObjectCode objectCode);
+
+    public void setBalanceType(BalanceType balanceTyp);
+
+    public void setSystemOptions(SystemOptions options);
+
+    public void setObjectType(ObjectType objectType);
 }

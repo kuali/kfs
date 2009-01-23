@@ -18,16 +18,22 @@ package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -65,17 +71,71 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     private String hrmsCompany;
     private String setid;
     private Date transactionDateTimeStamp;
-    private GeneralLedgerInputType referenceGeneralLedgerInputType;
+    private GeneralLedgerInputType  referenceGeneralLedgerInputType;
     private OriginationCode referenceFinancialSystemOrigination;
     private AccountingPeriod payrollEndDateFiscalPeriod;
 
-    /**
-     * Constructor with generalLedgerPendingEntry
-     * 
-     * @param glpe
-     */
-    public LaborOriginEntry(GeneralLedgerPendingEntry glpe) {
-        super();
+    public LaborOriginEntry(LaborLedgerPendingEntry pendingEntry){
+        
+        accountNumber = pendingEntry.getAccountNumber();
+        documentNumber = pendingEntry.getDocumentNumber();
+        referenceFinancialDocumentNumber = pendingEntry.getReferenceFinancialDocumentNumber();
+        referenceFinancialDocumentTypeCode = pendingEntry.getReferenceFinancialDocumentTypeCode();
+        financialDocumentReversalDate = pendingEntry.getFinancialDocumentReversalDate();
+        financialDocumentTypeCode = pendingEntry.getFinancialDocumentTypeCode();
+        financialBalanceTypeCode = pendingEntry.getFinancialBalanceTypeCode();
+        chartOfAccountsCode = pendingEntry.getChartOfAccountsCode();
+        financialObjectTypeCode = pendingEntry.getFinancialObjectTypeCode();
+        financialObjectCode = pendingEntry.getFinancialObjectCode();
+        financialSubObjectCode = pendingEntry.getFinancialSubObjectCode();
+        financialSystemOriginationCode = pendingEntry.getFinancialSystemOriginationCode();
+        referenceFinancialSystemOriginationCode = pendingEntry.getReferenceFinancialSystemOriginationCode();
+        organizationDocumentNumber = pendingEntry.getOrganizationDocumentNumber();
+        organizationReferenceId = pendingEntry.getOrganizationReferenceId();
+        projectCode = pendingEntry.getProjectCode();
+        subAccountNumber = pendingEntry.getSubAccountNumber();
+        transactionDate = pendingEntry.getTransactionDate();
+        transactionDebitCreditCode = pendingEntry.getTransactionDebitCreditCode();
+        transactionEncumbranceUpdateCode = pendingEntry.getTransactionEncumbranceUpdateCode();
+        transactionLedgerEntrySequenceNumber = pendingEntry.getTransactionLedgerEntrySequenceNumber();
+        transactionLedgerEntryAmount = pendingEntry.getTransactionLedgerEntryAmount();
+        transactionLedgerEntryDescription = pendingEntry.getTransactionLedgerEntryDescription();
+        universityFiscalPeriodCode = pendingEntry.getUniversityFiscalPeriodCode();
+        universityFiscalYear = pendingEntry.getUniversityFiscalYear();
+        
+        //TODO: shawn - need to check 
+        
+        positionNumber = pendingEntry.getPositionNumber();
+        transactionPostingDate = pendingEntry.getTransactionPostingDate();
+        payPeriodEndDate = pendingEntry.getPayPeriodEndDate();
+        transactionTotalHours = pendingEntry.getTransactionTotalHours();
+        payrollEndDateFiscalYear = pendingEntry.getPayrollEndDateFiscalYear();
+        payrollEndDateFiscalPeriodCode = pendingEntry.getPayrollEndDateFiscalPeriodCode();
+        emplid = pendingEntry.getEmplid();
+        employeeRecord = pendingEntry.getEmployeeRecord();
+        earnCode = pendingEntry.getEarnCode();
+        payGroup = pendingEntry.getPayGroup();
+        salaryAdministrationPlan = pendingEntry.getSalaryAdministrationPlan();
+        grade = pendingEntry.getGrade();
+        runIdentifier = pendingEntry.getRunIdentifier();
+        laborLedgerOriginalChartOfAccountsCode = pendingEntry.getLaborLedgerOriginalChartOfAccountsCode();
+        laborLedgerOriginalAccountNumber = pendingEntry.getLaborLedgerOriginalAccountNumber();
+        laborLedgerOriginalSubAccountNumber = pendingEntry.getLaborLedgerOriginalSubAccountNumber();
+        laborLedgerOriginalFinancialObjectCode = pendingEntry.getLaborLedgerOriginalFinancialObjectCode();
+        laborLedgerOriginalFinancialSubObjectCode = pendingEntry.getLaborLedgerOriginalFinancialSubObjectCode();
+        hrmsCompany = pendingEntry.getHrmsCompany();
+        setid = pendingEntry.getSetid();
+        //TODO: shawn - timestamp????
+        //transactionDateTimeStamp = pendingEntry.getTransactionDateTimeStamp();
+        transactionEntryOffsetCode = pendingEntry.getTransactionEntryOffsetCode();
+        payrollEndDateFiscalPeriod = pendingEntry.getPayrollEndDateFiscalPeriod();
+        
+        //TODO: shawn - don't need it?
+        //reversalDate = pendingEntry.getReversalDate();
+        
+        //TODO: shawn check - no positionData in laborOriginEntry
+        //positionData = pendingEntry.getPositionData();
+        
     }
 
     /**
@@ -596,18 +656,18 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     }
 
     /**
-     * Gets the referenceGeneralLedgerInputType attribute. 
+     * Gets the referenceFinancialDocumentType
      * 
-     * @return Returns the referenceGeneralLedgerInputType.
+     * @return Returns the referenceFinancialDocumentType.
      */
     public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
         return referenceGeneralLedgerInputType;
     }
 
     /**
-     * Sets the referenceGeneralLedgerInputType attribute value.
+     * Sets the referenceFinancialDocumentType
      * 
-     * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
+     * @param referenceFinancialDocumentType The referenceFinancialDocumentType to set.
      */
     public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
         this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
@@ -892,6 +952,185 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setHrmsCompany(getValue(line, 286, 289));
         setSetid(getValue(line, 289, 294));
     }
+    
+    
+    public List<Message> setFromTextFileForBatch(String line, int lineNumber) throws LoadException {
+        List<Message> returnList = new ArrayList();
+        
+        // Just in case
+        line = org.apache.commons.lang.StringUtils.rightPad(line, 294, ' ');
+        line = line + SPACES;
+
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
+            try {
+                setUniversityFiscalYear(new Integer(line.substring(0, 4)));
+            }
+            catch (NumberFormatException e) {
+                returnList.add(new Message("Fiscal year '" + line.substring(0, 4) + "' contains an invalid value." , Message.TYPE_FATAL));
+                setUniversityFiscalYear(null);
+            }
+
+        }
+        else {
+            setUniversityFiscalYear(null);
+        }
+
+
+        setChartOfAccountsCode(getValue(line, 4, 6));
+        setAccountNumber(getValue(line, 6, 13));
+        setSubAccountNumber(getValue(line, 13, 18));
+        setFinancialObjectCode(getValue(line, 18, 22));
+        setFinancialSubObjectCode(getValue(line, 22, 25));
+        setFinancialBalanceTypeCode(getValue(line, 25, 27));
+        setFinancialObjectTypeCode(getValue(line, 27, 29));
+        setUniversityFiscalPeriodCode(getValue(line, 29, 31));
+        setFinancialDocumentTypeCode(getValue(line, 31, 35));
+        setFinancialSystemOriginationCode(getValue(line, 35, 37));
+        setDocumentNumber(getValue(line, 37, 51));
+        
+        if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(51, 56)) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(line.substring(51, 56))) {
+            try {
+                setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(51, 56).trim()));
+            }
+            catch (NumberFormatException e) {
+                returnList.add(new Message("Transaction Sequence Number '" + line.substring(51, 56) + "' contains an invalid value." , Message.TYPE_FATAL));
+                setTransactionLedgerEntrySequenceNumber(null);
+            }
+        }
+        else {
+            setTransactionLedgerEntrySequenceNumber(null);
+        }
+        
+        setPositionNumber(getValue(line, 56, 64));
+        setProjectCode(getValue(line, 64, 74));
+        setTransactionLedgerEntryDescription(getValue(line, 74, 114));
+        
+        if (!line.substring(114, 133).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(114, 133).trim()));
+            }
+            catch (NumberFormatException e) {
+                returnList.add(new Message("Transaction Amount '" + line.substring(114, 133) + "' contains an invalid value." , Message.TYPE_FATAL));
+                setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
+            }
+        } else {
+            returnList.add(new Message("Transaction Amount cannot be blank." , Message.TYPE_FATAL));
+            setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
+        }
+        
+        setTransactionDebitCreditCode(getValue(line, 133, 134));
+        
+        if (!line.substring(134, 144).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setTransactionDate(parseDate(line.substring(134, 144), false));
+            }
+            catch (ParseException e) {
+                setTransactionDate(null);
+            }
+        } else {
+            setTransactionDate(null);
+        }
+        
+        setOrganizationDocumentNumber(getValue(line, 144, 154));
+        setOrganizationReferenceId(getValue(line, 154, 162));
+        setReferenceFinancialDocumentTypeCode(getValue(line, 162, 166));
+        setReferenceFinancialSystemOriginationCode(getValue(line, 166, 168));
+        setReferenceFinancialDocumentNumber(getValue(line, 168, 182));
+        
+        if (!line.substring(182, 192).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setFinancialDocumentReversalDate(parseDate(line.substring(182, 192), false));
+            }
+            catch (ParseException e) {
+                setFinancialDocumentReversalDate(null);
+                returnList.add(new Message("Reversal Date '" + line.substring(182, 192) + "' contains an invalid value." , Message.TYPE_FATAL));
+            }
+        } else {
+            setFinancialDocumentReversalDate(null);
+        }
+        
+        setTransactionEncumbranceUpdateCode(getValue(line, 192, 193));
+
+        if (!line.substring(193, 203).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setTransactionPostingDate(parseDate(getValue(line, 193, 203), false));
+            }
+            catch (ParseException e) {
+                setTransactionPostingDate(null);
+                returnList.add(new Message("Transaction Posting Date '" + line.substring(193, 203) + "' contains an invalid value." , Message.TYPE_FATAL));
+            }
+        } else {
+            setTransactionPostingDate(null);
+        }
+        
+        if (!line.substring(203, 213).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setPayPeriodEndDate(parseDate(getValue(line, 203, 213), false));
+            }
+            catch (ParseException e) {
+                setPayPeriodEndDate(null);
+                returnList.add(new Message("Pay Period End Date '" + line.substring(203, 213) + "' contains an invalid value." , Message.TYPE_FATAL));
+            }
+        } else {
+            setPayPeriodEndDate(null);
+        }
+        
+        if (!line.substring(213, 222).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setTransactionTotalHours(new BigDecimal(getValue(line, 213, 222)));
+            }
+            catch (NumberFormatException e) {
+                setTransactionTotalHours(null);
+                returnList.add(new Message("Transaction Total Hours '" + line.substring(213, 222) + "' contains an invalid value." , Message.TYPE_FATAL));
+            }
+        } else {
+            setTransactionTotalHours(null);
+        }
+
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(222, 226))) {
+            try {
+                setPayrollEndDateFiscalYear(new Integer(getValue(line, 222, 226)));
+            }
+            catch (NumberFormatException e) {
+                returnList.add(new Message("Payroll End Date Fiscal Year '" + line.substring(222, 226) + "' contains an invalid value." , Message.TYPE_FATAL));
+                setPayrollEndDateFiscalYear(null);
+            }
+        }
+        else {
+            setPayrollEndDateFiscalYear(null);
+        }
+
+        setPayrollEndDateFiscalPeriodCode(getValue(line, 226, 228));
+        setEmplid(getValue(line, 228, 239));
+
+        if (!line.substring(239, 242).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+            try {
+                setEmployeeRecord(new Integer(getValue(line, 239, 242)));
+            }
+            catch (NumberFormatException e) {
+                returnList.add(new Message("Employee Record '" + line.substring(239, 242) + "' contains an invalid value." , Message.TYPE_FATAL));
+                setEmployeeRecord(null);
+            }
+        } else {
+            setEmployeeRecord(null);
+        }
+        
+        setEarnCode(getValue(line, 242, 245));
+        setPayGroup(getValue(line, 245, 248));
+        setSalaryAdministrationPlan(getValue(line, 248, 252));
+        setGrade(getValue(line, 252, 255));
+        setRunIdentifier(getValue(line, 255, 265));
+        setLaborLedgerOriginalChartOfAccountsCode(getValue(line, 265, 267));
+        setLaborLedgerOriginalAccountNumber(getValue(line, 267, 274));
+        setLaborLedgerOriginalSubAccountNumber(getValue(line, 274, 279));
+        setLaborLedgerOriginalFinancialObjectCode(getValue(line, 279, 283));
+        setLaborLedgerOriginalFinancialSubObjectCode(getValue(line, 283, 286));
+        setHrmsCompany(getValue(line, 286, 289));
+        setSetid(getValue(line, 289, 294));
+        
+        return returnList;
+    }
+
 
     /**
      * Get fieldValue from fieldName.

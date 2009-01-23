@@ -15,11 +15,17 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Date;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +34,9 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -36,30 +45,35 @@ import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.DemergerReportData;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -87,6 +101,12 @@ public class LaborScrubberProcess {
     private PersistenceService persistenceService;
     private LaborReportService laborReportService;
     private ScrubberValidator scrubberValidator;
+    
+    private String batchFileDirectoryName;
+
+    enum GROUP_TYPE {
+        VALID, ERROR, EXPIRED
+    }
 
     /* These are all different forms of the run date for this job */
     private Date runDate;
@@ -125,11 +145,25 @@ public class LaborScrubberProcess {
 
     /* Misc stuff */
     private boolean reportOnlyMode;
+    private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
+    
+    //TODO: change to FIS
+    private String inputFile;
+    private String validFile;
+    private String errorFile; 
+    private String expiredFile;
 
+//    private String inputFileName = "c:/scrubberEntries.txt";
+//    private String validOutputFilename = "c:/SCRBOUT1";
+//    private String errorOutputFilename = "c:/SCRBERR1";
+//    private String expiredOutputFilename = "c:/EXPACCTS";
+ 
+    
+    
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, GeneralLedgerInputTypeService generalLedgerInputTypeService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, GeneralLedgerInputTypeService generalLedgerInputTypeService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.generalLedgerInputTypeService = generalLedgerInputTypeService;
@@ -143,6 +177,7 @@ public class LaborScrubberProcess {
         this.persistenceService = persistenceService;
         this.laborReportService = laborReportService;
         this.scrubberValidator = scrubberValidator;
+        this.batchFileDirectoryName = batchFileDirectoryName;
 
         cutoffHour = null;
         cutoffMinute = null;
@@ -163,6 +198,8 @@ public class LaborScrubberProcess {
     }
 
     public void scrubEntries() {
+        
+        
         scrubEntries(null, null);
     }
 
@@ -172,12 +209,21 @@ public class LaborScrubberProcess {
      */
     public void scrubEntries(OriginEntryGroup group, String documentNumber) {
         LOG.debug("scrubEntries() started");
+        
+        this.inputFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE;
+        this.validFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
+        this.errorFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE; 
+        this.expiredFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE; 
+            
+
+//        LaborOriginEntryLookupService refLookup = SpringContext.getBean(LaborOriginEntryLookupService.class);
+//        refLookup.setLookupService(SpringContext.getBean(CachingLookup.class));
+//        scrubberValidator.setReferenceLookup(refLookup);
 
         // We are in report only mode if we pass a group to this method.
         // if not, we are in batch mode and we scrub the backup group
         reportOnlyMode = (group != null);
 
-        // get reportDirectory
         String reportsDirectory = ReportRegistry.getReportsDirectory();
 
         scrubberReportErrors = new HashMap<Transaction, List<Message>>();
@@ -187,82 +233,44 @@ public class LaborScrubberProcess {
         runCal = Calendar.getInstance();
         runCal.setTime(runDate);
 
-        universityRunDate = universityDateDao.getByPrimaryKey(runDate);
+        // FOR FIS batch
+        // universityRunDate = universityDateDao.getByPrimaryKey(runDate);
+        universityRunDate = referenceLookup.get().getUniversityDate(runDate);
         if (universityRunDate == null) {
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
 
         setOffsetString();
         setDescriptions();
-
-        // Create the groups that will store the valid and error entries that come out of the scrubber
-        // We don't need groups for the reportOnlyMode
-        if (!reportOnlyMode) {
-            validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_SCRUBBER_VALID, true, true, false);
-            errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_SCRUBBER_ERROR, false, true, false);
-            expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_SCRUBBER_EXPIRED, false, true, false);
-        }
-
-        // get the origin entry groups to be processed by Scrubber
-        Collection groupsToScrub = null;
-        if (reportOnlyMode) {
-            groupsToScrub = new ArrayList();
-            groupsToScrub.add(group);
-        }
-        else {
-            groupsToScrub = laborOriginEntryService.getLaborBackupGroups(runDate);
-        }
-        LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
-
-        // generate the reports based on the origin entries to be processed by scrubber
-        if (reportOnlyMode) {
-            laborReportService.generateScrubberLedgerSummaryReportOnline(group, documentNumber, reportsDirectory, runDate);
-        }
-        else {
-            laborReportService.generateScrubberLedgerSummaryReportBatch(groupsToScrub, reportsDirectory, runDate);
-        }
-
-        // Scrub all of the OriginEntryGroups waiting to be scrubbed as of runDate.
         scrubberReport = new ScrubberReportData();
-        for (Iterator iteratorOverGroups = groupsToScrub.iterator(); iteratorOverGroups.hasNext();) {
-            OriginEntryGroup originEntryGroup = (OriginEntryGroup) iteratorOverGroups.next();
-            LOG.debug("scrubEntries() Scrubbing group " + originEntryGroup.getId());
+        processGroup(null);
 
-            processGroup(originEntryGroup);
-
-            if (!reportOnlyMode) {
-                // Mark the origin entry group as being processed ...
-                originEntryGroup.setProcess(Boolean.FALSE);
-
-                // ... and save the origin entry group with the new process flag.
-                originEntryGroupService.save(originEntryGroup);
-            }
-        }
-
-        // generate the scrubber status summary report
-        if (reportOnlyMode) {
-            laborReportService.generateOnlineScrubberStatisticsReport(group.getId(), scrubberReport, scrubberReportErrors, documentNumber, reportsDirectory, runDate);
-        }
-        else {
-            laborReportService.generateBatchScrubberStatisticsReport(scrubberReport, scrubberReportErrors, reportsDirectory, runDate);
-        }
-
+        laborReportService.generateBatchScrubberStatisticsReport(scrubberReport, scrubberReportErrors, reportsDirectory, runDate);
+        
         // run the demerger
-        if (!reportOnlyMode) {
-            performDemerger(errorGroup, validGroup);
-        }
+        
+        // Shawn - made it seperate batch step
+//        if (!reportOnlyMode) {
+//            performDemerger(errorOutputFilename, validOutputFilename);
+//        }
 
         // Run the reports
         if (reportOnlyMode) {
             // Run transaction list
-            laborReportService.generateScrubberTransactionsOnline(group, documentNumber, reportsDirectory, runDate);
+            //laborReportService.generateScrubberTransactionsOnline(group, documentNumber, reportsDirectory, runDate);
         }
         else {
             // Run bad balance type report and removed transaction report
-            laborReportService.generateScrubberBadBalanceTypeListingReport(groupsToScrub, reportsDirectory, runDate);
-
-            laborReportService.generateScrubberRemovedTransactions(errorGroup, reportsDirectory, runDate);
+            Collection badBalanceEntries = getBadBalanceEntries(inputFile);
+            
+            //laborReportService.generateScrubberBadBalanceTypeListingReport(badBalanceEntries, reportsDirectory, runDate);
+            
+            Collection removedTransactions = getRemovedTransactions(errorFile);
+            //laborReportService.generateScrubberRemovedTransactions(errorGroup, reportsDirectory, runDate);
+            //laborReportService.generateScrubberRemovedTransactions(removedTransactions, reportsDirectory, runDate);
         }
+
+        
     }
 
     /**
@@ -309,133 +317,230 @@ public class LaborScrubberProcess {
      * @param originEntryGroup Group to process
      */
     private void processGroup(OriginEntryGroup originEntryGroup) {
+        this.referenceLookup.get().setLookupService(SpringContext.getBean(CachingLookup.class));
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
         LaborOriginEntry lastEntry = null;
         scrubCostShareAmount = KualiDecimal.ZERO;
         unitOfWork = new UnitOfWorkInfo();
-        OriginEntryLookupService refLookup = SpringContext.getBean(OriginEntryLookupService.class);
-        refLookup.setLookupService(SpringContext.getBean(CachingLookup.class));
-        scrubberValidator.setReferenceLookup(refLookup);
+        
+        // TEMPORARY CHANGES JUST EXPERIMENTING WITH STUFF - DON'T CHECK IN LIKE THIS!
+        FileReader INPUT_GLE_FILE = null;
+        // FileWriter OUTPUT_GLE_FILE = null;
+        // FIXME still have to make error file(s)
+        String GLEN_RECORD;
+        BufferedReader INPUT_GLE_FILE_br;
+        PrintStream OUTPUT_GLE_FILE_ps;
+        PrintStream OUTPUT_ERR_FILE_ps;
+        PrintStream OUTPUT_EXP_FILE_ps;
+        
+        // BufferedWriter OUTPUT_GLE_FILE_bw;
+        try {
+            INPUT_GLE_FILE = new FileReader(inputFile);
+            // FIXME TEMP FOR TESTING!!
 
-        Iterator entries = laborOriginEntryService.getEntriesByGroup(originEntryGroup);
-        while (entries.hasNext()) {
-            LaborOriginEntry unscrubbedEntry = (LaborOriginEntry) entries.next();
-            unscrubbedEntry.refresh();
-            scrubberReport.incrementUnscrubbedRecordsRead();
+        }
+        catch (FileNotFoundException e) {
+            // FIXME: do whatever is supposed to be done here
+            throw new RuntimeException(e);
+        }
+        try {
+            // OUTPUT_GLE_FILE = new FileWriter("scrbout1.txt");
+            
 
-            transactionErrors = new ArrayList<Message>();
-
-            // This is done so if the code modifies this row, then saves it, it will be an insert,
-            // and it won't touch the original. The Scrubber never modifies input rows/groups.
-            unscrubbedEntry.setGroup(null);
-            unscrubbedEntry.setVersionNumber(null);
-            unscrubbedEntry.setEntryId(null);
-
-            boolean saveErrorTransaction = false;
-            boolean saveValidTransaction = false;
-
-            // Build a scrubbed entry
-            // Labor has more fields
-            LaborOriginEntry scrubbedEntry = new LaborOriginEntry();
-            buildScrubbedEntry(unscrubbedEntry, scrubbedEntry);
-
-            // For Labor Scrubber
-            boolean laborIndicator = true;
-
-            List<Message> tmperrors = scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator);
-            transactionErrors.addAll(tmperrors);
-
-            // Expired account?
-            if (ObjectUtils.isNotNull(unscrubbedEntry.getAccount()) && !unscrubbedEntry.getAccount().isActive()) {
-                // Make a copy of it so OJB doesn't just update the row in the original
-                // group. It needs to make a new one in the expired group
-                LaborOriginEntry expiredEntry = new LaborOriginEntry(scrubbedEntry);
-
-                createOutputEntry(expiredEntry, expiredGroup);
-                scrubberReport.incrementExpiredAccountFound();
-            }
-
-            if (!isFatal(transactionErrors)) {
-                saveValidTransaction = true;
-
-                // See if unit of work has changed
-                if (!unitOfWork.isSameUnitOfWork(scrubbedEntry)) {
-                    // Generate offset for last unit of work
-
-                    // generateOffset(lastEntry);
-
-                    unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
-                }
-
-                KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
-
-                ParameterEvaluator offsetFiscalPeriods = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-
-                if (scrubbedEntry.getBalanceType().isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
-                    if (scrubbedEntry.isDebit()) {
-                        unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
-                    }
-                    else {
-                        unitOfWork.offsetAmount = unitOfWork.offsetAmount.subtract(transactionAmount);
-                    }
-                }
-
-                // The sub account type code will only exist if there is a valid sub account
-                String subAccountTypeCode = "  ";
-                if (ObjectUtils.isNotNull( scrubbedEntry.getA21SubAccount() ) ) {
-                    subAccountTypeCode = scrubbedEntry.getA21SubAccount().getSubAccountTypeCode();
-                }
-
-                ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-                ParameterEvaluator costShareObjectTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES, scrubbedEntry.getFinancialObjectTypeCode());
-                ParameterEvaluator costShareEncBalanceTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES, scrubbedEntry.getFinancialBalanceTypeCode());
-                ParameterEvaluator costShareEncFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-                ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
-                ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-
-                if (scrubbedEntry.getAccount() != null) {
-                    if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
-                        if (scrubbedEntry.isDebit()) {
-                            scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
-                        }
-                        else {
-                            scrubCostShareAmount = scrubCostShareAmount.add(transactionAmount);
-                        }
-                    }
-                }
-
-                if (transactionErrors.size() > 0) {
-                    scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
-                }
-
-                lastEntry = scrubbedEntry;
-            }
-            else {
-                // Error transaction
-                saveErrorTransaction = true;
-
-                scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
-            }
-
-            if (saveValidTransaction) {
-                scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
-                createOutputEntry(scrubbedEntry, validGroup);
-                scrubberReport.incrementScrubbedRecordWritten();
-            }
-
-            if (saveErrorTransaction) {
-                // Make a copy of it so OJB doesn't just update the row in the original
-                // group. It needs to make a new one in the error group
-                LaborOriginEntry errorEntry = new LaborOriginEntry(unscrubbedEntry);
-                errorEntry.setTransactionScrubberOffsetGenerationIndicator(false);
-                createOutputEntry(errorEntry, errorGroup);
-                scrubberReport.incrementErrorRecordWritten();
-            }
+            OUTPUT_GLE_FILE_ps = new PrintStream(validFile);
+            OUTPUT_ERR_FILE_ps = new PrintStream(errorFile);
+            OUTPUT_EXP_FILE_ps = new PrintStream(expiredFile);
+        }
+        catch (IOException e) {
+            // FIXME: do whatever is supposed to be done here
+            throw new RuntimeException(e);
         }
 
-        // Generate last offset (if necessary)
-        // generateOffset(lastEntry);
+        INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+        // OUTPUT_GLE_FILE_bw = new BufferedWriter(OUTPUT_GLE_FILE);
+
+        LOG.info("Starting Scrubber Process process group...");
+
+        int lineNumber = 0;
+        int loadedCount = 0;
+        boolean errorsLoading = false;
+        LaborOriginEntry unscrubbedEntry = new LaborOriginEntry();
+        List<Message> tmperrors = new ArrayList(); 
+        try {
+            String currentLine = INPUT_GLE_FILE_br.readLine();
+
+            while (currentLine != null) {
+                boolean saveErrorTransaction = false;
+                boolean saveValidTransaction = false;
+                LaborOriginEntry scrubbedEntry = new LaborOriginEntry();
+                
+                // shawn - won't need this try catch block since above try will catch all IOexception
+                try {
+                    lineNumber++;
+                    
+                    if (!StringUtils.isEmpty(currentLine) && !StringUtils.isBlank(currentLine.trim())) {
+                        try {
+                            unscrubbedEntry = new LaborOriginEntry();
+                            tmperrors = unscrubbedEntry.setFromTextFileForBatch(currentLine, lineNumber);
+                            loadedCount++;
+                        }
+                        catch (LoadException e) {
+                            errorsLoading = true;
+                        }
+
+                    // just test entry with the entry loaded above
+                    scrubberReport.incrementUnscrubbedRecordsRead();
+
+                    transactionErrors = new ArrayList<Message>();
+
+                    // This is done so if the code modifies this row, then saves it, it will be an insert,
+                    // and it won't touch the original. The Scrubber never modifies input rows/groups.
+                    unscrubbedEntry.setGroup(null);
+                    unscrubbedEntry.setVersionNumber(null);
+                    unscrubbedEntry.setEntryId(null);
+
+                    saveErrorTransaction = false;
+                    saveValidTransaction = false;
+
+                    // Build a scrubbed entry
+                    // Labor has more fields
+                    buildScrubbedEntry(unscrubbedEntry, scrubbedEntry);
+
+                    // For Labor Scrubber
+                    boolean laborIndicator = true;
+
+                    try {
+                        tmperrors.addAll(scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator));
+                    } catch (Exception e){ 
+                        transactionErrors.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
+                        saveValidTransaction = false;
+                    }   
+                    
+                    transactionErrors.addAll(tmperrors);
+
+                    // Expired account?
+                    Account unscrubbedEntryAccount = referenceLookup.get().getAccount(unscrubbedEntry);
+                    if (ObjectUtils.isNotNull(unscrubbedEntry.getAccount()) && !unscrubbedEntry.getAccount().isActive()) {
+                        // Make a copy of it so OJB doesn't just update the row in the original
+                        // group. It needs to make a new one in the expired group
+                        LaborOriginEntry expiredEntry = new LaborOriginEntry(scrubbedEntry);
+
+                        createOutputEntry(expiredEntry, OUTPUT_EXP_FILE_ps);
+                        scrubberReport.incrementExpiredAccountFound();
+                    }
+
+                    if (!isFatal(transactionErrors)) {
+                        saveValidTransaction = true;
+
+                        // See if unit of work has changed
+                        if (!unitOfWork.isSameUnitOfWork(scrubbedEntry)) {
+                            // Generate offset for last unit of work
+
+                            // generateOffset(lastEntry);
+
+                            unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
+                        }
+
+                        KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
+
+                        ParameterEvaluator offsetFiscalPeriods = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
+
+
+                        BalanceType scrubbedEntryBalanceType = referenceLookup.get().getBalanceType(scrubbedEntry);
+                        if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
+                            if (scrubbedEntry.isDebit()) {
+                                unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
+                            }
+                            else {
+                                unitOfWork.offsetAmount = unitOfWork.offsetAmount.subtract(transactionAmount);
+                            }
+                        }
+
+                        // The sub account type code will only exist if there is a valid sub account
+                        // TODO: GLConstants.getSpaceSubAccountTypeCode();
+                        String subAccountTypeCode = "  ";
+
+                        A21SubAccount scrubbedEntryA21SubAccount = referenceLookup.get().getA21SubAccount(scrubbedEntry);
+                        if (ObjectUtils.isNotNull(scrubbedEntryA21SubAccount)) {
+                            subAccountTypeCode = scrubbedEntryA21SubAccount.getSubAccountTypeCode();
+                        }
+
+                        ParameterEvaluator costShareObjectTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES, scrubbedEntry.getFinancialObjectTypeCode());
+                        ParameterEvaluator costShareEncBalanceTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES, scrubbedEntry.getFinancialBalanceTypeCode());
+                        ParameterEvaluator costShareEncFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
+                        ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
+                        ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
+
+                        Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
+                        if (scrubbedEntryAccount != null) {
+                            SystemOptions scrubbedEntryOption = referenceLookup.get().getSystemOptions(scrubbedEntry);
+                            if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntryOption.getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
+                                if (scrubbedEntry.isDebit()) {
+                                    scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
+                                }
+                                else {
+                                    scrubCostShareAmount = scrubCostShareAmount.add(transactionAmount);
+                                }
+                            }
+                        }
+
+                        if (transactionErrors.size() > 0) {
+                            scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
+                        }
+
+                        lastEntry = scrubbedEntry;
+                    }
+                    else {
+                        // Error transaction
+                        saveErrorTransaction = true;
+
+                        scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
+                    }
+                
+
+                if (saveValidTransaction) {
+                    scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
+                    createOutputEntry(scrubbedEntry, OUTPUT_GLE_FILE_ps);
+                    scrubberReport.incrementScrubbedRecordWritten();
+                }
+
+                if (saveErrorTransaction) {
+                    // Make a copy of it so OJB doesn't just update the row in the original
+                    // group. It needs to make a new one in the error group
+                    LaborOriginEntry errorEntry = new LaborOriginEntry(unscrubbedEntry);
+                    errorEntry.setTransactionScrubberOffsetGenerationIndicator(false);
+                    createOutputEntry(currentLine, OUTPUT_ERR_FILE_ps);
+                    scrubberReport.incrementErrorRecordWritten();
+                }
+
+                }
+                currentLine = INPUT_GLE_FILE_br.readLine();
+                
+                } catch (IOException ioe) {
+                    //catch here again, it should be from postSingleEntryIntoLaborLedger
+                    LOG.error("processGroup() stopped due to: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
+                    throw new RuntimeException("processGroup() stopped due to: " + ioe.getMessage() + " on line number : " + loadedCount , ioe);
+                    
+                } 
+
+            }
+            INPUT_GLE_FILE_br.close();
+            INPUT_GLE_FILE.close();
+            OUTPUT_GLE_FILE_ps.close();
+            OUTPUT_ERR_FILE_ps.close();
+            OUTPUT_EXP_FILE_ps.close();
+
+
+        }
+        catch (IOException ioe) {
+            LOG.error("processGroup() stopped due to: " + ioe.getMessage(), ioe);
+            throw new RuntimeException("processGroup() stopped due to: " + ioe.getMessage(), ioe);
+        }
+
+
     }
+
 
     private boolean isFatal(List<Message> errors) {
         for (Iterator<Message> iter = errors.iterator(); iter.hasNext();) {
@@ -483,26 +588,6 @@ public class LaborScrubberProcess {
         return msg.substring(0, 33) + offsetString;
     }
 
-    /**
-     * Save an entry in origin entry
-     * 
-     * @param entry Entry to save
-     * @param group Group to save it in
-     */
-    private void createOutputEntry(LaborOriginEntry entry, OriginEntryGroup group) {
-        // Write the entry if we aren't running in report only mode.
-        if (reportOnlyMode) {
-            // If the group is null don't write it because the error and expired groups aren't created in reportOnlyMode
-            if (group != null) {
-                entry.setGroup(group);
-                laborOriginEntryService.save(entry);
-            }
-        }
-        else {
-            entry.setGroup(group);
-            laborOriginEntryService.save(entry);
-        }
-    }
 
     /**
      * If object is null, generate an error
@@ -767,58 +852,301 @@ public class LaborScrubberProcess {
      * @param errorGroup
      * @param validGroup
      */
-    private void performDemerger(OriginEntryGroup errorGroup, OriginEntryGroup validGroup) {
+    public void performDemerger() {
         LOG.debug("performDemerger() started");
-
+        String validOutputFilename = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
+        String errorOutputFilename = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE;
+        
         // Without this step, the job fails with Optimistic Lock Exceptions
         persistenceService.clearCache();
 
         DemergerReportData demergerReport = new DemergerReportData();
-        OriginEntryStatistics eOes = laborOriginEntryService.getStatistics(errorGroup.getId());
+        
+        OriginEntryStatistics eOes = laborOriginEntryService.getStatistics(errorOutputFilename);
         demergerReport.setErrorTransactionsRead(eOes.getRowCount());
-
-        String[] documentTypesBeProcessed = { "BT", "YEBT", "ST", "YEST" };
+        //TODO: Change to constants?
+        String[] documentTypesBeProcessed = { "BT", "YEBT", "ST", "YEST"};
 
         // Read all the documents from the error group and move all non-generated
         // transactions for these documents from the valid group into the error group
-        Iterator<LaborOriginEntry> errorEntryIterator = laborOriginEntryService.getEntriesByGroup(errorGroup);
-        while (errorEntryIterator.hasNext()) {
-            LaborOriginEntry errorEntry = errorEntryIterator.next();
-            String documentTypeCode = errorEntry.getFinancialDocumentTypeCode();
-            if (documentTypeCode != null) {
-                documentTypeCode.trim();
-            }
-
-            // Check each entry is from Benefit Expense Transfer or Salary Expense Transfer
-            Collection<LaborOriginEntry> transactions = null;
-            if (ArrayUtils.contains(documentTypesBeProcessed, documentTypeCode)) {
-                String documentNumber = errorEntry.getDocumentNumber();
-                String originationCode = errorEntry.getFinancialSystemOriginationCode();
-
-                // if so, get entry from valid group. It should be Source or Target accounting line
-                transactions = laborOriginEntryService.getEntriesByDocument(validGroup, documentNumber, documentTypeCode, originationCode);
-            }
-
-            // put the transactions into an error group
-            if (transactions != null) {
-                for (LaborOriginEntry transaction : transactions) {
-                    demergerReport.incrementErrorTransactionsSaved();
-                    transaction.setGroup(errorGroup);
-                    laborOriginEntryService.save(transaction);
-                }
-            }
+        
+        FileReader INPUT_GLE_FILE = null;
+        FileReader INPUT_ERR_FILE = null;
+        BufferedReader INPUT_GLE_FILE_br;
+        BufferedReader INPUT_ERR_FILE_br;
+        PrintStream OUTPUT_DEMERGER_GLE_FILE_ps;
+        PrintStream OUTPUT_DEMERGER_ERR_FILE_ps;
+        
+        //TODO: change file name for FIS
+        String demergerValidOutputFilename = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE; 
+        String demergerErrorOutputFilename = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE; 
+        
+        try {
+            INPUT_GLE_FILE = new FileReader(validOutputFilename);
+            INPUT_ERR_FILE = new FileReader(errorOutputFilename);
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            
+            OUTPUT_DEMERGER_GLE_FILE_ps = new PrintStream(demergerValidOutputFilename);
+            OUTPUT_DEMERGER_ERR_FILE_ps = new PrintStream(demergerErrorOutputFilename);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-        Collection<OriginEntryGroup> validGroups = new ArrayList<OriginEntryGroup>();
-        validGroups.add(validGroup);
+        Collection<LaborOriginEntry> validEntryCollection = new ArrayList();
+        int validLine = 0;
+        int errorLine = 0;
+        
+        
+        boolean errorsLoading = false;
+        LaborOriginEntry laborOriginEntry = null;
+        INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+        INPUT_ERR_FILE_br = new BufferedReader(INPUT_ERR_FILE);
+        
+        try {
+            String currentValidLine = INPUT_GLE_FILE_br.readLine();
+            String currentErrorLine = INPUT_ERR_FILE_br.readLine();
 
-        int validTransactionsSaved = laborOriginEntryService.getCountOfEntriesInGroups(validGroups);
-        demergerReport.setValidTransactionsSaved(validTransactionsSaved);
+            boolean meetFlag = false;
+            
+            while (currentValidLine != null || currentErrorLine != null) {
+                
+                //validLine is null means that errorLine is not null 
+                if (StringUtils.isEmpty(currentValidLine)) {
+                    createOutputEntry(currentErrorLine, OUTPUT_DEMERGER_ERR_FILE_ps);
+                    currentErrorLine = INPUT_ERR_FILE_br.readLine();
+                    errorLine++;
+                    
+                    continue;
+                }
+                
+                //errorLine is null means that validLine is not null
+                if (StringUtils.isEmpty(currentErrorLine)) {
+                    createOutputEntry(currentValidLine, OUTPUT_DEMERGER_GLE_FILE_ps);
+                    currentValidLine = INPUT_GLE_FILE_br.readLine();
+                    validLine++;
+                    
+                    continue;
+                }
+                
+                String documentTypeCode = currentErrorLine.substring(31, 35);
+                if (documentTypeCode != null) {
+                    //org.springframework.util.StringUtils.trimAllWhitespace(documentTypeCode);
+                    documentTypeCode = documentTypeCode.trim();
+                }
+                
+                if (ArrayUtils.contains(documentTypesBeProcessed, documentTypeCode)) {
+                    String compareStringFromValidEntry = currentValidLine.substring(31, 46); 
+                    String compareStringFromErrorEntry = currentErrorLine.substring(31, 46);
+                    
+                    if (compareStringFromValidEntry.compareTo(compareStringFromErrorEntry) < 0){
+                        createOutputEntry(currentValidLine, OUTPUT_DEMERGER_GLE_FILE_ps);
+                        currentValidLine = INPUT_GLE_FILE_br.readLine();
+                        validLine++;
+                        
+                    } else if (compareStringFromValidEntry.compareTo(compareStringFromErrorEntry) > 0) {
+                        createOutputEntry(currentErrorLine, OUTPUT_DEMERGER_ERR_FILE_ps);
+                        currentErrorLine = INPUT_ERR_FILE_br.readLine();
+                        errorLine++;
+                    } else {
+                        createOutputEntry(currentValidLine, OUTPUT_DEMERGER_ERR_FILE_ps);
+                        currentValidLine = INPUT_GLE_FILE_br.readLine();
+                        errorLine++;
+                    }
+                    
+                    continue;
+                }
+                createOutputEntry(currentErrorLine, OUTPUT_DEMERGER_ERR_FILE_ps);
+                currentErrorLine = INPUT_ERR_FILE_br.readLine();
+                errorLine++;
+            }
+            
+            INPUT_GLE_FILE_br.close();    
+            INPUT_ERR_FILE_br.close();
+            OUTPUT_DEMERGER_GLE_FILE_ps.close();
+            OUTPUT_DEMERGER_ERR_FILE_ps.close();
+            
+        } catch (Exception e) {
+            LOG.error("performDemerger() stopped due to: " + e.getMessage(), e);
+            throw new RuntimeException("performDemerger() stopped due to: " + e.getMessage(), e);
+        }
+        
+        
+        demergerReport.setValidTransactionsSaved(validLine);
 
-        eOes = laborOriginEntryService.getStatistics(errorGroup.getId());
-        demergerReport.setErrorTransactionWritten(eOes.getRowCount());
+        //TODO: shawn - need to change to use file
+        //shawn - commented out because if report use just number of error entries written, then use it for errorLine 
+        //eOes = laborOriginEntryService.getStatistics(demergerErrorOutputFilename);
+        demergerReport.setErrorTransactionWritten(errorLine);
 
         String reportsDirectory = ReportRegistry.getReportsDirectory();
+        
+        //shawn - set runDate here again, because demerger is calling outside from scrubber
+        runDate = calculateRunDate(dateTimeService.getCurrentDate());
+        runCal = Calendar.getInstance();
+        runCal.setTime(runDate);
+        
         laborReportService.generateScrubberDemergerStatisticsReports(demergerReport, reportsDirectory, runDate);
+
+        
+}
+
+
+    private void createOutputEntry(LaborOriginEntry entry, PrintStream ps) throws IOException {
+        try {
+            ps.printf("%s\n", entry.getLine());
+        } catch (Exception e) {
+            throw new IOException(e.toString());
+        }
+    }
+    
+    private void createOutputEntry(String line, PrintStream ps) throws IOException {
+        try {
+            ps.printf("%s\n", line);
+        } catch (Exception e) {
+            throw new IOException(e.toString());
+        }
+    }
+
+    public void setReferenceLookup(OriginEntryLookupService referenceLookup) {
+        this.referenceLookup.set(referenceLookup);
+        this.scrubberValidator.setReferenceLookup(referenceLookup);
+    }
+    
+    
+        
+    private boolean checkEntry(LaborOriginEntry validEntry, LaborOriginEntry errorEntry, String documentTypeCode){
+        String documentNumber = errorEntry.getDocumentNumber();
+        String originationCode = errorEntry.getFinancialSystemOriginationCode();
+
+        if (validEntry.getDocumentNumber().equals(documentNumber) && validEntry.getFinancialDocumentTypeCode().equals(documentTypeCode) && validEntry.getFinancialSystemOriginationCode().equals(originationCode)){
+            return true;
+        }
+            return false;
+        }
+
+    private Collection <LaborOriginEntry> getBadBalanceEntries (String fileName){
+        Collection returnCollection = new ArrayList();
+        FileReader INPUT_GLE_FILE = null;
+        BufferedReader INPUT_FILE_br;
+        try {
+            INPUT_GLE_FILE = new FileReader(fileName);
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        int lineNumber = 0;
+        boolean errorsLoading = false;
+        LaborOriginEntry laborOriginEntry = null;
+        INPUT_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+        try {
+            String currentLine = INPUT_FILE_br.readLine();
+
+            while (currentLine != null) {
+                lineNumber++;
+                if (!StringUtils.isEmpty(currentLine)) {
+                    try {
+                        laborOriginEntry = new LaborOriginEntry();
+                        laborOriginEntry.setFromTextFile(currentLine, lineNumber);
+                    }
+                    catch (LoadException e) {
+                        errorsLoading = true;
+                    }
+                if (isBadBalanceEntry(laborOriginEntry)){
+                    returnCollection.add(laborOriginEntry);
+                }
+                }
+                currentLine = INPUT_FILE_br.readLine();
+            }
+            INPUT_FILE_br.close();    
+        } catch (IOException e) {
+            // FIXME: do whatever should be done here
+            throw new RuntimeException(e);
+        }
+        
+        List sortColumns = new ArrayList();
+
+        sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        sortColumns.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        sortColumns.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        sortColumns.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+        
+        Collections.sort((List) returnCollection, new BeanPropertyComparator(sortColumns, true));
+            
+        return returnCollection;
+    }
+    
+    private boolean isBadBalanceEntry(LaborOriginEntry laborOriginEntry){
+        if (laborOriginEntry.getFinancialBalanceTypeCode() == null || laborOriginEntry.getFinancialBalanceTypeCode().endsWith("  ")){
+            return true;
+        }
+        return false; 
+    }
+    
+    private Collection <LaborOriginEntry> getRemovedTransactions (String fileName){
+        
+        Collection returnCollection = new ArrayList();
+        
+        FileReader INPUT_GLE_FILE = null;
+        BufferedReader INPUT_FILE_br;
+        try {
+            INPUT_GLE_FILE = new FileReader(fileName);
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        int lineNumber = 0;
+        boolean errorsLoading = false;
+        LaborOriginEntry laborOriginEntry = null;
+        INPUT_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+        try {
+            String currentLine = INPUT_FILE_br.readLine();
+
+            while (currentLine != null) {
+                lineNumber++;
+                if (!StringUtils.isEmpty(currentLine)) {
+                    try {
+                        laborOriginEntry = new LaborOriginEntry();
+                        laborOriginEntry.setFromTextFile(currentLine, lineNumber);
+                    }
+                    catch (LoadException e) {
+                        errorsLoading = true;
+                    }
+                }
+                currentLine = INPUT_FILE_br.readLine();
+            }
+            INPUT_FILE_br.close();    
+        } catch (IOException e) {
+            // FIXME: do whatever should be done here
+            throw new RuntimeException(e);
+        }
+        
+        List sortColumns = new ArrayList();
+        sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        sortColumns.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        sortColumns.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        sortColumns.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        sortColumns.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+        sortColumns.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
+        Collections.sort((List) returnCollection, new BeanPropertyComparator(sortColumns, true));
+        return returnCollection;
     }
 }
+

@@ -172,7 +172,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         for (Iterator iter = transactions.iterator(); iter.hasNext();) {
             Transaction tran = (Transaction) iter.next();
 
-            SystemOptions year = tran.getOption();
+            SystemOptions year = tran.getSystemOptions();
             if (year == null) {
                 year = currentYear;
             }

@@ -54,15 +54,16 @@
 				<value>clearLaborPendingEntriesJob</value>
 				<value>laborBalanceForwardJob</value>
 				<value>laborPurgeJob</value>
+				
 			</list>
 		</property>
-        <property name="fiscalYearMakers">
+		<property name="fiscalYearMakers">
           <list>
             <ref bean="benefitsCalculationFiscalYearMaker" />
             <ref bean="laborObjectDefinitionFiscalYearMaker" />
             <ref bean="positionObjectBenefitDefinitionFiscalYearMaker" />
           </list>	
-        </property>  		
+        </property>  
 		<property name="externalizableBusinessObjectImplementations">
             <map>
 				<entry key="org.kuali.kfs.integration.ld.LaborLedgerBalance" value="org.kuali.kfs.module.ld.businessobject.LedgerBalance" />
@@ -112,6 +113,9 @@
         <property name="laborLedgerEntryDao">
             <ref bean="laborLedgerEntryDao" />
         </property>
+        <property name="laborCachingDao">
+		  	<ref bean="laborCachingDao" />
+		</property>
     </bean>
     
 	<bean id="laborOriginEntryService" class="org.kuali.kfs.module.ld.service.impl.LaborOriginEntryServiceImpl">
@@ -215,6 +219,7 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+        <property name="batchFileDirectoryName" value="${staging.directory}"/>
     </bean>
 
 	<bean id="laborScrubberService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborScrubberServiceImpl">
@@ -254,6 +259,7 @@
 		<property name="scrubberValidator">
 			<ref bean="laborScrubberValidator" />
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
 	</bean>
 	
     <bean id="laborScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl">
@@ -284,7 +290,22 @@
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
+		
     </bean>
+    
+    <bean id="laborOriginEntryLookupService" class="org.kuali.kfs.module.ld.service.impl.LaborOriginEntryLookupServiceImpl" singleton="false">
+		<property name="laborCachingDao">
+		  	<ref bean="laborCachingDao" />
+		</property>
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
+		</property>
+	</bean>
+	
+	
+	<bean id="laborCachingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborCachingDaoJdbc" init-method="init" >
+	</bean>
+	
 	
     <bean id="laborPosterService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">
         <property name="laborOriginEntryService">
@@ -317,6 +338,7 @@
         <property name="laborGLLedgerEntryPoster">
             <ref bean="laborGLLedgerEntryPoster" />
         </property>
+        <property name="batchFileDirectoryName" value="${staging.directory}"/>
     </bean>
     
     <bean id="laborBalanceSummaryReportService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalanceSummaryReportServiceImpl">
@@ -491,7 +513,11 @@
 		<property name="steps">
 			<list>
 				<ref bean="createLaborBackupGroupStep"/>
+				<ref bean="laborScrubberSortStep"/>
 				<ref bean="laborScrubberStep"/>
+				<ref bean="laborDemergerSortStep" />
+				<ref bean="laborDemergerStep" />
+				
 			</list>
 		</property>
 		<property name="dependencies">
@@ -501,11 +527,35 @@
 		</property>
 	</bean>	
 	
+	<bean id="laborDemergerStep" class="org.kuali.kfs.module.ld.batch.LaborDemergerStep" parent="step">
+		<property name="laborScrubberService">
+			<ref bean="laborScrubberService" />
+		</property>
+	</bean>
+	
+	<bean id="laborScrubberSortStep" class="org.kuali.kfs.module.ld.batch.LaborScrubberSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+	</bean>
+	
+	<bean id="laborDemergerSortStep" class="org.kuali.kfs.module.ld.batch.LaborDemergerSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+	</bean>
+	
+	<bean id="laborPosterSortStep" class="org.kuali.kfs.module.ld.batch.LaborPosterSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+	</bean>
+	
+	<bean id="laborFileRenameStep" class="org.kuali.kfs.module.ld.batch.LaborFileRenameStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+	</bean>
+	
 	<bean id="laborPosterJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
+				<ref bean="laborPosterSortStep"/>
 				<ref bean="laborPosterStep"/>
 				<ref bean="laborBalanceSummaryStep"/>
+				<ref bean="laborFileRenameStep"/>
 			</list>
 		</property>
 		<property name="dependencies">

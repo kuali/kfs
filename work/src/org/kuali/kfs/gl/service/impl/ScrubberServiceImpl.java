@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -61,6 +62,8 @@ public class ScrubberServiceImpl implements ScrubberService {
     private ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride;
     private RunDateService runDateService;
     private OriginEntryLiteService originEntryLiteService;
+    
+    private String batchFileDirectoryName;
 
     /**
      * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin
@@ -75,7 +78,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         sp.scrubGroupReportOnly(group, documentNumber);
         sp.setReferenceLookup(null);
@@ -91,7 +94,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         sp.scrubEntries();
         sp.setReferenceLookup(null);
@@ -113,11 +116,18 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
 
         // this service is especially developed to support collector scrubbing, demerger, and report generation
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         ScrubberStatus result = sp.scrubCollectorBatch(batch, collectorReportData);
         sp.setReferenceLookup(null);
         return result;
+    }
+    
+    public void performDemerger() {
+        LOG.debug("performDemerger() started");
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
+        sp.performDemerger();
+        
     }
 
     /**
@@ -130,21 +140,21 @@ public class ScrubberServiceImpl implements ScrubberService {
     }
 
     /**
+     * Sets the generalLedgerInputTypeService attribute value.
+     * 
+     * @param documentTypeService The generalLedgerInputTypeService to set.
+     */
+    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService glInputTypeService) {
+        this.generalLedgerInputTypeService = glInputTypeService;
+    }
+
+    /**
      * Sets the scrubberValidator attribute value.
      * 
      * @param sv The scrubberValidator to set.
      */
     public void setScrubberValidator(ScrubberValidator sv) {
         scrubberValidator = sv;
-    }
-
-    /**
-     * Sets the generalLedgerInputTypeService attribute value.
-     * 
-     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
-     */
-    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 
     /**
@@ -262,6 +272,14 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     public void setOriginEntryLiteService(OriginEntryLiteService originEntryLiteService) {
         this.originEntryLiteService = originEntryLiteService;
+    }
+
+    public String getBatchFileDirectoryName() {
+        return batchFileDirectoryName;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
 

@@ -146,6 +146,27 @@ public class LaborConstants {
         public static final String NON_FRINGE_ACCOUNT_BYPASS_ORIGINATIONS = "NON_FRINGE_ACCOUNT_BYPASS_ORIGINATIONS";
         public static final String NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS = "NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS";
     }
+    
+    public static class BatchFileSystem {
+        static final public String DIVIDER = "/";
+        
+        static final public String BACKUP_FILE = "LD_LDBACKUP";
+        static final public String PRE_SCRUBBER_FILE = "LD_LABENTRY";
+        static final public String SCRUBBER_INPUT_FILE = "LD_SORTSCRB";
+        
+        static final public String SCRUBBER_VALID_OUTPUT_FILE = "LD_SCRBOUT1";
+        static final public String SCRUBBER_ERROR_OUTPUT_FILE = "LD_SCRBERR1";
+        static final public String SCRUBBER_EXPIRED_OUTPUT_FILE = "LD_EXPACCTS";
+        
+        static final public String SCRUBBER_ERROR_SORTED_FILE = "LD_SORTERR1";
+        static final public String DEMERGER_VAILD_OUTPUT_FILE = "LD_SCRBOUT2";
+        static final public String DEMERGER_ERROR_OUTPUT_FILE = "LD_SCRBERR2";
+        
+        static final public String POSTER_INPUT_FILE = "LD_SORTPOST";
+        static final public String POSTER_VALID_OUTPUT_FILE = "LD_POSTOUT";
+        static final public String POSTER_ERROR_OUTPUT_FILE = "LD_POSTERRS";
+        
+    }
 
     public static class TransactionGeneratorNames {
         public static final String BENEFIT_ACCRUAL = "BENEFIT ACCRUAL";

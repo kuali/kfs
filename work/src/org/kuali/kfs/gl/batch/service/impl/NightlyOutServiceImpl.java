@@ -15,16 +15,22 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.businessobject.OriginEntryLite;
 import org.kuali.kfs.gl.service.NightlyOutService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -43,7 +49,8 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     private DateTimeService dateTimeService;
     private OriginEntryGroupService originEntryGroupService;
     private ReportService reportService;
-
+    private String batchFileDirectoryName;
+    
     /**
      * Constructs a NightlyOutServiceImpl instance
      */
@@ -66,29 +73,58 @@ public class NightlyOutServiceImpl implements NightlyOutService {
      */
     public void copyApprovedPendingLedgerEntries() {
         LOG.debug("copyApprovedPendingLedgerEntries() started");
-
-        Iterator pendingEntries = generalLedgerPendingEntryService.findApprovedPendingLedgerEntries();
-
         Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
-
-        OriginEntryGroup group = originEntryGroupService.createGroup(today, OriginEntrySource.GENERATE_BY_EDOC, true, true, true);
-
+        
+        Iterator pendingEntries = generalLedgerPendingEntryService.findApprovedPendingLedgerEntries();
+        String outputFile = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE;
+        PrintStream outputFilePs;
+        
+        try {
+            outputFilePs  = new PrintStream(outputFile);
+        }
+        catch (IOException e) {
+            // FIXME: do whatever is supposed to be done here
+            throw new RuntimeException(e);
+        }
+        
+        
+        //OriginEntryGroup group = originEntryGroupService.createGroup(today, OriginEntrySource.GENERATE_BY_EDOC, true, true, true);
+        //TODO: Shawn - might need to change this part to use file not collection
+        Collection<OriginEntryLite> group = new ArrayList();
         while (pendingEntries.hasNext()) {
             // get one pending entry
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries.next();
-
+            
+            OriginEntryLite entry = new OriginEntryLite(pendingEntry);
+            
+            group.add(entry);
             // copy the pending entry to origin entry table
-            saveAsOriginEntry(pendingEntry, group);
+            //saveAsOriginEntry(pendingEntry, group);
+            
+            // copy the pending entry to text file
+            
+            try {
+                outputFilePs.printf("%s\n", entry.getLine());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
             // update the pending entry to indicate it has been copied
             pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
             pendingEntry.setTransactionDate(today);
-            generalLedgerPendingEntryService.save(pendingEntry);
+            
+            //shawn - temporary -- need to back when I committ
+            //generalLedgerPendingEntryService.save(pendingEntry);
         }
-
+        
+        outputFilePs.close();
+        
         // Print reports
+        // shawn - we need to change this to make it use file system?
         reportService.generatePendingEntryReport(today, group);
-        reportService.generatePendingEntryLedgerSummaryReport(today, group);
+        
+        // shawn - temporary commented out  
+        //reportService.generatePendingEntryLedgerSummaryReport(today, group);
     }
 
     /**
@@ -122,5 +158,17 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
     public void setReportService(ReportService rs) {
         this.reportService = rs;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+    
+    private void createOutputEntry(LaborOriginEntry entry, PrintStream ps) throws IOException {
+        try {
+            ps.printf("%s\n", entry.getLine());
+        } catch (Exception e) {
+            throw new IOException(e.toString());
+        }
     }
 }

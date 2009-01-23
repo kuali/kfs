@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.module.ld.dataaccess.LaborCachingDao;
 import org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao;
 import org.kuali.kfs.module.ld.service.LaborLedgerEntryService;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,19 +35,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
 
     private LaborLedgerEntryDao laborLedgerEntryDao;
-
+    private LaborCachingDao laborCachingDao;
     /**
      * @see org.kuali.kfs.module.ld.service.LaborLedgerEntryService#save(org.kuali.kfs.module.ld.businessobject.LedgerEntry)
      */
     public void save(LedgerEntry ledgerEntry) {
-        laborLedgerEntryDao.save(ledgerEntry);
+        laborCachingDao.insertLedgerEntry(ledgerEntry);
     }
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborLedgerEntryService#getMaxSquenceNumber(org.kuali.kfs.module.ld.businessobject.LedgerEntry)
      */
     public Integer getMaxSequenceNumber(LedgerEntry ledgerEntry) {
-        return laborLedgerEntryDao.getMaxSquenceNumber(ledgerEntry);
+        return laborCachingDao.getMaxLaborSequenceNumber(ledgerEntry);
     }
 
     /**
@@ -84,5 +85,9 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
      */
     public void setLaborLedgerEntryDao(LaborLedgerEntryDao laborLedgerEntryDao) {
         this.laborLedgerEntryDao = laborLedgerEntryDao;
+    }
+
+    public void setLaborCachingDao(LaborCachingDao laborCachingDao) {
+        this.laborCachingDao = laborCachingDao;
     }
 }

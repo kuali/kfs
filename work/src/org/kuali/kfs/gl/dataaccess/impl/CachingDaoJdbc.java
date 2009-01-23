@@ -27,8 +27,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -43,8 +44,8 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
@@ -54,32 +55,31 @@ import org.kuali.rice.kns.service.DateTimeService;
 public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CachingDaoJdbc.class);
 
-    HashMap dataCache = new HashMap();
-    PreparedStatement accountPreparedSelect;
-    PreparedStatement subFundGroupPreparedSelect;
-    PreparedStatement objectCodePreparedSelect;
-    PreparedStatement offsetDefinitionPreparedSelect;
-    PreparedStatement universityDatePreparedSelect;
-    PreparedStatement subAccountPreparedSelect;
-    PreparedStatement parameterPreparedSelect;
-    PreparedStatement subObjCdPreparedSelect;
-    PreparedStatement a21SubAccountPreparedSelect;
-    PreparedStatement projectCodePreparedSelect;
-    PreparedStatement generalLedgerInputTypePreparedSelect;
-    PreparedStatement objectTypePreparedSelect;
-    PreparedStatement balanceTypPreparedSelect;
-    PreparedStatement chartPreparedSelect;
-    PreparedStatement optionsPreparedSelect;
-    PreparedStatement originationCodePreparedSelect;
-    PreparedStatement accountingPeriodPreparedSelect;
-    PreparedStatement orgPreparedSelect;
-    PreparedStatement objLevelPreparedSelect;
-    PreparedStatement ledgerEntryInsert;
-    PreparedStatement laborObjectPreparedSelect;
-    PreparedStatement accountChartPreparedSelect;
-    PreparedStatement reversalInsert;
-    PreparedStatement entryPreparedSelect;
-    PreparedStatement entryInsert;
+    HashMap<String,Object> dataCache = new HashMap<String,Object>();
+    private PreparedStatement accountPreparedSelect;
+    private PreparedStatement subFundGroupPreparedSelect;
+    private PreparedStatement objectCodePreparedSelect;
+    private PreparedStatement offsetDefinitionPreparedSelect;
+    private PreparedStatement universityDatePreparedSelect;
+    private PreparedStatement subAccountPreparedSelect;
+    private PreparedStatement parameterPreparedSelect;
+    private PreparedStatement subObjCdPreparedSelect;
+    private PreparedStatement a21SubAccountPreparedSelect;
+    private PreparedStatement projectCodePreparedSelect;
+    private PreparedStatement generalLedgerInputTypePreparedSelect;
+    private PreparedStatement objectTypePreparedSelect;
+    private PreparedStatement balanceTypPreparedSelect;
+    private PreparedStatement chartPreparedSelect;
+    private PreparedStatement optionsPreparedSelect;
+    private PreparedStatement originationCodePreparedSelect;
+    private PreparedStatement accountingPeriodPreparedSelect;
+    private PreparedStatement orgPreparedSelect;
+    private PreparedStatement objLevelPreparedSelect;
+    private PreparedStatement accountChartPreparedSelect;
+    private PreparedStatement reversalInsert;
+    private PreparedStatement entryPreparedSelect;
+    private PreparedStatement entryInsert;
+    private PreparedStatement indirectCostRecoveryTypePreparedSelect;
     
     private Connection connection;
     private UniversityDateService universityDateService;
@@ -182,6 +182,10 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                     a21SubAccount.setCostShareChartOfAccountCode(rs.getString(2));
                     a21SubAccount.setCostShareSourceAccountNumber(rs.getString(3));
                     a21SubAccount.setCostShareSourceSubAccountNumber(rs.getString(4));
+                    a21SubAccount.setIndirectCostRecoveryTypeCode(rs.getString(5));
+                    a21SubAccount.setFinancialIcrSeriesIdentifier(rs.getString(6));
+                    a21SubAccount.setIndirectCostRecoveryChartOfAccountsCode(rs.getString(7));
+                    a21SubAccount.setIndirectCostRecoveryAccountNumber(rs.getString(8));
                     dataCache.put(key, a21SubAccount);
                 } else { LOG.debug("A21SubAccount not found: " + key); dataCache.put(key, " "); }
                 if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
@@ -194,8 +198,12 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     }
 
     public Chart getChart(OriginEntry originEntry) {
+        return getChart(originEntry.getChartOfAccountsCode());
+    }
+    
+    public Chart getChart(String chartOfAccountsCode) {
         Chart originEntryChart = null;
-        String key = "CA_CHART_T:" + originEntry.getChartOfAccountsCode();
+        String key = "CA_CHART_T:" + chartOfAccountsCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
@@ -203,11 +211,11 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             }
         } else {
             try {
-                chartPreparedSelect.setString(1, originEntry.getChartOfAccountsCode());
+                chartPreparedSelect.setString(1, chartOfAccountsCode);
                 ResultSet rs = chartPreparedSelect.executeQuery();
                 if (rs.next()) {
                     originEntryChart = new Chart();
-                    originEntryChart.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
+                    originEntryChart.setChartOfAccountsCode(chartOfAccountsCode);
                     originEntryChart.setActive(rs.getString(1).compareTo("Y") == 0 ? true : false);
                     originEntryChart.setFundBalanceObjectCode(rs.getString(4));
                     originEntryChart.setFinancialCashObjectCode(rs.getString(2));
@@ -226,14 +234,12 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return originEntryChart;
     }
     
-    public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry entry) {
-        return getGeneralLedgerInputType(entry.getFinancialDocumentTypeCode());
+    public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry originEntry) {
+        return getGeneralLedgerInputType(originEntry.getReferenceFinancialDocumentTypeCode());
     }
-
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry entry) {
-        return getGeneralLedgerInputType(entry.getReferenceFinancialDocumentTypeCode());
+    public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry originEntry) {
+        return getGeneralLedgerInputType(originEntry.getFinancialDocumentTypeCode());
     }
-
     public GeneralLedgerInputType getGeneralLedgerInputType(String generalLedgerInputTypeCode) {
         GeneralLedgerInputType generalLedgerInputType = null;
         String key = "GL_INPUT_TYP_T:" + generalLedgerInputTypeCode;
@@ -250,7 +256,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                     generalLedgerInputType = new GeneralLedgerInputType();
                     generalLedgerInputType.setInputTypeCode(generalLedgerInputTypeCode);
                     dataCache.put(key, generalLedgerInputType);
-                } else { LOG.debug("GeneralLedgerInputType not found: " + key); dataCache.put(key, " "); }
+                } else { LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); }
                 if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
                 rs.close();
             } catch (SQLException e) {
@@ -260,11 +266,11 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return generalLedgerInputType;
     }
     
-    public SystemOptions getOption(OriginEntry originEntry) {
-        return getOption(originEntry.getUniversityFiscalYear());
+    public SystemOptions getSystemOptions(OriginEntry originEntry) {
+        return getSystemOptions(originEntry.getUniversityFiscalYear());
     }
     
-    public SystemOptions getOption(Integer fiscalYear) {
+    public SystemOptions getSystemOptions(Integer fiscalYear) {
         SystemOptions originEntryOption = null;
         String key = "FS_OPTION_T:" + fiscalYear.toString();
         Object value = dataCache.get(key);
@@ -293,7 +299,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                     originEntryOption.setFinObjTypeExpNotExpendCode(rs.getString(10));
                     originEntryOption.setBudgetCheckingBalanceTypeCd(rs.getString(11));
                     dataCache.put(key, originEntryOption);
-                } else { LOG.debug("Options not found: " + key); dataCache.put(key, " "); }
+                } else { LOG.debug("SystemOptions not found: " + key); dataCache.put(key, " "); }
                 if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
                 rs.close();
             } catch (SQLException e) {
@@ -302,8 +308,6 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         }
         return originEntryOption;
     }
-    
-    
     
     public ObjectCode getFinancialObject(OriginEntry originEntry) {
         return getObjectCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
@@ -345,8 +349,11 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     }
     
     public BalanceType getBalanceType(OriginEntry originEntry) {
+        return getBalanceType(originEntry.getFinancialBalanceTypeCode());
+    }
+    public BalanceType getBalanceType(String financialBalanceTypeCode) {
         BalanceType originEntryBalanceType = null;
-        String key = "CA_BALANCE_TYPE_T:" + originEntry.getFinancialBalanceTypeCode();
+        String key = "CA_BALANCE_TYPE_T:" + financialBalanceTypeCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
@@ -354,11 +361,11 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             }
         } else {
             try {
-                balanceTypPreparedSelect.setString(1, originEntry.getFinancialBalanceTypeCode());
+                balanceTypPreparedSelect.setString(1, financialBalanceTypeCode);
                 ResultSet rs = balanceTypPreparedSelect.executeQuery();
                 if (rs.next()) {
                     originEntryBalanceType = new BalanceType();
-                    originEntryBalanceType.setFinancialBalanceTypeCode(originEntry.getFinancialBalanceTypeCode());
+                    originEntryBalanceType.setFinancialBalanceTypeCode(financialBalanceTypeCode);
                     originEntryBalanceType.setFinancialOffsetGenerationIndicator(rs.getString(1).compareTo("Y") == 0 ? true : false);
                     originEntryBalanceType.setFinBalanceTypeEncumIndicator(rs.getString(2).compareTo("Y") == 0 ? true : false);
                     originEntryBalanceType.setActive(rs.getString(3).compareTo("Y") == 0 ? true : false);
@@ -514,8 +521,11 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     }
     
     public SubAccount getSubAccount(OriginEntry originEntry) {
+        return getSubAccount(originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber(), originEntry.getSubAccountNumber());
+    }
+    public SubAccount getSubAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         SubAccount subAccount = null;
-        String key = "CA_SUB_ACCT_T:" + originEntry.getChartOfAccountsCode() + "/" + originEntry.getAccountNumber() + "/" + originEntry.getSubAccountNumber();
+        String key = "CA_SUB_ACCT_T:" + chartOfAccountsCode + "/" + accountNumber + "/" + subAccountNumber;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
@@ -523,15 +533,15 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             }
         } else {
             try {
-                subAccountPreparedSelect.setString(1, originEntry.getChartOfAccountsCode());
-                subAccountPreparedSelect.setString(2, originEntry.getAccountNumber());
-                subAccountPreparedSelect.setString(3, originEntry.getSubAccountNumber());
+                subAccountPreparedSelect.setString(1, chartOfAccountsCode);
+                subAccountPreparedSelect.setString(2, accountNumber);
+                subAccountPreparedSelect.setString(3, subAccountNumber);
                 ResultSet rs = subAccountPreparedSelect.executeQuery();
                 if (rs.next()) {
                     subAccount = new SubAccount();
-                    subAccount.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
-                    subAccount.setAccountNumber(originEntry.getAccountNumber());
-                    subAccount.setSubAccountNumber(originEntry.getSubAccountNumber());
+                    subAccount.setChartOfAccountsCode(chartOfAccountsCode);
+                    subAccount.setAccountNumber(accountNumber);
+                    subAccount.setSubAccountNumber(subAccountNumber);
                     subAccount.setActive(rs.getString(1).compareTo("Y") == 0 ? true : false);
                     dataCache.put(key, subAccount);
                 } else { LOG.debug("SubAccount not found: " + key); dataCache.put(key, " "); }
@@ -603,8 +613,11 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return objectType;
     }
     public SubObjectCode getFinancialSubObject(OriginEntry originEntry) {
+        return getFinancialSubObject(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber(), originEntry.getFinancialObjectCode(), originEntry.getFinancialSubObjectCode());
+    }
+    public SubObjectCode getFinancialSubObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
         SubObjectCode subObject = null;
-        String key = "CA_SUB_OBJECT_CD_T:" + originEntry.getUniversityFiscalYear().toString() + "/" + originEntry.getChartOfAccountsCode() + "/" + originEntry.getAccountNumber() + "/" + originEntry.getFinancialObjectCode() + "/" + originEntry.getFinancialSubObjectCode();
+        String key = "CA_SUB_OBJECT_CD_T:" + universityFiscalYear.toString() + "/" + chartOfAccountsCode + "/" + accountNumber + "/" + financialObjectCode + "/" + financialSubObjectCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
@@ -612,22 +625,22 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             }
         } else {
             try {
-                subObjCdPreparedSelect.setInt(1, originEntry.getUniversityFiscalYear());
-                subObjCdPreparedSelect.setString(2, originEntry.getChartOfAccountsCode());
-                subObjCdPreparedSelect.setString(3, originEntry.getAccountNumber());
-                subObjCdPreparedSelect.setString(4, originEntry.getFinancialObjectCode());
-                subObjCdPreparedSelect.setString(5, originEntry.getFinancialSubObjectCode());
+                subObjCdPreparedSelect.setInt(1, universityFiscalYear);
+                subObjCdPreparedSelect.setString(2, chartOfAccountsCode);
+                subObjCdPreparedSelect.setString(3, accountNumber);
+                subObjCdPreparedSelect.setString(4, financialObjectCode);
+                subObjCdPreparedSelect.setString(5, financialSubObjectCode);
                 ResultSet rs = subObjCdPreparedSelect.executeQuery();
                 if (rs.next()) {
                     subObject = new SubObjectCode();
-                    subObject.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
-                    subObject.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
-                    subObject.setAccountNumber(originEntry.getAccountNumber());
-                    subObject.setFinancialObjectCode(originEntry.getFinancialObjectCode());
-                    subObject.setFinancialSubObjectCode(originEntry.getFinancialSubObjectCode());
+                    subObject.setUniversityFiscalYear(universityFiscalYear);
+                    subObject.setChartOfAccountsCode(chartOfAccountsCode);
+                    subObject.setAccountNumber(accountNumber);
+                    subObject.setFinancialObjectCode(financialObjectCode);
+                    subObject.setFinancialSubObjectCode(financialSubObjectCode);
                     subObject.setActive(rs.getString(1).compareTo("Y") == 0 ? true : false);
                     dataCache.put(key, subObject);
-                } else { LOG.debug("SubObjCd not found: " + key); dataCache.put(key, " "); }
+                } else { LOG.debug("SubObjectCode not found: " + key); dataCache.put(key, " "); }
                 if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
                 rs.close();
             } catch (SQLException e) {
@@ -638,8 +651,11 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     }
     
     public ProjectCode getProjectCode(OriginEntry originEntry) {
+        return getProjectCode(originEntry.getProjectCode());
+    }
+    public ProjectCode getProjectCode(String projectCode) {
         ProjectCode project = null;
-        String key = "CA_PROJECT_T:" + originEntry.getProjectCode();
+        String key = "CA_PROJECT_T:" + projectCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
@@ -647,11 +663,11 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             }
         } else {
             try {
-                projectCodePreparedSelect.setString(1, originEntry.getProjectCode());
+                projectCodePreparedSelect.setString(1, projectCode);
                 ResultSet rs = projectCodePreparedSelect.executeQuery();
                 if (rs.next()) {
                     project = new ProjectCode();
-                    project.setCode(originEntry.getProjectCode());
+                    project.setCode(projectCode);
                     project.setActive(rs.getString(1).compareTo("Y") == 0 ? true : false);
                     dataCache.put(key, project);
                 } else { LOG.debug("ProjectCode not found: " + key); dataCache.put(key, " "); }
@@ -667,7 +683,6 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     public OriginationCode getOriginationCode(OriginEntry originEntry) {
         return getOriginationCode(originEntry.getFinancialSystemOriginationCode());
     }
-    
     
     public OriginationCode getOriginationCode(String financialSystemOriginationCode) {
         OriginationCode originationCode = null;
@@ -696,7 +711,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return originationCode;
     }
     
-    public ObjectLevel getObjLevel(String chartOfAccountsCode, String financialObjectLevelCode) {
+    public ObjectLevel getObjectLevel(String chartOfAccountsCode, String financialObjectLevelCode) {
         ObjectLevel objLevel = null;
         String key = "CA_OBJ_LEVEL_T:" + chartOfAccountsCode + "/" + financialObjectLevelCode;
         Object value = dataCache.get(key);
@@ -715,7 +730,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                     objLevel.setFinancialObjectLevelCode(financialObjectLevelCode);
                     objLevel.setFinancialConsolidationObjectCode(rs.getString(1));
                     dataCache.put(key, objLevel);
-                } else { LOG.debug("ObjLevel not found: " + key); dataCache.put(key, " "); }
+                } else { LOG.debug("ObjectLevel not found: " + key); dataCache.put(key, " "); }
                 if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
                 rs.close();
             } catch (SQLException e) {
@@ -725,103 +740,6 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return objLevel;
     }
     
-    //TODO: move to labor
-    
-    
-//    public void insertLedgerEntry(LedgerEntry ledgerEntry){
-//        
-//        try {
-//            ledgerEntryInsert.setInt(1, ledgerEntry.getUniversityFiscalYear());
-//            ledgerEntryInsert.setString(2, ledgerEntry.getChartOfAccountsCode());
-//            ledgerEntryInsert.setString(3, ledgerEntry.getAccountNumber());
-//            ledgerEntryInsert.setString(4, ledgerEntry.getSubAccountNumber());
-//            ledgerEntryInsert.setString(5, ledgerEntry.getFinancialObjectCode());
-//            ledgerEntryInsert.setString(6, ledgerEntry.getFinancialSubObjectCode());
-//            ledgerEntryInsert.setString(7, ledgerEntry.getFinancialBalanceTypeCode());
-//            ledgerEntryInsert.setString(8, ledgerEntry.getFinancialObjectTypeCode());
-//            ledgerEntryInsert.setString(9, ledgerEntry.getUniversityFiscalPeriodCode());
-//            ledgerEntryInsert.setString(10, ledgerEntry.getFinancialDocumentTypeCode());
-//            ledgerEntryInsert.setString(11, ledgerEntry.getFinancialSystemOriginationCode());
-//            ledgerEntryInsert.setString(12, ledgerEntry.getDocumentNumber());
-//            ledgerEntryInsert.setInt(13, ledgerEntry.getTransactionLedgerEntrySequenceNumber());
-//            ledgerEntryInsert.setString(14, ledgerEntry.getPositionNumber());
-//            ledgerEntryInsert.setString(15, ledgerEntry.getProjectCode());
-//            ledgerEntryInsert.setString(16, ledgerEntry.getTransactionLedgerEntryDescription());
-//            ledgerEntryInsert.setBigDecimal(17, ledgerEntry.getTransactionLedgerEntryAmount().bigDecimalValue());
-//            ledgerEntryInsert.setString(18, ledgerEntry.getTransactionDebitCreditCode());
-//            ledgerEntryInsert.setDate(19, ledgerEntry.getTransactionDate());
-//            ledgerEntryInsert.setString(20, ledgerEntry.getOrganizationDocumentNumber());
-//            ledgerEntryInsert.setString(21, ledgerEntry.getOrganizationReferenceId());
-//            ledgerEntryInsert.setString(22, ledgerEntry.getReferenceFinancialDocumentTypeCode());
-//            ledgerEntryInsert.setString(23, ledgerEntry.getReferenceFinancialSystemOriginationCode());
-//            ledgerEntryInsert.setString(24, ledgerEntry.getReferenceFinancialDocumentNumber());
-//            ledgerEntryInsert.setDate(25, ledgerEntry.getFinancialDocumentReversalDate());
-//            ledgerEntryInsert.setString(26, ledgerEntry.getTransactionEncumbranceUpdateCode());
-//            ledgerEntryInsert.setDate(27, ledgerEntry.getTransactionPostingDate());
-//            ledgerEntryInsert.setDate(28, ledgerEntry.getPayPeriodEndDate());
-//            ledgerEntryInsert.setBigDecimal(29, ledgerEntry.getTransactionTotalHours());
-//            if (ledgerEntry.getPayrollEndDateFiscalYear() == null){
-//                ledgerEntryInsert.setNull(30, java.sql.Types.INTEGER );
-//            } else {
-//                ledgerEntryInsert.setInt(30, ledgerEntry.getPayrollEndDateFiscalYear());
-//            }
-//            ledgerEntryInsert.setString(31, ledgerEntry.getPayrollEndDateFiscalPeriodCode());
-//            ledgerEntryInsert.setString(32, ledgerEntry.getEmplid());
-//            if (ledgerEntry.getEmployeeRecord() == null){
-//                    ledgerEntryInsert.setNull(33, java.sql.Types.INTEGER);
-//                } else {
-//                    ledgerEntryInsert.setInt(33, ledgerEntry.getEmployeeRecord());
-//            }
-//            ledgerEntryInsert.setString(34, ledgerEntry.getEarnCode());
-//            ledgerEntryInsert.setString(35, ledgerEntry.getPayGroup());
-//            ledgerEntryInsert.setString(36, ledgerEntry.getSalaryAdministrationPlan());
-//            ledgerEntryInsert.setString(37, ledgerEntry.getGrade());
-//            ledgerEntryInsert.setString(38, ledgerEntry.getRunIdentifier());
-//            ledgerEntryInsert.setString(39, ledgerEntry.getLaborLedgerOriginalChartOfAccountsCode());
-//            ledgerEntryInsert.setString(40, ledgerEntry.getLaborLedgerOriginalAccountNumber());
-//            ledgerEntryInsert.setString(41, ledgerEntry.getLaborLedgerOriginalSubAccountNumber());
-//            ledgerEntryInsert.setString(42, ledgerEntry.getLaborLedgerOriginalFinancialObjectCode());
-//            ledgerEntryInsert.setString(43, ledgerEntry.getLaborLedgerOriginalFinancialSubObjectCode());
-//            ledgerEntryInsert.setString(44, ledgerEntry.getHrmsCompany());
-//            ledgerEntryInsert.setString(45, ledgerEntry.getSetid());
-//            ledgerEntryInsert.setTimestamp(46, ledgerEntry.getTransactionDateTimeStamp());
-//                    
-//            ledgerEntryInsert.executeQuery();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-    
-//    public LaborObject getLaborObject(OriginEntry originEntry) {
-//        LaborObject laborObject = null;
-//        String key = "LD_LABOR_OBJ_T:" + originEntry.getUniversityFiscalYear().toString() + "/" + originEntry.getChartOfAccountsCode() + "/" + originEntry.getFinancialObjectCode();
-//        Object value = dataCache.get(key);
-//        if (value != null) {
-//            if (!value.equals(" ")) {
-//            laborObject = (LaborObject) value;
-//            }
-//        } else {
-//            try {
-//            laborObjectPreparedSelect.setInt(1, originEntry.getUniversityFiscalYear());
-//            laborObjectPreparedSelect.setString(2, originEntry.getChartOfAccountsCode());
-//            laborObjectPreparedSelect.setString(3, originEntry.getFinancialObjectCode());
-//                ResultSet rs = laborObjectPreparedSelect.executeQuery();
-//                if (rs.next()) {
-//                    laborObject = new LaborObject();
-//                    laborObject.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
-//                    laborObject.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
-//                    laborObject.setFinancialObjectCode(originEntry.getFinancialObjectCode());
-//                    dataCache.put(key, laborObject);
-//                } else { LOG.debug("LaborObject not found: " + key); dataCache.put(key, " "); }
-//                if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
-//                rs.close();
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//        return laborObject;
-//    }
-
     public String getAccountChart(String accountNumber) {
         String accountChart = null;
         String key = "CA_ACCOUNT_T.FIN_COA_CD:" + accountNumber;
@@ -945,13 +863,33 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             throw new RuntimeException(e);
         }
     }
+
     
-    public void commit(){
-        try {
-            connection.commit();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public IndirectCostRecoveryType getIndirectCostRecoveryType(String accountIcrTypeCode){
+        IndirectCostRecoveryType indirectCostRecoveryType = null;
+        String key = "CA_ICR_TYPE_T:" + accountIcrTypeCode;
+        Object value = dataCache.get(key);
+        if (value != null) {
+            if (!value.equals(" ")) {
+                accountIcrTypeCode = (String) value;
+            }
+        } else {
+            try {
+                indirectCostRecoveryTypePreparedSelect.setString(1, accountIcrTypeCode);
+                ResultSet rs = indirectCostRecoveryTypePreparedSelect.executeQuery();
+                if (rs.next()) {
+                    indirectCostRecoveryType = new IndirectCostRecoveryType();
+                    indirectCostRecoveryType.setActive(rs.getString(1).equals("Y") ? true : false);
+                    dataCache.put(key, indirectCostRecoveryType);
+                
+                } else { LOG.debug("IndirectCostRecoveryType not found: " + key); dataCache.put(key, " ");}
+                if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
+                rs.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }            
+        return indirectCostRecoveryType;
     }
     
     public void init() {
@@ -966,7 +904,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 subAccountPreparedSelect = connection.prepareStatement("select sub_acct_actv_cd from ca_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
                 parameterPreparedSelect = connection.prepareStatement("select SH_PARM_TXT,SH_PARM_TYP_CD,SH_PARM_CONS_CD from sh_parm_t where SH_PARM_NMSPC_CD = ? and SH_PARM_DTL_TYP_CD = ? and SH_PARM_NM = ?");
                 subObjCdPreparedSelect = connection.prepareStatement("select fin_subobj_actv_cd from ca_sub_object_cd_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ?");
-                a21SubAccountPreparedSelect = connection.prepareStatement("select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr from ca_a21_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
+                a21SubAccountPreparedSelect = connection.prepareStatement("select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr, icr_typ_cd, fin_series_id, icr_fin_coa_cd, icr_account_nbr from ca_a21_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
                 projectCodePreparedSelect = connection.prepareStatement("select proj_active_cd from ca_project_t where project_cd = ?");
                 generalLedgerInputTypePreparedSelect = connection.prepareStatement("select 1 from GL_INPUT_TYP_T where input_typ_cd = ?");
                 objectTypePreparedSelect = connection.prepareStatement("select fund_balance_cd, fin_objtyp_dbcr_cd, fin_obj_typ_icr_cd, ROW_ACTV_IND from ca_obj_type_t where fin_obj_typ_cd = ?");
@@ -977,12 +915,12 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 accountingPeriodPreparedSelect = connection.prepareStatement("select row_actv_ind from sh_acct_period_t where univ_fiscal_yr = ? and univ_fiscal_prd_cd = ?");
                 orgPreparedSelect = connection.prepareStatement("select org_plnt_coa_cd, org_plnt_acct_nbr, cmp_plnt_coa_cd, cmp_plnt_acct_nbr from ca_org_t where fin_coa_cd = ? and org_cd = ?");
                 objLevelPreparedSelect = connection.prepareStatement("select fin_cons_obj_cd from ca_obj_level_t where fin_coa_cd = ? and fin_obj_level_cd = ?");
-                laborObjectPreparedSelect = connection.prepareStatement("select finobj_frngslry_cd from LD_LABOR_OBJ_T where univ_fiscal_yr = ? and fin_coa_cd = ? and fin_object_cd = ?");
-                ledgerEntryInsert = connection.prepareStatement("INSERT INTO LD_LDGR_ENTR_T VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 accountChartPreparedSelect = connection.prepareStatement("select fin_coa_cd from ca_account_t where account_nbr = ?");
                 reversalInsert = connection.prepareStatement("INSERT INTO GL_REVERSAL_T VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 entryPreparedSelect = connection.prepareStatement("select max(trn_entr_seq_nbr) from gl_entry_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ? and fin_balance_typ_cd = ? and fin_obj_typ_cd = ? and univ_fiscal_prd_cd = ? and fdoc_typ_cd = ? and fs_origin_cd = ? and fdoc_nbr = ?");
                 entryInsert = connection.prepareStatement("INSERT INTO GL_ENTRY_T VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                indirectCostRecoveryTypePreparedSelect = connection.prepareStatement("select ACCT_ICR_TYP_ACTV_IND from CA_ICR_TYPE_T");
+
             } catch (SQLException e) {
                 LOG.info(e.getErrorCode() + e.getMessage());
                 e.printStackTrace();

@@ -50,6 +50,8 @@ public interface ReportService {
      * @param group the group of origin entries copied from pending entries
      */
     public void generatePendingEntryReport(Date runDate, OriginEntryGroup group);
+    
+    public void generatePendingEntryReport(Date runDate, Collection group);
 
     /**
      * Generates the Sufficient Funds Summary Report

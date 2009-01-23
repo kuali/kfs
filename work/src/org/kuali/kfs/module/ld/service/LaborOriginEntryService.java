@@ -38,6 +38,7 @@ public interface LaborOriginEntryService {
      * Get statistics from a group
      */
     public OriginEntryStatistics getStatistics(Integer groupId);
+    public OriginEntryStatistics getStatistics(String fileName);
 
     /**
      * Copy a set of entries into a new group

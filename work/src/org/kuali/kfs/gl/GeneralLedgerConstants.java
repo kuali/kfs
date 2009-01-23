@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl;
 
+import java.io.PrintStream;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -185,6 +186,31 @@ public class GeneralLedgerConstants {
     public static class PosterService {
         static final public String SYMBOL_USE_EXPENDITURE_ENTRY = "@";
         static final public String SYMBOL_USE_ICR_FROM_ACCOUNT = "#";
+    }
+    
+    public static class BatchFileSystem {
+        static final public String DIVIDER = "/";
+        static final public String EXTENSION = ".data";
+        
+        static final public String BACKUP_FILE = "GL_GLBACKUP";
+        static final public String PRE_SCRUBBER_FILE = "GL_PRESCRUB";
+        static final public String SCRUBBER_INPUT_FILE = "GL_SORTSCRB";
+        static final public String SCRUBBER_VALID_OUTPUT_FILE = "GL_SCRBOUT1";
+        static final public String SCRUBBER_ERROR_OUTPUT_FILE = "GL_SCRBERR1";
+        static final public String SCRUBBER_EXPIRED_OUTPUT_FILE = "GL_EXPACCTS";
+        static final public String SCRUBBER_ERROR_SORTED_FILE = "GL_SORTERR1";
+        static final public String DEMERGER_VAILD_OUTPUT_FILE = "GL_SCRBOUT2";
+        static final public String DEMERGER_ERROR_OUTPUT_FILE = "GL_SCRBERR2";
+        
+        static final public String POSTER_INPUT_FILE = "GL_SORTPOST";
+        static final public String REVERSAL_POSTER_VALID_OUTPUT_FILE = "GL_WORKFILE";
+        static final public String REVERSAL_POSTER_ERROR_OUTPUT_FILE = "GL_WORKERRS";
+        static final public String POSTER_VALID_OUTPUT_FILE = "GL_POSTOUT";
+        
+        static final public String POSTER_ERROR_OUTPUT_FILE = "GL_POSTERRS";
+        static final public String ICR_TRANSACTIONS_OUTPUT_FILE = "GL_ICRTRANS";
+        static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "GL_ICRERRS";
+
     }
 
     public static class PosterOutputSummaryEntry {

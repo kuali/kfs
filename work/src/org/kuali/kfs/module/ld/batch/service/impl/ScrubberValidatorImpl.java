@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.batch.LaborScrubberStep;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryLookupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -381,7 +382,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, laborOriginEntry.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborOriginEntry.getFinancialObjectCode());
 
-        LaborObject laborObject = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, fieldValues);
+        //LaborObject laborObject = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, fieldValues);
+        LaborObject laborObject = ((LaborOriginEntryLookupService) referenceLookup.get()).getLaborObject(laborOriginEntry);
         boolean isFringeTransaction = laborObject != null && org.apache.commons.lang.StringUtils.equals(LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE, laborObject.getFinancialObjectFringeOrSalaryCode());
 
         // alternative account handling for non fringe accounts

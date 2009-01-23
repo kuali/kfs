@@ -105,7 +105,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
     protected List<AttributeSet> resolveDocumentCollectionPath(BusinessObject businessObject, DocumentCollectionPath collectionPath, RoutingAttributeTracker routingAttributeTracker) {
         List<AttributeSet> qualifiers = new ArrayList<AttributeSet>();
         final Collection collectionByPath = getCollectionByPath(businessObject, collectionPath.getCollectionPath());
-        if (!ObjectUtils.isNull(collectionPath)) {
+        if (!ObjectUtils.isNull(collectionByPath)) {
             if (collectionPath.getNestedCollection() != null) {
                 // we need to go through the collection...
                 for (Object collectionElement : collectionByPath) {

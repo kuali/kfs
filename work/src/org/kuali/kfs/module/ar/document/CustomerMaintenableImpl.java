@@ -137,28 +137,43 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
      */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (REQUIRES_APPROVAL_NODE.equals(nodeName)) {
-            try {
-                DocumentService documentService = SpringContext.getBean(DocumentService.class);
-                FinancialSystemMaintenanceDocument maintDoc = (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(this.documentNumber);
-                if (maintDoc.isNew()) {
-                    // while creating a new customer, route when created by web application
-                    String initiatorPrincipalId = maintDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-                    PersonService<Person> personService = SpringContext.getBean(PersonService.class);
-                    Person initiatorPerson = personService.getPerson(initiatorPrincipalId);
-                    if (initiatorPerson != null && !KFSConstants.SYSTEM_USER.equals(initiatorPerson.getPrincipalName())) {
-                        return true;
-                    }
-                }
-                else if (maintDoc.isEdit()) {
-                    // editing a customer always requires approval
-                    return true;
-                }
-            }
-            catch (WorkflowException e) {
-                throw new RuntimeException(e);
-            }
+        
+        //  puke if we dont know how to handle the nodeName passed in
+        if (!REQUIRES_APPROVAL_NODE.equals(nodeName)) {
+            throw new UnsupportedOperationException("answerSplitNodeQuestion('" + nodeName + "') was called, but no handler is present for that nodeName.");
         }
-        return false;
+
+        //  need the parent maint doc to see whether its a New or Edit, and 
+        // to get the initiator
+        FinancialSystemMaintenanceDocument maintDoc = getParentMaintDoc();
+        
+        // editing a customer always requires approval
+        if (maintDoc.isEdit()) {
+            return true;
+        }
+        
+        // while creating a new customer, route when created by web application
+        return (maintDoc.isNew() && createdByWebApp(maintDoc));
     }
+    
+    private FinancialSystemMaintenanceDocument getParentMaintDoc() {
+        //  how I wish for the ability to directly access the parent object
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        FinancialSystemMaintenanceDocument maintDoc = null;
+        try {
+            maintDoc =(FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(this.documentNumber);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
+        return maintDoc;
+    }
+    
+    private boolean createdByWebApp(FinancialSystemMaintenanceDocument maintDoc) {
+        String initiatorPrincipalId = maintDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        PersonService<Person> personService = SpringContext.getBean(PersonService.class);
+        Person initiatorPerson = personService.getPerson(initiatorPrincipalId);
+        return (initiatorPerson != null && !KFSConstants.SYSTEM_USER.equals(initiatorPerson.getPrincipalName()));
+    }
+    
 }

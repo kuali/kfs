@@ -680,12 +680,6 @@
   </bean>
    
 <!-- Start - Workflow Attribute Beans -->   
-  <bean id="CustomerInvoiceDocument-RoutingAttribute-billingChartOfAccountCode" parent="RoutingAttribute-chartOfAccountsCode" />
-  <bean id="CustomerInvoiceDocument-SearchingAttribute-billingChartOfAccountCode" parent="SearchingAttribute-chartOfAccountsCode" />
-
-  <bean id="CustomerInvoiceDocument-RoutingAttribute-billingOrganizationCode" parent="RoutingAttribute-organizationCode" />
-  <bean id="CustomerInvoiceDocument-SearchingAttribute-billingOrganizationCode" parent="SearchingAttribute-organizationCode" />
-
   <bean id="CustomerInvoiceDocument-DocumentValuePathGroup-billingChartOrg" parent="CustomerInvoiceDocument-DocumentValuePathGroup-billingChartOrg-parentBean" />
   <bean id="CustomerInvoiceDocument-DocumentValuePathGroup-billingChartOrg-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
@@ -697,7 +691,7 @@
   </bean>
   
 	<bean id="CustomerInvoiceDocument-SearchingType-billingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="CustomerInvoiceDocument-SearchingAttribute-billingChartOfAccountCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
         <property name="documentValues">
         	<list>
 				<value>billByChartOfAccountCode</value>
@@ -706,7 +700,7 @@
     </bean>
     
 	<bean id="CustomerInvoiceDocument-SearchingType-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="CustomerInvoiceDocument-SearchingAttribute-billingOrganizationCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
         <property name="documentValues">
         	<list>
 				<value>billedByOrganizationCode</value>
@@ -717,8 +711,8 @@
   <bean id="CustomerInvoiceDocument-RoutingType-BillingChartOrg" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
 	<property name="routingAttributes">
 		<list>
-	      <ref bean="CustomerInvoiceDocument-RoutingAttribute-billingChartOfAccountCode" />
-	      <ref bean="CustomerInvoiceDocument-RoutingAttribute-billingOrganizationCode" />
+	      <ref bean="RoutingAttribute-chartOfAccountsCode" />
+	      <ref bean="RoutingAttribute-organizationCode" />
 		</list>
 	</property>
 	<property name="documentValuePathGroups">

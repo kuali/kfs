@@ -309,6 +309,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Plant Account Number" />
     <property name="shortLabel" value="Plant Acct" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+      <bean parent="AttributeSecurity" p:readOnly="true" />
+    </property>
   </bean>
   <bean id="Organization-organizationPlantChartCode" parent="Organization-organizationPlantChartCode-parentBean" />
 
@@ -321,6 +324,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
+    </property>
+    <property name="attributeSecurity">
+      <bean parent="AttributeSecurity" p:readOnly="true" />
     </property>
   </bean>
   <bean id="Organization-organizationZipCode" parent="Organization-organizationZipCode-parentBean" />
@@ -458,6 +464,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Campus Plant Account Number" />
     <property name="shortLabel" value="Plant Acct" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+      <bean parent="AttributeSecurity" p:readOnly="true" />
+    </property>
   </bean>
   <bean id="Organization-campusPlantChartCode" parent="Organization-campusPlantChartCode-parentBean" />
 
@@ -470,6 +479,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
+    </property>
+    <property name="attributeSecurity">
+      <bean parent="AttributeSecurity" p:readOnly="true" />
     </property>
   </bean>
   <bean id="Organization-organizationInFinancialProcessingIndicator" parent="Organization-organizationInFinancialProcessingIndicator-parentBean" />

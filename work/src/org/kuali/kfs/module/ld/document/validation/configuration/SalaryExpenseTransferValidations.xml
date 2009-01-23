@@ -25,17 +25,6 @@
 	<bean id="SalaryExpenseTransferDocument-validAmountTransferredByObjectCodeValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean parent="SalaryExpenseTransferDocument-adminWorkGroupValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
 				<bean parent="SalaryExpenseTransferDocument-objectCodeBalancesUnchangedValidation" scope="prototpye">
 					<property name="parameterProperties">
 						<list>

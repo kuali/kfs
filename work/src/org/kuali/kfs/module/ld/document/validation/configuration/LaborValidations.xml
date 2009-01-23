@@ -22,8 +22,6 @@
 
 	<bean id="SalaryExpenseTransferDocument-accountingLinesSameEmployeeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferAccountingLinesSameEmployeeValidation" />
 	
-	<bean id="SalaryExpenseTransferDocument-adminWorkGroupValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferAdminWorkGroupValidation" />
-	
 	<bean id="SalaryExpenseTransferDocument-objectCodeBalancesUnchangedValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferObjectCodeBalancesUnchangedValidation" />
 	
 	<bean id="SalaryExpenseTransferDocument-pendingLedgerEntryValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferPendingLegerEntryValidation" />

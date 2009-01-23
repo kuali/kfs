@@ -1517,6 +1517,119 @@
             </list>
           </property>
         </bean>
+        
+        <bean parent="InquirySectionDefinition">
+          <property name="id" value="paymentInformation" />
+          <property name="title" value="Payments" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="assetPayments" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPayment" />
+                <property name="numberOfColumns" value="2" />
+                <property name="summaryTitle" value="Payment" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="chartOfAccountsCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accountNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="subAccountNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialObjectCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialSubObjectCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="projectCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="organizationReferenceId" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="documentNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentTypeCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="purchaseOrderNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="requisitionNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentPostingDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentPostingYear" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentPostingPeriodCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="transferPaymentCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accountChargeAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accumulatedPrimaryDepreciationAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="yearToDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="previousYearPrimaryDepreciationAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period1Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period2Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period3Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period4Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period5Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period6Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period7Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period8Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period9Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period10Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period11Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period12Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="paymentSequenceNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="capitalAssetNumber" />
+                  </list>
+                </property>
+                <property name="summaryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="capitalAssetNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="paymentSequenceNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentPostingDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accountChargeAmount" />
+                  </list>
+                </property>
+              </bean>
+              <!-- TODO KFSMI-645: adding the following field makes above collection disappear -->
+              <!-- bean parent="FieldDefinition"
+                    p:attributeName="paymentTotalCost" / -->
+            </list>
+          </property>
+        </bean>        
+        
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Payments Lookup" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="lookup" />
+            </list>
+          </property>
+        </bean> 
+        
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Fabrication Information" />
           <property name="numberOfColumns" value="1" />
@@ -1819,106 +1932,6 @@
             </list>
           </property>
         </bean> 
-        <bean parent="InquirySectionDefinition">
-          <property name="id" value="paymentInformation" />
-          <property name="title" value="Payments" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
-            <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="assetPayments" />
-                <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPayment" />
-                <property name="numberOfColumns" value="2" />
-                <property name="summaryTitle" value="Payment" />
-                <property name="inquiryFields" >
-                  <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="chartOfAccountsCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="accountNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="subAccountNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="financialObjectCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="financialSubObjectCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="projectCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="organizationReferenceId" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="documentNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="financialDocumentTypeCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="purchaseOrderNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="requisitionNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="financialDocumentPostingDate" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="financialDocumentPostingYear" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="financialDocumentPostingPeriodCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="transferPaymentCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="accountChargeAmount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="accumulatedPrimaryDepreciationAmount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="yearToDate" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="previousYearPrimaryDepreciationAmount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period1Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period2Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period3Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period4Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period5Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period6Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period7Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period8Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period9Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period10Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period11Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="period12Depreciation1Amount" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="paymentSequenceNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="capitalAssetNumber" />
-                  </list>
-                </property>
-                <property name="summaryFields" >
-                  <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="capitalAssetNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="paymentSequenceNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="financialDocumentPostingDate" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="accountChargeAmount" />
-                  </list>
-                </property>
-              </bean>
-              <!-- TODO KFSMI-645: adding the following field makes above collection disappear -->
-              <!-- bean parent="FieldDefinition"
-                    p:attributeName="paymentTotalCost" / -->
-            </list>
-          </property>
-        </bean>
       </list>
     </property>
     <property name="inquirableClass" value="org.kuali.kfs.module.cam.businessobject.inquiry.AssetInquirableImpl" />

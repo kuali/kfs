@@ -98,8 +98,7 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
 
         if (sectionToRemove != null) {
             sections.remove(sectionToRemove);
-        }
-        
+        }        
         return sections;
-    }    
+    }        
 }

@@ -22,14 +22,12 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.LookupService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -37,7 +35,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * See functional documentation.
  */
-public class Proposal extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting, Inactivateable, ContractAndGrantsProposal {
+public class Proposal extends PersistableBusinessObjectBase implements Inactivateable, ContractAndGrantsProposal {
 
     private Long proposalNumber;
     private Date proposalBeginningDate;

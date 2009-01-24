@@ -15,10 +15,8 @@
  */
 package org.kuali.kfs.coa.document;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -26,10 +24,6 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubAccountTrickleDownInactivationService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -42,11 +36,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * can automatically deactivate the Sub-Accounts related to the account It also overrides the processAfterCopy so that it sets
  * specific fields that shouldn't be copied to default values {@link KualiPostProcessor}
  */
-public class KualiAccountMaintainableImpl extends KualiMaintainableImpl implements GenericRoutingInfo {
+public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     private static final Logger LOG = Logger.getLogger(KualiAccountMaintainableImpl.class);
-    
-    private Set<RoutingData> routingInfo;
-    
+
     /**
      * Automatically deactivates {@link SubAccount}s after saving the {@link Account}
      * 
@@ -55,11 +47,12 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl implemen
     @Override
     public void saveBusinessObject() {
         boolean isClosingAccount = isClosingAccount();
-        
+
         // make sure we save account first
         super.saveBusinessObject();
-        
-        // if we're closing the account, then rely on the trickle-down inactivation services to trickle-down inactivate the sub-accounts
+
+        // if we're closing the account, then rely on the trickle-down inactivation services to trickle-down inactivate the
+        // sub-accounts
         if (isClosingAccount) {
             SpringContext.getBean(SubAccountTrickleDownInactivationService.class).trickleDownInactivateSubAccounts((Account) getBusinessObject(), documentNumber);
             SpringContext.getBean(SubObjectTrickleDownInactivationService.class).trickleDownInactivateSubObjects((Account) getBusinessObject(), documentNumber);
@@ -72,19 +65,19 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl implemen
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy()
      */
     @Override
-    public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
         Account account = (Account) this.getBusinessObject();
         account.setAccountCreateDate(null); // account's pre-rules will fill this field in
         account.setAccountEffectiveDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         account.setActive(true);
-        super.processAfterCopy( document, parameters );
+        super.processAfterCopy(document, parameters);
     }
 
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> maintenanceLocks = super.generateMaintenanceLocks();
         boolean isClosingAccount = false;
-        
+
         if (isClosingAccount()) {
             maintenanceLocks.addAll(SpringContext.getBean(SubAccountTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((Account) getBusinessObject(), documentNumber));
             maintenanceLocks.addAll(SpringContext.getBean(SubObjectTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((Account) getBusinessObject(), documentNumber));
@@ -97,7 +90,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl implemen
         Account oldAccount = SpringContext.getBean(AccountService.class).getByPrimaryId(newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber());
         return oldAccount;
     }
-    
+
     protected boolean isClosingAccount() {
         // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
         if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((Account) getBusinessObject()).isActive()) {
@@ -110,54 +103,5 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl implemen
             }
         }
         return false;
-    }
-
-    /**
-     * Gets the routingInfo attribute. 
-     * @return Returns the routingInfo.
-     */
-    public Set<RoutingData> getRoutingInfo() {
-        return routingInfo;
-    }
-
-    /**
-     * Sets the routingInfo attribute value.
-     * @param routingInfo The routingInfo to set.
-     */
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
-     */
-    public void populateRoutingInfo() {
-        if (routingInfo == null) {
-            routingInfo = new HashSet<RoutingData>();
-        }
-        routingInfo.add(getOrgReviewRoutingInfo());
-    }
-    
-    /**
-     * Generates org review data for this account maintenance document
-     * @return a RoutingData instance with the org review information for this document
-     */
-    protected RoutingData getOrgReviewRoutingInfo() {
-        RoutingData routingData = new RoutingData();
-        routingData.setRoutingType(KualiOrgReviewAttribute.class.getName());
-        
-        Set<OrgReviewRoutingData> routingSet = new HashSet<OrgReviewRoutingData>();
-        routingSet.add(gatherOrgToReview());
-        routingData.setRoutingSet(routingSet);
-        return routingData;
-    }
-    
-    /**
-     * Returns the organization this account maintenance document should route to
-     * @return a property initialized OrgReviewRoutingData instance
-     */
-    protected OrgReviewRoutingData gatherOrgToReview() {
-        final Account account = (Account)getBusinessObject();
-        return new OrgReviewRoutingData(account.getChartOfAccountsCode(), account.getOrganizationCode());
     }
 }

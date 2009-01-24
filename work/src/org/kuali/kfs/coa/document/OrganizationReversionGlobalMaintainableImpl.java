@@ -19,9 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
@@ -31,10 +29,6 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalOrganization;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
@@ -47,9 +41,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * isRelationshipRefreshable - makes sure that {@code organizationReversionGlobalDetails} isn't wiped out accidentally
  * processGlobalsAfterRetrieve - provides special handling for the details (which aren't a true collection)
  */
-public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
+public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalMaintainableImpl.class);
-    private Set<RoutingData> routingInfo;
 
     /**
      * This class is an inner class for comparing two {@link OrganizationReversionCategory}s
@@ -170,64 +163,6 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
         for (OrganizationReversionGlobalDetail changeDetail : ((OrganizationReversionGlobal) businessObject).getOrganizationReversionGlobalDetails()) {
             changeDetail.setNewCollectionRecord(false);
         }
-    }
-
-    /**
-     * Gets the routingInfo attribute. 
-     * @return Returns the routingInfo.
-     */
-    public Set<RoutingData> getRoutingInfo() {
-        return routingInfo;
-    }
-
-    /**
-     * Sets the routingInfo attribute value.
-     * @param routingInfo The routingInfo to set.
-     */
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-    
-    /**
-     * Makes sure the routingInfo property is initialized and populates account review and org review data 
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
-     */
-    public void populateRoutingInfo() {
-        if (routingInfo == null) {
-            routingInfo = new HashSet<RoutingData>();
-        }
-        
-        routingInfo.add(getOrgReviewData());
-    }
-    
-    /**
-     * Generates a RoutingData object with the accounts to review
-     * @return a properly initialized RoutingData object for account review
-     */
-    protected RoutingData getOrgReviewData() {
-        RoutingData routingData = new RoutingData();
-        routingData.setRoutingType(KualiOrgReviewAttribute.class.getName());
-        
-        routingData.setRoutingSet(gatherOrgsToReview());
-        
-        return routingData;
-    }
-    
-    /**
-     * Generates the set of OrgReviewRoutingData objects that should be taken into account while determining Org Review
-     * @return a Set of OrgReviewRoutingData objects
-     */
-    protected Set<OrgReviewRoutingData> gatherOrgsToReview() {
-        Set<OrgReviewRoutingData> orgsToReview = new HashSet<OrgReviewRoutingData>();
-        
-        final OrganizationReversionGlobal organizationReversionGlobal = (OrganizationReversionGlobal)getBusinessObject();
-        
-        for (OrganizationReversionGlobalOrganization orgRevOrg : organizationReversionGlobal.getOrganizationReversionGlobalOrganizations()) {
-            final OrgReviewRoutingData orgToReview = new OrgReviewRoutingData(orgRevOrg.getChartOfAccountsCode(), orgRevOrg.getOrganizationCode());
-            orgsToReview.add(orgToReview);
-        }
-        
-        return orgsToReview;
     }
 
     @Override

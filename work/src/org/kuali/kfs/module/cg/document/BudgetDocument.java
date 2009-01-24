@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
@@ -39,8 +38,6 @@ import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.exception.IllegalObjectStateException;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Budget
@@ -387,45 +384,6 @@ public class BudgetDocument extends ResearchDocumentBase {
     }
     
     /**
-     * Build the xml to use when generating the workflow routing report.
-     * 
-     * @param BudgetUser projectDirector
-     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
-     * @return String
-     */
-    public String buildProjectDirectorReportXml(boolean encloseContent) {
-        StringBuffer xml = new StringBuffer();
-        if (encloseContent) {
-            xml.append("<documentContent>");
-        }
-        BudgetUser projectDirector = null;
-
-        for (BudgetUser person : this.getBudget().getPersonnel()) {
-            if (person.isPersonProjectDirectorIndicator()) {
-                projectDirector = person;
-                break;
-            }
-        }
-
-        if (ObjectUtils.isNotNull(projectDirector) && ObjectUtils.isNotNull(projectDirector.getUser())) {
-            if (!this.getBudget().isProjectDirectorToBeNamedIndicator()) {
-                xml.append("<projectDirector>");
-                xml.append(projectDirector.getUser().getPrincipalId());
-                xml.append("</projectDirector>");
-            }
-            xml.append(openRoutingInfoXml());
-            if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
-                xml.append(buildRoutingDataXmlForOrg(projectDirector.getFiscalCampusCode(), (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode()) ? org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(projectDirector.getUser(),CGConstants.CG_NAMESPACE_CODE).getOrganizationCode() : projectDirector.getPrimaryDepartmentCode())));
-            }
-        }
-        xml.append(closeRoutingInfoXml());
-        if (encloseContent) {
-            xml.append("</documentContent>");
-        }
-        return xml.toString();
-    }
-    
-    /**
      * @return a one-element List (it'll be easier on the property resolver) with the organization of the project director
      */
     public List<Organization> getProjectDirectorOrganizations() {
@@ -476,36 +434,5 @@ public class BudgetDocument extends ResearchDocumentBase {
         
         return organizations;
     }
-    
-    /**
-     * Build the xml to use when generating the workflow org routing report.
-     * 
-     * @param List<BudgetAdhocOrg> orgs
-     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
-     * @return String
-     */
-    public String buildCostShareOrgReportXml(boolean encloseContent) {
-
-        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
-
-        StringBuffer xml = new StringBuffer();
-        if (encloseContent) {
-            xml.append("<documentContent>");
-        }
-
-        xml.append(openRoutingInfoXml());
-        for (BudgetInstitutionCostShare costShare : this.getBudget().getInstitutionCostShareItems()) {
-            if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(CGConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
-                xml.append(buildRoutingDataXmlForOrg(costShare.getChartOfAccountsCode(), (costShare.getOrganizationCode() != null ? costShare.getOrganizationCode() : "")));
-            }
-        }
-        xml.append(closeRoutingInfoXml());
-        if (encloseContent) {
-            xml.append("</documentContent>");
-        }
-
-        return xml.toString();
-    }
-
 }
 

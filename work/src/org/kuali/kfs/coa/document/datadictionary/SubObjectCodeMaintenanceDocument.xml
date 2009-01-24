@@ -11,7 +11,7 @@
 
   <bean id="SubObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjectCode" />
-    <property name="maintainableClass" value="org.kuali.kfs.coa.document.SubObjCdMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
     <property name="maintainableSections" >
       <list>
         <ref bean="SubObjectCodeMaintenanceDocument-EditSubObjectCode" />

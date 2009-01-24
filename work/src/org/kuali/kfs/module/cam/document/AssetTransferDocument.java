@@ -17,11 +17,9 @@ package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -31,7 +29,6 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -41,12 +38,6 @@ import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
-import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingAccount;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
@@ -66,7 +57,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, GenericRoutingInfo {
+public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
     private String representativeUniversalIdentifier;
     private String campusCode;
@@ -102,8 +93,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
     private Asset asset;
     private PostalCode postalZipCode;
-
-    private Set<RoutingData> routingInfo;
 
     public AssetTransferDocument() {
         super();
@@ -864,57 +853,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     public void setOldOrganizationOwnerChartOfAccountsCode(String oldOrganizationOwnerChartOfAccountsCode) {
         this.oldOrganizationOwnerChartOfAccountsCode = oldOrganizationOwnerChartOfAccountsCode;
-    }
-
-
-    /**
-     * Gets the routingInfo attribute.
-     * 
-     * @return Returns the routingInfo.
-     */
-    public Set<RoutingData> getRoutingInfo() {
-        return routingInfo;
-    }
-
-    /**
-     * Sets the routingInfo attribute value.
-     * 
-     * @param routingInfo The routingInfo to set.
-     */
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
-     */
-    public void populateRoutingInfo() {
-        if (KFSConstants.DocumentStatusCodes.INITIATED.equals(getDocumentHeader().getFinancialDocumentStatusCode())) {
-            // skip routing info if document is not routed
-            return;
-        }
-        routingInfo = new HashSet<RoutingData>();
-        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
-        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-
-        // Asset information
-        organizationRoutingSet.add(new OrgReviewRoutingData(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccount().getOrganizationCode()));
-        accountRoutingSet.add(new RoutingAccount(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccountNumber()));
-
-        // Asset tranfer information
-        organizationRoutingSet.add(new OrgReviewRoutingData(this.getOrganizationOwnerChartOfAccountsCode(), this.getOrganizationOwnerAccount().getOrganizationCode()));
-        accountRoutingSet.add(new RoutingAccount(this.getOrganizationOwnerChartOfAccountsCode(), this.getOrganizationOwnerAccountNumber()));
-
-        // Storing data
-        RoutingData organizationRoutingData = new RoutingData();
-        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
-        organizationRoutingData.setRoutingSet(organizationRoutingSet);
-        routingInfo.add(organizationRoutingData);
-
-        RoutingData accountRoutingData = new RoutingData();
-        accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
-        accountRoutingData.setRoutingSet(accountRoutingSet);
-        routingInfo.add(accountRoutingData);
     }
 
     public void clearGlPostables() {

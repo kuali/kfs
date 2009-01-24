@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -30,8 +29,8 @@ public class DocumentSearchTypeOfSearchValuesFinder extends KeyValuesBase {
 
     public static final String DOCUMENT_TYPE_SEPARATOR = ";";
 
-    public static final String[] PROPOSAL_DOCUMENT_TYPE_NAMES = new String[] { "ProposalMaintenanceDocument", KualiWorkflowUtils.C_G_PROPOSAL_DOC_TYPE, "ProposalMaintenanceDocument" };
-    public static final String[] AWARD_DOCUMENT_TYPE_NAMES = new String[] { "AwardMaintenanceDocument", KualiWorkflowUtils.C_G_AWARD_DOC_TYPE, "AwardMaintenanceDocument" };
+    public static final String[] PROPOSAL_DOCUMENT_TYPE_NAMES = new String[] { "ProposalMaintenanceDocument", "ProposalMaintenanceDocument", "ProposalMaintenanceDocument" };
+    public static final String[] AWARD_DOCUMENT_TYPE_NAMES = new String[] { "AwardMaintenanceDocument", "AwardMaintenanceDocument", "AwardMaintenanceDocument" };
 
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()

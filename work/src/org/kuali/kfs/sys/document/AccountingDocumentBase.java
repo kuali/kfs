@@ -17,11 +17,9 @@ package org.kuali.kfs.sys.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -36,18 +34,12 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.document.validation.event.AccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingAccount;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.AccountingLineService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -60,19 +52,17 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Base implementation class for financial edocs.
  */
-public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumentBase implements AccountingDocument, GeneralLedgerPendingEntrySource, GenericRoutingInfo {
+public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumentBase implements AccountingDocument, GeneralLedgerPendingEntrySource {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentBase.class);
 
     protected Integer nextSourceLineNumber;
     protected Integer nextTargetLineNumber;
     protected List sourceAccountingLines;
     protected List targetAccountingLines;
-    
+
     private transient FinancialSystemTransactionalDocumentEntry dataDictionaryEntry;
     private transient Class sourceAccountingLineClass;
     private transient Class targetAccountingLineClass;
-    
-    public Set<RoutingData> routingInfo;
 
     /**
      * Default constructor.
@@ -312,10 +302,10 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
             }
         }
         catch (InstantiationException ie) {
-            throw new IllegalStateException("Accounting Line Parser class "+getDataDictionaryEntry().getImportedLineParserClass().getName()+" cannot be instantiated", ie);
+            throw new IllegalStateException("Accounting Line Parser class " + getDataDictionaryEntry().getImportedLineParserClass().getName() + " cannot be instantiated", ie);
         }
         catch (IllegalAccessException iae) {
-            throw new IllegalStateException("Illegal Access Exception while attempting to instantiate Accounting Line Parser class "+getDataDictionaryEntry().getImportedLineParserClass().getName(), iae);
+            throw new IllegalStateException("Illegal Access Exception while attempting to instantiate Accounting Line Parser class " + getDataDictionaryEntry().getImportedLineParserClass().getName(), iae);
         }
         return new AccountingLineParserBase();
     }
@@ -325,7 +315,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      */
     public FinancialSystemTransactionalDocumentEntry getDataDictionaryEntry() {
         if (dataDictionaryEntry == null) {
-            dataDictionaryEntry = (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DataDictionaryService.class).getValidDocumentTypeNameByClass(getClass()));
+            dataDictionaryEntry = (FinancialSystemTransactionalDocumentEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DataDictionaryService.class).getValidDocumentTypeNameByClass(getClass()));
         }
         return dataDictionaryEntry;
     }
@@ -337,26 +327,27 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     public String getTargetAccountingLineEntryName() {
         return this.getTargetAccountingLineClass().getName();
     }
-    
+
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         List<GeneralLedgerPendingEntrySourceDetail> accountingLines = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         if (getSourceAccountingLines() != null) {
             Iterator iter = getSourceAccountingLines().iterator();
             while (iter.hasNext()) {
-                accountingLines.add((GeneralLedgerPendingEntrySourceDetail)iter.next());
+                accountingLines.add((GeneralLedgerPendingEntrySourceDetail) iter.next());
             }
         }
         if (getTargetAccountingLines() != null) {
             Iterator iter = getTargetAccountingLines().iterator();
             while (iter.hasNext()) {
-                accountingLines.add((GeneralLedgerPendingEntrySourceDetail)iter.next());
+                accountingLines.add((GeneralLedgerPendingEntrySourceDetail) iter.next());
             }
         }
         return accountingLines;
     }
-    
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {}
-    
+
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
+    }
+
     public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         return true;
     }
@@ -407,14 +398,15 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
             }
         }
     }
-    
+
     /**
      * Updates the posting year on accounting lines to be the current posting year
+     * 
      * @param lines a List of accounting lines to update
      */
     private void updatePostingYearForAccountingLines(List<AccountingLine> lines) {
         if (lines != null) {
-            for (AccountingLine line: lines) {
+            for (AccountingLine line : lines) {
                 if (!line.getPostingYear().equals(getPostingYear())) {
                     line.setPostingYear(getPostingYear());
                 }
@@ -436,7 +428,8 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     public void prepareForSave(KualiDocumentEvent event) {
-        if (!(event instanceof AccountingDocumentSaveWithNoLedgerEntryGenerationEvent)) { // only generate entries if the rule event specifically allows us to
+        if (!(event instanceof AccountingDocumentSaveWithNoLedgerEntryGenerationEvent)) { // only generate entries if the rule event
+                                                                                          // specifically allows us to
             if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
                 logErrors();
                 throw new ValidationException("general ledger GLPE generation failed");
@@ -606,7 +599,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
         return lineMap;
     }
-    
+
     /**
      * Perform business rules common to all transactional documents when generating general ledger pending entries.
      * 
@@ -631,7 +624,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         LOG.debug("processGenerateGeneralLedgerPendingEntries(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper) - end");
         return success;
     }
-    
+
     /**
      * This method processes all necessary information to build an explicit general ledger entry, and then adds that to the
      * document.
@@ -650,7 +643,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
         // hook for children documents to implement document specific GLPE field mappings
         customizeExplicitGeneralLedgerPendingEntry(glpeSourceDetail, explicitEntry);
-        
+
         addPendingEntry(explicitEntry);
 
         LOG.debug("processExplicitGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry) - end");
@@ -674,15 +667,17 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
         // hook for children documents to implement document specific field mappings for the GLPE
         success &= customizeOffsetGeneralLedgerPendingEntry(postable, explicitEntry, offsetEntry);
-        
+
         addPendingEntry(offsetEntry);
 
         LOG.debug("processOffsetGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) - end");
         return success;
     }
-    
+
     /**
-     * Returns one of the two given String's; if the preferred String is not null and has a length > 0, then it is returned, otherwise the second String is returned
+     * Returns one of the two given String's; if the preferred String is not null and has a length > 0, then it is returned,
+     * otherwise the second String is returned
+     * 
      * @param preferredString the String you're hoping isn't blank so you can get it back
      * @param secondaryString the "rebound" String, which you'll end up with if the preferred String is blank
      * @return one of the String's
@@ -698,13 +693,14 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
     /**
      * Most accounting documents don't need to generate document level GLPE's, so don't do anything in the default implementation
+     * 
      * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      * @return always true, because we've always successfully not generating anything
      */
-    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) { 
-        return true; 
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        return true;
     }
-    
+
     /**
      * GLPE amounts are ALWAYS positive, so just take the absolute value of the accounting line's amount.
      * 
@@ -718,100 +714,4 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - end");
         return returnKualiDecimal;
     }
-
-    /**
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#getRoutingInfo()
-     */
-    public Set getRoutingInfo() {
-        return routingInfo;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
-     */
-    public void populateRoutingInfo() {
-        routingInfo = new HashSet<RoutingData>();
-        Set<OrgReviewRoutingData> orgsToReview = new HashSet<OrgReviewRoutingData>();
-        Set<RoutingAccount> accountsToReview = new HashSet<RoutingAccount>();
-        
-        if (getSourceAccountingLines() != null && getSourceAccountingLines().size() > 0) {
-            collectAccountsAndOrganizationsFromAccountingLines(getSourceAccountingLines(), accountsToReview, orgsToReview);
-        }
-        
-        if (getTargetAccountingLines() != null && getTargetAccountingLines().size() > 0) {
-            collectAccountsAndOrganizationsFromAccountingLines(getTargetAccountingLines(), accountsToReview, orgsToReview);
-        }
-        
-        routingInfo.add(getAccountReviewRoutingData(accountsToReview));
-        routingInfo.add(getOrgReviewRoutingData(orgsToReview));
-    }
-    
-    /**
-     * Creates a RoutingData object which holds RoutingAccount objects
-     * @param accountsToReview the accounts to review
-     * @return the RoutingData object for accounts
-     */
-    protected RoutingData getAccountReviewRoutingData(Set<RoutingAccount> accountsToReview) {
-        RoutingData accountReviewRoutingData = new RoutingData();
-        accountReviewRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
-        accountReviewRoutingData.setRoutingSet(accountsToReview);
-        return accountReviewRoutingData;
-    }
-    
-    /**
-     * Creates a RoutingData object which holds OrgReviewRoutingData objects
-     * @param orgsToReview the organizations to review
-     * @return the RoutingData object for organizations
-     */
-    protected RoutingData getOrgReviewRoutingData(Set<OrgReviewRoutingData> orgsToReview) {
-        RoutingData orgReviewRoutingData = new RoutingData();
-        orgReviewRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
-        orgReviewRoutingData.setRoutingSet(orgsToReview);
-        return orgReviewRoutingData;
-    }
-    
-    /**
-     * Populates the accountsToReview and orgsToReview sets with accounts and organizations from each accounting line in the List of accountingLines given as a parameter
-     * @param accountingLines the accounting lines to get accounts and organizations from
-     * @param accountsToReview the Set of account routing info to populate
-     * @param orgsToReview the Set of organization routing info to populate
-     */
-    protected void collectAccountsAndOrganizationsFromAccountingLines(List accountingLines, Set<RoutingAccount> accountsToReview, Set<OrgReviewRoutingData> orgsToReview) {
-       for (Object accountingLineAsObject : accountingLines) {
-           AccountingLine accountingLine = (AccountingLine)accountingLineAsObject;
-           accountsToReview.add(getRoutingAccountFromAccountingLine(accountingLine));
-           orgsToReview.add(getRoutingOrgFromAccountingLine(accountingLine));
-       }
-    }
-    
-    /**
-     * Builds a RoutingAccount object from the accounting line
-     * @param line the line to build the RoutingAccount object from
-     * @return a newly minted RoutingAccount object
-     */
-    protected RoutingAccount getRoutingAccountFromAccountingLine(AccountingLine line) {
-        return new RoutingAccount(line.getChartOfAccountsCode(), line.getAccountNumber());
-    }
-    
-    /**
-     * Builds an OrgReviewRoutingData object from the accounting line's account's organization
-     * @param line the accounting line to build the object from
-     * @return a newly created OrgReviewRoutingData
-     */
-    protected OrgReviewRoutingData getRoutingOrgFromAccountingLine(AccountingLine line) {
-       line.refreshReferenceObject("account");
-       OrgReviewRoutingData reviewOrg = new OrgReviewRoutingData(line.getAccount().getChartOfAccountsCode(), line.getAccount().getOrganizationCode());
-       if (!StringUtils.isBlank(line.getOverrideCode())) {
-           reviewOrg.setRoutingOverrideCode(line.getOverrideCode());
-       }
-       return reviewOrg;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#setRoutingInfo(java.util.Set)
-     */
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-    
 }

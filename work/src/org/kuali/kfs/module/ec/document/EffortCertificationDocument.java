@@ -17,13 +17,9 @@
 package org.kuali.kfs.module.ec.document;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
@@ -32,20 +28,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingAccount;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -55,7 +40,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Effort Certification Document Class.
  */
-public class EffortCertificationDocument extends FinancialSystemTransactionalDocumentBase implements GenericRoutingInfo {
+public class EffortCertificationDocument extends FinancialSystemTransactionalDocumentBase  {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
     private static final String DO_AWARD_SPLIT = "Do Award Split";
@@ -78,8 +63,6 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
     private List<EffortCertificationDetail> summarizedDetailLines;
-
-    public Set<RoutingData> routingInfo;
 
     /**
      * Default constructor.
@@ -651,7 +634,6 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      */
     @Override
     public void populateDocumentForRouting() {
-        populateRoutingInfo();
         if (ObjectUtils.isNotNull(getTotalPayrollAmount())) {
             getDocumentHeader().setFinancialDocumentTotalAmount(getTotalPayrollAmount());
         }
@@ -719,57 +701,6 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      */
     public void setSummarizedDetailLines(List<EffortCertificationDetail> summarizedDetailLines) {
         this.summarizedDetailLines = summarizedDetailLines;
-    }
-
-    /**
-     * Gets the routingInfo attribute.
-     * 
-     * @return Returns the routingInfo.
-     */
-    public Set<RoutingData> getRoutingInfo() {
-        return routingInfo;
-    }
-
-    /**
-     * Sets the routingInfo attribute value.
-     * 
-     * @param routingInfo The routingInfo to set.
-     */
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
-     */
-    public void populateRoutingInfo() {
-        routingInfo = new HashSet<RoutingData>();
-        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
-        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-
-        List<EffortCertificationDetail> detailLines = this.getEffortCertificationDetailLines();
-        for (EffortCertificationDetail detailLine : detailLines) {
-            String chartOfAccountsCode = detailLine.getChartOfAccountsCode();
-            String accountNumber = detailLine.getAccountNumber();
-            String organizationcode = detailLine.getAccount().getOrganizationCode();
-
-            organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
-            accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
-        }
-
-        RoutingData organizationRoutingData = new RoutingData();
-        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
-        organizationRoutingData.setRoutingSet(organizationRoutingSet);
-        routingInfo.add(organizationRoutingData);
-
-        List<String> routingTypes = new ArrayList<String>();
-        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
-        routingTypes.add(KualiPDAttribute.class.getSimpleName());
-
-        RoutingData accountRoutingData = new RoutingData();
-        accountRoutingData.setRoutingTypes(routingTypes);
-        accountRoutingData.setRoutingSet(accountRoutingSet);
-        routingInfo.add(accountRoutingData);
     }
     
     /**

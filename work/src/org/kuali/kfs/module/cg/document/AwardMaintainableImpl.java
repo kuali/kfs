@@ -22,10 +22,8 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.businessobject.Award;
@@ -41,10 +39,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -58,8 +52,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Methods for the Award maintenance document UI.
  */
-public class AwardMaintainableImpl extends KualiMaintainableImpl implements GenericRoutingInfo {
-    private Set<RoutingData> routingInfo;
+public class AwardMaintainableImpl extends KualiMaintainableImpl {
 
     /**
      * Constructs an AwardMaintainableImpl.
@@ -271,57 +264,6 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl implements Gene
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> locks = super.generateMaintenanceLocks();
         return locks;
-    }
-
-    /**
-     * Gets the routingInfo attribute. 
-     * @return Returns the routingInfo.
-     */
-    public Set<RoutingData> getRoutingInfo() {
-        return routingInfo;
-    }
-
-    /**
-     * Sets the routingInfo attribute value.
-     * @param routingInfo The routingInfo to set.
-     */
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-
-    /**
-     * Makes sure the routingInfo property is initialized and populates account review and org review data 
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
-     */
-    public void populateRoutingInfo() {
-        if (routingInfo == null) {
-            routingInfo = new HashSet<RoutingData>();
-        }
-        
-        routingInfo.add(getOrgReviewData());
-    }
-
-    /**
-     * Generates a RoutingData object with the accounts to review
-     * @return a properly initialized RoutingData object for account review
-     */
-    protected RoutingData getOrgReviewData() {
-        RoutingData routingData = new RoutingData();
-        routingData.setRoutingType(KualiOrgReviewAttribute.class.getName());
-        
-        Set<OrgReviewRoutingData> routingSet = new HashSet<OrgReviewRoutingData>();
-        routingSet.add(gatherOrgToReview());
-        routingData.setRoutingSet(routingSet);
-        
-        return routingData;
-    }
-    
-    /**
-     * @return an OrgReviewRoutingData object populated with the organization information that this maintenance document should route to
-     */
-    protected OrgReviewRoutingData gatherOrgToReview() {
-        final Award award = (Award)getBusinessObject();
-        return new OrgReviewRoutingData(award.getRoutingChart(), award.getRoutingOrg());
     }
 }
 

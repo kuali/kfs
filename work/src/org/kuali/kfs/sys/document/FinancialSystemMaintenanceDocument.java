@@ -15,38 +15,26 @@
  */
 package org.kuali.kfs.sys.document;
 
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-import org.kuali.kfs.sys.document.workflow.FinancialSystemPropertySerializabilityEvaluator;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
-import org.kuali.rice.kns.datadictionary.WorkflowProperties;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.documentserializer.AlwaysFalsePropertySerializabilityEvaluator;
-import org.kuali.rice.kns.util.documentserializer.AlwaysTruePropertySerializibilityEvaluator;
-import org.kuali.rice.kns.util.documentserializer.PropertySerializabilityEvaluator;
 
 /**
  * This class is used by the system to use financial specific objects and data for maintenance documents
  */
-public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase implements GenericRoutingInfo {
+public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase {
     private static final Logger LOG = Logger.getLogger(FinancialSystemMaintenanceDocument.class);
 
     protected FinancialSystemDocumentHeader documentHeader;
-    protected Set<RoutingData> routingInfo;
 
     /**
      * Constructs a FinancialSystemMaintenanceDocument.java.
@@ -141,71 +129,6 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
             getDocumentHeader().setDocumentFinalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         }
         super.handleRouteStatusChange();
-    }
-    
-    /**
-     * An override of populateDocumentForRouting, which makes sure that processCustomPopulateDocumentForRouting
-     * is called in a way that allows workflow properties to populate correctly.  It will also automatically
-     * call populateRoutingInfo if the document implement GenericRoutingInfo.
-     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
-     */
-    @Override
-    public void populateDocumentForRouting() {
-        if (this instanceof GenericRoutingInfo) {
-            ((GenericRoutingInfo)this).populateRoutingInfo();
-        }
-        processCustomPopulateDocumentForRouting();
-        super.populateDocumentForRouting();
-    }
-
-    /**
-     * A hook to allow population of workflow properties for routing
-     */
-    protected void processCustomPopulateDocumentForRouting() {}
-
-    
-    public Set<RoutingData> getRoutingInfo() {
-        return routingInfo;
-    }
-
-    public void populateRoutingInfo() {
-        Maintainable maintainable = getNewMaintainableObject();
-        if (maintainable instanceof GenericRoutingInfo) {
-          ((GenericRoutingInfo)maintainable).populateRoutingInfo();
-          Set<RoutingData> routingInfo =  ((GenericRoutingInfo)maintainable).getRoutingInfo();
-          this.setRoutingInfo(routingInfo);
-        }
-    }
-
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-    
-    @Override
-    protected PropertySerializabilityEvaluator createPropertySerializabilityEvaluator(WorkflowProperties workflowProperties, WorkflowAttributes workflowAttributes) {
-        if (workflowAttributes != null) {
-            return new AlwaysFalsePropertySerializabilityEvaluator();
-        }
-        if (workflowProperties == null) {
-            if (getNewMaintainableObject() instanceof GenericRoutingInfo) {
-                FinancialSystemPropertySerializabilityEvaluator evaluator = new FinancialSystemPropertySerializabilityEvaluator();
-                evaluator.addPropertyPath("routingInfo.routingTypes");
-                evaluator.addPropertyPath("routingInfo.routingSet");
-                evaluator.initializeEvaluator(this);
-                return evaluator;
-            }
-            return new AlwaysTruePropertySerializibilityEvaluator();
-        }
-        else {
-            
-            FinancialSystemPropertySerializabilityEvaluator evaluator = new FinancialSystemPropertySerializabilityEvaluator();
-            if (getNewMaintainableObject() instanceof GenericRoutingInfo) {
-                evaluator.addPropertyPath("routingInfo.routingTypes");
-                evaluator.addPropertyPath("routingInfo.routingSet");
-            }
-            evaluator.initializeEvaluator(this);
-            return evaluator;
-        } 
     }
     
     public boolean answerSplitNodeQuestion(String nodeName) {

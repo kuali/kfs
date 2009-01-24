@@ -19,11 +19,9 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -43,13 +41,9 @@ import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingAccount;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -98,7 +92,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     
     // COLLECTIONS
     private List<PurApItem> items;
-    private List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
 
     // REFERENCE OBJECTS
     private Status status;
@@ -179,15 +172,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLineClass()
-     */
-    @Override
-    public Class getSourceAccountingLineClass() {
-        //NOTE: do not do anything with this method as it is used by routing etc!
-        return super.getSourceAccountingLineClass();
-    }    
-    
-    /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getItemClass()
      */
     public abstract Class getItemClass();
@@ -224,53 +208,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public boolean documentPerformsSufficientFundsCheck() {
         return false;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
-     */
-    @Override
-    public void populateDocumentForRouting() {
-        if (getAccountsForRouting() == null || getAccountsForRouting().size() == 0) {
-            populateAccountsForRouting();
-        }
-        super.populateDocumentForRouting();
-    }
-
-    /**
-     * Uses accountsForRouting to generate account and org review data
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#populateRoutingInfo()
-     */
-    @Override
-    public void populateRoutingInfo() {
-        //use the accounts for routing to generate routing info
-        if (getAccountsForRouting() == null || getAccountsForRouting().size() == 0) {
-            populateAccountsForRouting();
-        }
-        routingInfo = new HashSet<RoutingData>();
-        Set<OrgReviewRoutingData> orgsToReview = new HashSet<OrgReviewRoutingData>();
-        Set<RoutingAccount> accountsToReview = new HashSet<RoutingAccount>();
-        
-        if (getAccountsForRouting() != null && getAccountsForRouting().size() > 0) {
-            collectAccountsAndOrganizationsFromAccountingLines(getAccountsForRouting(), accountsToReview, orgsToReview);
-        }
-        
-        routingInfo.add(getAccountReviewRoutingData(accountsToReview));
-        routingInfo.add(getOrgReviewRoutingData(orgsToReview));
-    }
-    
-    /**
-     * Makes sure that accounts for routing has been generated, so that other information can be retrieved from that
-     */
-    protected void populateAccountsForRouting() {
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
-        setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
-        // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
-        // objects) -hjs
-        refreshNonUpdateableReferences();
-        for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
-            sourceLine.refreshNonUpdateableReferences();
-        }
     }
 
     /**
@@ -401,17 +338,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             managedLists.add(this.getItems());
         }
         return managedLists;
-    }
-
-    /**
-     * Populate the document for routing to the specified node.
-     * 
-     * @param routeNodeName the specified node to route to.
-     * @return false.
-     */
-    protected boolean documentWillStopInRouteNode(String routeNodeName) {
-        populateDocumentForRouting();
-        return false;
     }
 
     /**
@@ -979,14 +905,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     public void setVendorCountry(Country vendorCountry) {
         this.vendorCountry = vendorCountry;
-    }
-
-    public List<SourceAccountingLine> getAccountsForRouting() {
-        return accountsForRouting;
-    }
-
-    public void setAccountsForRouting(List<SourceAccountingLine> accountsForRouting) {
-        this.accountsForRouting = accountsForRouting;
     }
     
     public String getVendorAttentionName() {

@@ -18,10 +18,8 @@ package org.kuali.kfs.module.cam.document;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -40,18 +38,10 @@ import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinde
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule;
-import org.kuali.kfs.module.cam.document.workflow.RoutingAssetNumber;
-import org.kuali.kfs.module.cam.document.workflow.RoutingAssetTagNumber;
 import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingAccount;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -67,9 +57,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
-public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
+public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
-    private Set<RoutingData> routingInfo;
 
     /**
      * Get Asset from AssetGlobal
@@ -95,9 +84,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
             AssetOrganization assetOrganization = getAssetOrganization(assetGlobal);
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
             populateAssetSeparatePaymentDetails(assetGlobal, asset);
-            
+
             AssetGlobalRule.validateAssetTotalCostMatchesPaymentTotalCost(assetGlobal);
-            
+
             if (getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
                 AssetGlobalRule.validateAssetAlreadySeparated(assetGlobal.getSeparateSourceCapitalAssetNumber());
             }
@@ -169,9 +158,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
     }
 
     /**
-     * Populate Asset Payment Details for Asset Separate document. It will do this whether we are seperating by asset or payment. If it is by asset
-     * it picks up all the payments and sets the total amount on the document of that per the asset. If it is by payment it picks only the payment
-     * out we are interested in and set the document total amount to that payment only.
+     * Populate Asset Payment Details for Asset Separate document. It will do this whether we are seperating by asset or payment. If
+     * it is by asset it picks up all the payments and sets the total amount on the document of that per the asset. If it is by
+     * payment it picks only the payment out we are interested in and set the document total amount to that payment only.
      * 
      * @param assetGlobal
      * @param asset
@@ -183,40 +172,41 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
 
         if (!getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
             // Separate by Asset. Pick all payments up
-            
+
             for (AssetPayment assetPayment : asset.getAssetPayments()) {
                 // create new AssetPaymentDetail
                 AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail(assetPayment);
-    
+
                 // add assetPaymentDetail to AssetPaymentDetail list
                 newAssetPaymentDetailList.add(assetPaymentDetail);
             }
-            
+
             // Set total amount per asset
             assetGlobal.setTotalCostAmount(asset.getTotalCostAmount());
             assetGlobal.setSeparateSourceRemainingAmount(asset.getTotalCostAmount());
-        } else {
+        }
+        else {
             for (AssetPayment assetPayment : asset.getAssetPayments()) {
                 // Separate by Payment. Pick only the appropriate payment up and then break
-                
+
                 if (assetPayment.getPaymentSequenceNumber().equals(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
                     // create new AssetPaymentDetail
                     AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail(assetPayment);
-        
+
                     // add assetPaymentDetail to AssetPaymentDetail list
                     newAssetPaymentDetailList.add(assetPaymentDetail);
-                    
+
                     // Set total amount per payment
                     assetGlobal.setTotalCostAmount(assetPayment.getAccountChargeAmount());
                     assetGlobal.setSeparateSourceRemainingAmount(assetPayment.getAccountChargeAmount());
-                    
+
                     break;
                 }
             }
         }
 
         assetGlobal.setSeparateSourceTotalAmount(KualiDecimal.ZERO);
-        
+
         // set AssetGlobal payment details with new payment details
         assetGlobal.setAssetPaymentDetails(newAssetPaymentDetailList);
     }
@@ -234,7 +224,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         if (separateSourceCapitalAssetNumber != null) {
             assetGlobal.setSeparateSourceCapitalAssetNumber(Long.parseLong(separateSourceCapitalAssetNumber[0].toString()));
         }
-        
+
         String[] separateSourcePaymentSequenceNumber = parameters.get(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER);
         if (separateSourcePaymentSequenceNumber != null) {
             assetGlobal.setSeparateSourcePaymentSequenceNumber(Integer.parseInt(separateSourcePaymentSequenceNumber[0].toString()));
@@ -354,8 +344,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
     }
 
     /**
-     * Creates locking representation for this global document. The locking is only applicable for assets that are being split. The assets
-     * that are being created do not need to be locked since they don't exist yet.
+     * Creates locking representation for this global document. The locking is only applicable for assets that are being split. The
+     * assets that are being created do not need to be locked since they don't exist yet.
      * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
@@ -363,9 +353,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
     public List<MaintenanceLock> generateMaintenanceLocks() {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-        
+
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-        
+
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             MaintenanceLock assetSeperateMaintenanceLock = new MaintenanceLock();
             StringBuffer lockRep = new StringBuffer();
@@ -378,7 +368,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
             assetSeperateMaintenanceLock.setLockingRepresentation(lockRep.toString());
             maintenanceLocks.add(assetSeperateMaintenanceLock);
         }
-            
+
         return maintenanceLocks;
     }
 
@@ -534,7 +524,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
                 // add source asset to the current location quantity
                 KualiDecimal[] equalSourceAmountsArray = kualiDecimalService.allocate(locationQtyTotal + 1);
                 setEqualSeparateSourceAmounts(equalSourceAmountsArray, assetGlobal);
-                
+
                 recalculateTotalAmount(assetGlobal);
             }
 
@@ -542,8 +532,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
             if (customAction != null && (CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON.equals(customAction[0]))) {
                 // Don't do anything because we are anyway recalculating always below
             }
-            
-            // Do recalculate every time even if button (CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON) wasn't pressed. We
+
+            // Do recalculate every time even if button (CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON) wasn't
+            // pressed. We
             // do that so that it also happens on add / delete lines.
             recalculateTotalAmount(assetGlobal);
         }
@@ -551,6 +542,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
 
     /**
      * Recalculate amounts in the Recalculate Total Amount Tab
+     * 
      * @param assetGlobal
      */
     protected void recalculateTotalAmount(AssetGlobal assetGlobal) {
@@ -559,7 +551,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
         // set Remaining Total Amount
         assetGlobal.setSeparateSourceRemainingAmount(assetGlobal.getTotalCostAmount().subtract(getAssetGlobalService().getUniqueAssetsTotalAmount(assetGlobal)));
     }
-    
+
     /**
      * Separates the current asset amount equally into new unique assets.
      * 
@@ -574,72 +566,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl imp
                 i++;
             }
         }
-    }
-
-    /**
-     * Gets the routingInfo attribute.
-     * 
-     * @return Returns the routingInfo.
-     */
-    public Set<RoutingData> getRoutingInfo() {
-        return routingInfo;
-    }
-
-    /**
-     * Sets the routingInfo attribute value.
-     * 
-     * @param routingInfo The routingInfo to set.
-     */
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
-     */
-    public void populateRoutingInfo() {
-        routingInfo = new HashSet<RoutingData>();
-        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
-        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-        Set<RoutingAssetNumber> assetNumberRoutingSet = new HashSet<RoutingAssetNumber>();
-        Set<RoutingAssetTagNumber> assetTagNumberRoutingSet = new HashSet<RoutingAssetTagNumber>();
-
-        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-
-        // Asset information
-        if (assetGlobal.getOrganizationOwnerChartOfAccountsCode() != null && ObjectUtils.isNotNull(assetGlobal.getOrganizationOwnerAccount())) {
-            organizationRoutingSet.add(new OrgReviewRoutingData(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccount().getOrganizationCode()));
-        }
-        if (assetGlobal.getOrganizationOwnerChartOfAccountsCode() != null && assetGlobal.getOrganizationOwnerAccountNumber() != null) {
-            accountRoutingSet.add(new RoutingAccount(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber()));
-        }
-        if (assetGlobal.getSeparateSourceCapitalAssetNumber() != null) {
-            assetNumberRoutingSet.add(new RoutingAssetNumber(assetGlobal.getSeparateSourceCapitalAssetNumber().toString()));
-        }
-        if (ObjectUtils.isNotNull(assetGlobal.getSeparateSourceCapitalAsset())) {
-            assetTagNumberRoutingSet.add(new RoutingAssetTagNumber(assetGlobal.getSeparateSourceCapitalAsset().getCampusTagNumber()));
-        }
-
-        // Storing data
-        RoutingData organizationRoutingData = new RoutingData();
-        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
-        organizationRoutingData.setRoutingSet(organizationRoutingSet);
-        routingInfo.add(organizationRoutingData);
-
-        RoutingData accountRoutingData = new RoutingData();
-        accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
-        accountRoutingData.setRoutingSet(accountRoutingSet);
-        routingInfo.add(accountRoutingData);
-
-        RoutingData assetNumberRoutingData = new RoutingData();
-        assetNumberRoutingData.setRoutingType(RoutingAssetNumber.class.getSimpleName());
-        assetNumberRoutingData.setRoutingSet(assetNumberRoutingSet);
-        routingInfo.add(assetNumberRoutingData);
-
-        RoutingData assetTagNumberRoutingData = new RoutingData();
-        assetTagNumberRoutingData.setRoutingType(RoutingAssetTagNumber.class.getSimpleName());
-        assetTagNumberRoutingData.setRoutingSet(assetTagNumberRoutingSet);
-        routingInfo.add(assetTagNumberRoutingData);
     }
 
     /**

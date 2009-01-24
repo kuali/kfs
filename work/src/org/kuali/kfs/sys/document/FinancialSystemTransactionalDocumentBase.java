@@ -22,20 +22,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-import org.kuali.kfs.sys.document.workflow.FinancialSystemPropertySerializabilityEvaluator;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
-import org.kuali.rice.kns.datadictionary.WorkflowProperties;
 import org.kuali.rice.kns.document.TransactionalDocumentBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.documentserializer.AlwaysFalsePropertySerializabilityEvaluator;
-import org.kuali.rice.kns.util.documentserializer.AlwaysTruePropertySerializibilityEvaluator;
-import org.kuali.rice.kns.util.documentserializer.PropertySerializabilityEvaluator;
 
 /**
  * This class is a KFS specific TransactionalDocumentBase class
@@ -150,55 +143,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         addCopyErrorDocumentNote("error-correction for document " + sourceDocumentHeaderId);
     }
 
-    /**
-     * An override of populateDocumentForRouting, which makes sure that processCustomPopulateDocumentForRouting
-     * is called in a way that allows workflow properties to populate correctly.  It will also automatically
-     * call populateRoutingInfo if the document implement GenericRoutingInfo.
-     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
-     */
-    @Override
-    public void populateDocumentForRouting() {
-        if (this instanceof GenericRoutingInfo) {
-            ((GenericRoutingInfo)this).populateRoutingInfo();
-        }
-        processCustomPopulateDocumentForRouting();
-        super.populateDocumentForRouting();
-    }
-
-    /**
-     * A hook to allow population of workflow properties for routing
-     */
-    protected void processCustomPopulateDocumentForRouting() {}
-   
-    @Override
-    protected PropertySerializabilityEvaluator createPropertySerializabilityEvaluator(WorkflowProperties workflowProperties, WorkflowAttributes workflowAttributes) {
-        if (workflowAttributes != null) {
-            return new AlwaysFalsePropertySerializabilityEvaluator();
-        }
-        if (workflowProperties == null) {
-            if (this instanceof GenericRoutingInfo) {
-                FinancialSystemPropertySerializabilityEvaluator evaluator = new FinancialSystemPropertySerializabilityEvaluator();
-                evaluator.addPropertyPath("routingInfo.routingTypes");
-                evaluator.addPropertyPath("routingInfo.routingSet");
-                evaluator.initializeEvaluator(this);
-                return evaluator;
-            }
-            return new AlwaysTruePropertySerializibilityEvaluator();
-        }
-        else {
-            
-            FinancialSystemPropertySerializabilityEvaluator evaluator = new FinancialSystemPropertySerializabilityEvaluator();
-            if (this instanceof GenericRoutingInfo) {
-                evaluator.addPropertyPath("routingInfo.routingTypes");
-                evaluator.addPropertyPath("routingInfo.routingSet");
-            }
-            evaluator.initializeEvaluator(this);
-            return evaluator;
-        } 
-    }
-    
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("FinancialSystemTransactionalDocumentBase does not implement the answerSplitNodeQuestion method. Node name specified was: " + nodeName); 
     }
-
 }

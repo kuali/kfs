@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Holds Workflow constants for PURAP documents
@@ -59,8 +59,7 @@ public class PurapWorkflowConstants {
 
     public static class RequisitionDocument {
         public enum NodeDetailEnum implements NodeDetails {
-            ADHOC_REVIEW(DOC_ADHOC_NODE_NAME, null, PurapConstants.RequisitionStatuses.CANCELLED), CONTENT_REVIEW("Organization", PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT), SUB_ACCOUNT_REVIEW(KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT), ACCOUNT_REVIEW("Account", PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL), ORG_REVIEW(KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CHART_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART), COMMODITY_CODE_REVIEW("Commodity", PurapConstants.RequisitionStatuses.AWAIT_COMMODITY_CODE_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_COMMODITY_CODE), SEPARATION_OF_DUTIES_REVIEW("SeparationOfDuties", PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY), ;
-
+            ADHOC_REVIEW(DOC_ADHOC_NODE_NAME, null, PurapConstants.RequisitionStatuses.CANCELLED), CONTENT_REVIEW("Organization", PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT), SUB_ACCOUNT_REVIEW(KFSConstants.RouteLevelNames.SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT), ACCOUNT_REVIEW("Account", PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL), ORG_REVIEW(KFSConstants.RouteLevelNames.ORG_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CHART_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART), COMMODITY_CODE_REVIEW("Commodity", PurapConstants.RequisitionStatuses.AWAIT_COMMODITY_CODE_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_COMMODITY_CODE), SEPARATION_OF_DUTIES_REVIEW("SeparationOfDuties", PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY), ;
             private final String name;
             private final String awaitingStatusCode;
             private final String disapprovedStatusCode;
@@ -178,7 +177,7 @@ public class PurapWorkflowConstants {
 
     public static class PaymentRequestDocument {
         public enum NodeDetailEnum implements NodeDetails {
-            ADHOC_REVIEW(DOC_ADHOC_NODE_NAME, null, PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), ACCOUNTS_PAYABLE_REVIEW("Accounts Payable Review", PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), AWAITING_RECEIVING_REVIEW("Awaiting Receiving", PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), SUB_ACCOUNT_REVIEW(KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), ACCOUNT_REVIEW("Account", PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, true), ORG_REVIEW(KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), VENDOR_TAX_REVIEW("Vendor Tax Review",
+            ADHOC_REVIEW(DOC_ADHOC_NODE_NAME, null, PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), ACCOUNTS_PAYABLE_REVIEW("Accounts Payable Review", PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), AWAITING_RECEIVING_REVIEW("Awaiting Receiving", PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), SUB_ACCOUNT_REVIEW(KFSConstants.RouteLevelNames.SUB_ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), ACCOUNT_REVIEW("Account", PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, true), ORG_REVIEW(KFSConstants.RouteLevelNames.ORG_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), VENDOR_TAX_REVIEW("Vendor Tax Review",
                     PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), ;
 
             private final String name;

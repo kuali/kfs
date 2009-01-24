@@ -23,18 +23,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
-import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
@@ -47,8 +43,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * 
  * @see OrganizationRoutingModelName
  */
-public class AccountDelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl implements GenericRoutingInfo {
-    private Set<RoutingData> routingInfo;
+public class AccountDelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     /**
      * This method is used for the creation of a delegate from a {@link OrganizationRoutingModelName}
@@ -160,65 +155,6 @@ public class AccountDelegateGlobalMaintainableImpl extends KualiGlobalMaintainab
             }
         }
         return maintenanceLocks;
-    }
-
-    /**
-     * Gets the routingInfo attribute. 
-     * @return Returns the routingInfo.
-     */
-    public Set<RoutingData> getRoutingInfo() {
-        return routingInfo;
-    }
-
-    /**
-     * Sets the routingInfo attribute value.
-     * @param routingInfo The routingInfo to set.
-     */
-    public void setRoutingInfo(Set<RoutingData> routingInfo) {
-        this.routingInfo = routingInfo;
-    }
-    
-    /**
-     * Makes sure the routingInfo property is initialized and populates account review and org review data 
-     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
-     */
-    public void populateRoutingInfo() {
-        if (routingInfo == null) {
-            routingInfo = new HashSet<RoutingData>();
-        }
-        
-        routingInfo.add(getOrgReviewData());
-    }
-    
-    /**
-     * Generates a RoutingData object with the accounts to review
-     * @return a properly initialized RoutingData object for account review
-     */
-    protected RoutingData getOrgReviewData() {
-        RoutingData routingData = new RoutingData();
-        routingData.setRoutingType(KualiOrgReviewAttribute.class.getName());
-        
-        routingData.setRoutingSet(gatherOrgsToReview());
-        
-        return routingData;
-    }
-    
-    /**
-     * Generates the set of OrgReviewRoutingData objects that should be taken into account while determining Org Review
-     * @return a Set of OrgReviewRoutingData objects
-     */
-    protected Set<OrgReviewRoutingData> gatherOrgsToReview() {
-        Set<OrgReviewRoutingData> orgsToReview = new HashSet<OrgReviewRoutingData>();
-        
-        final AccountDelegateGlobal delegateGlobal = (AccountDelegateGlobal)getBusinessObject();
-        
-        for (AccountGlobalDetail accountGlobalDetail : delegateGlobal.getAccountGlobalDetails()) {
-            accountGlobalDetail.refreshReferenceObject("account");
-            final OrgReviewRoutingData orgToReview = new OrgReviewRoutingData(accountGlobalDetail.getChartOfAccountsCode(), accountGlobalDetail.getAccount().getOrganizationCode());
-            orgsToReview.add(orgToReview);
-        }
-        
-        return orgsToReview;
     }
 
     @Override

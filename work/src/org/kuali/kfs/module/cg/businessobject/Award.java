@@ -25,7 +25,6 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -37,7 +36,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * Defines a financial award object.
  */
-public class Award extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting, Inactivateable, ContractsAndGrantsAward {
+public class Award extends PersistableBusinessObjectBase implements Inactivateable, ContractsAndGrantsAward {
 
     private Long proposalNumber;
     private Date awardBeginningDate;
@@ -1077,7 +1076,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
         this.routingChart = primaryAwardOrganization.getChartOfAccountsCode();
         this.routingOrg = primaryAwardOrganization.getOrganizationCode();
     }
-    
+
     /**
      * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
      * 

@@ -24,18 +24,18 @@ import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+    private static final String KRA_BUDGET_DOC_TYPE = "KualiBudgetDocument";
+    private static final String KRA_ROUTING_FORM_DOC_TYPE = "KualiRoutingFormDocument";
 
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
@@ -69,9 +69,9 @@ public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends Kim
             }
         } else if(CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){
             String documentType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
-            if(KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE.equals(documentType)){
+            if(KRA_ROUTING_FORM_DOC_TYPE.equals(documentType)){
                 principalIds.addAll(getProjectDirectors((RoutingFormDocument)document));
-            } else if(KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equals(documentType)){
+            } else if(KRA_BUDGET_DOC_TYPE.equals(documentType)){
                 principalIds.addAll(getProjectDirectors((BudgetDocument)document));
             }
         }
@@ -94,10 +94,10 @@ public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends Kim
         } else if(CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){
             String documentType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
             List projectDirs;
-            if(KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE.equals(documentType)){
+            if(KRA_ROUTING_FORM_DOC_TYPE.equals(documentType)){
                 projectDirs = getProjectDirectors((RoutingFormDocument)document);
                 hasApplicationRole = projectDirs!=null && projectDirs.contains(principalId);
-            } else if(KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equals(documentType)){
+            } else if(KRA_BUDGET_DOC_TYPE.equals(documentType)){
                 projectDirs = getProjectDirectors((BudgetDocument)document);
                 hasApplicationRole = projectDirs!=null && projectDirs.contains(principalId);
             }

@@ -63,7 +63,6 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -81,7 +80,6 @@ import org.kuali.rice.kim.bo.entity.EntityExternalIdentifier;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -1576,16 +1574,16 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public boolean isSpecialRouting() {
         KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
         List<String> activeNodes = Arrays.asList(workflowDocument.getCurrentRouteNodeNames());
-
+// TODO fix for kim
         List<String> dvSpecialNodes = new ArrayList<String>();
-        dvSpecialNodes.add(RouteLevelNames.ALIEN_INDICATOR);
-        dvSpecialNodes.add(RouteLevelNames.ALIEN_INDICATOR_PAYMENT_REASON);
-        dvSpecialNodes.add(RouteLevelNames.CAMPUS_CODE);
-        dvSpecialNodes.add(RouteLevelNames.EMPLOYEE_INDICATOR);
-        dvSpecialNodes.add(RouteLevelNames.PAYMENT_METHOD);
-        dvSpecialNodes.add(RouteLevelNames.PAYMENT_REASON);
-        dvSpecialNodes.add(RouteLevelNames.PAYMENT_REASON_CAMPUS);
-        dvSpecialNodes.add(RouteLevelNames.TAX_CONTROL_CODE);
+//        dvSpecialNodes.add(RouteLevelNames.ALIEN_INDICATOR);
+//        dvSpecialNodes.add(RouteLevelNames.ALIEN_INDICATOR_PAYMENT_REASON);
+//        dvSpecialNodes.add(RouteLevelNames.CAMPUS_CODE);
+//        dvSpecialNodes.add(RouteLevelNames.EMPLOYEE_INDICATOR);
+//        dvSpecialNodes.add(RouteLevelNames.PAYMENT_METHOD);
+//        dvSpecialNodes.add(RouteLevelNames.PAYMENT_REASON);
+//        dvSpecialNodes.add(RouteLevelNames.PAYMENT_REASON_CAMPUS);
+//        dvSpecialNodes.add(RouteLevelNames.TAX_CONTROL_CODE);
 
         return CollectionUtils.containsAny(activeNodes, dvSpecialNodes) ? true : false;
     }   

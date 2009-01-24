@@ -22,9 +22,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
-import org.kuali.kfs.sys.document.workflow.RoutingAccount;
-import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -1004,26 +1001,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     // next variable used by the batch upload framework
     public static final String DONE_FILE_TYPE = "DONE_FILE";
     
-    public static final class WorkflowConstants {
-        public static final String GET_GENERIC_ACCOUNTS_PREFIX = "//routingInfo/"+RoutingData.class.getName()+"/routingTypes[string='";
-        public static final String GET_GENERIC_ACCOUNTS_SUFFIX = "']/following-sibling::routingSet/"+ RoutingAccount.class.getName();
-        public static final String GET_GENERIC_ORGS_PREFIX = "//routingInfo/"+RoutingData.class.getName()+"/routingTypes[string='";
-        public static final String GET_GENERIC_ORGS_SUFFIX = "']/following-sibling::routingSet/"+OrgReviewRoutingData.class.getName();
-        public static final String GET_GENERIC_CHART= "./routingChart";
-        public static final String GET_GENERIC_ACCOUNT = "./routingAccount";
-        public static final String GET_GENERIC_OVERRIDE_CD = "./routingOverrideCode";
-        public static final String GET_GENERIC_ORG = "./routingOrg";
-        public static final String GET_GENERIC_ACCOUNT_CHART = "//routingSet/" + RoutingAccount.class.getName() + "/routingChart";
-        public static final String GET_GENERIC_ACCOUNT_ACCOUNT = "//routingSet/" + RoutingAccount.class.getName() + "/routingAccount";
-        public static final String GET_GENERIC_ORG_CHART = "//routingSet/" + OrgReviewRoutingData.class.getName() + "/routingChart";
-        public static final String GET_GENERIC_ORG_ORG = "//routingSet/" + OrgReviewRoutingData.class.getName() + "/routingOrg";
-        public static final String GET_GENERIC_ACCOUNT_REPORT_PREFIX = "<generatedContent><report_for_routing_purposes><routingSet><" + RoutingAccount.class.getName() + ">";
-        public static final String GET_GENERIC_ACCOUNT_REPORT_SUFFIX = "</" + RoutingAccount.class.getName() +"></routingSet></report_for_routing_purposes></generatedContent>";
-        public static final String GET_GENERIC_ORG_REPORT_PREFIX = "<generatedContent><report_for_routing_purposes><routingSet><" + OrgReviewRoutingData.class.getName() + ">";
-        public static final String GET_GENERIC_ORG_REPORT_SUFFIX = "</" + OrgReviewRoutingData.class.getName() + "></routingSet></report_for_routing_purposes></generatedContent>";
-
-    }
-
     /**
      * The base implementation of {@link org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatusBase} uses strings contained within
      * ApplicationResources.properties to store the human-readable descriptions of each status object. The fully qualified class
@@ -1259,7 +1236,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
             this.value = value;
         }
     }
-    
+
     public enum PermissionTemplate {
         DEFAULT("Default"), ERROR_CORRECT_DOCUMENT("Error Correct Document"),
         MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment");
@@ -1275,5 +1252,24 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String AMOUNT_TOTALING_EDITING_MODE = "amountTotaling";
     public static final String BANK_ENTRY_VIEWABLE_EDITING_MODE = "bankEntryViewable";
     public static final String BANK_ENTRY_EDITABLE_EDITING_MODE = "bankEntry";
+    
+    public class RouteLevelNames {
+        public static final String ACCOUNT_REVIEW = "Account Review";
+        public static final String SUB_ACCOUNT_REVIEW = "Sub Account Review";
+        public static final String ORG_REVIEW = "Org Review";
+        public static final String EMPLOYEE_INDICATOR = "Employee Indicator";
+        public static final String TAX_CONTROL_CODE = "Tax Control Code";
+        public static final String ALIEN_INDICATOR = "Alien Indicator";
+        public static final String PAYMENT_REASON = "Payment Reason";
+        public static final String PAYMENT_REASON_CAMPUS = "Payment Reason+Campus Code";
+        public static final String CAMPUS_CODE = "Campus Code";
+        public static final String ALIEN_INDICATOR_PAYMENT_REASON = "Alien Indicator+Payment Reason";
+        public static final String PAYMENT_METHOD = "Payment Method";
+        public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
+
+        public static final String PROJECT_DIRECTOR = "Project Director";
+        public static final String CG_WORKGROUP = "Award Workgroup";
+        public static final String RECREATE_WORKGROUP = "Recreate Workgroup";
+    }
 }
 

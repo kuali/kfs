@@ -252,17 +252,6 @@
    		</property>
    	</bean>
    	
-   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-ChartAccountOld" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" >
-		<property name="documentValues">
-	   		<list>
-	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   			<value>newMaintainableObject.businessObject.accountNumber</value>
-	   			<value>oldMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   			<value>oldMaintainableObject.businessObject.accountNumber</value>
-	   		</list>
-   		</property>
-   	</bean>
-   	
    	 <bean id="AccountMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" >
 		<property name="documentValues">
 	   		<list>
@@ -286,8 +275,8 @@
 	   		</list>
    		</property>
    	</bean>
-   	
-   	<bean id="AccountMaintenanceDocument-RoutingType-AccountSupervisor" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+
+	<bean id="AccountMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart" />
@@ -314,21 +303,7 @@
     		</list>
     	</property>
     </bean>
-   	
-	<bean id="AccountMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart" />
-		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Account"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-ChartAccountOld" />
-    		</list>
-    	</property>
-    </bean>
- 
+   	 
 	<bean id="AccountMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>

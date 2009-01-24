@@ -801,7 +801,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE = "MAX_AGE";
 
         public static final String JOB_ADMIN_WORKGROUP = "SCHEDULE_ADMIN_GROUP";
-        public static final String JOB_WORKGROUP_SUFFIX = "_SCHEDULE_GROUP";
         
         public static final String NUMBER_OF_DAYS_SINCE_LAST_UPDATE  = "NUMBER_OF_DAYS_SINCE_LAST_UPDATE";
     }
@@ -875,8 +874,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String BEG_BUD_CASH_OBJECT_CD = "BEG_BUD_CASH_OBJECT_CD";
     public static final String FUND_BAL_OBJECT_CD = "FUND_BAL_OBJECT_CD";
     public static final String UNIV_FISCAL_YR = "UNIV_FISCAL_YR";
-
-    public static final int DEFAULT_NUM_OF_COLUMNS = 1;
 
     public static final String EMPLOYEE_LOOKUP_ERRORS = "document.employeeLookups";
 

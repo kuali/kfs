@@ -19,12 +19,6 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 public class OrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
-    {
-        roleQualifierRequiredAttributes.add(KfsKimAttributes.DOCUMENT_TYPE_NAME);
-
-        qualificationRequiredAttributes.add(KfsKimAttributes.DOCUMENT_TYPE_NAME);
-    }
-
     /**
      * Attributes: Chart Code (required) Organization Code Document Type Name Requirement - Traverse the org hierarchy but not the
      * document type hierarchy
@@ -34,16 +28,12 @@ public class OrganizationHierarchyReviewRoleTypeServiceImpl extends Organization
      */
     @Override
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        validateRequiredAttributesAgainstReceived(
-                qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-        validateRequiredAttributesAgainstReceived(
-                roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
-
-        return isParentOrg(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), 
-                qualification.get(KfsKimAttributes.ORGANIZATION_CODE), 
-                roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), 
-                roleQualifier.get(KfsKimAttributes.ORGANIZATION_CODE), true) && 
-                qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(
-                        roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
+        return isParentOrg(
+                qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE),
+                qualification.get(KfsKimAttributes.ORGANIZATION_CODE),
+                roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE),
+                roleQualifier.get(KfsKimAttributes.ORGANIZATION_CODE), true)
+                && (!roleQualifier.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)
+                           || qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)));
     }
 }

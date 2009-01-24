@@ -26,7 +26,6 @@ import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.StateService;
-import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;

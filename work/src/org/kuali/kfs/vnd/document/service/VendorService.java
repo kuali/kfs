@@ -21,7 +21,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
-import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
+import org.kuali.kfs.vnd.businessobject.VendorRoutingComparable;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface VendorService {

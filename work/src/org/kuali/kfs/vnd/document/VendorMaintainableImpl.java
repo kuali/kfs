@@ -482,16 +482,8 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals("RequiresApproval")) return isApprovalRequired();
+        if (nodeName.equals("RequiresApproval")) return SpringContext.getBean(VendorService.class).shouldVendorRouteForApproval(this.documentNumber);
         return super.answerSplitNodeQuestion(nodeName);
-    }
-    
-    /**
-     * Determines if full approval routing for the maintenance document this maintainable is associated with is required
-     * @return true if full approval routing is required, false otherwise
-     */
-    private boolean isApprovalRequired() {
-        return SpringContext.getBean(VendorService.class).shouldVendorRouteForApproval(this.documentNumber);
     }
 }
 

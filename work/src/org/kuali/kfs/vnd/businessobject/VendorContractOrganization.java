@@ -21,7 +21,6 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;

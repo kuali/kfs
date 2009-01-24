@@ -30,9 +30,6 @@ import org.kuali.rice.kew.engine.node.SplitResult;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 
-/**
- * This class...
- */
 public class SimpleBooleanSplitNode implements SplitNode {
 
     /**

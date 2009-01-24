@@ -38,7 +38,7 @@ import org.kuali.rice.kns.service.PostProcessorService;
  */
 public class PostProcessor implements PostProcessorRemote {
 
-    private static Logger LOG = Logger.getLogger(KualiPostProcessor.class);
+    private static Logger LOG = Logger.getLogger(PostProcessor.class);
 
     /**
      * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteStatusChangeDTO)

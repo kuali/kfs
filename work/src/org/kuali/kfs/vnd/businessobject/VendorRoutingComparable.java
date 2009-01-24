@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.vnd.document.routing;
+package org.kuali.kfs.vnd.businessobject;
 
 /**
  * Defines methods that must be implemented by classes providing a VendorRoutingComparable.

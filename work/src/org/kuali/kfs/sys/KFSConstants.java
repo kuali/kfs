@@ -726,6 +726,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String FISCAL_YEAR_MAKER_REPLACE_MODE = "OVERRIDE_TARGET_YEAR_DATA_IND";
         public static final String FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR = "SOURCE_FISCAL_YEAR";
 
+        public static final String ACCOUNT_USER_EMP_STATUSES = "ROLE_EMPLOYEE_STATUSES";
+        public static final String ACCOUNT_USER_EMP_TYPES = "ROLE_EMPLOYEE_TYPES";
+
         // added from parameter refactoring.
         public static final String APC_HRMS_ACTIVE_KEY = "USE_HRMS_ORGANIZATION_ATTRIBUTES_IND";
         public final static String OBJECT_CODE_ILLEGAL_VALUES = "OBJECT_CODES";

@@ -15,42 +15,25 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep;
+import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.report.service.CustomerAgingReportService;
-import org.kuali.kfs.module.ar.report.util.CustomerAgingReportDataHolder;
 import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.datadictionary.mask.Mask;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
@@ -70,12 +53,16 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 
 
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerAgingReportLookupableHelperServiceImpl.class);
-    private EncryptionService encryptionService;
     private DataDictionaryService dataDictionaryService;
     private Map fieldConversions;
     private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
@@ -122,10 +109,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         Collection<CustomerInvoiceDetail> invoiceDetails = new ArrayList<CustomerInvoiceDetail>(); // default max is 10?
 
-        Collection<CustomerInvoiceDetail> invoiceDetailsSubset = null;
-        Collection<CustomerInvoiceDocument> invoices = null;
-        Collection invoiceTotalsRow = null;
-        CustomerInvoiceDetail invoicedetail = null;
+        Collection<CustomerInvoiceDocument> invoices;
         total0to30 = KualiDecimal.ZERO;
         total31to60 = KualiDecimal.ZERO;
         total61to90 = KualiDecimal.ZERO;
@@ -166,13 +150,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-        //Date reportRunDate;
         try {
             reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
         }
         catch (ParseException e) {
             reportRunDate = today;
-            // MJM Auto-generated catch block
             e.printStackTrace();
         }
         Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
@@ -189,9 +171,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
 
-        KualiDecimal totalbalance = new KualiDecimal(0.00);
-        CustomerAgingReportDetail custDetail = null;
-        String previousCustomerNumber = "";
+        CustomerAgingReportDetail custDetail;
         int detailnum = 0;
         // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDetail cid : invoiceDetails) {
@@ -199,14 +179,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
             Date approvalDate;
             detailnum++;
-            //if (custInvoice.getCustomerPurchaseOrderDate()!=null) {
-            //  approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
-            //}else {
-            approvalDate = custInvoice.getBillingDate(); // use this if above isn't set since this is never null
-            //LOG.info("\t\t\t\t\t\t\t\t"+detailnum+" approval date (billingDate)= "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
-            // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
-            //}
-            // ok
+            approvalDate = custInvoice.getBillingDate();
             if (ObjectUtils.isNull(approvalDate))
                 continue;
 
@@ -233,8 +206,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                     custDetail.setUnpaidBalance0to30(cid.getAmountOpen().add(custDetail.getUnpaidBalance0to30()));
                     //                total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
                     total0to30 = total0to30.add(cid.getAmountOpen());
-//                    LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
-//                    LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");
+                    //LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
                     //LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
                 }
                 if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {
@@ -250,9 +222,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
                     custDetail.setUnpaidBalance91toSYSPR(cid.getAmountOpen().add(custDetail.getUnpaidBalance91toSYSPR()));
                     total91toSYSPR = total91toSYSPR.add(cid.getAmountOpen());
-//                    LOG.info("\n\n\n\n\t\t customer: " + customerNumber);
-//                    LOG.info("\t\t61to90 cid.getBalance=\t\t" + cid.getBalance() + "\n");
-//                    LOG.info("\t\t61to90 cid.getAmountOpen=\t\t" + cid.getAmountOpen() + "\n");
                     //LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
                 }
                 if (approvalDate.before(cutoffdate120)) {
@@ -265,14 +234,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         } // end for loop
 
-        //     LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");
-        //     LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
-
-        //     LOG.info("\t\tCustomer=\t\t0-30\t\t31-60\t\t61-90\t\t91-120\t\t120+\t");
-        //     for (Object obj : knownCustomers.values().toArray()) {
-        //        CustomerAgingReportDetail cdetail = (CustomerAgingReportDetail)obj;
-        //        LOG.info("\t\t"+cdetail.getCustomerNumber()+"\t\t"+cdetail.getUnpaidBalance0to30()+"\t\t"+cdetail.getUnpaidBalance31to60()+"\t\t"+cdetail.getUnpaidBalance61to90()+"\t\t"+cdetail.getUnpaidBalance91toSYSPR()+"\t\t"+cdetail.getUnpaidBalanceSYSPRplus1orMore());
-        //     }
 
 
         List results = new ArrayList();
@@ -280,94 +241,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             results.add(detail);
         }
 
-        //        if(knownCustomers.size() > 0) {
-        //        results.add(total0to30);
-        //        results.add(total31to60);
-        //        results.add(total61to90);
-        //        results.add(total91toSYSPR);
-        //        results.add(totalSYSPRplus1orMore);
-        //        }
 
-        //        LOG.info("\t\t sending results back... \n\n\n");
-        return new CollectionIncomplete(results, new Long(results.size()));
+        return new CollectionIncomplete(results, (long) results.size());
     }
-//    /**
-//     * Get the search results that meet the input search criteria.
-//     *
-//     * @param fieldValues - Map containing prop name keys and search values
-//     * @return a List of found business objects
-//     */
-//    @Override
-//    public List getSearchResults(Map fieldValues) {
-//
-//        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-//        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-//
-//        reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
-//        accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-//        chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-//        orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
-//
-//        Collection<CustomerInvoiceDetail> invoiceDetails = new ArrayList<CustomerInvoiceDetail>(); // default max is 10?
-//
-//        Collection<CustomerInvoiceDocument> invoices = null;
-//        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-//        Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-//        try {
-//            reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
-//        }
-//        catch (ParseException e) {
-//            reportRunDate = today;
-//            // MJM Auto-generated catch block
-//            e.printStackTrace();
-//        }
-////        total0to30 = KualiDecimal.ZERO;
-////        total31to60 = KualiDecimal.ZERO;
-////        total61to90 = KualiDecimal.ZERO;
-////        total91toSYSPR = KualiDecimal.ZERO;
-////        totalSYSPRplus1orMore = KualiDecimal.ZERO;
-//
-//        if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
-//            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
-//            for (CustomerInvoiceDocument ci : invoices) {
-//                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
-//            }
-//        }
-//        if (reportOption.equalsIgnoreCase("BILLING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
-//            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
-//            for (CustomerInvoiceDocument ci : invoices) {
-//                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
-//            }
-//        }
-//        if (reportOption.equalsIgnoreCase("ACCOUNT") && accountNumber.length()!=0) {
-//            if ((accountNumber.length() == 7 ) && (StringUtils.isNumeric(accountNumber))) {
-//                invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
-//            }
-//            else {
-//                CustomerInvoiceDocumentBatchStep newbatch = new CustomerInvoiceDocumentBatchStep();
-//                try {
-//                    newbatch.execute(accountNumber, reportRunDate);
-//                }
-//                catch (InterruptedException e) {
-//                    // do nada
-//                }
-//            }
-//        }
-//
-//
-//
-//        Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
-//
-//        CustomerAgingReportDataHolder agingReportData = SpringContext.getBean(CustomerAgingReportService.class).calculateAgingReportAmounts(invoiceDetails, reportRunDate);
-//
-//        List results = new ArrayList();
-//        for (Object detail : agingReportData.getKnownCustomers().values()) {
-//            results.add(detail);
-//        }
-//
-//
-//        return new CollectionIncomplete(results, new Long(results.size()));
-//    }
 
     /**
      * @return a List of the CustomerInvoiceDetails associated with a given Account Number
@@ -385,16 +261,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     @Override
     public List getReturnKeys() {
         List returnKeys;
-        // if (fieldConversions != null && !fieldConversions.isEmpty()) {
         returnKeys = new ArrayList(fieldConversions.keySet());
-        //LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (GETRETURNKEYS)... \n\n\n");
-        // }
-        // else {
-        // returnKeys = getPersistenceStructureService().listPrimaryKeyFieldNames(getBusinessObjectClass());
-        // }
-        //
         return returnKeys;
-
     }
 
     /**
@@ -411,9 +279,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             parameters.put(KNSConstants.REFERENCES_TO_REFRESH, getReferencesToRefresh());
         }
 
-        Iterator returnKeys = getReturnKeys().iterator();
-        while (returnKeys.hasNext()) {
-            String fieldNm = (String) returnKeys.next();
+        for (Object o : getReturnKeys()) {
+            String fieldNm = (String) o;
 
             Object fieldVal = ObjectUtils.getPropertyValue(bo, fieldNm);
             if (fieldVal == null) {
@@ -477,8 +344,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         
         try {
             // iterate through result list and wrap rows with return url and action urls
-            for (Iterator iter = displayList.iterator(); iter.hasNext();) {
-                BusinessObject element = (BusinessObject) iter.next();
+            for (Object aDisplayList : displayList) {
+                BusinessObject element = (BusinessObject) aDisplayList;
 
                 BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
                 // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(),
@@ -487,95 +354,94 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 String returnUrl = "www.bigfrickenRETURNurl";
                 String actionUrls = "www.someACTIONurl";
 
- 
-                    if (ObjectUtils.isNotNull(getColumns())) {
-                        List<Column> columns = getColumns();
-                        populateCutoffdateLabels();
-                        for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
 
-                            Column col = (Column) iterator.next();
-                            Formatter formatter = col.getFormatter();
+                if (ObjectUtils.isNotNull(getColumns())) {
+                    List<Column> columns = getColumns();
+                    populateCutoffdateLabels();
+                    for (Object column : columns) {
 
-                            // pick off result column from result list, do formatting
-                            String propValue = KNSConstants.EMPTY_STRING;
-                            Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
+                        Column col = (Column) column;
+                        Formatter formatter = col.getFormatter();
 
-                            // set comparator and formatter based on property type
-                            Class propClass = propertyTypes.get(col.getPropertyName());
-                            // if ( propClass == null ) {
-                            // try {
-                            // propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService() );
-                            // propertyTypes.put( col.getPropertyName(), propClass );
-                            // } catch (Exception e) {
-                            // throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " +
-                            // " on an instance of '" + element.getClass().getName() + "'.", e);
-                            // }
-                            // }
+                        // pick off result column from result list, do formatting
+                        String propValue = KNSConstants.EMPTY_STRING;
+                        Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
 
-                            // formatters
-                            if (prop != null) {
-                                // for Booleans, always use BooleanFormatter
-                                if (prop instanceof Boolean) {
-                                    formatter = new BooleanFormatter();
-                                }
+                        // set comparator and formatter based on property type
+                        Class propClass = propertyTypes.get(col.getPropertyName());
+                        // if ( propClass == null ) {
+                        // try {
+                        // propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService() );
+                        // propertyTypes.put( col.getPropertyName(), propClass );
+                        // } catch (Exception e) {
+                        // throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " +
+                        // " on an instance of '" + element.getClass().getName() + "'.", e);
+                        // }
+                        // }
 
-                                // for Dates, always use DateFormatter
-                                if (prop instanceof Date) {
-                                    formatter = new DateFormatter();
-                                }
-
-                                // for collection, use the list formatter if a formatter hasn't been defined yet
-                                if (prop instanceof Collection && formatter == null) {
-                                    formatter = new CollectionFormatter();
-                                }
-
-                                if (formatter != null) {
-                                    propValue = (String) formatter.format(prop);
-                                }
-                                else {
-                                    propValue = prop.toString();
-                                }
+                        // formatters
+                        if (prop != null) {
+                            // for Booleans, always use BooleanFormatter
+                            if (prop instanceof Boolean) {
+                                formatter = new BooleanFormatter();
                             }
 
-                            // comparator
-                            col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-                            col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-
-                            propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
-                            col.setPropertyValue(propValue);
-
-                            // add correct label for sysparam
-                            if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName()))
-                                col.setColumnTitle(cutoffdate91toSYSPRlabel);
-                            if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName()))
-                                col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
-
-                            if (StringUtils.isNotBlank(propValue)) {
-                                // do not add link to the values in column "Customer Name"
-                                if (StringUtils.equals(customerNameLabel, col.getColumnTitle()))
-                                    col.setPropertyURL("");
-                                else
-                                    col.setPropertyURL(getCustomerOpenItemReportUrl(element, col.getColumnTitle()));
+                            // for Dates, always use DateFormatter
+                            if (prop instanceof Date) {
+                                formatter = new DateFormatter();
                             }
 
+                            // for collection, use the list formatter if a formatter hasn't been defined yet
+                            if (prop instanceof Collection && formatter == null) {
+                                formatter = new CollectionFormatter();
+                            }
+
+                            if (formatter != null) {
+                                propValue = (String) formatter.format(prop);
+                            } else {
+                                propValue = prop.toString();
+                            }
                         }
 
-                        ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
-                        if (element instanceof PersistableBusinessObject) {
-                            row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+                        // comparator
+                        col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+                        col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+
+                        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
+                        col.setPropertyValue(propValue);
+
+                        // add correct label for sysparam
+                        if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName()))
+                            col.setColumnTitle(cutoffdate91toSYSPRlabel);
+                        if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName()))
+                            col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
+
+                        if (StringUtils.isNotBlank(propValue)) {
+                            // do not add link to the values in column "Customer Name"
+                            if (StringUtils.equals(customerNameLabel, col.getColumnTitle()))
+                                col.setPropertyURL("");
+                            else
+                                col.setPropertyURL(getCustomerOpenItemReportUrl(element, col.getColumnTitle()));
                         }
 
-                        boolean rowReturnable = isResultReturnable(element);
-                        row.setRowReturnable(rowReturnable);
-                        if (rowReturnable) {
-                            hasReturnableRow = true;
-                        }
-                        resultTable.add(row);
                     }
-                    
-                
-                    lookupForm.setHasReturnableRow(hasReturnableRow);
+
+                    ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+                    if (element instanceof PersistableBusinessObject) {
+                        row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+                    }
+
+                    boolean rowReturnable = isResultReturnable(element);
+                    row.setRowReturnable(rowReturnable);
+                    if (rowReturnable) {
+                        hasReturnableRow = true;
+                    }
+                    resultTable.add(row);
                 }
+
+
+                lookupForm.setHasReturnableRow(hasReturnableRow);
+            }
         }
         catch (Exception e) {
             // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl

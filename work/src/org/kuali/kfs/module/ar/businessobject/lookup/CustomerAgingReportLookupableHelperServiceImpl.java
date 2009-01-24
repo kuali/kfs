@@ -34,6 +34,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
@@ -104,7 +105,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Get the search results that meet the input search criteria.
-     * 
+     *
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
      */
@@ -121,9 +122,51 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         Collection<CustomerInvoiceDetail> invoiceDetails = new ArrayList<CustomerInvoiceDetail>(); // default max is 10?
 
+        Collection<CustomerInvoiceDetail> invoiceDetailsSubset = null;
         Collection<CustomerInvoiceDocument> invoices = null;
+        Collection invoiceTotalsRow = null;
+        CustomerInvoiceDetail invoicedetail = null;
+        total0to30 = KualiDecimal.ZERO;
+        total31to60 = KualiDecimal.ZERO;
+        total61to90 = KualiDecimal.ZERO;
+        total91toSYSPR = KualiDecimal.ZERO;
+        totalSYSPRplus1orMore = KualiDecimal.ZERO;
+
+        if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length() != 0 && orgCode.length() != 0) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+            for (CustomerInvoiceDocument ci : invoices) {
+                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
+//                LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString()+chartCode+"\t"+orgCode);
+//                for (CustomerInvoiceDetail cidetail : customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci)) {
+//                    LOG.info("\t** invoicedetail30\t"+cidetail.getAmount());
+//                }
+
+            }
+        }
+        if (reportOption.equalsIgnoreCase("BILLING ORGANIZATION") && chartCode.length() != 0 && orgCode.length() != 0) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+            for (CustomerInvoiceDocument ci : invoices) {
+                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
+            }
+        }
+        if (reportOption.equalsIgnoreCase("ACCOUNT") && accountNumber.length() != 0) {
+            if ((accountNumber.length() == 7) && (StringUtils.isNumeric(accountNumber))) {
+                invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
+            } else {
+                CustomerInvoiceDocumentBatchStep newbatch = new CustomerInvoiceDocumentBatchStep();
+                try {
+                    newbatch.execute(accountNumber, new Date());
+                }
+                catch (InterruptedException e) {
+                    // do nada
+                }
+            }
+        }
+
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        //Date reportRunDate;
         try {
             reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
         }
@@ -132,52 +175,199 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             // MJM Auto-generated catch block
             e.printStackTrace();
         }
-//        total0to30 = KualiDecimal.ZERO;
-//        total31to60 = KualiDecimal.ZERO;
-//        total61to90 = KualiDecimal.ZERO;
-//        total91toSYSPR = KualiDecimal.ZERO;
-//        totalSYSPRplus1orMore = KualiDecimal.ZERO;
+        Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
+        Date cutoffdate60 = DateUtils.addDays(reportRunDate, -60);
+        Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
+        //Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
+        Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1 * Integer.parseInt(nbrDaysForLastBucket));
 
-        if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
-            for (CustomerInvoiceDocument ci : invoices) {
-                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));                             
-            }
-        }
-        if (reportOption.equalsIgnoreCase("BILLING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
-            for (CustomerInvoiceDocument ci : invoices) {
-                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
-            }   
-        }
-        if (reportOption.equalsIgnoreCase("ACCOUNT") && accountNumber.length()!=0) {
-            if ((accountNumber.length() == 7 ) && (StringUtils.isNumeric(accountNumber))) {
-                invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
-            }
-            else {               
-                CustomerInvoiceDocumentBatchStep newbatch = new CustomerInvoiceDocumentBatchStep();
-                try {
-                    newbatch.execute(accountNumber, reportRunDate);
-                }
-                catch (InterruptedException e) {
-                    // do nada
-                }
-            }          
-        }
-
-
+        //        LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
+        //        LOG.info("\t\t***********************  cutoffdate 30:\t\t"+cutoffdate30.toString());
+        //        LOG.info("\t\t***********************  cutoffdate 60:\t\t"+cutoffdate60.toString());
+        //        LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
+        //        LOG.info("\t\t***********************  cutoffdate 120:\t\t"+cutoffdate120.toString());
 
         Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
-        
-        CustomerAgingReportDataHolder agingReportData = SpringContext.getBean(CustomerAgingReportService.class).calculateAgingReportAmounts(invoiceDetails, reportRunDate);
-        
+
+        KualiDecimal totalbalance = new KualiDecimal(0.00);
+        CustomerAgingReportDetail custDetail = null;
+        String previousCustomerNumber = "";
+        int detailnum = 0;
+        // iterate over all invoices consolidating balances for each customer
+        for (CustomerInvoiceDetail cid : invoiceDetails) {
+            String invoiceDocumentNumber = cid.getDocumentNumber();
+            CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+            Date approvalDate;
+            detailnum++;
+            //if (custInvoice.getCustomerPurchaseOrderDate()!=null) {
+            //  approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
+            //}else {
+            approvalDate = custInvoice.getBillingDate(); // use this if above isn't set since this is never null
+            //LOG.info("\t\t\t\t\t\t\t\t"+detailnum+" approval date (billingDate)= "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
+            // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
+            //}
+            // ok
+            if (ObjectUtils.isNull(approvalDate))
+                continue;
+
+            if (custInvoice != null && cid.getAmountOpen().isNonZero()) {//customerInvoiceDetailService.getAmountOpen(cid).isNonZero()) {
+
+                Customer customerobj = custInvoice.getCustomer();
+                String customerNumber = customerobj.getCustomerNumber();    // tested and works
+                String customerName = customerobj.getCustomerName();  // tested and works
+
+
+                if (knownCustomers.containsKey(customerNumber)) {
+                    custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);
+                    //    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tfound");
+                } else {
+                    custDetail = new CustomerAgingReportDetail();
+                    custDetail.setCustomerName(customerName);
+                    custDetail.setCustomerNumber(customerNumber);
+                    knownCustomers.put(customerNumber, custDetail);
+                    //    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
+                }
+                //LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
+                //LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
+                if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {
+                    custDetail.setUnpaidBalance0to30(cid.getAmountOpen().add(custDetail.getUnpaidBalance0to30()));
+                    //                total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
+                    total0to30 = total0to30.add(cid.getAmountOpen());
+//                    LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
+//                    LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");
+                    //LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
+                }
+                if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {
+                    custDetail.setUnpaidBalance31to60(cid.getAmountOpen().add(custDetail.getUnpaidBalance31to60()));
+                    total31to60 = total31to60.add(cid.getAmountOpen());
+                    //LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
+                }
+                if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
+                    custDetail.setUnpaidBalance61to90(cid.getAmountOpen().add(custDetail.getUnpaidBalance61to90()));
+                    total61to90 = total61to90.add(cid.getAmountOpen());
+                    //LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
+                }
+                if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
+                    custDetail.setUnpaidBalance91toSYSPR(cid.getAmountOpen().add(custDetail.getUnpaidBalance91toSYSPR()));
+                    total91toSYSPR = total91toSYSPR.add(cid.getAmountOpen());
+//                    LOG.info("\n\n\n\n\t\t customer: " + customerNumber);
+//                    LOG.info("\t\t61to90 cid.getBalance=\t\t" + cid.getBalance() + "\n");
+//                    LOG.info("\t\t61to90 cid.getAmountOpen=\t\t" + cid.getAmountOpen() + "\n");
+                    //LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
+                }
+                if (approvalDate.before(cutoffdate120)) {
+                    custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmountOpen().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
+                    totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(cid.getAmountOpen());
+                    //LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
+                }
+
+            }
+
+        } // end for loop
+
+        //     LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");
+        //     LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
+
+        //     LOG.info("\t\tCustomer=\t\t0-30\t\t31-60\t\t61-90\t\t91-120\t\t120+\t");
+        //     for (Object obj : knownCustomers.values().toArray()) {
+        //        CustomerAgingReportDetail cdetail = (CustomerAgingReportDetail)obj;
+        //        LOG.info("\t\t"+cdetail.getCustomerNumber()+"\t\t"+cdetail.getUnpaidBalance0to30()+"\t\t"+cdetail.getUnpaidBalance31to60()+"\t\t"+cdetail.getUnpaidBalance61to90()+"\t\t"+cdetail.getUnpaidBalance91toSYSPR()+"\t\t"+cdetail.getUnpaidBalanceSYSPRplus1orMore());
+        //     }
+
+
         List results = new ArrayList();
-        for (Object detail : agingReportData.getKnownCustomers().values()) {
+        for (Object detail : knownCustomers.values()) {
             results.add(detail);
         }
 
+        //        if(knownCustomers.size() > 0) {
+        //        results.add(total0to30);
+        //        results.add(total31to60);
+        //        results.add(total61to90);
+        //        results.add(total91toSYSPR);
+        //        results.add(totalSYSPRplus1orMore);
+        //        }
+
+        //        LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));
     }
+//    /**
+//     * Get the search results that meet the input search criteria.
+//     *
+//     * @param fieldValues - Map containing prop name keys and search values
+//     * @return a List of found business objects
+//     */
+//    @Override
+//    public List getSearchResults(Map fieldValues) {
+//
+//        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+//        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+//
+//        reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
+//        accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+//        chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+//        orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
+//
+//        Collection<CustomerInvoiceDetail> invoiceDetails = new ArrayList<CustomerInvoiceDetail>(); // default max is 10?
+//
+//        Collection<CustomerInvoiceDocument> invoices = null;
+//        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+//        Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+//        try {
+//            reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
+//        }
+//        catch (ParseException e) {
+//            reportRunDate = today;
+//            // MJM Auto-generated catch block
+//            e.printStackTrace();
+//        }
+////        total0to30 = KualiDecimal.ZERO;
+////        total31to60 = KualiDecimal.ZERO;
+////        total61to90 = KualiDecimal.ZERO;
+////        total91toSYSPR = KualiDecimal.ZERO;
+////        totalSYSPRplus1orMore = KualiDecimal.ZERO;
+//
+//        if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
+//            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+//            for (CustomerInvoiceDocument ci : invoices) {
+//                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
+//            }
+//        }
+//        if (reportOption.equalsIgnoreCase("BILLING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
+//            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+//            for (CustomerInvoiceDocument ci : invoices) {
+//                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
+//            }
+//        }
+//        if (reportOption.equalsIgnoreCase("ACCOUNT") && accountNumber.length()!=0) {
+//            if ((accountNumber.length() == 7 ) && (StringUtils.isNumeric(accountNumber))) {
+//                invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
+//            }
+//            else {
+//                CustomerInvoiceDocumentBatchStep newbatch = new CustomerInvoiceDocumentBatchStep();
+//                try {
+//                    newbatch.execute(accountNumber, reportRunDate);
+//                }
+//                catch (InterruptedException e) {
+//                    // do nada
+//                }
+//            }
+//        }
+//
+//
+//
+//        Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
+//
+//        CustomerAgingReportDataHolder agingReportData = SpringContext.getBean(CustomerAgingReportService.class).calculateAgingReportAmounts(invoiceDetails, reportRunDate);
+//
+//        List results = new ArrayList();
+//        for (Object detail : agingReportData.getKnownCustomers().values()) {
+//            results.add(detail);
+//        }
+//
+//
+//        return new CollectionIncomplete(results, new Long(results.size()));
+//    }
 
     /**
      * @return a List of the CustomerInvoiceDetails associated with a given Account Number

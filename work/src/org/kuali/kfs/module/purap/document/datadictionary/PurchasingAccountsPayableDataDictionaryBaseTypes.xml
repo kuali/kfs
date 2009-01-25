@@ -95,8 +95,13 @@
     
     <bean id="DocumentValuePathGroup-PurchasingAccountsPayableDocument-Account-accountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
     	<property name="documentCollectionPath">
-    		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
-    			<property name="collectionPath" value="accountsForRouting" />
+    		<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+    			<property name="collectionPath" value="items" />
+    			<property name="nestedCollection">
+		    		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
+		    			<property name="collectionPath" value="sourceAccountingLines" />
+		    		</bean>
+    			</property>
     		</bean>
     	</property>
     </bean>

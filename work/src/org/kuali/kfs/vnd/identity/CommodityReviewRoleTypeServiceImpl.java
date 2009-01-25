@@ -21,10 +21,10 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
 public class CommodityReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        boolean purchasingCommodityCodeQualification = qualification.get(KfsKimAttributes.PURCHASING_COMMODITY_CODE).matches(roleQualifier.get(KfsKimAttributes.PURCHASING_COMMODITY_CODE).replaceAll("\\*", ".*")); 
-        boolean documentTypeNameQualification = (!roleQualifier.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME) || qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equals(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME))); 
-        boolean deliveryCampusCodeQualification = (!roleQualifier.containsKey(KfsKimAttributes.CAMPUS_CODE) || qualification.get(KfsKimAttributes.CAMPUS_CODE).equals(roleQualifier.get(KfsKimAttributes.CAMPUS_CODE)));
-        boolean result = purchasingCommodityCodeQualification && documentTypeNameQualification && deliveryCampusCodeQualification;
-        return result;
+        return qualification.get(KfsKimAttributes.PURCHASING_COMMODITY_CODE).matches(roleQualifier.get(KfsKimAttributes.PURCHASING_COMMODITY_CODE).replaceAll("\\*", ".*"))
+            && (!roleQualifier.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)
+                    || qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equals(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)))
+            && (!roleQualifier.containsKey(KfsKimAttributes.CAMPUS_CODE)
+                    || qualification.get(KfsKimAttributes.CAMPUS_CODE).equals(roleQualifier.get(KfsKimAttributes.CAMPUS_CODE)));
     }
 }

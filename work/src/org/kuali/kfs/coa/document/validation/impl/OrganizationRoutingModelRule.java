@@ -295,10 +295,10 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
 
             String principalId = user.getPrincipalId();
             String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-            String permissionTemplateName = KFSConstants.PermissionTemplate.DEFAULT.name;
+            String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
             
             IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-            Boolean isAuthorized = identityManagementService.hasPermissionByTemplateName(principalId, namespaceCode, permissionTemplateName, null);
+            Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
             if (!isAuthorized) {
                 GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL, new String[0]);
                 success = false;

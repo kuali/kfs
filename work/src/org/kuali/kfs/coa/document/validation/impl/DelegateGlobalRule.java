@@ -521,10 +521,10 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
         String principalId = user.getPrincipalId();
         String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-        String permissionTemplateName = KFSConstants.PermissionTemplate.DEFAULT.name;
+        String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
         
         IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.hasPermissionByTemplateName(principalId, namespaceCode, permissionTemplateName, null);
+        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
         if (!isAuthorized) {
             if (add) {
                 errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "accountDelegate.principalName";

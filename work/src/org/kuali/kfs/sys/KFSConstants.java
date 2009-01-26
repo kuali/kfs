@@ -1251,7 +1251,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     public enum PermissionName{
-        EDIT_INACTIVE_ACCOUNT("Edit Inactive Account");
+        EDIT_INACTIVE_ACCOUNT("Edit Inactive Account"), SERVE_AS_ACCOUNT_MANAGER("Serve As Account Manager, Supervisor, or Fiscal Officer");
 
         public final String name;
         private PermissionName(String name) {

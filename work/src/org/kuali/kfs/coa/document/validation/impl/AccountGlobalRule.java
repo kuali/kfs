@@ -408,10 +408,10 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         String principalId = user.getPrincipalId();
         String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-        String permissionTemplateName = KFSConstants.PermissionTemplate.DEFAULT.name;
+        String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
         
         IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.hasPermissionByTemplateName(principalId, namespaceCode, permissionTemplateName, null);
+        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
         if (!isAuthorized) {
             success = false;
             putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));

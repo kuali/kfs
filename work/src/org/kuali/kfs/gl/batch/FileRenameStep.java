@@ -32,6 +32,7 @@ public class FileRenameStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileRenameStep.class);
     private String batchFileDirectoryName;
     
+    
     public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
@@ -55,13 +56,19 @@ public class FileRenameStep extends AbstractStep {
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE);
         
         //TODO: Shawn - need to change it to filename +  01-22-2009.12-43-43 (mm-dd-yyyy.hh-mm-ss)
-        String timeInfo = jobRunDate.toString();
+        String timeString = jobRunDate.toString();
+        String year = timeString.substring(timeString.length() - 4, timeString.length());
+        String month = timeString.substring(4, 7);
+        String day = timeString.substring(8, 10);
+        String hour = timeString.substring(11, 13);
+        String min = timeString.substring(14, 16);
+        String sec = timeString.substring(17, 19);
         
         for (String fileName : fileNameList){
-            String fullFileName = filePath + fileName;
-            File file = new File(fullFileName);
+            File file = new File(filePath + fileName);
             if (file.exists()) {
-                file.renameTo(new File(fullFileName + timeInfo + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
+                String changedFileName = filePath + fileName + "." + year + "-" + month + "-" + day + "-" + hour + "-" + min + "-" + sec;
+                file.renameTo(new File(changedFileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
             }
         }
         

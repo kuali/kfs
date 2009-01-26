@@ -52,12 +52,20 @@ public class LaborFileRenameStep extends AbstractStep {
         
         //TODO: Shawn - need to change it to filename +  01-22-2009.12-43-43 (mm-dd-yyyy.hh-mm-ss)
         String timeInfo = jobRunDate.toString();
+        String timeString = jobRunDate.toString();
+        String year = timeString.substring(timeString.length() - 4, timeString.length());
+        String month = timeString.substring(4, 7);
+        String day = timeString.substring(8, 10);
+        String hour = timeString.substring(11, 13);
+        String min = timeString.substring(14, 16);
+        String sec = timeString.substring(17, 19);
         
         for (String fileName : fileNameList){
-            String fullFileName = filePath + fileName;
-            File file = new File(fullFileName);
+            
+            File file = new File(filePath + fileName);
             if (file.exists()) {
-                file.renameTo(new File(fullFileName + timeInfo + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
+                String changedFileName = filePath + fileName + "." + year + "-" + month + "-" + day + "-" + hour + "-" + min + "-" + sec;
+                file.renameTo(new File(changedFileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
             }
         }
         

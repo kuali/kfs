@@ -109,6 +109,20 @@ public class PurchaseOrderDocumentPresentationController extends FinancialSystem
         return super.canSave(document);
     }
     
+    
+    
+    //FIXME hjs: remove this method!!! cannot complete POs right now (see KFSMI-2279 and KULPURAP-3245)
+    @Override
+    protected boolean canEdit(Document document) {
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        if (PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode())) {
+            return true;
+        }
+        else {
+            return super.canEdit(document);
+        }
+    }
+
     @Override
     protected boolean canRoute(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;

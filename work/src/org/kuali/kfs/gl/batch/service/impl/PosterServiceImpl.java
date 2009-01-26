@@ -375,7 +375,7 @@ public class PosterServiceImpl implements PosterService {
                 tran.setAccount(cachingDao.getAccount(tran.getChartOfAccountsCode(), tran.getAccountNumber()));
                 tran.setObjectType(cachingDao.getObjectType(tran.getFinancialObjectTypeCode()));
                 tran.setBalanceType(cachingDao.getBalanceType(tran.getFinancialBalanceTypeCode()));
-                tran.setSystemOptions(cachingDao.getSystemOptions(tran.getUniversityFiscalYear()));
+                tran.setOption(cachingDao.getSystemOptions(tran.getUniversityFiscalYear()));
                 tran.setFinancialObject(cachingDao.getObjectCode(tran.getUniversityFiscalYear(), tran.getChartOfAccountsCode(), tran.getFinancialObjectCode()));
                 // Make sure the row will be unique when adding to the entries table by adjusting the transaction sequence id
                 int maxSequenceId = cachingDao.getMaxSequenceNumber(tran);

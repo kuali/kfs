@@ -85,7 +85,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     private GeneralLedgerInputType generalLedgerInputType;
     private GeneralLedgerInputType referenceGeneralLedgerInputType;
     private UniversityDate universityDate;
-    private SystemOptions systemOptions;
+    private SystemOptions option;
     private AccountingPeriod accountingPeriod;
     private UniversityDate reversalDate;
     private OriginationCode originationCode;
@@ -742,12 +742,12 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
         this.objectType = objectType;
     }
 
-    public SystemOptions getSystemOptions() {
-        return systemOptions;
+    public SystemOptions getOption() {
+        return option;
     }
 
-    public void setSystemOptions(SystemOptions systemOptions) {
-        this.systemOptions = systemOptions;
+    public void setOption(SystemOptions option) {
+        this.option = option;
     }
 
     public ProjectCode getProject() {

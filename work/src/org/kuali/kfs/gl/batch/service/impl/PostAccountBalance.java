@@ -61,7 +61,7 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
         // Only post transactions where:
         // balance type code is AC or CB
         // or where object type isn't FB and balance type code is EX, IE, PE and CE
-        if ((t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getActualFinancialBalanceTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getBudgetCheckingBalanceTypeCd())) || (t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getExtrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getIntrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getPreencumbranceFinBalTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getCostShareEncumbranceBalanceTypeCd())) && (!t.getFinancialObjectTypeCode().equals(t.getSystemOptions().getFinObjectTypeFundBalanceCd()))) {
+        if ((t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd())) || (t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getCostShareEncumbranceBalanceTypeCd())) && (!t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjectTypeFundBalanceCd()))) {
             // We are posting this transaction
             String returnCode = GeneralLedgerConstants.UPDATE_CODE;
 
@@ -107,10 +107,10 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
     }
 
     private boolean updateAccountBalanceReturn(Transaction t, AccountBalance ab) {
-        if (t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getBudgetCheckingBalanceTypeCd())) {
+        if (t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd())) {
             ab.setCurrentBudgetLineBalanceAmount(ab.getCurrentBudgetLineBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
         }
-        else if (t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getActualFinancialBalanceTypeCd())) {
+        else if (t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd())) {
             if (t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) || ((!t.getBalanceType().isFinancialOffsetGenerationIndicator()) && KFSConstants.GL_BUDGET_CODE.equals(t.getTransactionDebitCreditCode()))) {
                 ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
             }
@@ -118,7 +118,7 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
                 ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().subtract(t.getTransactionLedgerEntryAmount()));
             }
         }
-        else if (t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getExtrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getIntrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getPreencumbranceFinBalTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getSystemOptions().getCostShareEncumbranceBalanceTypeCd())) {
+        else if (t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getCostShareEncumbranceBalanceTypeCd())) {
             if (t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) || ((!t.getBalanceType().isFinancialOffsetGenerationIndicator()) && KFSConstants.GL_BUDGET_CODE.equals(t.getTransactionDebitCreditCode()))) {
                 ab.setAccountLineEncumbranceBalanceAmount(ab.getAccountLineEncumbranceBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
             }

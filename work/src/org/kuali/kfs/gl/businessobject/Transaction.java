@@ -95,7 +95,7 @@ public interface Transaction {
 
     public BalanceType getBalanceType();
 
-    public SystemOptions getSystemOptions();
+    public SystemOptions getOption();
 
     public ObjectType getObjectType();
 
@@ -115,7 +115,7 @@ public interface Transaction {
 
     public void setBalanceType(BalanceType balanceTyp);
 
-    public void setSystemOptions(SystemOptions options);
+    public void setOption(SystemOptions options);
 
     public void setObjectType(ObjectType objectType);
 }

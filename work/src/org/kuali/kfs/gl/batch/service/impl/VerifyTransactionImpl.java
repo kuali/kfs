@@ -72,7 +72,7 @@ public class VerifyTransactionImpl implements VerifyTransaction {
         }
 
         // Check the fiscal year
-        if (t.getSystemOptions() == null) {
+        if (t.getOption() == null) {
             errors.add(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND));
         }
 

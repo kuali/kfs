@@ -1058,6 +1058,15 @@
     <bean id="RequisitionDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
         <property name="searchingTypeDefinitions">
     		<list>
+    		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute"
+    					ref="SearchingAttribute-purapDocumentIdentifier" />
+    				<property name="documentValues">
+    					<list>
+    						<value>purapDocumentIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -1071,6 +1080,42 @@
     					</list>
     				</property>
     			</bean>
+     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<!-- Dave's note: Should be a ref to PurchasingDocumentBase.  Could this be organizationCode? -->
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
+    						<property name="attributeName" value="chartOfAccountsCode" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>chartOfAccountsCode</value>
+    					</list>
+    				</property>
+    			</bean>   
+     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
+    						<property name="attributeName" value="organizationCode" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>organizationCode</value>
+    					</list>
+    				</property>
+    			</bean>        			
+    		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute"
+    					ref="SearchingAttribute-requestorPersonName" />
+    				<property name="documentValues">
+    					<list>
+    						<value>requestorPersonName</value>
+    					</list>
+    				</property>
+    			</bean>    			 			
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

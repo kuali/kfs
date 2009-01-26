@@ -6,40 +6,40 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
         http://rice.kuali.org/dd
         http://rice.kuali.org/dd/dd.xsd">
-
-	<bean id="RoutingType-PurchasingDocument-Commodity" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-		<property name="routingAttributes">
-			<list>
+      
+   	<bean id="RoutingType-PurchasingDocument-Commodity" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
 				<ref bean="RoutingAttribute-campusCode" />
-				<bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-					<property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.CommodityCode" />
-					<property name="attributeName" value="purchasingCommodityCode" />
-				</bean>
-			</list>
-		</property>
-		<property name="documentValuePathGroups">
-			<list>
+		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+			    	<property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.CommodityCode" />
+			    	<property name="attributeName" value="purchasingCommodityCode" />
+			    </bean>			    
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
 				<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 					<property name="documentValues">
 						<list>
 							<value>deliveryCampusCode</value>
-						</list>
-					</property>
-					<property name="documentCollectionPath">
+    		</list>
+    	</property>
+    	<property name="documentCollectionPath">
 						<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
 							<property name="collectionPath" value="items" />
-							<property name="documentValues">
-								<list>
-									<value>purchasingCommodityCode</value>
-								</list>
-							</property>
-						</bean>
+   		<property name="documentValues">
+	   		<list>
+	   			<value>purchasingCommodityCode</value>
+	   		</list>
+   		</property>
+   	</bean>   
 					</property>
 				</bean>
-			</list>
-		</property>
-	</bean>
-   	    
+    		</list>
+    	</property>
+   	</bean>
+   	   	    
     <bean id="RoutingType-RequisitionDocument-Organization" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
@@ -75,20 +75,21 @@
     		</list>
     	</property>
     </bean>
-
-	<bean id="DocumentValuePathGroup-PurchasingAccountsPayableDocument-Account-accountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
-		<property name="documentCollectionPath">
+    
+    <bean id="DocumentValuePathGroup-PurchasingAccountsPayableDocument-Account-accountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    	<property name="documentCollectionPath">
 			<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
 				<property name="collectionPath" value="items" />
 				<property name="nestedCollection">
-					<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
+    		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
 						<property name="collectionPath" value="sourceAccountingLines" />
 					</bean>
 				</property>
-			</bean>
-		</property>
-	</bean>
-	
+    		</bean>
+    	</property>
+    </bean>
+
+
 	<bean id="RoutingType-PurchasingAccountsPayableDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
@@ -164,5 +165,21 @@
     	</property>
     </bean>      
 -->   
-          
+
+<!-- All of the Search Type Attributes -->  
+
+    <bean id="WorkflowAttributeMetaData-purapDocumentIdentifier" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
+    	<property name="attributeName" value="purapDocumentIdentifier" />
+    </bean>
+    <bean id="SearchingAttribute-purapDocumentIdentifier" parent="WorkflowAttributeMetaData-purapDocumentIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
+    
+    
+    <bean id="WorkflowAttributeMetaData-requestorPersonName" abstract="true">
+        <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
+        <property name="attributeName" value="requestorPersonName" />
+    </bean>
+    <bean id="SearchingAttribute-requestorPersonName" parent="WorkflowAttributeMetaData-requestorPersonName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" /> 
+    
+  
 </beans>

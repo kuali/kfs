@@ -127,6 +127,11 @@
   <bean id="SubAccount-a21SubAccount.subAccountTypeCode-parentBean" abstract="true" parent="A21SubAccount-subAccountTypeCode">
     <property name="name" value="a21SubAccount.subAccountTypeCode" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+      <bean parent="AttributeSecurity">
+   		<property name="readOnly" value="true" />
+      </bean>
+    </property> 
     <property name="control" >
        <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SubAccountTypeValuesFinder"
@@ -140,6 +145,11 @@
     <property name="label" value="Cost Sharing Chart of Accounts Code" />
     <property name="shortLabel" value="CostShareCOACode" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+      <bean parent="AttributeSecurity">
+   		<property name="readOnly" value="true" />
+      </bean>
+    </property> 
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
@@ -153,6 +163,11 @@
     <property name="label" value="Cost Sharing Account Number" />
     <property name="shortLabel" value="CostShareAcctNbr" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+			<property name="readOnly" value="true" />
+  		</bean>
+	</property> 
   </bean>
   <bean id="SubAccount-a21SubAccount.costShareSourceSubAccountNumber" parent="SubAccount-a21SubAccount.costShareSourceSubAccountNumber-parentBean" />
 
@@ -161,12 +176,22 @@
     <property name="label" value="Cost Sharing Sub-Account Number" />
     <property name="shortLabel" value="CostShareSubAcctNbr" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+			<property name="readOnly" value="true" />
+  		</bean>
+	</property> 
   </bean>
   <bean id="SubAccount-a21SubAccount.financialIcrSeriesIdentifier" parent="SubAccount-a21SubAccount.financialIcrSeriesIdentifier-parentBean" />
 
   <bean id="SubAccount-a21SubAccount.financialIcrSeriesIdentifier-parentBean" abstract="true" parent="A21SubAccount-financialIcrSeriesIdentifier">
     <property name="name" value="a21SubAccount.financialIcrSeriesIdentifier" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+			<property name="readOnly" value="true" />
+  		</bean>
+	</property> 
   </bean>
   <bean id="SubAccount-a21SubAccount.indirectCostRecoveryChartOfAccountsCode" parent="SubAccount-a21SubAccount.indirectCostRecoveryChartOfAccountsCode-parentBean" />
 
@@ -175,6 +200,11 @@
     <property name="label" value="ICR Chart of Accounts Code" />
     <property name="shortLabel" value="IcrCoaCd" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+			<property name="readOnly" value="true" />
+  		</bean>
+	</property> 
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
@@ -188,6 +218,11 @@
     <property name="label" value="ICR Account Number" />
     <property name="shortLabel" value="ICRAcctNbr" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+			<property name="readOnly" value="true" />
+  		</bean>
+	</property>
   </bean>
   <bean id="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode" parent="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode-parentBean" />
 
@@ -196,6 +231,11 @@
     <property name="label" value="ICR Type Code" />
     <property name="shortLabel" value="ICRTypeCd" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+			<property name="readOnly" value="true" />
+  		</bean>
+	</property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.IndirectCostRecoveryTypeValuesFinder"
@@ -209,6 +249,11 @@
     <property name="label" value="Off Campus Indicator" />
     <property name="shortLabel" value="Off Campus" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+			<property name="readOnly" value="true" />
+  		</bean>
+	</property>
   </bean>
   <bean id="SubAccount-financialReportingCodeSection" parent="SubAccount-financialReportingCodeSection-parentBean" />
 

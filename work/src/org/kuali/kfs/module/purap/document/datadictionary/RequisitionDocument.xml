@@ -1092,7 +1092,7 @@
     		    <entry key="Organization" value-ref="RoutingType-RequisitionDocument-Organization" />
     		    <!-- no qualifiers for sub-account -->
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account" />
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-OrganizationHierarchy" />
                 <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity" />
                 <!-- no qualifiers for separation of duties -->
     		</map>

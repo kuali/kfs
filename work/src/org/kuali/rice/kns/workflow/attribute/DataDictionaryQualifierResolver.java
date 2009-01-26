@@ -109,6 +109,7 @@ public class DataDictionaryQualifierResolver implements QualifierResolver {
         List<AttributeSet> qualifiers = null;
         
         if (document != null && routingTypeDefinition != null) {
+            document.populateDocumentForRouting();
             qualifiers = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class).resolveRoutingTypeQualifiers(document, routingTypeDefinition);
         } else {
             qualifiers = new ArrayList<AttributeSet>();

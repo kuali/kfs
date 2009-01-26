@@ -86,6 +86,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         }
         if (group.getDocumentCollectionPath() != null) {
             qualifiers = resolveDocumentCollectionPath(businessObject, group.getDocumentCollectionPath(), routingAttributeTracker);
+            qualifiers = cleanCollectionQualifiers(qualifiers);
             for (AttributeSet collectionElementQualifier : qualifiers) {
                 copyQualifications(qualifier, collectionElementQualifier);
             }
@@ -227,7 +228,20 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         return searchValues;
     }
     
-
+    /**
+     * Removes empty AttributeSets from the given List of qualifiers
+     * @param qualifiers a List of AttributeSets holding qualifiers for responsibilities
+     * @return a cleaned up list of qualifiers
+     */
+    protected List<AttributeSet> cleanCollectionQualifiers(List<AttributeSet> qualifiers) {
+       List<AttributeSet> cleanedQualifiers = new ArrayList<AttributeSet>();
+       for (AttributeSet qualifier : qualifiers) {
+           if (qualifier.size() > 0) {
+               cleanedQualifiers.add(qualifier);
+           }
+       }
+       return cleanedQualifiers;
+    }
     
     /**
      * Using the type of the sent in value, determines what kind of SearchableAttributeValue implementation should be passed back 

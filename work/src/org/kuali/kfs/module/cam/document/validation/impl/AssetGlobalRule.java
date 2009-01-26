@@ -134,7 +134,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_PAYMENT_ACCT_NOT_VALID, new String[] { assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getAccountNumber() });
                 valid &= false;
             }
-            if (!StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) && !assetPaymentDetail.getAccount().isActive()) {
+            else if (!StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) && !assetPaymentDetail.getAccount().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, RiceKeyConstants.ERROR_INACTIVE, label);                
                 valid &= false;
@@ -146,13 +146,19 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, label);                
                 valid &= false;
             }
-            if (!StringUtils.isBlank(assetPaymentDetail.getSubAccountNumber()) && !assetPaymentDetail.getSubAccount().isActive()) {
+            else if (!StringUtils.isBlank(assetPaymentDetail.getSubAccountNumber()) && !assetPaymentDetail.getSubAccount().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_INACTIVE, label);                
                 valid &= false;
             }
-                    
-            if (!StringUtils.isBlank(assetPaymentDetail.getFinancialObjectCode()) && !assetPaymentDetail.getObjectCode().isActive()) {
+            
+            assetPaymentDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
+            if (!StringUtils.isBlank(assetPaymentDetail.getFinancialObjectCode()) && ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
+                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE).getLabel();
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, label);                
+                valid &= false;
+            }
+            else if (!StringUtils.isBlank(assetPaymentDetail.getFinancialObjectCode()) && !assetPaymentDetail.getObjectCode().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_INACTIVE, label);                
                 valid &= false;
@@ -164,7 +170,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);                
                 valid &= false;
             }
-            if (!StringUtils.isBlank(assetPaymentDetail.getFinancialSubObjectCode()) && !assetPaymentDetail.getSubObjectCode().isActive()) {
+            else if (!StringUtils.isBlank(assetPaymentDetail.getFinancialSubObjectCode()) && !assetPaymentDetail.getSubObjectCode().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE, RiceKeyConstants.ERROR_INACTIVE, label);                
                 valid &= false;
@@ -176,7 +182,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);                
                 valid &= false;
             }
-            if (!StringUtils.isBlank(assetPaymentDetail.getProjectCode()) && !assetPaymentDetail.getProject().isActive()) {
+            else if (!StringUtils.isBlank(assetPaymentDetail.getProjectCode()) && !assetPaymentDetail.getProject().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE, RiceKeyConstants.ERROR_INACTIVE, label);                
                 valid &= false;
@@ -188,7 +194,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);                
                 valid &= false;
             }
-            if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode()) && !assetPaymentDetail.getExpenditureFinancialSystemOrigination().isActive()) {
+            else if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode()) && !assetPaymentDetail.getExpenditureFinancialSystemOrigination().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RiceKeyConstants.ERROR_INACTIVE, label);                
                 valid &= false;

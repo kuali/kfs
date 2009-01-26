@@ -392,7 +392,7 @@
                     p:name="financialSubObjectCode" 
                     p:readOnlyAfterAdd="true"
                     p:overrideLookupClass="org.kuali.kfs.coa.businessobject.SubObjectCode"
-                    p:overrideFieldConversions="financialSubObjectCode:financialSubObjectCode,chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:accountObjectCode" />
+                    p:overrideFieldConversions="financialSubObjectCode:financialSubObjectCode,chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="projectCode" 
                     p:readOnlyAfterAdd="true"/>

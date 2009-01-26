@@ -102,3 +102,6 @@ ALTER TABLE KREW_EDL_ASSCTN_T MODIFY (OBJ_ID VARCHAR2(36) NOT NULL)
 /
 ALTER TABLE KREW_DLGN_RSP_T MODIFY (OBJ_ID VARCHAR2(36) NOT NULL)
 /
+
+update krim_role_rsp_actn_t set ignore_prev_ind = 'N' where role_rsp_actn_id = '115'
+/

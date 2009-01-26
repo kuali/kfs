@@ -706,6 +706,9 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 	</bean>
 	
 	<bean id="arCustomerAgingReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

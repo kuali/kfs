@@ -63,11 +63,16 @@ import java.util.*;
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerAgingReportLookupableHelperServiceImpl.class);
+
     private DataDictionaryService dataDictionaryService;
+    private DateTimeService dateTimeService;
+
     private Map fieldConversions;
+
     private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
     private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);   
     private BusinessObjectService businessObjectService;
+
     private String customerNameLabel;
     private String customerNumberLabel;
     private String cutoffdate30Label;
@@ -139,7 +144,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             } else {
                 CustomerInvoiceDocumentBatchStep newbatch = new CustomerInvoiceDocumentBatchStep();
                 try {
-                    newbatch.execute(accountNumber, new Date());
+                    newbatch.execute(accountNumber, getDateTimeService().getCurrentDate());
                 }
                 catch (InterruptedException e) {
                     // do nada
@@ -149,7 +154,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
-        Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        Date today = getDateTimeService().getCurrentDate();
         try {
             reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
         }
@@ -516,6 +521,27 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         this.businessObjectService = businessObjectService;
     }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public DateTimeService getDateTimeService() {
+        if(dateTimeService==null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param dateTimeService
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
     /**
      * Gets the total0to30 attribute. 
      * @return Returns the total0to30.

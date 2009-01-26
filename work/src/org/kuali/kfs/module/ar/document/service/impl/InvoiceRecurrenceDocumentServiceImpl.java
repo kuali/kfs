@@ -38,6 +38,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -217,13 +218,13 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         while (!(beginDate.after(endDate))){
             beginCalendar.setTime(beginDate);
             beginCalendar.add(Calendar.MONTH, addCounter);
-            beginDate = new Date(beginCalendar.getTime().getTime());
+            beginDate = DateUtils.convertToSqlDate(beginCalendar.getTime());
             totalRecurrences++;
 
             nextDate = beginDate;
             nextCalendar.setTime(nextDate);
             nextCalendar.add(Calendar.MONTH, addCounter);
-            nextDate = new Date(nextCalendar.getTime().getTime());
+            nextDate = DateUtils.convertToSqlDate(nextCalendar.getTime());
             if (endDate.after(beginDate) && endDate.before(nextDate)) {
                 totalRecurrences++;
                 break;

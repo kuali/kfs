@@ -73,15 +73,15 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         
         GlobalVariables.clear();
         GlobalVariables.setUserSession(new UserSession("khuntley"));
+        setDateTimeService(SpringContext.getBean(DateTimeService.class));
         
-        Date billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        Date billingDate = getDateTimeService().getCurrentDate();
         List<String> customernames;
         
         if ((jobName.length() <=8 ) && (jobName.length() >= 4)) {
             setCustomerInvoiceDocumentService(SpringContext.getBean(CustomerInvoiceDocumentService.class));
             setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
             setDocumentService(SpringContext.getBean(DocumentService.class));
-            setDateTimeService(SpringContext.getBean(DateTimeService.class));
 
             customernames = Arrays.asList(jobName);
         } else {
@@ -125,7 +125,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         if (customernames.size() > 1) {
         for (String customername : customernames) {
 
-            billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+            billingDate = getDateTimeService().getCurrentDate();
 
             for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
 
@@ -316,7 +316,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDocumentService.setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
         customerInvoiceDocument.getDocumentHeader().setDocumentDescription("TEST paid off CUSTOMER INVOICE DOCUMENT");
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber("KAT17282");
-        customerInvoiceDocument.setBillingDate(new java.sql.Date(new Date().getTime()));
+        customerInvoiceDocument.setBillingDate(getDateTimeService().getCurrentSqlDate());
 
         CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress("KAT17282");
 

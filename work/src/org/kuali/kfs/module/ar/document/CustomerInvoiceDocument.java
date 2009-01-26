@@ -1143,13 +1143,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             while (!(beginDate.after(endDate))) {
                 beginCalendar.setTime(beginDate);
                 beginCalendar.add(Calendar.MONTH, addCounter);
-                beginDate = new Date(beginCalendar.getTime().getTime());
+                beginDate = DateUtils.convertToSqlDate(beginCalendar.getTime());
                 totalRecurrences++;
 
                 nextDate = beginDate;
                 nextCalendar.setTime(nextDate);
                 nextCalendar.add(Calendar.MONTH, addCounter);
-                nextDate = new Date(nextCalendar.getTime().getTime());
+                nextDate = DateUtils.convertToSqlDate(nextCalendar.getTime());
                 if (endDate.after(beginDate) && endDate.before(nextDate)) {
                     totalRecurrences++;
                     break;
@@ -1178,7 +1178,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                 addCounter += documentTotalRecurrenceNumber * 3;
             }
             endCalendar.add(Calendar.MONTH, addCounter);
-            this.getCustomerInvoiceRecurrenceDetails().setDocumentRecurrenceEndDate(DateUtils.convertToSqlDate(new Date(endCalendar.getTime().getTime())));
+            this.getCustomerInvoiceRecurrenceDetails().setDocumentRecurrenceEndDate(DateUtils.convertToSqlDate(endCalendar.getTime()));
         }
         // Force upper case
         setBilledByOrganizationCode(getBilledByOrganizationCode().toUpperCase());

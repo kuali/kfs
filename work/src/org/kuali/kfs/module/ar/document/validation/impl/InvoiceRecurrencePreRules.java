@@ -107,7 +107,7 @@ public class InvoiceRecurrencePreRules extends PreRulesContinuationBase {
             addCounter += documentTotalRecurrenceNumber * 3;
         }
         endCalendar.add(Calendar.MONTH, addCounter);
-        newInvoiceRecurrence.setDocumentRecurrenceEndDate(DateUtils.convertToSqlDate(new Date(endCalendar.getTime().getTime())));
+        newInvoiceRecurrence.setDocumentRecurrenceEndDate(DateUtils.convertToSqlDate(endCalendar.getTime()));
         
         return true;
     }
@@ -158,13 +158,13 @@ public class InvoiceRecurrencePreRules extends PreRulesContinuationBase {
         while (!(beginDate.after(endDate))){
             beginCalendar.setTime(beginDate);
             beginCalendar.add(Calendar.MONTH, addCounter);
-            beginDate = new Date(beginCalendar.getTime().getTime());
+            beginDate = DateUtils.convertToSqlDate(beginCalendar.getTime());
             totalRecurrences++;
 
             nextDate = beginDate;
             nextCalendar.setTime(nextDate);
             nextCalendar.add(Calendar.MONTH, addCounter);
-            nextDate = new Date(nextCalendar.getTime().getTime());
+            nextDate = DateUtils.convertToSqlDate(nextCalendar.getTime());
             if (endDate.after(beginDate) && endDate.before(nextDate)) {
                 totalRecurrences++;
                 break;

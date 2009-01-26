@@ -23,6 +23,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -30,6 +31,8 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceRule.class);
     private InvoiceRecurrence oldInvoiceRecurrence;
     private InvoiceRecurrence newInvoiceRecurrence;
+    
+    private DateTimeService dateTimeService;
 
     @Override
     public void setupConvenienceObjects() {
@@ -41,8 +44,8 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success;
-        java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
-        Date currentDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+        java.sql.Date today = getDateTimeService().getCurrentSqlDateMidnight();
+        Date currentDate = getDateTimeService().getCurrentSqlDate();
 
        
         success = checkIfInvoiceIsApproved(newInvoiceRecurrence.getInvoiceNumber());
@@ -122,7 +125,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNull(newInvoiceRecurrence.getDocumentRecurrenceBeginDate())) {
             return success;
         }
-        Timestamp currentDate = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+        Timestamp currentDate = new Timestamp(getDateTimeService().getCurrentDate().getTime());
         Timestamp beginDateTimestamp = new Timestamp(newInvoiceRecurrence.getDocumentRecurrenceBeginDate().getTime());
         if (beginDateTimestamp.before(currentDate) || beginDateTimestamp.equals(currentDate)) {
             putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_BEGIN_DATE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_BEGIN_DATE_EARLIER_THAN_TODAY);
@@ -178,13 +181,13 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         while (!(beginDate.after(endDate))){
             beginCalendar.setTime(beginDate);
             beginCalendar.add(Calendar.MONTH, addCounter);
-            beginDate = new Date(beginCalendar.getTime().getTime());
+            beginDate = DateUtils.convertToSqlDate(beginCalendar.getTime());
             totalRecurrences++;
 
             nextDate = beginDate;
             nextCalendar.setTime(nextDate);
             nextCalendar.add(Calendar.MONTH, addCounter);
-            nextDate = new Date(nextCalendar.getTime().getTime());
+            nextDate = DateUtils.convertToSqlDate(nextCalendar.getTime());
             if (endDate.after(beginDate) && endDate.before(nextDate)) {
                 totalRecurrences++;
                 break;
@@ -232,4 +235,5 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
+
 }

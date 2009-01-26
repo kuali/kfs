@@ -24,29 +24,21 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.batch.service.InvoiceRecurrenceService;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
-import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.dataaccess.InvoiceRecurrenceDao;
-import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
-import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
-import org.kuali.kfs.module.ar.document.service.SystemInformationService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.MaintenanceDocumentService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -86,7 +78,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             InvoiceRecurrence invoiceRecurrence = (InvoiceRecurrence)itr.next();
             
             /* Get some dates and calendars  */
-            Date currentDate = new Date(getDateTimeService().getCurrentDate().getTime());
+            Date currentDate = getDateTimeService().getCurrentSqlDate();
             Calendar currentCalendar = Calendar.getInstance();
             currentCalendar.setTime(new Timestamp(getDateTimeService().getCurrentDate().getTime()));
 
@@ -113,7 +105,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             currentMonthProcessCalendar = currentCalendar;
             int day = beginCalendar.get(Calendar.DAY_OF_MONTH);
             currentMonthProcessCalendar.set(Calendar.DAY_OF_MONTH, day);
-            currentMonthProcessDate = new Date(currentMonthProcessCalendar.getTime().getTime());
+            currentMonthProcessDate = DateUtils.convertToSqlDate(currentMonthProcessCalendar.getTime());
 
             /* Calculate the nextProcessDate */
             if (currentDate.after(currentMonthProcessDate)) {
@@ -125,16 +117,16 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                  * so the nextProcessDate is equal to the currentMonthProcessDate */
                 nextProcessCalendar = currentMonthProcessCalendar;
             }
-            nextProcessDate = new Date(nextProcessCalendar.getTime().getTime());
+            nextProcessDate = DateUtils.convertToSqlDate(nextProcessCalendar.getTime());
             
             /* Calculate the lastProcessDate by subtracting one month from nextProcessingDate */
             lastProcessCalendar = nextProcessCalendar;
             lastProcessCalendar.add(Calendar.MONTH, -1);
-            lastProcessDate = new Date(lastProcessCalendar.getTime().getTime());
+            lastProcessDate = DateUtils.convertToSqlDate(lastProcessCalendar.getTime());
             if (lastProcessDate.before(beginDate)) {
                 lastProcessCalendar.clear();
             }
-            lastProcessDate = new Date(lastProcessCalendar.getTime().getTime());
+            lastProcessDate = DateUtils.convertToSqlDate(lastProcessCalendar.getTime());
             
             /* if nextProcessDate is equal to currentDate create INV document */
             if (nextProcessDate.equals(currentDate)) {

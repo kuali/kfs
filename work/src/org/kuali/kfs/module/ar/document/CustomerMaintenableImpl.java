@@ -41,6 +41,8 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
 
     private static final String REQUIRES_APPROVAL_NODE = "RequiresApproval";
 
+    private DateTimeService dateTimeService;
+    
     @Override
     @SuppressWarnings("unchecked")
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
@@ -54,7 +56,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
 
         // when we create new customer set the customerRecordAddDate to current date
         if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {
-            Date currentDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            Date currentDate = getDateTimeService().getCurrentSqlDate();
             newCustomer.setCustomerRecordAddDate(currentDate);
 
         }
@@ -65,7 +67,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         // if new address was added or one of the old addresses was changes set customerAddressChangeDate to the current date
         if (oldAddresses != null && newAddresses != null) {
             if (oldAddresses.size() != newAddresses.size()) {
-                Date currentDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+                Date currentDate = getDateTimeService().getCurrentSqlDate();
                 newCustomer.setCustomerAddressChangeDate(currentDate);
             }
             else {
@@ -73,7 +75,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
                     CustomerAddress oldAddress = (CustomerAddress) oldAddresses.get(i);
                     CustomerAddress newAddress = (CustomerAddress) newAddresses.get(i);
                     if (oldAddress.compareTo(newAddress) != 0) {
-                        Date currentDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+                        Date currentDate = getDateTimeService().getCurrentSqlDate();
                         newCustomer.setCustomerAddressChangeDate(currentDate);
 
                         break;
@@ -175,5 +177,16 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         Person initiatorPerson = personService.getPerson(initiatorPrincipalId);
         return (initiatorPerson != null && !KFSConstants.SYSTEM_USER.equals(initiatorPerson.getPrincipalName()));
     }
-    
+
+    /**
+     * Gets the dateTimeService attribute. 
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        if(dateTimeService==null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
+
 }

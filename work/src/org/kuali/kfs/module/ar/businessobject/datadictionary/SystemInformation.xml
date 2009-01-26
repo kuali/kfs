@@ -109,8 +109,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="active" />
-    <property name="description" value="active description..." />
   </bean>
 
   <bean id="SystemInformation-lockboxNumber" parent="SystemInformation-lockboxNumber-parentBean" />
@@ -129,8 +127,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="lockboxNumber" />
-    <property name="description" value="lockboxNumber description..." />
   </bean>
   
 <bean id="SystemInformation-financialDocumentInitiatorIdentifier" parent="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" />  
@@ -185,8 +181,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="6" />
     </property>
     <property name="required" value="true" />
-    <property name="summary" value="creditCardObjectCode" />
-    <property name="description" value="creditCardObjectCode description..." />
   </bean>
   <bean id="SystemInformation-processingChartOfAccountCode" parent="SystemInformation-processingChartOfAccountCode-parentBean" />
 
@@ -203,8 +197,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="processingChartOfAccountCode" />
-    <property name="description" value="processingChartOfAccountCode description..." />
   </bean>
   <bean id="SystemInformation-processingOrganizationCode" parent="SystemInformation-processingOrganizationCode-parentBean" />
 
@@ -221,8 +213,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="processingOrganizationCode" />
-    <property name="description" value="processingOrganizationCode description..." />
   </bean>
   
   <bean id="SystemInformation-processingOrganization.codeAndDescription" parent="SystemInformation-processingOrganization.codeAndDescription-parentBean" />
@@ -247,8 +237,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="discountObjectCode" />
-    <property name="description" value="discountObjectCode description..." />
   </bean>
   <bean id="SystemInformation-universityClearingSubAccountNumber" parent="SystemInformation-universityClearingSubAccountNumber-parentBean" />
 
@@ -265,8 +253,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="universityClearingSubAccountNumber" />
-    <property name="description" value="universityClearingSubAccountNumber description..." />
   </bean>
   
   <bean id="SystemInformation-universityFiscalYear" parent="SystemInformation-universityFiscalYear-parentBean" />
@@ -321,8 +307,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="wireSubAccountNumber" />
-    <property name="description" value="wireSubAccountNumber description..." />
   </bean>
   
   <bean id="SystemInformation-wireChartOfAccountsCode" parent="SystemInformation-wireChartOfAccountsCode-parentBean" />

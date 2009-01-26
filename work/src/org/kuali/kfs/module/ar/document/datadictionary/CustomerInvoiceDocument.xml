@@ -131,8 +131,6 @@
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Header Text of Invoice" />
   </bean>
   
   <bean id="CustomerInvoiceDocument-age" parent="CustomerInvoiceDocument-age-parentBean" />
@@ -148,8 +146,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="" />
-    <property name="description" value="Age of Invoice" />
   </bean>  
   
   <bean id="CustomerInvoiceDocument-invoiceAttentionLineText" parent="CustomerInvoiceDocument-invoiceAttentionLineText-parentBean" />
@@ -165,8 +161,6 @@
       <bean parent="TextControlDefinition"
             p:size="80" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The attention line for this invoice" />
   </bean>
   <bean id="CustomerInvoiceDocument-invoiceDueDate" parent="CustomerInvoiceDocument-invoiceDueDate-parentBean" />
 
@@ -175,7 +169,6 @@
     <property name="label" value="Due Date" />
     <property name="shortLabel" value="Due Date" />
     <property name="required" value="true" />
-    <property name="description" value="The date that this invoice is due" />
   </bean>
   <bean id="CustomerInvoiceDocument-billingDate" parent="CustomerInvoiceDocument-billingDate-parentBean" />
 
@@ -184,7 +177,6 @@
     <property name="label" value="Billing Date" />
     <property name="shortLabel" value="Billing Date" />
     <property name="required" value="false" />
-    <property name="description" value="The date that this invoice was billed" />
   </bean>
   <bean id="CustomerInvoiceDocument-printDate" parent="CustomerInvoiceDocument-printDate-parentBean" />
 
@@ -193,7 +185,6 @@
     <property name="label" value="Print Date" />
     <property name="shortLabel" value="Print Date" />
     <property name="required" value="false" />
-    <property name="description" value="The date that this invoice was printed" />
   </bean>
   <bean id="CustomerInvoiceDocument-invoiceTermsText" parent="CustomerInvoiceDocument-invoiceTermsText-parentBean" />
 
@@ -208,8 +199,6 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The terms for this invoice." />
   </bean>
   <bean id="CustomerInvoiceDocument-organizationInvoiceNumber" parent="CustomerInvoiceDocument-organizationInvoiceNumber-parentBean" />
 
@@ -224,8 +213,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The invoice number for this invoice" />
   </bean>
 
   <bean id="CustomerInvoiceDocument-documentHeader.documentTemplateNumber" parent="CustomerInvoiceDocument-documentHeader.documentTemplateNumber-parentBean" />
@@ -234,7 +221,6 @@
     <property name="name" value="documentHeader.documentTemplateNumber" />
     <property name="label" value="Parent Invoice" />
     <property name="shortLabel" value="Parent Invoice" />
-    <property name="description" value="The invoice number for this parent of this invoice" />
   </bean>
 
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderNumber" parent="CustomerInvoiceDocument-customerPurchaseOrderNumber-parentBean" />
@@ -250,8 +236,6 @@
       <bean parent="TextControlDefinition"
             p:size="25" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="&amp;nbsp;" />
   </bean>
   <bean id="CustomerInvoiceDocument-printInvoiceIndicator" parent="CustomerInvoiceDocument-printInvoiceIndicator-parentBean" />
 
@@ -267,8 +251,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.PrintInvoiceOptionsValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Print Invoice Indicator" />
-    <property name="description" value="..." />
   </bean>
 
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderDate" parent="CustomerInvoiceDocument-customerPurchaseOrderDate-parentBean" />
@@ -278,7 +260,6 @@
     <property name="label" value="Customer Purchase Order Date" />
     <property name="shortLabel" value="P.O. Date" />
     <property name="required" value="false" />
-    <property name="description" value="The date that this P.O. for this invoice was created" />
   </bean>
   <bean id="CustomerInvoiceDocument-billByChartOfAccountCode" parent="CustomerInvoiceDocument-billByChartOfAccountCode-parentBean" />
 
@@ -314,8 +295,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The Ship To address Identifier to use for this customer" />
   </bean>
   <bean id="CustomerInvoiceDocument-customerBillToAddressIdentifier" parent="CustomerInvoiceDocument-customerBillToAddressIdentifier-parentBean" />
 
@@ -330,8 +309,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The Bill To address Identifier to use for this customer" />
   </bean>
   <bean id="CustomerInvoiceDocument-customerSpecialProcessingCode" parent="CustomerInvoiceDocument-customerSpecialProcessingCode-parentBean" />
 
@@ -346,8 +323,6 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Special Processing Instructions" />
   </bean>
   <bean id="CustomerInvoiceDocument-customerRecordAttachmentIndicator" parent="CustomerInvoiceDocument-customerRecordAttachmentIndicator-parentBean" />
 
@@ -361,8 +336,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Is there an attachment for the customer" />
   </bean>
   <bean id="CustomerInvoiceDocument-openInvoiceIndicator" parent="CustomerInvoiceDocument-openInvoiceIndicator-parentBean" />
 
@@ -376,8 +349,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Indicates if there is already an open invoice for this customer" />
   </bean>
   <bean id="CustomerInvoiceDocument-sourceTotal" parent="CustomerInvoiceDocument-sourceTotal-parentBean" />
 
@@ -402,7 +373,6 @@
   <bean id="CustomerInvoiceDocument-paymentFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="paymentFinancialObjectCode" />
     <property name="required" value="false" />
-    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
   </bean>
   <bean id="CustomerInvoiceDocument-paymentAccountNumber" parent="CustomerInvoiceDocument-paymentAccountNumber-parentBean" />
 
@@ -426,8 +396,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
   </bean>
   <bean id="CustomerInvoiceDocument-paymentSubAccountNumber" parent="CustomerInvoiceDocument-paymentSubAccountNumber-parentBean" />
 
@@ -435,16 +403,12 @@
     <property name="name" value="paymentSubAccountNumber" />
     <property name="label" value="Sub-Account Code" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
   </bean>
   <bean id="CustomerInvoiceDocument-paymentProjectCode" parent="CustomerInvoiceDocument-paymentProjectCode-parentBean" />
 
   <bean id="CustomerInvoiceDocument-paymentProjectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="paymentProjectCode" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The title of the project." />
   </bean>
   <bean id="CustomerInvoiceDocument-paymentFinancialSubObjectCode" parent="CustomerInvoiceDocument-paymentFinancialSubObjectCode-parentBean" />
 
@@ -452,7 +416,6 @@
     <property name="name" value="paymentFinancialSubObjectCode" />
     <property name="label" value="Sub Object Code" />
     <property name="required" value="false" />
-    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
   </bean>
   <bean id="CustomerInvoiceDocument-billingDateForDisplay" parent="CustomerInvoiceDocument-billingDateForDisplay-parentBean" />
 
@@ -461,7 +424,6 @@
     <property name="label" value="Billing Date" />
     <property name="shortLabel" value="Billing Date" />
     <property name="required" value="false" />
-    <property name="description" value="The date that this invoice was billed" />
   </bean>
   <bean id="CustomerInvoiceDocument-versionNumber" parent="CustomerInvoiceDocument-versionNumber-parentBean" />
 

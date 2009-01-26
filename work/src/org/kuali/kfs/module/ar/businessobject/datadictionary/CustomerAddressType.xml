@@ -44,8 +44,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="customerAddressTypeCode" />
-    <property name="description" value="customerAddressTypeCode description..." />
   </bean>
   <bean id="CustomerAddressType-customerAddressTypeDescription" parent="CustomerAddressType-customerAddressTypeDescription-parentBean" />
 
@@ -64,8 +62,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="customerAddressTypeDescription" />
-    <property name="description" value="customerAddressTypeDescription description..." />
   </bean>
   <bean id="CustomerAddressType-active" parent="CustomerAddressType-active-parentBean" />
 

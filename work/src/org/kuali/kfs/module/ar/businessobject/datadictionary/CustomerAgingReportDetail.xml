@@ -47,8 +47,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAgingReportValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Report type is used to state the type of the Inputs expected for the Customer Aging Report. It is represented as a radio button selection." />
  </bean>
 
 <bean id="CustomerAgingReportDetail-chartOfAccountsCode" parent="CustomerAgingReportDetail-chartOfAccountsCode-parentBean" />

@@ -149,8 +149,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
         p:size="42" />
     </property>
-    <property name="summary" value="organization800PhoneNumber" />
-    <property name="description" value="organization800PhoneNumber description..." />
   </bean>
   <bean id="OrganizationOptions-organizationCheckPayableToName" parent="OrganizationOptions-organizationCheckPayableToName-parentBean" />
 
@@ -169,8 +167,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="organizationCheckPayableToName" />
-    <property name="description" value="organizationCheckPayableToName description..." />
   </bean>
   <bean id="OrganizationOptions-organizationFaxNumber" parent="OrganizationOptions-organizationFaxNumber-parentBean" />
 
@@ -188,8 +184,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
         p:size="42" />
     </property>
-    <property name="summary" value="organizationFaxNumber" />
-    <property name="description" value="organizationFaxNumber description..." />
   </bean>
   <bean id="OrganizationOptions-organizationMessageText" parent="OrganizationOptions-organizationMessageText-parentBean" />
 
@@ -208,8 +202,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="82" />
     </property>
-    <property name="summary" value="organizationMessageText" />
-    <property name="description" value="organizationMessageText description..." />
   </bean>
   <bean id="OrganizationOptions-organizationPaymentTermsText" parent="OrganizationOptions-organizationPaymentTermsText-parentBean" />
 
@@ -228,8 +220,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="organizationPaymentTermsText" />
-    <property name="description" value="organizationPaymentTermsText description..." />
   </bean>
   <bean id="OrganizationOptions-organizationPhoneNumber" parent="OrganizationOptions-organizationPhoneNumber-parentBean" />
 
@@ -247,8 +237,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
         p:size="42" />
     </property>
-    <property name="summary" value="organizationPhoneNumber" />
-    <property name="description" value="organizationPhoneNumber description..." />
   </bean>
   <bean id="OrganizationOptions-organizationRemitToAddressName" parent="OrganizationOptions-organizationRemitToAddressName-parentBean" />
 
@@ -267,8 +255,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="organizationRemitToAddressName" />
-    <property name="description" value="organizationRemitToAddressName description..." />
   </bean>
   <bean id="OrganizationOptions-organizationRemitToCityName" parent="OrganizationOptions-organizationRemitToCityName-parentBean" />
 
@@ -287,8 +273,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="organizationRemitToCityName" />
-    <property name="description" value="organizationRemitToCityName description..." />
   </bean>
   <bean id="OrganizationOptions-organizationRemitToLine1StreetAddress" parent="OrganizationOptions-organizationRemitToLine1StreetAddress-parentBean" />
 
@@ -307,8 +291,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="organizationRemitToLine1StreetAddress" />
-    <property name="description" value="organizationRemitToLine1StreetAddress description..." />
   </bean>
   <bean id="OrganizationOptions-organizationRemitToLine2StreetAddress" parent="OrganizationOptions-organizationRemitToLine2StreetAddress-parentBean" />
 
@@ -327,8 +309,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="organizationRemitToLine2StreetAddress" />
-    <property name="description" value="organizationRemitToLine2StreetAddress description..." />
   </bean>
   <bean id="OrganizationOptions-organizationRemitToStateCode" parent="OrganizationOptions-organizationRemitToStateCode-parentBean" />
 
@@ -344,8 +324,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	p:sourceAttributeName="postalCode">
     <property name="name" value="organizationRemitToZipCode" />
     <property name="required" value="true" />
-    <property name="summary" value="organizationRemitToZipCode" />
-    <property name="description" value="organizationRemitToZipCode description..." />
   </bean>
   <bean id="OrganizationOptions-printInvoiceIndicator" parent="OrganizationOptions-printInvoiceIndicator-parentBean" />
 
@@ -360,8 +338,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.PrintInvoiceOptionsValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="printInvoiceIndicator" />
-    <property name="description" value="printInvoiceIndicator description..." />
   </bean>
   <bean id="OrganizationOptions-universityName" parent="OrganizationOptions-universityName-parentBean" />
 
@@ -380,8 +356,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="universityName" />
-    <property name="description" value="universityName description..." />
   </bean>
   
   <bean id="OrganizationOptions-organizationPostalZipCode" parent="OrganizationOptions-organizationPostalZipCode-parentBean" />
@@ -390,10 +364,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="organizationPostalZipCode" />
-    <property name="required" value="false" />
-    <property name="summary" value="Organization Postal Zip Code" />
     <property name="label" value="Organization Postal Zip Code" />
-    <property name="description" value="organizationPostalZipCode description..." />
+    <property name="required" value="false" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

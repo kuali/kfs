@@ -47,8 +47,6 @@
     </property>
     <property name="label" value="Organization Options" />
     <property name="shortLabel" value="OrgOptionsMaintDoc" />
-    <property name="summary" value="Organization Options maintenance document" />
-    <property name="description" value="Document used to create or update Organization Options objects" />
     <property name="documentTypeName" value="OrganizationOptionsMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.OrganizationOptionsAuthorizer" />

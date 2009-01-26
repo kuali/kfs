@@ -36,14 +36,11 @@
     <property name="control">
     	<bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="referenceInvoiceItemNumber" />
-    <property name="description" value="financialDocumentLineNumber description..." />
   </bean>
 <!--  Ask Justin about this bean -->
 <!--
   <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber" parent="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" />
   <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
-    <property name="description" value="The invoice item number." />
   </bean>
 -->
 
@@ -63,8 +60,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="creditMemoItemQuantity" />
-    <property name="description" value="creditMemoItemQuantity description..." />
   </bean>
   
   <bean id="CustomerCreditMemoDetail-creditMemoItemTaxAmount" parent="CustomerCreditMemoDetail-creditMemoItemTaxAmount-parentBean" />
@@ -73,7 +68,6 @@
     <property name="label" value="Tax Amount" />
     <property name="shortLabel" value="Tax Amount" />
     <property name="required" value="false" />
-    <property name="description" value="The salesTax amount" />
   </bean>
   
   <bean id="CustomerCreditMemoDetail-creditMemoItemTotalAmount" parent="CustomerCreditMemoDetail-creditMemoItemTotalAmount-parentBean" />
@@ -82,7 +76,6 @@
     <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="required" value="false" />
-    <property name="description" value="The total amount" />
   </bean>
   
   <bean id="CustomerCreditMemoDetail-creditMemoLineTotalAmount" parent="CustomerCreditMemoDetail-creditMemoLineTotalAmount-parentBean" />
@@ -91,7 +84,6 @@
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total Amount" />
     <property name="required" value="false" />
-    <property name="description" value="The credit memo line total amount" />
   </bean>
   
   <bean id="CustomerCreditMemoDetail-invoiceLineTotalAmount" parent="CustomerCreditMemoDetail-invoiceLineTotalAmount-parentBean" />
@@ -100,7 +92,6 @@
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total Amount" />
     <property name="required" value="false" />
-    <property name="description" value="The invoice total line amount" />
   </bean>
   
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemQuantity" parent="CustomerCreditMemoDetail-invoiceOpenItemQuantity-parentBean" />
@@ -109,7 +100,6 @@
     <property name="label" value="Open Invoice Quantity" />
     <property name="shortLabel" value="Open Invoice Quantity" />
     <property name="required" value="false" />
-    <property name="description" value="The open invoice item quantity" />
   </bean>  
   
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount" parent="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" />
@@ -118,7 +108,6 @@
     <property name="label" value="Open Invoice Amount" />
     <property name="shortLabel" value="Open Invoice Amount" />
     <property name="required" value="false" />
-    <property name="description" value="The open invoice item amount" />
   </bean>
   
 </beans> 

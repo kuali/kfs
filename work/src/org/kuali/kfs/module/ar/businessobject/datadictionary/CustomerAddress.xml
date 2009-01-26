@@ -53,8 +53,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="customerAddressEndDate" />
     <property name="label" value="Address End Date" />
     <property name="shortLabel" value="Date" />
-    <property name="summary" value="customerAddressEndDate" />
-    <property name="description" value="customerAddressEndDate description..." />
   </bean>
   <bean id="CustomerAddress-customerAddressIdentifier" parent="CustomerAddress-customerAddressIdentifier-parentBean" />
 
@@ -70,8 +68,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="customerAddressIdentifier" />
-    <property name="description" value="customerAddressIdentifier description..." />
   </bean>
   
   <bean id="CustomerAddress-customerAddressTypeCode" parent="CustomerAddress-customerAddressTypeCode-parentBean" />
@@ -90,8 +86,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAddressTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="customerAddressTypeCode" />
-    <property name="description" value="customerAddressTypeCode description..." />
   </bean>
   
   <bean id="CustomerAddress-customerAddressName" parent="CustomerAddress-customerAddressName-parentBean" />
@@ -110,8 +104,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="customerAddressName" />
-    <property name="description" value="customerAddressName description..." />
   </bean>
   <bean id="CustomerAddress-customerCityName" parent="CustomerAddress-customerCityName-parentBean" />
 
@@ -129,8 +121,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
-    <property name="summary" value="customerCityName" />
-    <property name="description" value="customerCityName description..." />
   </bean>
   <bean id="CustomerAddress-customerEmailAddress" parent="CustomerAddress-customerEmailAddress-parentBean" />
 
@@ -147,8 +137,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="62" />
     </property>
-    <property name="summary" value="customerEmailAddress" />
-    <property name="description" value="customerEmailAddress description..." />
   </bean>
 
    <bean id="CustomerAddress-customerInternationalMailCode" parent="CustomerAddress-customerInternationalMailCode-parentBean" />
@@ -166,8 +154,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="22" />
     </property>
-    <property name="summary" value="customerInternationalMailCode" />
-    <property name="description" value="customerInternationalMailCode description..." />
   </bean>
 
   <bean id="CustomerAddress-customerLine1StreetAddress" parent="CustomerAddress-customerLine1StreetAddress-parentBean" />
@@ -186,8 +172,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="customerLine1StreetAddress" />
-    <property name="description" value="customerLine1StreetAddress description..." />
   </bean>
   <bean id="CustomerAddress-customerLine2StreetAddress" parent="CustomerAddress-customerLine2StreetAddress-parentBean" />
 
@@ -205,8 +189,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="customerLine2StreetAddress" />
-    <property name="description" value="customerLine2StreetAddress description..." />
   </bean>
   <bean id="CustomerAddress-customerNumber" parent="CustomerAddress-customerNumber-parentBean" />
 
@@ -223,8 +205,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="customerNumber" />
-    <property name="description" value="customerNumber description..." />
   </bean>
   <bean id="CustomerAddress-customerStateCode" parent="CustomerAddress-customerStateCode-parentBean" />
 
@@ -244,8 +224,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="customerStateCode" />
-    <property name="description" value="customerStateCode description..." />
   </bean>
   <bean id="CustomerAddress-customerZipCode" parent="CustomerAddress-customerZipCode-parentBean" />
 
@@ -253,8 +231,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="customerZipCode" />
-    <property name="summary" value="customerZipCode" />
-    <property name="description" value="customerZipCode description..." />
   </bean>
   
   <bean id="CustomerAddress-customerCountryCode" parent="CustomerAddress-customerCountryCode-parentBean" />
@@ -275,8 +251,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryNotRestrictedValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="customerCountryCode" />
-    <property name="description" value="customerCountryCode description..." />
   </bean>
   
    <bean id="CustomerAddress-customerAddressInternationalProvinceName" parent="CustomerAddress-customerAddressInternationalProvinceName-parentBean" />
@@ -295,8 +269,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="45" />
     </property>
-    <property name="summary" value="customerAddressInternationalProvinceName" />
-    <property name="description" value="customerAddressInternationalProvinceName description..." />
   </bean>
   
 

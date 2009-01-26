@@ -45,8 +45,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   <bean id="NonAppliedDistributionMove-financialDocumentLineAmount" parent="NonAppliedDistributionMove-financialDocumentLineAmount-parentBean" />
 
@@ -63,8 +61,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentLineAmount" />
-    <property name="description" value="financialDocumentLineAmount description..." />
   </bean>
   <bean id="NonAppliedDistributionMove-paidAppliedItemNumber" parent="NonAppliedDistributionMove-paidAppliedItemNumber-parentBean" />
 
@@ -81,8 +77,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="paidAppliedItemNumber" />
-    <property name="description" value="paidAppliedItemNumber description..." />
   </bean>
   <bean id="NonAppliedDistributionMove-referenceFinancialDocumentNumber" parent="NonAppliedDistributionMove-referenceFinancialDocumentNumber-parentBean" />
 
@@ -99,8 +93,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="referenceFinancialDocumentNumber" />
-    <property name="description" value="referenceFinancialDocumentNumber description..." />
   </bean>
   <bean id="NonAppliedDistributionMove-universityFiscalPeriodCode" parent="NonAppliedDistributionMove-universityFiscalPeriodCode-parentBean" />
 
@@ -117,8 +109,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="universityFiscalPeriodCode" />
-    <property name="description" value="universityFiscalPeriodCode description..." />
   </bean>
   <bean id="NonAppliedDistributionMove-universityFiscalYear" parent="NonAppliedDistributionMove-universityFiscalYear-parentBean" />
 
@@ -135,8 +125,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

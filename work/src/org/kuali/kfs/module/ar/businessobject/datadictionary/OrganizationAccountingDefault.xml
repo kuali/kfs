@@ -113,8 +113,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="defaultInvoiceOrganizationReferenceIdentifier" />
-    <property name="description" value="defaultInvoiceOrganizationReferenceIdentifier description..." />
   </bean>
   <bean id="OrganizationAccountingDefault-defaultInvoiceProjectCode" parent="OrganizationAccountingDefault-defaultInvoiceProjectCode-parentBean" />
 
@@ -160,8 +158,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="defaultPaymentOrganizationReferenceIdentifier" />
-    <property name="description" value="defaultPaymentOrganizationReferenceIdentifier description..." />
   </bean>
   <bean id="OrganizationAccountingDefault-defaultPaymentProjectCode" parent="OrganizationAccountingDefault-defaultPaymentProjectCode-parentBean" />
 
@@ -272,8 +268,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="writeoffOrganizationReferenceIdentifier" />
-    <property name="description" value="writeoffOrganizationReferenceIdentifier description..." />
   </bean>
   <bean id="OrganizationAccountingDefault-universityFiscalYear" parent="OrganizationAccountingDefault-universityFiscalYear-parentBean" />
 

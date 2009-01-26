@@ -54,8 +54,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="entryDate" />
-    <property name="description" value="entryDate description..." />
   </bean>
   <bean id="AccountsReceivableDocumentHeader-financialDocumentExplanationText" parent="AccountsReceivableDocumentHeader-financialDocumentExplanationText-parentBean" />
 
@@ -73,8 +71,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="financialDocumentExplanationText" />
-    <property name="description" value="financialDocumentExplanationText description..." />
   </bean>
   <bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode" parent="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean" />
 
@@ -91,8 +87,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="processingChartOfAccountCode" />
-    <property name="description" value="processingChartOfAccountCode description..." />
   </bean>
   <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode" parent="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean" />
 
@@ -109,8 +103,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="processingOrganizationCode" />
-    <property name="description" value="processingOrganizationCode description..." />
   </bean>
   <bean id="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode" parent="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode-parentBean" />
 

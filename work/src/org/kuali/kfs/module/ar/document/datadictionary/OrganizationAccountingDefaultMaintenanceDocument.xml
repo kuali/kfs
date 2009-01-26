@@ -93,8 +93,6 @@
     </property>
     <property name="label" value="Organization Accounting Default" />
     <property name="shortLabel" value="OrgAcctgDefaultMaintDoc" />
-    <property name="summary" value="Organization Accounting Default maintenance document" />
-    <property name="description" value="Document used to create or update Organization Accounting Default objects" />
     <property name="documentTypeName" value="OrganizationAccountingDefaultMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDefaultRule" />
     <property name="documentTypeCode" value="OADF" />

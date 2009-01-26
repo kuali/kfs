@@ -24,8 +24,6 @@
     </property>
     <property name="label" value="Customer Type" />
     <property name="shortLabel" value="CustTyp" />
-    <property name="summary" value="Customer Type maintenance document" />
-    <property name="description" value="Document used to create or update Customer Type objects" />
     <property name="documentTypeName" value="CustomerTypeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerTypeRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

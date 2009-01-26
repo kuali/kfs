@@ -21,8 +21,6 @@
     </property>
     <property name="label" value="Invoice Recurrence" />
     <property name="shortLabel" value="InvRcurrnc" />
-    <property name="summary" value="Invoice Recurrence maintenance document" />
-    <property name="description" value="Document used to create or update Invoice Recurrence objects" />
     <property name="documentTypeName" value="InvoiceRecurrenceMaintenanceDocument" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrencePreRules" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrenceRule" />

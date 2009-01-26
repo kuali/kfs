@@ -44,8 +44,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Special Processing Instructions" />
   </bean>
   
   <bean id="CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" parent="CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount-parentBean" />
@@ -55,7 +53,6 @@
     <property name="label" value="Writeoff Total" />
     <property name="shortLabel" value="Writeoff Total" />    
     <property name="required" value="false" />
-    <property name="description" value="Total dollar amount that has been writen off" />
   </bean>  
   
   <bean id="CustomerInvoiceWriteoffDocument-documentHeader.documentDescription" parent="CustomerInvoiceWriteoffDocument-documentHeader.documentDescription-parentBean" />

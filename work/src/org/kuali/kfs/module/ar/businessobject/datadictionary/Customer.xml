@@ -112,8 +112,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
         </property>
-        <property name="summary" value="customer800PhoneNumber"/>
-        <property name="description" value="customer800PhoneNumber description..."/>
     </bean>
 
     <bean id="Customer-active" parent="Customer-active-parentBean"/>
@@ -127,8 +125,6 @@
         <property name="name" value="customerAddressChangeDate"/>
         <property name="label" value="Last Address Change Date"/>
         <property name="shortLabel" value="Date"/>
-        <property name="summary" value="customerAddressChangeDate"/>
-        <property name="description" value="customerAddressChangeDate description..."/>
     </bean>
     <bean id="Customer-customerBirthDate" parent="Customer-customerBirthDate-parentBean"/>
 
@@ -137,8 +133,6 @@
         <property name="forceUppercase" value="true"/>
         <property name="label" value="Birth Date"/>
         <property name="shortLabel" value="Date"/>
-        <property name="summary" value="customerBirthDate"/>
-        <property name="description" value="customerBirthDate description..."/>
     </bean>
     <bean id="Customer-customerContactName" parent="Customer-customerContactName-parentBean"/>
 
@@ -154,8 +148,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="42"/>
         </property>
-        <property name="summary" value="customerContactName"/>
-        <property name="description" value="customerContactName description..."/>
     </bean>
     <bean id="Customer-customerContactPhoneNumber" parent="Customer-customerContactPhoneNumber-parentBean"/>
 
@@ -171,8 +163,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
         </property>
-        <property name="summary" value="customerContactPhoneNumber"/>
-        <property name="description" value="customerContactPhoneNumber description..."/>
     </bean>
     <bean id="Customer-customerCreditApprovedByName" parent="Customer-customerCreditApprovedByName-parentBean"/>
 
@@ -188,8 +178,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="42"/>
         </property>
-        <property name="summary" value="customerCreditApprovedByName"/>
-        <property name="description" value="customerCreditApprovedByName description..."/>
     </bean>
     <bean id="Customer-customerCreditLimitAmount" parent="Customer-customerCreditLimitAmount-parentBean"/>
 
@@ -205,8 +193,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="21"/>
         </property>
-        <property name="summary" value="customerCreditLimitAmount"/>
-        <property name="description" value="customerCreditLimitAmount description..."/>
     </bean>
     <bean id="Customer-customerEmailAddress" parent="Customer-customerEmailAddress-parentBean"/>
 
@@ -222,8 +208,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="62"/>
         </property>
-        <property name="summary" value="customerEmailAddress"/>
-        <property name="description" value="customerEmailAddress description..."/>
     </bean>
     <bean id="Customer-customerFaxNumber" parent="Customer-customerFaxNumber-parentBean"/>
 
@@ -239,8 +223,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
         </property>
-        <property name="summary" value="customerFaxNumber"/>
-        <property name="description" value="customerFaxNumber description..."/>
     </bean>
     <bean id="Customer-customerLastActivityDate" parent="Customer-customerLastActivityDate-parentBean"/>
 
@@ -248,8 +230,6 @@
         <property name="name" value="customerLastActivityDate"/>
         <property name="forceUppercase" value="true"/>
         <property name="label" value="Last Activity Date"/>
-        <property name="summary" value="customerLastActivityDate"/>
-        <property name="description" value="customerLastActivityDate description..."/>
     </bean>
     <bean id="Customer-customerName" parent="Customer-customerName-parentBean"/>
 
@@ -265,8 +245,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="62"/>
         </property>
-        <property name="summary" value="customerName"/>
-        <property name="description" value="customerName description..."/>
     </bean>
     <bean id="Customer-customerNumber" parent="Customer-customerNumber-parentBean"/>
 
@@ -282,8 +260,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="11"/>
         </property>
-        <property name="summary" value="customerNumber"/>
-        <property name="description" value="customerNumber description..."/>
     </bean>
     <bean id="Customer-customerPhoneNumber" parent="Customer-customerPhoneNumber-parentBean"/>
 
@@ -299,8 +275,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
         </property>
-        <property name="summary" value="customerPhoneNumber"/>
-        <property name="description" value="customerPhoneNumber description..."/>
     </bean>
     <bean id="Customer-customerRecordAddDate" parent="Customer-customerRecordAddDate-parentBean"/>
 
@@ -309,8 +283,6 @@
         <property name="forceUppercase" value="true"/>
         <property name="label" value="Customer Record Add Date"/>
         <property name="shortLabel" value="Date"/>
-        <property name="summary" value="customerRecordAddDate"/>
-        <property name="description" value="customerRecordAddDate description..."/>
     </bean>
     <bean id="Customer-customerTaxExemptIndicator" parent="Customer-customerTaxExemptIndicator-parentBean"/>
 
@@ -323,8 +295,6 @@
         <property name="control">
             <bean parent="CheckboxControlDefinition"/>
         </property>
-        <property name="summary" value="customerTaxExemptIndicator"/>
-        <property name="description" value="customerTaxExemptIndicator description..."/>
     </bean>
     <bean id="Customer-customerTypeCode" parent="Customer-customerTypeCode-parentBean"/>
 
@@ -340,8 +310,6 @@
         <property name="control">
             <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerTypeValuesFinder" p:includeKeyInLabel="false"/>
         </property>
-        <property name="summary" value="customerTypeCode"/>
-        <property name="description" value="customerTypeCode description..."/>
     </bean>
 
     <bean id="Customer-customerType.customerTypeDescription" parent="Customer-customerType.customerTypeDescription-parentBean"/>

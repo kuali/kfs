@@ -42,8 +42,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="customerNumber" />
-    <property name="description" value="customerNumber description..." />
   </bean>
   <bean id="NonAppliedHolding-financialDocumentLineAmount" parent="NonAppliedHolding-financialDocumentLineAmount-parentBean" />
 
@@ -60,8 +58,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentLineAmount" />
-    <property name="description" value="financialDocumentLineAmount description..." />
   </bean>
   <bean id="NonAppliedHolding-referenceFinancialDocumentNumber" parent="NonAppliedHolding-referenceFinancialDocumentNumber-parentBean" />
 
@@ -78,8 +74,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="referenceFinancialDocumentNumber" />
-    <property name="description" value="referenceFinancialDocumentNumber description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

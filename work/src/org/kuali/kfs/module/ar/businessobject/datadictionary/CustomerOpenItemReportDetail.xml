@@ -28,6 +28,8 @@
 <!-- Attribute Definitions -->
 <bean id="CustomerOpenItemReportDetail-documentType" parent="CustomerOpenItemReportDetail-documentType-parentBean" />
 <bean id="CustomerOpenItemReportDetail-documentType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentType" />
+    <property name="label" value="Document Type" />
     <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="Doc Nbr" />
     <property name="maxLength" value="10" />
@@ -35,10 +37,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="Document Type" />
-    <property name="name" value="documentType" />
-    <property name="label" value="Document Type" />
-    <property name="description" value="The document type" />
 </bean>
 
 <bean id="CustomerOpenItemReportDetail-documentNumber" parent="CustomerOpenItemReportDetail-documentNumber-parentBean" />

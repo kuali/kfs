@@ -46,8 +46,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="currentInvoiceAmount" />
-    <property name="description" value="currentInvoiceAmount description..." />
   </bean>
   <bean id="AgeTrialBalance-customerName" parent="AgeTrialBalance-customerName-parentBean" />
 
@@ -64,8 +62,6 @@
       <bean parent="TextControlDefinition"
             p:size="62" />
     </property>
-    <property name="summary" value="customerName" />
-    <property name="description" value="customerName description..." />
   </bean>
   <bean id="AgeTrialBalance-customerNumber" parent="AgeTrialBalance-customerNumber-parentBean" />
 
@@ -82,8 +78,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="customerNumber" />
-    <property name="description" value="customerNumber description..." />
   </bean>
   <bean id="AgeTrialBalance-over30InvoiceAmount" parent="AgeTrialBalance-over30InvoiceAmount-parentBean" />
 
@@ -100,8 +94,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="over30InvoiceAmount" />
-    <property name="description" value="over30InvoiceAmount description..." />
   </bean>
   <bean id="AgeTrialBalance-over60InvoiceAmount" parent="AgeTrialBalance-over60InvoiceAmount-parentBean" />
 
@@ -118,8 +110,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="over60InvoiceAmount" />
-    <property name="description" value="over60InvoiceAmount description..." />
   </bean>
   <bean id="AgeTrialBalance-over90InvoiceAmount" parent="AgeTrialBalance-over90InvoiceAmount-parentBean" />
 
@@ -136,8 +126,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="over90InvoiceAmount" />
-    <property name="description" value="over90InvoiceAmount description..." />
   </bean>
   <bean id="AgeTrialBalance-principalId" parent="AgeTrialBalance-principalId-parentBean" />
 
@@ -154,8 +142,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

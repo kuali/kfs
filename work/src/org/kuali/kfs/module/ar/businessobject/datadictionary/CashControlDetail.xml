@@ -56,8 +56,6 @@
       <bean parent="TextControlDefinition"
             p:size="62" />
     </property>
-    <property name="summary" value="customerPaymentDescription" />
-    <property name="description" value="customerPaymentDescription description..." />
   </bean>
   <bean id="CashControlDetail-customerPaymentMediumIdentifier" parent="CashControlDetail-customerPaymentMediumIdentifier-parentBean" />
 
@@ -74,8 +72,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="customerPaymentMediumIdentifier" />
-    <property name="description" value="customerPaymentMediumIdentifier description..." />
   </bean>
   <bean id="CashControlDetail-documentNumber" parent="CashControlDetail-documentNumber-parentBean" />
 
@@ -105,8 +101,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="referenceFinancialDocumentNumber" />
-    <property name="description" value="referenceFinancialDocumentNumber description..." />
   </bean>
   <bean id="CashControlDetail-status" parent="CashControlDetail-status-parentBean" />
 

@@ -62,8 +62,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.PaymentMediumValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="customerPaymentMediumCode" />
-    <property name="description" value="customerPaymentMediumCode description..." />
   </bean>
   
   <bean id="CashControlDocument-bankCode" parent="CashControlDocument-bankCode-parentBean" />

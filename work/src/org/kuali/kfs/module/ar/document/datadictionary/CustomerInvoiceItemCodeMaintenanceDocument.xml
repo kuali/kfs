@@ -56,8 +56,6 @@
     </property>
     <property name="label" value="Customer Invoice Item Code" />
     <property name="shortLabel" value="InvoiceItemCodeMaintDoc" />
-    <property name="summary" value="Invoice Item Code maintenance document" />
-    <property name="description" value="Document used to create or update Invoice Item Codes" />
     <property name="documentTypeName" value="CustomerInvoiceItemCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceItemCodeRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceItemCodeAuthorizer" />

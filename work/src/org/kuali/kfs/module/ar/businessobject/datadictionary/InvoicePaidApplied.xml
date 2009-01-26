@@ -46,8 +46,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   <bean id="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber" parent="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber-parentBean" />
 
@@ -64,8 +62,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="financialDocumentReferenceInvoiceNumber" />
-    <property name="description" value="financialDocumentReferenceInvoiceNumber description..." />
   </bean>
   <bean id="InvoicePaidApplied-invoiceItemAppliedAmount" parent="InvoicePaidApplied-invoiceItemAppliedAmount-parentBean" />
 
@@ -84,8 +80,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="invoiceItemAppliedAmount" />
-    <property name="description" value="invoiceItemAppliedAmount description..." />
   </bean>
   <bean id="InvoicePaidApplied-invoiceItemNumber" parent="InvoicePaidApplied-invoiceItemNumber-parentBean" />
 
@@ -102,8 +96,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="invoiceItemNumber" />
-    <property name="description" value="invoiceItemNumber description..." />
   </bean>
   <bean id="InvoicePaidApplied-paidAppliedItemNumber" parent="InvoicePaidApplied-paidAppliedItemNumber-parentBean" />
 
@@ -120,8 +112,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="paidAppliedItemNumber" />
-    <property name="description" value="paidAppliedItemNumber description..." />
   </bean>
   <bean id="InvoicePaidApplied-universityFiscalPeriodCode" parent="InvoicePaidApplied-universityFiscalPeriodCode-parentBean" />
 
@@ -138,8 +128,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="universityFiscalPeriodCode" />
-    <property name="description" value="universityFiscalPeriodCode description..." />
   </bean>
   <bean id="InvoicePaidApplied-universityFiscalYear" parent="InvoicePaidApplied-universityFiscalYear-parentBean" />
 
@@ -156,8 +144,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

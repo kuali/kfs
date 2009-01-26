@@ -38,8 +38,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="active" />
-    <property name="description" value="active description..." />
   </bean>
   <bean id="CollectionStatus-customerCollectionStatusCode" parent="CollectionStatus-customerCollectionStatusCode-parentBean" />
 
@@ -56,8 +54,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="customerCollectionStatusCode" />
-    <property name="description" value="customerCollectionStatusCode description..." />
   </bean>
   <bean id="CollectionStatus-customerCollectionStatusName" parent="CollectionStatus-customerCollectionStatusName-parentBean" />
 
@@ -74,8 +70,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="customerCollectionStatusName" />
-    <property name="description" value="customerCollectionStatusName description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

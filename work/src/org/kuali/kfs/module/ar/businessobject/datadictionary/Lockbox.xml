@@ -51,8 +51,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="batchSequenceNumber" />
-    <property name="description" value="batchSequenceNumber description..." />
   </bean>
   <bean id="Lockbox-billingDate" parent="Lockbox-billingDate-parentBean" />
 
@@ -69,8 +67,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="billingDate" />
-    <property name="description" value="billingDate description..." />
   </bean>
   <bean id="Lockbox-customerNumber" parent="Lockbox-customerNumber-parentBean" />
 
@@ -87,8 +83,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="customerNumber" />
-    <property name="description" value="customerNumber description..." />
   </bean>
   <bean id="Lockbox-customerPaymentMediumCode" parent="Lockbox-customerPaymentMediumCode-parentBean" />
 
@@ -105,8 +99,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="customerPaymentMediumCode" />
-    <property name="description" value="customerPaymentMediumCode description..." />
   </bean>
   <bean id="Lockbox-financialDocumentReferenceInvoiceNumber" parent="Lockbox-financialDocumentReferenceInvoiceNumber-parentBean" />
 
@@ -123,8 +115,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="financialDocumentReferenceInvoiceNumber" />
-    <property name="description" value="financialDocumentReferenceInvoiceNumber description..." />
   </bean>
   <bean id="Lockbox-invoicePaidOrAppliedAmount" parent="Lockbox-invoicePaidOrAppliedAmount-parentBean" />
 
@@ -141,8 +131,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="invoicePaidOrAppliedAmount" />
-    <property name="description" value="invoicePaidOrAppliedAmount description..." />
   </bean>
   <bean id="Lockbox-invoiceSequenceNumber" parent="Lockbox-invoiceSequenceNumber-parentBean" />
 
@@ -159,8 +147,6 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="invoiceSequenceNumber" />
-    <property name="description" value="invoiceSequenceNumber description..." />
   </bean>
   <bean id="Lockbox-invoiceTotalAmount" parent="Lockbox-invoiceTotalAmount-parentBean" />
 
@@ -177,8 +163,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="invoiceTotalAmount" />
-    <property name="description" value="invoiceTotalAmount description..." />
   </bean>
   <bean id="Lockbox-lockboxNumber" parent="Lockbox-lockboxNumber-parentBean" />
 
@@ -195,8 +179,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="lockboxNumber" />
-    <property name="description" value="lockboxNumber description..." />
   </bean>
   <bean id="Lockbox-processedInvoiceDate" parent="Lockbox-processedInvoiceDate-parentBean" />
 
@@ -213,8 +195,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="processedInvoiceDate" />
-    <property name="description" value="processedInvoiceDate description..." />
   </bean>
   <bean id="Lockbox-scannedInvoiceDate" parent="Lockbox-scannedInvoiceDate-parentBean" />
 
@@ -231,8 +211,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="scannedInvoiceDate" />
-    <property name="description" value="scannedInvoiceDate description..." />
   </bean>
 
   <bean id="Lockbox-bankCode" parent="Lockbox-bankCode-parentBean" />

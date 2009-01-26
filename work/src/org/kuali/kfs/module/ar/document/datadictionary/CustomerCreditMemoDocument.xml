@@ -48,8 +48,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Special Processing Instructions" />
   </bean>
   
   <bean id="CustomerCreditMemoDocument-crmTotalItemAmount" parent="CustomerCreditMemoDocument-crmTotalItemAmount-parentBean" />
@@ -90,8 +88,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Special Processing Instructions" />
   </bean> 
   
 <!-- Start - Workflow Attribute Beans -->  

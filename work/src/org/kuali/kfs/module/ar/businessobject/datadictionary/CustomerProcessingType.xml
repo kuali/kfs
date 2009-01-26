@@ -38,8 +38,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="active" />
-    <property name="description" value="active description..." />
   </bean>
   <bean id="CustomerProcessingType-customerSpecialProcessingCode" parent="CustomerProcessingType-customerSpecialProcessingCode-parentBean" />
 
@@ -56,8 +54,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="customerSpecialProcessingCode" />
-    <property name="description" value="customerSpecialProcessingCode description..." />
   </bean>
   <bean id="CustomerProcessingType-customerSpecialProcessingDescription" parent="CustomerProcessingType-customerSpecialProcessingDescription-parentBean" />
 
@@ -74,8 +70,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="customerSpecialProcessingDescription" />
-    <property name="description" value="customerSpecialProcessingDescription description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -43,8 +43,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   <bean id="NonInvoicedDistributionMove-financialDocumentLineAmount" parent="NonInvoicedDistributionMove-financialDocumentLineAmount-parentBean" />
 
@@ -61,8 +59,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentLineAmount" />
-    <property name="description" value="financialDocumentLineAmount description..." />
   </bean>
   <bean id="NonInvoicedDistributionMove-financialDocumentLineNumber" parent="NonInvoicedDistributionMove-financialDocumentLineNumber-parentBean" />
 
@@ -79,8 +75,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="financialDocumentLineNumber" />
-    <property name="description" value="financialDocumentLineNumber description..." />
   </bean>
   <bean id="NonInvoicedDistributionMove-referenceFinancialDocumentNumber" parent="NonInvoicedDistributionMove-referenceFinancialDocumentNumber-parentBean" />
 
@@ -97,8 +91,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="referenceFinancialDocumentNumber" />
-    <property name="description" value="referenceFinancialDocumentNumber description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

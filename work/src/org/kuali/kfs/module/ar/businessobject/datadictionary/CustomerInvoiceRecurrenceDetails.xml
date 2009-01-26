@@ -88,8 +88,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="customerNumber" />
-    <property name="description" value="customerNumber description..." />
   </bean>
   <bean id="CustomerInvoiceRecurrenceDetails-documentRecurrenceBeginDate" parent="CustomerInvoiceRecurrenceDetails-documentRecurrenceBeginDate-parentBean" />
 
@@ -99,8 +97,6 @@
     <property name="label" value="Recurrence Begin Date" />
     <property name="shortLabel" value="BegDate" />
     <property name="maxLength" value="10" />
-    <property name="summary" value="documentRecurrenceBeginDate" />
-    <property name="description" value="The date when the document recurrence begins" />
   </bean>
   <bean id="CustomerInvoiceRecurrenceDetails-documentRecurrenceEndDate" parent="CustomerInvoiceRecurrenceDetails-documentRecurrenceEndDate-parentBean" />
 
@@ -110,8 +106,6 @@
     <property name="label" value="Recurrence End Date" />
     <property name="shortLabel" value="EndDate" />
     <property name="maxLength" value="10" />
-    <property name="summary" value="documentRecurrenceEndDate" />
-    <property name="description" value="The date when the document recurrence ends" />
   </bean>
   <bean id="CustomerInvoiceRecurrenceDetails-documentTotalRecurrenceNumber" parent="CustomerInvoiceRecurrenceDetails-documentTotalRecurrenceNumber-parentBean" />
 
@@ -128,8 +122,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="documentTotalRecurrenceNumber" />
-    <property name="description" value="Total number of recurrences a document will create" />
   </bean>
   <bean id="CustomerInvoiceRecurrenceDetails-documentRecurrenceIntervalCode" parent="CustomerInvoiceRecurrenceDetails-documentRecurrenceIntervalCode-parentBean" />
 
@@ -147,8 +139,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceRecurrenceIntervalCodeValuesFinder"
             p:includeKeyInLabel="true" />
     </property>
-    <property name="summary" value="documentRecurrenceIntervalCode" />
-    <property name="description" value="The document recurrence interval code defines the frequency of the recurrence." />
   </bean>
   <bean id="CustomerInvoiceRecurrenceDetails-documentInitiatorUserIdentifier" parent="CustomerInvoiceRecurrenceDetails-documentInitiatorUserIdentifier-parentBean" />
 
@@ -161,8 +151,6 @@
       <bean parent="HiddenControlDefinition" />
     </property>
     <property name="displayLabelAttribute" value="documentInitiatorUser.principalName" />
-    <property name="summary" value="documentInitiatorUserIdentifier" />
-    <property name="description" value="The document recurrences will be initiated by this userid." />
   </bean>
   <bean id="CustomerInvoiceRecurrenceDetails-documentInitiatorUserPersonUserIdentifier" parent="CustomerInvoiceRecurrenceDetails-documentInitiatorUserPersonUserIdentifier-parentBean" />
 
@@ -212,8 +200,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="documentLastCreateDate" />
-    <property name="description" value="The date when the last document recurrence was created" />
   </bean>
   <bean id="CustomerInvoiceRecurrenceDetails-active" parent="CustomerInvoiceRecurrenceDetails-active-parentBean" />
 

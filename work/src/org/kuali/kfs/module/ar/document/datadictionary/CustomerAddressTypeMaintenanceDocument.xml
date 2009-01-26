@@ -24,8 +24,6 @@
     </property>
     <property name="label" value="Customer Address Type" />
     <property name="shortLabel" value="CustAddrTyp" />
-    <property name="summary" value="Customer Address Type maintenance document" />
-    <property name="description" value="Document used to create or update Customer Address Type objects" />
     <property name="documentTypeName" value="CustomerAddressTypeMaintenanceDocument" />
     <property name="documentTypeCode" value="CATY" />
     <property name="workflowAttributes">

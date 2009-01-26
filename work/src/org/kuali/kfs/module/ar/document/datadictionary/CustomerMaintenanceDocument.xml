@@ -38,8 +38,6 @@
 
     <property name="label" value="Customer" />
     <property name="shortLabel" value="Customer" />
-    <property name="summary" value="Customer Maintenance Document" />
-    <property name="description" value="Document used to create or update Customer objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.businessobject.Customer" p:parameterName="CUSTOMER" />
     </property>

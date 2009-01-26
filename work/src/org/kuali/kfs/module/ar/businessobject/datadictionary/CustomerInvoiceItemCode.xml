@@ -57,8 +57,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="taxableIndicator" />
-    <property name="description" value="taxableIndicator description..." />
   </bean>  
   
   <bean id="CustomerInvoiceItemCode-chartOfAccountsCode" parent="CustomerInvoiceItemCode-chartOfAccountsCode-parentBean" />
@@ -77,8 +75,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-defaultInvoiceAccountNumber" parent="CustomerInvoiceItemCode-defaultInvoiceAccountNumber-parentBean" />
 
@@ -96,8 +92,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="defaultInvoiceAccountNumber" />
-    <property name="description" value="defaultInvoiceAccountNumber description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode" parent="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode-parentBean" />
 
@@ -115,8 +109,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="defaultInvoiceChartOfAccountsCode" />
-    <property name="description" value="defaultInvoiceChartOfAccountsCode description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode" parent="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode-parentBean" />
 
@@ -134,8 +126,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="defaultInvoiceFinancialObjectCode" />
-    <property name="description" value="defaultInvoiceFinancialObjectCode description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode" parent="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode-parentBean" />
 
@@ -152,8 +142,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="defaultInvoiceFinancialSubObjectCode" />
-    <property name="description" value="defaultInvoiceFinancialSubObjectCode description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier" parent="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier-parentBean" />
 
@@ -170,8 +158,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="defaultInvoiceOrganizationReferenceIdentifier" />
-    <property name="description" value="defaultInvoiceOrganizationReferenceIdentifier description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-defaultInvoiceProjectCode" parent="CustomerInvoiceItemCode-defaultInvoiceProjectCode-parentBean" />
 
@@ -188,8 +174,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="defaultInvoiceProjectCode" />
-    <property name="description" value="defaultInvoiceProjectCode description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber" parent="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber-parentBean" />
 
@@ -206,8 +190,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="defaultInvoiceSubAccountNumber" />
-    <property name="description" value="defaultInvoiceSubAccountNumber description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-defaultUnitOfMeasureCode" parent="CustomerInvoiceItemCode-defaultUnitOfMeasureCode-parentBean" />
 
@@ -224,8 +206,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="defaultUnitOfMeasureCode" />
-    <property name="description" value="defaultUnitOfMeasureCode description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-invoiceItemCode" parent="CustomerInvoiceItemCode-invoiceItemCode-parentBean" />
 
@@ -243,8 +223,6 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="invoiceItemCode" />
-    <property name="description" value="invoiceItemCode description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-invoiceItemDescription" parent="CustomerInvoiceItemCode-invoiceItemDescription-parentBean" />
 
@@ -263,8 +241,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="invoiceItemDescription" />
-    <property name="description" value="invoiceItemDescription description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-itemDefaultPrice" parent="CustomerInvoiceItemCode-itemDefaultPrice-parentBean" />
 
@@ -281,8 +257,6 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="itemDefaultPrice" />
-    <property name="description" value="itemDefaultPrice description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-itemDefaultQuantity" parent="CustomerInvoiceItemCode-itemDefaultQuantity-parentBean" />
 
@@ -299,8 +273,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="itemDefaultQuantity" />
-    <property name="description" value="itemDefaultQuantity description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-organizationCode" parent="CustomerInvoiceItemCode-organizationCode-parentBean" />
 
@@ -318,8 +290,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
   </bean>
   <bean id="CustomerInvoiceItemCode-relatedStockNumber" parent="CustomerInvoiceItemCode-relatedStockNumber-parentBean" />
 
@@ -336,8 +306,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="relatedStockNumber" />
-    <property name="description" value="relatedStockNumber description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

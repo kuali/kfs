@@ -51,8 +51,6 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
   </bean>
   <bean id="NonInvoiced-chartOfAccountsCode" parent="NonInvoiced-chartOfAccountsCode-parentBean" />
 
@@ -70,8 +68,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
   </bean>
   <bean id="NonInvoiced-documentNumber" parent="NonInvoiced-documentNumber-parentBean" />
 
@@ -88,8 +84,6 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
   </bean>
   <bean id="NonInvoiced-financialDocumentLineAmount" parent="NonInvoiced-financialDocumentLineAmount-parentBean" />
 
@@ -100,7 +94,6 @@
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
-    <property name="description" value="financialDocumentLineAmount description..." />
   </bean>
   <bean id="NonInvoiced-financialDocumentLineNumber" parent="NonInvoiced-financialDocumentLineNumber-parentBean" />
 
@@ -118,8 +111,6 @@
             p:formattedMaxLength="26"
             p:size="10" />
     </property>
-    <property name="summary" value="financialDocumentLineNumber" />
-    <property name="description" value="financialDocumentLineNumber description..." />
   </bean>
   <bean id="NonInvoiced-financialDocumentOverrideCode" parent="NonInvoiced-financialDocumentOverrideCode-parentBean" />
 
@@ -136,8 +127,6 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="financialDocumentOverrideCode" />
-    <property name="description" value="financialDocumentOverrideCode description..." />
   </bean>
   <bean id="NonInvoiced-financialDocumentPostingYear" parent="NonInvoiced-financialDocumentPostingYear-parentBean" />
 
@@ -154,8 +143,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialDocumentPostingYear" />
-    <property name="description" value="financialDocumentPostingYear description..." />
   </bean>
   <bean id="NonInvoiced-financialObjectCode" parent="NonInvoiced-financialObjectCode-parentBean" />
 
@@ -173,8 +160,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectCode" />
-    <property name="description" value="financialObjectCode description..." />
   </bean>
   <bean id="NonInvoiced-financialSubObjectCode" parent="NonInvoiced-financialSubObjectCode-parentBean" />
 
@@ -191,8 +176,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="financialSubObjectCode" />
-    <property name="description" value="financialSubObjectCode description..." />
   </bean>
   <bean id="NonInvoiced-projectCode" parent="NonInvoiced-projectCode-parentBean" />
 
@@ -209,8 +192,6 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="projectCode" />
-    <property name="description" value="projectCode description..." />
   </bean>
   <bean id="NonInvoiced-subAccountNumber" parent="NonInvoiced-subAccountNumber-parentBean" />
 
@@ -227,8 +208,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

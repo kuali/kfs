@@ -44,8 +44,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="customerPaymentMediumCode" />
-    <property name="description" value="customerPaymentMediumCode description..." />
   </bean>
   <bean id="PaymentMedium-customerPaymentMediumDescription" parent="PaymentMedium-customerPaymentMediumDescription-parentBean" />
 
@@ -64,8 +62,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="customerPaymentMediumDescription" />
-    <property name="description" value="customerPaymentMediumDescription description..." />
   </bean>
   <bean id="PaymentMedium-active" parent="PaymentMedium-active-parentBean" />
 

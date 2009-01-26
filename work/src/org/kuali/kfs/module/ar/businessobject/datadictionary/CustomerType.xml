@@ -44,8 +44,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="customerTypeCode" />
-    <property name="description" value="customerTypeCode description..." />
   </bean>
   <bean id="CustomerType-customerTypeDescription" parent="CustomerType-customerTypeDescription-parentBean" />
 
@@ -63,8 +61,6 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="customerTypeDescription" />
-    <property name="description" value="customerTypeDescription description..." />
   </bean>
   <bean id="CustomerType-active" parent="CustomerType-active-parentBean" />
 

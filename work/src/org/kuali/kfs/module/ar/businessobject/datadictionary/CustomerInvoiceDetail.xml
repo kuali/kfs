@@ -49,13 +49,10 @@
 
   <bean id="CustomerInvoiceDetail-financialObjectCode" parent="CustomerInvoiceDetail-financialObjectCode-parentBean" />
 
-  <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
-  </bean>
+  <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
   <bean id="CustomerInvoiceDetail-accountNumber" parent="CustomerInvoiceDetail-accountNumber-parentBean" />
 
-  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
+  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />
   <bean id="CustomerInvoiceDetail-organizationReferenceId" parent="CustomerInvoiceDetail-organizationReferenceId-parentBean" />
 
   <bean id="CustomerInvoiceDetail-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -72,8 +69,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
   </bean>
   <bean id="CustomerInvoiceDetail-chartOfAccountsCode" parent="CustomerInvoiceDetail-chartOfAccountsCode-parentBean" />
 
@@ -83,7 +78,6 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
   </bean>
   <bean id="CustomerInvoiceDetail-postingYear" parent="CustomerInvoiceDetail-postingYear-parentBean" />
 
@@ -96,7 +90,6 @@
   <bean id="CustomerInvoiceDetail-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="false" />
-    <property name="description" value="The total dollar amount of check or batch of checks." />
   </bean>
   
 <!-- 
@@ -107,7 +100,6 @@
     <property name="label" value="Balance" />
     <property name="shortLabel" value="Balance" />    
     <property name="required" value="false" />
-    <property name="description" value="Total dollar amount including approved and unapproved payment amounts" />
   </bean>
  -->
   
@@ -118,7 +110,6 @@
     <property name="label" value="Open Amount" />
     <property name="shortLabel" value="Open Amount" />    
     <property name="required" value="false" />
-    <property name="description" value="Total dollar amount including only approved payment amounts" />
   </bean>    
   
   <bean id="CustomerInvoiceDetail-writeoffAmount" parent="CustomerInvoiceDetail-writeoffAmount-parentBean" />
@@ -128,7 +119,6 @@
     <property name="label" value="Writeoff Amount" />
     <property name="shortLabel" value="Writeoff Amount" />    
     <property name="required" value="false" />
-    <property name="description" value="Total dollar amount that has been writen off amounts" />
   </bean>    
     
   
@@ -138,7 +128,6 @@
     <property name="label" value="Sub-Account Code" />
     <property name="required" value="false" />
     <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
   </bean>
   <bean id="CustomerInvoiceDetail-projectCode" parent="CustomerInvoiceDetail-projectCode-parentBean" />
 
@@ -146,13 +135,11 @@
     <property name="name" value="projectCode" />
     <property name="required" value="false" />
     <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The title of the project." />
   </bean>
   <bean id="CustomerInvoiceDetail-financialSubObjectCode" parent="CustomerInvoiceDetail-financialSubObjectCode-parentBean" />
 
   <bean id="CustomerInvoiceDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="required" value="false" />
-    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
   </bean>
   <bean id="CustomerInvoiceDetail-documentNumber" parent="CustomerInvoiceDetail-documentNumber-parentBean" />
 
@@ -166,8 +153,6 @@
     <property name="label" value="Accounts Receivable Object Code" />
     <property name="shortLabel" value="AR Object Code" />
     <property name="required" value="false" />
-    <property name="summary" value="accountsReceivableObjectCode" />
-    <property name="description" value="accountsReceivableObjectCode description..." />
   </bean>
   <bean id="CustomerInvoiceDetail-accountsReceivableSubObjectCode" parent="CustomerInvoiceDetail-accountsReceivableSubObjectCode-parentBean" />
 
@@ -176,8 +161,6 @@
     <property name="label" value="Accounts Receivable Sub Object Code" />
     <property name="shortLabel" value="AR Sub-Object Code" />
     <property name="required" value="false" />
-    <property name="summary" value="accountsReceivableSubObjectCode" />
-    <property name="description" value="accountsReceivableSubObjectCode description..." />
   </bean>
   <bean id="CustomerInvoiceDetail-invoiceItemCode" parent="CustomerInvoiceDetail-invoiceItemCode-parentBean" />
 
@@ -194,8 +177,6 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="invoiceItemCode" />
-    <property name="description" value="invoiceItemCode description..." />
   </bean>
   <bean id="CustomerInvoiceDetail-invoiceItemDescription" parent="CustomerInvoiceDetail-invoiceItemDescription-parentBean" />
 
@@ -213,8 +194,6 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="invoiceItemDescription" />
-    <property name="description" value="invoiceItemDescription description..." />
   </bean>
   <bean id="CustomerInvoiceDetail-invoiceItemQuantity" parent="CustomerInvoiceDetail-invoiceItemQuantity-parentBean" />
 
@@ -232,8 +211,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="invoiceItemQuantity" />
-    <property name="description" value="invoiceItemQuantity description..." />
   </bean>
   <bean id="CustomerInvoiceDetail-invoiceItemServiceDate" parent="CustomerInvoiceDetail-invoiceItemServiceDate-parentBean" />
 
@@ -242,7 +219,6 @@
     <property name="label" value="Invoice Item Service Date" />
     <property name="shortLabel" value="Service Date" />
     <property name="required" value="false" />
-    <property name="description" value="The date that this invoice was billed" />
   </bean>
   <bean id="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode" parent="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode-parentBean" />
 
@@ -259,8 +235,6 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="invoiceItemUnitOfMeasureCode" />
-    <property name="description" value="invoiceItemUnitOfMeasureCode description..." />
   </bean>
   <bean id="CustomerInvoiceDetail-invoiceItemUnitPrice" parent="CustomerInvoiceDetail-invoiceItemUnitPrice-parentBean" />
 
@@ -290,7 +264,6 @@
     <property name="label" value="Tax Amount" />
     <property name="shortLabel" value="Tax Amount" />
     <property name="required" value="true" />
-    <property name="description" value="The salesTax amount" />
   </bean>
   <bean id="CustomerInvoiceDetail-taxableIndicator" parent="CustomerInvoiceDetail-taxableIndicator-parentBean" />
 
@@ -303,8 +276,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="Tax indicator" />
-    <property name="description" value="Tax indicator" />
   </bean>
   
   <!-- 
@@ -314,7 +285,6 @@
     <property name="name" value="appliedAmount" />
     <property name="label" value="Applied Amount" />
     <property name="shortLabel" value="Applied Amnt" />
-    <property name="description" value="The applied amount." />
   </bean>
 
    -->
@@ -323,7 +293,6 @@
     <property name="name" value="amountApplied" />
     <property name="label" value="Amount Applied" />
     <property name="shortLabel" value="Amount Applied" />
-    <property name="description" value="The amount applied." />
   </bean>
   
   <bean id="CustomerInvoiceDetail-sequenceNumber" parent="CustomerInvoiceDetail-sequenceNumber-parentBean" />
@@ -332,6 +301,5 @@
     <property name="name" value="sequenceNumber" />
     <property name="label" value="Item Number" />
     <property name="shortLabel" value="Item Nbr" />
-    <property name="description" value="The item number." />
   </bean>
 </beans>

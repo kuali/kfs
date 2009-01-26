@@ -24,8 +24,6 @@
     </property>
     <property name="label" value="Payment Medium" />
     <property name="shortLabel" value="PayMedium" />
-    <property name="summary" value="Payment Medium maintenance document" />
-    <property name="description" value="Document used to create or update Payment Medium objects" />
     <property name="documentTypeName" value="PaymentMediumMaintenanceDocument" />
     <property name="documentTypeCode" value="PMED" />
     <property name="workflowAttributes">

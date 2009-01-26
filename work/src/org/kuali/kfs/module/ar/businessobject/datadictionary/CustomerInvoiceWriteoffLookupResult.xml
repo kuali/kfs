@@ -49,6 +49,8 @@
   <bean id="CustomerInvoiceWriteoffLookupResult-customerNote" parent="CustomerInvoiceWriteoffLookupResult-customerNote-parentBean" />
 
   <bean id="CustomerInvoiceWriteoffLookupResult-customerNote-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerNote" />
+    <property name="label" value="Note" />
     <property name="forceUppercase" value="false" />
     <property name="shortLabel" value="Note" />
     <property name="maxLength" value="800" />
@@ -62,10 +64,6 @@
             p:cols="50"
             p:rows="3" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="name" value="customerNote" />
-    <property name="label" value="Note" />
-    <property name="description" value="A free-form text field for the text of the Customer Note." />
   </bean>  
   
   <bean id="CustomerInvoiceWriteoffLookupResult-customerTotal" parent="CustomerInvoiceWriteoffLookupResult-customerTotal-parentBean" />
@@ -74,8 +72,6 @@
     <property name="name" value="customerTotal" />
     <property name="label" value="Customer Total" />
     <property name="shortLabel" value="Customer Total" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Customer Total" />
   </bean>  
   
   <bean id="CustomerInvoiceWriteoffLookupResult-collectionStatus" parent="CustomerInvoiceWriteoffLookupResult-collectionStatus-parentBean" />
@@ -85,7 +81,6 @@
     <property name="label" value="Collection Status" />
     <property name="shortLabel" value="Collection Status" />
     <property name="maxLength" value="25" />
-    <property name="description" value="Status of Customer" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="25" />

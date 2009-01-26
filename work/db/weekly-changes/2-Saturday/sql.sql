@@ -7,10 +7,3 @@ update krim_role_mbr_attr_data_t set kim_attr_defn_id = '31', attr_val = '1*' wh
 /
 update krim_role_mbr_attr_data_t set kim_attr_defn_id = '31', attr_val = '112*' where attr_data_id = '2957'
 /
-
-ALTER TABLE KREW_DOC_TYP_T ADD HELP_DEF_URL VARCHAR2(255) 
-/ 
-ALTER TABLE KREW_DOC_TYP_T DROP COLUMN DOC_TYP_SUM 
-/ 
-ALTER TABLE KREW_DOC_TYP_T DROP COLUMN SHRT_LBL 
-/ 

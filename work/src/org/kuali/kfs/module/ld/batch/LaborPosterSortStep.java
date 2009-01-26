@@ -18,8 +18,10 @@ package org.kuali.kfs.module.ld.batch;
 import java.util.Comparator;
 import java.util.Date;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.BatchSortUtil;
 import org.kuali.kfs.gl.exception.LoadException;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -42,8 +44,11 @@ public class LaborPosterSortStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
+        String inputFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE;
+        String outputFile = batchFileDirectoryName+ LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.POSTER_INPUT_FILE; 
 
-        BatchSortUtil.sortTextFileWithFields(batchFileDirectoryName+"/scrbout2", batchFileDirectoryName+"/sortpost", new LaborPosterSortComparator());
+
+        BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new LaborPosterSortComparator());
 
 
         stopWatch.stop();

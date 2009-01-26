@@ -20,9 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -55,13 +57,27 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
             currentUser.set(user);
         }
         AnchorHtmlData urlDataCopy = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-        if (theAccount.isActive() || org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), SpringContext.getBean(org.kuali.kfs.sys.service.ParameterService.class).getParameterValue(org.kuali.kfs.sys.service.impl.ParameterConstants.CHART_DOCUMENT.class, org.kuali.kfs.sys.KFSConstants.MAINTENANCE_ADMIN_WORKGROUP_PARM_NM))) {
+
+        if (theAccount.isActive()) {
             anchorHtmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         else {
-            urlDataCopy.setPrependDisplayText("&nbsp;&nbsp;&nbsp;&nbsp;");
+            String principalId = user.getPrincipalId();
+            String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+            String permissionName = KFSConstants.PermissionName.EDIT_INACTIVE_ACCOUNT.name;
+
+            IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+            Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+
+            if (isAuthorized) {
+                anchorHtmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+            }
+            else {
+                urlDataCopy.setPrependDisplayText("&nbsp;&nbsp;&nbsp;&nbsp;");
+            }
         }
         anchorHtmlDataList.add(urlDataCopy);
+
         return anchorHtmlDataList;
     }
 
@@ -75,7 +91,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
         if (parameters.containsKey(KFSPropertyConstants.CLOSED)) {
             final String closedValue = parameters.get(KFSPropertyConstants.CLOSED);
 
-            if (closedValue!= null && closedValue.length() != 0) {
+            if (closedValue != null && closedValue.length() != 0) {
                 if ("Y1T".indexOf(closedValue) > -1) {
                     parameters.put(KFSPropertyConstants.ACTIVE, "N");
                 }
@@ -91,4 +107,3 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
 
 
 }
-

@@ -1248,7 +1248,16 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         private PermissionTemplate(String name) {
             this.name = name;
         }
-    }    
+    }
+    
+    public enum PermissionName{
+        EDIT_INACTIVE_ACCOUNT("Edit Inactive Account");
+
+        public final String name;
+        private PermissionName(String name) {
+            this.name = name;
+        }
+    }
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";
 

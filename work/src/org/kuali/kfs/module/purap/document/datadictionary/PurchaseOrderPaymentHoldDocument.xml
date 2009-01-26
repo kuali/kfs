@@ -22,8 +22,8 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderPaymentHoldDocumentPresentationController" />
     <property name="documentTypeCode" value="POPH" />
-    <property name="workflowProperties" >
-      <ref bean="PurchaseOrderPaymentHoldDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="PurchaseOrderPaymentHoldDocument-workflowAttributes" />
     </property>
     <property name="accountingLineGroups">
     	<map>
@@ -35,33 +35,10 @@
     </property>    
   </bean>
 
-<!-- Exported Workflow Properties -->
+    <!-- workflow attributes -->
+    <bean id="PurchaseOrderPaymentHoldDocument-workflowAttributes" parent="PurchaseOrderPaymentHoldDocument-workflowAttributes-parentBean" />
+  
+    <bean id="PurchaseOrderPaymentHoldDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    </bean>
 
-
-  <bean id="PurchaseOrderPaymentHoldDocument-workflowProperties" parent="PurchaseOrderPaymentHoldDocument-workflowProperties-parentBean" />
-
-  <bean id="PurchaseOrderPaymentHoldDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="status" />
-              <bean parent="WorkflowProperty"
-                    p:path="contractManager" />
-              <bean parent="WorkflowProperty"
-                    p:path="vendorContract" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
 </beans>

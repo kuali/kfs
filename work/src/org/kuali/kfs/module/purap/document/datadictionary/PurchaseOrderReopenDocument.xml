@@ -22,8 +22,8 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderReopenDocumentPresentationController" />
     <property name="documentTypeCode" value="POR" />
-    <property name="workflowProperties" >
-      <ref bean="PurchaseOrderReopenDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="PurchaseOrderReopenDocument-workflowAttributes" />
     </property>
     <property name="accountingLineGroups">
     	<map>
@@ -34,36 +34,6 @@
     	</map>
     </property>
     <property name="validationMap" ref="PurchaseOrderReopenDocument-validations" />
-  </bean>
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="PurchaseOrderReopenDocument-workflowProperties" parent="PurchaseOrderReopenDocument-workflowProperties-parentBean" />
-
-  <bean id="PurchaseOrderReopenDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="status" />
-              <bean parent="WorkflowProperty"
-                    p:path="contractManager" />
-              <bean parent="WorkflowProperty"
-                    p:path="vendorContract" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
 
 	<bean id="PurchaseOrderReopenDocument-validations" parent="PurchaseOrderReopenDocument-validations-parentBean" />
@@ -106,5 +76,11 @@
 		    </map>
 	    </property>	  
 	   </bean>
+
+    <!-- workflow attributes -->
+    <bean id="PurchaseOrderReopenDocument-workflowAttributes" parent="PurchaseOrderReopenDocument-workflowAttributes-parentBean" />
   
+    <bean id="PurchaseOrderReopenDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    </bean>
+      
 </beans>

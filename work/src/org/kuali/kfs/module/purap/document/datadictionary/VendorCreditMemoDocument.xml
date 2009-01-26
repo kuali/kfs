@@ -20,8 +20,8 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.VendorCreditMemoDocumentPresentationController" />
     <property name="documentTypeCode" value="CM" />
      <property name="sessionDocument" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="VendorCreditMemoDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="VendorCreditMemoDocument-workflowAttributes" />
     </property>
     <property name="accountingLineGroups">
     	<map>
@@ -453,32 +453,6 @@
   <bean id="VendorCreditMemoDocument-bankCode" parent="VendorCreditMemoDocument-bankCode-parentBean" />
   
   <bean id="VendorCreditMemoDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="VendorCreditMemoDocument-workflowProperties" parent="VendorCreditMemoDocument-workflowProperties-parentBean" />
-
-  <bean id="VendorCreditMemoDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="status" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
   
   <!-- Credit Memo accountingInformation -->
     <bean id="creditMemoAccountingInformation" parent="creditMemoAccountingInformation-parent" />
@@ -624,4 +598,10 @@
 		</property>
 	</bean>  
       
+    <!-- workflow attributes -->
+    <bean id="VendorCreditMemoDocument-workflowAttributes" parent="VendorCreditMemoDocument-workflowAttributes-parentBean" />
+  
+    <bean id="VendorCreditMemoDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    </bean>
+            
 </beans>

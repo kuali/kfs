@@ -22,8 +22,8 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRemoveHoldDocumentPresentationController" />
     <property name="documentTypeCode" value="PORH" />
-    <property name="workflowProperties" >
-      <ref bean="PurchaseOrderRemoveHoldDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="PurchaseOrderRemoveHoldDocument-workflowAttributes" />
     </property>
     <property name="accountingLineGroups">
     	<map>
@@ -35,33 +35,10 @@
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="PurchaseOrderRemoveHoldDocument-workflowProperties" parent="PurchaseOrderRemoveHoldDocument-workflowProperties-parentBean" />
-
-  <bean id="PurchaseOrderRemoveHoldDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="status" />
-              <bean parent="WorkflowProperty"
-                    p:path="contractManager" />
-              <bean parent="WorkflowProperty"
-                    p:path="vendorContract" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+    <!-- workflow attributes -->
+    <bean id="PurchaseOrderRemoveHoldDocument-workflowAttributes" parent="PurchaseOrderRemoveHoldDocument-workflowAttributes-parentBean" />
+  
+    <bean id="PurchaseOrderRemoveHoldDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    </bean>
+    
 </beans>

@@ -17,8 +17,8 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceRejectDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="EIRT" />
-    <property name="workflowProperties" >
-      <ref bean="ElectronicInvoiceRejectDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="ElectronicInvoiceRejectDocument-workflowAttributes" />
     </property>
     <property name="attributes" >
       <list>
@@ -1488,28 +1488,11 @@
     </property>
   </bean>
 
-
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="ElectronicInvoiceRejectDocument-workflowProperties" parent="ElectronicInvoiceRejectDocument-workflowProperties-parentBean" />
-
-  <bean id="ElectronicInvoiceRejectDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="invoiceRejectReasons" />
-              <bean parent="WorkflowProperty"
-                    p:path="invoiceRejectReasons.invoiceRejectReasonDescription" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+  <!-- workflow attributes -->
+  <bean id="ElectronicInvoiceRejectDocument-workflowAttributes" parent="ElectronicInvoiceRejectDocument-workflowAttributes-parentBean" />
+  
+  <bean id="ElectronicInvoiceRejectDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
+
+
   </beans>

@@ -19,8 +19,8 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.ContractManagerAssignmentDocumentPresentationController" />
     <property name="documentTypeCode" value="ACM" />
     <property name="sessionDocument" value="true" />
-    <property name="workflowProperties" >
-      <ref bean="ContractManagerAssignmentDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="ContractManagerAssignmentDocument-workflowAttributes" />
     </property>
     <property name="attributes" >
       <list>
@@ -157,23 +157,10 @@
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="ContractManagerAssignmentDocument-workflowProperties" parent="ContractManagerAssignmentDocument-workflowProperties-parentBean" />
-
-  <bean id="ContractManagerAssignmentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+  <!-- workflow attributes -->
+  <bean id="ContractManagerAssignmentDocument-workflowAttributes" parent="ContractManagerAssignmentDocument-workflowAttributes-parentBean" />
+  
+  <bean id="ContractManagerAssignmentDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
+
 </beans>

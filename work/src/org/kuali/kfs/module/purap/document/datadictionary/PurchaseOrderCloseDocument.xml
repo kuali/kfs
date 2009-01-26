@@ -22,8 +22,8 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderCloseDocumentPresentationController" />
     <property name="documentTypeCode" value="POC" />
-    <property name="workflowProperties" >
-      <ref bean="PurchaseOrderCloseDocument-workflowProperties" />
+    <property name="workflowAttributes">
+    	<ref bean="PurchaseOrderCloseDocument-workflowAttributes" />
     </property>
     <property name="accountingLineGroups">
     	<map>
@@ -36,35 +36,6 @@
     <property name="validationMap" ref="PurchaseOrderCloseDocument-validations" />
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="PurchaseOrderCloseDocument-workflowProperties" parent="PurchaseOrderCloseDocument-workflowProperties-parentBean" />
-
-  <bean id="PurchaseOrderCloseDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
-    <property name="workflowPropertyGroups" >
-      <list>
-        <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
-            <list>
-              <bean parent="WorkflowProperty"
-                    p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting" />
-              <bean parent="WorkflowProperty"
-                    p:path="accountsForRouting.account" />
-              <bean parent="WorkflowProperty"
-                    p:path="status" />
-              <bean parent="WorkflowProperty"
-                    p:path="contractManager" />
-              <bean parent="WorkflowProperty"
-                    p:path="vendorContract" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
   
 	<bean id="PurchaseOrderCloseDocument-validations" parent="PurchaseOrderCloseDocument-validations-parentBean" />
   
@@ -106,5 +77,12 @@
 		    </map>
 	    </property>	  
     </bean>
+  
+    <!-- workflow attributes -->
+    <bean id="PurchaseOrderCloseDocument-workflowAttributes" parent="PurchaseOrderCloseDocument-workflowAttributes-parentBean" />
+  
+    <bean id="PurchaseOrderCloseDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    </bean>
+
   
 </beans>

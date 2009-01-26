@@ -219,7 +219,7 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
-        <property name="batchFileDirectoryName" value="${staging.directory}"/>
+        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>
 
 	<bean id="laborScrubberService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborScrubberServiceImpl">
@@ -259,7 +259,7 @@
 		<property name="scrubberValidator">
 			<ref bean="laborScrubberValidator" />
 		</property>
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 	
     <bean id="laborScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl">
@@ -338,7 +338,7 @@
         <property name="laborGLLedgerEntryPoster">
             <ref bean="laborGLLedgerEntryPoster" />
         </property>
-        <property name="batchFileDirectoryName" value="${staging.directory}"/>
+        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>
     
     <bean id="laborBalanceSummaryReportService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalanceSummaryReportServiceImpl">
@@ -534,19 +534,19 @@
 	</bean>
 	
 	<bean id="laborScrubberSortStep" class="org.kuali.kfs.module.ld.batch.LaborScrubberSortStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 	
 	<bean id="laborDemergerSortStep" class="org.kuali.kfs.module.ld.batch.LaborDemergerSortStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 	
 	<bean id="laborPosterSortStep" class="org.kuali.kfs.module.ld.batch.LaborPosterSortStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 	
 	<bean id="laborFileRenameStep" class="org.kuali.kfs.module.ld.batch.LaborFileRenameStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 	
 	<bean id="laborPosterJob" parent="scheduledJobDescriptor">

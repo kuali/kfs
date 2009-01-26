@@ -615,7 +615,7 @@
 		<property name="originEntryLiteService">
 			<ref bean="originEntryLiteService" />
 		</property>
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 
 	<bean id="scrubberValidator" class="org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl">
@@ -756,7 +756,7 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
 		</property>
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="cachingDao">
 		  	<ref bean="cachingDao" />
 		</property>
@@ -873,7 +873,7 @@
 		<property name="reportService">
 			<ref bean="reportService" />
 		</property>
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 
 	<bean id="glCollectorDetailService" class="org.kuali.kfs.gl.service.impl.CollectorDetailServiceImpl">
@@ -1403,35 +1403,20 @@
 	</bean>
 	
 	<bean id="scrubberSortStep" class="org.kuali.kfs.gl.batch.ScrubberSortStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
 	<bean id="demergerSortStep" class="org.kuali.kfs.gl.batch.DemergerSortStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 
 	<bean id="posterSortStep" class="org.kuali.kfs.gl.batch.PosterSortStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
-	
-	
-	
-	
-	
-	
-	
 	
 	<bean id="fileRenameStep" class="org.kuali.kfs.gl.batch.FileRenameStep" parent="step">
-		<property name="batchFileDirectoryName" value="${staging.directory}"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	<bean id="scrubberStep" class="org.kuali.kfs.gl.batch.ScrubberStep" parent="step">
 		<property name="scrubberService">

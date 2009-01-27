@@ -147,7 +147,7 @@
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup" parent="JournalVoucherDocument-sourceAccountingLineGroup-parentBean" />  
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="Voucher-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine" />
 	  <property name="groupLabel" value="Source" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
@@ -158,7 +158,7 @@
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="JournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" />  
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="Voucher-accountingLineView-withExtEncumbrance" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine" />
 	  <property name="groupLabel" value="Source" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
@@ -169,7 +169,7 @@
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit-parentBean" />  
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="Voucher-accountingLineView-withDebitCredit" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine" />
 	  <property name="groupLabel" value="Source" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
@@ -180,7 +180,7 @@
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" />  
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="Voucher-accountingLineView-withDebitCreditExtEncumbrance" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine" />
 	  <property name="groupLabel" value="Source" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />

@@ -504,6 +504,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="processingOrganizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="lockboxNumber" /> 	  
+        <bean parent="FieldDefinition"
+              p:attributeName="active" /> 	  
       </list>
     </property>
     <property name="resultFields" >
@@ -518,6 +520,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="processingOrganizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="lockboxNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" /> 	  
       </list>
     </property>
   </bean>

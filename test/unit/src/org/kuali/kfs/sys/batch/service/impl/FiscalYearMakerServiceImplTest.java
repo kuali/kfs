@@ -70,7 +70,7 @@ public class FiscalYearMakerServiceImplTest extends KualiTestBase {
      * Tests the default fiscal year maker implementation getFiscalYearMakerHelpersInCopyOrder method with a valid setup
      * (parent-child configuration)
      */
-    protected final void testGetFiscalYearMakerHelpersInCopyOrder() throws Exception {
+    public final void testGetFiscalYearMakerHelpersInCopyOrder() throws Exception {
         // get the fym list in copy order
         List<FiscalYearMaker> fiscalYearMakersCopyOrder = fiscalYearMakerService.getFiscalYearMakerHelpersInCopyOrder();
 
@@ -179,7 +179,7 @@ public class FiscalYearMakerServiceImplTest extends KualiTestBase {
      * Helper method to call getFiscalYearMakerHelpersInCopyOrder and verify an exception was thrown. Service should be setup with
      * maker list that has a circular reference
      */
-    protected final void testCircular() throws Exception {
+    public final void testCircular() throws Exception {
         // call getFiscalYearMakerHelpersInCopyOrder which will validate the setup and should throw exception
         boolean failedAsExpected = false;
         try {

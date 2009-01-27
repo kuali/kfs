@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
-import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 
 
@@ -32,8 +31,6 @@ public interface ResearchDocument extends FinancialSystemTransactionalDocument {
     public List<AdhocPerson> getAdhocPersons();
 
     public List<AdhocOrg> getAdhocOrgs();
-
-    public List<AdhocWorkgroup> getAdhocWorkgroups();
 
     public String buildAdhocOrgReportXml(String permissionTypeCode, boolean encloseContent);
 }

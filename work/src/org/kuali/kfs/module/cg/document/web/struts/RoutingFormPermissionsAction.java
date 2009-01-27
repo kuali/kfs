@@ -36,13 +36,11 @@ public class RoutingFormPermissionsAction extends RoutingFormAction {
 
         List adhocPersons = routingForm.getRoutingFormDocument().getAdhocPersons();
         List adhocOrgs = routingForm.getRoutingFormDocument().getAdhocOrgs();
-        List adhocWorkgroups = routingForm.getRoutingFormDocument().getAdhocWorkgroups();
 
         this.load(mapping, routingForm, request, response);
 
         routingForm.getRoutingFormDocument().setAdhocPersons(adhocPersons);
         routingForm.getRoutingFormDocument().setAdhocOrgs(adhocOrgs);
-        routingForm.getRoutingFormDocument().setAdhocWorkgroups(adhocWorkgroups);
 
         ActionForward forward = super.save(mapping, routingForm, request, response);
 

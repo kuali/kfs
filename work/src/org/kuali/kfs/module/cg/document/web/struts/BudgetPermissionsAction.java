@@ -41,13 +41,11 @@ public class BudgetPermissionsAction extends BudgetAction {
 
         List adhocPermissions = budgetForm.getBudgetDocument().getAdhocPersons();
         List adhocOrgs = budgetForm.getBudgetDocument().getAdhocOrgs();
-        List adhocWorkgroups = budgetForm.getBudgetDocument().getAdhocWorkgroups();
 
         this.load(mapping, budgetForm, request, response);
 
         budgetForm.getBudgetDocument().setAdhocPersons(adhocPermissions);
         budgetForm.getBudgetDocument().setAdhocOrgs(adhocOrgs);
-        budgetForm.getBudgetDocument().setAdhocWorkgroups(adhocWorkgroups);
 
         ActionForward forward = super.save(mapping, budgetForm, request, response);
 

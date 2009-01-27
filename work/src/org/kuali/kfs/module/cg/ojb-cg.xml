@@ -778,10 +778,6 @@
     <collection-descriptor name="adhocOrgs" proxy="true" element-class-ref="org.kuali.kfs.module.cg.businessobject.AdhocOrg" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    
-    <collection-descriptor name="adhocWorkgroups" proxy="true" element-class-ref="org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor>
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
@@ -863,18 +859,6 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="permissionCode" column="ORG_PRMSN_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="addedByPerson" column="PRSN_ADD_BY_UNVL_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="personAddedTimestamp" column="PRSN_ADD_TS" jdbc-type="TIMESTAMP" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup" table="ER_ADHOC_WKGRP_T">
-    <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="actionRequested" column="ACTN_RQST_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="adhocTypeCode" column="ADHOC_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="workgroupName" column="WKGRP_ID" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="permissionCode" column="WKGRP_PRMSN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="addedByPerson" column="PRSN_ADD_BY_UNVL_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="personAddedTimestamp" column="PRSN_ADD_TS" jdbc-type="TIMESTAMP" />
 </class-descriptor>
@@ -1283,10 +1267,6 @@
     </collection-descriptor>
     
     <collection-descriptor name="adhocOrgs" proxy="true" element-class-ref="org.kuali.kfs.module.cg.businessobject.AdhocOrg" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor>
-    
-    <collection-descriptor name="adhocWorkgroups" proxy="true" element-class-ref="org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>

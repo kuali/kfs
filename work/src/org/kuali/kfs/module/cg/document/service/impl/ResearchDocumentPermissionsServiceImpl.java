@@ -23,10 +23,8 @@ import java.util.Map;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
-import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
@@ -47,23 +45,6 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
      */
     public AdhocPerson getAdHocPerson(String documentNumber, String principalId) {
         return (AdhocPerson) businessObjectService.retrieve(new AdhocPerson(documentNumber, principalId));
-    }
-
-    /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAdHocWorkgroup(String documentNumber, String
-     *      workgroupName)
-     */
-    public AdhocWorkgroup getAdHocWorkgroup(String documentNumber, String workgroupName) {
-        return (AdhocWorkgroup) businessObjectService.retrieve(new AdhocWorkgroup(documentNumber, workgroupName));
-    }
-
-    /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAssAdHocWorkgroups(String documentNumber)
-     */
-    public List<AdhocWorkgroup> getAllAdHocWorkgroups(String documentNumber) {
-        Map fieldValues = new HashMap();
-        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        return new ArrayList(businessObjectService.findMatching(AdhocWorkgroup.class, fieldValues));
     }
 
     /**

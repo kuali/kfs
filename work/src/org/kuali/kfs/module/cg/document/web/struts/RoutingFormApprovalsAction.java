@@ -130,12 +130,6 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
     }
 
     @Override
-    public ActionForward deleteWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        cacheAndLoad(mapping, form, request, response);
-        return super.deleteWorkgroup(mapping, form, request, response);
-    }
-
-    @Override
     public ActionForward addOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         cacheAndLoad(mapping, form, request, response);
         return super.addOrg(mapping, form, request, response);
@@ -159,12 +153,10 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
 
         List adhocPersons = routingForm.getRoutingFormDocument().getAdhocPersons();
         List adhocOrgs = routingForm.getRoutingFormDocument().getAdhocOrgs();
-        List adhocWorkgroups = routingForm.getRoutingFormDocument().getAdhocWorkgroups();
 
         this.load(mapping, routingForm, request, response);
 
         routingForm.getRoutingFormDocument().setAdhocPersons(adhocPersons);
         routingForm.getRoutingFormDocument().setAdhocOrgs(adhocOrgs);
-        routingForm.getRoutingFormDocument().setAdhocWorkgroups(adhocWorkgroups);
     }
 }

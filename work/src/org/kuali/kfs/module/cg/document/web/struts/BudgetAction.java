@@ -29,7 +29,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
-import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
@@ -44,7 +43,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -114,7 +112,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         if ((KFSConstants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
             budgetForm.setAdHocRoutePersons(convertToAdHocRoutePersons(budgetForm.getBudgetDocument().getAdhocPersons()));
-            budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getAdhocWorkgroups()));
             return super.route(mapping, form, request, response);
         }
 
@@ -385,18 +382,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
             adHocRoutePersons.add(adHocRoutePerson);
         }
         return adHocRoutePersons;
-    }
-
-    private static List<AdHocRouteWorkgroup> convertToAdHocRouteWorkgroups(List<AdhocWorkgroup> adHocWorkgroups) {
-        List<AdHocRouteWorkgroup> adHocRouteWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
-        for (AdhocWorkgroup adHocWorkgroup : adHocWorkgroups) {
-            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(adHocWorkgroup);
-            AdHocRouteWorkgroup adHocRouteWorkgroup = new AdHocRouteWorkgroup();
-            adHocRouteWorkgroup.setId(adHocWorkgroup.getWorkgroupName());
-            adHocRouteWorkgroup.setActionRequested("F");
-            adHocRouteWorkgroups.add(adHocRouteWorkgroup);
-        }
-        return adHocRouteWorkgroups;
     }
 
     protected static void setupBudgetCostSharePermissionDisplay(BudgetForm budgetForm) {

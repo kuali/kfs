@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
-import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
 
 /**
@@ -35,23 +34,6 @@ public interface ResearchDocumentPermissionsService {
      * @return AdHocPerson
      */
     public AdhocPerson getAdHocPerson(String documentNumber, String principalId);
-
-    /**
-     * Retrieve the AdHocWorkgroup for the given documentNumber and principalId.
-     * 
-     * @param documentNumber
-     * @param workgroupName
-     * @return AdhocWorkgroup
-     */
-    public AdhocWorkgroup getAdHocWorkgroup(String documentNumber, String workgroupName);
-
-    /**
-     * Retrieve the AdHocWorkgroups for the given documentNumber.
-     * 
-     * @param documentNumber
-     * @return AdhocWorkgroup
-     */
-    public List<AdhocWorkgroup> getAllAdHocWorkgroups(String documentNumber);
 
     /**
      * Retrieve the ad-hoc orgs for the given documentNumber and budgetPermissionCode.

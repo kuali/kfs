@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
-import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -42,7 +41,6 @@ public abstract class ResearchDocumentBase extends FinancialSystemTransactionalD
 
     private List<AdhocPerson> adhocPersons;
     private List<AdhocOrg> adhocOrgs;
-    private List<AdhocWorkgroup> adhocWorkgroups;
 
     /**
      * Sets up the collection instances and common document attributes.
@@ -51,7 +49,6 @@ public abstract class ResearchDocumentBase extends FinancialSystemTransactionalD
         super();
         adhocPersons = new ArrayList<AdhocPerson>();
         adhocOrgs = new ArrayList<AdhocOrg>();
-        adhocWorkgroups = new ArrayList<AdhocWorkgroup>();
     }
 
     /**
@@ -126,27 +123,6 @@ public abstract class ResearchDocumentBase extends FinancialSystemTransactionalD
         return this.getAdhocOrgs().get(index);
     }
 
-    public List<AdhocWorkgroup> getAdhocWorkgroups() {
-        return adhocWorkgroups;
-    }
-
-    public void setAdhocWorkgroups(List<AdhocWorkgroup> adhocWorkgroups) {
-        this.adhocWorkgroups = adhocWorkgroups;
-    }
-
-    /**
-     * Gets the AdhocWorkgroup item at given index.
-     * 
-     * @param index
-     * @return AdhocWorkgroup
-     */
-    public AdhocWorkgroup getAdhocWorkgroupItem(int index) {
-        while (this.getAdhocWorkgroups().size() <= index) {
-            this.getAdhocWorkgroups().add(new AdhocWorkgroup());
-        }
-        return this.getAdhocWorkgroups().get(index);
-    }
-
     /**
      * Clears all adhocs of a given type.
      * 
@@ -162,12 +138,6 @@ public abstract class ResearchDocumentBase extends FinancialSystemTransactionalD
         for (Iterator iter = this.adhocOrgs.iterator(); iter.hasNext();) {
             AdhocOrg org = (AdhocOrg) iter.next();
             if (adhocTypeCode.equals(org.getAdhocTypeCode())) {
-                iter.remove();
-            }
-        }
-        for (Iterator iter = this.adhocWorkgroups.iterator(); iter.hasNext();) {
-            AdhocWorkgroup workgroup = (AdhocWorkgroup) iter.next();
-            if (adhocTypeCode.equals(workgroup.getAdhocTypeCode())) {
                 iter.remove();
             }
         }
@@ -188,23 +158,6 @@ public abstract class ResearchDocumentBase extends FinancialSystemTransactionalD
             adHocRoutePersons.add(adHocRoutePerson);
         }
         return adHocRoutePersons;
-    }
-
-    /**
-     * Convert and return this document's adhoc workgroups as KFS-style AdHoc workgroups
-     * 
-     * @return List<AdHocRoutePerson>
-     */
-    public List<AdHocRouteWorkgroup> convertKraAdhocsToAdHocRouteWorkgroups() {
-        List<AdHocRouteWorkgroup> adHocRouteWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
-        for (AdhocWorkgroup kraAdhocWorkgroup : this.adhocWorkgroups) {
-            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(kraAdhocWorkgroup);
-            AdHocRouteWorkgroup adHocRouteWorkgroup = new AdHocRouteWorkgroup();
-            adHocRouteWorkgroup.setId(kraAdhocWorkgroup.getWorkgroupName());
-            adHocRouteWorkgroup.setActionRequested(kraAdhocWorkgroup.getActionRequested());
-            adHocRouteWorkgroups.add(adHocRouteWorkgroup);
-        }
-        return adHocRouteWorkgroups;
     }
 
     /**

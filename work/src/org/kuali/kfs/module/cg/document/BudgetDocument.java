@@ -331,7 +331,6 @@ public class BudgetDocument extends ResearchDocumentBase {
 
         list.add(this.getAdhocPersons());
         list.add(this.getAdhocOrgs());
-        list.add(this.getAdhocWorkgroups());
 
         Budget budget = this.getBudget();
         list.add(budget.getNonpersonnelItems());

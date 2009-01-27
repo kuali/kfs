@@ -29,20 +29,16 @@ import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
-import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.AuthenticationService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.AddAdHocRoutePersonEvent;
-import org.kuali.rice.kns.rule.event.AddAdHocRouteWorkgroupEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
@@ -156,41 +152,6 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    @Override
-    public ActionForward insertAdHocRouteWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
-        ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
-
-        // check authorization
-        Map documentActions = researchForm.getDocumentActions();       
-        if (!documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
-            throw buildAuthorizationException("ad-hoc route", researchDocument);
-        }
-
-        AdHocRouteWorkgroup adHocRouteWorkgroup = (AdHocRouteWorkgroup) researchForm.getNewAdHocRouteWorkgroup();
-
-        // check business rules
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAdHocRouteWorkgroupEvent(researchDocument, (AdHocRouteWorkgroup) researchForm.getNewAdHocRouteWorkgroup()));
-
-        if (rulePassed) {
-            AdhocWorkgroup newAdHocWorkgroup = new AdhocWorkgroup(adHocRouteWorkgroup.getId());
-            if (adHocRouteWorkgroup.getActionRequested() == null) {
-                newAdHocWorkgroup.setAdhocTypeCode(CGConstants.AD_HOC_PERMISSION);
-            }
-            else {
-                newAdHocWorkgroup.setActionRequested(adHocRouteWorkgroup.getActionRequested());
-                newAdHocWorkgroup.setAdhocTypeCode(CGConstants.AD_HOC_APPROVER);
-            }
-            newAdHocWorkgroup.setPermissionCode(researchForm.getNewAdHocWorkgroupPermissionCode());
-            newAdHocWorkgroup.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
-            newAdHocWorkgroup.setAddedByPerson(SpringContext.getBean(AuthenticationService.class).getPrincipalName(request));
-            researchDocument.getAdhocWorkgroups().add(newAdHocWorkgroup);
-            researchForm.setNewAdHocRouteWorkgroup(new AdHocRouteWorkgroup());
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
     /**
      * This method will remove the selected ad-hoc person from the list.
      * 
@@ -206,25 +167,6 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
         researchDocument.getAdhocPersons().remove(getLineToDelete(request));
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * This method will remove the selected ad-hoc person from the list.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward deleteWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
-        ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
-        researchDocument.getAdhocWorkgroups().remove(getLineToDelete(request));
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

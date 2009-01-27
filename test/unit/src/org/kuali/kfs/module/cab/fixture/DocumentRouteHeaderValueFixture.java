@@ -24,6 +24,8 @@ import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.workflow.service.impl.KualiWorkflowInfoImpl;
@@ -46,8 +48,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Requisition - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("6162502038");
-            obj.setRoutedByUserWorkflowId("6162502038");
+            obj.setInitiatorWorkflowId(principalId("khuntley"));
+            obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677678");
             return obj;
         }
@@ -70,8 +72,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Requisition - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("6162502038");
-            obj.setRoutedByUserWorkflowId("6162502038");
+            obj.setInitiatorWorkflowId(principalId("khuntley"));
+            obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677677");
             return obj;
         }
@@ -94,8 +96,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Contract Manager Assignment - Contract Manager Assigned");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("6162502038");
-            obj.setRoutedByUserWorkflowId("6162502038");
+            obj.setInitiatorWorkflowId(principalId("khuntley"));
+            obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677676");
             return obj;
         }
@@ -118,8 +120,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("6162502038");
-            obj.setRoutedByUserWorkflowId("6162502038");
+            obj.setInitiatorWorkflowId(principalId("khuntley"));
+            obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677675");
             return obj;
         }
@@ -142,8 +144,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("6162502038");
-            obj.setRoutedByUserWorkflowId("6162502038");
+            obj.setInitiatorWorkflowId(principalId("khuntley"));
+            obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677674");
             return obj;
         }
@@ -166,8 +168,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("6162502038");
-            obj.setRoutedByUserWorkflowId("6162502038");
+            obj.setInitiatorWorkflowId(principalId("khuntley"));
+            obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677673");
             return obj;
         }
@@ -190,8 +192,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("2133704704");
-            obj.setRoutedByUserWorkflowId("2133704704");
+            obj.setInitiatorWorkflowId(principalId("appleton"));
+            obj.setRoutedByUserWorkflowId(principalId("appleton"));
             obj.setObjectId("JHBGJHGJKHJS5456677672");
             return obj;
         }
@@ -214,8 +216,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("2133704704");
-            obj.setRoutedByUserWorkflowId("2133704704");
+            obj.setInitiatorWorkflowId(principalId("appleton"));
+            obj.setRoutedByUserWorkflowId(principalId("appleton"));
             obj.setObjectId("JHBGJHGJKHJS5456677671");
             return obj;
         }
@@ -238,8 +240,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("2133704704");
-            obj.setRoutedByUserWorkflowId("2133704704");
+            obj.setInitiatorWorkflowId(principalId("appleton"));
+            obj.setRoutedByUserWorkflowId(principalId("appleton"));
             obj.setObjectId("JHBGJHGJKHJS5456677670");
             return obj;
         }
@@ -262,8 +264,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("2133704704");
-            obj.setRoutedByUserWorkflowId("2133704704");
+            obj.setInitiatorWorkflowId(principalId("appleton"));
+            obj.setRoutedByUserWorkflowId(principalId("appleton"));
             obj.setObjectId("JHBGJHGJKHJS5456677669");
             return obj;
         }
@@ -286,8 +288,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("2133704704");
-            obj.setRoutedByUserWorkflowId("2133704704");
+            obj.setInitiatorWorkflowId(principalId("appleton"));
+            obj.setRoutedByUserWorkflowId(principalId("appleton"));
             obj.setObjectId("JHBGJHGJKHJS5456677668");
             return obj;
         }
@@ -310,8 +312,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("2133704704");
-            obj.setRoutedByUserWorkflowId("2133704704");
+            obj.setInitiatorWorkflowId(principalId("appleton"));
+            obj.setRoutedByUserWorkflowId(principalId("appleton"));
             obj.setObjectId("JHBGJHGJKHJS5456677667");
             return obj;
         }
@@ -334,8 +336,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Credit Memo - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("2133704704");
-            obj.setRoutedByUserWorkflowId("2133704704");
+            obj.setInitiatorWorkflowId(principalId("appleton"));
+            obj.setRoutedByUserWorkflowId(principalId("appleton"));
             obj.setObjectId("JHBGJHGJKHJS5456677666");
             return obj;
         }
@@ -358,8 +360,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Customer Invoice - Customer Invoice");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("6162502038");
-            obj.setRoutedByUserWorkflowId("6162502038");
+            obj.setInitiatorWorkflowId(principalId("khuntley"));
+            obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677665");
             return obj;
         }
@@ -381,8 +383,8 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocTitle("Customer Invoice - Customer Invoice");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
-            obj.setInitiatorWorkflowId("6162502038");
-            obj.setRoutedByUserWorkflowId("6162502038");
+            obj.setInitiatorWorkflowId(principalId("khuntley"));
+            obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677664");
             return obj;
         }
@@ -395,6 +397,18 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentTypeDTO docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(documentTypeName);
             if (docType != null) {
                 return docType.getDocTypeId();
+            }
+        }
+        catch (Exception e) {
+        }
+        return null;
+    }
+
+    public static String principalId(String principalName) {
+        try {
+            Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(principalName);
+            if (person != null) {
+                return person.getPrincipalId();
             }
         }
         catch (Exception e) {

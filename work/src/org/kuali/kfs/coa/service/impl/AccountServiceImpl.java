@@ -135,41 +135,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.AccountService#accountIsAccessible(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.module.chart.bo.ChartUser)
-     */
-    public boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, Person user) {
-        LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - start");
-
-        boolean isAccessible = false;
-
-        KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            isAccessible = true;
-        }
-        else {
-            if (workflowDocument.stateIsEnroute()) {
-                // if a document is enroute, user can only refer to for accounts for which they are responsible
-                isAccessible = this.hasResponsibilityOnAccount(user, accountingLine.getAccount());
-            }
-            else {
-                if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal() || workflowDocument.stateIsDisapproved()) {
-                    isAccessible = false;
-                }
-                else {
-                    if (workflowDocument.stateIsException() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, KNSServiceLocator.getKualiConfigurationService().getParameterValue(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
-                        isAccessible = true;
-                    }
-                }
-            }
-        }
-
-        LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - end");
-        return isAccessible;
-    }
-
-    /**
      * @param accountDao The accountDao to set.
      */
     public void setAccountDao(AccountDao accountDao) {

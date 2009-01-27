@@ -81,4 +81,15 @@ public interface AccountingLineAuthorizer {
      * @return true if field can be modified, false otherwise
      */
     public abstract boolean isFieldEditable(AccountingDocument accountingDocument, AccountingLine accountingLine, AccountingLineViewField field, Person currentUser);
+
+    /**
+     * determine whether the current user has permission to edit the given field in the given accounting line
+     * 
+     * @param accountingDocument the given accounting document
+     * @param accountingLine the given accounting line in the document
+     * @param fieldName the name of a field in the given accounting line
+     * @param currentUser the current user
+     * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
+     */
+    public abstract boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser);      
 }

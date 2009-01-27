@@ -181,7 +181,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */
-    protected boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {
+    public boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {
         // the fields in a new line should be always editable
         if (this.isNewLine(accountingDocument, accountingLine)) {
             return true;
@@ -223,6 +223,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         return this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
     }
 
+
     /**
      * determine whether the current user has permission to edit the given field in the given accounting line
      * 
@@ -231,7 +232,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param fieldName the name of a field in the given accounting line
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
-     */
+     */    
     private boolean determineEditPermissionByFieldName(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {        
         AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
         

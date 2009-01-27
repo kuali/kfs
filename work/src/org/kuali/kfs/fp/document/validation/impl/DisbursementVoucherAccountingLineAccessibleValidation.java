@@ -19,10 +19,14 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
+import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -42,14 +46,15 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         LOG.debug("validate start");
 
         Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
-        AccountingDocument accountingDocumentForValidation = this.getAccountingDocumentForValidation();
+        AccountingDocument accountingDocument = this.getAccountingDocumentForValidation();
         AccountingLine accountingLineForValidation = this.getAccountingLineForValidation();
 
-        boolean isAccessible = accountService.accountIsAccessible(accountingDocumentForValidation, accountingLineForValidation, financialSystemUser);
-
+        AccountingLineAuthorizer accountingLineAuthorizer = new AccountingLineAuthorizerBase();
+        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocument, accountingLineForValidation, KFSPropertyConstants.ACCOUNT_NUMBER, financialSystemUser);
+        
         // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
         // but only if the document is enroute
-        KualiWorkflowDocument workflowDocument = accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument();
+        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         if (!isAccessible && workflowDocument.stateIsEnroute()) {
 
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing

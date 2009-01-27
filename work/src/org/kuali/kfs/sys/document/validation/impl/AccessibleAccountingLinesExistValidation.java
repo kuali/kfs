@@ -21,8 +21,11 @@ import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSI
 import java.util.Iterator;
 
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
+import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kim.bo.Person;
@@ -64,17 +67,24 @@ public class AccessibleAccountingLinesExistValidation extends GenericValidation 
         // only count if the doc is enroute
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (workflowDocument.stateIsEnroute()) {
+        if (workflowDocument.stateIsEnroute()) {            
+            AccountingLineAuthorizer accountingLineAuthorizer = new AccountingLineAuthorizerBase();
+
             int accessibleLines = 0;
             for (Iterator i = financialDocument.getSourceAccountingLines().iterator(); (accessibleLines < min) && i.hasNext();) {
                 AccountingLine line = (AccountingLine) i.next();
-                if (accountService.accountIsAccessible(financialDocument, line, currentUser)) {
+                
+                boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(financialDocument, line, KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
+                             
+                if (isAccessible) {
                     accessibleLines += 1;
                 }
             }
             for (Iterator i = financialDocument.getTargetAccountingLines().iterator(); (accessibleLines < min) && i.hasNext();) {
                 AccountingLine line = (AccountingLine) i.next();
-                if (accountService.accountIsAccessible(financialDocument, line, currentUser)) {
+                boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(financialDocument, line, KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
+                
+                if (isAccessible) {
                     accessibleLines += 1;
                 }
             }

@@ -28,7 +28,7 @@ public class AssetPaymentAccountingLineAuthorizer extends AccountingLineAuthoriz
      *      org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    protected boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {
+    public boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) accountingDocument;
         if (assetPaymentDocument.isCapitalAssetBuilderOriginIndicator()) {
             return false;

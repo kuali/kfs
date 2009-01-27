@@ -20,11 +20,14 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
+import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -54,12 +57,15 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      * <strong>This method expects a document as the first parameter and an accounting line as the second</strong>
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
-    public boolean validate(AttributedDocumentEvent event) {
-        boolean isAccessible = accountService.accountIsAccessible(accountingDocumentForValidation, accountingLineForValidation, GlobalVariables.getUserSession().getPerson());
+    public boolean validate(AttributedDocumentEvent event) {        
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        AccountingLineAuthorizer accountingLineAuthorizer = new AccountingLineAuthorizerBase();
+        
+        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
 
         // report errors
         if (!isAccessible) {
-            String principalName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
+            String principalName = currentUser.getPrincipalName();
             
             String[] chartErrorParams = new String[] { accountingLineForValidation.getChartOfAccountsCode(),  principalName};
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, convertEventToMessage(event), chartErrorParams);

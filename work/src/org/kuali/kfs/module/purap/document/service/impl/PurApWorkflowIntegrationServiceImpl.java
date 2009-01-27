@@ -16,31 +16,23 @@
 package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.security.InvalidParameterException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
-import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.dto.UserIdDTO;
-
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,40 +43,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegrationService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApWorkflowIntegrationServiceImpl.class);
 
-    private KualiWorkflowInfo kualiWorkflowInfo;
+    private WorkflowInfo workflowInfo;
     private WorkflowDocumentService workflowDocumentService;
     private org.kuali.rice.kim.service.PersonService personService;
-    
-    public void setKualiWorkflowInfo(KualiWorkflowInfo kualiWorkflowInfo) {
-        this.kualiWorkflowInfo = kualiWorkflowInfo;
-    }
 
+    
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
 
     public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
         this.personService = personService;
-    }
-
-    private UserIdDTO getUserIdDTO(Person user) {
-        return new NetworkIdDTO(user.getPrincipalName());
-    }
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#isActionRequestedOfUserAtNodeName(java.lang.String,
-     *      java.lang.String, org.kuali.rice.kim.bo.Person)
-     */
-    public boolean isActionRequestedOfUserAtNodeName(String documentNumber, String nodeName, Person userToCheck) {
-        try {
-            List<ActionRequestDTO> actionRequests = getActiveActionRequestsForCriteria(Long.valueOf(documentNumber), nodeName, userToCheck);
-            return !actionRequests.isEmpty();
-        }
-        catch (WorkflowException e) {
-            String errorMessage = "Error trying to get test action requests of document id '" + documentNumber + "'";
-            LOG.error("isActionRequestedOfUserAtNodeName() " + errorMessage, e);
-            throw new RuntimeException(errorMessage, e);
-        }
     }
 
     /**
@@ -204,7 +173,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             // throw exception
         }
         List<ActionRequestDTO> activeRequests = new ArrayList<ActionRequestDTO>();
-        ActionRequestDTO[] actionRequests = kualiWorkflowInfo.getActionRequests(documentNumber, nodeName, user.getPrincipalId());
+        ActionRequestDTO[] actionRequests = getWorkflowInfo().getActionRequests(documentNumber, nodeName, user.getPrincipalId());
         for (ActionRequestDTO actionRequest : actionRequests) {
             // identify which requests for the given node name can be satisfied by an action by this user
             if (actionRequest.isActivated()) {
@@ -218,6 +187,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#willDocumentStopAtGivenFutureRouteNode(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,
      *      org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails)
      */
+    // TODO cannot use the simulation engine without saving the document, given how new kim routing works.
     public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail) {
         if (givenNodeDetail == null) {
             throw new InvalidParameterException("Given Node Detail object was null");
@@ -235,7 +205,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
                     reportCriteriaDTO.setRoutingPrincipalId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                     reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
-                    boolean value = kualiWorkflowInfo.documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ });
+                    boolean value = getWorkflowInfo().documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
                     return value;
                 }
                 else {
@@ -247,7 +217,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(document.getDocumentNumber()));
                     reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
                     reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
-                    boolean value = kualiWorkflowInfo.documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ });
+                    boolean value = getWorkflowInfo().documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false);
                     return value;
                 }
             }
@@ -278,35 +248,12 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
         return givenNodeDetail.getOrdinal() > currentNodeDetail.getOrdinal();
     }
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#getLastUserId(org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue)
-     */
-    public String getLastUserId(DocumentRouteHeaderValue routeHeader) {
-        KimPrincipal principal = null;
-        Timestamp previousDate = null;
-        for (Iterator iter = routeHeader.getActionsTaken().iterator(); iter.hasNext();) {
-            ActionTakenValue actionTaken = (ActionTakenValue) iter.next();
-
-            if (previousDate != null) {
-                if (actionTaken.getActionDate().after(previousDate)) {
-                    principal = actionTaken.getPrincipal();
-                    previousDate = actionTaken.getActionDate();
-                }
-            }
-            else {
-                previousDate = actionTaken.getActionDate();
-                principal = actionTaken.getPrincipal();
-            }
+    
+    private WorkflowInfo getWorkflowInfo() {
+        if (workflowInfo == null) {
+            workflowInfo = new WorkflowInfo();
         }
-        if (principal != null && principal.getPrincipalName() != null) {
-            return principal.getPrincipalName();
-        }
-        else {
-            return null;
-        }
+        return workflowInfo;
     }
-
-
 }
 

@@ -25,16 +25,6 @@ import org.kuali.rice.kns.document.Document;
 public interface PurApWorkflowIntegrationService {
 
     /**
-     * Determine if action is requested of user at given node name
-     * 
-     * @param documentNumber
-     * @param nodeName
-     * @param user
-     * @return boolean indicating if action is requested of user at given node name
-     */
-    public boolean isActionRequestedOfUserAtNodeName(String documentNumber, String nodeName, Person user);
-
-    /**
      * Take all actions on the given document based on the given criteria
      * 
      * @param document
@@ -54,7 +44,5 @@ public interface PurApWorkflowIntegrationService {
      * @return boolean indicating if document is going to stop at the given node
      */
     public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
-
-    public String getLastUserId(DocumentRouteHeaderValue routeHeader);
 }
 

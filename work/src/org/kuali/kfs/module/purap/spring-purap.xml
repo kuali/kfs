@@ -171,7 +171,6 @@
     </bean>
     
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.kfs.module.purap.document.service.impl.PurApWorkflowIntegrationServiceImpl">
-        <property name="kualiWorkflowInfo" ref="workflowInfoService"/>
         <property name="workflowDocumentService" ref="workflowDocumentService"/>
         <property name="personService" ref="personService"/>
 	</bean>

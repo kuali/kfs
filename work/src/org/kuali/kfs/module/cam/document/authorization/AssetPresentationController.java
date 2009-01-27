@@ -51,6 +51,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
         int size = asset.getAssetPayments().size();
         for (int i = 0; i < size; i++) {
             fields.add(CamsPropertyConstants.Asset.ASSET_PAYMENTS + "[" + i + "]." + CamsPropertyConstants.AssetPayment.PAYMENT_SEQ_NUMBER);
+            fields.add(CamsPropertyConstants.Asset.ASSET_PAYMENTS + "[" + i + "]." + CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER);
         }
         
         if (!CamsConstants.RETIREMENT_REASON_CODE_M.equals(asset.getRetirementReasonCode())) {

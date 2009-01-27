@@ -200,17 +200,10 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      */
     public boolean userMayUseToClaim(Person claimingUser) {
         String namespaceCode = ArConstants.AR_NAMESPACE_CODE;
-        String documentTypeName = this.getDocumentTypeName();
+        String documentTypeName = this.getClaimingDocumentWorkflowDocumentType();
         
         return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, documentTypeName);
-    }
-    
-    /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentTypeName()
-     */
-    public String getDocumentTypeName() {
-        return CashControlDocument.class.getSimpleName();
-    }    
+    }   
 
     /**
      * This method gets cashControlDocumentService value

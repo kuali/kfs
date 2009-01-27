@@ -193,16 +193,9 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      */
     public boolean userMayUseToClaim(Person claimingUser) {
         String namespaceCode = KFSConstants.ParameterNamespaces.FINANCIAL;
-        String documentTypeName = this.getDocumentTypeName();
+        String documentTypeName = this.getClaimingDocumentWorkflowDocumentType();
         
         return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, documentTypeName);
-    }
-    
-    /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentTypeName()
-     */
-    public String getDocumentTypeName() {
-        return DistributionOfIncomeAndExpenseDocument.class.getSimpleName();
     }
 
     /**

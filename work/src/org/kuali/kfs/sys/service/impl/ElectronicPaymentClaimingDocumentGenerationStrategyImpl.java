@@ -53,13 +53,6 @@ public class ElectronicPaymentClaimingDocumentGenerationStrategyImpl implements 
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentTypeName()
-     */
-    public String getDocumentTypeName() {
-        return null;
-    }
-
-    /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#isDocumentReferenceValid(java.lang.String)
      */
     public boolean isDocumentReferenceValid(String referenceDocumentNumber) {
@@ -71,9 +64,8 @@ public class ElectronicPaymentClaimingDocumentGenerationStrategyImpl implements 
      */
     public boolean userMayUseToClaim(Person claimingUser) {
         String namespaceCode = KFSConstants.ParameterNamespaces.KFS;
-        String documentTypeName = this.getDocumentTypeName();
         
-        return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, documentTypeName);
+        return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, null);
     }
 
     /**

@@ -80,7 +80,14 @@ public interface ElectronicPaymentClaimingService {
      */
     public abstract Map<String, List<String>> getElectronicFundAccounts();  
     
-    public abstract boolean isAuthorizedForClaimingElectronicPayment(Person user, String namespaceCode, String documentTypeName);
+    /**
+     * This method...
+     * @param user
+     * @param namespaceCode
+     * @param workflowDocumentTypeName
+     * @return
+     */
+    public abstract boolean isAuthorizedForClaimingElectronicPayment(Person user, String namespaceCode, String workflowDocumentTypeName);
 
 }
 

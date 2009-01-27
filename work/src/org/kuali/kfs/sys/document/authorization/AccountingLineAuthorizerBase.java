@@ -236,7 +236,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private boolean determineEditPermissionByFieldName(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {        
         AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
         
-        String documentTypeName = accountingDocument.getClass().getSimpleName();
+        String documentTypeName = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
         AttributeSet permissionDetail = this.getPermissionDetails(documentTypeName, fieldName);
 
         return this.hasEditPermission(accountingDocument, currentUser, permissionDetail, roleQualifiers);       

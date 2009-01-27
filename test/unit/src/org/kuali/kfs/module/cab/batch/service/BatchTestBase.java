@@ -15,20 +15,33 @@
  */
 package org.kuali.kfs.module.cab.batch.service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import org.kuali.kfs.module.cab.CabConstants;
-import org.kuali.kfs.module.cab.sql.SqlDigester;
-import org.kuali.kfs.module.cab.sql.SqlFileParser;
+import org.kuali.kfs.module.cab.fixture.CreditMemoAccountFixture;
+import org.kuali.kfs.module.cab.fixture.CreditMemoAccountRevisionFixture;
+import org.kuali.kfs.module.cab.fixture.CreditMemoDocumentFixture;
+import org.kuali.kfs.module.cab.fixture.CreditMemoItemFixture;
+import org.kuali.kfs.module.cab.fixture.DocumentRouteHeaderValueFixture;
+import org.kuali.kfs.module.cab.fixture.EntryFixture;
+import org.kuali.kfs.module.cab.fixture.FinancialSystemDocumentHeaderFixture;
+import org.kuali.kfs.module.cab.fixture.PaymentRequestAccountFixture;
+import org.kuali.kfs.module.cab.fixture.PaymentRequestAccountRevisionFixture;
+import org.kuali.kfs.module.cab.fixture.PaymentRequestDocumentFixture;
+import org.kuali.kfs.module.cab.fixture.PaymentRequestItemFixture;
+import org.kuali.kfs.module.cab.fixture.PurchaseOrderAccountFixture;
+import org.kuali.kfs.module.cab.fixture.PurchaseOrderCapitalAssetItemFixture;
+import org.kuali.kfs.module.cab.fixture.PurchaseOrderCapitalAssetLocationFixture;
+import org.kuali.kfs.module.cab.fixture.PurchaseOrderCapitalAssetSystemFixture;
+import org.kuali.kfs.module.cab.fixture.PurchaseOrderDocumentFixture;
+import org.kuali.kfs.module.cab.fixture.PurchaseOrderItemFixture;
+import org.kuali.kfs.module.cab.fixture.RequisitionAccountFixture;
+import org.kuali.kfs.module.cab.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.module.cab.fixture.RequisitionItemFixture;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Parameter;
@@ -99,78 +112,29 @@ public abstract class BatchTestBase extends KualiTestBase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        clearTestDataRecords();
-    }
-
-    protected void executeSqls(String sqlFileName, Connection connection) throws SQLException {
-        List<SqlDigester> sqls = SqlFileParser.parseSqls(SQL_PACKAGE + sqlFileName, ";");
-
-        for (SqlDigester sqlStr : sqls) {
-            PreparedStatement prepareStatement = connection.prepareStatement(sqlStr.toSql());
-            prepareStatement.execute();
-            prepareStatement.close();
-        }
-    }
-
-    protected void clearTestDataRecords() throws SQLException {
-        Connection connection = getConnection();
-        // clean again
-        executeSqls("cleanup.sql", connection);
-        connection.close();
     }
 
     protected void prepareTestDataRecords() throws SQLException {
-        Connection connection = getConnection();
         // clean first
-        executeSqls("cleanup.sql", connection);
-        // reqs
-        executeSqls("reqs/krew_doc_hdr_t.sql", connection);
-        executeSqls("reqs/krns_doc_hdr_t.sql", connection);
-        executeSqls("reqs/fs_doc_header_t.sql", connection);
-        executeSqls("reqs/pur_reqs_t.sql", connection);
-        executeSqls("reqs/pur_reqs_itm_t.sql", connection);
-        executeSqls("reqs/pur_reqs_acct_t.sql", connection);
-        // po
-        executeSqls("po/krew_doc_hdr_t.sql", connection);
-        executeSqls("po/krns_doc_hdr_t.sql", connection);
-        executeSqls("po/fs_doc_header_t.sql", connection);
-        executeSqls("po/pur_po_t.sql", connection);
-        executeSqls("po/pur_po_itm_t.sql", connection);
-        executeSqls("po/pur_po_acct_t.sql", connection);
-        executeSqls("po/pur_po_cptl_ast_sys_t.sql", connection);
-        executeSqls("po/pur_po_cptl_ast_itm_t.sql", connection);
-        executeSqls("po/pur_po_cptl_ast_itm_ast_t.sql", connection);
-        executeSqls("po/pur_po_cptl_ast_loc_t.sql", connection);
-        executeSqls("po/krew_rte_node_t.sql", connection);
-        executeSqls("po/krew_rte_node_instn_t.sql", connection);
-        // preq
-        executeSqls("preq/krew_doc_hdr_t.sql", connection);
-        executeSqls("preq/krns_doc_hdr_t.sql", connection);
-        executeSqls("preq/fs_doc_header_t.sql", connection);
-        executeSqls("preq/ap_pmt_rqst_t.sql", connection);
-        executeSqls("preq/ap_pmt_rqst_itm_t.sql", connection);
-        executeSqls("preq/ap_pmt_rqst_acct_t.sql", connection);
-        executeSqls("preq/ap_pmt_rqst_acct_chg_t.sql", connection);
-        executeSqls("preq/gl_entry_t.sql", connection);
-        // cm
-        executeSqls("cm/krew_doc_hdr_t.sql", connection);
-        executeSqls("cm/krns_doc_hdr_t.sql", connection);
-        executeSqls("cm/fs_doc_header_t.sql", connection);
-        executeSqls("cm/ap_crdt_memo_t.sql", connection);
-        executeSqls("cm/ap_crdt_memo_itm_t.sql", connection);
-        executeSqls("cm/ap_crdt_memo_acct_t.sql", connection);
-        executeSqls("cm/ap_crdt_memo_acct_chg_t.sql", connection);
-        executeSqls("cm/gl_entry_t.sql", connection);
-        // FP invoice doc
-        executeSqls("ar/krew_doc_hdr_t.sql", connection);
-        executeSqls("ar/krns_doc_hdr_t.sql", connection);
-        executeSqls("ar/gl_entry_t.sql", connection);
-        connection.close();
-    }
-
-    protected Connection getConnection() throws SQLException {
-        DataSource dataSource = SpringContext.getBean(DataSource.class);
-        Connection connection = dataSource.getConnection();
-        return connection;
+        DocumentRouteHeaderValueFixture.setUpData();
+        FinancialSystemDocumentHeaderFixture.setUpData();
+        RequisitionDocumentFixture.setUpData();
+        RequisitionItemFixture.setUpData();
+        RequisitionAccountFixture.setUpData();
+        PurchaseOrderDocumentFixture.setUpData();
+        PurchaseOrderItemFixture.setUpData();
+        PurchaseOrderAccountFixture.setUpData();
+        PurchaseOrderCapitalAssetSystemFixture.setUpData();
+        PurchaseOrderCapitalAssetItemFixture.setUpData();
+        PurchaseOrderCapitalAssetLocationFixture.setUpData();
+        PaymentRequestDocumentFixture.setUpData();
+        PaymentRequestItemFixture.setUpData();
+        PaymentRequestAccountFixture.setUpData();
+        PaymentRequestAccountRevisionFixture.setUpData();
+        CreditMemoDocumentFixture.setUpData();
+        CreditMemoItemFixture.setUpData();
+        CreditMemoAccountFixture.setUpData();
+        CreditMemoAccountRevisionFixture.setUpData();
+        EntryFixture.setUpData();
     }
 }

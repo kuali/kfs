@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="LineItemReceivingStatusMaintenanceDocument" parent="LineItemReceivingStatusMaintenanceDocument-parentBean" />
+
+  <bean id="LineItemReceivingStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus" />
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="LineItemReceivingStatusMaintenanceDocument-EditLineItemReceivingStatus" />
+      </list>
+    </property>
+    <property name="allowsNewOrCopy" value="true" />
+    <property name="lockingKeys" >
+      <list>
+        <value>lineItemReceivingStatusCode</value>
+      </list>
+    </property>
+    <property name="label" value="Line Item Receiving Status" />
+    <property name="shortLabel" value="Line Item Receiving Status" />
+    <!-- <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus" p:parameterName="LINE_ITEM_STATUS" />
+    </property> -->
+    <property name="documentTypeName" value="LineItemReceivingStatusMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PMIT" />
+    <property name="workflowAttributes">
+    	<ref bean="LineItemReceivingStatusMaintenanceDocument-workflowAttributes" />
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="LineItemReceivingStatusMaintenanceDocument-EditLineItemReceivingStatus" parent="LineItemReceivingStatusMaintenanceDocument-EditLineItemReceivingStatus-parentBean" />
+
+  <bean id="LineItemReceivingStatusMaintenanceDocument-EditLineItemReceivingStatus-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Line Item Receiving Status" />
+    <property name="title" value="Edit Line Item Receiving Status" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="lineItemReceivingStatusCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="lineItemReceivingStatusDescription"
+              p:required="true" />
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="LineItemReceivingStatusMaintenanceDocument-workflowAttributes" parent="LineItemReceivingStatusMaintenanceDocument-workflowAttributes-parentBean" />
+  
+  <bean id="LineItemReceivingStatusMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+</beans>

@@ -61,7 +61,7 @@
         <ref bean="LineItemReceivingDocument-vendorPostalCode" />
         <ref bean="LineItemReceivingDocument-versionNumber" />
         <ref bean="LineItemReceivingDocument-awaitingPurchaseOrderOpen" />
-        <ref bean="LineItemReceivingDocument-receivingLineStatusCode" />        
+        <ref bean="LineItemReceivingDocument-lineItemReceivingStatusCode" />        
       </list>
     </property>
   </bean>
@@ -431,12 +431,12 @@
     <property name="maxLength" value="1" />
   </bean>
   
-  <bean id="LineItemReceivingDocument-receivingLineStatusCode" parent="LineItemReceivingDocument-receivingLineStatusCode-parentBean" />
+  <bean id="LineItemReceivingDocument-lineItemReceivingStatusCode" parent="LineItemReceivingDocument-lineItemReceivingStatusCode-parentBean" />
 
-<bean id="LineItemReceivingDocument-receivingLineStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
-	<property name="name" value="receivingLineStatusCode" />
+<bean id="LineItemReceivingDocument-lineItemReceivingStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<property name="name" value="lineItemReceivingStatusCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Receiving Line Status" />
+    <property name="label" value="Receiving Line Status Code" />
     <property name="shortLabel" value="Status" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >

@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineStatusCode;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
@@ -72,8 +72,8 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     private Date deliveryRequiredDate;
     private String deliveryInstructionText;
     private String deliveryRequiredDateReasonCode;
-    private String receivingLineStatusCode;
-    private String receivingLineStatusDescription;
+    private String lineItemReceivingStatusCode;
+    private String lineItemReceivingStatusDescription;
 
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
@@ -89,7 +89,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     private Carrier carrier;
     private VendorDetail vendorDetail;
     private DeliveryRequiredDateReason deliveryRequiredDateReason;
-    private ReceivingLineStatusCode receivingLineStatus;
+    private LineItemReceivingStatus lineItemReceivingStatus;
     private Integer purchaseOrderIdentifier;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private transient PurchaseOrderDocument purchaseOrderDocument;
@@ -997,28 +997,28 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         return true;
     }
 
-    public ReceivingLineStatusCode getReceivingLineStatus() {
-        return receivingLineStatus;
+    public LineItemReceivingStatus getLineItemReceivingStatus() {
+        return lineItemReceivingStatus;
     }
 
-    public void setReceivingLineStatus(ReceivingLineStatusCode receivingLineStatus) {
-        this.receivingLineStatus = receivingLineStatus;
+    public void setLineItemReceivingStatus(LineItemReceivingStatus receivingLineStatus) {
+        this.lineItemReceivingStatus = receivingLineStatus;
     }
 
-    public String getReceivingLineStatusCode() {
-        return receivingLineStatusCode;
+    public String getLineItemReceivingStatusCode() {
+        return lineItemReceivingStatusCode;
     }
 
-    public void setReceivingLineStatusCode(String receivingLineStatusCode) {
-        this.receivingLineStatusCode = receivingLineStatusCode;
+    public void setLineItemReceivingStatusCode(String lineItemReceivingStatusCode) {
+        this.lineItemReceivingStatusCode = lineItemReceivingStatusCode;
     }
 
-    public String getReceivingLineStatusDescription() {
-        return receivingLineStatusDescription;
+    public String getLineItemReceivingStatusDescription() {
+        return lineItemReceivingStatusDescription;
     }
 
-    public void setReceivingLineStatusDescription(String receivingLineStatusDescription) {
-        this.receivingLineStatusDescription = receivingLineStatusDescription;
+    public void setLineItemReceivingStatusDescription(String lineItemReceivingStatusDescription) {
+        this.lineItemReceivingStatusDescription = lineItemReceivingStatusDescription;
     }
     
     //TODO: Cathy reminder to fill in this method with the actual code when I'm ready.

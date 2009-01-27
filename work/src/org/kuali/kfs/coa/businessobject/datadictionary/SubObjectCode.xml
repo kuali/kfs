@@ -174,9 +174,9 @@
               p:attributeName="universityFiscalYear"
               p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
         <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
@@ -192,9 +192,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="universityFiscalYear" />
         <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
@@ -203,8 +203,6 @@
               p:attributeName="financialSubObjectCodeName" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCdshortNm" />
       </list>
     </property>
   </bean>

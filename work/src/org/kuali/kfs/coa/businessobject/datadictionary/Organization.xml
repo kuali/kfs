@@ -802,12 +802,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="organizationName" />
-        <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode"
               p:forceLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationName" />
         <bean parent="FieldDefinition"
               p:attributeName="responsibilityCenterCode" />
         <bean parent="FieldDefinition"
@@ -828,11 +828,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
+              p:attributeName="organizationName" />
+        <bean parent="FieldDefinition"
               p:attributeName="responsibilityCenterCode" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationName" />
         <bean parent="FieldDefinition"
               p:attributeName="reportsToChartOfAccountsCode" />
         <bean parent="FieldDefinition"

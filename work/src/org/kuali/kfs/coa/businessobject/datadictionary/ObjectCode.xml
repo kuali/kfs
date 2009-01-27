@@ -399,17 +399,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCodeName" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCodeShortName" />
-        <bean parent="FieldDefinition"
               p:attributeName="financialObjectLevelCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectSubTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="historicalFinancialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBudgetAggregationCd" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

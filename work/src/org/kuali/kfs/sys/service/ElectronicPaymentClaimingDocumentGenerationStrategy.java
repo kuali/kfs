@@ -39,6 +39,12 @@ public interface ElectronicPaymentClaimingDocumentGenerationStrategy {
      * @return a code for the document
      */
     public abstract String getDocumentCode();
+    
+    /**
+     * get the docuement type name
+     * @return the docuement type name
+     */
+    public abstract String getDocumentTypeName();
         
     /**
      * Determines if the given user can use the document wrapped by this ElectronicPaymentClaimingDocumentGenerationStrategy implementaton to claim any ElectronicPaymentClaim records

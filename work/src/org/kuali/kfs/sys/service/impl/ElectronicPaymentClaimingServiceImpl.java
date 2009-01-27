@@ -21,16 +21,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -42,17 +46,17 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
-    
+
     private static final String ELECTRONIC_FUNDS_CLAIMANT_GROUP_PARAMETER = "ELECTRONIC_FUNDS_CLAIMANT_GROUP";
     private final static String ELECTRONIC_PAYMENT_ADMINISTRATOR_GROUP_PARAM_NAME = "ELECTRONIC_FUNDS_ADMINISTRATOR_GROUP";
     private static final String ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER = "ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE";
     private static final String CLAIMING_NOTE_PRELUDE = "Claiming CR Items: ";
     private static final String DI_CLAIMING_DOC_HELPER_BEAN_NAME = "distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
     private static final String YEDI_CLAIMING_DOC_HELPER_BEAN_NAME = "yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
+    private static final String CLAIMING_DOC_HELPER_BEAN_NAME = "expenseElectronicPaymentClaimingDocumentHelper";
     private static final String ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER = "ELECTRONIC_FUNDS_ACCOUNTS";
 
     /**
-     * 
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#constructNotesForClaims(java.util.List)
      */
     public List<String> constructNoteTextsForClaims(List<ElectronicPaymentClaim> claims) {
@@ -66,16 +70,19 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
                 noteTexts.add(noteText);
                 i += summariesPerNote;
             }
-        } catch (NumberFormatException nfe) {
-            throw new RuntimeException("The KFS-SYS / ElectronicPaymentClaim / "+ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER+" should have a value that can be parsed into an integer.", nfe);
-        } catch (NullPointerException npe) {
+        }
+        catch (NumberFormatException nfe) {
+            throw new RuntimeException("The KFS-SYS / ElectronicPaymentClaim / " + ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER + " should have a value that can be parsed into an integer.", nfe);
+        }
+        catch (NullPointerException npe) {
             throw new RuntimeException(npe);
         }
         return noteTexts;
     }
-    
+
     /**
      * This creates a note for the given point in the list of summaries.
+     * 
      * @param claims a List of ElectronicPaymentClaim records that are being claimed
      * @param startPoint the point in the list the note is starting at
      * @param maxSummariesPerNote the number of ElectronicPaymentClaim summaries we can have on a note
@@ -89,12 +96,13 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
             sb.append(createSummaryLineForClaim(claim));
         }
         // substring out the final " ; "
-        String noteText = sb.substring(0, sb.length() - 3); 
+        String noteText = sb.substring(0, sb.length() - 3);
         return noteText;
     }
-    
+
     /**
      * Creates a summary line for a note from a claim
+     * 
      * @param claim the electronic payment claim to summarize
      * @return a String with the summary of the claim.
      */
@@ -115,49 +123,57 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#createPaymentClaimingDocument(java.util.List, org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#createPaymentClaimingDocument(java.util.List,
+     *      org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy)
      */
     public String createPaymentClaimingDocument(List<ElectronicPaymentClaim> claims, ElectronicPaymentClaimingDocumentGenerationStrategy documentCreationHelper, Person user) {
         return documentCreationHelper.createDocumentFromElectronicPayments(claims, user);
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#getClaimingDocumentChoices(org.kuali.rice.kim.bo.Person)
      */
     public List<ElectronicPaymentClaimingDocumentGenerationStrategy> getClaimingDocumentChoices(Person user) {
         List<ElectronicPaymentClaimingDocumentGenerationStrategy> documentChoices = new ArrayList<ElectronicPaymentClaimingDocumentGenerationStrategy>();
-        if (isUserMemberOfClaimingGroup(user)) {
-            Map<String, ElectronicPaymentClaimingDocumentGenerationStrategy> claimingDocHelpers = SpringContext.getBeansOfType(ElectronicPaymentClaimingDocumentGenerationStrategy.class);
-            ElectronicPaymentClaimingDocumentGenerationStrategy claimingDocHelper;
-            
-            // try the DI
-            claimingDocHelper = claimingDocHelpers.get(DI_CLAIMING_DOC_HELPER_BEAN_NAME);
-            if (claimingDocHelper.userMayUseToClaim(user)) {
-                documentChoices.add(claimingDocHelper);
-            }
-            // try the YEDI
-            claimingDocHelper = claimingDocHelpers.get(YEDI_CLAIMING_DOC_HELPER_BEAN_NAME);
-            if (claimingDocHelper.userMayUseToClaim(user)) {
-                documentChoices.add(claimingDocHelper);
-            }
+        Map<String, ElectronicPaymentClaimingDocumentGenerationStrategy> claimingDocHelpers = SpringContext.getBeansOfType(ElectronicPaymentClaimingDocumentGenerationStrategy.class);
+        ElectronicPaymentClaimingDocumentGenerationStrategy claimingDocHelper;
+        
+        // try the helper for no document case
+        claimingDocHelper = claimingDocHelpers.get(CLAIMING_DOC_HELPER_BEAN_NAME);
+        if (claimingDocHelper.userMayUseToClaim(user)) {
+            documentChoices.add(claimingDocHelper);
+        }        
 
-            // try the AR Cash Control
-            claimingDocHelper = SpringContext.getBean(AccountsReceivableModuleService.class).getAccountsReceivablePaymentClaimingStrategy();
-            if (claimingDocHelper.userMayUseToClaim(user)) {
-                documentChoices.add(claimingDocHelper);
-            }
+        // try the DI
+        claimingDocHelper = claimingDocHelpers.get(DI_CLAIMING_DOC_HELPER_BEAN_NAME);
+        if (claimingDocHelper.userMayUseToClaim(user)) {
+            documentChoices.add(claimingDocHelper);
         }
+        
+        // try the YEDI
+        claimingDocHelper = claimingDocHelpers.get(YEDI_CLAIMING_DOC_HELPER_BEAN_NAME);
+        if (claimingDocHelper.userMayUseToClaim(user)) {
+            documentChoices.add(claimingDocHelper);
+        }
+
+        // try the AR Cash Control
+        claimingDocHelper = SpringContext.getBean(AccountsReceivableModuleService.class).getAccountsReceivablePaymentClaimingStrategy();
+        if (claimingDocHelper.userMayUseToClaim(user)) {
+            documentChoices.add(claimingDocHelper);
+        }
+
         return documentChoices;
     }
 
     /**
-     * Sets the referenceFinancialDocumentNumber on each of the payments passed in with the given document number and then saves them. 
+     * Sets the referenceFinancialDocumentNumber on each of the payments passed in with the given document number and then saves
+     * them.
+     * 
      * @param payments a list of payments to claim
      * @param docmentNumber the document number of the claiming document
      */
     public void claimElectronicPayments(List<ElectronicPaymentClaim> payments, String documentNumber) {
-        for (ElectronicPaymentClaim payment: payments) {
+        for (ElectronicPaymentClaim payment : payments) {
             payment.setReferenceFinancialDocumentNumber(documentNumber);
             payment.setPaymentClaimStatusCode(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
             businessObjectService.save(payment);
@@ -168,11 +184,11 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#declaimElectronicPaymentClaimsForDocument(org.kuali.rice.kns.document.Document)
      */
     public void declaimElectronicPaymentClaimsForDocument(Document document) {
-        Map<String, String> searchKeys = new HashMap<String,String>();
+        Map<String, String> searchKeys = new HashMap<String, String>();
         searchKeys.put("referenceFinancialDocumentNumber", document.getDocumentNumber());
         Collection<ElectronicPaymentClaim> claimsAsObjects = businessObjectService.findMatching(ElectronicPaymentClaim.class, searchKeys);
-        for (Object claimAsObject: claimsAsObjects) {
-            ElectronicPaymentClaim claim = (ElectronicPaymentClaim)claimAsObject;
+        for (Object claimAsObject : claimsAsObjects) {
+            ElectronicPaymentClaim claim = (ElectronicPaymentClaim) claimAsObject;
             claim.setReferenceFinancialDocumentNumber(null);
             claim.setPaymentClaimStatusCode(ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             businessObjectService.save(claim);
@@ -180,17 +196,20 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isUserMemberOfClaimingGroup(org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isAuthorizedForClaimingElectronicPayment(org.kuali.rice.kim.bo.Person,
+     *      java.lang.String, java.lang.String)
      */
-    public boolean isUserMemberOfClaimingGroup(Person user) {
-        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_FUNDS_CLAIMANT_GROUP_PARAMETER)) || isElectronicPaymentAdministrator(user);
-    }
+    public boolean isAuthorizedForClaimingElectronicPayment(Person user, String namespaceCode, String documentTypeName) {
+        String principalId = user.getPrincipalId();
+        String permissionTemplateName = KFSConstants.PermissionTemplate.CLAIM_ELECTRONIC_PAYMENT.name;
 
-    /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isElectronicPaymentAdministrator(org.kuali.rice.kim.bo.Person)
-     */
-    public boolean isElectronicPaymentAdministrator(Person user) {
-        return KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_PAYMENT_ADMINISTRATOR_GROUP_PARAM_NAME));
+        AttributeSet permissionDetails = new AttributeSet();
+        if (StringUtils.isNotBlank(documentTypeName)) {
+            permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, documentTypeName);
+        }
+
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        return identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, null);
     }
 
     /**
@@ -199,8 +218,8 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     public List<ElectronicPaymentClaim> generateElectronicPaymentClaimRecords(AdvanceDepositDocument doc) {
         List<ElectronicPaymentClaim> claimRecords = new ArrayList<ElectronicPaymentClaim>();
         Map<String, List<String>> electronicFundAccounts = getElectronicFundAccounts();
-        for (Object accountingLineAsObj: doc.getSourceAccountingLines()) {
-            AccountingLine accountingLine = (AccountingLine)accountingLineAsObj;
+        for (Object accountingLineAsObj : doc.getSourceAccountingLines()) {
+            AccountingLine accountingLine = (AccountingLine) accountingLineAsObj;
             List<String> electronicFundsAccountNumbers = electronicFundAccounts.get(accountingLine.getChartOfAccountsCode());
             if (electronicFundsAccountNumbers != null && electronicFundsAccountNumbers.contains(accountingLine.getAccountNumber())) {
                 ElectronicPaymentClaim electronicPayment = createElectronicPayment(doc, accountingLine);
@@ -210,17 +229,20 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         }
         return claimRecords;
     }
-    
+
     /**
-     * This method uses the ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER to find which accounts should cause an accounting line to create an ElectronicPaymentClaim record.
-     * @return a List of Maps, where each Map represents an account that electronic funds are posted to.  Each Map has a chart of accounts code as a key and a List of account numbers as a value.
+     * This method uses the ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER to find which accounts should cause an accounting line to
+     * create an ElectronicPaymentClaim record.
+     * 
+     * @return a List of Maps, where each Map represents an account that electronic funds are posted to. Each Map has a chart of
+     *         accounts code as a key and a List of account numbers as a value.
      */
     public Map<String, List<String>> getElectronicFundAccounts() {
         Map<String, List<String>> electronicFundAccounts = new HashMap<String, List<String>>();
         String electronicPaymentAccounts = SpringContext.getBean(ParameterService.class).getParameterValue(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER);
-        
+
         String[] chartSections = electronicPaymentAccounts.split(";");
-        for (String chartSection: chartSections) {
+        for (String chartSection : chartSections) {
             String[] chartAccountPieces = chartSection.split("=");
             if (chartAccountPieces.length >= 2) {
                 String chartCode = chartAccountPieces[0];
@@ -230,7 +252,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
                     if (accountNumbersForChart == null) {
                         accountNumbersForChart = new ArrayList<String>();
                     }
-                    for (String accountNumber: accountNumbers) {
+                    for (String accountNumber : accountNumbers) {
                         if (accountNumber != null && accountNumber.length() > 0) {
                             accountNumbersForChart.add(accountNumber);
                         }
@@ -241,9 +263,10 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         }
         return electronicFundAccounts;
     }
-    
+
     /**
      * Creates an electronic payment claim record to match the given accounting line on the document
+     * 
      * @param accountingLine an accounting line that an electronic payment claim record should be created for
      * @return the created ElectronicPaymentClaim business object
      */
@@ -256,9 +279,10 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         electronicPayment.setPaymentClaimStatusCode(ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
         return electronicPayment;
     }
-    
+
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -267,6 +291,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
 
     /**
      * Sets the documentService attribute value.
+     * 
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -275,6 +300,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
 
     /**
      * Sets the parameterService attribute value.
+     * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -283,11 +309,10 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
 
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
 }
-

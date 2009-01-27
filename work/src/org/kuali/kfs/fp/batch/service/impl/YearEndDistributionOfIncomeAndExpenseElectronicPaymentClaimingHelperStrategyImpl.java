@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.batch.service.impl;
 
+import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
@@ -47,6 +48,13 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
             userMayUse = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(getClaimingDocumentWorkflowDocumentType()).isDocumentTypeActiveIndicator();
         }
         return userMayUse;
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl#getDocumentTypeName()
+     */
+    public String getDocumentTypeName() {
+        return YearEndDistributionOfIncomeAndExpenseDocument.class.getSimpleName();
     }
 }
 

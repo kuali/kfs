@@ -199,8 +199,18 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
      */
     public boolean userMayUseToClaim(Person claimingUser) {
-        return electronicPaymentClaimingService.isUserMemberOfClaimingGroup(claimingUser);
+        String namespaceCode = ArConstants.AR_NAMESPACE_CODE;
+        String documentTypeName = this.getDocumentTypeName();
+        
+        return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, documentTypeName);
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentTypeName()
+     */
+    public String getDocumentTypeName() {
+        return CashControlDocument.class.getSimpleName();
+    }    
 
     /**
      * This method gets cashControlDocumentService value
@@ -289,6 +299,5 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
-
 }
 

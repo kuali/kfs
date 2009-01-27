@@ -62,7 +62,8 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map paramMap, String basePath) {
         // can the user claim electronic payments at all?
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!electronicPaymentClaimingService.isUserMemberOfClaimingGroup(currentUser)) {
+
+        if (!form.hasAvailableClaimingDocumentStrategies()) {
             throw new AuthorizationException(currentUser.getPrincipalName(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getTitleAttribute());
         }
         
@@ -72,7 +73,9 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         
         // process admin's pre-claimed records
         List<ElectronicPaymentClaim> claims = form.getClaims();
-        if (electronicPaymentClaimingService.isElectronicPaymentAdministrator(currentUser)) {
+        
+        boolean isAuthorized = form.isAllowElectronicFundsTransferAdministration();
+        if (isAuthorized) {
             claims = handlePreClaimedRecords(claims, generatePreClaimedByCheckboxSet(form.getClaimedByCheckboxHelpers()), form.getAvailableClaimingDocumentStrategies());
             if (GlobalVariables.getErrorMap().size() > 0) {
                 // if there were any errors, we'll need to redirect to the page again

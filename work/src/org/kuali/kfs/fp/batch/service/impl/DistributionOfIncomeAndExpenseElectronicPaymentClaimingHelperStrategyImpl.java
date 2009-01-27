@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.batch.service.impl;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -191,7 +192,17 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
      */
     public boolean userMayUseToClaim(Person claimingUser) {
-        return electronicPaymentClaimingService.isUserMemberOfClaimingGroup(claimingUser);
+        String namespaceCode = KFSConstants.ParameterNamespaces.FINANCIAL;
+        String documentTypeName = this.getDocumentTypeName();
+        
+        return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, documentTypeName);
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentTypeName()
+     */
+    public String getDocumentTypeName() {
+        return DistributionOfIncomeAndExpenseDocument.class.getSimpleName();
     }
 
     /**
@@ -281,6 +292,5 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     public ParameterService getParameterService() {
         return parameterService;
     }
-
 }
 

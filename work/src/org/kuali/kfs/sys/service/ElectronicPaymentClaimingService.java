@@ -54,26 +54,10 @@ public interface ElectronicPaymentClaimingService {
     public abstract String createPaymentClaimingDocument(List<ElectronicPaymentClaim> claims, ElectronicPaymentClaimingDocumentGenerationStrategy documentCreationHelper, Person user);
     
     /**
-     * Determines whether the given user is a member of the workgroup designated by parameter KFS-SYS / ElectronicPaymentClaim / ELECTRONIC_FUNDS_CLAIMANT_GROUP
-     * as allowed claimants for ElectronicPaymentClaim records.
-     * @param user the user to determine rights for
-     * @return true if the user is a member of the parameterized workgroup, false otherwise
-     */
-    public abstract boolean isUserMemberOfClaimingGroup(Person user);
-    
-    /**
      * Unclaims all ElectronicPaymentClaim records claimed by the given document, by setting the ElectronicPaymentClaim's reference document to null.
      * @param document the document that claimed ElectronicPaymentClaims and now needs to give them back
      */
     public abstract void declaimElectronicPaymentClaimsForDocument(Document document);
-    
-    /**
-     * Determines whether the given user is a member of the workgroup designated by parameter KFS-SYS / ElectronicPaymentClaim / ELECTRONIC_FUNDS_ADMINISTRATOR_GROUP,
-     * and as such, is an administrator for Electronic Payment claiming
-     * @param user the user to determine the authorizations for
-     * @return true if the user is an EFT admin or not
-     */
-    public abstract boolean isElectronicPaymentAdministrator(Person user);
     
     /**
      * Sets the referenceFinancialDocumentNumber on each of the payments passed in with the given document number and then saves them. 
@@ -94,6 +78,9 @@ public interface ElectronicPaymentClaimingService {
      * cause an accounting line to create an ElectronicPaymentClaim record.
      * @return a List of Maps, where each Map represents an account that electronic funds are posted to. Each Map has a chart of accounts code as a key and a List of account numbers as a value.
      */
-    public Map<String, List<String>> getElectronicFundAccounts();    
+    public abstract Map<String, List<String>> getElectronicFundAccounts();  
+    
+    public abstract boolean isAuthorizedForClaimingElectronicPayment(Person user, String namespaceCode, String documentTypeName);
+
 }
 

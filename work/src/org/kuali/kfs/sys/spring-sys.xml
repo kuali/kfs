@@ -632,17 +632,25 @@
 
     <bean id="organizationAndOptionalNamespaceRoleTypeService" class="org.kuali.kfs.coa.identity.OrganizationAndOptionalNamespaceRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	    <property name="serviceDefinition">
-	      <bean parent="kfsService"
-	        p:service-ref="organizationAndOptionalNamespaceRoleTypeService"
-	        p:localServiceName="organizationAndOptionalNamespaceRoleTypeService" />
-	    </property>
-    </bean>
-    
+    <property name="serviceDefinition">
+      <bean parent="kfsService"
+        p:service-ref="organizationAndOptionalNamespaceRoleTypeService"
+        p:localServiceName="organizationAndOptionalNamespaceRoleTypeService" />
+    </property>
+  </bean>
+  
+  <bean id="universityDateFiscalYearMaker" class="org.kuali.kfs.sys.batch.dataaccess.impl.UniversityDateFiscalYearMakerImpl" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.UniversityDate" /> 
+        <property name="twoYearCopy" value="true" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>	
+	
 	<bean id="expenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.sys.service.impl.ElectronicPaymentClaimingDocumentGenerationStrategyImpl">
 		<property name="electronicPaymentClaimingService">
 			<ref bean="electronicPaymentClaimingService" />
 		</property>
-	</bean>    
-
+	</bean> 
+ 
 </beans>

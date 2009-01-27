@@ -38,12 +38,12 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 

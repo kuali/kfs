@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceConsolidationDao;
 import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.util.Guid;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;

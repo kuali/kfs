@@ -941,7 +941,7 @@
     <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
-    <reference-descriptor name="reversalDate" class-ref="org.kuali.kfs.gl.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="reversalDate" class-ref="org.kuali.kfs.sys.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentReversalDate" />
     </reference-descriptor>
     <reference-descriptor name="group" class-ref="org.kuali.kfs.gl.businessobject.OriginEntryGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >

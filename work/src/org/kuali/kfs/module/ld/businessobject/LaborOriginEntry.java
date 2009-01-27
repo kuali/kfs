@@ -28,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -37,6 +36,7 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.service;
 
-import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 
 /**
  * 

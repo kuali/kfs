@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.dataaccess;
 import java.sql.Date;
 import java.util.Collection;
 
-import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 
 /**
  * An DAO interface declaring methods needed by UniversityDates to interact with the database

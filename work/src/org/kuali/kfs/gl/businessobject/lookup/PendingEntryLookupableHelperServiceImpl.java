@@ -24,13 +24,13 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.Constant;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.businessobject.inquiry.EntryInquirableImpl;
 import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;

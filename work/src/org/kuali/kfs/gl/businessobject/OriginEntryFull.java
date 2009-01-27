@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**

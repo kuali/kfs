@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.dataaccess;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

@@ -105,7 +105,7 @@
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="universityDate" class-ref="org.kuali.kfs.gl.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="universityDate" class-ref="org.kuali.kfs.sys.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="transactionDate" />
     </reference-descriptor>
 
@@ -118,7 +118,7 @@
         <foreignkey field-ref="universityFiscalPeriodCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="reversalDate" class-ref="org.kuali.kfs.gl.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="reversalDate" class-ref="org.kuali.kfs.sys.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentReversalDate" />
     </reference-descriptor>
 
@@ -269,7 +269,7 @@
         <foreignkey field-ref="universityFiscalPeriodCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="reversalDate" class-ref="org.kuali.kfs.gl.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="reversalDate" class-ref="org.kuali.kfs.sys.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentReversalDate" />
     </reference-descriptor>
 
@@ -355,7 +355,7 @@
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="universityDate" class-ref="org.kuali.kfs.gl.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="universityDate" class-ref="org.kuali.kfs.sys.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="transactionDate" />
     </reference-descriptor>
 
@@ -368,7 +368,7 @@
         <foreignkey field-ref="universityFiscalPeriodCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="reversalDate" class-ref="org.kuali.kfs.gl.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="reversalDate" class-ref="org.kuali.kfs.sys.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentReversalDate" />
     </reference-descriptor>
 </class-descriptor>
@@ -689,21 +689,6 @@
     <field-descriptor name="correctionEndPosition" column="GL_COR_END_POS" jdbc-type="INTEGER" />
     <field-descriptor name="correctionFieldValue" column="GL_COR_FIELD_VAL" jdbc-type="VARCHAR" />
     <field-descriptor name="correctionFieldName" column="GL_COR_FIELD_NM" jdbc-type="VARCHAR" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.gl.businessobject.UniversityDate" table="SH_UNIV_DATE_T">
-    <field-descriptor name="universityDate" column="UNIV_DT" jdbc-type="DATE" primarykey="true" />
-    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="universityFiscalAccountingPeriod" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="universityFiscalAccountingPeriod" />
-    </reference-descriptor>
-    <reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="universityFiscalYear" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.gl.businessobject.SufficientFundRebuild" table="GL_SF_REBUILD_T">

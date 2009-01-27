@@ -3,7 +3,7 @@
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>UniversityDateMaintenanceDocument</name>
-<parent>ChartSimpleMaintenanceDocument</parent>
+<parent>FinancialSystemSimpleMaintenanceDocument</parent>
 
 </documentType>
 </documentTypes>

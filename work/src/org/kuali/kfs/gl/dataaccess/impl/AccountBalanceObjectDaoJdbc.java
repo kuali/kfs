@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceObjectDao;
 import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.Guid;

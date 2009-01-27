@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.gl.batch.dataaccess.impl;
+package org.kuali.kfs.sys.batch.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -22,10 +22,9 @@ import java.util.GregorianCalendar;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**

@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.gl.businessobject;
+package org.kuali.kfs.sys.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**

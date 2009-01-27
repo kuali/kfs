@@ -30,7 +30,6 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.WireCharge;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygroup;
@@ -41,6 +40,7 @@ import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public enum FiscalYearMakerFixture {

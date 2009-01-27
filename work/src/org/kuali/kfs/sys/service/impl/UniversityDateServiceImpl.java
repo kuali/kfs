@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;

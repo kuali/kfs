@@ -36,10 +36,10 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 
 
   //TODO is this a good name?????  probably not - should the DAO even be doing the caching?

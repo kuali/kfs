@@ -31,12 +31,12 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 
 /**
  * An interface of methods that duplicate the relationships that OriginEntryFull has.

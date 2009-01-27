@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,9 +38,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -62,7 +59,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = 
-            (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getNewDocument(PaymentApplicationDocument.class);
+            (PaymentApplicationDocument) documentService.getNewDocument(PaymentApplicationDocument.class);
 
         // KULAR-290
         // This code is basically copied from PaymentApplicationDocumentAction.createDocument
@@ -258,6 +255,10 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return pairs;
     }
     
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }

@@ -36,8 +36,6 @@ import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -58,8 +56,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
 
     public InvoiceRecurrenceDao invoiceRecurrenceDao;
     private static Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceServiceImpl.class);
-    MaintenanceDocumentService maintDocService = KNSServiceLocator.getMaintenanceDocumentService();
-    DocumentService docService = KNSServiceLocator.getDocumentService();
+    private DocumentService documentService;
     private DateTimeService dateTimeService;
     
     public DateTimeService getDateTimeService() {
@@ -68,6 +65,14 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
     public boolean processInvoiceRecurrence() throws WorkflowException {
@@ -135,12 +140,12 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 String initiator = invoiceRecurrence.getDocumentInitiatorUserPersonUserIdentifier();
                 GlobalVariables.setUserSession(new UserSession(initiator));
 
-                customerInvoiceDocument = (CustomerInvoiceDocument)docService.getByDocumentHeaderId(invoiceRecurrence.getInvoiceNumber());
+                customerInvoiceDocument = (CustomerInvoiceDocument)getDocumentService().getByDocumentHeaderId(invoiceRecurrence.getInvoiceNumber());
                 customerInvoiceDocument.toCopy();
                 List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
                 adHocRouteRecipients.add(buildApprovePersonRecipient(initiator));
                 adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
-                docService.routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
+                getDocumentService().routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
             }
 
             /* if nextProcessDate is greater than currentDate BUT less than or equal to endDate */
@@ -152,12 +157,12 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                     String initiator = invoiceRecurrence.getDocumentInitiatorUserPersonUserIdentifier();
                     GlobalVariables.setUserSession(new UserSession(initiator));
 
-                    customerInvoiceDocument = (CustomerInvoiceDocument)docService.getByDocumentHeaderId(invoiceRecurrence.getInvoiceNumber());
+                    customerInvoiceDocument = (CustomerInvoiceDocument)getDocumentService().getByDocumentHeaderId(invoiceRecurrence.getInvoiceNumber());
                     customerInvoiceDocument.toCopy();
                     List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
                     adHocRouteRecipients.add(buildApprovePersonRecipient(initiator));
                     adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
-                    docService.routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
+                    getDocumentService().routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
                 }
             }
             
@@ -169,7 +174,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                     String initiator = invoiceRecurrence.getDocumentInitiatorUserPersonUserIdentifier();
                     GlobalVariables.setUserSession(new UserSession(initiator));
 
-                    MaintenanceDocument newMaintDoc = (MaintenanceDocument) docService.getNewDocument("InvoiceRecurrenceMaintenanceDocument");
+                    MaintenanceDocument newMaintDoc = (MaintenanceDocument) getDocumentService().getNewDocument("InvoiceRecurrenceMaintenanceDocument");
                     newMaintDoc.getOldMaintainableObject().setBusinessObject(invoiceRecurrence);
                     InvoiceRecurrence newInvoiceRecurrence = invoiceRecurrence;
                     newInvoiceRecurrence.setActive(false);
@@ -180,7 +185,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                     List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
                     adHocRouteRecipients.add(buildFyiPersonRecipient(initiator));
                     adHocRouteRecipients.add(buildFyiWorkgroupRecipient(workgroup));
-                    docService.routeDocument(newMaintDoc, null, adHocRouteRecipients);
+                    getDocumentService().routeDocument(newMaintDoc, null, adHocRouteRecipients);
                 }
                 catch (WorkflowException e) {
                     LOG.error("WorkflowException occurred while trying to create a new MaintenanceDocument.", e);

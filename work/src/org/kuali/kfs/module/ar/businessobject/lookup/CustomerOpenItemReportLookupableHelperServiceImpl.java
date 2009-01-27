@@ -27,14 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
@@ -125,7 +123,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
 
-            // if (StringUtils.isNotBlank(displayWorkgroup) && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, displayWorkgroup)) {}
+            // if (StringUtils.isNotBlank(displayWorkgroup) && !SpringContext.getBean(IdentityManagementService.class).isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, displayWorkgroup)) {}
 
             // need to format date in url
             if (fieldVal instanceof Date) {

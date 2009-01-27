@@ -19,10 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -68,7 +69,7 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
                     else {
                         // gets the workflow document from doc service, doc service will also set the workflow document in the
                         // user's session
-                        Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
+                        Document retrievedDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
                         if (retrievedDocument == null) {
                             throw new WorkflowException("Unable to get retrieve document # " + cashControlDetail.getReferenceFinancialDocumentNumber() + " from document service getByDocumentHeaderId");
                         }

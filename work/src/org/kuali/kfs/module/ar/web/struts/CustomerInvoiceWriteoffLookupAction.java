@@ -30,10 +30,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -58,7 +58,7 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
 
         List<ResultRow> resultTable = null;
         try {
-            LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
+            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
             resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         }
         catch (Exception e) {

@@ -50,7 +50,6 @@ import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -1090,12 +1089,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                     newInvoiceRecurrence.setActive(this.getCustomerInvoiceRecurrenceDetails().isActive());
 
                     // create a new InvoiceRecurrenceMaintenanceDocument
-                    MaintenanceDocument invoiceRecurrenceMaintDoc = (MaintenanceDocument) KNSServiceLocator.getDocumentService().getNewDocument("InvoiceRecurrenceMaintenanceDocument");
+                    MaintenanceDocument invoiceRecurrenceMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("InvoiceRecurrenceMaintenanceDocument");
                     invoiceRecurrenceMaintDoc.getDocumentHeader().setDocumentDescription("Automatically created from Invoice");
                     invoiceRecurrenceMaintDoc.getNewMaintainableObject().setBusinessObject(newInvoiceRecurrence);
 
                     // route InvoiceRecurrenceMaintenanceDocument
-                    KNSServiceLocator.getDocumentService().routeDocument(invoiceRecurrenceMaintDoc, null, null);
+                    SpringContext.getBean(DocumentService.class).routeDocument(invoiceRecurrenceMaintDoc, null, null);
 
                 }
                 catch (WorkflowException e) {

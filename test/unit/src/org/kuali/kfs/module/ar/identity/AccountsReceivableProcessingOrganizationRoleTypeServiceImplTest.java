@@ -23,11 +23,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 @ConfigureContext
 public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest extends KualiTestBase {
@@ -75,14 +73,14 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
     
     protected String getArUserPrincipalId() {
         if ( arUserPrincipalId == null ) {
-            arUserPrincipalId = KIMServiceLocator.getIdentityService().getPrincipalIdByPrincipalName(AR_DOC_USER);
+            arUserPrincipalId = SpringContext.getBean(IdentityService.class).getPrincipalIdByPrincipalName(AR_DOC_USER);
         }
         return arUserPrincipalId;
     }
 
     protected String getArUserPrincipalId_2() {
         if ( arUserPrincipalId2 == null ) {
-            arUserPrincipalId2 = KIMServiceLocator.getIdentityService().getPrincipalIdByPrincipalName(AR_DOC_USER_2);
+            arUserPrincipalId2 = SpringContext.getBean(IdentityService.class).getPrincipalIdByPrincipalName(AR_DOC_USER_2);
         }
         return arUserPrincipalId2;
     }
@@ -155,7 +153,7 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
      */
     public RoleService getRoleService() {
         if (roleService == null ) {
-            roleService = KIMServiceLocator.getRoleService();
+            roleService = SpringContext.getBean(RoleService.class);
         }
         return roleService;
     }

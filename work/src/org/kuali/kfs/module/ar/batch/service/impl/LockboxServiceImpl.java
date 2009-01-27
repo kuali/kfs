@@ -38,7 +38,6 @@ import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,7 +56,7 @@ public class LockboxServiceImpl implements LockboxService {
 
     public LockboxDao lockboxDao;
     private static Logger LOG = org.apache.log4j.Logger.getLogger(LockboxServiceImpl.class);;
-    private DocumentService docService = KNSServiceLocator.getDocumentService();
+    private DocumentService documentService;
     private SystemInformationService systemInformationService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     private CashControlDocumentService cashControlDocumentService;
@@ -102,7 +101,7 @@ public class LockboxServiceImpl implements LockboxService {
                 // to the current cashcontroldocument as cashcontroldetails.
                 LOG.info("New Lockbox batch");
 
-                cashControlDocument = (CashControlDocument)KNSServiceLocator.getDocumentService().getNewDocument("CashControlDocument");
+                cashControlDocument = (CashControlDocument)documentService.getNewDocument("CashControlDocument");
                 cashControlDocument.setCustomerPaymentMediumCode(lockbox.getCustomerPaymentMediumCode());
                 
                 if(ObjectUtils.isNotNull(lockbox.getBankCode())) {
@@ -138,21 +137,21 @@ public class LockboxServiceImpl implements LockboxService {
                 Integer.parseInt(invoiceNumber);
             } catch (Exception e) {
                 detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-                docService.saveDocument(cashControlDocument);
+                documentService.saveDocument(cashControlDocument);
                 continue;
             }
             
-            if (!docService.documentExists(invoiceNumber)) {
+            if (!documentService.documentExists(invoiceNumber)) {
                 detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-                docService.saveDocument(cashControlDocument);
+                documentService.saveDocument(cashControlDocument);
                 continue;
             }
 
-            CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)docService.getByDocumentHeaderId(lockbox.getFinancialDocumentReferenceInvoiceNumber());
+            CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)documentService.getByDocumentHeaderId(lockbox.getFinancialDocumentReferenceInvoiceNumber());
             
             if (!customerInvoiceDocument.isOpenInvoiceIndicator()) {
                 detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_CLOSED_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-                docService.saveDocument(cashControlDocument);
+                documentService.saveDocument(cashControlDocument);
                 continue;
             } else {
                 detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
@@ -163,7 +162,7 @@ public class LockboxServiceImpl implements LockboxService {
                         getPaymentApplicationDocumentService().createSaveAndApprovePaymentApplicationToMatchInvoice(customerInvoiceDocument, "Auto-approving. Created via Lockbox process.", null);
                     customerInvoiceDocument.setOpenInvoiceIndicator(false);
                 }
-                docService.saveDocument(cashControlDocument);
+                documentService.saveDocument(cashControlDocument);
             }
 
         }
@@ -205,6 +204,22 @@ public class LockboxServiceImpl implements LockboxService {
 
     public void setPersonService(PersonService<PersonImpl> personService) {
         this.personService = personService;
+    }
+
+    /**
+     * Gets the documentService attribute. 
+     * @return Returns the documentService.
+     */
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    /**
+     * Sets the documentService attribute value.
+     * @param documentService The documentService to set.
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
 }

@@ -45,7 +45,6 @@ import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -69,7 +68,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
             String docId = cashControlDetail.getReferenceFinancialDocumentNumber();
             PaymentApplicationDocument doc = null;
-            doc = (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+            doc = (PaymentApplicationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
             if (doc == null) {
                 throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
             }
@@ -192,7 +191,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
         int indexOfLineToDelete = getLineToDelete(request);
         CashControlDetail cashControlDetail = cashControlDocument.getCashControlDetail(indexOfLineToDelete);
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
         documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);

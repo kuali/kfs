@@ -38,9 +38,9 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
 
 public class CashControlElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlElectronicPaymentClaimingHelperImpl.class);
@@ -171,7 +171,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      */
     public String getDocumentLabel() {
         try {
-            return KNSServiceLocator.getWorkflowInfoService().getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
+            return SpringContext.getBean(WorkflowInfoService.class).getWorkflowInfo().getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);

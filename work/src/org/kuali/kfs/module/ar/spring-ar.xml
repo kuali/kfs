@@ -122,6 +122,9 @@
 		<property name="personService">
 			<ref bean="personService" />
 		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
 	</bean>
 	
 	<bean id="customerInvoiceDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
@@ -184,6 +187,9 @@
 	<bean id="invoiceRecurrenceService" class="org.kuali.kfs.module.ar.batch.service.impl.InvoiceRecurrenceServiceImpl">
 		<property name="invoiceRecurrenceDao">
 			<ref bean="invoiceRecurrenceDao" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
@@ -680,6 +686,11 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+<!-- 
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
+-->
 	</bean>	
 
 

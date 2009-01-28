@@ -20,11 +20,11 @@ import java.util.List;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.validation.impl.AssignSensitiveDataRule;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
-public final class AssignSensitiveDataEvent extends KualiDocumentEventBase {
+public final class AssignSensitiveDataEvent extends AttributedDocumentEventBase {
     
     private List<SensitiveData> sensitiveDatas;
     

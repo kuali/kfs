@@ -248,6 +248,8 @@
         <property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
     </bean>
 
+	<bean id="Requisition-accountClosedValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountClosedValidation" abstract="true"/>
+	
 <!-- Purchase Order Definitions -->
 	<bean id="PurchaseOrder-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderNewIndividualItemValidation" abstract="true">
 	    <property name="parameterService" ref="parameterService" />

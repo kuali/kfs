@@ -575,23 +575,23 @@
 				<value>VendorCreditMemo-reviewAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent</value></key>
 				<value>VendorCreditMemo-continuePurapValidation</value>				
 			</entry>				
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent</value></key>
 				<value>VendorCreditMemo-calculateAccountsPayableValidation</value>				
 			</entry>				
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCancelAccountsPayableEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.CancelAccountsPayableEvent</value></key>
 				<value>VendorCreditMemo-cancelAccountsPayableValidation</value>				
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent</value></key>
 				<value>VendorCreditMemo-addPurchasingAccountsPayableItemValidation</value>				
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent</value></key>
 				<value>VendorCreditMemo-importPurchasingAccountsPayableItemValidation</value>				
 			</entry>																									
 	   	</map>

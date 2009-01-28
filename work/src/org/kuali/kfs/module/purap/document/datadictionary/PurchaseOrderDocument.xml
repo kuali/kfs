@@ -1333,15 +1333,15 @@
 				    <value>PurchaseOrder-updateAccountingLineValidation</value>
 			    </entry>	
 			    <entry>
-				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent</value></key>
+				    <key><value>org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent</value></key>
 				    <value>PurchaseOrder-performSplitValidation</value>
 			    </entry>	
 			    <entry>
-				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddQuoteToVendorEvent</value></key>
+				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent</value></key>
 				    <value>PurchaseOrder-performAddQuoteToVendorValidation</value>
 			    </entry>	
 			    <entry>
-				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent</value></key>
+				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AssignSensitiveDataEvent</value></key>
 				    <value>PurchaseOrder-performAssignSensitiveDataValidation</value>
 			    </entry>				    			    				    	    
 		    </map>

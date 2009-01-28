@@ -18,15 +18,15 @@ package org.kuali.kfs.module.purap.document.validation.event;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.validation.CancelAccountsPayableRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
  * Cancel event for Accounts Payable Document
  * This could be triggered when a user presses the cancel button.
  */
-public final class CancelAccountsPayableEvent extends KualiDocumentEventBase {
+public final class CancelAccountsPayableEvent extends AttributedDocumentEventBase {
 
     /**
      * Overridden constructor.

@@ -18,15 +18,15 @@ package org.kuali.kfs.module.purap.document.validation.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
  * Event Base class for Purchasing Accounts Payable Item
  * 
  * contains the base methods for item events
  */
-public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocumentEventBase implements PurchasingAccountsPayableItemEvent {
+public abstract class PurchasingAccountsPayableItemEventBase extends AttributedDocumentEventBase implements PurchasingAccountsPayableItemEvent {
     private static final Logger LOG = Logger.getLogger(PurchasingAccountsPayableItemEventBase.class);
 
 

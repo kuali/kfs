@@ -18,6 +18,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentPreRules" />
+    <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PaymentRequestAttachmentTypeValuesFinder" />    
     <property name="documentTypeCode" value="PREQ" />
     <property name="sessionDocument" value="true" />
 
@@ -938,23 +939,23 @@
 				<value>PaymentRequest-reviewAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent</value></key>
 				<value>PaymentRequest-continuePurapValidation</value>				
 			</entry>				
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent</value></key>
 				<value>PaymentRequest-calculateAccountsPayableValidation</value>				
 			</entry>				
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCancelAccountsPayableEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.CancelAccountsPayableEvent</value></key>
 				<value>PaymentRequest-cancelAccountsPayableValidation</value>				
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent</value></key>
 				<value>PaymentRequest-addPurchasingAccountsPayableItemValidation</value>				
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent</value></key>
 				<value>PaymentRequest-importPurchasingAccountsPayableItemValidation</value>				
 			</entry>			
 			<entry>

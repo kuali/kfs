@@ -18,9 +18,9 @@ package org.kuali.kfs.module.purap.document.validation.event;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.validation.impl.AddVendorToQuoteRule;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 
 
@@ -28,7 +28,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
  * Add a vendor to the quote tab event. 
  * This is triggered when a user presses the add vendor button for a given vendor.
  */
-public final class AddVendorToQuoteEvent extends KualiDocumentEventBase {
+public final class AddVendorToQuoteEvent extends AttributedDocumentEventBase {
     
     private PurchaseOrderVendorQuote vendorQuote;
     

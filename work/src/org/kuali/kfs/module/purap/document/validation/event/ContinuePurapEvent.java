@@ -17,16 +17,17 @@ package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.SaveOnlyDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveEvent;
 
 /**
  * Continue Event for Accounts Payable Document.
  * This could be triggered when a user presses the continue button to go to the next page.
  */
-public final class ContinuePurapEvent extends SaveOnlyDocumentEvent {
+public final class ContinuePurapEvent extends AttributedSaveDocumentEvent implements SaveEvent {
 
     /**
      * Overridden constructor.

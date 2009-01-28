@@ -63,11 +63,11 @@
 					<value>PurchaseOrderClose-reviewAccountingLineValidation</value>
 				</entry>
 				<entry>
-					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
+					<key><value>org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent</value></key>
 					<value>PurchaseOrderClose-addPurchasingAccountsPayableItemValidation</value>				
 				</entry>
 				<entry>
-					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
+					<key><value>org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent</value></key>
 					<value>PurchaseOrderClose-importPurchasingAccountsPayableItemValidation</value>				
 				</entry>																									
 				<entry>

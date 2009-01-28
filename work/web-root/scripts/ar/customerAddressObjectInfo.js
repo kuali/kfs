@@ -38,19 +38,6 @@ function setAddressFields( data ) {
 	setRecipientValueIgnoreNull( "document.billingInternationalMailCode",             data.customerInternationalMailCode );
 	setRecipientValueIgnoreNull( "document.billingEmailAddress",                      data.customerEmailAddress );
 	setRecipientValueIgnoreNull( "document.billingCountryCode",                       data.customerCountryCode );
-
-    setRecipientValueIgnoreNull( "document.customerShipToAddressIdentifier",          data.customerAddressIdentifier );
-    setRecipientValueIgnoreNull( "document.shippingCityName",                          data.customerCityName );
-	setRecipientValueIgnoreNull( "document.shippingAddressTypeCode",                   data.customerAddressTypeCode );
-	setRecipientValueIgnoreNull( "document.shippingStateCode",                         data.customerStateCode );
-	setRecipientValueIgnoreNull( "document.shippingAddressName",                       data.customerAddressName );
-	setRecipientValueIgnoreNull( "document.shippingZipCode",                           data.customerZipCode );
-	setRecipientValueIgnoreNull( "document.shippingLine1StreetAddress",                data.customerLine1StreetAddress );
-	setRecipientValueIgnoreNull( "document.shippingAddressInternationalProvinceName",  data.customerAddressInternationalProvinceName );
-	setRecipientValueIgnoreNull( "document.shippingLine2StreetAddress",                data.customerLine2StreetAddress );
-	setRecipientValueIgnoreNull( "document.shippingInternationalMailCode",             data.customerInternationalMailCode );
-	setRecipientValueIgnoreNull( "document.shippingEmailAddress",                      data.customerEmailAddress );
-	setRecipientValueIgnoreNull( "document.shippingCountryCode",                       data.customerCountryCode );
 }
 
 function clearAddressFields() {

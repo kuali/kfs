@@ -7,16 +7,11 @@
 <docHandler>${application.url}/financialCashManagement.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Campus"/>
-          <requests name="Campus"/>
+          <start name="AdHoc" />
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="AdHoc"/>
-<role name="Campus">
-<!--<ruleTemplate>KualiInitiatorCampusRuleTemplate</ruleTemplate>-->
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
 </routeNodes>
 </documentType>
 </documentTypes>

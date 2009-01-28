@@ -86,7 +86,8 @@
 	    <kul:notes 
 	    	notesBo="${KualiForm.document.documentBusinessObject.boNotes}" 
 	    	noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  
-	    	allowsNoteFYI="true"/>
+	    	allowsNoteFYI="true"
+	    	attachmentTypesValuesFinderClass="${DataDictionary.PaymentRequestDocument.attachmentTypesValuesFinderClass}" />
 	
 	    <kul:adHocRecipients />
 	    

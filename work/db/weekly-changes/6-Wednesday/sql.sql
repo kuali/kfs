@@ -3,6 +3,9 @@ update krim_rsp_attr_data_t set attr_val = 'ImageAttachment' where attr_data_id 
 update krim_rsp_attr_data_t set attr_val = 'AccountsPayableTransactionalDocument' where attr_data_id = '246'
 /
 
+update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'N'
+/
+
 INSERT INTO KRIM_RSP_T(RSP_ID, OBJ_ID, VER_NBR, RSP_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD)
     VALUES('107', sys_guid(), 1, '1', null, null, 'Y', 'KFS-PURAP')
 / 

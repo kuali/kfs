@@ -13,7 +13,7 @@
 				<requests name="InvoiceAttachment" nextNode="JoinRequiresInvoiceAttachment"/>
 			</branch>
 			<branch name="False">
-				<simple name="NoOp" nextNode="JoinRequiresInvoiceAttachment"/>
+				<simple name="NoOpRequiresInvoiceAttachment" nextNode="JoinRequiresInvoiceAttachment"/>
 			</branch>
 			<join name="JoinRequiresInvoiceAttachment"/>
 		  </split>

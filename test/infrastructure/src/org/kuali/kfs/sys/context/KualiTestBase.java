@@ -89,8 +89,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         if ( LOG.isInfoEnabled() ) {
             LOG.info("Entering test '" + testName + "'");
         }
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setMessageList(new ArrayList());
+        GlobalVariables.clear();
         ConfigureContext contextConfiguration = getMethod(getName()).getAnnotation(ConfigureContext.class) != null ? getMethod(getName()).getAnnotation(ConfigureContext.class) : getMethod("setUp").getAnnotation(ConfigureContext.class) != null ? getMethod("setUp").getAnnotation(ConfigureContext.class) : getClass().getAnnotation(ConfigureContext.class);
         if (contextConfiguration != null) {
             configure(contextConfiguration);
@@ -145,7 +144,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
                 endTestTransaction();
             }
             GlobalVariables.setUserSession(null);
-            GlobalVariables.setErrorMap(new ErrorMap());
+            GlobalVariables.clear();
             if ( LOG.isInfoEnabled() ) {
                 LOG.info("Leaving test '" + testName + "'");
             }

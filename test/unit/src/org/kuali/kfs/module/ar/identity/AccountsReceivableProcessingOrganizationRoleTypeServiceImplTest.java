@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 @ConfigureContext
@@ -48,7 +48,7 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
     protected static final String AR_DOC_PROCESSING_CHART_2 = "IN";
     protected static final String AR_DOC_PROCESSING_ORG_2 = "ACCT";
 
-    private static RoleService roleService;
+    private static RoleManagementService roleManagementService;
     private String arUserPrincipalId;
     private String arUserPrincipalId2;
     
@@ -105,20 +105,20 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
         AttributeSet qualification = buildDocQualifier();
         
         // find the AR Biller Role
-        String billerRoleId = getRoleService().getRoleIdByName(AR_NAMESPACE, AR_BILLER_ROLE);
+        String billerRoleId = getRoleManagementService().getRoleIdByName(AR_NAMESPACE, AR_BILLER_ROLE);
         assertNotNull("unable to find biller role", billerRoleId);
         tempRoleIdList.add( billerRoleId );
                       
-        boolean result = getRoleService().principalHasRole(getArUserPrincipalId(), tempRoleIdList, qualification);
+        boolean result = getRoleManagementService().principalHasRole(getArUserPrincipalId(), tempRoleIdList, qualification);
         assertTrue( "exact match on billing org should have passed", result );
         
         // find the AR Processor Role
-        String processorRoleId = getRoleService().getRoleIdByName(AR_NAMESPACE, AR_PROCESSOR_ROLE);
+        String processorRoleId = getRoleManagementService().getRoleIdByName(AR_NAMESPACE, AR_PROCESSOR_ROLE);
         assertNotNull("unable to find processor role", processorRoleId);
         tempRoleIdList.clear();
         tempRoleIdList.add( processorRoleId );
 
-        result = getRoleService().principalHasRole(getArUserPrincipalId(), tempRoleIdList, qualification);
+        result = getRoleManagementService().principalHasRole(getArUserPrincipalId(), tempRoleIdList, qualification);
         assertFalse( "test on main user for processing org should have failed - does not have processing org on KFS-SYS User role", result );
 
     }
@@ -130,20 +130,20 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
         AttributeSet qualification = buildDocQualifier_2();
         
         // find the AR Biller Role
-        String billerRoleId = getRoleService().getRoleIdByName(AR_NAMESPACE, AR_BILLER_ROLE);
+        String billerRoleId = getRoleManagementService().getRoleIdByName(AR_NAMESPACE, AR_BILLER_ROLE);
         assertNotNull("unable to find biller role", billerRoleId);
         tempRoleIdList.add( billerRoleId );
                       
-        boolean result = getRoleService().principalHasRole(getArUserPrincipalId_2(), tempRoleIdList, qualification);
+        boolean result = getRoleManagementService().principalHasRole(getArUserPrincipalId_2(), tempRoleIdList, qualification);
         assertTrue( "exact match on billing org should have passed - user has processing org, not billing org, but all processors are also billers", result );
         
         // find the AR Processor Role
-        String processorRoleId = getRoleService().getRoleIdByName(AR_NAMESPACE, AR_PROCESSOR_ROLE);
+        String processorRoleId = getRoleManagementService().getRoleIdByName(AR_NAMESPACE, AR_PROCESSOR_ROLE);
         assertNotNull("unable to find processor role", processorRoleId);
         tempRoleIdList.clear();
         tempRoleIdList.add( processorRoleId );
 
-        result = getRoleService().principalHasRole(getArUserPrincipalId_2(), tempRoleIdList, qualification);
+        result = getRoleManagementService().principalHasRole(getArUserPrincipalId_2(), tempRoleIdList, qualification);
         assertTrue( "principalHasRole test for processor role should have passed - user has processing org on KFS-SYS User role", result );
 
     }
@@ -151,11 +151,11 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
     /**
      * @return the roleService
      */
-    public RoleService getRoleService() {
-        if (roleService == null ) {
-            roleService = SpringContext.getBean(RoleService.class);
+    public RoleManagementService getRoleManagementService() {
+        if (roleManagementService == null ) {
+            roleManagementService = SpringContext.getBean(RoleManagementService.class);
         }
-        return roleService;
+        return roleManagementService;
     }
     
 }

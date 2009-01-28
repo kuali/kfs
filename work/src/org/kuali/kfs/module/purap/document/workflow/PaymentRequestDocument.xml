@@ -7,8 +7,16 @@
 <docHandler>${application.url}/purapPaymentRequest.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="InvoiceAttachment"/>
-          <requests name="InvoiceAttachment" nextNode="PurchaseWasReceived"/>
+          <start name="AdHoc" nextNode="RequiresInvoiceAttachment"/>
+          <split name="RequiresInvoiceAttachment" nextNode="PurchaseWasReceived">
+			<branch name="True">
+				<requests name="InvoiceAttachment" nextNode="JoinRequiresInvoiceAttachment"/>
+			</branch>
+			<branch name="False">
+				<simple name="NoOp" nextNode="JoinRequiresInvoiceAttachment"/>
+			</branch>
+			<join name="JoinRequiresInvoiceAttachment"/>
+		  </split> 
           <split name="PurchaseWasReceived" nextNode="SubAccount">
 						<branch name="True">
 							<requests name="Receiving" nextNode="Join"/>
@@ -73,6 +81,13 @@
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
 <join name="Join"/>
+<split name="RequiresInvoiceAttachment">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOpRequiresInvoiceAttachment">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<join name="JoinRequiresInvoiceAttachment"/>
 </routeNodes>
 </documentType>
 </documentTypes>

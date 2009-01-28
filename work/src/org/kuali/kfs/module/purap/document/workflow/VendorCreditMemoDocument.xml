@@ -7,8 +7,16 @@
 <docHandler>${application.url}/purapVendorCreditMemo.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="InvoiceAttachment"/>
-          <requests name="InvoiceAttachment" nextNode="Account"/>
+          <start name="AdHoc" nextNode="RequiresInvoiceAttachment"/>
+          <split name="RequiresInvoiceAttachment" nextNode="Account">
+			<branch name="True">
+				<requests name="InvoiceAttachment" nextNode="JoinRequiresInvoiceAttachment"/>
+			</branch>
+			<branch name="False">
+				<simple name="NoOp" nextNode="JoinRequiresInvoiceAttachment"/>
+			</branch>
+			<join name="JoinRequiresInvoiceAttachment"/>
+		  </split>
           <requests name="Account"/>
         </routePath>
       </routePaths>
@@ -22,6 +30,13 @@
 <!--<ruleTemplate>KualiPurApAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
+<split name="RequiresInvoiceAttachment">
+<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOpRequiresInvoiceAttachment">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<join name="JoinRequiresInvoiceAttachment"/>
 </routeNodes>
 </documentType>
 </documentTypes>

@@ -482,9 +482,13 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        // FIXME add a new system parameter for WRITEOFF_DFLT_APPRVL_AMOUNT
         if (REQUIRES_APPROVAL_NODE.equals(nodeName)) {
-            return (WRITEOFF_DFLT_APPRVL_AMOUNT.isLessThan(getInvoiceWriteoffAmount()));
+            
+            //  grab the approval threshold from the param service
+            ParameterService paramService = SpringContext.getBean(ParameterService.class); 
+            KualiDecimal approvalThreshold = new KualiDecimal(paramService.getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.WRITEOFF_APPROVAL_THRESHOLD));
+            
+            return (approvalThreshold.isLessThan(getInvoiceWriteoffAmount()));
         }
         throw new UnsupportedOperationException("answerSplitNode('" + nodeName + "') called but no handler for this nodeName present.");
     }

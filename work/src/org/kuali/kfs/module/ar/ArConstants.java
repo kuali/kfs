@@ -33,7 +33,8 @@ public class ArConstants {
     public static final String MAXIMUM_RECURRENCES_BY_INTERVAL = "MAXIMUM_RECURRENCES_BY_INTERVAL";
     public static final String ENABLE_SALES_TAX_IND = "ENABLE_SALES_TAX_IND";
     public static final String CUSTOMER_INVOICE_AGE = "CUSTOMER_INVOICE_AGE";
-
+    public static final String WRITEOFF_APPROVAL_THRESHOLD = "APPROVAL_THRESHOLD";
+    
     //Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;
 

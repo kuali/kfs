@@ -6,6 +6,7 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>KualiDocument</name>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>

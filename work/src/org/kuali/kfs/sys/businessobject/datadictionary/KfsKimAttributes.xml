@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KfsKimAttributes" parent="KfsKimAttributes-parentBean" />
 
@@ -34,6 +36,24 @@
         <ref bean="KfsKimAttributes-QuestionType-questionTypeNotificationValue" />
         <ref bean="KfsKimAttributes-sensitiveDataCode" />
         <ref bean="KfsKimAttributes-documentSensitive" />
+      </list>
+    </property>
+    <property name="relationships">
+      <list merge="true">
+        <dd:relationship objectAttribute="chart">
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="account">
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="accountNumber" target="accountNumber" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="organization">
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="organizationCode" target="organizationCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="subFundGroup">
+            <dd:primitiveAttribute source="subFundGroupCode" target="subFundGroupCode" />
+        </dd:relationship>      
       </list>
     </property>
   </bean>

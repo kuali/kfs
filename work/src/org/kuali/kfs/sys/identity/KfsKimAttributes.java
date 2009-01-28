@@ -17,6 +17,11 @@ package org.kuali.kfs.sys.identity;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+
 public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     public static String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
@@ -72,6 +77,16 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     
     protected String sensitiveDataCode;
     protected boolean documentSensitive;
+    
+    protected Chart chart;
+    protected Organization organization;
+    protected Account account;
+    protected SubFundGroup subFundGroup;
+    
+    //ContractManager
+    //CommodityCode
+    //CustomerProfile
+    
     
     @SuppressWarnings("unchecked")
     @Override
@@ -487,5 +502,37 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     public void setDocumentSensitive(boolean documentSensitive) {
         this.documentSensitive = documentSensitive;
+    }
+
+    public Chart getChart() {
+        return chart;
+    }
+
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public SubFundGroup getSubFundGroup() {
+        return subFundGroup;
+    }
+
+    public void setSubFundGroup(SubFundGroup subFundGroup) {
+        this.subFundGroup = subFundGroup;
     }
 }

@@ -41,7 +41,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
 
     private static final String REQUIRES_APPROVAL_NODE = "RequiresApproval";
 
-    private DateTimeService dateTimeService;
+    private transient DateTimeService dateTimeService;
     
     @Override
     @SuppressWarnings("unchecked")
@@ -183,7 +183,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
-        if(dateTimeService==null) {
+        if (dateTimeService == null) {
             dateTimeService = SpringContext.getBean(DateTimeService.class);
         }
         return dateTimeService;

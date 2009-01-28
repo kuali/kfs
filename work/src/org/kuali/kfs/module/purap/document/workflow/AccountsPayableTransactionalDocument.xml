@@ -4,34 +4,6 @@
 <documentType>
 <name>AccountsPayableTransactionalDocument</name>
 <parent>PurchasingAccountsPayableTransactionalDocument</parent>
-<routePaths>
-        <routePath>
-          <start name="AdHoc" nextNode="RequiresInvoiceAttachment"/>
-          	<split name="RequiresInvoiceAttachment">
-						<branch name="True">
-							<requests name="InvoiceAttachment" nextNode="Join"/>
-						</branch>
-						<branch name="False">
-							<simple name="NoOp" nextNode="Join"/>
-						</branch>
-						<join name="Join"/>
-					</split>
-          
-        </routePath>
-      </routePaths>
-<routeNodes>
-<start name="AdHoc"/>
-<split name="RequiresInvoiceAttachment">
-<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
-</split>
-<simple name="NoOp">
-<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-</simple>
-<join name="Join"/>
-<role name="InvoiceAttachment">
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-</routeNodes>
 </documentType>
 </documentTypes>
 </data>

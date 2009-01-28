@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.aickes;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.jkitchen;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rjweiss;
@@ -56,8 +58,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 @ConfigureContext(session = khuntley)
 public class RequisitionDocumentTest extends KualiTestBase {
     public static final Class<RequisitionDocument> DOCUMENT_CLASS = RequisitionDocument.class;
-    private static final String ACCOUNT_REVIEW = "Account Review";
-    private static final String COMMODITY_CODE_REVIEW = "Commodity Code Review";
+    private static final String ACCOUNT_REVIEW = "Account";
+    private static final String ORGANIZATION = "Organization";
+    private static final String COMMODITY_CODE_REVIEW = "Commodity";
     
     private RequisitionDocument requisitionDocument = null;
 
@@ -160,6 +163,14 @@ public class RequisitionDocumentTest extends KualiTestBase {
         requisitionDocument = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();
         AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ORGANIZATION);
+        
+        changeCurrentUser(aickes);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ORGANIZATION));
+        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("aickes should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as rorenfro", null);
         WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 
         // the document should now be routed to vputman as Fiscal Officer
@@ -188,6 +199,14 @@ public class RequisitionDocumentTest extends KualiTestBase {
         requisitionDocument = RequisitionDocumentWithCommodityCodeFixture.REQ_VALID_ACTIVE_COMMODITY_CODE.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();
         AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ORGANIZATION);
+
+        changeCurrentUser(aickes);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ORGANIZATION));
+        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("aickes should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as rorenfro", null);
         WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 
         // the document should now be routed to rorenfro as Fiscal Officer

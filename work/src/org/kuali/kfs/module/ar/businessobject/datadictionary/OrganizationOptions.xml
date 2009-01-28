@@ -79,21 +79,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="OrganizationOptions-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   	<property name="label" value="Billing Chart Code" />
-    <property name="attributeSecurity">
-    	<bean parent="AttributeSecurity">
-    		<property name="readOnly" value="true" />
-    	</bean>
-    </property>
   </bean>
   <bean id="OrganizationOptions-organizationCode" parent="OrganizationOptions-organizationCode-parentBean" />
 
   <bean id="OrganizationOptions-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="label" value="Billing Organization Code" />
-    <property name="attributeSecurity">
-    	<bean parent="AttributeSecurity">
-    		<property name="readOnly" value="true" />
-    	</bean>
-    </property>
   </bean>
   
   <bean id="OrganizationOptions-organization.codeAndDescription" parent="OrganizationOptions-organization.codeAndDescription-parentBean" />

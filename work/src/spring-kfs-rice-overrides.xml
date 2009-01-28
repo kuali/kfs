@@ -113,6 +113,16 @@
       <ref bean="dataDictionaryService" />
     </property>
   </bean>
+  
+  	<bean id="postProcessorService" class="org.kuali.kfs.sys.service.impl.PostProcessorServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+  
 
   <bean id="documentDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentDaoOjb">
     <property name="businessObjectDao">

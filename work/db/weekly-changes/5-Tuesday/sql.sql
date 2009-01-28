@@ -48,15 +48,16 @@ insert into krns_parm_t
 'A'
 FROM dual)
 / 
-delete krew_doc_typ_t
-where doc_typ_nm = 'DocumentTypeMaintenanceDocument'
+delete from krew_doc_typ_t where doc_typ_nm = 'DocumentTypeMaintenanceDocument'
 /
+
 update krim_perm_attr_data_t set attr_val = 'org.kuali.kfs.sys.web.struts.ElectronicFundTransferAction' where attr_data_id = '395'
 /
 update krim_role_mbr_attr_data_t set target_primary_key = '1290', attr_val = 'UA' where attr_data_id = '2912'
 /
 update krim_role_mbr_attr_data_t set target_primary_key = '1290', attr_val = 'VPIT' where attr_data_id = '2913'
 /
+
 insert into krns_parm_t
 SELECT 'KFS-SYS', a.parm_dtl_typ_cd, a.parm_nm, sys_guid(), 1,
        a.parm_typ_cd, a.txt, a.parm_desc_txt, a.cons_cd
@@ -94,6 +95,13 @@ INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, AC
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
     VALUES('553', sys_guid(), 1, '66', '290', 'Y')
 /
+delete from krim_role_mbr_attr_data_t where kim_typ_id = '44'
+/
+delete from krim_typ_attr_t where kim_typ_id = '44'
+/
+delete from krim_typ_t where kim_typ_id = '44'
+/
+
 UPDATE krim_perm_tmpl_t
     SET KIM_TYP_ID = '5'
     WHERE KIM_TYP_ID = '64'

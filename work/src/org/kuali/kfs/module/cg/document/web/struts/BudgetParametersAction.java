@@ -109,7 +109,6 @@ public class BudgetParametersAction extends BudgetAction {
         List docReferenceObjects = new ArrayList();
         docReferenceObjects.add("adhocPersons");
         docReferenceObjects.add("adhocOrgs");
-        docReferenceObjects.add("adhocWorkgroups");
 
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetForm.getBudgetDocument(), docReferenceObjects);
 

@@ -133,7 +133,6 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         List referenceObjects = new ArrayList();
         referenceObjects.add("adhocPersons");
         referenceObjects.add("adhocOrgs");
-        referenceObjects.add("adhocWorkgroups");
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
         return mapping.findForward("permissions");
     }

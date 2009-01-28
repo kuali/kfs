@@ -341,7 +341,6 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         referenceObjects.add("routingFormQuestions");
         referenceObjects.add("adhocPersons");
         referenceObjects.add("adhocOrgs");
-        referenceObjects.add("adhocWorkgroups");
 
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(routingFormDocument, referenceObjects);
     }

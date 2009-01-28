@@ -1798,7 +1798,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         List referenceObjects = new ArrayList();
         referenceObjects.add("adhocPersons");
         referenceObjects.add("adhocOrgs");
-        referenceObjects.add("adhocWorkgroups");
         referenceObjects.add("routingFormInstitutionCostShares");
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(this, referenceObjects);
 

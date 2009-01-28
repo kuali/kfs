@@ -110,3 +110,6 @@ DELETE FROM KRIM_TYP_T
     WHERE KIM_TYP_ID = '64'
 /
 
+update krew_doc_typ_t set lbl = 'Financial System Document Type Code' where doc_typ_id = '319989'
+/
+

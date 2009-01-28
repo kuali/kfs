@@ -101,3 +101,13 @@ update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (sele
 --Management	VendorMaintenanceDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '92')
 /
+
+INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD) 
+    VALUES('291', sys_guid(), 1, '40', null, null, 'Y', 'KFS-PURAP')
+/
+INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_KEY, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) 
+    VALUES('420', sys_guid(), 1, '291', '3', '13', 'ElectronicInvoiceRejectDocument')
+/
+INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
+    VALUES('554', sys_guid(), 1, '22', '291', 'Y')
+/

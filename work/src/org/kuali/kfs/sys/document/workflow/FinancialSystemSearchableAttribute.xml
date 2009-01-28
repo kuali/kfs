@@ -3,7 +3,7 @@
 <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 <ruleAttribute>
 <name>FinancialSystemSearchableAttribute</name>
-      <className>org.kuali.kfs.sys.document.searching.attribute.FinancialSystemSearchableAttribute</className>
+      <className>org.kuali.kfs.sys.document.workflow.FinancialSystemSearchableAttributeibute</className>
       <label>Financial System Searchable Attribute</label>
       <description>Financial System Searchable Attribute</description>
       <type>SearchableAttribute</type>

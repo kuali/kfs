@@ -31,7 +31,7 @@
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <split name="RequiresInvoiceAttachment">
-<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 </split>
 <simple name="NoOpRequiresInvoiceAttachment">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>

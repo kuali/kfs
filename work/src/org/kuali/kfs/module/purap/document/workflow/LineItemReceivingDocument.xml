@@ -21,8 +21,7 @@
       </routePaths>
 <routeNodes>
 <start name="AdHoc"/>
-<split name="RelatesToOutstandingTransactions">
-<type>org.kuali.kfs.sys.document.routing.SimpleBooleanSplitNode</type>
+<split name="RelatesToOutstandiorg.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNodeg.SimpleBooleanSplitNode</type>
 </split>
 <simple name="NoOp">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>

@@ -23,7 +23,8 @@
 <role name="Management">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<split name="Rorg.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNodeng.SimpleBooleanSplitNode</type>
+<split name="RequiresApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 </split>
 <simple name="NoOp">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>

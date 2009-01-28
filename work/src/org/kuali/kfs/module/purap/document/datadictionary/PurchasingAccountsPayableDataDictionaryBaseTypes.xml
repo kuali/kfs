@@ -141,6 +141,47 @@
     	</property>
     </bean>
     
+    <bean id="RoutingType-PurchasingAccountsPayableDocument-SubAccount" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-accountNumber" />
+		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    		        <property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.SubAccount" />
+    		        <property name="attributeName" value="subAccountNumber" />
+    		    </bean>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-PurchasingAccountsPayableDocument-SubAccount-accountingLines" />
+    		</list>
+    	</property>
+    </bean>
+
+    <bean id="DocumentValuePathGroup-PurchasingAccountsPayableDocument-SubAccount-accountingLines"  class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+			<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+				<property name="collectionPath" value="items" />
+				<property name="nestedCollection">
+    		        <bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumberAndSubAccountNumber">
+				        <property name="collectionPath" value="sourceAccountingLines" />
+				    </bean>
+				</property>
+    		</bean>
+    	</property>
+    </bean>
+
+   	<bean id="DocumentCollectionPath-AccountingLine-chartAndAccountNumberAndSubAccountNumber" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+   		<property name="documentValues">
+	   		<list>
+	   			<value>chartOfAccountsCode</value>
+	   			<value>accountNumber</value>
+	   			<value>subAccountNumber</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	            
 <!-- We probably don't need this ?      
     <bean id="RoutingType-PaymentRequestDocument-PurchaseWasReceived" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">

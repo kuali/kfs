@@ -100,7 +100,7 @@ public class BatchExtractServiceTest extends BatchTestBase {
 
     public void testFindPreTaggablePOAccounts() throws Exception {
         Collection<PurchaseOrderAccount> preTaggablePOAccounts = batchExtractService.findPreTaggablePOAccounts();
-        batchExtractService.savePreTagLines(preTaggablePOAccounts);
         assertEquals(6, preTaggablePOAccounts.size());
+        batchExtractService.savePreTagLines(preTaggablePOAccounts);
     }
 }

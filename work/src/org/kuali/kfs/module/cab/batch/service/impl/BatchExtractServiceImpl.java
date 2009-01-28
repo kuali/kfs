@@ -493,6 +493,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     public void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts) {
         HashSet<String> savedLines = new HashSet<String>();
         for (PurchaseOrderAccount purchaseOrderAccount : preTaggablePOAccounts) {
+            purchaseOrderAccount.refresh();
             PurchaseOrderItem purapItem = purchaseOrderAccount.getPurapItem();
             PurchaseOrderDocument purchaseOrder = purapItem.getPurchaseOrder();
             if (ObjectUtils.isNotNull(purchaseOrder)) {
@@ -511,7 +512,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         KualiDecimal quantity = purapItem.getItemQuantity();
                         pretag.setQuantityInvoiced(quantity != null ? quantity : new KualiDecimal(1));
                         pretag.setVendorName(purchaseOrder.getVendorName());
-                        pretag.setAssetTopsDescription(purapItem.getItemDescription());                   
+                        pretag.setAssetTopsDescription(purapItem.getItemDescription());
                         pretag.setPretagCreateDate(new java.sql.Date(purchaseOrder.getPurchaseOrderInitialOpenTimestamp().getTime()));
                         pretag.setChartOfAccountsCode(purchaseOrder.getChartOfAccountsCode());
                         pretag.setOrganizationCode(purchaseOrder.getOrganizationCode());

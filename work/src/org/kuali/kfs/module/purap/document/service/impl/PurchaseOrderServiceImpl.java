@@ -484,7 +484,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setOverrideWorkflowButtons(Boolean.FALSE);
         boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson(), null);
         if (!performedAction) {
-            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, KFSConstants.SYSTEM_USER);
+            Person systemUserPerson = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), systemUserPerson, KFSConstants.SYSTEM_USER);
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         if (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {

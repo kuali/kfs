@@ -37,6 +37,9 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CustomerInvoiceDocument'/></li>
         <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CustomerCreditMemoDocument'/></li>
+        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CustomerInvoiceWriteoffDocument'/></li>
+        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CashControlDocument'/></li>
+        <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=PaymentApplicationDocument'/></li>
     </ul>
  	<strong>Effort Certification</strong><br/>
     <ul class="chan">

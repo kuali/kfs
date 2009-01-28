@@ -15,6 +15,9 @@
     <property name="documentTypeName" value="CustomerCreditMemoDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentRule" />
+<!-- the following businessRuleClass should be used for granular validations, if implemented
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+-->
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentPreRules" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerCreditMemoDocumentPresentationController" />
     <property name="documentTypeCode" value="CRM" />
@@ -30,7 +33,7 @@
     <property name="workflowAttributes">
     	<ref bean="CustomerCreditMemoDocument-workflowAttributes" />
     </property>
-    
+    <property name="validationMap" ref="CustomerCreditMemoDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -96,9 +99,15 @@
 	<bean id="CustomerCreditMemoDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
+	   			<ref bean="SearchingType-CustomerCreditMemoDocument-customerNumber" />
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-customerName" />
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-billChartOfAccountsCode" />
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-billingOrganizationCode" />
+	   			<ref bean="SearchingType-CustomerCreditMemoDocument-processingChartOfAccountsCode" />
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-processingOrganizationCode" />
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-invoiceItemCode" />
     			<ref bean="SearchingType-CustomerCreditMemoDocument-chartOfAccountsCode" />
     			<ref bean="SearchingType-CustomerCreditMemoDocument-accountNumber" />
-    			<ref bean="SearchingType-CustomerCreditMemoDocument-crmTotalAmount" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
@@ -129,6 +138,99 @@
 		</bean>
 	</property>
 	</bean>
+
+    <bean id="SearchingType-CustomerCreditMemoDocument-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-CustomerCreditMemoDocument-customerNumber" />
+        <property name="documentValues">
+        	<list>
+        		<value>accountsReceivableDocumentHeader.customerNumber</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingAttribute-CustomerCreditMemoDocument-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-customerNumber" />
+    
+    <bean id="WorkflowAttribute-CustomerCreditMemoDocument-customerNumber" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="attributeName" value="customerNumber" />
+    </bean>  
+
+    <bean id="SearchingType-CustomerCreditMemoDocument-customerName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-CustomerCreditMemoDocument-customerName" />
+        <property name="documentValues">
+        	<list>
+        		<value>invoice.accountsReceivableDocumentHeader.customer.customerName</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingAttribute-CustomerCreditMemoDocument-customerName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-customerName" />
+    
+    <bean id="WorkflowAttribute-CustomerCreditMemoDocument-customerName" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
+    	<property name="attributeName" value="customerName" />
+    </bean>  
+
+    <bean id="SearchingType-CustomerCreditMemoDocument-billChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-CustomerCreditMemoDocument-billChartOfAccountsCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>invoice.billByChartOfAccountCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingAttribute-CustomerCreditMemoDocument-billChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-billChartOfAccountsCode" />
+    
+    <bean id="WorkflowAttribute-CustomerCreditMemoDocument-billChartOfAccountsCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+    	<property name="attributeName" value="billByChartOfAccountCode" />
+    </bean>  
+
+    <bean id="SearchingType-CustomerCreditMemoDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-CustomerCreditMemoDocument-billingOrganizationCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>invoice.billedByOrganizationCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingAttribute-CustomerCreditMemoDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-billingOrganizationCode" />
+    
+    <bean id="WorkflowAttribute-CustomerCreditMemoDocument-billingOrganizationCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+    	<property name="attributeName" value="billedByOrganizationCode" />
+    </bean>
+
+<!--
+-->
+    <bean id="SearchingType-CustomerCreditMemoDocument-processingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-CustomerCreditMemoDocument-processingChartOfAccountsCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>accountsReceivableDocumentHeader.processingChartOfAccountCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingAttribute-CustomerCreditMemoDocument-processingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-processingChartOfAccountsCode" />
+    
+    <bean id="WorkflowAttribute-CustomerCreditMemoDocument-processingChartOfAccountsCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="attributeName" value="processingChartOfAccountCode" />
+    </bean>  
+
+    <bean id="SearchingType-CustomerCreditMemoDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-CustomerCreditMemoDocument-processingOrganizationCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>accountsReceivableDocumentHeader.processingOrganizationCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingAttribute-CustomerCreditMemoDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-processingOrganizationCode" />
+    
+    <bean id="WorkflowAttribute-CustomerCreditMemoDocument-processingOrganizationCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="attributeName" value="processingOrganizationCode" />
+    </bean>
+
 	<bean id="SearchingType-CustomerCreditMemoDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
         <property name="documentValues">
@@ -145,19 +247,65 @@
         	</list>
         </property>
     </bean>
-    <bean id="SearchingType-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-CustomerCreditMemoDocument-crmTotalAmount" />
+    <bean id="SearchingType-CustomerCreditMemoDocument-invoiceItemCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-CustomerCreditMemoDocument-invoiceItemCode" />
         <property name="documentValues">
         	<list>
-        		<value>crmTotalAmount</value>
+        		<value>invoice.sourceAccountingLines.invoiceItemCode</value>
         	</list>
         </property>
     </bean>
-    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-crmTotalAmount" />
-    <bean id="SearchingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-crmTotalAmount" />
+    <bean id="SearchingAttribute-CustomerCreditMemoDocument-invoiceItemCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-invoiceItemCode" />
     
+    <bean id="WorkflowAttribute-CustomerCreditMemoDocument-invoiceItemCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
+    	<property name="attributeName" value="invoiceItemCode" />
+    </bean>  
+
+    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-crmTotalAmount" />
     <bean id="WorkflowAttribute-CustomerCreditMemoDocument-crmTotalAmount" abstract="true">
     	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />
     	<property name="attributeName" value="crmTotalAmount" />
     </bean>  
+
+<!-- Granular Validations -->
+  <bean id="CustomerCreditMemoDocument-validations" parent="CustomerCreditMemoDocument-validations-parentBean" />  
+  <bean id="CustomerCreditMemoDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>			
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>CustomerCreditMemo-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>CustomerCreditMemo-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>CustomerCreditMemo-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>CustomerCreditMemo-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>CustomerCreditMemo-reviewAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.ContinueCustomerCreditMemoDocumentEvent</value></key>
+				<value>CustomerCreditMemo-continueCustomerCreditMemoDocumentValidation</value>
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDetailEvent</value></key>
+				<value>CustomerCreditMemo-recalculateCustomerCreditMemoDetailValidation</value>
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDocumentEvent</value></key>
+				<value>CustomerCreditMemo-recalculateCustomerCreditMemoDocumentValidation</value>
+			</entry>			
+    	</map>
+    </property>
+  </bean>  
 </beans>

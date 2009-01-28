@@ -12,6 +12,9 @@
     <property name="documentTypeName" value="CashControlDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CashControlDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentRule" />
+<!-- the following businessRuleClass should be used for granular validations, if implemented
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+-->
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentPresentationController" />
     <property name="documentTypeCode" value="CTRL" />
@@ -33,6 +36,7 @@
     <property name="workflowAttributes" >
       <ref bean="CashControlDocument-workflowAttributes" />
     </property>
+    <property name="validationMap" ref="CashControlDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -74,9 +78,29 @@
   </bean>
   
 <!-- Start - Workflow Attribute Beans -->  
-  <bean id="SearchingTypeDefinition-CashControlDocument-chartOfAccountsCode" parent="SearchingTypeDefinition-CashControlDocument-chartOfAccountsCode-parentBean" />
-  <bean id="SearchingTypeDefinition-CashControlDocument-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+  <bean id="SearchingType-CashControlDocument-customerNumber" parent="SearchingType-CashControlDocument-customerNumber-parentBean" />
+  <bean id="SearchingType-CashControlDocument-customerNumber-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+      <property name="searchingAttribute" ref="SearchingAttribute-CashControlDocument-customerNumber" />
+      <property name="documentValues">
+      	<list>
+      		<value>accountsReceivableDocumentHeader.customerNumber</value>
+      	</list>
+      </property>
+  </bean>
+    
+  <bean id="SearchingType-CashControlDocument-customerName" parent="SearchingType-CashControlDocument-customerName-parentBean" />
+  <bean id="SearchingType-CashControlDocument-customerName-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+      <property name="searchingAttribute" ref="SearchingAttribute-CashControlDocument-customerName" />
+      <property name="documentValues">
+      	<list>
+      		<value>accountsReceivableDocumentHeader.customer.customerName</value>
+      	</list>
+      </property>
+  </bean>
+    
+  <bean id="SearchingType-CashControlDocument-chartOfAccountsCode" parent="SearchingType-CashControlDocument-chartOfAccountsCode-parentBean" />
+  <bean id="SearchingType-CashControlDocument-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-CashControlDocument-processingChartOfAccountCode" />
 	  <property name="documentValues">
 	  	<list>
 	  		<value>chartOfAccountsCode</value>
@@ -84,15 +108,35 @@
 	</property>
   </bean>
 
-  <bean id="SearchingTypeDefinition-CashControlDocument-organizationCode" parent="SearchingTypeDefinition-CashControlDocument-organizationCode-parentBean" />
-  <bean id="SearchingTypeDefinition-CashControlDocument-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
+  <bean id="SearchingType-CashControlDocument-organizationCode" parent="SearchingType-CashControlDocument-organizationCode-parentBean" />
+  <bean id="SearchingType-CashControlDocument-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-CashControlDocument-processingOrganizationCode" />
 	  <property name="documentValues">
 	  	<list>
 	  		<value>organizationCode</value>
 	   	</list>
 	</property>
   </bean>   
+
+  <bean id="SearchingType-CashControlDocument-customerPaymentMediumCode" parent="SearchingType-CashControlDocument-customerPaymentMediumCode-parentBean" />
+  <bean id="SearchingType-CashControlDocument-customerPaymentMediumCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <property name="searchingAttribute" ref="SearchingAttribute-CashControlDocument-customerPaymentMediumCode" />
+      <property name="documentValues">
+        <list>
+        	<value>customerPaymentMediumCode</value>
+        </list>
+      </property>
+  </bean>
+
+  <bean id="SearchingType-CashControlDocument-customerPaymentMediumIdentifier" parent="SearchingType-CashControlDocument-customerPaymentMediumIdentifier-parentBean" />
+  <bean id="SearchingType-CashControlDocument-customerPaymentMediumIdentifier-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <property name="searchingAttribute" ref="SearchingAttribute-CashControlDocument-customerPaymentMediumIdentifier" />
+      <property name="documentValues">
+        <list>
+        	<value>cashControlDetails.customerPaymentMediumIdentifier</value>
+        </list>
+      </property>
+  </bean>
 
   <bean id="CashControlDocument-DocumentValuePathGroup" parent="CashControlDocument-DocumentValuePathGroup-parentBean" />
   <bean id="CashControlDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
@@ -123,8 +167,12 @@
   <bean id="CashControlDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingTypeDefinition-CashControlDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingTypeDefinition-CashControlDocument-organizationCode" />
+    			<ref bean="SearchingType-CashControlDocument-customerNumber" />
+    			<ref bean="SearchingType-CashControlDocument-customerName" />
+    			<ref bean="SearchingType-CashControlDocument-chartOfAccountsCode" />
+    			<ref bean="SearchingType-CashControlDocument-organizationCode" />
+    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumCode" />
+    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumIdentifier" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
@@ -133,5 +181,91 @@
     		</map>
     	</property>
   </bean>
+
+  <bean id="RoutingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode" />
+  <bean id="SearchingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode" />
+
+  <bean id="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode" abstract="true">
+	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+	<property name="attributeName" value="processingChartOfAccountCode" />
+  </bean>
+
+  <bean id="RoutingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingOrganizationCode" />
+  <bean id="SearchingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CashControlDocument-processingOrganizationCode" />
+
+  <bean id="WorkflowAttribute-CashControlDocument-processingOrganizationCode" abstract="true">
+	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+	<property name="attributeName" value="processingOrganizationCode" />
+  </bean>
   
-    </beans>
+
+  <bean id="SearchingAttribute-CashControlDocument-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CashControlDocument-customerNumber" />
+  <bean id="WorkflowAttribute-CashControlDocument-customerNumber" abstract="true">
+  	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+  	<property name="attributeName" value="customerNumber" />
+  </bean>  
+
+  <bean id="SearchingAttribute-CashControlDocument-customerName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CashControlDocument-customerName" />
+  <bean id="WorkflowAttribute-CashControlDocument-customerName" abstract="true">
+  	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
+  	<property name="attributeName" value="customerName" />
+  </bean>  
+
+  <bean id="SearchingAttribute-CashControlDocument-customerPaymentMediumCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CashControlDocument-customerPaymentMediumCode" />
+  <bean id="WorkflowAttribute-CashControlDocument-customerPaymentMediumCode" abstract="true">
+  	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.PaymentMedium" />
+  	<property name="attributeName" value="customerPaymentMediumCode" />
+  </bean>  
+
+  <bean id="SearchingAttribute-CashControlDocument-customerPaymentMediumIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CashControlDocument-customerPaymentMediumIdentifier" />
+  <bean id="WorkflowAttribute-CashControlDocument-customerPaymentMediumIdentifier" abstract="true">
+  	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.CashControlDetail" />
+  	<property name="attributeName" value="customerPaymentMediumIdentifier" />
+  </bean>  
+
+
+
+<!--  Granular Validations -->
+
+  <bean id="CashControlDocument-validations" parent="CashControlDocument-validations-parentBean" />
+  
+  <bean id="CashControlDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>			
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>CashControl-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>CashControl-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>CashControl-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>CashControl-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>CashControl-reviewAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.AddCashControlDetailEvent</value></key>
+				<value>CashControl-addCashControlDetailValidation</value>
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.DeleteCashControlDetailEvent</value></key>
+				<value>CashControl-deleteCashControlDetailValidation</value>
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.GenerateReferenceDocumentEvent</value></key>
+				<value>CashControl-generateReferenceDocumentValidation</value>
+			</entry>			
+    	</map>
+    </property>
+  </bean>  
+  
+</beans>

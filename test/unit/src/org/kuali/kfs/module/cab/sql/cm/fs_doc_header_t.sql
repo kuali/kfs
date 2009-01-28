@@ -1,2 +1,0 @@
-insert into FS_DOC_HEADER_T (FDOC_NBR, FDOC_STATUS_CD, FDOC_TOTAL_AMT, FDOC_IN_ERR_NBR, TEMP_DOC_FNL_DT)
-values ('41', 'A', 4000, null, null);

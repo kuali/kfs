@@ -4,7 +4,6 @@
 <documentType>
 <name>ParameterTypeMaintenanceDocument</name>
 <parent>RiceDocument</parent>
-
 </documentType>
 </documentTypes>
 </data>

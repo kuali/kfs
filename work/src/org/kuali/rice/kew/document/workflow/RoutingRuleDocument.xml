@@ -4,7 +4,6 @@
 <documentType>
 <name>RoutingRuleDocument</name>
 <parent>RiceDocument</parent>
-
 </documentType>
 </documentTypes>
 </data>

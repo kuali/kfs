@@ -4,7 +4,6 @@
 <documentType>
 <name>FinancialSystemSimpleMaintenanceDocument</name>
 <parent>FinancialSystemDocument</parent>
-<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
           <start name="AdHoc" />

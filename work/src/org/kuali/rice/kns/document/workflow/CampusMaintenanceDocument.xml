@@ -4,7 +4,6 @@
 <documentType>
 <name>CampusMaintenanceDocument</name>
 <parent>RiceDocument</parent>
-
 </documentType>
 </documentTypes>
 </data>

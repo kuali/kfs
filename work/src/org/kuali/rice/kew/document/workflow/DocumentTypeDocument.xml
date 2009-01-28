@@ -4,7 +4,6 @@
 <documentType>
 <name>DocumentTypeDocument</name>
 <parent>RiceDocument</parent>
-
 </documentType>
 </documentTypes>
 </data>

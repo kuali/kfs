@@ -716,8 +716,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String SERVICE_BUS_ACCESS_GROUP_PARM = "SERVICE_BUS_ACCESS_GROUP";
     }
 
-    @Deprecated public static final String MAINTENANCE_ADMIN_WORKGROUP_PARM_NM = "MAINTENANCE_ADMIN_GROUP";
-
     public static final String ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ACCOUNTING_LINE_IMPORT";
     public static final String ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ORIGIN_ENTRY_IMPORT";
 
@@ -725,9 +723,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
         public static final String FISCAL_YEAR_MAKER_REPLACE_MODE = "OVERRIDE_TARGET_YEAR_DATA_IND";
         public static final String FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR = "SOURCE_FISCAL_YEAR";
-
-        public static final String ACCOUNT_USER_EMP_STATUSES = "ROLE_EMPLOYEE_STATUSES";
-        public static final String ACCOUNT_USER_EMP_TYPES = "ROLE_EMPLOYEE_TYPES";
 
         // added from parameter refactoring.
         public static final String APC_HRMS_ACTIVE_KEY = "USE_HRMS_ORGANIZATION_ATTRIBUTES_IND";

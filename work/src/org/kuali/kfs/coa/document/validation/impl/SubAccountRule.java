@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.SubFundGroupService;
@@ -472,7 +473,9 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
         String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
         
-        String responsibilityId = Integer.toString(newSubAccount.getAccount().getContractsAndGrantsAccountResponsibilityId());        
+        Account account = newSubAccount.getAccount();
+        String responsibilityId = account.getContractsAndGrantsAccountResponsibilityId() + "";
+        
         AttributeSet roleQualifiers = new AttributeSet();
         roleQualifiers.put(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID, responsibilityId);
         

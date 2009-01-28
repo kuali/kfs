@@ -525,17 +525,26 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * @return true if user is of the requested employee type, false if not, true if the user object is null
      */
     protected boolean checkUserStatusAndType(String propertyName, Person user) {
-
         boolean success = true;
-
-        // user must be of the allowable statuses (A - Active)
-        if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
-            success &= false;
+        
+        // if the user isnt populated, exit with success
+        // the actual existence check is performed in the general rules so not testing here
+        if (ObjectUtils.isNull(user) || user.getPrincipalId() == null) {
+            return success;
+        }
+        
+        if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
+            success = false;
             putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
         }
 
-        // user must be of the allowable types (P - Professional)
-        if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
+        String principalId = user.getPrincipalId();
+        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+        String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
+        
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+        if (!isAuthorized) {
             success &= false;
             putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
         }

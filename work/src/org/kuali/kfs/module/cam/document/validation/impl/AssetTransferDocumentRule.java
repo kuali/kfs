@@ -170,7 +170,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         if (assetPaymentService.isPaymentEligibleForOffsetGLPosting(assetPayment)) {
             // check for offset financial object code existing.
-            OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetObjectCode.getChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+            OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetObjectCode.getChartOfAccountsCode(), CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
             valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), offsetDefinition.getFinancialObjectCode(), offsetDefinition.getFinancialObject(), CamsConstants.GLPostingObjectCodeType.OFFSET_AMOUNT);
         }
         return valid;
@@ -415,7 +415,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         Integer fiscalYear = getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear();
 
         for (AssetPayment assetPayment : assetPayments) {
-            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
+            if (!CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
                 if (this.getObjectCodeService().getByPrimaryId(fiscalYear, chartOfAccountsCode, assetPayment.getFinancialObjectCode()) == null) {
                     putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE, CamsKeyConstants.Transfer.ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND, new String[] { assetPayment.getFinancialObjectCode(), fiscalYear.toString() });
                     valid = false;

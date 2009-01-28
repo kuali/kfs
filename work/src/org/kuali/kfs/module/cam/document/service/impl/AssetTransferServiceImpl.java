@@ -105,7 +105,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         postable.setSource(isSource);
         postable.setAccount(plantAccount);
         postable.setAccountNumber(plantAccount.getAccountNumber());
-        postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+        postable.setBalanceTypeCode(CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
         String organizationOwnerChartOfAccountsCode = null;
         if (isSource) {
             organizationOwnerChartOfAccountsCode = document.getAsset().getOrganizationOwnerChartOfAccountsCode();
@@ -123,7 +123,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
 
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), organizationOwnerChartOfAccountsCode, CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), organizationOwnerChartOfAccountsCode, CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
         amountCategory.setParams(postable, assetPayment, assetObjectCode, isSource, offsetDefinition);
         LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + ")");
         return postable;
@@ -168,7 +168,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     protected Integer createNewPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments, Integer maxSequence) {
         Integer maxSequenceNo = maxSequence;
         for (AssetPayment assetPayment : originalPayments) {
-            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
+            if (!CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
                 // copy and create new payment
                 AssetPayment newPayment;
                 try {
@@ -184,7 +184,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     newPayment.setChartOfAccountsCode(document.getOrganizationOwnerChartOfAccountsCode());
                     newPayment.setSubAccountNumber(null);
                     newPayment.setDocumentNumber(document.getDocumentNumber());
-                    newPayment.setFinancialDocumentTypeCode(CamsConstants.ASSET_TRANSFER_DOCTYPE_CD);
+                    newPayment.setFinancialDocumentTypeCode(CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE);
                     newPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
                     newPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     newPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
@@ -212,7 +212,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     protected Integer createOffsetPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
         Integer maxSequenceNo = null;
         for (AssetPayment assetPayment : originalPayments) {
-            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
+            if (!CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
                 // copy and create an offset payment
                 try {
                     if (maxSequenceNo == null) {
@@ -222,12 +222,12 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     AssetPayment offsetPayment = new AssetPayment();
                     ObjectValueUtils.copySimpleProperties(assetPayment, offsetPayment);
                     offsetPayment.setDocumentNumber(document.getDocumentNumber());
-                    offsetPayment.setFinancialDocumentTypeCode(CamsConstants.ASSET_TRANSFER_DOCTYPE_CD);
+                    offsetPayment.setFinancialDocumentTypeCode(CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE);
                     offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
                     offsetPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     offsetPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
                     getAssetPaymentService().adjustPaymentAmounts(offsetPayment, true, true);
-                    offsetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
+                    offsetPayment.setTransferPaymentCode(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y);
                     offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
                     persistableObjects.add(offsetPayment);
                 }
@@ -248,7 +248,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      */
     protected void createSourceGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
         Account srcPlantAcct = null;
-        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), document.getAsset().getOrganizationOwnerChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), document.getAsset().getOrganizationOwnerChartOfAccountsCode(), CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
 
         if (movableAsset) {
             srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
@@ -492,9 +492,9 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      */
     protected void updateOriginalPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
         for (AssetPayment assetPayment : originalPayments) {
-            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
+            if (!CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
                 // change payment code
-                assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
+                assetPayment.setTransferPaymentCode(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y);
                 persistableObjects.add(assetPayment);
             }
         }

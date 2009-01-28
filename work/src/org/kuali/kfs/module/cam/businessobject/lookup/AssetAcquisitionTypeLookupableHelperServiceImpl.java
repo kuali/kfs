@@ -88,7 +88,7 @@ public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookup
         List<AssetAcquisitionType> newList = new ArrayList<AssetAcquisitionType>();
         for (BusinessObject businessObject : searchResults) {
             AssetAcquisitionType acquisition = (AssetAcquisitionType) businessObject;
-            if (ObjectUtils.isNotNull(acquisition) && !CamsConstants.ACQUISITION_TYPE_CODE_C.equalsIgnoreCase(acquisition.getAcquisitionTypeCode()) && !CamsConstants.AssetGlobal.PRE_TAGGING_ACQUISITION_TYPE_CODE.equalsIgnoreCase(acquisition.getAcquisitionTypeCode())) {
+            if (ObjectUtils.isNotNull(acquisition) && !CamsConstants.Asset.ACQUISITION_TYPE_CODE_C.equalsIgnoreCase(acquisition.getAcquisitionTypeCode()) && !CamsConstants.AssetGlobal.PRE_TAGGING_ACQUISITION_TYPE_CODE.equalsIgnoreCase(acquisition.getAcquisitionTypeCode())) {
                 newList.add(acquisition);
             }
 

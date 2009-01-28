@@ -54,7 +54,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
             fields.add(CamsPropertyConstants.Asset.ASSET_PAYMENTS + "[" + i + "]." + CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER);
         }
         
-        if (!CamsConstants.RETIREMENT_REASON_CODE_M.equals(asset.getRetirementReasonCode())) {
+        if (!CamsConstants.AssetRetirementReasonCode.MERGED.equals(asset.getRetirementReasonCode())) {
             // hide merge target capital asset number
             fields.add(CamsPropertyConstants.Asset.RETIREMENT_INFO_MERGED_TARGET);
         }
@@ -103,7 +103,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         
-        if (asset.getAssetPayments().size() > CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY) {
+        if (asset.getAssetPayments().size() > CamsConstants.Asset.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY) {
             // Hide the payment section if there are more then CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY
             fields.add(CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION);
         }

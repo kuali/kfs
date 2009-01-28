@@ -114,7 +114,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
 
         // TODO Auto-generated method stub
         for (AssetRetirementGlobal retirementGlobal : retirementGlobals) {
-            if (CamsConstants.RETIREMENT_REASON_CODE_M.equalsIgnoreCase(retirementGlobal.getRetirementReasonCode())) {
+            if (CamsConstants.AssetRetirementReasonCode.MERGED.equalsIgnoreCase(retirementGlobal.getRetirementReasonCode())) {
                 List<AssetRetirementGlobalDetail> retirementDetails = retirementGlobal.getAssetRetirementGlobalDetails();
 
                 for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : retirementDetails) {

@@ -135,7 +135,7 @@ public class GlLineServiceTest extends KualiTestBase {
         // assert here
         assertEquals("BL", assetGlobal.getOrganizationOwnerChartOfAccountsCode());
         assertEquals("1023200", assetGlobal.getOrganizationOwnerAccountNumber());
-        assertEquals(CamsConstants.ACQUISITION_TYPE_CODE_N, assetGlobal.getAcquisitionTypeCode());
+        assertEquals(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode());
         assertEquals(null, assetGlobal.getInventoryStatusCode());
         assertEquals(null, assetGlobal.getCapitalAssetTypeCode());
         assertEquals(null, assetGlobal.getManufacturerName());
@@ -167,7 +167,7 @@ public class GlLineServiceTest extends KualiTestBase {
         // assert here
         assertEquals("BL", assetGlobal.getOrganizationOwnerChartOfAccountsCode());
         assertEquals("1023200", assetGlobal.getOrganizationOwnerAccountNumber());
-        assertEquals(CamsConstants.ACQUISITION_TYPE_CODE_N, assetGlobal.getAcquisitionTypeCode());
+        assertEquals(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode());
         assertEquals("A", assetGlobal.getInventoryStatusCode());
         assertEquals("07009", assetGlobal.getCapitalAssetTypeCode());
         assertEquals("MFR", assetGlobal.getManufacturerName());

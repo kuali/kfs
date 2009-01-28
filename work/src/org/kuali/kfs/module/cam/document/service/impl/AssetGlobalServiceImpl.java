@@ -106,7 +106,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
         postable.setAmount(assetPaymentDetail.getAmount());
         postable.setAccountNumber(assetPaymentDetail.getAccountNumber());
-        postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+        postable.setBalanceTypeCode(CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
         postable.setChartOfAccountsCode(assetPaymentDetail.getChartOfAccountsCode());
         postable.setDocumentNumber(document.getDocumentNumber());
         postable.setFinancialSubObjectCode(assetPaymentDetail.getFinancialSubObjectCode());
@@ -118,7 +118,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
 
-        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetPaymentDetail.getChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetPaymentDetail.getChartOfAccountsCode(), CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
         document.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE);
         amountCategory.setParams(postable, assetPaymentDetail, assetObjectCode, offsetDefinition, document.getAcquisitionType());
 

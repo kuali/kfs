@@ -336,7 +336,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     private boolean validateTagDuplication(List<AssetGlobalDetail> assetSharedDetails, String campusTagNumber) {
         boolean success = true;
-        if (!campusTagNumber.equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
+        if (!campusTagNumber.equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
             for (AssetGlobalDetail assetSharedDetail : assetSharedDetails) {
                 List<AssetGlobalDetail> assetGlobalUniqueDetails = assetSharedDetail.getAssetGlobalUniqueDetails();
                 for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
@@ -368,7 +368,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
                 childIndex++;
                 String campusTagNumber = assetSharedUniqueDetail.getCampusTagNumber();
-                if (StringUtils.isNotBlank(campusTagNumber) && !assetTags.add(campusTagNumber) && !campusTagNumber.equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
+                if (StringUtils.isNotBlank(campusTagNumber) && !assetTags.add(campusTagNumber) && !campusTagNumber.equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
                     success &= false;
                     String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + parentIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + childIndex + "]";
                     GlobalVariables.getErrorMap().addToErrorPath(errorPath);
@@ -381,7 +381,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
                 childIndex++;
                 String campusTagNumber = assetSharedUniqueDetail.getCampusTagNumber();
-                if (StringUtils.isNotBlank(campusTagNumber) && !campusTagNumber.equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
+                if (StringUtils.isNotBlank(campusTagNumber) && !campusTagNumber.equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
                     List<Asset> tagMatches = getAssetService().findActiveAssetsMatchingTagNumber(campusTagNumber);
                     if (!tagMatches.isEmpty()) {
                         success &= false;
@@ -479,13 +479,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         if (StringUtils.isNotBlank(acquisitionTypeCode) && getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, acquisitionTypeCode)) {
 
-            if (StringUtils.isNotBlank(documentTypeCode) && !CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE.equalsIgnoreCase(documentTypeCode)) {
+            if (StringUtils.isNotBlank(documentTypeCode) && !CamsConstants.AssetGlobal.DOCUMENT_TYPE_CODE.equalsIgnoreCase(documentTypeCode)) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED, documentTypeCode);
                 valid = false;
             }
             else {
                 // system set document type code as 'AA'
-                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE);
+                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.DOCUMENT_TYPE_CODE);
             }
         }
         return valid;

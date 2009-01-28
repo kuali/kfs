@@ -344,7 +344,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         postable.setDocumentNumber(documentNumber);
         postable.setAccount(plantAccount);
         postable.setAccountNumber(plantAccount.getAccountNumber());
-        postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+        postable.setBalanceTypeCode(CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
         postable.setChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
 
         postable.setPostingYear(universityDateService.getCurrentFiscalYear());

@@ -156,7 +156,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
             for (int i = 0; i < selectedCheckboxes.length; i++) {
                 for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
                     if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
-                        if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED)) {
+                        if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarCodeInventoryError.STATUS_CODE_CORRECTED)) {
                             detail.setInventoryCorrectionTimestamp(getDateTimeService().getCurrentTimestamp());
                             detail.setCorrectorUniversalIdentifier(currentUserID);
 
@@ -212,7 +212,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
             for (int i = 0; i < selectedCheckboxes.length; i++) {
                 for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
                     if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
-                        detail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_DELETED);
+                        detail.setErrorCorrectionStatusCode(CamsConstants.BarCodeInventoryError.STATUS_CODE_DELETED);
                         detail.setInventoryCorrectionTimestamp(getDateTimeService().getCurrentTimestamp());
                         detail.setCorrectorUniversalIdentifier(currentUserID);
                     }
@@ -257,7 +257,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
 
         for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
-            if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
+            if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR)) {
                 result = false;
                 break;
             }

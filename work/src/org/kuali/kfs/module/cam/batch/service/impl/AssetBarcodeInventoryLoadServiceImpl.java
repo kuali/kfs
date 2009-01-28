@@ -273,7 +273,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 barcodeInventoryErrorDetail.setBuildingRoomNumber(lineStrings[5].trim().toUpperCase());
                 barcodeInventoryErrorDetail.setBuildingSubRoomNumber(lineStrings[6].trim().toUpperCase());
                 barcodeInventoryErrorDetail.setAssetConditionCode(lineStrings[7].trim().toUpperCase());
-                barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);                
+                barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR);                
 
                 barcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);
                 ln++;
@@ -343,7 +343,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         for (BarcodeInventoryErrorDetail barcodeInventoryErrorDetail : barcodeInventoryErrorDetails) {
             totalRecCount++;
             // if no error found, then update asset table.
-            if (!barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
+            if (!barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR)) {
                 this.updateAssetInformation(barcodeInventoryErrorDetail);
             }
             else {

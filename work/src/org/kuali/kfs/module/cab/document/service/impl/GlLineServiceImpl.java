@@ -64,7 +64,7 @@ public class GlLineServiceImpl implements GlLineService {
         // create asset global
         AssetGlobal assetGlobal = createAssetGlobal(primary, document);
         assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
-        assetGlobal.setAcquisitionTypeCode(CamsConstants.ACQUISITION_TYPE_CODE_N);
+        assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE);
         updatePreTagInformation(primary, document, assetGlobal);
         int seq = 0;
         for (GeneralLedgerEntry generalLedgerEntry : entries) {
@@ -169,7 +169,7 @@ public class GlLineServiceImpl implements GlLineService {
         assetGlobal.setOrganizationOwnerChartOfAccountsCode(entry.getChartOfAccountsCode());
         assetGlobal.setOrganizationOwnerAccountNumber(entry.getAccountNumber());
         assetGlobal.setDocumentNumber(maintDoc.getDocumentNumber());
-        assetGlobal.setConditionCode(CamsConstants.CONDITION_CODE_E);
+        assetGlobal.setConditionCode(CamsConstants.Asset.CONDITION_CODE_E);
         return assetGlobal;
     }
 

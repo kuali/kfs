@@ -172,7 +172,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
     private void assertGLPostable(GeneralLedgerPendingEntrySourceDetail glPostable, String chartOfAccountsCode, KualiDecimal amount, String plantAccount, String financialLineDesc, String financialObjectCode) {
         assertEquals(plantAccount, glPostable.getAccountNumber());
         assertEquals(amount, glPostable.getAmount());
-        assertEquals(CamsConstants.GL_BALANCE_TYPE_CDE_AC, glPostable.getBalanceTypeCode());
+        assertEquals(CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC, glPostable.getBalanceTypeCode());
         assertEquals(chartOfAccountsCode, glPostable.getChartOfAccountsCode());
         assertEquals(financialLineDesc, glPostable.getFinancialDocumentLineDescription());
         assertEquals(financialObjectCode, glPostable.getFinancialObjectCode());
@@ -344,7 +344,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertEquals(referencePayment.getAccountChargeAmount(), assetOriginalPayment.getAccountChargeAmount());
         assertEquals(referencePayment.getAccumulatedPrimaryDepreciationAmount(), assetOriginalPayment.getAccumulatedPrimaryDepreciationAmount());
         assertEquals(referencePayment.getPeriod1Depreciation1Amount(), assetOriginalPayment.getPeriod1Depreciation1Amount());
-        assertEquals(CamsConstants.TRANSFER_PAYMENT_CODE_Y, assetOriginalPayment.getTransferPaymentCode());
+        assertEquals(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y, assetOriginalPayment.getTransferPaymentCode());
     }
 
     private void assertOffsetPayment(AssetPayment referencePayment, AssetPayment assetOffsetPayment) {
@@ -353,7 +353,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertEquals(referencePayment.getAccountChargeAmount().multiply(negative), assetOffsetPayment.getAccountChargeAmount());
         assertEquals(referencePayment.getAccumulatedPrimaryDepreciationAmount().multiply(negative), assetOffsetPayment.getAccumulatedPrimaryDepreciationAmount());
         assertEquals(null, assetOffsetPayment.getPeriod1Depreciation1Amount());
-        assertEquals(CamsConstants.TRANSFER_PAYMENT_CODE_Y, assetOffsetPayment.getTransferPaymentCode());
+        assertEquals(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y, assetOffsetPayment.getTransferPaymentCode());
     }
 }
 

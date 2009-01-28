@@ -39,7 +39,7 @@ public class AssetRetirementGeneralLedgerPendingEntrySource extends CamsGeneralL
     }
 
     public String getFinancialDocumentTypeCode() {
-        return CamsConstants.AssetRetirementGlobal.FIS_DOC_TYPE_CODE;
+        return CamsConstants.AssetRetirementGlobal.DOCUMENT_TYPE_CODE;
     }
 
 }

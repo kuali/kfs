@@ -133,10 +133,10 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
         document.getNewMaintainableObject().setGenerateDefaultValues(false);
         if (newAsset.getCreateDate() == null) {
             newAsset.setCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            newAsset.setAcquisitionTypeCode(CamsConstants.ACQUISITION_TYPE_CODE_C);
-            newAsset.setVendorName(CamsConstants.VENDOR_NAME_CONSTRUCTED);
+            newAsset.setAcquisitionTypeCode(CamsConstants.Asset.ACQUISITION_TYPE_CODE_C);
+            newAsset.setVendorName(CamsConstants.Asset.VENDOR_NAME_CONSTRUCTED);
             newAsset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
-            newAsset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+            newAsset.setPrimaryDepreciationMethodCode(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
             newAsset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
             getAssetService().setFiscalPeriod(newAsset);
         }

@@ -79,7 +79,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         Long lineNumber = new Long(0);
         for (BarcodeInventoryErrorDetail barcodeInventoryErrorDetail : barcodeInventoryErrorDetails) {
             barcodeInventoryErrorDetail.setErrorDescription("");
-            if (barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
+            if (barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR)) {
                 valid = true;
                 errorPath = CamsConstants.DOCUMENT_PATH + "." + CamsPropertyConstants.BarcodeInventory.BARCODE_INVENTORY_DETAIL + "[" + (lineNumber.intValue()) + "]";
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
@@ -93,14 +93,14 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
                 valid &= this.validateTaggingLock(barcodeInventoryErrorDetail.getAssetTagNumber(), document.getDocumentNumber());
 
                 if (!valid) {
-                    barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);
+                    barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR);
 
                     // Getting the errors from GlobalVariables.
                     barcodeInventoryErrorDetail.setErrorDescription(getErrorMessages(errorPath));
                 }
                 else {
                     if (updateStatus)
-                        barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED);
+                        barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarCodeInventoryError.STATUS_CODE_CORRECTED);
 
                     barcodeInventoryErrorDetail.setErrorDescription("NONE");
                 }
@@ -301,10 +301,10 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         }
         else {
             LOG.warn("CAMS Parameter '" + CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS + "' not found! - Setting default value to 'N' ");
-            skipAssetLockValidation = CamsConstants.BarcodeInventoryError.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO;
+            skipAssetLockValidation = CamsConstants.BarCodeInventoryError.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO;
         }
 
-        if (skipAssetLockValidation == null || StringUtils.isEmpty(skipAssetLockValidation) || StringUtils.equals(skipAssetLockValidation, CamsConstants.BarcodeInventoryError.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO)) {
+        if (skipAssetLockValidation == null || StringUtils.isEmpty(skipAssetLockValidation) || StringUtils.equals(skipAssetLockValidation, CamsConstants.BarCodeInventoryError.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO)) {
             // Getting a list of active assets.
             List<Asset> assets = getAssetService().findActiveAssetsMatchingTagNumber(tagNumber);
             if (assets.size() > 1) {

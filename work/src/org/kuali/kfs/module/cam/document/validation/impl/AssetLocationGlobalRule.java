@@ -227,7 +227,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean validateTagDuplication(Long capitalAssetNumber, String campusTagNumber) {
         boolean success = true;
-        if (capitalAssetNumber != null && ObjectUtils.isNotNull(campusTagNumber) && !CamsConstants.NON_TAGGABLE_ASSET.equalsIgnoreCase(campusTagNumber)) {
+        if (capitalAssetNumber != null && ObjectUtils.isNotNull(campusTagNumber) && !CamsConstants.Asset.NON_TAGGABLE_ASSET.equalsIgnoreCase(campusTagNumber)) {
             // call AssetService, get Assets from doc, gather all assets matching this tag number
             List<Asset> activeAssetsMatchingTagNumber = assetService.findActiveAssetsMatchingTagNumber(campusTagNumber);
             for (Asset asset : activeAssetsMatchingTagNumber) {
@@ -247,7 +247,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         Long capitalAssetNumber = assetLocationGlobalDetail.getCapitalAssetNumber();
         String campusTagNumber = assetLocationGlobalDetail.getCampusTagNumber();
-        if (capitalAssetNumber != null && ObjectUtils.isNotNull(campusTagNumber) && !CamsConstants.NON_TAGGABLE_ASSET.equalsIgnoreCase(campusTagNumber)) {
+        if (capitalAssetNumber != null && ObjectUtils.isNotNull(campusTagNumber) && !CamsConstants.Asset.NON_TAGGABLE_ASSET.equalsIgnoreCase(campusTagNumber)) {
             // if duplicate within list
             if (!tagsList.add(campusTagNumber)) {
                 success &= false;

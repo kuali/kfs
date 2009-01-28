@@ -179,7 +179,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.setFinancialDocumentPostingPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
         this.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
 
-        this.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+        this.setPrimaryDepreciationMethodCode(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
 
         this.setInventoryStatusCode(assetGlobal.getInventoryStatusCode());
         this.setConditionCode(assetGlobal.getConditionCode());

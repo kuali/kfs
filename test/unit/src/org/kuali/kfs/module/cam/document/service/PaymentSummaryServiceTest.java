@@ -87,7 +87,7 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
     }
 
     public void testCalculateAndSetPaymentSummary_SV() throws Exception {
-        asset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
+        asset.setPrimaryDepreciationMethodCode(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
         asset.setSalvageAmount(new KualiDecimal(25));
         paymentSummaryService.calculateAndSetPaymentSummary(asset);
         assertEquals(new KualiDecimal(50), asset.getFederalContribution());

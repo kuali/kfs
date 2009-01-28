@@ -28,16 +28,14 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
  */
 public class CamsConstants extends JSTLConstants {
     public static final String CAM_MODULE_CODE = "KFS-CAM";
-
-    public static final String ASSET_RETIREMENT_DOCUMENT_TYPE_NAME = "AssetRetirementGlobalMaintenanceDocument";
-    
-    public static final int ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY = 10;
-
-    public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE = "SV";
-    public static final String DEPRECIATION_METHOD_STRAIGHT_LINE_CODE = "SL";
-    public static final String TRANSFER_PAYMENT_CODE_N = "N";
-    public static final String TRANSFER_PAYMENT_CODE_Y = "Y";
-    public static final String ASSET_LOOKUPABLE_ID = "assetLookupable";
+    public static final String[] MONTHS = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+    public static final String SET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "setperiod\\d.*depreciation\\damount";
+    public static final String CPTLAST_NBR_SEQ = "CPTLAST_NBR_SEQ";
+    public static final String DOCUMENT_NUMBER_PATH = "documentNumber";
+    public static final String DOCUMENT_PATH = "document";
+    public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
+    public static final String INQUIRY_URL = "inquiry.do";
+    public static final Currency CURRENCY_USD = Currency.getInstance("USD");
 
     public static class PermissionNames {
         public static final String ADD_NEGATIVE_PAYMENTS = "Add Negative Payments";
@@ -77,17 +75,15 @@ public class CamsConstants extends JSTLConstants {
         public static final String TRANSFER = "AssetTransferDocument";
         public static final String EQUIPMENT_LOAN_OR_RETURN = "EquipmentLoanOrReturnDocument";
         public static final String PAYMENT = "AssetPaymentDocument";
+        public static final String RETIREMENT = "AssetRetirementGlobalMaintenanceDocument";
     }
 
     public static class PaymentDocumentTypeCodes {
         // These are the document type codes that payments are saved under when they are modified by assets. Note that not
-        // necessarily
-        // the documents themselves use these document type codes.
+        // necessarily the documents themselves use these document type codes.
         public static final String ASSET_GLOBAL_SEPARATE = "ASEP";
         public static final String ASSET_RETIREMENT_MERGE = "AMRG";
     }
-
-    public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
 
     public static class Parameters {
         public static final String DEPRECIATION_RUN_DATE_PARAMETER = "DEPRECIATION_RUN_DATE";
@@ -137,32 +133,25 @@ public class CamsConstants extends JSTLConstants {
         public static final String CANCELED = "C";
     }
 
-    public static final String[] MONTHS = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-
-    public static class BarcodeInventoryError {
-        public static final String DETAIL_ERRORS = "document.inventoryUploadErrorDetail*";
-
+    public static class BarCodeInventory {
+        public static final String FILE_TYPE_INDENTIFIER = "assetBarcodeInventoryInputFileType";
+        public static final String DATA_FILE_TYPE = "csv";
+        public static final String DATA_FILE_EXTENSION = ".csv";
+        public static final String DONE_FILE_EXTENSION = ".done";
+        public static final String BCI_MANUALLY_KEYED_CODE = "0";
+        public static final String BCI_SCANED_INTO_DEVICE = "1";
+    }
+    
+    public static class BarCodeInventoryError {
         // barcode inventory error document status codes
         public static final String STATUS_CODE_ERROR = "E";
         public static final String STATUS_CODE_CORRECTED = "C";
         public static final String STATUS_CODE_DELETED = "D";
-
         public static final String STATUS_CODE_ERROR_DESCRIPTION = "Error";
         public static final String STATUS_CODE_CORRECTED_DESCRIPTION = "Corrected";
         public static final String STATUS_CODE_DELETED_DESCRIPTION = "Deleted";
-
-        // public static final String STATUS_CODE_VALIDATED="V";
-
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO = "N";
-        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES = "Y";
-
-
-        public static final Map<String, String> statusDescription = new HashMap<String, String>();
-        static {
-            statusDescription.put(STATUS_CODE_CORRECTED, STATUS_CODE_CORRECTED_DESCRIPTION);
-            statusDescription.put(STATUS_CODE_DELETED, STATUS_CODE_DELETED_DESCRIPTION);
-            statusDescription.put(STATUS_CODE_ERROR, STATUS_CODE_ERROR_DESCRIPTION);
-        }
+        //public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES = "Y";
     }
 
     public static class InventoryStatusCode {
@@ -177,8 +166,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String NON_CAPITAL_ASSET_RETIRED_2003 = "E";
     }
 
-    public static final String NON_TAGGABLE_ASSET = "N";
-
     public static class AssetLocationTypeCode {
         public static final String OFF_CAMPUS = "O";
         public static final String BORROWER = "B";
@@ -186,16 +173,14 @@ public class CamsConstants extends JSTLConstants {
         public static final String RETIREMENT = "R";
     }
 
-    public static final String RETIREMENT_REASON_CODE_M = "M";
-    public static final String GL_BALANCE_TYPE_CDE_AC = "AC";
-
     public static class AssetRetirementGlobal {
+        public static final String ASSET_LOOKUPABLE_ID = "assetLookupable";
         public static final String DOCUMENT_HEADER = "documentHeader";
         public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
         public static final String SECTION_TARGET_ASSET_RETIREMENT_INFO = "Retirement Target Information";
-        public static final String FIS_DOC_TYPE_CODE = "AR";
+        public static final String DOCUMENT_TYPE_CODE = "AR";
         public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
         public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
         public static final String LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION = "Gain/Loss Disposition of Assets";
@@ -217,8 +202,16 @@ public class CamsConstants extends JSTLConstants {
         public static final String RETIREMENT_INSTITUTION_NAME = "Retirement Institution Name";
         public static final String PAID_CASE_NUMBER = "Police Case Number";
     }
-
+    
     public static class Asset {
+        public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE = "SV";
+        public static final String DEPRECIATION_METHOD_STRAIGHT_LINE_CODE = "SL";
+        public static final String CONDITION_CODE_E = "E";
+        public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
+        public static final String VENDOR_NAME_CONSTRUCTED = "CONSTRUCTED";
+        public static final String ACQUISITION_TYPE_CODE_C = "C";
+        public static final String NON_TAGGABLE_ASSET = "N";
+        public static final int ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY = 10;
         public static final String SECTION_ID_FABRICATION_INFORMATION = "fabricationInformation";
         public static final String SECTION_ID_LAND_INFORMATION = "landInformation";
         public static final String SECTION_ID_PAYMENT_INFORMATION = "paymentInformation";
@@ -232,21 +225,17 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_REPAIR_HISTORY = "repairHistory";
         public static final String SECTION_ID_COMPONENTS = "components";
         public static final String SECTION_ID_LOAN_INFORMATION = "equipmentLoanInformation";
-
         public static final String[] EDIT_DETAIL_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.GOVERNMENT_TAG_NUMBER, CamsPropertyConstants.Asset.NATIONAL_STOCK_NUMBER, CamsPropertyConstants.Asset.MANUFACTURER_NAME, CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER, CamsPropertyConstants.Asset.SERIAL_NUMBER, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.OLD_TAG_NUMBER, CamsPropertyConstants.Asset.TOTAL_COST_AMOUNT, CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION, CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE };
         public static final String[] EDIT_ORGANIZATION_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.AssetOrganization.ASSET_ORGANIZATION + "." + CamsPropertyConstants.AssetOrganization.ORGANIZATION_TAG_NUMBER, CamsPropertyConstants.Asset.ESTIMATED_SELLING_PRICE, CamsPropertyConstants.Asset.RECEIVE_DATE, CamsPropertyConstants.Asset.REPLACEMENT_AMOUNT };
         public static final String[] FABRICATION_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_COMPLETION_DATE, CamsPropertyConstants.Asset.FABRICATION_ESTIMATED_RETENTION_YEARS, CamsPropertyConstants.Asset.FABRICATION_ESTIMATED_TOTAL_AMOUNT };
-
         public static final String SECTION_TITLE_NO_PAYMENT = "- No payment exists for Capital Asset: ";
     }
-
-    public static final String SET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "setperiod\\d.*depreciation\\damount";
-    public static final String CPTLAST_NBR_SEQ = "CPTLAST_NBR_SEQ";
-    public static final String CONDITION_CODE_E = "E";
-    public static final String ACQUISITION_TYPE_CODE_C = "C";
-    public static final String VENDOR_NAME_CONSTRUCTED = "CONSTRUCTED";
-    public static final String ASSET_TYPE_1000 = "1000";
-    public static final String ASSET_TYPE_40000 = "40000";
+    
+    public static class AssetPayment {
+        public static final String TRANSFER_PAYMENT_CODE_N = "N";
+        public static final String TRANSFER_PAYMENT_CODE_Y = "Y";
+        public static final String ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION = "AssetPaymentDifferentObjectSubTypeQuestion";
+    }
 
     public static class DepreciationConvention {
         public static final String CREATE_DATE = "CD";
@@ -254,39 +243,15 @@ public class CamsConstants extends JSTLConstants {
         public static final String FULL_YEAR = "FY";
     }
 
-
-    public static final String ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION = "AssetPaymentDifferentObjectSubTypeQuestion";
-
-    public static class BarCodeInventory {
-        public static final String FILE_TYPE_INDENTIFIER = "assetBarcodeInventoryInputFileType";
-        public static final String DATA_FILE_TYPE = "csv";
-        public static final String DATA_FILE_EXTENSION = ".csv";
-        public static final String DONE_FILE_EXTENSION = ".done";
-
-        public static final String BCI_MANUALLY_KEYED_CODE = "0";
-        public static final String BCI_SCANED_INTO_DEVICE = "1";
-    }
-
-
     public static class EquipmentLoanOrReturnEditMode extends EditMode {
         public static final String DISPLAY_NEW_LOAN_TAB = "displayNewLoanTab";
         public static final String DISPLAY_RETURN_LOAN_FIELDS_READ_ONLY = "displayReturnLoanFieldsReadOnly";
     }
 
-    public static final String ASSET_TRANSFER_DOCTYPE_CD = "AT";
-    public final static String CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "camsGeneralLedgerPendingEntryGenerationProcess";
-
-    public static final String DOCUMENT_NUMBER_PATH = "documentNumber";
-    public static final String DOCUMENT_PATH = "document";
-    public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
-    public static final String ASSET_LOAN_CONFIRM_QN_ID = "AssetTransferLoanConfirmation";
-
-    public static final String ACQUISITION_TYPE_CODE_N = "N";
-
     public static class AssetGlobal {
         public static final String CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP = "C;F;G;N;P;S;T";
         public static final String NON_NEW_ACQUISITION_CODE_GROUP = "G;T;S;F";
-        public static final String ADD_ASSET_DOCUMENT_TYPE_CODE = "AA";
+        public static final String DOCUMENT_TYPE_CODE = "AA";
         public static final String NEW_ACQUISITION_TYPE_CODE = "N";
         public static final String PRE_TAGGING_ACQUISITION_TYPE_CODE = "P";
         public static final String LINE_DESCRIPTION_PAYMENT = "Payment";
@@ -295,19 +260,24 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_ASSET_INFORMATION = "assetInformation";
         public static final String SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT = "recalculateSeparateSourceAmount";
     }
-
-    public static final String INQUIRY_URL = "inquiry.do";
-    public static final int ASSET_DESC_DISPLAY_LENGTH = 39;
-
-    public static final Currency CURRENCY_USD = Currency.getInstance("USD");
-
-    public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
-    public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
+    
+    public static class AssetSeparate {
+        public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
+        public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
+    }
 
     public static class GLPostingObjectCodeType {
         public static final String CAPITALIZATION = "Capitalization";
         public static final String ACCUMMULATE_DEPRECIATION = "Accummulate Depreciation";
         public static final String OFFSET_AMOUNT = "Offset Amount";
         public static final String INCOME = "Income";
+    }
+    
+    public static class Postable {
+        public static final String GL_BALANCE_TYPE_CODE_AC = "AC";
+    }
+    
+    public static class AssetTransfer {
+        public static final String DOCUMENT_TYPE_CODE = "AT";
     }
 }

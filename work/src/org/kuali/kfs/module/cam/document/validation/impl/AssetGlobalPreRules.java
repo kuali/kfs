@@ -84,7 +84,7 @@ public class AssetGlobalPreRules extends MaintenancePreRulesBase {
 
         String continueQuestion = kualiConfiguration.getPropertyString(CamsKeyConstants.CONTINUE_QUESTION);
         String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + continueQuestion;
-        return super.askOrAnalyzeYesNoQuestion(CamsConstants.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage);
+        return super.askOrAnalyzeYesNoQuestion(CamsConstants.AssetPayment.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage);
     }
 
     private AssetService getAssetService() {

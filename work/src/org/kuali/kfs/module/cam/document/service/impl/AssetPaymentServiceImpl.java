@@ -176,7 +176,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
                     AssetPayment assetPayment = new AssetPayment(assetPaymentDetail);
                     assetPayment.setCapitalAssetNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
-                    assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
+                    assetPayment.setTransferPaymentCode(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
                     assetPayment.setPaymentSequenceNumber(++maxSequenceNo);
                     assetPayment.setDocumentNumber(document.getDocumentNumber());
                     assetPayment.setAccountChargeAmount(amount);
@@ -259,7 +259,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      */
     public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
         // Transfer payment code flag is not Y
-        boolean isEligible = !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode());
+        boolean isEligible = !CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode());
         // Financial object code is currently active
         isEligible &= isPaymentFinancialObjectActive(assetPayment);
         // Payment is not federally funded

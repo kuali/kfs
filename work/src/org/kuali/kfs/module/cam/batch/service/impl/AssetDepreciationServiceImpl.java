@@ -365,15 +365,15 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     
                 // If the month elapse >= to the life of the asset (in months) then, the accumulated depreciation should be:
                 if (monthsElapsed.compareTo(assetLifeInMonths) >= 0) {
-                    if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE))
+                    if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE))
                         accumulatedDepreciationAmount =  assetPayment.getPrimaryDepreciationBaseAmount(); 
-                    else if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE))
+                    else if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE))
                         accumulatedDepreciationAmount = assetPayment.getPrimaryDepreciationBaseAmount().subtract((assetPayment.getPrimaryDepreciationBaseAmount().divide(baseAmount)).multiply(asset.getSalvageAmount()));                    
                 } // If the month elapse < to the life of the asset (in months) then....
                 else {
-                    if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE))
+                    if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE))
                         accumulatedDepreciationAmount = new KualiDecimal((monthsElapsed.doubleValue() / assetLifeInMonths.doubleValue()) * assetPayment.getPrimaryDepreciationBaseAmount().doubleValue());
-                    else if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE))
+                    else if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE))
                         accumulatedDepreciationAmount = new KualiDecimal((monthsElapsed.doubleValue() / assetLifeInMonths.doubleValue()) * (assetPayment.getPrimaryDepreciationBaseAmount().subtract((assetPayment.getPrimaryDepreciationBaseAmount().divide(baseAmount)).multiply(asset.getSalvageAmount()))).doubleValue());
                 }
 

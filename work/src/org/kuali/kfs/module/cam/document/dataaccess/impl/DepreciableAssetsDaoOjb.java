@@ -298,11 +298,11 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         List<String> depreciationMethodList = new ArrayList<String>();
         List<String> notAcceptedAssetStatus = new ArrayList<String>();
 
-        assetTransferCode.add(CamsConstants.TRANSFER_PAYMENT_CODE_N);
+        assetTransferCode.add(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
         assetTransferCode.add(" ");
 
-        depreciationMethodList.add(CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
-        depreciationMethodList.add(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+        depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
+        depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
 
         List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
 
@@ -715,7 +715,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
 
         List<String> assetTransferCode = new ArrayList<String>();
-        assetTransferCode.add(CamsConstants.TRANSFER_PAYMENT_CODE_N);
+        assetTransferCode.add(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
         assetTransferCode.add(" ");
 
         Criteria criteria = new Criteria();

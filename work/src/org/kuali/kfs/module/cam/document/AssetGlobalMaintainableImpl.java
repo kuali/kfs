@@ -337,7 +337,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             // Set for document number and document type code
             if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
                 assetPaymentDetail.setExpenditureFinancialDocumentNumber(documentNumber);
-                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE);
+                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.DOCUMENT_TYPE_CODE);
                 assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
             }
         }
@@ -519,7 +519,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
 
             // calculate equal source total amounts and set separate source amount fields
-            if (customAction != null && CamsConstants.CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON.equals(customAction[0])) {
+            if (customAction != null && CamsConstants.AssetSeparate.CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON.equals(customAction[0])) {
                 KualiDecimalUtils kualiDecimalService = new KualiDecimalUtils(assetGlobal.getTotalCostAmount(), CamsConstants.CURRENCY_USD);
                 // add source asset to the current location quantity
                 KualiDecimal[] equalSourceAmountsArray = kualiDecimalService.allocate(locationQtyTotal + 1);
@@ -529,7 +529,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             }
 
             // calculate source asset remaining amount
-            if (customAction != null && (CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON.equals(customAction[0]))) {
+            if (customAction != null && (CamsConstants.AssetSeparate.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON.equals(customAction[0]))) {
                 // Don't do anything because we are anyway recalculating always below
             }
 

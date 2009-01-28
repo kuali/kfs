@@ -169,7 +169,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
                 getAssetService().setAssetSummaryFields(assetRetirementGlobalDetail.getAsset());
             }
         }
-        else if (CamsConstants.ASSET_LOOKUPABLE_ID.equalsIgnoreCase(refreshCaller)) {
+        else if (CamsConstants.AssetRetirementGlobal.ASSET_LOOKUPABLE_ID.equalsIgnoreCase(refreshCaller)) {
             // Set non-persistent values in the result from asset lookup. So the screen can show them when return from single asset
             // lookup.
             String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);

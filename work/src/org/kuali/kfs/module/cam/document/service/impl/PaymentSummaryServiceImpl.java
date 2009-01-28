@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.cam.document.service.impl;
 
-import static org.kuali.kfs.module.cam.CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE;
-
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -173,7 +171,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
         KualiDecimal accumDeprAmount = calculatePrimaryAccumulatedDepreciation(asset);
         KualiDecimal salvageAmount = asset.getSalvageAmount();
         // If depreciation method is "SV", then minus it from base amount
-        if (DEPRECIATION_METHOD_SALVAGE_VALUE_CODE.equals(asset.getPrimaryDepreciationMethodCode()) && salvageAmount != null) {
+        if (CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE.equals(asset.getPrimaryDepreciationMethodCode()) && salvageAmount != null) {
             return baseAmount.subtract(accumDeprAmount).subtract(salvageAmount);
         }
         return baseAmount.subtract(accumDeprAmount);

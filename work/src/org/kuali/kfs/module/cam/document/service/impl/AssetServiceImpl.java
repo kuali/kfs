@@ -117,7 +117,7 @@ public class AssetServiceImpl implements AssetService {
     public boolean isTagNumberCheckExclude(Asset asset) {
         String status = asset.getInventoryStatusCode();
 
-        return StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(asset.getCampusTagNumber(), CamsConstants.NON_TAGGABLE_ASSET);
+        return StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(asset.getCampusTagNumber(), CamsConstants.Asset.NON_TAGGABLE_ASSET);
     }
 
     /**

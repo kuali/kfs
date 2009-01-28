@@ -268,7 +268,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((CamsConstants.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+            if ((CamsConstants.AssetPayment.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 assetPaymentDocument.setObjectSubTypesQuestionAnswered(ConfirmationQuestion.YES);
             }
         }
@@ -282,7 +282,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
                 ParameterService parameterService = SpringContext.getBean(ParameterService.class);
                 String parameterDetail = "(module:" + parameterService.getNamespace(AssetGlobal.class) + "/component:" + parameterService.getDetailType(AssetGlobal.class) + ")";
                 String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + kualiConfiguration.getPropertyString(CamsKeyConstants.CONTINUE_QUESTION);
-                return this.performQuestionWithoutInput(mapping, form, request, response, CamsConstants.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, KNSConstants.ROUTE_METHOD, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, CamsConstants.AssetPayment.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, KNSConstants.ROUTE_METHOD, "");
             }
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -158,7 +158,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     }
 
     /**
-     * Returns the name CashControlDocument workflow document type
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentWorkflowDocumentType()
      * 
      * @return the name CashControlDocument workflow document type
      */

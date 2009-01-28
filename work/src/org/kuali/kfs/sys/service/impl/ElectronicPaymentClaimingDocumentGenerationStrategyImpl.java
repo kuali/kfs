@@ -51,6 +51,15 @@ public class ElectronicPaymentClaimingDocumentGenerationStrategyImpl implements 
     public String getDocumentLabel() {
         return null;
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentWorkflowDocumentType()
+     * 
+     * return null in the case of no document available
+     */
+    public String getClaimingDocumentWorkflowDocumentType() {
+        return null;
+    }
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#isDocumentReferenceValid(java.lang.String)

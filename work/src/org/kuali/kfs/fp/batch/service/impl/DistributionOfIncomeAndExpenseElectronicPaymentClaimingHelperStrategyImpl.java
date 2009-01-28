@@ -37,42 +37,45 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.class);
-    private DataDictionaryService ddService;
+    
+    private DataDictionaryService dataDictionaryService;
     private DocumentService documentService;
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private ParameterService parameterService;
-    
+
     /**
-     * The name of the parameter to get the description for this document; without a description, we can't save the document, and if we don't save the document,
-     * there's a chance that electronic payment claims will go to limbo
+     * The name of the parameter to get the description for this document; without a description, we can't save the document, and if
+     * we don't save the document, there's a chance that electronic payment claims will go to limbo
      */
     private final static String DOCUMENT_DESCRIPTION_PARAM_NAME = "ELECTRONIC_FUNDS_DOCUMENT_DESCRIPTION";
     private final static String DI_WORKFLOW_DOCUMENT_TYPE = "DistributionOfIncomeAndExpenseDocument";
     private final static String URL_PREFIX = "financial";
     private final static String URL_MIDDLE = ".do?methodToCall=docHandler&command=";
     private final static String URL_SUFFIX = "&docId=";
-    
+
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List)
      */
     public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, Person user) {
         DistributionOfIncomeAndExpenseDocument document = null;
         try {
-            document = (DistributionOfIncomeAndExpenseDocument)documentService.getNewDocument(getClaimingDocumentWorkflowDocumentType());
+            document = (DistributionOfIncomeAndExpenseDocument) documentService.getNewDocument(getClaimingDocumentWorkflowDocumentType());
             addAccountingLinesToDocument(document, electronicPayments);
             addDescriptionToDocument(document);
             addNotesToDocument(document, electronicPayments, user);
             documentService.saveDocument(document);
             electronicPaymentClaimingService.claimElectronicPayments(electronicPayments, document.getDocumentNumber());
-        } catch (WorkflowException we) {
+        }
+        catch (WorkflowException we) {
             throw new RuntimeException("WorkflowException while creating a DistributionOfIncomeAndExpenseDocument to claim ElectronicPaymentClaim records.", we);
         }
-        
+
         return getURLForDocument(document);
     }
-    
+
     /**
      * Builds the URL that can be used to redirect to the correct document
+     * 
      * @param doc the document to build the URL for
      * @return the relative URL to redirect to
      */
@@ -86,51 +89,57 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
         url.append(doc.getDocumentNumber());
         return url.toString();
     }
-    
+
     /**
      * Creates notes for the claims (using the ElectronicPaymentClaimingService) and then adds them to the document
+     * 
      * @param claimingDoc the claiming document
      * @param claims the electronic payments being claimed
      * @param user the user doing the claiming
      */
     protected void addNotesToDocument(DistributionOfIncomeAndExpenseDocument claimingDoc, List<ElectronicPaymentClaim> claims, Person user) {
-        for (String noteText: electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
+        for (String noteText : electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
             try {
                 Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
                 documentService.addNoteToDocument(claimingDoc, note);
-            } catch (Exception e) {
-                LOG.error("Exception while attempting to create or add note: "+e);
+            }
+            catch (Exception e) {
+                LOG.error("Exception while attempting to create or add note: " + e);
             }
         }
     }
 
     /**
      * Adds an accounting line to the document for each ElectronicPaymentClaim record that is being added
+     * 
      * @param document the claiming Distribution of Income and Expense document
      * @param electronicPayments the list of ElectronicPaymentClaim records that are being claimed
      */
     protected void addAccountingLinesToDocument(DistributionOfIncomeAndExpenseDocument document, List<ElectronicPaymentClaim> electronicPayments) {
-        for (ElectronicPaymentClaim payment: electronicPayments) {
+        for (ElectronicPaymentClaim payment : electronicPayments) {
             SourceAccountingLine claimingAccountingLine = copyAccountingLineToNew(payment.getGeneratingAccountingLine(), createNewAccountingLineForDocument(document));
             document.addSourceAccountingLine(claimingAccountingLine);
         }
     }
-    
+
     /**
      * Adds the parameterized description to the document, so the doc can be saved
+     * 
      * @param document the document to add a description to
      */
     protected void addDescriptionToDocument(DistributionOfIncomeAndExpenseDocument document) {
         String description = parameterService.getParameterValue(DistributionOfIncomeAndExpenseDocument.class, DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.DOCUMENT_DESCRIPTION_PARAM_NAME);
         if (description != null) {
             document.getDocumentHeader().setDocumentDescription(description);
-        } else {
-            throw new RuntimeException("There is evidently no value for Parameter KFS-FP / Distribution of Income and Expense / "+DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.DOCUMENT_DESCRIPTION_PARAM_NAME+"; please set a value before claiming Electronic Payments");
+        }
+        else {
+            throw new RuntimeException("There is evidently no value for Parameter KFS-FP / Distribution of Income and Expense / " + DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.DOCUMENT_DESCRIPTION_PARAM_NAME + "; please set a value before claiming Electronic Payments");
         }
     }
-    
+
     /**
      * Creates a new accounting line, based on what the source accounting line class for the document is
+     * 
      * @param document the document that is claiming these payments
      * @return a new, ready-to-be-filled in accounting line of the class that the given document uses for Source Accounting Lines
      */
@@ -138,7 +147,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
         SourceAccountingLine newLine = null;
         try {
             Class accountingLineClass = document.getSourceAccountingLineClass();
-            newLine = (SourceAccountingLine)accountingLineClass.newInstance();
+            newLine = (SourceAccountingLine) accountingLineClass.newInstance();
         }
         catch (InstantiationException ie) {
             throw new RuntimeException(ie);
@@ -148,9 +157,10 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
         }
         return newLine;
     }
-    
+
     /**
      * Copies an original accounting line to a new accounting line
+     * 
      * @param line the original accounting line
      * @return an accounting line that copies that accounting line
      */
@@ -165,10 +175,10 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
         newLine.setAmount(line.getAmount());
         return newLine;
     }
-    
+
     /**
-     * Returns the name DistributionOfIncomeAndExpenseDocument workflow document type
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentClass()
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentWorkflowDocumentType()
+     * @return the name DistributionOfIncomeAndExpenseDocument workflow document type
      */
     public String getClaimingDocumentWorkflowDocumentType() {
         return DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.DI_WORKFLOW_DOCUMENT_TYPE;
@@ -176,6 +186,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
 
     /**
      * Uses the data dictionary to find the label for this document
+     * 
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentLabel()
      */
     public String getDocumentLabel() {
@@ -189,12 +200,13 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
 
     /**
      * This always returns true if the given user in the claiming workgroup.
+     * 
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
      */
     public boolean userMayUseToClaim(Person claimingUser) {
         String namespaceCode = KFSConstants.ParameterNamespaces.FINANCIAL;
         String documentTypeName = this.getClaimingDocumentWorkflowDocumentType();
-        
+
         return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, documentTypeName);
     }
 
@@ -202,7 +214,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentCode()
      */
     public String getDocumentCode() {
-        DocumentEntry docEntry = ddService.getDataDictionary().getDocumentEntry(getDataDictionaryService().getValidDocumentClassByTypeName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName());
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(dataDictionaryService.getValidDocumentClassByTypeName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName());
         return SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(docEntry.getDocumentTypeName()).getInputTypeCode();
     }
 
@@ -216,30 +228,25 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
             if (docNumberAsLong > 0L) {
                 valid = documentService.documentExists(referenceDocumentNumber);
             }
-        } catch (NumberFormatException nfe) {
-            valid = false; // the doc # can't be parsed into a Long?  Then it ain't no valid!
+        }
+        catch (NumberFormatException nfe) {
+            valid = false; // the doc # can't be parsed into a Long? Then it ain't no valid!
         }
         return valid;
     }
 
     /**
      * Sets the ddService attribute value.
+     * 
      * @param ddService The ddService to set.
      */
-    public void setDataDictionaryService(DataDictionaryService ddService) {
-        this.ddService = ddService;
-    }
-
-    /**
-     * Gets the ddService attribute. 
-     * @return Returns the ddService.
-     */
-    public DataDictionaryService getDataDictionaryService() {
-        return ddService;
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
     /**
      * Sets the documentService attribute value.
+     * 
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -247,15 +254,8 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     }
 
     /**
-     * Gets the documentService attribute. 
-     * @return Returns the documentService.
-     */
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    /**
      * Sets the electronicPaymentClaimingService attribute value.
+     * 
      * @param electronicPaymentClaimingService The electronicPaymentClaimingService to set.
      */
     public void setElectronicPaymentClaimingService(ElectronicPaymentClaimingService electronicPaymentClaimingService) {
@@ -263,27 +263,11 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     }
 
     /**
-     * Gets the electronicPaymentClaimingService attribute. 
-     * @return Returns the electronicPaymentClaimingService.
-     */
-    public ElectronicPaymentClaimingService getElectronicPaymentClaimingService() {
-        return electronicPaymentClaimingService;
-    }
-
-    /**
      * Sets the parameterService attribute value.
+     * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
 }
-

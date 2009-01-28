@@ -15,38 +15,18 @@
  */
 package org.kuali.kfs.fp.batch.service.impl;
 
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
-import org.kuali.rice.kim.bo.Person;
-
 /**
- * An implementation of ElectronicPaymentClaimingHelper for YearEndDisbursementOfIncomeAndExpense documents.  Most of the behaviors have been inherited from
- * DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.
+ * An implementation of ElectronicPaymentClaimingHelper for YearEndDisbursementOfIncomeAndExpense documents. Most of the behaviors
+ * have been inherited from DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.
  */
-public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl extends DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
+public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl extends DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl {
     private final static String YEDI_WORKFLOW_DOC_TYPE = "YearEndDistributionOfIncomeAndExpenseDocument";
 
     /**
-     * Returns the YearEndDistributionOfIncomeAndExpenseDocument class.
-     * @see org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl#getClaimingDocumentClass()
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentWorkflowDocumentType()
+     * @return the name YearEndDistributionOfIncomeAndExpenseDocument workflow document type
      */
-    @Override
     public String getClaimingDocumentWorkflowDocumentType() {
         return YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.YEDI_WORKFLOW_DOC_TYPE;
     }
-
-    /**
-     * This uses the parent's userMayUseToClaim method, but then also checks that the YearEndDistributionOfIncomeAndExpenseDocument is actually currently active within the system.
-     * @see org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public boolean userMayUseToClaim(Person claimingUser) {
-        boolean userMayUse = super.userMayUseToClaim(claimingUser);
-        if (userMayUse) {
-            userMayUse = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(getClaimingDocumentWorkflowDocumentType()).isDocumentTypeActiveIndicator();
-        }
-        return userMayUse;
-    }
 }
-

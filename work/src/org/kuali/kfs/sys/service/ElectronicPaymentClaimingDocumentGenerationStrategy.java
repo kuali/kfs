@@ -37,13 +37,6 @@ public interface ElectronicPaymentClaimingDocumentGenerationStrategy {
     public abstract String getDocumentLabel();
 
     /**
-     * Returns some sort of code for this document, which will be used in forms to identify this document helper
-     * 
-     * @return a code for the document
-     */
-    public abstract String getDocumentCode();
-
-    /**
      * get the workflow document type code of the claiming document
      * 
      * @return the workflow document type code of the claiming document

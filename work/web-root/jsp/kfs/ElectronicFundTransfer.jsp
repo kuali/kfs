@@ -42,7 +42,13 @@
             </p>
             <p align="center">
               <c:forEach var="docType" items="${KualiForm.availableClaimingDocumentStrategies}">
-                <input type="radio" id="chosenElectronicPaymentClaimingDocumentCode${docType.documentCode}" name="chosenElectronicPaymentClaimingDocumentCode" value="${docType.documentCode}"<c:if test="${KualiForm.chosenElectronicPaymentClaimingDocumentCode == docType.documentCode}"> checked="checked"</c:if> /><label for="chosenElectronicPaymentClaimingDocumentCode${docType.documentCode}">${docType.documentLabel}</label>&nbsp;
+                <c:set var="docTypeFieldName" value="chosenElectronicPaymentClaimingDocumentCode" />
+                <c:set var="docTypeFieldId" value="${docTypeFieldName}${docType.claimingDocumentWorkflowDocumentType}"/>
+              	${kfunc:registerEditableProperty(KualiForm, docTypeFieldName)}
+              	
+              	<c:set var="checked" value="${KualiForm.chosenElectronicPaymentClaimingDocumentCode == docType.claimingDocumentWorkflowDocumentType? 'checked' : ''}" />
+                <input type="radio" id="${docTypeFieldId}" name="${docTypeFieldName}" value="${docType.claimingDocumentWorkflowDocumentType}" ${checked} />
+                <label for="${docTypeFieldId}">${docType.documentLabel}</label>&nbsp;
               </c:forEach>
             </p>
           </td>
@@ -59,7 +65,10 @@
               <bean:message key="${KualiForm.documentationMessageKey}" />
             </p>
             <p align="center">
-              <input type="radio" id="hasDocumentationYes" name="hasDocumentation" value="Yep"<c:if test="${KualiForm.properlyDocumented}"> checked="checked"</c:if> /><label for="hasDocumentationYes">Yes</label>&nbsp;<input type="radio" id="hasDocumentationNo" name="hasDocumentation" value="Nope"<c:if test="${not KualiForm.properlyDocumented}"> checked="checked"</c:if> /><label for="hasDocumentationNo">No</label>
+              <c:set var="questionFieldName" value="hasDocumentation" />
+              ${kfunc:registerEditableProperty(KualiForm, questionFieldName)}
+              <input type="radio" id="hasDocumentationYes" name="${questionFieldName}" value="Yep"<c:if test="${KualiForm.properlyDocumented}"> checked="checked"</c:if> /><label for="hasDocumentationYes">Yes</label>&nbsp;
+              <input type="radio" id="hasDocumentationNo" name="${questionFieldName}" value="Nope"<c:if test="${not KualiForm.properlyDocumented}"> checked="checked"</c:if> /><label for="hasDocumentationNo">No</label>
             </p>
           </td>
         </tr>

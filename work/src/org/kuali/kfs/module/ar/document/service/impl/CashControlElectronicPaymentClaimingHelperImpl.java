@@ -30,12 +30,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -150,14 +148,6 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentCode()
-     */
-    public String getDocumentCode() {
-        DocumentEntry docEntry = getDataDictionaryService().getDataDictionary().getDocumentEntry(getDataDictionaryService().getValidDocumentClassByTypeName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName());
-        return SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentName(docEntry.getDocumentTypeName()).getInputTypeCode();
-    }
-
-    /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentWorkflowDocumentType()
      * 
      * @return the name CashControlDocument workflow document type
@@ -206,30 +196,12 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     }   
 
     /**
-     * This method gets cashControlDocumentService value
-     * 
-     * @return cashControlDocumentService
-     */
-    public CashControlDocumentService getCashControlDocumentService() {
-        return cashControlDocumentService;
-    }
-
-    /**
      * This method sets cashControlDocumentService value
      * 
      * @param cashControlDocumentService
      */
     public void setCashControlDocumentService(CashControlDocumentService cashControlDocumentService) {
         this.cashControlDocumentService = cashControlDocumentService;
-    }
-
-    /**
-     * This method gets document service value
-     * 
-     * @return documentService
-     */
-    public DocumentService getDocumentService() {
-        return documentService;
     }
 
     /**
@@ -242,15 +214,6 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     }
 
     /**
-     * This method gets electronicPaymentClaimingService value
-     * 
-     * @return electronicPaymentClaimingService
-     */
-    public ElectronicPaymentClaimingService getElectronicPaymentClaimingService() {
-        return electronicPaymentClaimingService;
-    }
-
-    /**
      * This method sets electronicPaymentClaimingService value
      * 
      * @param electronicPaymentClaimingService
@@ -260,29 +223,12 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     }
 
     /**
-     * This method gets dataDictionaryService value
-     * 
-     * @return dataDictionaryService
-     */
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    /**
      * This method sets dataDictionaryService value
      * 
      * @param dataDictionaryService
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
-    }
-
-    /**
-     * This method gets kualiConfigurationService
-     * @return kualiConfigurationService
-     */
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
     }
 
     /**

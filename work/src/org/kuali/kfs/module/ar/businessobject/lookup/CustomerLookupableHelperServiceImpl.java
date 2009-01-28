@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.sys.KFSConstants;
@@ -24,26 +26,34 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLookupableHelperServiceImpl.class);
 
-    // this whole business is here to show the Open Item Report link on the Customer lookups.  
-    
     /***
+     * This method was overridden to remove the COPY link from the actions and to add in the REPORT link.
+     * 
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
      */
     @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> anchorHtmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-        anchorHtmlDataList.add(getCustomerOpenItemReportUrl(businessObject));
-
-        return anchorHtmlDataList;
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
+        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        if (StringUtils.isNotBlank(getMaintenanceDocumentTypeName()) && allowsMaintenanceEditAction(businessObject)) {
+            htmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+        }
+        htmlDataList.add(getCustomerOpenItemReportUrl(businessObject));
+        return htmlDataList;
     }
 
+    /**
+     * 
+     * This method...
+     * @param bo
+     * @return
+     */
     private AnchorHtmlData getCustomerOpenItemReportUrl(BusinessObject bo) {
-
         Customer customer = (Customer) bo;
         String href="../arCustomerOpenItemReportLookup.do" +
                 "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" +

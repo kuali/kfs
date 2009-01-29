@@ -27,15 +27,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="EffortCertificationReportPosition-newCollectionRecord" />
       </list>
     </property>
-    
-    <property name="inactivationBlockingDefinitions">
-      <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedBusinessObjectClass="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup"
-          p:inactivationBlockingDetectionServiceBeanName="EffortCertificationReportPositionInactivationBlockingDetectionServiceImpl"/>
-      </list>
-    </property>
-    
+        
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="positionObjectGroup">

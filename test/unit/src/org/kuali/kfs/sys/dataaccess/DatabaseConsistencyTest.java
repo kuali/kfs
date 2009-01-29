@@ -19,6 +19,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.sql.DataSource;
 
@@ -26,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext
 public class DatabaseConsistencyTest extends KualiTestBase {
@@ -35,10 +38,12 @@ public class DatabaseConsistencyTest extends KualiTestBase {
     private StringBuffer queryString;
     private ResultSet dbAnswer;
     private String dbType;
+    private ArrayList<HashMap> tableData;
 
     public void setUp() throws Exception {
         super.setUp();
         DataSource mySource = SpringContext.getBean(DataSource.class);
+        String userName = mySource.getConnection().getMetaData().getUserName();
         
         try {            
             dbCon = mySource.getConnection();
@@ -47,6 +52,36 @@ public class DatabaseConsistencyTest extends KualiTestBase {
         catch (Exception e) {
             LOG.error( "Unable to establish connection to database.", e );
             throw e;
+        }
+        dbAsk = dbCon.createStatement();
+        queryString = new StringBuffer("");
+        if ( dbType.contains("oracle") ) {
+            System.err.println( "Running Oracle Test" );
+            queryString.append("select table_name, column_name,\n");
+            queryString.append(" data_type ,data_precision, data_scale, data_length\n");
+            queryString.append(" from user_tab_columns\n");
+            queryString.append(" where 1=1\n");
+            
+        }else{
+            System.err.println("Running mySQL Test ");
+            queryString.append("select table_name, column_name,\n");
+            queryString.append(" data_type, numeric_precision, numeric_scale,\n");
+            queryString.append(" character_maximum_length from information_schema.columns\n");
+            queryString.append(" where table_schema='"+userName+"'\n");
+        }
+        queryString.append(" and table_name NOT LIKE 'KCB%'\n");
+        queryString.append(" and table_name NOT LIKE 'NOTIFICATION%'\n");
+        dbAnswer = dbAsk.executeQuery(queryString.toString());
+        tableData = new ArrayList();
+        while (dbAnswer.next()){
+            HashMap<String, String> tempList = new HashMap();
+            tempList.put("Table", dbAnswer.getString(1));
+            tempList.put("Column", dbAnswer.getString(2));
+            tempList.put("Type", dbAnswer.getString(3));
+            tempList.put("Precision", (null == dbAnswer.getString(4))?"null":dbAnswer.getString(4));
+            tempList.put("Scale", (null == dbAnswer.getString(5))?"null":dbAnswer.getString(5));
+            tempList.put("Length", (null == dbAnswer.getString(6))?"null":dbAnswer.getString(6));
+            tableData.add(tempList);
         }
         
     }
@@ -62,40 +97,27 @@ public class DatabaseConsistencyTest extends KualiTestBase {
     }
     public void testNumber() throws Exception {
         System.err.println( "dbType: " + dbType );
-        
-        if ( dbType.contains("oracle") ) {
-            System.err.println( "Running Oracle Test" );
-            oracleNumberTest();
+        boolean testFailed=false;
+        String tempString="";
+        for (HashMap resultList:tableData){
+            if (resultList.get("Type").equals("NUMBER")&&resultList.get("Column").equals("VER_NBR")&&
+                    !(resultList.get("Precision").equals("8")||resultList.get("Scale").equals("0"))){
+                tempString=tempString+"Bad VER_NBR field in "+resultList.get("Table")+"\n";
+                testFailed=true;
+            }    
         }
+        assertFalse(tempString,testFailed);
     }
-        
-    public void oracleNumberTest() throws Exception {
-        try{
-            dbAsk = dbCon.createStatement();
-            queryString = new StringBuffer("select table_name, column_name\n");
-            queryString.append(" from user_tab_columns\n");
-            queryString.append(" where data_type = 'NUMBER'\n");
-            queryString.append(" and column_name = 'VER_NBR'\n");
-            queryString.append(" and (data_precision!=8\n");
-            queryString.append(" or NVL(data_scale,0) != 0)\n");
-            //queryString.append(" AND owner = (SELECT user FROM dual)\n" );
-            queryString.append(" and table_name not like '%$%'\n");
-            // ignore these tables for now - when these tables are replaced
-            // their names won't match these patterns any more
-            queryString.append(" and table_name NOT LIKE 'KCB%'\n");
-            queryString.append(" and table_name NOT LIKE 'NOTIFICATION%'\n");
-            dbAnswer = dbAsk.executeQuery(queryString.toString());
-            String tempString="";
-            boolean testFailed=false;
-            while (dbAnswer.next()){
-                tempString = tempString+"Bad VER_NBR field ";
-                tempString = tempString+dbAnswer.getString(1)+"."+dbAnswer.getString(2)+"\n";
+    public void testOBJ_ID() throws Exception {
+        System.err.println( "dbType: " + dbType );
+        boolean testFailed=false;
+        String tempString="";
+        for (HashMap resultList:tableData){
+            if (resultList.get("Column").equals("OBJ_ID")&&!resultList.get("Type").equals("VARCHAR2")&&!resultList.get("Length").equals("36")){
+                tempString=tempString+"Bad OBJ_ID field in "+resultList.get("Table")+"\n";
                 testFailed=true;
             }
-            assertFalse(tempString,testFailed);
-        }catch (Exception e){
-            LOG.error( "Exception running test.  SQL:\n" + queryString.toString(), e);
-            throw e;
+     
         }
     }
 

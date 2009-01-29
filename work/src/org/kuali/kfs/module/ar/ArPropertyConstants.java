@@ -70,7 +70,6 @@ public class ArPropertyConstants {
         public static final String INVOICE_DOCUMENT_RECURRENCE_END_DATE = "customerInvoiceRecurrenceDetails.documentRecurrenceEndDate";
         public static final String INVOICE_DOCUMENT_RECURRENCE_TOTAL_RECURRENCE_NUMBER = "customerInvoiceRecurrenceDetails.documentTotalRecurrenceNumber";
         public static final String INVOICE_DOCUMENT_RECURRENCE_INTERVAL_CODE = "customerInvoiceRecurrenceDetails.documentRecurrenceIntervalCode";
-        public static final String INVOICE_DOCUMENT_RECURRENCE_WORKGROUP = "customerInvoiceRecurrenceDetails.documentWorkgroupName";
         public static final String INVOICE_DOCUMENT_RECURRENCE_INITIATOR = "customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier";
     }
     
@@ -80,7 +79,6 @@ public class ArPropertyConstants {
         public static final String INVOICE_RECURRENCE_BEGIN_DATE = "documentRecurrenceBeginDate";
         public static final String INVOICE_RECURRENCE_END_DATE = "documentRecurrenceEndDate";
         public static final String INVOICE_RECURRENCE_TOTAL_RECURRENCE_NUMBER = "documentTotalRecurrenceNumber";
-        public static final String INVOICE_RECURRENCE_WORKGROUP_NAME = "workgroupName";
     }
     
     // OrganizationAccountingDefaults

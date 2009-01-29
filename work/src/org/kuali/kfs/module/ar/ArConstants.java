@@ -133,10 +133,6 @@ public class ArConstants {
     }
     
     
-    public static class Workgroups {
-        public static final String WORKGROUP_AR_SUPER_USERS = "AR_SUPER_USERS";
-    }
-
     public static final String CREATE_TAX_REGION_FROM_LOOKUP_PARM = "createTaxRegionFromLookup";
 
     public static final String LOCKBOX_DOCUMENT_DESCRIPTION = "Created by Lockbox ";

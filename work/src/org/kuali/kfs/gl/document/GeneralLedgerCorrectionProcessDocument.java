@@ -178,7 +178,9 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
      */
     @Override
     public void handleRouteStatusChange() {
-        LOG.debug("handleRouteStatusChange() started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "GLCP Route Status Change: " + getDocumentHeader().getWorkflowDocument().getStatusDisplayValue() );
+        }
         super.handleRouteStatusChange();
 
         CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
@@ -190,7 +192,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
         if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             String correctionType = doc.getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
-                SpringContext.getBean(OriginEntryGroupService.class).dontProcessGroup(doc.getCorrectionInputGroupId());
+                originEntryGroupService.dontProcessGroup(doc.getCorrectionInputGroupId());
             }
             else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
                 OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
@@ -221,6 +223,9 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
      */
     @Override
     public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "GLCP Route Level Change: " + change );
+        }
         super.handleRouteLevelChange(change);
         if (WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
             String correctionType = getCorrectionTypeCode();

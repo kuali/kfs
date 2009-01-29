@@ -318,7 +318,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
 
         // user must be an active kuali user
-        if (accountDelegate == null || !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(accountDelegate)) {
+        if (ObjectUtils.isNull(accountDelegate.getPrincipalId()) || !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(accountDelegate)) {
             putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
 
             return false;

@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -255,7 +256,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
     }
 
     public Person getAccountDelegate() {
-        accountDelegate = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountDelegateSystemId, accountDelegate);
+        accountDelegate = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(accountDelegateSystemId, accountDelegate);
         return accountDelegate;
     }
 

@@ -15,7 +15,7 @@
     <property name="documentTypeName" value="ElectronicInvoiceRejectDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceRejectDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ElectronicInvoiceRejectDocumentAuthorizer" />
     <property name="documentTypeCode" value="EIRT" />
     <property name="workflowAttributes">
     	<ref bean="ElectronicInvoiceRejectDocument-workflowAttributes" />

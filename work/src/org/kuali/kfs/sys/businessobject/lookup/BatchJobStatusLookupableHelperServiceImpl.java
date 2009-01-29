@@ -28,6 +28,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -38,6 +41,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 
 public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -47,6 +51,8 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
     private SchedulerService schedulerService;
     private KualiConfigurationService configurationService;
     private ParameterService parameterService;
+    private KualiModuleService kualiModuleService;
+    private IdentityManagementService identityManagementService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -84,10 +90,8 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
     }
 
     public boolean doesModuleServiceHaveJobStatus(BatchJobStatus job){
-        KfsModuleServiceImpl moduleService;
-        if(job!=null){
-            moduleService = (KfsModuleServiceImpl)
-            SpringContext.getBean(KualiModuleService.class).getResponsibleModuleServiceForJob(job.getName());
+        if(job!=null) {
+            KfsModuleServiceImpl moduleService = (KfsModuleServiceImpl)getKualiModuleService().getResponsibleModuleServiceForJob(job.getName());
             //This means this job is externalized and we do not want to show any action urls for it.
             return (moduleService!=null && moduleService.isExternalJob(job.getName()));
         }
@@ -101,22 +105,27 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         if (businessObject instanceof BatchJobStatus) {
             BatchJobStatus job = (BatchJobStatus) businessObject;
-            if(doesModuleServiceHaveJobStatus(job)) return super.getEmptyActionUrls();
-            String linkText = "Modify";
-            StringBuffer sb = new StringBuffer();
-            if (parameterService.parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP)) {
-                String adminWorkgroup = parameterService.getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
-                if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, adminWorkgroup)) {
-                    linkText = "View";
-                }
+            if(doesModuleServiceHaveJobStatus(job)) {
+                return getEmptyActionUrls();
             }
-            String href = configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name="+(UrlFactory.encode(job.getName()))+("&group=")+(UrlFactory.encode(job.getGroup()));
+            String linkText = "Modify";
+            AttributeSet permissionDetails = new AttributeSet(1);
+            permissionDetails.put(KimAttributes.NAMESPACE_CODE, job.getNamespaceCode() );
+            
+            if ( !SpringContext.getBean(IdentityManagementService.class).hasPermissionByTemplateName(
+                    GlobalVariables.getUserSession().getPerson().getPrincipalId(), 
+                    KNSConstants.KNS_NAMESPACE, 
+                    KFSConstants.PermissionTemplate.MODIFY_BATCH_JOB.name, 
+                    permissionDetails ) ) {
+                linkText = "View";
+            }
+            String href = getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name="+(UrlFactory.encode(job.getName()))+("&group=")+(UrlFactory.encode(job.getGroup()));
             List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
             AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, linkText);
             anchorHtmlDataList.add(anchorHtmlData);
             return anchorHtmlDataList;
         }
-        return super.getEmptyActionUrls();
+        return getEmptyActionUrls();
     }
 
     /***
@@ -128,7 +137,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         String titleText = displayText+" "
             +getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(getBusinessObjectClass().getName()).getObjectLabel()
             +" "
-            +KNSServiceLocator.getKualiConfigurationService().getPropertyString(TITLE_ACTION_URL_PREPENDTEXT_PROPERTY);
+            +getKualiConfigurationService().getPropertyString(TITLE_ACTION_URL_PREPENDTEXT_PROPERTY);
         titleText += "Name="+job.getName()+" Group="+job.getGroup();
         return titleText;
     }
@@ -143,6 +152,20 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
 
     public void setConfigurationService(KualiConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+
+    public KualiModuleService getKualiModuleService() {
+        if ( kualiModuleService == null ) {
+            kualiModuleService = SpringContext.getBean(KualiModuleService.class);
+        }
+        return kualiModuleService;
+    }
+
+    public IdentityManagementService getIdentityManagementService() {
+        if ( identityManagementService == null ) {
+            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        }
+        return identityManagementService;
     }
 
 }

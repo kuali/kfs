@@ -1237,7 +1237,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
     public enum PermissionTemplate {
         DEFAULT("Default"), ERROR_CORRECT_DOCUMENT("Error Correct Document"),
-        MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment");
+        MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment"),
+        MODIFY_BATCH_JOB("Modify Batch Job");
 
         public final String name;
         private PermissionTemplate(String name) {

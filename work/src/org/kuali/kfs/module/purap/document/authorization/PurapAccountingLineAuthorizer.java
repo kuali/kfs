@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,9 +25,14 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
-import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
@@ -109,14 +113,54 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     }
     
     private boolean showAmountOnly(AccountingDocument accountingDocument) {
-        Map editModes = SpringContext.getBean(AccountingLineRenderingService.class).getEditModes(accountingDocument);
-        String showAmountOnlyValue = (String)(editModes.get(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY));
-        if (StringUtils.equals(showAmountOnlyValue, "TRUE")) {
-            return true;
+        final FinancialSystemTransactionalDocumentPresentationController presentationController = getPresentationController(accountingDocument);
+        final FinancialSystemTransactionalDocumentAuthorizerBase authorizer = getDocumentAuthorizer(accountingDocument);
+        if (presentationController == null || authorizer == null) {
+            throw new RuntimeException("Null presentation controller or document authorizer for document "+accountingDocument.getClass().getName());
         }
-        else {
-            return false;
+        Set<String> editModes = presentationController.getEditModes(accountingDocument);
+        editModes = authorizer.getEditModes(accountingDocument, GlobalVariables.getUserSession().getPerson(), editModes);
+        return editModes.contains(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
+    }
+    
+    /**
+     * 
+     * @param accountingDocument
+     * @return
+     */
+    private FinancialSystemTransactionalDocumentPresentationController getPresentationController(AccountingDocument accountingDocument) {
+        final Class<? extends DocumentPresentationController> presentationControllerClass = ((TransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(accountingDocument.getClass().getName())).getDocumentPresentationControllerClass();
+        FinancialSystemTransactionalDocumentPresentationController presentationController = null;
+        try {
+            presentationController = (FinancialSystemTransactionalDocumentPresentationController)presentationControllerClass.newInstance();
         }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Cannot instantiate instance of presentation controller for "+accountingDocument.getClass().getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Cannot instantiate instance of presentation controller for "+accountingDocument.getClass().getName(), iae);
+        }
+        return presentationController;
+    }
+    
+    /**
+     * 
+     * @param accountingDocument
+     * @return
+     */
+    private FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(AccountingDocument accountingDocument) {
+        final Class<? extends DocumentAuthorizer> documentAuthorizerClass = ((TransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(accountingDocument.getClass().getName())).getDocumentAuthorizerClass();
+        FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = null;
+        try {
+            documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase)documentAuthorizerClass.newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Cannot instantiate instance of document authorizer for "+accountingDocument.getClass().getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Cannot instantiate instance of document authorizer for "+accountingDocument.getClass().getName(), iae);
+        }
+        return documentAuthorizer;
     }
     
 }

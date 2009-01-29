@@ -126,4 +126,21 @@ public interface AccountingLineRenderingContext {
      * @return true if the field can be modified, false if the field can only be read
      */
     public abstract boolean isFieldModifyable(AccountingLineViewField field);
+    
+    /**
+     * Determines whether the accounting line is - as a whole line - editable or not
+     * @return true if the line - as a whole line - is editable, false if nothing on the line can be edited
+     */
+    public abstract boolean isEditableLine();
+    
+    /**
+     * Determines whether this line should be allowed to be deleted
+     * @return true if it should be allowed to be deleted, false otherwise
+     */
+    public abstract boolean allowDelete();
+    
+    /**
+     * Makes the line within this accounting line context deletable
+     */
+    public void makeDeletable();
 }

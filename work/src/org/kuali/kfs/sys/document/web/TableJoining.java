@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 
 /**
@@ -76,8 +75,7 @@ public interface TableJoining extends ElementNamable{
      * @param accountingDocument the document the field of the accounting line is associated with
      * @param fieldTransformation a List of field transformations to perform on this element
      * @param accountingLine the accounting line which is being rendering during the transformation
-     * @param editModes the edit modes of the document currently
      * @param unconvertedValues any unconverted values from the form
      */
-    public abstract void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map editModes, Map unconvertedValues);
+    public abstract void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map unconvertedValues);
 }

@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.document.web;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -31,7 +32,6 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
@@ -53,7 +53,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     private Integer lineCount;
     private List errors;
     private AccountingLineAuthorizer accountingLineAuthorizer;
-    private Map<String, String> documentEditModes;
+    private boolean editableLine;
+    private boolean deletable = false;
     
     /**
      * Constructs a RenderableAccountingLineContainer
@@ -61,24 +62,22 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * @param accountingLine the accounting line this container will render
      * @param accountingLineProperty the property to that accounting line
      * @param rows the rows to render
-     * @param actions the actions associated with this accounting line
      * @param newLine whether this is a new accounting line or not
      * @param groupLabel the label for the group this accounting line is being rendered part of
      * @param errors the set of errors currently on the document
      * @param accountingLineAuthorizer the accounting line authorizer for the document
-     * @param documentEditModes the editModes currently on the document
+     * @param editableLine whether this line, as a whole _line_ is editable
      */
-    public RenderableAccountingLineContainer(KualiAccountingDocumentFormBase form, AccountingLine accountingLine, String accountingLineProperty, List<AccountingLineTableRow> rows, List<AccountingLineViewAction> actions, Integer lineCount, String groupLabel, List errors, AccountingLineAuthorizer accountingLineAuthorizer, Map<String, String> documentEditModes) {
+    public RenderableAccountingLineContainer(KualiAccountingDocumentFormBase form, AccountingLine accountingLine, String accountingLineProperty, List<AccountingLineTableRow> rows, Integer lineCount, String groupLabel, List errors, AccountingLineAuthorizer accountingLineAuthorizer, boolean editableLine) {
         this.form = form;
         this.accountingLine = accountingLine;
         this.accountingLineProperty = accountingLineProperty;
         this.rows = rows;
-        this.actions = actions;
         this.lineCount = lineCount;
         this.groupLabel = groupLabel;
         this.errors = errors;
         this.accountingLineAuthorizer = accountingLineAuthorizer;
-        this.documentEditModes = documentEditModes;
+        this.editableLine = editableLine;
     }
     
     /**
@@ -101,7 +100,10 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * Gets the actions attribute. 
      * @return Returns the actions.
      */
-    public List<AccountingLineViewAction> getActions() {
+    public List<AccountingLineViewAction> getActionsForLine() {
+        if (actions == null) {
+            actions = accountingLineAuthorizer.getActions(form.getFinancialDocument(), this, accountingLineProperty, lineCount, GlobalVariables.getUserSession().getPerson(), groupLabel);
+        }
         return actions;
     }
 
@@ -192,13 +194,6 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     public String getAccountingLinePropertyPath() {
         return accountingLineProperty;
-    }
-    
-    /**
-     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getActionsForLine()
-     */
-    public List<AccountingLineViewAction> getActionsForLine() {
-        return this.actions;
     }
     
     /**
@@ -368,6 +363,29 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     protected boolean isLineInError() {
         return GlobalVariables.getErrorMap().containsKeyMatchingPattern(accountingLineProperty+"*");
+    }
+
+    /**
+     * Gets the editableLine attribute. 
+     * @return Returns the editableLine.
+     */
+    public boolean isEditableLine() {
+        return editableLine;
+    }
+
+    /**
+     * Determines whether the line within this rendering context can be deleted.
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#allowDelete()
+     */
+    public boolean allowDelete() {
+        return deletable;
+    }
+    
+    /**
+     * Makes the line within this accounting line context deletable
+     */
+    public void makeDeletable() {
+        deletable = true;
     }
 }
 

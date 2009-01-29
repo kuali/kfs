@@ -17,13 +17,13 @@ package org.kuali.kfs.sys.document.web;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewOverrideFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.kfs.sys.document.web.renderers.OverrideFieldRenderer;
@@ -121,11 +121,10 @@ public class AccountingLineViewOverrideField implements RenderableElement {
      * Runs a field transformation against all the overrides encapsulated within this field
      * @param fieldTransformation the field transformation which will utterly change our fields
      * @param accountingLine the accounting line being rendered
-     * @param editModes the current document edit modes
      * @param unconvertedValues a Map of unconvertedValues
      */
-    public void transformField(AccountingLineFieldRenderingTransformation fieldTransformation, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
-        fieldTransformation.transformField(accountingLine, overrideField, definition, editModes, unconvertedValues);
+    public void transformField(AccountingLineFieldRenderingTransformation fieldTransformation, AccountingLine accountingLine, Map unconvertedValues) {
+        fieldTransformation.transformField(accountingLine, overrideField, definition, unconvertedValues);
     }
     
     /**

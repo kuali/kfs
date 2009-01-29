@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.document.web;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.JspFragment;
@@ -26,16 +27,16 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -51,7 +52,7 @@ public class AccountingLineGroupTag extends TagSupport {
     private AccountingLineGroup group;
     private KualiAccountingDocumentFormBase form;
     private AccountingDocument document;
-    private Map editModes;
+    private Set<String> editModes;
     
     /**
      * Gets the attributeGroupName attribute. 
@@ -148,8 +149,9 @@ public class AccountingLineGroupTag extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
         super.doStartTag();
-        List<RenderableAccountingLineContainer> containers = generateContainersForAllLines();
-        group = new AccountingLineGroup(groupDefinition, getDocument(), containers, collectionPropertyName, getEditModes(), getErrors(), getForm().getDisplayedErrors());
+        final List<RenderableAccountingLineContainer> containers = generateContainersForAllLines();
+        group = new AccountingLineGroup(groupDefinition, getDocument(), containers, collectionPropertyName, getErrors(), getForm().getDisplayedErrors(), getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT));
+        group.updateDeletabilityOfAllLines();
         if (getParent() instanceof AccountingLinesTag) {
             ((AccountingLinesTag)getParent()).addGroupToRender(group);
             resetTag();
@@ -263,19 +265,23 @@ public class AccountingLineGroupTag extends TagSupport {
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
         boolean addedTopLine = false;
         
-        // add the new line
-        if (StringUtils.isNotBlank(newLinePropertyName) && getGroupDefinition().getAccountingLineAuthorizer().isGroupEditable(document, collectionPropertyName, currentUser) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, currentUser)) {
-            containers.add(buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null, true));
-            addedTopLine = true;
-        }
-        
         // add all existing lines
         int count = 0;
+        boolean anyEditableLines = false;
         for (AccountingLine accountingLine : getAccountingLineCollection()) {
-            containers.add(buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count), (addedTopLine ? false : true)));
+            final RenderableAccountingLineContainer container = buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count), (addedTopLine ? false : true));
+            containers.add(container);
+            anyEditableLines = anyEditableLines || container.isEditableLine();
             count += 1;
             addedTopLine = true;
         }
+        
+        // add the new line
+        if (StringUtils.isNotBlank(newLinePropertyName) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, currentUser) && (getDocument().getDocumentHeader().getWorkflowDocument().stateIsInitiated() || getDocument().getDocumentHeader().getWorkflowDocument().stateIsSaved() || anyEditableLines)) {
+            containers.add(0, buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null, true));
+            addedTopLine = true;
+        }
+        
         return containers;
     }
     
@@ -289,12 +295,11 @@ public class AccountingLineGroupTag extends TagSupport {
      * @return the container created
      */
     protected RenderableAccountingLineContainer buildContainerForLine(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser, Integer count, boolean topLine) {
-        String accountingLinePropertyName = count == null ? newLinePropertyName : collectionItemPropertyName+"["+count.toString()+"]";
-        boolean newLine = (count == null);
-        List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine, topLine, accountingLinePropertyName);
-        List<AccountingLineViewAction> actions = groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (newLine ? -1 : count.intValue()), currentUser, groupDefinition.getGroupLabel());
+        final String accountingLinePropertyName = count == null ? newLinePropertyName : collectionItemPropertyName+"["+count.toString()+"]";
+        final boolean newLine = (count == null);
+        final List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine, topLine, accountingLinePropertyName);
 
-        return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, actions, count, groupDefinition.getGroupLabel(), getErrors(), groupDefinition.getAccountingLineAuthorizer(), getEditModes());
+        return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, count, groupDefinition.getGroupLabel(), getErrors(), groupDefinition.getAccountingLineAuthorizer(), groupDefinition.getAccountingLineAuthorizer().hasEditPermissionOnAccountingLine(getDocument(), accountingLine, currentUser));
     }
 
     /**
@@ -305,16 +310,6 @@ public class AccountingLineGroupTag extends TagSupport {
     public void release() {
         super.release();
         resetTag();
-    }
-    
-    /**
-     * @return the edit modes for the document
-     */
-    protected Map getEditModes() {
-        if (editModes == null) {
-            editModes = SpringContext.getBean(AccountingLineRenderingService.class).getEditModes(getDocument());
-        }
-        return editModes;
     }
     
     /**

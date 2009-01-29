@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.document.web;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -329,11 +330,11 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      *      org.kuali.kfs.sys.businessobject.AccountingLine, java.util.Map, java.util.Map)
      */
     @Override
-    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
+    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map unconvertedValues) {
         for (AccountingLineFieldRenderingTransformation fieldTransformation : fieldTransformations) {
-            fieldTransformation.transformField(accountingLine, getField(), getDefinition(), editModes, unconvertedValues);
+            fieldTransformation.transformField(accountingLine, getField(), getDefinition(), unconvertedValues);
             if (getOverrideFields() != null && getOverrideFields().size() > 0) {
-                transformOverrideFields(fieldTransformation, accountingLine, editModes, unconvertedValues);
+                transformOverrideFields(fieldTransformation, accountingLine, unconvertedValues);
             }
         }
     }
@@ -346,9 +347,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param editModes the current document edit modes
      * @param unconvertedValues a Map of unconvertedValues
      */
-    protected void transformOverrideFields(AccountingLineFieldRenderingTransformation fieldTransformation, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
+    protected void transformOverrideFields(AccountingLineFieldRenderingTransformation fieldTransformation, AccountingLine accountingLine, Map unconvertedValues) {
         for (AccountingLineViewOverrideField overrideField : getOverrideFields()) {
-            overrideField.transformField(fieldTransformation, accountingLine, editModes, unconvertedValues);
+            overrideField.transformField(fieldTransformation, accountingLine, unconvertedValues);
         }
     }
 

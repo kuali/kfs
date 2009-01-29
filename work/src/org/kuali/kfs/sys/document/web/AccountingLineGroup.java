@@ -16,9 +16,9 @@
 package org.kuali.kfs.sys.document.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -27,10 +27,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
-import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupTotalDefinition;
-import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionDefinition;
 import org.kuali.kfs.sys.document.datadictionary.TotalDefinition;
-import org.kuali.kfs.sys.document.web.renderers.ActionsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.CellCountCurious;
 import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.GroupTitleLineRenderer;
@@ -44,7 +41,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class AccountingLineGroup {
     private AccountingLineGroupDefinition groupDefinition;
     private JspFragment importLineOverride;
-    private Map editModes;
     private String collectionPropertyName;
     private List<RenderableAccountingLineContainer> containers;
     private AccountingDocument accountingDocument;
@@ -52,6 +48,7 @@ public class AccountingLineGroup {
     private int arbitrarilyHighIndex;
     private List errors;
     private Map displayedErrors;
+    private boolean canEdit;
 
     /**
      * Constructs a AccountingLineGroup
@@ -60,18 +57,18 @@ public class AccountingLineGroup {
      * @param accountingDocument the document which owns or will own the accounting line being rendered
      * @param containers the containers within this group
      * @param collectionPropertyName the property name of the collection of accounting lines owned by this group
-     * @param editModes the Map of edit modes
      * @param errors a List of errors keys for errors on the page
      * @param displayedErrors a Map of errors that have already been displayed
+     * @param canEdit determines if the page can be edited or not
      */
-    public AccountingLineGroup(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, Map editModes, List errors, Map displayedErrors) {
+    public AccountingLineGroup(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, List errors, Map displayedErrors, boolean canEdit) {
         this.groupDefinition = groupDefinition;
         this.accountingDocument = accountingDocument;
         this.containers = containers;
         this.collectionPropertyName = collectionPropertyName;
-        this.editModes = editModes;
         this.errors = errors;
         this.displayedErrors = displayedErrors;
+        this.canEdit = canEdit;
     }
 
     /**
@@ -136,13 +133,13 @@ public class AccountingLineGroup {
             GroupTitleLineRenderer groupTitleLineRenderer = new GroupTitleLineRenderer();
             groupTitleLineRenderer.setAccountingLineGroupDefinition(groupDefinition);
             groupTitleLineRenderer.setCellCount(getWidthInCells());
-            groupTitleLineRenderer.setEditModes(editModes);
             groupTitleLineRenderer.setLineCollectionProperty(collectionPropertyName);
             groupTitleLineRenderer.setAccountingDocument(accountingDocument);
+            groupTitleLineRenderer.setCanEdit(canEdit);
 
-            boolean isGroupEditable = groupDefinition.getAccountingLineAuthorizer().isGroupEditable(accountingDocument, collectionPropertyName, GlobalVariables.getUserSession().getPerson());            
+            boolean isGroupEditable = groupDefinition.getAccountingLineAuthorizer().isGroupEditable(accountingDocument, containers, GlobalVariables.getUserSession().getPerson());            
             groupTitleLineRenderer.overrideCanUpload(groupDefinition.isImportingAllowed() && isGroupEditable);
-            groupTitleLineRenderer.setGroupActionsRenderred(isGroupEditable);
+            groupTitleLineRenderer.setGroupActionsRendered(isGroupEditable);
 
             groupTitleLineRenderer.render(pageContext, parentTag);
             groupTitleLineRenderer.clear();
@@ -294,4 +291,39 @@ public class AccountingLineGroup {
         this.errors = errors;
     }
 
+    /**
+     * Determines if there is more than one editable line in this group; if so, then it allows deleting
+     */
+    public void updateDeletabilityOfAllLines() {
+        if (!accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() && !accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+            if (hasEnoughAccountingLinesForDelete()) {
+                for (AccountingLineRenderingContext accountingLineRenderingContext : containers) {
+                    if (accountingLineRenderingContext.isEditableLine()) {
+                        accountingLineRenderingContext.makeDeletable();
+                    }
+                }
+            }
+        } else {
+            // we're pre-route - everybody is deletable!
+            for (AccountingLineRenderingContext accountingLineRenderingContext : containers) {
+                accountingLineRenderingContext.makeDeletable();
+            }
+        }
+    }
+    
+    /**
+     * Determines if there are enough accounting lines in this group for delete buttons to be present
+     * @return true if there are enough accounting lines for a delete, false otherwise
+     */
+    protected boolean hasEnoughAccountingLinesForDelete() {
+        // 1. get the count of how many accounting lines are editable
+        int editableLineCount = 0;
+        for (AccountingLineRenderingContext accountingLineRenderingContext : containers) {
+            if (!accountingLineRenderingContext.isNewLine() && accountingLineRenderingContext.isEditableLine()) {
+                editableLineCount += 1;
+            }
+            if (editableLineCount == 2) return true; // we know we're good...skip out early
+        }
+        return false;
+    }
 }

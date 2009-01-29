@@ -17,14 +17,15 @@ package org.kuali.kfs.module.ld.document.authorization;
 
 import java.util.Map;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
+import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -54,11 +55,11 @@ public class LaborExpenseTransferAccountingLineAuthorizer extends AccountingLine
      *      java.lang.String, java.lang.Integer, java.lang.String)
      */
     @Override
-    protected Map<String, AccountingLineViewAction> getActionMap(AccountingLine accountingLine, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
-        Map<String, AccountingLineViewAction> actionMap = super.getActionMap(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
+    protected Map<String, AccountingLineViewAction> getActionMap(AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
+        Map<String, AccountingLineViewAction> actionMap = super.getActionMap(accountingLineRenderingContext, accountingLinePropertyName, accountingLineIndex, groupTitle);
 
-        if (accountingLine.isSourceAccountingLine()) {
-            AccountingLineViewAction copyAction = this.getCopyAction(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
+        if (accountingLineRenderingContext.getAccountingLine().isSourceAccountingLine()) {
+            AccountingLineViewAction copyAction = this.getCopyAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, groupTitle);
             actionMap.put(KFSConstants.COPY_METHOD, copyAction);
         }
 

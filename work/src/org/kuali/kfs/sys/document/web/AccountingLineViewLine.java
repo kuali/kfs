@@ -198,10 +198,10 @@ public class AccountingLineViewLine implements ReadOnlyable, AccountingLineViewL
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoining#performFieldTransformation(org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation, org.kuali.kfs.sys.businessobject.AccountingLine, java.util.Map, java.util.Map)
      */
-    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
+    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map unconvertedValues) {
         for (RenderableElement element : elements) {
             if (element instanceof TableJoining) {
-                ((TableJoining)element).performFieldTransformations(fieldTransformations, accountingLine, editModes, unconvertedValues);
+                ((TableJoining)element).performFieldTransformations(fieldTransformations, accountingLine, unconvertedValues);
             }
         }
     }

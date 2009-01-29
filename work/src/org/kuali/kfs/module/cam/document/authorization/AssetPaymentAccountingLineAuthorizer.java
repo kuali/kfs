@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
+import java.util.List;
+
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
+import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.rice.kim.bo.Person;
 
 public class AssetPaymentAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
@@ -42,12 +45,12 @@ public class AssetPaymentAccountingLineAuthorizer extends AccountingLineAuthoriz
      *      java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public boolean isGroupEditable(AccountingDocument accountingDocument, String accountingLineCollectionProperty, Person currentUser) {
+    public boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) accountingDocument;
         if (assetPaymentDocument.isCapitalAssetBuilderOriginIndicator()) {
             return false;
         }
 
-        return super.isGroupEditable(accountingDocument, accountingLineCollectionProperty, currentUser);
+        return super.isGroupEditable(accountingDocument, accountingLineRenderingContexts, currentUser);
     }
 }

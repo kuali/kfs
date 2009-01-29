@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewHideShowLinesDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 
@@ -144,9 +143,9 @@ public class HideShowLayoutElement implements AccountingLineViewLineFillingEleme
      * Has the inner content perform any field transformations 
      * @see org.kuali.kfs.sys.document.web.TableJoining#performFieldTransformations(java.util.List, org.kuali.kfs.sys.businessobject.AccountingLine, java.util.Map, java.util.Map)
      */
-    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
+    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map unconvertedValues) {
         for (AccountingLineViewLineFillingElement line : lines) {
-            line.performFieldTransformations(fieldTransformations, accountingLine, editModes, unconvertedValues);
+            line.performFieldTransformations(fieldTransformations, accountingLine, unconvertedValues);
         }
     }
 

@@ -159,11 +159,11 @@ public class AccountingLineViewColumns implements AccountingLineViewLineFillingE
      * Has fields perform the transformations
      * @see org.kuali.kfs.sys.document.web.TableJoining#performFieldTransformations(java.util.List, org.kuali.kfs.sys.businessobject.AccountingLine, java.util.Map, java.util.Map)
      */
-    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
+    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map unconvertedValues) {
         int count = 0;
         for (AccountingLineViewField field : fields) {
             for (AccountingLineFieldRenderingTransformation transformation : fieldTransformations) {
-                transformation.transformField(accountingLine, field.getField(), field.getDefinition(), editModes, unconvertedValues);
+                transformation.transformField(accountingLine, field.getField(), field.getDefinition(), unconvertedValues);
             }
         }
     }

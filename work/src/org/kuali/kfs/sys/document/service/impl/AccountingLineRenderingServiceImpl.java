@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.jsp.PageContext;
 
@@ -27,7 +28,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineAuthorizationTransformer;
@@ -101,7 +103,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      * @param newLine true if the accounting line is not yet on the form yet, false otherwise
      */
     protected void performAuthorizationTransformations(List<TableJoining> elements, AccountingLineGroupDefinition accountingLineGroupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, String accountingLinePropertyName) {
-        accountingLineAuthorizationTransformer.transformElements(elements, accountingLine, accountingDocument, accountingLineGroupDefinition.getAccountingLineAuthorizer(), getDocumentAuthorizer(accountingDocument), newLine, accountingLinePropertyName);
+        accountingLineAuthorizationTransformer.transformElements(elements, accountingLine, accountingDocument, accountingLineGroupDefinition.getAccountingLineAuthorizer(), newLine, accountingLinePropertyName);
     }
     
     /**
@@ -112,23 +114,9 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      * @param unconvertedValues any unconverted values
      */
     protected void performFieldTransformations(List<TableJoining> elements, AccountingDocument accountingDocument, AccountingLine accountingLine, Map unconvertedValues) {
-        Map editModes = getEditModes(accountingDocument);
         for (TableJoining layoutElement : elements) {
-            layoutElement.performFieldTransformations(fieldTransformations, accountingLine, editModes, unconvertedValues);
+            layoutElement.performFieldTransformations(fieldTransformations, accountingLine, unconvertedValues);
         }
-    }
-    
-    /**
-     * Retrieves all the edit modes for the document
-     * @param document the document to get edit modes for
-     * @return a Map of all the edit modes
-     */
-    public Map getEditModes(AccountingDocument document) {
-        AccountingDocumentAuthorizer documentAuthorizer = getDocumentAuthorizer(document);
-        // TODO fix for KIM
-//        Map editModes = documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson());
-//        editModes.putAll(documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson()));
-        return new HashMap();
     }
  
     /**
@@ -136,9 +124,18 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      * @param document the document to get an authorizer for
      * @return an authorizer for the document
      */
-    protected AccountingDocumentAuthorizer getDocumentAuthorizer(AccountingDocument document) {
-        AccountingDocumentAuthorizer accountingDocumentAuthorizer = (AccountingDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
-        return accountingDocumentAuthorizer;
+    protected FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(AccountingDocument document) {
+        final FinancialSystemTransactionalDocumentAuthorizerBase authorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) getDocumentHelperService().getDocumentAuthorizer(document);
+        return authorizer;
+    }
+    
+    /**
+     * @param document the document to get the presentation controller for
+     * @return the proper presentation controller
+     */
+    protected FinancialSystemTransactionalDocumentPresentationController getPresentationController(AccountingDocument document) {
+        final FinancialSystemTransactionalDocumentPresentationController presentationController = (FinancialSystemTransactionalDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(document);
+        return presentationController;
     }
 
     /**

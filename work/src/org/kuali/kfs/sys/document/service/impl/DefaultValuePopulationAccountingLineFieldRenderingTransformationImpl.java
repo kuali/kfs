@@ -16,9 +16,9 @@
 package org.kuali.kfs.sys.document.service.impl;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
@@ -34,7 +34,7 @@ public class DefaultValuePopulationAccountingLineFieldRenderingTransformationImp
      * note that this value may be wiped out by the value from the business object during that transformation (which presumably happends after this one)
      * @see org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation#transformField(org.kuali.kfs.sys.document.web.AccountingLineViewField)
      */
-    public void transformField(AccountingLine accountingLine, Field field, MaintainableFieldDefinition fieldDefinition, Map editModes, Map unconvertedValues) {
+    public void transformField(AccountingLine accountingLine, Field field, MaintainableFieldDefinition fieldDefinition, Map unconvertedValues) {
         populateFieldWithDefault(field, fieldDefinition);
     }
 

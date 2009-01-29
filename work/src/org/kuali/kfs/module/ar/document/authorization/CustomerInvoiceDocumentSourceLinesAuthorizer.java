@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
@@ -42,10 +42,10 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
      *      java.lang.String, java.lang.Integer, java.lang.String)
      */
     @Override
-    protected Map<String, AccountingLineViewAction> getActionMap(AccountingLine accountingLine, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
-        Map<String, AccountingLineViewAction> actionMap = super.getActionMap(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
+    protected Map<String, AccountingLineViewAction> getActionMap(AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
+        Map<String, AccountingLineViewAction> actionMap = super.getActionMap(accountingLineRenderingContext, accountingLinePropertyName, accountingLineIndex, groupTitle);
 
-        CustomerInvoiceDetail invoiceLine = (CustomerInvoiceDetail) accountingLine;
+        CustomerInvoiceDetail invoiceLine = (CustomerInvoiceDetail) accountingLineRenderingContext.getAccountingLine();
 
         // get the images base directory
         String kfsImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url");
@@ -56,13 +56,13 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
         }
         else {
             // always add the Recalculate button if its in edit mode
-            String groupName = super.getActionInfixForExtantAccountingLine(accountingLine, accountingLinePropertyName);
-            String methodName = methodName(accountingLine, accountingLinePropertyName, accountingLineIndex, RECALCULATE_METHOD_NAME);
+            String groupName = super.getActionInfixForExtantAccountingLine(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName);
+            String methodName = methodName(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, RECALCULATE_METHOD_NAME);
             actionMap.put(methodName, new AccountingLineViewAction(methodName, RECALCULATE_LABEL, kfsImagesPath + RECALCULATE_BUTTON_IMAGE));
 
             // only add the Discount button if its not a Discount Line or a Discount Line Parent
             if (showDiscountButton(invoiceLine)) {
-                methodName = methodName(accountingLine, accountingLinePropertyName, accountingLineIndex, DISCOUNT_METHOD_NAME);
+                methodName = methodName(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, DISCOUNT_METHOD_NAME);
                 actionMap.put(methodName, new AccountingLineViewAction(methodName, DISCOUNT_LABEL, kfsImagesPath + DISCOUNT_BUTTON_IMAGE));
             }
         }

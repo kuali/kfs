@@ -20,8 +20,10 @@ import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
+import org.kuali.kfs.sys.document.web.RenderableAccountingLineContainer;
 import org.kuali.rice.kim.bo.Person;
 
 /**
@@ -43,14 +45,14 @@ public interface AccountingLineAuthorizer {
      * Determines what actions are available to act upon the given accounting line
      * 
      * @param accountingDocument the accounting document the line to authorize is owned by
-     * @param accountingLine the accounting line that is being authorized against
+     * @param accountingLineRenderingContext a renderable context wrapping the accounting line that is being authorized against
      * @param accountingLinePropertyName the name of the property that represents the accounting line
      * @param lineIndex value, as Integer, of the index of the given accounting line within the group's collection of accounting
      *        lines; if null, then it is assumed that this is a new line
      * @param groupTitle title of the group from the data dictionary
      * @return a List of the Actions that are available for this line
      */
-    public abstract List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLinePropertyName, Integer lineIndex, Person currentUser, String groupTitle);
+    public abstract List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer lineIndex, Person currentUser, String groupTitle);
 
     /**
      * Determines if new lines should be rendered for the given accounting line group (identified by its property name)
@@ -62,14 +64,14 @@ public interface AccountingLineAuthorizer {
     public abstract boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, Person currentUser);
 
     /**
-     * Determines if the entire group is rendered as editable, which means that a new line will appear
+     * Determines if any entire group is rendered as editable, which means that a new line will appear
      * 
      * @param accountingDocument the accounting document which the collection of line are on
-     * @param accountingLineCollectionProperty the collection of lines
+     * @param accountingLineRenderingContexts the accounting lines of the group, wrapped in AccountingLineRenderingContext implementations
      * @param currentUser the current user
-     * @return true if the entire group is editable, false otherwise
+     * @return true if the group can be edited, false otherwise
      */
-    public abstract boolean isGroupEditable(AccountingDocument accountingDocument, String accountingLineCollectionProperty, Person currentUser);
+    public abstract boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser);
 
     /**
      * Determines whether the given field can be modified or not
@@ -91,5 +93,15 @@ public interface AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */
-    public abstract boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser);      
+    public abstract boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser);
+    
+    /**
+     * determine whether the current user has permission to edit the given accounting line as a whole
+     * 
+     * @param accountingDocument the given accounting document
+     * @param accountingLine the given accounting line in the document
+     * @param currentUser the current user
+     * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
+     */
+    public boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser);
 }

@@ -209,10 +209,10 @@ public class AccountingLineViewCurrentBaseAmount implements TableJoiningWithHead
     /**
      * @see org.kuali.kfs.sys.document.web.FieldTableJoining#performFieldTransformations(java.util.List, org.kuali.kfs.sys.businessobject.AccountingLine, java.util.Map, java.util.Map)
      */
-    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
+    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map unconvertedValues) {
         for (AccountingLineFieldRenderingTransformation fieldTransformation : fieldTransformations) {
-            fieldTransformation.transformField(accountingLine, getCurrentAmountField(), getCurrentAmountFieldDefinition(), editModes, unconvertedValues);
-            fieldTransformation.transformField(accountingLine, getBaseAmountField(), getBaseAmountFieldDefinition(), editModes, unconvertedValues);
+            fieldTransformation.transformField(accountingLine, getCurrentAmountField(), getCurrentAmountFieldDefinition(), unconvertedValues);
+            fieldTransformation.transformField(accountingLine, getBaseAmountField(), getBaseAmountFieldDefinition(), unconvertedValues);
         }
     }
 

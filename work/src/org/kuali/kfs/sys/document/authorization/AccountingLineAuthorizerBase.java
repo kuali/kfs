@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -56,13 +57,11 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      *      org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer, org.kuali.rice.kim.bo.Person,
      *      java.lang.String)
      */
-    public final List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLinePropertyName, Integer accountingLineIndex, Person currentUser, String groupTitle) {
+    public final List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer accountingLineIndex, Person currentUser, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
 
-        String accountingLineGroupFieldName = this.replaceCollectionElementsWithPlurals(accountingLinePropertyName);
-        boolean hasEditPermission = this.hasEditPermissionOnAccountingLine(accountingDocument, accountingLine, currentUser);
-        if (hasEditPermission) {
-            Map<String, AccountingLineViewAction> actionMap = this.getActionMap(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
+        if (accountingLineRenderingContext.isEditableLine()) {
+            Map<String, AccountingLineViewAction> actionMap = this.getActionMap(accountingLineRenderingContext, accountingLinePropertyName, accountingLineIndex, groupTitle);
             actions.addAll(actionMap.values());
         }
 
@@ -104,28 +103,14 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#isGroupEditable(org.kuali.kfs.sys.document.AccountingDocument,
      *      java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean isGroupEditable(AccountingDocument accountingDocument, String accountingLineCollectionProperty, Person currentUser) {
+    public boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser) {
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             return workflowDocument.userIsInitiator(currentUser);
         }
-
-        String accountingLineGroupFieldName = this.stripDocumentPrefixFromName(accountingLineCollectionProperty);
-        List<AccountingLine> accountingLinesInGroup = new ArrayList<AccountingLine>();
-        if (accountingLineGroupFieldName.startsWith(KFSConstants.SOURCE.toLowerCase())) {
-            accountingLinesInGroup.addAll(accountingDocument.getSourceAccountingLines());
-        }
-        else if (accountingLineGroupFieldName.startsWith(KFSConstants.TARGET.toLowerCase())) {
-            accountingLinesInGroup.addAll(accountingDocument.getTargetAccountingLines());
-        }
-
-        // examine whether the whole line can be editable
-        for (AccountingLine accountingLine : accountingLinesInGroup) {
-            boolean hasEditPermission = this.hasEditPermissionOnAccountingLine(accountingDocument, accountingLine, currentUser);
-
-            if (hasEditPermission) {
-                return true;
-            }
+        
+        for (AccountingLineRenderingContext renderingContext : accountingLineRenderingContexts) {
+            if (renderingContext.isEditableLine()) return true;
         }
 
         return false;
@@ -154,18 +139,20 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param groupTitle the title of the accounting line group
      * @return the actions that are allowed for the given accounting line
      */
-    protected Map<String, AccountingLineViewAction> getActionMap(AccountingLine accountingLine, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
+    protected Map<String, AccountingLineViewAction> getActionMap(AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
         Map<String, AccountingLineViewAction> actionMap = new HashMap<String, AccountingLineViewAction>();
 
         if (accountingLineIndex == null || accountingLineIndex < 0) {
-            AccountingLineViewAction addAction = this.getAddAction(accountingLine, accountingLinePropertyName, groupTitle);
+            AccountingLineViewAction addAction = this.getAddAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, groupTitle);
             actionMap.put(KFSConstants.INSERT_METHOD, addAction);
         }
         else {
-            AccountingLineViewAction deleteAction = this.getDeleteAction(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
-            actionMap.put(KNSConstants.DELETE_METHOD, deleteAction);
+            if (accountingLineRenderingContext.allowDelete()) {
+                AccountingLineViewAction deleteAction = this.getDeleteAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, groupTitle);
+                actionMap.put(KNSConstants.DELETE_METHOD, deleteAction);
+            }
 
-            AccountingLineViewAction balanceInquiryAction = this.getBalanceInquiryAction(accountingLine, accountingLinePropertyName, accountingLineIndex, groupTitle);
+            AccountingLineViewAction balanceInquiryAction = this.getBalanceInquiryAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, groupTitle);
             actionMap.put(KFSConstants.PERFORMANCE_BALANCE_INQUIRY_FOR_METHOD, balanceInquiryAction);
         }
 
@@ -205,7 +192,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
-    protected boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {        
+    public boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {        
         // the fields in a new line should be always editable
         if (this.isNewLine(accountingDocument, accountingLine)) {
             return true;

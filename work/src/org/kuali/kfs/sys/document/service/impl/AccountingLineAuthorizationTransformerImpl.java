@@ -42,11 +42,10 @@ public class AccountingLineAuthorizationTransformerImpl implements AccountingLin
      * @param accountingLine the accounting line to be rendered
      * @param document the document that accounting line lives on
      * @param lineAuthorizer the authorizer for the accounting line
-     * @param documentAuthorizer the authorizer for the document
      * @param newLine is this line a new line or a line already on a document?
      * 
      */
-    public void transformElements(List<TableJoining> elements, AccountingLine accountingLine, AccountingDocument document, AccountingLineAuthorizer lineAuthorizer, AccountingDocumentAuthorizer documentAuthorizer, boolean newLine, String accountingLinePropertyName) {
+    public void transformElements(List<TableJoining> elements, AccountingLine accountingLine, AccountingDocument document, AccountingLineAuthorizer lineAuthorizer, boolean newLine, String accountingLinePropertyName) {
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
         removeUnviewableBlocks(elements, lineAuthorizer.getUnviewableBlocks(document, accountingLine, newLine, currentUser));
     }

@@ -15,14 +15,12 @@
  */
 package org.kuali.kfs.sys.document.web;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewLinesDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 
@@ -185,9 +183,9 @@ public class AccountingLineViewLines implements TableJoining, ReadOnlyable {
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoining#performFieldTransformation(org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation, org.kuali.kfs.sys.businessobject.AccountingLine, java.util.Map, java.util.Map)
      */
-    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
+    public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map unconvertedValues) {
         for (AccountingLineViewLineFillingElement line : elements) {
-            line.performFieldTransformations(fieldTransformations, accountingLine, editModes, unconvertedValues);
+            line.performFieldTransformations(fieldTransformations, accountingLine, unconvertedValues);
         }
     }
     

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -46,15 +47,15 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
     private int cellCount = 1;
     private AccountingLineGroupDefinition accountingLineGroupDefinition;
     private AccountingDocument accountingDocument;
-    private Map editModes;
     private String lineCollectionProperty;
     private KNSFileTag scriptFileTag = new KNSFileTag();
     private KNSFileTag noscriptFileTag = new KNSFileTag();
     private KNSImageTag uploadButtonTag = new KNSImageTag();
     private KNSImageTag cancelButtonTag = new KNSImageTag();
     private boolean shouldUpload = true;
+    private boolean canEdit = false;
 
-    private boolean groupActionsRenderred = false;
+    private boolean groupActionsRendered = false;
 
     /**
      * Constructs a ImportLineRenderer, setting defaults on the tags that will always exist
@@ -77,10 +78,10 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
         cellCount = 1;
         accountingLineGroupDefinition = null;
         titleCellSpan = 4;
-        editModes = null;
         lineCollectionProperty = null;
         accountingDocument = null;
         shouldUpload = true;
+        canEdit = false;
 
         // clean script file tag
         scriptFileTag.setPageContext(null);
@@ -166,7 +167,7 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
      * @returns the String with the HTML for the row opening
      */
     protected String buildGroupActionsBeginning() { 
-        if (this.canUpload() || this.isGroupActionsRenderred()) { 
+        if (this.canUpload() || this.isGroupActionsRendered()) { 
             StringBuilder groupActionsBeginning = new StringBuilder();
             final int width = cellCount - titleCellSpan;
             
@@ -193,7 +194,7 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
      * @returns the String with the HTML for the row beginning
      */
     protected String buildGroupActionsColumnEnding() {
-        return this.canUpload() || this.isGroupActionsRenderred() ? "</td>" : StringUtils.EMPTY;
+        return this.canUpload() || this.isGroupActionsRendered() ? "</td>" : StringUtils.EMPTY;
     }
 
     /**
@@ -203,7 +204,7 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
      */
     protected String buildTitleCell() {
         StringBuilder titleCell = new StringBuilder();
-        int colSpan = (this.canUpload() || this.isGroupActionsRenderred()) ? titleCellSpan : cellCount;
+        int colSpan = (this.canUpload() || this.isGroupActionsRendered()) ? titleCellSpan : cellCount;
 
         titleCell.append("<td ");
 
@@ -237,7 +238,7 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
 
     protected void renderGroupActions(PageContext pageContext, Tag parentTag) throws JspException {
         List<? extends AccountingLineViewActionDefinition> accountingLineGroupActions = accountingLineGroupDefinition.getAccountingLineGroupActions();        
-        if (!this.isGroupActionsRenderred() || accountingLineGroupActions == null || accountingLineGroupActions.isEmpty()) {
+        if (!this.isGroupActionsRendered() || accountingLineGroupActions == null || accountingLineGroupActions.isEmpty()) {
             return;
         }
 
@@ -404,7 +405,7 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
      * @return true if upload is possible, false otherwise
      */
     protected boolean canUpload() {
-        return (getEditModes().containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && accountingDocument.getAccountingLineParser() != null && shouldUpload);
+        return (canEdit && accountingDocument.getAccountingLineParser() != null && shouldUpload);
     }
 
     /**
@@ -489,24 +490,6 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * Gets the editModes attribute.
-     * 
-     * @return Returns the editModes.
-     */
-    public Map getEditModes() {
-        return editModes;
-    }
-
-    /**
-     * Sets the editModes attribute value.
-     * 
-     * @param editModes The editModes to set.
-     */
-    public void setEditModes(Map editModes) {
-        this.editModes = editModes;
-    }
-
-    /**
      * Gets the lineCollectionProperty attribute.
      * 
      * @return Returns the lineCollectionProperty.
@@ -525,21 +508,29 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * Gets the groupActionsRenderred attribute.
+     * Gets the groupActionsRendered attribute.
      * 
-     * @return Returns the groupActionsRenderred.
+     * @return Returns the groupActionsRendered.
      */
-    public boolean isGroupActionsRenderred() {
-        return groupActionsRenderred;
+    public boolean isGroupActionsRendered() {
+        return groupActionsRendered;
     }
 
     /**
-     * Sets the groupActionsRenderred attribute value.
+     * Sets the groupActionsRendered attribute value.
      * 
-     * @param groupActionsRenderred The groupActionsRenderred to set.
+     * @param groupActionsRendered The groupActionsRendered to set.
      */
-    public void setGroupActionsRenderred(boolean groupActionsRenderred) {
-        this.groupActionsRenderred = groupActionsRenderred;
+    public void setGroupActionsRendered(boolean groupActionsRenderred) {
+        this.groupActionsRendered = groupActionsRenderred;
+    }
+
+    /**
+     * Sets the canEdit attribute value.
+     * @param canEdit The canEdit to set.
+     */
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
     }
 
 }

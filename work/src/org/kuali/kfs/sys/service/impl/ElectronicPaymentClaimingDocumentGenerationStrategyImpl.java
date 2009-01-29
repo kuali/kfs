@@ -49,7 +49,7 @@ public class ElectronicPaymentClaimingDocumentGenerationStrategyImpl implements 
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentLabel()
      */
     public String getDocumentLabel() {
-        return null;
+        return "No Document";
     }
     
     /**
@@ -58,7 +58,7 @@ public class ElectronicPaymentClaimingDocumentGenerationStrategyImpl implements 
      * return null in the case of no document available
      */
     public String getClaimingDocumentWorkflowDocumentType() {
-        return null;
+        return KFSConstants.EMPTY_STRING;
     }
 
     /**

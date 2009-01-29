@@ -204,12 +204,12 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         String permissionTemplateName = KFSConstants.PermissionTemplate.CLAIM_ELECTRONIC_PAYMENT.name;
 
         AttributeSet permissionDetails = new AttributeSet();
-        if (StringUtils.isNotBlank(workflowDocumentTypeName)) {
-            permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, workflowDocumentTypeName);
-        }
+        permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, workflowDocumentTypeName);      
 
         IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        return identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, null);
+        boolean isAuthorized = identityManagementService.hasPermissionByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails);
+        
+        return isAuthorized;
     }
 
     /**

@@ -21,6 +21,7 @@ import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -31,6 +32,8 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
 
 public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.class);
@@ -188,7 +191,9 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      */
     public String getDocumentLabel() {
         try {
-            return KNSServiceLocator.getWorkflowInfoService().getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
+            KualiWorkflowInfo workflowInfo = KNSServiceLocator.getWorkflowInfoService();
+            
+            return workflowInfo.getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
@@ -204,7 +209,10 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
         String namespaceCode = KFSConstants.ParameterNamespaces.FINANCIAL;
         String documentTypeName = this.getClaimingDocumentWorkflowDocumentType();
 
-        return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, documentTypeName);
+        boolean canClaim = electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, documentTypeName);       
+        canClaim |= electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, KFSConstants.ParameterNamespaces.KFS, null);
+        
+        return canClaim;
     }
 
     /**

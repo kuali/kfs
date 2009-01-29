@@ -309,39 +309,32 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      * @return false if this user is not valid or active for being a delegate
      */
     protected boolean checkDelegateUserRules(MaintenanceDocument document) {
-
         boolean success = true;
+        Person accountDelegate = newDelegate.getAccountDelegate();
 
         // if the user doesnt exist, then do nothing, it'll fail the existence test elsewhere
-        if (ObjectUtils.isNull(newDelegate.getAccountDelegate())) {
+        if (ObjectUtils.isNull(accountDelegate)) {
             return success;
         }
-        Person user = newDelegate.getAccountDelegate();
 
         // user must be an active kuali user
-        if (user == null || !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
-            success = false;
+        if (accountDelegate == null || !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(accountDelegate)) {
             putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
-        } else {
 
-            if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
-                success = false;
-                putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
-            }
-    
-            String principalId = user.getPrincipalId();
-            String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-            String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
-            
-            IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-            Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
-            if (!isAuthorized) {
-                success = false;
-                putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
-            }
+            return false;
+        }
+        
+        String principalId = accountDelegate.getPrincipalId();
+        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+        String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
+
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+        if (!isAuthorized) {
+            success = false;
+            putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
         }
 
         return success;
     }
 }
-

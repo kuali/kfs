@@ -129,7 +129,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         int count = 0;
         while (count < availableClaimingDocs.size() && chosenDocHelper == null) {
             ElectronicPaymentClaimingDocumentGenerationStrategy claimingDoc = availableClaimingDocs.get(count);
-            if (claimingDoc.getClaimingDocumentWorkflowDocumentType().equals(chosenDoc)) {
+            if (StringUtils.equals(claimingDoc.getClaimingDocumentWorkflowDocumentType(), chosenDoc)) {
                 chosenDocHelper = claimingDoc;
             }
             count += 1;

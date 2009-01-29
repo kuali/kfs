@@ -845,24 +845,6 @@
 	    </property>
 	</bean>
   
-	<bean id="accountsReceivableAuthorizationService" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableAuthorizationServiceImpl">
-		<property name="knsAuthzService">
-			<ref bean="financialSystemUserService" />
-		</property>
-		<property name="boService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="orgService">
-			<ref bean="organizationService" />
-		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>
-		<property name="sysInfoService">
-			<ref bean="systemInformationService" />
-		</property>
-	</bean>	
-	
 	<bean id="systemInformationFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.SystemInformation" /> 
 		<property name="parentClasses">

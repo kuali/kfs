@@ -37,6 +37,9 @@ public class CamsPropertyConstants {
         public static final String AGENCY_NUMBER = "agencyNumber";
         public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE = "organizationOwnerChartOfAccountsCode";
         public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "organizationOwnerAccountNumber";
+        public static final String ORGANIZATION_CODE = "organizationOwnerAccount.organizationCode";
+        public static final String ORGANIZATION_TEXT = "assetOrganization.organizationText";
+        
         public static final String VENDOR_NAME = "vendorName";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String CAMPUS_CODE = "campusCode";
@@ -61,6 +64,8 @@ public class CamsPropertyConstants {
         public static final String SERIAL_NUMBER = "serialNumber";
         public static final String LAST_INVENTORY_DATE = "lastInventoryDate";
         public static final String TOTAL_COST_AMOUNT = "totalCostAmount";
+        public static final String ACCUMULATED_DEPRECIATION = "accumulatedDepreciation";
+        public static final String BOOK_VALUE = "bookValue";
         public static final String FEDERAL_CONTRIBUTION = "federalContribution";
         public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
         public static final String CAPITAL_ASSET_TYPE = "capitalAssetType";
@@ -77,7 +82,7 @@ public class CamsPropertyConstants {
         public static final String LAND_ACREAGE_SIZE = "landAcreageSize";
         public static final String LAND_PARCEL_NUMBER = "landParcelNumber";
         public static final String QUANTITY = "quantity";
-
+        
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
             public static final String STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";

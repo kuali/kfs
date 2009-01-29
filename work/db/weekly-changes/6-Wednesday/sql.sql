@@ -48,7 +48,7 @@ INSERT INTO KRIM_RSP_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_K
 /
 INSERT INTO KRIM_RSP_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_KEY, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
     VALUES('399', sys_guid(), 1, '108', '7', '40', 'true')
-	/
+    /
 INSERT INTO KRIM_RSP_RQRD_ATTR_T(RSP_RQRD_ATTR_ID, OBJ_ID, VER_NBR, RSP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
     VALUES('130', sys_guid(), 1, '108', '22', 'Y')
 /
@@ -62,43 +62,43 @@ INSERT INTO KRIM_ROLE_RSP_ACTN_T(ROLE_RSP_ACTN_ID, OBJ_ID, VER_NBR, ACTN_TYP_CD,
     VALUES('133', sys_guid(), 1, 'A', null, 'F', '*', '1108', 'Y')
 /
 
---Recurrence	CustomerInvoiceDocument
+--Recurrence    CustomerInvoiceDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '97')
 /
---ProjectManagement	EffortCertificationDocument
+--ProjectManagement    EffortCertificationDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '41')
 /
---ImageAttachment	AccountsPayableTransactionalDocument
+--ImageAttachment    AccountsPayableTransactionalDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '71')
 /
---Tax	PaymentRequestDocument
+--Tax    PaymentRequestDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '74')
 /
---Budget	PurchaseOrderDocument
+--Budget    PurchaseOrderDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '76')
 /
---Award	PurchaseOrderDocument
+--Award    PurchaseOrderDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '77')
 /
---PrintTransmission	PurchaseOrderDocument
+--PrintTransmission    PurchaseOrderDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '79')
 /
---Tax	PurchaseOrderDocument
+--Tax    PurchaseOrderDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '80')
 /
---AccountsPayable	PurchaseOrderRemoveHoldDocument
+--AccountsPayable    PurchaseOrderRemoveHoldDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '81')
 /
---SeparationOfDuties	RequisitionDocument
+--SeparationOfDuties    RequisitionDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '85')
 /
---Organization	RequisitionDocument
+--Organization    RequisitionDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '3')
 /
---Initiator	VendorMaintenanceDocument
+--Initiator    VendorMaintenanceDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '91')
 /
---Management	VendorMaintenanceDocument
+--Management    VendorMaintenanceDocument
 update krim_role_rsp_actn_t set IGNORE_PREV_IND = 'Y' where ROLE_RSP_ID in (select role_rsp_id from krim_role_rsp_t where rsp_id = '92')
 /
 
@@ -114,3 +114,35 @@ INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, AC
 ALTER TABLE KRIM_ROLE_RSP_ACTN_T
     MODIFY IGNORE_PREV_IND DEFAULT 'N'
 /
+delete from KREW_DOC_TYP_ATTR_T
+/
+delete from KREW_DOC_TYP_PLCY_RELN_T
+/
+delete from KREW_DOC_TYP_PROC_T
+/
+delete from KREW_RTE_BRCH_PROTO_T
+/
+delete from KREW_RTE_NODE_CFG_PARM_T
+/
+delete from KREW_RTE_NODE_LNK_T
+/
+delete from KREW_RTE_NODE_T
+/
+delete from KREW_DOC_TYP_T
+/
+grant select on KREW_DOC_TYP_ATTR_T to KULDEV
+/
+grant select on KREW_DOC_TYP_PLCY_RELN_T to KULDEV
+/
+grant select on KREW_DOC_TYP_PROC_T to KULDEV
+/
+grant select on KREW_RTE_BRCH_PROTO_T to KULDEV
+/
+grant select on KREW_RTE_NODE_CFG_PARM_T to KULDEV
+/
+grant select on KREW_RTE_NODE_LNK_T to KULDEV
+/
+grant select on KREW_RTE_NODE_T to KULDEV
+/
+grant select on KREW_DOC_TYP_T to KULDEV
+/ 

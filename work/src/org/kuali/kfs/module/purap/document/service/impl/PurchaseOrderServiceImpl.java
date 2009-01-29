@@ -1009,7 +1009,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             VendorDetail newVendorDetail = updateVendorWithMissingCommodityCodesIfNecessary(po);
             if (newVendorDetail != null) {
                 //spawn a new vendor maintenance document to add the note
-                MaintenanceDocument vendorMaintDoc = (MaintenanceDocument)documentService.getNewDocument("VendorDetailMaintenanceDocument");
+                MaintenanceDocument vendorMaintDoc = (MaintenanceDocument)documentService.getNewDocument("VendorMaintenanceDocument");
                 vendorMaintDoc.getDocumentHeader().setDocumentDescription("Automatically spawned from PO");
                 vendorMaintDoc.getOldMaintainableObject().setBusinessObject(oldVendorDetail);
                 vendorMaintDoc.getNewMaintainableObject().setBusinessObject(newVendorDetail);

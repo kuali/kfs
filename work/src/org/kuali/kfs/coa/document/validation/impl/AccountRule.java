@@ -74,6 +74,9 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
     private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
 
+    private static SubFundGroupService subFundGroupService;
+    private static ParameterService parameterService;    
+    
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private BalanceService balanceService;
     private AccountService accountService;
@@ -257,21 +260,14 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      *         Supervisors
      */
     protected boolean isNonSystemSupervisorEditingAClosedAccount(MaintenanceDocument document, Person user) {
-
-        boolean result = false;
-
         if (document.isEdit()) {
-
-            // get local references
-            Account oldAccount = (Account) document.getOldMaintainableObject().getBusinessObject();
-            Account newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
-
             // do the test
-            if (oldAccount.isClosed() && !KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
-                result = true;
+            if (oldAccount.isClosed() ) {
+                return !getIdentityManagementService().hasPermission(user.getPrincipalId(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionName.EDIT_INACTIVE_ACCOUNT.name, null);
             }
+            return false;
         }
-        return result;
+        return false;
     }
 
     /**
@@ -335,14 +331,14 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
             // test the number
-            success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), SpringContext.getBean(ParameterService.class).getParameterValues(Account.class, ACCT_PREFIX_RESTRICTION));
+            success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), getParameterService().getParameterValues(Account.class, ACCT_PREFIX_RESTRICTION));
         }
 
         // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
         // we need to get the old maintanable doc here
         if (isNonSystemSupervisorEditingAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getPerson())) {
             success &= false;
-            putFieldError("active", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
+            putFieldError("closed", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
         }
 
         // when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status
@@ -399,11 +395,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         }
 
         // attempt to retrieve the continuation account from the DB
-        Account continuation = null;
-        Map<String, String> pkMap = new HashMap<String, String>();
-        pkMap.put("chartOfAccountsCode", chartCode);
-        pkMap.put("accountNumber", accountNumber);
-        continuation = (Account) super.getBoService().findByPrimaryKey(Account.class, pkMap);
+        Account continuation = accountService.getByPrimaryId(chartCode, accountNumber);
 
         // if the object doesn't exist, then we can't continue, so exit
         if (ObjectUtils.isNull(continuation)) {
@@ -533,7 +525,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             return success;
         }
         
-        if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
+        if (!getFinancialSystemUserService().isActiveFinancialSystemUser(user)) {
             success = false;
             putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
         }
@@ -542,8 +534,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
         String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
         
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+        Boolean isAuthorized = getIdentityManagementService().hasPermission(principalId, namespaceCode, permissionName, null);
         if (!isAuthorized) {
             success &= false;
             putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
@@ -689,8 +680,8 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         String subFundGroupCode = newAccount.getSubFundGroupCode().trim();
         String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
         boolean valid = true;
-        if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, fundGroupCode).evaluationSucceeds()) {
-            if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
+        if (getParameterService().getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, fundGroupCode).evaluationSucceeds()) {
+            if (getParameterService().getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
                 if (StringUtils.isBlank(newAccount.getIncomeStreamFinancialCoaCode())) {
                     putFieldError(KFSPropertyConstants.INCOME_STREAM_FINANCIAL_COA_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY, new String[] { getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME), fundGroupCode, getDdService().getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME), subFundGroupCode });
                     valid = false;
@@ -724,7 +715,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         // Certain C&G fields are required if the Account belongs to the CG Fund Group
         if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-            if (SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newAccount.getSubFundGroup())) {
+            if (getSubFundGroupService().isForContractsAndGrants(newAccount.getSubFundGroup())) {
                 result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_TYPE_CODE_CANNOT_BE_EMPTY));
                 result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY));
 
@@ -760,9 +751,9 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * @return error string that has had tokens "{0}" and "{1}" replaced
      */
     private String replaceTokens(String errorConstant) {
-        String cngLabel = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel();
-        String cngValue = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue();
-        String result = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(errorConstant);
+        String cngLabel = getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
+        String cngValue = getSubFundGroupService().getContractsAndGrantsDenotingValue();
+        String result = getKualiConfigurationService().getPropertyString(errorConstant);
         result = StringUtils.replace(result, "{0}", cngLabel);
         result = StringUtils.replace(result, "{1}", cngValue);
         return result;
@@ -953,7 +944,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
         boolean result = true;
         Person fiscalOfficer = getKfsUserService().getPerson(fiscalOfficerUserId);
-        if (fiscalOfficer == null || !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(fiscalOfficer) ) {
+        if (fiscalOfficer == null || !getFinancialSystemUserService().isActiveFinancialSystemUser(fiscalOfficer) ) {
             result = false;
             if ( fiscalOfficer != null ) {
                 putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
@@ -1015,7 +1006,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                 // Attempt to get the right SubFundGroup code to check the following logic with. If the value isn't available, go
                 // ahead
                 // and die, as this indicates a mis-configured application, and important business rules wont be implemented without it.
-                String capitalSubFundGroup = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, ACCT_CAPITAL_SUBFUNDGROUP);
+                String capitalSubFundGroup = getParameterService().getParameterValue(Account.class, ACCT_CAPITAL_SUBFUNDGROUP);
 
                 if (capitalSubFundGroup.equalsIgnoreCase(subFundGroupCode.trim())) {
 
@@ -1035,7 +1026,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                     if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
 
                         // make sure that primary key fields are upper case
-                        DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
+                        DataDictionaryService dds = getDdService();
                         Boolean buildingCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.BUILDING_CODE);
                         if (StringUtils.isNotBlank(buildingCode) && buildingCodeForceUppercase != null && buildingCodeForceUppercase.booleanValue() == true) {
                             buildingCode = buildingCode.toUpperCase();
@@ -1130,6 +1121,20 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      */
     public void setContractsAndGrantsModuleService(ContractsAndGrantsModuleService contractsAndGrantsModuleService) {
         this.contractsAndGrantsModuleService = contractsAndGrantsModuleService;
+    }
+
+    public SubFundGroupService getSubFundGroupService() {
+        if ( subFundGroupService == null ) {
+            subFundGroupService = SpringContext.getBean(SubFundGroupService.class);
+        }
+        return subFundGroupService;
+    }
+
+    public ParameterService getParameterService() {
+        if ( parameterService == null ) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
     }
 
 }

@@ -1021,8 +1021,4 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.lineItemReceivingStatusDescription = lineItemReceivingStatusDescription;
     }
     
-    //TODO: Cathy reminder to fill in this method with the actual code when I'm ready.
-    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        return true;
-    }
 }

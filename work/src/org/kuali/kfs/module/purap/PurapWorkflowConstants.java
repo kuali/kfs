@@ -49,6 +49,7 @@ public class PurapWorkflowConstants {
     public static final String TRANSMISSION_METHOD_IS_PRINT = "TransmissionMethodIsPrint";
     public static final String HAS_NEW_UNORDERED_ITEMS = "HasNewUnorderedItems";
     public static final String PURCHASE_WAS_RECEIVED = "PurchaseWasReceived";
+    public static final String RELATES_TO_OUTSTANDING_TRANSACTIONS = "RelatesToOutstandingTransactions";
 
     public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
 

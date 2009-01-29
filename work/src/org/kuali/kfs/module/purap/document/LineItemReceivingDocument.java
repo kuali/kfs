@@ -3,8 +3,9 @@ package org.kuali.kfs.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
@@ -199,4 +200,15 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         this.awaitingPurchaseOrderOpen = awaitingPurchaseOrderOpen;
     }
 
+    /**
+     * Provides answers to the following splits:
+     * RelatesToOutstandingTransactions
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(PurapWorkflowConstants.RELATES_TO_OUTSTANDING_TRANSACTIONS)) return isAwaitingPurchaseOrderOpen();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+    
 }

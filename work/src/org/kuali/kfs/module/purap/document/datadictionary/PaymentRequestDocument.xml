@@ -972,11 +972,11 @@
     <bean id="PaymentRequestDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="routingTypeDefinitions">
     		<map>
-    		    <!-- no qualifiers for InvoiceAttachment -->
+    		    <!-- no qualifiers for RequiresInvoiceAttachment -->
                 <!-- no qualifiers for PurchaseWasReceived -->
-    		    <!-- no qualifiers for sub-account -->
+    		    <entry key="SubAccount" value-ref="RoutingType-PurchasingAccountsPayableDocument-SubAccount" />
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account" />
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-OrganizationHierarchy" />
                 <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
     		</map>
     	</property>

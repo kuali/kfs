@@ -51,10 +51,9 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
-public class PurApLineAction extends KualiAction {
+public class PurApLineAction extends CabActionBase {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
     PurApLineService purApLineService = SpringContext.getBean(PurApLineService.class);
     PurApInfoService purApInfoService = SpringContext.getBean(PurApInfoService.class);
@@ -96,6 +95,21 @@ public class PurApLineAction extends KualiAction {
         GlobalVariables.getUserSession().addObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()), new PurApLineSession());
     }
 
+    private void clearPurApLineSession(Integer purchaseOrderIdentifier) {
+        GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()));
+    }
+
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurApLineForm purApLineForm = (PurApLineForm) form;
+        if (purApLineForm.getPurchaseOrderIdentifier() == null) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_EMPTY);
+        }
+        purApLineForm.getPurApDocs().clear();
+        // clear the session and reload the page
+        clearPurApLineSession(purApLineForm.getPurchaseOrderIdentifier());
+        return start(mapping, form, request, response);
+    }
+
     /**
      * Build PurchasingAccountsPayableDocument list in which all documents have the same PO_ID.
      * 
@@ -131,12 +145,11 @@ public class PurApLineAction extends KualiAction {
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm) form;
-
-        GlobalVariables.getMessageList().add(CabKeyConstants.MESSAGE_CAB_CHANGES_SAVED_SUCCESS);
         // get the current processing object from session
         PurApLineSession purApLineSession = retrievePurApLineSession(purApLineForm);
         // persistent changes to CAB tables
         purApLineService.processSaveBusinessObjects(purApLineForm.getPurApDocs(), purApLineSession);
+        GlobalVariables.getMessageList().add(CabKeyConstants.MESSAGE_CAB_CHANGES_SAVED_SUCCESS);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -478,7 +491,7 @@ public class PurApLineAction extends KualiAction {
         boolean targetLineHasTradeIn = purApLineService.isTradeInIndExistInSelectedLines(allocateTargetLines);
         boolean hasTradeInAllowance = purApLineService.isTradeInAllowanceExist(purApForm.getPurApDocs());
         // Check if this allocate is valid.
-        validateAllocateAction(allocateSourceLine, allocateTargetLines,targetLineHasTradeIn, hasTradeInAllowance,purApForm.getPurApDocs());
+        validateAllocateAction(allocateSourceLine, allocateTargetLines, targetLineHasTradeIn, hasTradeInAllowance, purApForm.getPurApDocs());
         if (GlobalVariables.getErrorMap().isEmpty()) {
             // TI indicator exists in either source or target lines, but TI allowance not found, bring up a warning message
             // to confirm this action.

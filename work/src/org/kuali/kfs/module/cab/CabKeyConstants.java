@@ -44,6 +44,7 @@ public class CabKeyConstants {
     public static final String QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL = "question.skip.asset.numbers.to.asset.global";
     public static final String ERROR_FRACTIONAL_QUANTITY = "error.fractional.quanity";
     public static final String ERROR_MERGE_WITH_PRETAGGING = "error.merge.with.pretagging";
+    public static final String DATA_EDIT_LOCK_ERROR = "cab.error.data.edit.lock";
     
     public static class CapitalAssetInformation {
         public static final String ERROR_ASSET_DO_NOT_ENTER_ANY_DATA = "error.asset.do.not.enter.any.data";

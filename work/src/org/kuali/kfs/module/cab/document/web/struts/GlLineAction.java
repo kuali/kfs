@@ -46,7 +46,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 /**
  * Struts action class that handles GL Line Processing Screen actions
  */
-public class GlLineAction extends KualiAction {
+public class GlLineAction extends CabActionBase {
 
     /**
      * Action "process" from CAB GL Lookup screen is processed by this method
@@ -59,9 +59,15 @@ public class GlLineAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward process(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlLineForm glLineForm = (GlLineForm) form;
+        GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
+        prepareRecordsForDisplay(glLineForm, entry);
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+
+    private void prepareRecordsForDisplay(GlLineForm glLineForm, GeneralLedgerEntry entry) {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-        GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(CabPropertyConstants.DOCUMENT_NUMBER, entry.getDocumentNumber());
         fieldValues.put(CabPropertyConstants.ACTIVE, true);
@@ -73,12 +79,10 @@ public class GlLineAction extends KualiAction {
                 generalLedgerEntry.setSelected(true);
             }
         }
-        GlLineForm glLineForm = (GlLineForm) form;
         glLineForm.setRelatedGlEntries(list);
         glLineForm.setPrimaryGlAccountId(entry.getGeneralLedgerAccountIdentifier());
         CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(entry);
         glLineForm.setCapitalAssetInformation(capitalAssetInformation);
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
     /**
@@ -269,5 +273,15 @@ public class GlLineAction extends KualiAction {
             }
         }
         return super.showAllTabs(mapping, form, request, response);
+    }
+
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlLineForm glLineForm = (GlLineForm) form;
+        glLineForm.getRelatedGlEntries().clear();
+        GeneralLedgerEntry entry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
+        if (entry != null) {
+            prepareRecordsForDisplay(glLineForm, entry);
+        }
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 }

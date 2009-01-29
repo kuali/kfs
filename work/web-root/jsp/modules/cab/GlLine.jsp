@@ -184,6 +184,7 @@
         <c:if test="${not readOnly}">	        
 	    	<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_createasset.gif" property="methodToCall.submitAssetGlobal" title="Add Assets" alt="Add Assets"/>
 	    	<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_applypayment.gif" property="methodToCall.submitPaymentGlobal" title="Add Payments" alt="Add Payments"/>
+	    	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_reload.gif" property="methodToCall.reload" title="Reload" alt="Reload"/>
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancel" title="Cancel" alt="Cancel"/>
         </c:if>		
     </div>

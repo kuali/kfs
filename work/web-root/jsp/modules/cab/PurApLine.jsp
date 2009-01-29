@@ -57,7 +57,8 @@
         <c:if test="${not readOnly}">
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" 
 	        	property="methodToCall.save" title="save" alt="save"/>
-	    
+	    	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_reload.gif" styleClass="globalbuttons" 
+	        	property="methodToCall.reload" title="reload" alt="reload"/>
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" 
 	        	property="methodToCall.close" title="close" alt="close"/>
         </c:if>		

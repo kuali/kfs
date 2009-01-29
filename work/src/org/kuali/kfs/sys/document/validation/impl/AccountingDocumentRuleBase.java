@@ -436,20 +436,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             hasLines = (accessibleLines >= min);
         }
-        else {
-            if (workflowDocument.stateIsException() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(currentUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
-                hasLines = true;
-            }
-            else {
-                if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-                    hasLines = true;
-                }
-                else {
-                    hasLines = false;
-                }
-            }
-        }
-
+        
         LOG.debug("hasAccessibleAccountingLines(AccountingDocument, int) - end");
         return hasLines;
     }

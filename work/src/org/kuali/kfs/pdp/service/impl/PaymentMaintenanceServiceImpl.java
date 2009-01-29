@@ -85,7 +85,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param user the user that changed the status
      */
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user) {
-        LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
+        }
 
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
         KualiCode cd = this.kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
@@ -114,7 +116,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param paymentGroupHistory
      */
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user, PaymentGroupHistory paymentGroupHistory) {
-        LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
+        }
 
         KualiCode cd = this.kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
         paymentGroupHistory.setPaymentChange((PaymentChangeCode) cd);
@@ -140,8 +144,10 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public boolean cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
-        LOG.debug("cancelPendingPayment() Enter method to cancel pending payment with group id = " + paymentGroupId);
-        LOG.debug("cancelPendingPayment() payment detail id being cancelled = " + paymentDetailId);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("cancelPendingPayment() Enter method to cancel pending payment with group id = " + paymentGroupId);
+            LOG.debug("cancelPendingPayment() payment detail id being cancelled = " + paymentDetailId);
+        }
 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
         if (paymentGroup == null) {
@@ -153,10 +159,12 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
 
         if (!(PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT.equals(paymentStatus))) {
-            LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; continue with cancel.");
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; continue with cancel.");
+            }
 
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
-                if (pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId()) /*|| KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)*/) {
+                if (pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId()) ) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
 
@@ -174,7 +182,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     LOG.debug("cancelPendingPayment() Pending payment cancelled and mail was sent; exit method.");
                 }
                 else {
-                    LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
+                    }
 
                     GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
                     return false;
@@ -203,14 +213,18 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     LOG.debug("cancelPendingPayment() Pending payment cancelled; exit method.");
                 }
                 else {
-                    LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
+                    }
 
                     GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
                     return false;
                 }
             }
             else {
-                LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; cannot cancel payment in this status");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; cannot cancel payment in this status");
+                }
 
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
                 return false;
@@ -227,7 +241,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public boolean holdPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
-        LOG.debug("holdPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("holdPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
+        }
 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
         if (paymentGroup == null) {
@@ -240,14 +256,18 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
         if (!(PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus))) {
             if (PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus)) {
-                LOG.debug("holdPendingPayment() Payment status is " + paymentStatus + "; continue with hold.");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("holdPendingPayment() Payment status is " + paymentStatus + "; continue with hold.");
+                }
 
                 changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.HELD_CD, PdpConstants.PaymentChangeCodes.HOLD_CHNG_CD, note, user);
 
                 LOG.debug("holdPendingPayment() Pending payment was put on hold; exit method.");
             }
             else {
-                LOG.debug("holdPendingPayment() Payment status is " + paymentStatus + "; cannot hold payment in this status");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("holdPendingPayment() Payment status is " + paymentStatus + "; cannot hold payment in this status");
+                }
 
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_HOLD);
                 return false;
@@ -265,7 +285,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public boolean removeHoldPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
-        LOG.debug("removeHoldPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("removeHoldPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
+        }
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
         if (paymentGroup == null) {
             LOG.debug("removeHoldPendingPayment() Payment not found; throw exception.");
@@ -277,16 +299,20 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
 
         if (!(PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus))) {
-            LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; continue with hold removal.");
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; continue with hold removal.");
+            }
 
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
-                if (pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId()) /*|| KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, PdpConstants.Groups.SYSADMIN_GROUP)*/) {
+                if (pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId()) ) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
                     LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
                 }
                 else {
-                    LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
+                    }
 
                     GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
                     return false;
@@ -300,14 +326,18 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
                 }
                 else {
-                    LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
+                    }
 
                     GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
                     return false;
                 }
             }
             else {
-                LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; cannot remove hold on payment in this status");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; cannot remove hold on payment in this status");
+                }
 
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
                 return false;
@@ -324,7 +354,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public void changeImmediateFlag(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
-        LOG.debug("changeImmediateFlag() Enter method to hold pending payment with id = " + paymentGroupId);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("changeImmediateFlag() Enter method to hold pending payment with id = " + paymentGroupId);
+        }
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
 
@@ -347,7 +379,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
-        LOG.debug("cancelDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("cancelDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
+        }
 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
 
@@ -361,7 +395,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
         if (!(PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
             if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (ObjectUtils.isNotNull(paymentGroup.getDisbursementDate()) )) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
-                LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
+                }
 
                 List<PaymentGroup> allDisbursementPaymentGroups = this.paymentGroupService.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
@@ -392,7 +428,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 LOG.debug("cancelDisbursement() Disbursement cancelled; exit method.");
             }
             else {
-                LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + " and disbursement date is " + paymentGroup.getDisbursementDate() + "; cannot cancel payment in this status");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + " and disbursement date is " + paymentGroup.getDisbursementDate() + "; cannot cancel payment in this status");
+                }
 
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_INVALID_TO_CANCEL);
                 return false;
@@ -409,7 +447,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public boolean cancelReissueDisbursement(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
-        LOG.debug("cancelReissueDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("cancelReissueDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
+        }
 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
         if (paymentGroup == null) {
@@ -422,7 +462,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
         if (!(PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus))) {
             if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (ObjectUtils.isNotNull(paymentGroup.getDisbursementDate()) )) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
-                LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
+                }
 
                 List<PaymentGroup> allDisbursementPaymentGroups = this.paymentGroupService.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
@@ -446,7 +488,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                     glPendingTransactionService.generateReissueGeneralLedgerPendingEntry(pg);
 
-                    LOG.debug("cancelReissueDisbursement() Status is '" + paymentStatus + "; delete row from AchAccountNumber table.");
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug("cancelReissueDisbursement() Status is '" + paymentStatus + "; delete row from AchAccountNumber table.");
+                    }
 
                     AchAccountNumber achAccountNumber = pg.getAchAccountNumber();
 
@@ -476,7 +520,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 LOG.debug("cancelReissueDisbursement() Disbursement cancelled and reissued; exit method.");
             }
             else {
-                LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + " and disbursement date is " + paymentGroup.getDisbursementDate() + "; cannot cancel payment");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + " and disbursement date is " + paymentGroup.getDisbursementDate() + "; cannot cancel payment");
+                }
 
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_INVALID_TO_CANCEL_AND_REISSUE);
                 return false;

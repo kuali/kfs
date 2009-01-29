@@ -106,25 +106,6 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     }
 
     /**
-     * Determines if the current user is an AP user and returns true, false otherwise.
-     * 
-     * @return - true if current user is AP user, false otherwise.
-     */
-//    public boolean isApUser() {
-//
-//        boolean apUser = false;
-//        Person user = GlobalVariables.getUserSession().getPerson();
-//
-//        String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-//
-//        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, apGroup)) {
-//            apUser = true;
-//        }
-//
-//        return apUser;
-//    }
-
-    /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override

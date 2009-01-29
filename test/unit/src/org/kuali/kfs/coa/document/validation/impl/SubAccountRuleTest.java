@@ -197,6 +197,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         Person user = GOOD_CG_USERID.getPerson();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
+        newSubAccount.getAccount().setContractsAndGrantsAccountResponsibilityId(11);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with

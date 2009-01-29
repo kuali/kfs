@@ -29,6 +29,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class contains static helper methods for ServiceBillingDocumentRule and ServiceBillingDocumentAuthorizer.
  */
+@Deprecated
+// TODO: to be removed
 public class ServiceBillingDocumentRuleUtil {
 
     /**
@@ -58,26 +60,8 @@ public class ServiceBillingDocumentRuleUtil {
             // Ignore empty key because hasAccessibleAccountingLines() may not validate beforehand.
             return false;
         }
-        /*TODO:This should be fixed in KIM
-		ServiceBillingControl control = SpringContext.getBean(ServiceBillingControlService.class).getByPrimaryId(chartOfAccountsCode, accountNumber);
-        if (ObjectUtils.isNull(control)) {
-            if (action != null) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(action), accountingLine.getAccountNumber());
-            }
-            return false;
-        }
-
-        if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, control.getWorkgroupName())) {
-       */
-            return true;
-       /*TODO:This should be fixed in KIM
-        }
-        else {
-            if (action != null) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getPrincipalName(), control.getWorkgroupName());
-            }
-            return false;
-        }*/
+        
+        return true;
     }
 
     /**

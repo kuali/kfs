@@ -1566,25 +1566,5 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     protected boolean isTravelReviewRequired() {
         return (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_PREPAID_TRAVEL) || this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_NONEMPLOYEE_TRAVEL));
-    }
-    
-    /**
-     * Determines if the current active routing nodes are one of the disbursement voucher special routing nodes.
-     */
-    public boolean isSpecialRouting() {
-        KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
-        List<String> activeNodes = Arrays.asList(workflowDocument.getCurrentRouteNodeNames());
-// TODO fix for kim
-        List<String> dvSpecialNodes = new ArrayList<String>();
-//        dvSpecialNodes.add(RouteLevelNames.ALIEN_INDICATOR);
-//        dvSpecialNodes.add(RouteLevelNames.ALIEN_INDICATOR_PAYMENT_REASON);
-//        dvSpecialNodes.add(RouteLevelNames.CAMPUS_CODE);
-//        dvSpecialNodes.add(RouteLevelNames.EMPLOYEE_INDICATOR);
-//        dvSpecialNodes.add(RouteLevelNames.PAYMENT_METHOD);
-//        dvSpecialNodes.add(RouteLevelNames.PAYMENT_REASON);
-//        dvSpecialNodes.add(RouteLevelNames.PAYMENT_REASON_CAMPUS);
-//        dvSpecialNodes.add(RouteLevelNames.TAX_CONTROL_CODE);
-
-        return CollectionUtils.containsAny(activeNodes, dvSpecialNodes) ? true : false;
     }   
 }

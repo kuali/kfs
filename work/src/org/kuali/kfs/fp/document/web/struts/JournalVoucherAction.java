@@ -50,9 +50,9 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
- * This class piggy backs on all of the functionality in the FinancialSystemTransactionalDocumentActionBase but is necessary for this document
- * type. The Journal Voucher is unique in that it defines several fields that aren't typically used by the other financial
- * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
+ * This class piggy backs on all of the functionality in the FinancialSystemTransactionalDocumentActionBase but is necessary for
+ * this document type. The Journal Voucher is unique in that it defines several fields that aren't typically used by the other
+ * financial transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
  */
 public class JournalVoucherAction extends VoucherAction {
 
@@ -68,8 +68,8 @@ public class JournalVoucherAction extends VoucherAction {
      * Overrides the parent and then calls the super method after building the array lists for valid accounting periods and balance
      * types.
      * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-     *      HttpServletResponse response)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(ActionMapping mapping, ActionForm form, HttpServletRequest
+     *      request, HttpServletResponse response)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -86,10 +86,7 @@ public class JournalVoucherAction extends VoucherAction {
             returnForward = super.dispatchMethod(mapping, form, request, response, KFSConstants.CHANGE_JOURNAL_VOUCHER_BALANCE_TYPE_METHOD);
             // must call this here, because execute in the super method will never have control for this particular action
             // this is called in the parent by super.execute()
-            Document document = journalVoucherForm.getDocument();
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
-// TODO that method on the form is gone.  fix for kim
-            //            journalVoucherForm.populateAuthorizationFields(documentAuthorizer);
+            this.populateAuthorizationFields(journalVoucherForm);
         }
         else { // otherwise call the super
             returnForward = super.execute(mapping, journalVoucherForm, request, response);
@@ -145,7 +142,8 @@ public class JournalVoucherAction extends VoucherAction {
      * Overrides to call super, and then to repopulate the credit/debit amounts b/c the credit/debit code might change during a JV
      * error correction.
      * 
-     * @see org.kuali.kfs.fp.document.web.struts.VoucherAction#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.fp.document.web.struts.VoucherAction#correct(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

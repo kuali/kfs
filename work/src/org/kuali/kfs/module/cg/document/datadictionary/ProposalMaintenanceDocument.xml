@@ -65,7 +65,9 @@
     </property>
     <property name="documentTypeName" value="ProposalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.ProposalRule" />
+    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentPresentationController" />        	
     
     <property name="documentTypeCode" value="PRPL" />
     <property name="displayTopicFieldInNotes" value="true" />
@@ -298,7 +300,7 @@
   <bean id="ProposalMaintenanceDocument-ResearchRisks" parent="ProposalMaintenanceDocument-ResearchRisks-parentBean" />
 
   <bean id="ProposalMaintenanceDocument-ResearchRisks-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Research Risks" />
+    <property name="id" value="researchRisks" />
     <property name="title" value="Research Risks" />
     <property name="maintainableItems" >
       <list>

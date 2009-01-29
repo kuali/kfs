@@ -51,6 +51,9 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         
         Person financialSystemUser = GlobalVariables.getUserSession().getPerson(); 
+        
+        
+        
         // TODO fix for kim
 //        if (!payeeDetail.isDisbVchrAlienPaymentCode() || !disbursementVoucherWorkGroupService.isUserInTaxGroup(financialSystemUser)) {
 //            return true;

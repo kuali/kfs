@@ -53,12 +53,6 @@ public class AuxiliaryVoucherAction extends VoucherAction {
         ActionForward returnForward;
         if (StringUtils.isNotBlank(avForm.getOriginalVoucherType()) && !avForm.getAuxiliaryVoucherDocument().getTypeCode().equals(avForm.getOriginalVoucherType())) {
             returnForward = super.dispatchMethod(mapping, form, request, response, KFSConstants.AuxiliaryVoucher.CHANGE_VOUCHER_TYPE);
-            // TODO fix for kim
-//            // must call this here, because execute in the super method will never have control for this particular action
-//            // this is called in the parent by super.execute()
-//            Document document = avForm.getDocument();
-//            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
-//            avForm.populateAuthorizationFields(documentAuthorizer);
         }
         else { // otherwise call the super
             returnForward = super.execute(mapping, avForm, request, response);

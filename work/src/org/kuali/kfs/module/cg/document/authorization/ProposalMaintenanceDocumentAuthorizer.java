@@ -22,14 +22,4 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 
 public class ProposalMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getSecurePotentiallyHiddenSectionIds()
-     */
-    @Override
-    public Set<String> getSecurePotentiallyHiddenSectionIds() {
-        Set<String> hiddenSectionIds = super.getSecurePotentiallyHiddenSectionIds();
-        hiddenSectionIds.add(CGConstants.SectionId.RESEARCH_RISKS);
-
-        return hiddenSectionIds;
-    }
 }

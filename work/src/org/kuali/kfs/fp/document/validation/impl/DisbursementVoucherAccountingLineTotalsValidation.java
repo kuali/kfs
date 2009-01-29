@@ -36,6 +36,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) event.getDocument();
         Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
+        
 
         // amounts can only decrease
         // TODO fix for kim

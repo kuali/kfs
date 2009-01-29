@@ -29,7 +29,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.Deposit;
 import org.kuali.kfs.fp.document.CashManagementDocument;
-import org.kuali.kfs.fp.document.authorization.CashManagementDocumentAuthorizer;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
@@ -46,9 +45,6 @@ import org.kuali.kfs.sys.KFSKeyConstants.CashManagement;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -130,14 +126,6 @@ public class CashManagementAction extends KualiDocumentActionBase {
         kualiDocumentFormBase.setDocTypeName(cmDoc.getDocumentHeader().getWorkflowDocument().getDocumentType());
     }
 
-    private CashManagementDocumentAuthorizer getDocumentAuthorizer() {
-        String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(documentTypeName);
-
-        return (CashManagementDocumentAuthorizer) documentAuthorizer;
-    }
-
-
     /**
      * @param mapping
      * @param form
@@ -150,8 +138,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         CashManagementForm cmForm = (CashManagementForm) form;
         CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
 
-        // TODO fix for KIM
-//        checkDepositAuthorization(cmDoc, DepositConstants.DEPOSIT_TYPE_INTERIM);
+        checkDepositAuthorization(cmForm, cmDoc);
 
         String wizardUrl = buildDepositWizardUrl(cmDoc, DepositConstants.DEPOSIT_TYPE_INTERIM);
         return new ActionForward(wizardUrl, true);
@@ -169,33 +156,31 @@ public class CashManagementAction extends KualiDocumentActionBase {
         CashManagementForm cmForm = (CashManagementForm) form;
         CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
 
-        // TODO fix for KIM
-//        checkDepositAuthorization(cmDoc, DepositConstants.DEPOSIT_TYPE_FINAL);
+        checkDepositAuthorization(cmForm, cmDoc);
 
         String wizardUrl = buildDepositWizardUrl(cmDoc, DepositConstants.DEPOSIT_TYPE_FINAL);
         return new ActionForward(wizardUrl, true);
     }
 
-//    /**
-//     * Throws a DocumentAuthorizationException if the current user is not authorized to add a deposit of the given type to the given
-//     * document.
-//     * 
-//     * @param cmDoc
-//     * @param depositTypeCode
-//     */
-//    private void checkDepositAuthorization(CashManagementDocument cmDoc, String depositTypeCode) {
-//        // deposits can only be added if the CashDrawer is open
-//        if (!cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_OPEN)) {
-//            throw new IllegalStateException("CashDrawer '" + cmDoc.getCampusCode() + "' must be open for deposits to be made");
-//        }
-//
-//        // verify user's ability to add a deposit
-//        Person user = GlobalVariables.getUserSession().getPerson();
-//        Map editModes = getDocumentAuthorizer().getEditMode(cmDoc, user);
-//        if (!editModes.containsKey(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS)) {
-//            throw buildAuthorizationException("add a deposit", cmDoc);
-//        }
-//    }
+    /**
+     * Throws a DocumentAuthorizationException if the current user is not authorized to add a deposit of the given type to the given
+     * document.
+     * 
+     * @param cmDoc
+     * @param cmForm
+     */
+    private void checkDepositAuthorization(CashManagementForm cmForm, CashManagementDocument cmDoc) {
+        //deposits can only be added if the CashDrawer is open
+        if (!cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_OPEN)) {
+            throw new IllegalStateException("CashDrawer '" + cmDoc.getCampusCode() + "' must be open for deposits to be made");
+        }
+        
+        //verify user's ability to add a deposit
+        Map<String, String> documentActions = cmForm.getEditingMode();
+        if (!documentActions.containsKey(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS)) {
+            throw buildAuthorizationException("add a deposit", cmDoc);
+        }
+    }
 
     /**
      * @param cmDoc

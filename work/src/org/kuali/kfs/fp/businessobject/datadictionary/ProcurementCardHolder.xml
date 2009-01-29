@@ -251,6 +251,15 @@
       <bean parent="TextControlDefinition"
             p:size="18" />
     </property>
+    
+	<property name="attributeSecurity">
+       <bean parent="AttributeSecurity">
+  		  <property name="mask" value="true" /> 
+		  <property name="maskFormatter">
+             <bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  	      </property>
+       </bean>
+    </property>    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

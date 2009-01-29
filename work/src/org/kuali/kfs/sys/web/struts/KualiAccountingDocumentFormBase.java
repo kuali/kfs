@@ -152,27 +152,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         }
     }
 
- // TODO this method is gone, fix for kim
-//    /**
-//     * Refactored out actually calling the documentAuthorizer methods, since FinancialDocuments call a differently-parameterized
-//     * version of getEditMode
-//     * 
-//     * @param documentAuthorizer
-//     */
-//    @Override
-//    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
-//        Person kualiUser = GlobalVariables.getUserSession().getPerson();
-//
-//        AccountingDocument financialDocument = (AccountingDocument) getDocument();
-//        AccountingDocumentAuthorizer financialDocumentAuthorizer = (AccountingDocumentAuthorizer) documentAuthorizer;
-//
-//        setEditingMode(financialDocumentAuthorizer.getEditMode(financialDocument, kualiUser));
-//
-////        setDocumentActionFlags(financialDocumentAuthorizer.getDocumentActionFlags(financialDocument, kualiUser));
-//
-//        setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), kualiUser));
-//    }
-
     /**
      * This method iterates over all of the source lines and all of the target lines in a transactional document, and calls
      * prepareAccountingLineForValidationAndPersistence on each one. This is called because a user could have updated already

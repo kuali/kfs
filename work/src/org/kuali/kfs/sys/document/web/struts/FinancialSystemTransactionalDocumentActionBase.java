@@ -46,11 +46,6 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
         KualiTransactionalDocumentFormBase tmpForm = (KualiTransactionalDocumentFormBase) form;
 
         Document document = tmpForm.getDocument();
-        // TODO fix for kim
-//        FinancialSystemTransactionalDocumentActionFlags flags = getDocumentActionFlags(document);
-//        if (!flags.getCanErrorCorrect()) {
-//            throw buildAuthorizationException("error correct", document);
-//        }
 
         ((Correctable) tmpForm.getTransactionalDocument()).toErrorCorrection();
 

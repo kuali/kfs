@@ -15,16 +15,10 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.List;
-
 import org.kuali.kfs.fp.document.ServiceBillingDocument;
-import org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRuleUtil;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ServiceBillingDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
 
@@ -53,13 +47,6 @@ public class ServiceBillingDocumentPresentationController extends AccountingDocu
         ServiceBillingDocument serviceBillingDocument = (ServiceBillingDocument) document;
         if (!super.canErrorCorrect(serviceBillingDocument) && !super.canCopy(serviceBillingDocument)) {
             return false;
-        }
-
-        Person user = GlobalVariables.getUserSession().getPerson();
-        for (SourceAccountingLine sourceAccountingLine : ((List<SourceAccountingLine>) serviceBillingDocument.getSourceAccountingLines())) {
-            if (!ServiceBillingDocumentRuleUtil.serviceBillingIncomeAccountIsAccessible(sourceAccountingLine, null, user)) {
-                return false;
-            }
         }
 
         return true;

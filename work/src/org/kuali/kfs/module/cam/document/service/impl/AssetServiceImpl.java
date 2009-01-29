@@ -41,11 +41,13 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class AssetServiceImpl implements AssetService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetServiceImpl.class);
@@ -94,7 +96,7 @@ public class AssetServiceImpl implements AssetService {
     public boolean isAssetFabrication(MaintenanceDocument maintenanceDocument) {
         return maintenanceDocument.getNewMaintainableObject().getBusinessObject() instanceof Asset && maintenanceDocument.isNew();
     }
-    
+
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetLoaned(org.kuali.kfs.module.cam.businessobject.Asset)
      */
@@ -340,16 +342,16 @@ public class AssetServiceImpl implements AssetService {
         Map<String, String> paramsAssetGlobal = new HashMap<String, String>();
         paramsAssetGlobal.put(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, capitalAssetNumber.toString());
         Collection<AssetGlobal> assetGlobals = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetGlobal.class, paramsAssetGlobal);
-        
+
         List<String> separateDocumentNumbers = new ArrayList<String>();
         for (Iterator<AssetGlobal> assetGlobalIter = assetGlobals.iterator(); assetGlobalIter.hasNext();) {
             AssetGlobal assetGlobal = assetGlobalIter.next();
-            
-            if(DocumentStatusCodes.APPROVED.equals(assetGlobal.getDocumentHeader().getFinancialDocumentStatusCode())) {
+
+            if (DocumentStatusCodes.APPROVED.equals(assetGlobal.getDocumentHeader().getFinancialDocumentStatusCode())) {
                 separateDocumentNumbers.add(assetGlobal.getDocumentNumber());
             }
         }
-        
+
         return separateDocumentNumbers;
     }
 
@@ -376,4 +378,16 @@ public class AssetServiceImpl implements AssetService {
         this.businessObjectService = businessObjectService;
     }
 
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#getCurrentRouteLevels(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+     */
+    public List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+        try {
+            return Arrays.asList(workflowDocument.getNodeNames());
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

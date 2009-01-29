@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
-<c:set var="viewOnly" value="${!empty KualiForm.editingMode['viewOnly']}"/>
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="tabKey" value="${kfunc:generateTabKey(subTabTitle)}"/>
 
 <kul:tab tabTitle="Assets" defaultOpen="true" tabErrorKey="document.capitalAssetNumber*,document.hiddenFieldForError">
@@ -29,7 +29,7 @@
 			    	<span class="subhead-left">Assets</span>
 			  	</td>
 			</tr>
-			<c:if test="${!viewOnly}">
+			<c:if test="${!readOnly}">
 			    <tr>
 				    <th width="10%"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
 					<td class="infoline" valign="top" width="84%">															   

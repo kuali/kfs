@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.document.authorization;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,10 +25,14 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Presentation Controller for Asset Retirement Global Maintenance Documents
@@ -82,4 +87,19 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
         
         return fields;
     }
+    
+    @Override
+    protected boolean canEdit(Document document) {
+        KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument)document.getDocumentHeader().getWorkflowDocument();
+        
+        if (workflowDocument.stateIsEnroute()) {
+            List<String> nodeNames = SpringContext.getBean(AssetService.class).getCurrentRouteLevels(workflowDocument) ;
+            
+            if (nodeNames.contains(CamsConstants.RouteLevelNames.EXTERNAL_TRANSFER) || nodeNames.contains(CamsConstants.RouteLevelNames.PURCHASING)) {
+                return false;
+            }
+        }
+        return super.canEdit(document);
+    }
+    
 }

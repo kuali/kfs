@@ -16,6 +16,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentPreRules" />    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentDocumentAuthorizer" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentPresentationController" />
     <property name="documentTypeCode" value="MPAY" />
     <property name="workflowAttributes" >
       <ref bean="AssetPaymentDocument-workflowAttributes" />

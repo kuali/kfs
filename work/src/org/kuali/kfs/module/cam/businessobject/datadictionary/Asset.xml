@@ -153,6 +153,7 @@
         <ref bean="Asset-assetPayments.documentNumber" />
 
 		<ref bean="Asset-assetPayments-lookup"/>
+		<ref bean="Asset-relatedDocument-documentLookup"/>
 
       </list>
     </property>
@@ -237,6 +238,20 @@
 	</property>
 </bean>
 
+<bean id="Asset-relatedDocument-documentLookup" parent="Asset-relatedDocument-documentLookup-parentBean" />
+<bean id="Asset-relatedDocument-documentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="documentLookup" />
+	<property name="label" value="To view the related document for this Asset" />
+    <property name="maxLength" value="1000" />
+    <property name="required" value="false"/>    
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="view related document click here"
+		/>
+	</property>
+</bean>
   <bean id="Asset-organizationOwnerAccount.organizationCode" parent="Asset-organizationOwnerAccount.organizationCode-parentBean" />
   <bean id="Asset-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
     <property name="name" value="organizationOwnerAccount.organizationCode" />
@@ -1629,6 +1644,17 @@
             </list>
           </property>
         </bean> 
+        
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Related Document Lookup" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentLookup" />
+            </list>
+          </property>
+        </bean>
         
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Fabrication Information" />

@@ -16,40 +16,19 @@
 package org.kuali.kfs.module.cam.document.authorization;
 
 import java.util.List;
-import java.util.Set;
 
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * Presentation Controller for Equipment Loan Or Return Documents
+ * Presentation Controller for Asset Payment Documents
  */
-public class EquipmentLoanOrReturnDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
-    
-    @Override
-    public Set<String> getEditModes(Document document) {
-        Set<String> editModes = super.getEditModes(document);
-        
-        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-        
-        // setup new loan document
-        if (equipmentLoanOrReturnDocument.isNewLoan()) {
-            editModes.add(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB);
-        }
-        
-        // setup return loan document
-        if (equipmentLoanOrReturnDocument.isReturnLoan()) {
-            editModes.add(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_RETURN_LOAN_FIELDS_READ_ONLY);
-        }
-        
-        return editModes;
-    }
-    
+public class AssetPaymentPresentationController extends AccountingDocumentPresentationControllerBase {
+
     @Override
     protected boolean canEdit(Document document) {
         KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
@@ -57,10 +36,11 @@ public class EquipmentLoanOrReturnDocumentPresentationController extends Financi
         if (workflowDocument.stateIsEnroute()) {
             List<String> nodeNames = SpringContext.getBean(AssetService.class).getCurrentRouteLevels(workflowDocument);
 
-            if (nodeNames.contains(CamsConstants.RouteLevelNames.BORROWER)) {
+            if (nodeNames.contains(CamsConstants.RouteLevelNames.PLANT_FUND)) {
                 return false;
             }
         }
         return super.canEdit(document);
     }
+
 }

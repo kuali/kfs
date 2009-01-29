@@ -21,12 +21,21 @@ import java.util.List;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
  * The interface defines methods for Asset Document
  */
 public interface AssetService {
+    /**
+     * A helper method for determining the route levels for a given document.
+     * 
+     * @param workflowDocument
+     * @return List
+     */
+    public List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument);
+
     boolean isAssetMovableCheckByAsset(Asset asset);
 
     boolean isCapitalAsset(Asset asset);
@@ -39,7 +48,7 @@ public interface AssetService {
      * @return if MaintenanceDocument is an asset fabrication or not
      */
     public boolean isAssetFabrication(MaintenanceDocument maintenanceDocument);
-    
+
     /**
      * @return if the asset is on loan or not
      */
@@ -141,7 +150,6 @@ public interface AssetService {
     public boolean isAssetMovableCheckByPayment(String financialObjectSubTypeCode);
 
     /**
-     * 
      * This will check if the list of financial object sub type code are compatible with each other.
      * <li> return TRUE if all Object sub type code are compatible with each other.
      * <li> return FALSE if any non copatible object sub type code are found.
@@ -164,35 +172,35 @@ public interface AssetService {
      * 
      * @param campusTagNumber Campus Tag Number
      * @return List of assets found matching tag number
-     */    
+     */
     public Collection<Asset> findAssetsMatchingTagNumber(String campusTagNumber);
-    
+
     /**
      * For the given Asset sets the separateHistory.
+     * 
      * @param asset for which to set the separateHistory
      */
     public void setSeparateHistory(Asset asset);
-    
+
     /**
      * @param capitalAssetNumber to check whether it got separated
      * @return the list of document numbers that separated the particular asset
      */
     public List<String> getDocumentNumbersThatSeparatedThisAsset(Long capitalAssetNumber);
-    
+
     /**
-     * 
      * Sets the fiscal year and month in the asset object based on the creation date of the asset
+     * 
      * @param asset
      */
     public void setFiscalPeriod(Asset asset);
-    
+
     /**
-     * 
      * returns the document id that locks a particular asset
      * 
      * @param documentNumber
      * @param capitalAssetNumber
      * @return
      */
-    public String getLockingDocumentId(String documentNumber, Long capitalAssetNumber);    
+    public String getLockingDocumentId(String documentNumber, Long capitalAssetNumber);
 }

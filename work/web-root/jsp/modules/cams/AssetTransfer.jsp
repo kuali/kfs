@@ -19,7 +19,7 @@
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />	
 	<c:set var="assetOrgAttributes" value="${DataDictionary.AssetOrganization.attributes}" />	
 	<c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />	
-	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
 	

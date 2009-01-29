@@ -23,7 +23,7 @@
 
 	<c:set var="equipAttributes" value="${DataDictionary.EquipmentLoanOrReturnDocument.attributes}" />
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
-	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 	<c:set var="displayNewLoanTab" value="${KualiForm.editingMode['displayNewLoanTab']}" scope="request"/>
 	<c:set var="displayReturnLoanFieldsReadOnly" value="${KualiForm.editingMode['displayReturnLoanFieldsReadOnly']}" scope="request"/>
 	

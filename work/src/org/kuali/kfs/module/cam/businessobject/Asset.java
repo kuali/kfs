@@ -147,6 +147,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private Date depreciationDateCopy;
     private transient Integer quantity;
     private String lookup;
+    private String documentLookup;
     private boolean tagged;
 
     /**
@@ -1941,5 +1942,19 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetPayment.class.getName());
 
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+    
+    public String getDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+        
+        Properties params = new Properties();
+        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "doDocSearch");
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber().toString());
+        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
+        params.put("criteria.docTypeFullName", "AssetMaintenanceDocument");
+
+        return UrlFactory.parameterizeUrl("../en/DocumentSearch.do", params);
     }
 }

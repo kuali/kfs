@@ -16,8 +16,6 @@
 package org.kuali.kfs.module.cam;
 
 import java.util.Currency;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
@@ -50,7 +48,15 @@ public class CamsConstants extends JSTLConstants {
         public static final String USE_RESTRICTED_RETIREMENT_REASON = "Use Restricted Retirement Reason";
         public static final String EDIT_WHEN_TAGGED_PRIOR_FISCAL_YEAR = "Edit When Tagged Prior Fiscal Year";
     }
-    
+
+    public static class RouteLevelNames {
+        public static final String EXTERNAL_TRANSFER = "ExternalTransfer";
+        public static final String PURCHASING = "Purchasing";
+        public static final String MANAGEMENT = "Management";
+        public static final String PLANT_FUND = "PlantFund";
+        public static final String BORROWER = "Borrower";
+    }
+
     public static class AssetActions {
         public static final String LOAN = "loan";
         public static final String LOAN_RETURN = "return";
@@ -141,7 +147,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String BCI_MANUALLY_KEYED_CODE = "0";
         public static final String BCI_SCANED_INTO_DEVICE = "1";
     }
-    
+
     public static class BarCodeInventoryError {
         // barcode inventory error document status codes
         public static final String STATUS_CODE_ERROR = "E";
@@ -151,7 +157,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String STATUS_CODE_CORRECTED_DESCRIPTION = "Corrected";
         public static final String STATUS_CODE_DELETED_DESCRIPTION = "Deleted";
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO = "N";
-        //public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES = "Y";
+        // public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES = "Y";
     }
 
     public static class InventoryStatusCode {
@@ -202,7 +208,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String RETIREMENT_INSTITUTION_NAME = "Retirement Institution Name";
         public static final String PAID_CASE_NUMBER = "Police Case Number";
     }
-    
+
     public static class Asset {
         public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE = "SV";
         public static final String DEPRECIATION_METHOD_STRAIGHT_LINE_CODE = "SL";
@@ -215,7 +221,8 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_FABRICATION_INFORMATION = "fabricationInformation";
         public static final String SECTION_ID_LAND_INFORMATION = "landInformation";
         public static final String SECTION_ID_PAYMENT_INFORMATION = "paymentInformation";
-        public static final String SECTION_ID_PAYMENT_LOOKUP= "paymentLookup";
+        public static final String SECTION_ID_PAYMENT_LOOKUP = "paymentLookup";
+        public static final String SECTION_ID_DOCUMENT_LOOKUP = "documentLookup";
         public static final String SECTION_ID_DEPRECIATION_INFORMATION = "depreciationInformation";
         public static final String SECTION_ID_MERGE_HISTORY = "mergeHistory";
         public static final String SECTION_ID_HISTORY = "history";
@@ -230,7 +237,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String[] FABRICATION_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_COMPLETION_DATE, CamsPropertyConstants.Asset.FABRICATION_ESTIMATED_RETENTION_YEARS, CamsPropertyConstants.Asset.FABRICATION_ESTIMATED_TOTAL_AMOUNT };
         public static final String SECTION_TITLE_NO_PAYMENT = "- No payment exists for Capital Asset: ";
     }
-    
+
     public static class AssetPayment {
         public static final String TRANSFER_PAYMENT_CODE_N = "N";
         public static final String TRANSFER_PAYMENT_CODE_Y = "Y";
@@ -260,7 +267,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_ASSET_INFORMATION = "assetInformation";
         public static final String SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT = "recalculateSeparateSourceAmount";
     }
-    
+
     public static class AssetSeparate {
         public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
         public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
@@ -272,11 +279,11 @@ public class CamsConstants extends JSTLConstants {
         public static final String OFFSET_AMOUNT = "Offset Amount";
         public static final String INCOME = "Income";
     }
-    
+
     public static class Postable {
         public static final String GL_BALANCE_TYPE_CODE_AC = "AC";
     }
-    
+
     public static class AssetTransfer {
         public static final String DOCUMENT_TYPE_CODE = "AT";
     }

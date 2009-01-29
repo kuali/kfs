@@ -6,7 +6,7 @@
 <c:set var="totalHistoricalAmount" value="${KualiForm.document.assetsTotalHistoricalCost}"/>
 <c:set var="globalTotalAllocated" 	   value="${0.00}"/>
 <c:set var="globalTotalHistoricalCost" value="${0.00}"/>
-<c:set var="viewOnly" value="${!empty KualiForm.editingMode['viewOnly']}"/>
+<c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 <c:set var="numberOfAssets" value="${fn:length(KualiForm.document.assetPaymentAssetDetail)}"/>
 
 <logic:iterate id="assetPaymentAssetDetail" name="KualiForm" property="document.assetPaymentAssetDetail" indexId="ctr">

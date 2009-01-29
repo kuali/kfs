@@ -103,7 +103,6 @@
 	 <bean id="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account-sourceOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-financialDocumentTotalAmount" />
 		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
 		        <ref bean="RoutingAttribute-accountNumber" />
     		</list>

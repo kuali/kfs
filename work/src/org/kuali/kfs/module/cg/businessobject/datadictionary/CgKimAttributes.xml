@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="CgKimAttributes" parent="CgKimAttributes-parentBean" />
+
+  <bean id="CgKimAttributes-parentBean" abstract="true" parent="KfsKimAttributes-parentBean"
+        p:businessObjectClass="org.kuali.kfs.module.cg.identity.CgKimAttributes"
+        p:objectLabel="KFS C&amp;G KIM Attributes">
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="CgKimAttributes-researchRiskTypeCode" />
+        <ref bean="CgKimAttributes-questionTypeCode" />
+      </list>
+    </property>
+    <property name="relationships">
+      <list merge="true">
+        <dd:relationship objectAttribute="researchRiskType">
+            <dd:primitiveAttribute source="researchRiskTypeCode" target="researchRiskTypeCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="questionType">
+            <dd:primitiveAttribute source="questionTypeCode" target="questionTypeCode" />
+        </dd:relationship>      
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CgKimAttributes-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode" />
+  <bean id="CgKimAttributes-questionTypeCode" parent="QuestionType-questionTypeCode" />
+
+</beans>

@@ -28,14 +28,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KfsKimAttributes-contractsAndGrantsAccountResponsibilityId" />
         <ref bean="KfsKimAttributes-disbursementVoucherPaymentMethodCode" />
         <ref bean="KfsKimAttributes-subAccountNumber" />
-        <ref bean="KfsKimAttributes-researchRiskTypeCode" />
-        <ref bean="KfsKimAttributes-QuestionType-questionTypeCode" />
-        <ref bean="KfsKimAttributes-QuestionType-active" />
-        <ref bean="KfsKimAttributes-QuestionType-questionTypeDescription" />
-        <ref bean="KfsKimAttributes-QuestionType-questionTypeSortNumber" />
-        <ref bean="KfsKimAttributes-QuestionType-questionTypeNotificationValue" />
-        <ref bean="KfsKimAttributes-sensitiveDataCode" />
-        <ref bean="KfsKimAttributes-documentSensitive" />
       </list>
     </property>
     <property name="relationships">
@@ -128,19 +120,5 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     p:name="descendHierarchy"
     p:label="Descends Hierarchy"
     p:shortLabel="Descends Hierarchy" />
-
-  <bean id="KfsKimAttributes-documentSensitive" parent="KfsKimAttributes-documentSensitive-parentBean" />
-  <bean id="KfsKimAttributes-documentSensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean"
-    p:name="documentSensitive"
-    p:label="Sensitive Document"
-    p:shortLabel="Sensitive" />
-
-  <bean id="KfsKimAttributes-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode" />
-  <bean id="KfsKimAttributes-QuestionType-questionTypeCode" parent="QuestionType-questionTypeCode" />
-  <bean id="KfsKimAttributes-QuestionType-active" parent="QuestionType-active" />
-  <bean id="KfsKimAttributes-QuestionType-questionTypeDescription" parent="QuestionType-questionTypeDescription" />
-  <bean id="KfsKimAttributes-QuestionType-questionTypeSortNumber" parent="QuestionType-questionTypeSortNumber" />
-  <bean id="KfsKimAttributes-QuestionType-questionTypeNotificationValue" parent="QuestionType-questionTypeNotificationValue" />
-  <bean id="KfsKimAttributes-sensitiveDataCode" parent="SensitiveData-sensitiveDataCode" />
 
 </beans>

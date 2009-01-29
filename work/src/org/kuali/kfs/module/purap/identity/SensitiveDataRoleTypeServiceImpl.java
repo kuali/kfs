@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.purap.identity;
 
-import java.util.HashSet;
-
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
@@ -25,6 +22,6 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class SensitiveDataRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        return Arrays.asList(qualification.get(KfsKimAttributes.SENSITIVE_DATA_CODE).split(";")).contains(roleQualifier.get(KfsKimAttributes.SENSITIVE_DATA_CODE));
+        return Arrays.asList(qualification.get(PurapKimAttributes.SENSITIVE_DATA_CODE).split(";")).contains(roleQualifier.get(PurapKimAttributes.SENSITIVE_DATA_CODE));
     }
 }

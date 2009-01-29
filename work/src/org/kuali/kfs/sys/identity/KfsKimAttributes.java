@@ -30,32 +30,23 @@ import org.kuali.rice.kns.util.KualiInteger;
 
 public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
-    public static String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
-    public static String ACCOUNT_NUMBER = "accountNumber";
-    public static String GENERAL_LEDGER_INPUT_TYPE_CODE = "generalLedgerInputTypeCode";
-    public static String ORGANIZATION_CODE = "organizationCode";
-    public static String DESCEND_HIERARCHY = "descendHierarchy";
-    public static String FROM_AMOUNT = "fromAmount";
-    public static String TO_AMOUNT = "toAmount";
-    public static String DOCUMENT_AMOUNT = "documentAmount";
-    public static String ACCOUNTING_LINE_OVERRIDE_CODE = "accountingLineOverrideCode";
-    public static String SUB_FUND_GROUP_CODE = "subFundGroupCode";
-    public static String PURCHASING_COMMODITY_CODE = "purchasingCommodityCode";
-    public static String CONTRACT_MANAGER_CODE = "contractManagerCode";
-    public static String CUSTOMER_PROFILE_ID = "customerProfileId";
-    public static String VENDOR_TYPE_CODE = "vendorTypeCode";
-    public static String CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID = "contractsAndGrantsAccountResponsibilityId";
-    public static String DISBURSEMENT_VOUCHER_PAYMENT_METHOD_CODE = "disbursementVoucherPaymentMethodCode";
-    public static String SUB_ACCOUNT_NUMBER = "subAccountNumber";
-    public static String RESEARCH_RISK_TYPE_CODE = "researchRiskTypeCode";
-    public static String QUESTION_TYPE_CODE = "questionTypeCode";
-    public static String QUESTION_TYPE_ACTIVE = "active";
-    public static String QUESTION_TYPE_DESCRIPTION = "questionTypeDescription";
-    public static String QUESTION_TYPE_SORT_NUMBER = "questionTypeSortNumber";
-    public static String QUESTION_TYPE_NOTIFICATION_VALUE = "questionTypeNotificationValue";
-    public static String SENSITIVE_DATA_CODE = "sensitiveDataCode";
-    public static String ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER = "accountsPayablePurchasingDocumentLinkIdentifier";
-    public static String DOCUMENT_SENSITIVE = "documentSensitive";
+    public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+    public static final String ACCOUNT_NUMBER = "accountNumber";
+    public static final String GENERAL_LEDGER_INPUT_TYPE_CODE = "generalLedgerInputTypeCode";
+    public static final String ORGANIZATION_CODE = "organizationCode";
+    public static final String DESCEND_HIERARCHY = "descendHierarchy";
+    public static final String FROM_AMOUNT = "fromAmount";
+    public static final String TO_AMOUNT = "toAmount";
+    public static final String DOCUMENT_AMOUNT = "documentAmount";
+    public static final String ACCOUNTING_LINE_OVERRIDE_CODE = "accountingLineOverrideCode";
+    public static final String SUB_FUND_GROUP_CODE = "subFundGroupCode";
+    public static final String PURCHASING_COMMODITY_CODE = "purchasingCommodityCode";
+    public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
+    public static final String CUSTOMER_PROFILE_ID = "customerProfileId";
+    public static final String VENDOR_TYPE_CODE = "vendorTypeCode";
+    public static final String CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID = "contractsAndGrantsAccountResponsibilityId";
+    public static final String DISBURSEMENT_VOUCHER_PAYMENT_METHOD_CODE = "disbursementVoucherPaymentMethodCode";
+    public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
     
     protected String chartOfAccountsCode;
     protected String accountNumber;
@@ -72,18 +63,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected String contractsAndGrantsAccountResponsibilityId;
     protected String disbursementVoucherPaymentMethodCode;
     protected String subAccountNumber;
-
-    protected String researchRiskTypeCode;
-    protected String questionTypeCode;
-    protected boolean active;
-    protected String questionTypeDescription;
-    protected Integer questionTypeSortNumber;
-    protected String questionTypeWorkgroupName;
-    protected String questionTypeNotificationValue;
-    
-    protected String sensitiveDataCode;
-    protected boolean documentSensitive;
-    
+        
     protected Chart chart;
     protected Organization organization;
     protected Account account;
@@ -369,146 +349,6 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
-    }
-
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
-    public boolean isActive() {
-        return active;
-    }
-
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    /**
-     * Gets the questionTypeDescription attribute. 
-     * @return Returns the questionTypeDescription.
-     */
-    public String getQuestionTypeDescription() {
-        return questionTypeDescription;
-    }
-
-    /**
-     * Sets the questionTypeDescription attribute value.
-     * @param questionTypeDescription The questionTypeDescription to set.
-     */
-    public void setQuestionTypeDescription(String questionTypeDescription) {
-        this.questionTypeDescription = questionTypeDescription;
-    }
-
-    /**
-     * Gets the questionTypeNotificationValue attribute. 
-     * @return Returns the questionTypeNotificationValue.
-     */
-    public String getQuestionTypeNotificationValue() {
-        return questionTypeNotificationValue;
-    }
-
-    /**
-     * Sets the questionTypeNotificationValue attribute value.
-     * @param questionTypeNotificationValue The questionTypeNotificationValue to set.
-     */
-    public void setQuestionTypeNotificationValue(String questionTypeNotificationValue) {
-        this.questionTypeNotificationValue = questionTypeNotificationValue;
-    }
-
-    /**
-     * Gets the questionTypeSortNumber attribute. 
-     * @return Returns the questionTypeSortNumber.
-     */
-    public Integer getQuestionTypeSortNumber() {
-        return questionTypeSortNumber;
-    }
-
-    /**
-     * Sets the questionTypeSortNumber attribute value.
-     * @param questionTypeSortNumber The questionTypeSortNumber to set.
-     */
-    public void setQuestionTypeSortNumber(Integer questionTypeSortNumber) {
-        this.questionTypeSortNumber = questionTypeSortNumber;
-    }
-
-    /**
-     * Gets the questionTypeWorkgroupName attribute. 
-     * @return Returns the questionTypeWorkgroupName.
-     */
-    public String getQuestionTypeWorkgroupName() {
-        return questionTypeWorkgroupName;
-    }
-
-    /**
-     * Sets the questionTypeWorkgroupName attribute value.
-     * @param questionTypeWorkgroupName The questionTypeWorkgroupName to set.
-     */
-    public void setQuestionTypeWorkgroupName(String questionTypeWorkgroupName) {
-        this.questionTypeWorkgroupName = questionTypeWorkgroupName;
-    }
-
-    /**
-     * Gets the researchRiskTypeCode attribute.
-     * 
-     * @return Returns the researchRiskTypeCode.
-     */
-    public String getResearchRiskTypeCode() {
-        return researchRiskTypeCode;
-    }
-
-    /**
-     * Sets the researchRiskTypeCode attribute value.
-     * 
-     * @param researchRiskTypeCode The researchRiskTypeCode to set.
-     */
-    public void setResearchRiskTypeCode(String researchRiskTypeCode) {
-        this.researchRiskTypeCode = researchRiskTypeCode;
-    }
-
-    /**
-     * Gets the questionTypeCode attribute. 
-     * @return Returns the questionTypeCode.
-     */
-    public String getQuestionTypeCode() {
-        return questionTypeCode;
-    }
-
-    /**
-     * Sets the questionTypeCode attribute value.
-     * @param questionTypeCode The questionTypeCode to set.
-     */
-    public void setQuestionTypeCode(String questionTypeCode) {
-        this.questionTypeCode = questionTypeCode;
-    }
-
-    /**
-     * Gets the sensitiveDataCode attribute.
-     * 
-     * @return Returns the sensitiveDataCode.
-     */
-    public String getSensitiveDataCode() {
-        return sensitiveDataCode;
-    }
-
-    /**
-     * Sets the sensitiveDataCode attribute value.
-     * 
-     * @param sensitiveDataCode The sensitiveDataCode to set.
-     */
-    public void setSensitiveDataCode(String sensitiveDataCode) {
-        this.sensitiveDataCode = sensitiveDataCode;
-    }
-
-    public boolean isDocumentSensitive() {
-        return documentSensitive;
-    }
-
-    public void setDocumentSensitive(boolean documentSensitive) {
-        this.documentSensitive = documentSensitive;
     }
 
     public Chart getChart() {

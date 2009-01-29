@@ -21,7 +21,6 @@ import java.util.List;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.role.service.impl.RouteLogDerivedRoleTypeServiceImpl;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -52,7 +51,7 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
         List<String> principalIds = new ArrayList<String>();
         if (SOURCE_DOCUMENT_ROUTER_ROLE_NAME.equals(roleName)) {
             try {
-                PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) getDocumentService().getByDocumentHeaderId(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER));
+                PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) getDocumentService().getByDocumentHeaderId(qualification.get(PurapKimAttributes.DOCUMENT_NUMBER));
                 if (document != null) {
                     PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
                     if (sourceDocument != null)
@@ -64,9 +63,9 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
             }
         }
         else if (SENSITIVE_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
-            for (String documentId : getPurapService().getRelatedDocumentIds(new Integer(qualification.get(KfsKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)))) {
+            for (String documentId : getPurapService().getRelatedDocumentIds(new Integer(qualification.get(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)))) {
                 AttributeSet tempQualification = new AttributeSet();
-                tempQualification.put(KfsKimAttributes.DOCUMENT_NUMBER, documentId);
+                tempQualification.put(PurapKimAttributes.DOCUMENT_NUMBER, documentId);
                 principalIds.addAll(getRoleManagementService().getRoleMemberPrincipalIds(KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification));
             }
         }

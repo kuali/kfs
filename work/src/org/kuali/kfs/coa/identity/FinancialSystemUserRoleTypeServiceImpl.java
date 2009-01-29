@@ -29,8 +29,9 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
  * This role type service was designed to be attached to the KFS-SYS User role.
  * This class...
  */
-public class OrganizationAndOptionalNamespaceRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     public static final String FINANCIAL_SYSTEM_USER_ROLE_NAME = "User";
+    public static final String PERFORM_QUALIFIER_MATCH = "performQualifierMatch";
 
     protected List<String> roleQualifierRequiredAttributes = new ArrayList<String>();
     protected List<String> qualificationRequiredAttributes = new ArrayList<String>();
@@ -51,6 +52,11 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImpl extends KimRole
         validateRequiredAttributesAgainstReceived(
                 qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         
+        // if we can not find the qualifier which tells us to perform the match, just return true
+        if ( qualification == null || 
+                !Boolean.parseBoolean( qualification.get(PERFORM_QUALIFIER_MATCH) ) ) {
+            return true;
+        }
         String chart = "";
         String orgCode = "";
         String namespace = "";
@@ -78,6 +84,11 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImpl extends KimRole
 
     @Override
     public List<RoleMembershipInfo> doRoleQualifiersMatchQualification(AttributeSet qualification, List<RoleMembershipInfo> roleMemberList) {
+        // if we can not find the qualifier which tells us to perform the match, just return all rows
+        if ( qualification == null || 
+                !Boolean.parseBoolean( qualification.get(PERFORM_QUALIFIER_MATCH) ) ) {
+            return roleMemberList;
+        }
         // perform special matching to make a match that includes the namespace take priority
         RoleMembershipInfo namespaceMatch = null;
         RoleMembershipInfo nonNamespaceMatch = null;

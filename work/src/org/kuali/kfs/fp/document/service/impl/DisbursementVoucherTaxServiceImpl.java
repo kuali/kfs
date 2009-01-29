@@ -26,12 +26,13 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
+import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -39,6 +40,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
@@ -417,9 +419,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             document.getDvNonResidentAlienTax().setStateIncomeTaxPercent(KualiDecimal.ZERO);
         }
 
-        /* call dv rule to do general nra validation */
-        DisbursementVoucherDocumentRule documentRule = new DisbursementVoucherDocumentRule();
-        documentRule.validateNonResidentAlienInformation(document);
+        validateNonResidentAlienInformation(document);
 
         if (!GlobalVariables.getErrorMap().isEmpty()) {
             return false;
@@ -529,5 +529,81 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         this.maintenanceDocumentService = maintenanceDocumentService;
     }
 
+    /**
+     * Validates fields for an alien payment.
+     * 
+     * @param document submitted disbursement voucher document
+     */
+    public void validateNonResidentAlienInformation(DisbursementVoucherDocument document) {
+        ErrorMap errors = GlobalVariables.getErrorMap();
+
+        errors.addToErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
+
+        /* income class code required */
+        if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
+            errors.putError(KFSPropertyConstants.INCOME_CLASS_CODE, KFSKeyConstants.ERROR_REQUIRED, "Income class code ");
+        }
+        else {
+            /* for foreign source or treaty exempt, non reportable, tax percents must be 0 and gross indicator can not be checked */
+            if (document.getDvNonResidentAlienTax().isForeignSourceIncomeCode() || document.getDvNonResidentAlienTax().isIncomeTaxTreatyExemptCode() || NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
+
+                if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent())))) {
+                    errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_FEDERAL_TAX_NOT_ZERO);
+                }
+
+                if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent())))) {
+                    errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_STATE_TAX_NOT_ZERO);
+                }
+
+                if (document.getDvNonResidentAlienTax().isIncomeTaxGrossUpCode()) {
+                    errors.putError(KFSPropertyConstants.INCOME_TAX_GROSS_UP_CODE, KFSKeyConstants.ERROR_DV_GROSS_UP_INDICATOR);
+                }
+
+                if (NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode()) && StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getPostalCountryCode())) {
+                    errors.putError(KFSPropertyConstants.POSTAL_COUNTRY_CODE, KFSKeyConstants.ERROR_DV_POSTAL_COUNTRY_CODE);
+                }
+            }
+            else {
+                if (document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() == null) {
+                    errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_REQUIRED, "Federal tax percent ");
+                }
+                else {
+                    // check tax percent is in non-resident alien tax percent table for income class code
+                    NonResidentAlienTaxPercent taxPercent = new NonResidentAlienTaxPercent();
+                    taxPercent.setIncomeClassCode(document.getDvNonResidentAlienTax().getIncomeClassCode());
+                    taxPercent.setIncomeTaxTypeCode(FEDERAL_TAX_TYPE_CODE);
+                    taxPercent.setIncomeTaxPercent(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent());
+
+                    PersistableBusinessObject retrievedPercent = getBusinessObjectService().retrieve(taxPercent);
+                    if (retrievedPercent == null) {
+                        errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_FED_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
+                    }
+                }
+
+                if (document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() == null) {
+                    errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_REQUIRED, "State tax percent ");
+                }
+                else {
+                    NonResidentAlienTaxPercent taxPercent = new NonResidentAlienTaxPercent();
+                    taxPercent.setIncomeClassCode(document.getDvNonResidentAlienTax().getIncomeClassCode());
+                    taxPercent.setIncomeTaxTypeCode(STATE_TAX_TYPE_CODE);
+                    taxPercent.setIncomeTaxPercent(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent());
+
+                    PersistableBusinessObject retrievedPercent = getBusinessObjectService().retrieve(taxPercent);
+                    if (retrievedPercent == null) {
+                        errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_STATE_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getStateIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
+                    }
+                }
+            }
+        }
+
+        /* country code required, unless income type is nonreportable */
+        if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getPostalCountryCode()) && !NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
+            errors.putError(KFSPropertyConstants.POSTAL_COUNTRY_CODE, KFSKeyConstants.ERROR_REQUIRED, "Country code ");
+        }
+
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
+    }
+    
 }
 

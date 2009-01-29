@@ -26,15 +26,17 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public class PaymentMethodValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    public List getKeyValues() {
-        List activeLabels = new ArrayList();
+    static List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
+    static {
         activeLabels.add(new KeyLabelPair("", ""));
         activeLabels.add(new KeyLabelPair("P", "P - Check/ACH"));
         activeLabels.add(new KeyLabelPair("F", "F - Foreign Draft"));
         activeLabels.add(new KeyLabelPair("W", "W - Wire Transfer"));
+    }
+    /*
+     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+     */
+    public List<KeyLabelPair> getKeyValues() {
         return activeLabels;
     }
 

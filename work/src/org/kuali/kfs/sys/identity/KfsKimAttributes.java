@@ -20,7 +20,13 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.businessobject.ContractManager;
+import org.kuali.kfs.vnd.businessobject.VendorType;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
@@ -60,8 +66,8 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected String accountingLineOverrideCode;
     protected String subFundGroupCode;
     protected String purchasingCommodityCode;
-    protected String contractManagerCode;
-    protected String customerProfileId;
+    protected Integer contractManagerCode;
+    protected KualiInteger customerProfileId;
     protected String vendorTypeCode;
     protected String contractsAndGrantsAccountResponsibilityId;
     protected String disbursementVoucherPaymentMethodCode;
@@ -81,11 +87,12 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected Chart chart;
     protected Organization organization;
     protected Account account;
-    protected SubFundGroup subFundGroup;
-    
-    //ContractManager
-    //CommodityCode
-    //CustomerProfile
+    protected SubFundGroup subFundGroup;    
+    protected ContractManager contractManager;
+    protected CommodityCode commodityCode; 
+    protected CustomerProfile customerProfile;
+    protected SubAccount subAccount;
+    protected VendorType vendorType;
     
     
     @SuppressWarnings("unchecked")
@@ -262,7 +269,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
      * 
      * @return Returns the contractManagerCode.
      */
-    public String getContractManagerCode() {
+    public Integer getContractManagerCode() {
         return contractManagerCode;
     }
 
@@ -271,7 +278,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
      * 
      * @param contractManagerCode The contractManagerCode to set.
      */
-    public void setContractManagerCode(String contractManagerCode) {
+    public void setContractManagerCode(Integer contractManagerCode) {
         this.contractManagerCode = contractManagerCode;
     }
 
@@ -280,7 +287,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
      * 
      * @return Returns the customerProfileId.
      */
-    public String getCustomerProfileId() {
+    public KualiInteger getCustomerProfileId() {
         return customerProfileId;
     }
 
@@ -289,7 +296,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
      * 
      * @param customerProfileId The customerProfileId to set.
      */
-    public void setCustomerProfileId(String customerProfileId) {
+    public void setCustomerProfileId(KualiInteger customerProfileId) {
         this.customerProfileId = customerProfileId;
     }
 
@@ -534,5 +541,45 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     public void setSubFundGroup(SubFundGroup subFundGroup) {
         this.subFundGroup = subFundGroup;
+    }
+
+    public ContractManager getContractManager() {
+        return contractManager;
+    }
+
+    public void setContractManager(ContractManager contractManager) {
+        this.contractManager = contractManager;
+    }
+
+    public CommodityCode getCommodityCode() {
+        return commodityCode;
+    }
+
+    public void setCommodityCode(CommodityCode commodityCode) {
+        this.commodityCode = commodityCode;
+    }
+
+    public CustomerProfile getCustomerProfile() {
+        return customerProfile;
+    }
+
+    public void setCustomerProfile(CustomerProfile customerProfile) {
+        this.customerProfile = customerProfile;
+    }
+
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
+    }
+
+    public VendorType getVendorType() {
+        return vendorType;
+    }
+
+    public void setVendorType(VendorType vendorType) {
+        this.vendorType = vendorType;
     }
 }

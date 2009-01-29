@@ -47,12 +47,29 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
             <dd:primitiveAttribute source="accountNumber" target="accountNumber" />
         </dd:relationship>      
+        <dd:relationship objectAttribute="subAccount">
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="accountNumber" target="accountNumber" />
+            <dd:primitiveAttribute source="subAccountNumber" target="subAccountNumber" />
+        </dd:relationship>      
         <dd:relationship objectAttribute="organization">
             <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
             <dd:primitiveAttribute source="organizationCode" target="organizationCode" />
         </dd:relationship>      
         <dd:relationship objectAttribute="subFundGroup">
             <dd:primitiveAttribute source="subFundGroupCode" target="subFundGroupCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="contractManager">
+            <dd:primitiveAttribute source="contractManagerCode" target="contractManagerCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="commodityCode">
+            <dd:primitiveAttribute source="purchasingCommodityCode" target="purchasingCommodityCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="customerProfile">
+            <dd:primitiveAttribute source="customerProfileId" target="id" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="vendorType">
+            <dd:primitiveAttribute source="vendorTypeCode" target="vendorTypeCode" />
         </dd:relationship>      
       </list>
     </property>
@@ -79,7 +96,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     p:shortLabel="Id" />
 
 
-  <bean id="KfsKimAttributes-vendorTypeCode" parent="VendorType-vendorTypeCode" />
+  <bean id="KfsKimAttributes-vendorTypeCode" parent="VendorType-vendorTypeCode">
+    <property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.VendorTypeValuesFinder"
+            p:includeKeyInLabel="true" />
+    </property>
+  </bean>
   <bean id="KfsKimAttributes-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId" />
 
   <bean id="KfsKimAttributes-disbursementVoucherPaymentMethodCode" parent="KfsKimAttributes-disbursementVoucherPaymentMethodCode-parentBean" />

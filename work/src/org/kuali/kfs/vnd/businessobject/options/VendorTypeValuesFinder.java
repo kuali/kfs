@@ -32,17 +32,22 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public class VendorTypeValuesFinder extends KeyValuesBase {
 
+    private static List<KeyLabelPair> labels = null;
+    
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
-
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection<VendorType> codes = boService.findAll(VendorType.class);
-        List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
-        for (VendorType vt : codes) {
-            labels.add(new KeyLabelPair(vt.getVendorTypeCode(), vt.getVendorTypeDescription()));
+    public List<KeyLabelPair> getKeyValues() {
+        if ( labels == null ) {
+            KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
+            Collection<VendorType> codes = boService.findAll(VendorType.class);
+            labels = new ArrayList<KeyLabelPair>();
+            labels.add(new KeyLabelPair("", ""));
+            for (VendorType vt : codes) {
+                if ( vt.isActive() ) {
+                    labels.add(new KeyLabelPair(vt.getVendorTypeCode(), vt.getVendorTypeDescription()));
+                }
+            }
         }
 
         return labels;

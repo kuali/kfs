@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -59,6 +60,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -73,7 +75,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountsReceivableReportServiceImpl implements AccountsReceivableReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableReportServiceImpl.class);
 
+    private static final String INVOICE_DOC_TYPE = "Invoice";
+    private static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
+    
     private DateTimeService dateTimeService;
+    private PersonService personService;
 
     private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
 
@@ -128,10 +134,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         }
 
-        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         Person user = null;
         try {
-            user = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonByPrincipalName(initiatorID);
+            user = personService.getPersonByPrincipalName(initiatorID);
         } catch (Exception e) {
             LOG.error("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
             throw new RuntimeException("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
@@ -192,10 +198,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         List<CustomerCreditMemoDetailReportDataHolder> details = new ArrayList<CustomerCreditMemoDetailReportDataHolder>();
         CustomerCreditMemoDetailReportDataHolder detailDataHolder;
         for (CustomerCreditMemoDetail detail : detailsList) {
-//            if(detail.getCreditMemoLineTotalAmount().isGreaterThan(KualiDecimal.ZERO)) {
+            if(detail.getCreditMemoLineTotalAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 detailDataHolder = new CustomerCreditMemoDetailReportDataHolder(detail, detail.getCustomerInvoiceDetail());
                 details.add(detailDataHolder);
-//            }
+            }
         }
 
         reportDataHolder.setDetails(details);
@@ -259,10 +265,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         }
 
-        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         Person user = null;
         try {
-            user = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonByPrincipalName(initiatorID);
+            user = personService.getPersonByPrincipalName(initiatorID);
         } catch (Exception e) {
             LOG.error("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
             throw new RuntimeException("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
@@ -388,6 +394,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         reportDataHolder.setCustomer(customerMap);
 
         Map<String, String> invoiceMap = new HashMap<String, String>();
+        invoiceMap.clear();
         invoiceMap.put("createDate", dateTimeService.toDateString(dateTimeService.getCurrentDate()));
         invoiceMap.put("customerOrg", billingOrgCode);
         Organization billingOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryId(billingChartCode, billingOrgCode);
@@ -511,7 +518,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getAllCustomerInvoiceDocuments();
         for (CustomerInvoiceDocument invoice : invoices) {
             if (ArConstants.PrintInvoiceOptions.PRINT_BY_USER.equalsIgnoreCase(invoice.getPrintInvoiceIndicator())) {
-                if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equals(initiator)) {
+                if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(initiator)) {
                     reports.add(generateInvoice(invoice));
                 }
             }
@@ -519,34 +526,50 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         return reports;
     }
 
+    private List<File> generateStatementReports(Collection<CustomerInvoiceDocument> invoices) {
+        List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
+        Collections.sort(invoiceList);
+
+        List<File> reports = new ArrayList<File>();
+
+        Map<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>> statementDetailsSorted = sortCustomerStatementData(invoiceList);
+
+        Set<String> processingOrgKeys = statementDetailsSorted.keySet();
+        
+        for(String processingChartAndOrg : processingOrgKeys) {
+            String processingChartCode = processingChartAndOrg.substring(0, 2);
+            String processingOrgCode = processingChartAndOrg.substring(2);
+            Organization processingOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryId(processingChartCode, processingOrgCode);
+
+            Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>> statementDetailsByProcessingOrg = statementDetailsSorted.get(processingChartAndOrg);
+            
+            Set<String> billingOrgKeys = statementDetailsByProcessingOrg.keySet();
+            
+            for(String billingChartAndOrg : billingOrgKeys) {
+                String billingChartCode = billingChartAndOrg.substring(0, 2);
+                String billingOrgCode = billingChartAndOrg.substring(2);
+
+                Map<String, List<CustomerStatementDetailReportDataHolder>> statementDetailsByBillingOrg = statementDetailsByProcessingOrg.get(billingChartAndOrg);
+
+                Set<String> customerKeys = statementDetailsByBillingOrg.keySet();
+
+                for(String customerId : customerKeys) {
+                    List<CustomerStatementDetailReportDataHolder> statementDetailsByCustomer = statementDetailsByBillingOrg.get(customerId);
+                    
+                    reports.add(generateStatement(billingChartCode, billingOrgCode, customerId, processingOrg, statementDetailsByCustomer));
+                }
+            }
+        }
+        
+        return reports;
+    }
+    
     /**
      * 
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateStatementByBillingOrg(java.lang.String, java.lang.String)
      */
     public List<File> generateStatementByBillingOrg(String chartCode, String orgCode) {
-
-        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
-        List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
-        CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-        List<File> reports = new ArrayList<File>();
-        for (CustomerInvoiceDocument invoice : invoices) {
-            if(invoice.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
-                if (invoice.isOpenInvoiceIndicator()) {
-                    Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
-                    for (CustomerCreditMemoDocument doc : creditMemos) {
-                        doc.populateCustomerCreditMemoDetailsAfterLoad();
-                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
-                        details.add(detail);
-                    }
-                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
-                    details.add(detail);
-                }
-            }
-            reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
-            details.clear();
-        }
-        return reports;
+        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode));
     }
 
     /**
@@ -554,34 +577,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateStatementByAccount(java.lang.String)
      */
     public List<File> generateStatementByAccount(String accountNumber) {
-        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
-
-        List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
-        Collections.sort(invoiceList);
-
-        List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
-        CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-        List<File> reports = new ArrayList<File>();
-
-        for (CustomerInvoiceDocument invoice : invoiceList) {
-            if(invoice.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
-                if (invoice.isOpenInvoiceIndicator()) {
-                    Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
-                    for (CustomerCreditMemoDocument doc : creditMemos) {
-                        doc.populateCustomerCreditMemoDetailsAfterLoad();
-                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
-                        details.add(detail);
-                    }
-                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
-                    details.add(detail);
-                }
-            }
-            reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
-            details.clear();
-
-        }
-        return reports;
+        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber));
     }
 
     /**
@@ -589,35 +585,67 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateStatementByCustomer(java.lang.String)
      */
     public List<File> generateStatementByCustomer(String customerNumber) {
-        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber);
+        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByCustomerNumber(customerNumber));
+    }
 
-        List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
-        Collections.sort(invoiceList);
-
-        List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
+    /**
+     * 
+     * This method...
+     * @param invoiceList
+     * @return
+     */
+    private Map<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>> sortCustomerStatementData(List<CustomerInvoiceDocument> invoiceList) {
+        Map<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>> customerStatementDetailsSorted = new HashMap<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>>();
         CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
 
-        List<File> reports = new ArrayList<File>();
-        for (CustomerInvoiceDocument invoice : invoiceList) {
+        // This is where all the magic will begin
+        for(CustomerInvoiceDocument invoice : invoiceList) {
+            
             if(invoice.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
                 if (invoice.isOpenInvoiceIndicator()) {
+            
+                    // Break down list into a map based on processing org
+                    Organization processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
+        
+                    // Retrieve the collection of invoices that already exist for the processing org provided
+                    Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>> statementDetailsForGivenProcessingOrg = customerStatementDetailsSorted.get(getChartAndOrgCodesCombined(processingOrg));
+                    if(statementDetailsForGivenProcessingOrg==null) {
+                        statementDetailsForGivenProcessingOrg = new HashMap<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>();
+                    }
+        
+                    // Then break down that list for billing chart and org codes
+                    Organization billedByOrg = invoice.getBilledByOrganization();
+                    Map<String, List<CustomerStatementDetailReportDataHolder>> statementDetailsForGivenBillingOrg = statementDetailsForGivenProcessingOrg.get(getChartAndOrgCodesCombined(billedByOrg));
+                    if(statementDetailsForGivenBillingOrg==null) {
+                        statementDetailsForGivenBillingOrg = new HashMap<String, List<CustomerStatementDetailReportDataHolder>>();
+                    }
+                    
+                    // Then break down that list by customer
+                    String customerNumber = invoice.getCustomer().getCustomerNumber();
+                    List<CustomerStatementDetailReportDataHolder> statementDetailsByCustomer = statementDetailsForGivenBillingOrg.get(customerNumber);
+                    if(statementDetailsByCustomer==null) {
+                        statementDetailsByCustomer = new ArrayList<CustomerStatementDetailReportDataHolder>();
+                    }
+
+                    // Now add the appropriate invoice and associated memos to the collection
                     Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
                     for (CustomerCreditMemoDocument doc : creditMemos) {
                         doc.populateCustomerCreditMemoDetailsAfterLoad();
-                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
-                        details.add(detail);
+                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), CREDIT_MEMO_DOC_TYPE);
+                        statementDetailsByCustomer.add(detail);
                     }
-                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
-                    details.add(detail);
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), INVOICE_DOC_TYPE);
+                    statementDetailsByCustomer.add(detail);
+                    
+                    statementDetailsForGivenBillingOrg.put(customerNumber, statementDetailsByCustomer);
+                    statementDetailsForGivenProcessingOrg.put(getChartAndOrgCodesCombined(billedByOrg), statementDetailsForGivenBillingOrg);
+                    customerStatementDetailsSorted.put(getChartAndOrgCodesCombined(processingOrg), statementDetailsForGivenProcessingOrg);
                 }
-                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), details));
-                details.clear();
             }
-        }
-        return reports;
+        }        
+        return customerStatementDetailsSorted;
     }
-
+    
     /**
      * 
      * This method...
@@ -635,7 +663,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
     /**
      * 
-     * This method...
+     * This method calculates the total aging amounts for a given statement.  This will often be a collection of totals from multiple invoices and/or credit memos.  
      * @param details
      * @param invoiceMap
      */
@@ -648,12 +676,44 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             Collection<CustomerInvoiceDetail> invoiceDetails = customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci);
             CustomerAgingReportDataHolder agingData = SpringContext.getBean(CustomerAgingReportService.class).calculateAgingReportAmounts(invoiceDetails, reportRunDate);
             
-            invoiceMap.put(ArConstants.CustomerAgingReportFields.TOTAL_0_TO_30, currencyFormatter.format(agingData.getTotal0to30()).toString());
-            invoiceMap.put(ArConstants.CustomerAgingReportFields.TOTAL_31_TO_60, currencyFormatter.format(agingData.getTotal31to60()).toString());
-            invoiceMap.put(ArConstants.CustomerAgingReportFields.TOTAL_61_TO_90, currencyFormatter.format(agingData.getTotal61to90()).toString());
-            invoiceMap.put(ArConstants.CustomerAgingReportFields.TOTAL_91_TO_SYSPR, currencyFormatter.format(agingData.getTotal91toSYSPR()).toString());
-            invoiceMap.put(ArConstants.CustomerAgingReportFields.TOTAL_SYSPR_PLUS_1_OR_MORE, currencyFormatter.format(agingData.getTotalSYSPRplus1orMore()).toString());
+            addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_0_TO_30, agingData.getTotal0to30(), invoiceMap);
+            addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_31_TO_60, agingData.getTotal31to60(), invoiceMap);
+            addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_61_TO_90, agingData.getTotal61to90(), invoiceMap);
+            addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_91_TO_SYSPR, agingData.getTotal91toSYSPR(), invoiceMap);
+            addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_SYSPR_PLUS_1_OR_MORE, agingData.getTotalSYSPRplus1orMore(), invoiceMap);
+            addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_AMOUNT_DUE, agingData.getTotalAmountDue(), invoiceMap);
         }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param mapKey
+     * @param amountToAdd
+     * @param invoiceMap
+     */
+    private void addAgingAmountToInvoiceMap(String mapKey, KualiDecimal amountToAdd, Map<String, String> invoiceMap) {
+        KualiDecimal amount = KualiDecimal.ZERO;
+        String currentAmount = invoiceMap.get(mapKey);
+        if(StringUtils.isNotEmpty(currentAmount)) {
+            amount = new KualiDecimal(currentAmount);
+        }
+        invoiceMap.put(mapKey, currencyFormatter.format(amount.add(amountToAdd)).toString());
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param org
+     * @return
+     */
+    private String getChartAndOrgCodesCombined(Organization org) {
+        if(org==null) {
+            return null;
+        }
+        StringBuffer chartAndOrg = new StringBuffer(6);
+        chartAndOrg.append(org.getChartOfAccountsCode()).append(org.getOrganizationCode());
+        return chartAndOrg.toString();
     }
     
     /**
@@ -675,6 +735,22 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Gets the personService attribute. 
+     * @return Returns the personService.
+     */
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    /**
+     * Sets the personService attribute value.
+     * @param personService The personService to set.
+     */
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
     
 }

@@ -104,7 +104,7 @@
 						mode="Opaque"
 						x="101"
 						y="4"
-						width="67"
+						width="70"
 						height="18"
 						key="textField-2"/>
 					<box leftPadding="10">					<pen lineWidth="0.0"/>
@@ -122,7 +122,7 @@
 					<reportElement
 						style="table"
 						mode="Opaque"
-						x="168"
+						x="171"
 						y="4"
 						width="213"
 						height="18"
@@ -142,7 +142,7 @@
 					<reportElement
 						style="table"
 						mode="Opaque"
-						x="471"
+						x="474"
 						y="4"
 						width="90"
 						height="18"
@@ -162,7 +162,7 @@
 					<reportElement
 						style="table"
 						mode="Opaque"
-						x="381"
+						x="384"
 						y="4"
 						width="90"
 						height="18"
@@ -198,13 +198,13 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{documentNumber}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
 						x="101"
 						y="2"
-						width="67"
+						width="70"
 						height="20"
 						key="textField-8"
 						stretchType="RelativeToTallestObject"/>
@@ -218,7 +218,7 @@
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
-						x="168"
+						x="171"
 						y="2"
 						width="215"
 						height="20"
@@ -234,7 +234,7 @@
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
-						x="471"
+						x="474"
 						y="2"
 						width="90"
 						height="20"
@@ -250,7 +250,7 @@
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
-						x="381"
+						x="384"
 						y="2"
 						width="90"
 						height="20"
@@ -454,7 +454,7 @@
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("amountDue")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("totalAmountDue")]]></textFieldExpression>
 				</textField>
 			</band>
 		</columnFooter>

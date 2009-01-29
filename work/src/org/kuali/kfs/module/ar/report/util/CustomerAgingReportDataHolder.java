@@ -30,6 +30,7 @@ public class CustomerAgingReportDataHolder {
     private KualiDecimal total61to90;
     private KualiDecimal total91toSYSPR;
     private KualiDecimal totalSYSPRplus1orMore;
+    private KualiDecimal totalAmountDue;
     /**
      * Gets the knownCustomers attribute. 
      * @return Returns the knownCustomers.
@@ -114,9 +115,31 @@ public class CustomerAgingReportDataHolder {
     public void setTotalSYSPRplus1orMore(KualiDecimal totalSYSPRplus1orMore) {
         this.totalSYSPRplus1orMore = totalSYSPRplus1orMore;
     }
-    
-    
-    
-    
-    
+    /**
+     * Gets the totalAmountDue attribute. 
+     * @return Returns the totalAmountDue.
+     */
+    public KualiDecimal getTotalAmountDue() {
+        return totalAmountDue;
+    }
+    /**
+     * Sets the totalAmountDue attribute value.
+     * @param totalAmountDue The totalAmountDue to set.
+     */
+    public void setTotalAmountDue(KualiDecimal totalAmountDue) {
+        this.totalAmountDue = totalAmountDue;
+    }
+
+    /**
+     * 
+     * This method clears all the amount fields and resets them to zero.
+     */
+    public void clearAllAmounts() {
+        this.total0to30 = KualiDecimal.ZERO;
+        this.total31to60 = KualiDecimal.ZERO;
+        this.total61to90 = KualiDecimal.ZERO;
+        this.total91toSYSPR = KualiDecimal.ZERO;
+        this.totalSYSPRplus1orMore = KualiDecimal.ZERO;
+        this.totalAmountDue = KualiDecimal.ZERO;
+    }
 }

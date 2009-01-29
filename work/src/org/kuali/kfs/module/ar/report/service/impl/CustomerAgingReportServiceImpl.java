@@ -43,11 +43,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class CustomerAgingReportServiceImpl implements CustomerAgingReportService {
 
-    private KualiDecimal total0to30 = KualiDecimal.ZERO;
-    private KualiDecimal total31to60 = KualiDecimal.ZERO;
-    private KualiDecimal total61to90 = KualiDecimal.ZERO;
-    private KualiDecimal total91toSYSPR = KualiDecimal.ZERO;
-    private KualiDecimal totalSYSPRplus1orMore = KualiDecimal.ZERO;
 
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -60,6 +55,12 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
     public CustomerAgingReportDataHolder calculateAgingReportAmounts(Collection<CustomerInvoiceDetail> details, Date reportRunDate) {
         CustomerAgingReportDataHolder agingData = new CustomerAgingReportDataHolder();
         
+        KualiDecimal total0to30 = KualiDecimal.ZERO;
+        KualiDecimal total31to60 = KualiDecimal.ZERO;
+        KualiDecimal total61to90 = KualiDecimal.ZERO;
+        KualiDecimal total91toSYSPR = KualiDecimal.ZERO;
+        KualiDecimal totalSYSPRplus1orMore = KualiDecimal.ZERO;
+
         String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE");     // ArConstants.CUSTOMER_INVOICE_AGE); // default is 120
 
         Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
@@ -71,7 +72,7 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
 
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
 
-        KualiDecimal totalbalance = new KualiDecimal(0.00);
+        KualiDecimal totalBalance = new KualiDecimal(0.00);
         CustomerAgingReportDetail custDetail = null;
         String previousCustomerNumber = "";
         int detailnum=0;
@@ -105,22 +106,23 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
                     custDetail.setUnpaidBalance0to30(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalance0to30()));
                     total0to30 = total0to30.add(amountOpenOnReportRunDate);
                 }
-                if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
+                else if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
                     custDetail.setUnpaidBalance31to60(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalance31to60()));
                     total31to60 = total31to60.add(amountOpenOnReportRunDate);
                 }
-                if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
+                else if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
                     custDetail.setUnpaidBalance61to90(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalance61to90()));
                     total61to90 = total61to90.add(amountOpenOnReportRunDate);
                 }
-                if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
+                else if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
                     custDetail.setUnpaidBalance91toSYSPR(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalance91toSYSPR()));
                     total91toSYSPR = total91toSYSPR.add(amountOpenOnReportRunDate);
                 }
-                if (approvalDate.before(cutoffdate120)) {
+                else if (approvalDate.before(cutoffdate120)) {
                     custDetail.setUnpaidBalanceSYSPRplus1orMore(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
                     totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amountOpenOnReportRunDate);
                 }            
+                totalBalance = totalBalance.add(amountOpenOnReportRunDate);
             }        
         } 
         
@@ -129,6 +131,7 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
         agingData.setTotal61to90(total61to90);
         agingData.setTotal91toSYSPR(total91toSYSPR);
         agingData.setTotalSYSPRplus1orMore(totalSYSPRplus1orMore);
+        agingData.setTotalAmountDue(totalBalance);
         
         agingData.setKnownCustomers(knownCustomers);
         

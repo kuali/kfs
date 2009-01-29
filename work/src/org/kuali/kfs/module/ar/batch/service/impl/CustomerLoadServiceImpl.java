@@ -54,10 +54,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.XMLParseException;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -93,11 +91,9 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     private DocumentService docService;
     private ParameterService parameterService;
     private OrganizationService orgService;
-    private PersonService fsUserService;
     private SystemInformationService sysInfoService;
     private BusinessObjectService boService;
     private DateTimeService dateTimeService;
-    private FinancialSystemUserService knsAuthorizationService;
     
     private BatchInputFileType batchInputFileType;
     private CustomerDigesterAdapter adapter;
@@ -271,10 +267,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
         try {
             docService.routeDocument(realMaintDoc, "Routed Edit/Update Customer Maintenance from CustomerLoad Batch Process", null);
-            //if (realMaintDoc.isNew()) {
-            //    LOG.info("Attempting to BlanketApprove Customer Maintenance document for [" + customer.getCustomerNumber() + "] " + customer.getCustomerName());
-            //    docService.blanketApproveDocument(realMaintDoc, "Routed New Customer Maintenance from CustomerLoad Batch Process", null);
-            //}
         }
         catch (WorkflowException e) {
             LOG.error("WorkflowException occurred while trying to route a new MaintenanceDocument.", e);
@@ -836,15 +828,11 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return existingCustomer;
     }
     
-    public FinancialSystemUserService getKnsAuthorizationService() {
-        return knsAuthorizationService;
-    }
-
-    public void setKnsAuthorizationService(FinancialSystemUserService knsAuthorizationService) {
-        this.knsAuthorizationService = knsAuthorizationService;
-    }
-
     private void writeReportPDF(List<CustomerLoadFileResult> fileResults) {
+        
+        if (fileResults.isEmpty()) {
+            return;
+        }
         
         //  setup the PDF business
         Document pdfDoc = new Document(PageSize.LETTER, 54, 54, 72, 72);
@@ -1024,10 +1012,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
 
     public void setOrgService(OrganizationService orgService) {
         this.orgService = orgService;
-    }
-
-    public void setFsUserService(PersonService fsUserService) {
-        this.fsUserService = fsUserService;
     }
 
     public void setSysInfoService(SystemInformationService sysInfoService) {

@@ -480,9 +480,6 @@
 		<property name="orgService">
 			<ref bean="organizationService" />
 		</property>
-		<property name="fsUserService">
-			<ref bean="personService" />
-		</property>
 		<property name="sysInfoService">
 			<ref bean="systemInformationService" />
 		</property>
@@ -497,9 +494,6 @@
 		</property>
 		<property name="reportsDirectory">
 			<value>${reports.directory}</value>
-		</property>
-		<property name="knsAuthorizationService">
-			<ref bean="financialSystemUserService" />
 		</property>
 	</bean>
 	

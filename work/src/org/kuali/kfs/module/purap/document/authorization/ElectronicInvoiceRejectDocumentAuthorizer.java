@@ -20,9 +20,9 @@ import java.util.Map;
 
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+import org.kuali.kfs.module.purap.identity.PurapKimAttributes;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 
@@ -31,7 +31,7 @@ public class ElectronicInvoiceRejectDocumentAuthorizer extends TransactionalDocu
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
-        attributes.put(KfsKimAttributes.DOCUMENT_SENSITIVE, "false");
+        attributes.put(PurapKimAttributes.DOCUMENT_SENSITIVE, "false");
         ElectronicInvoiceRejectDocument purapDoc = (ElectronicInvoiceRejectDocument) businessObject;
         if (purapDoc.getAccountsPayablePurchasingDocumentLinkIdentifier() != null) {
             List<SensitiveData> sensitiveDataList = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByRelatedDocId(purapDoc.getAccountsPayablePurchasingDocumentLinkIdentifier());
@@ -40,9 +40,9 @@ public class ElectronicInvoiceRejectDocumentAuthorizer extends TransactionalDocu
                 sensitiveDataCodes.append(sensitiveData.getSensitiveDataCode()).append(";");
             }
             if (sensitiveDataCodes.length() > 0) {
-                attributes.put(KfsKimAttributes.DOCUMENT_SENSITIVE, "true");
-                attributes.put(KfsKimAttributes.SENSITIVE_DATA_CODE, sensitiveDataCodes.toString().substring(0, sensitiveDataCodes.length() - 1));
-                attributes.put(KfsKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER, purapDoc.getAccountsPayablePurchasingDocumentLinkIdentifier().toString());
+                attributes.put(PurapKimAttributes.DOCUMENT_SENSITIVE, "true");
+                attributes.put(PurapKimAttributes.SENSITIVE_DATA_CODE, sensitiveDataCodes.toString().substring(0, sensitiveDataCodes.length() - 1));
+                attributes.put(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER, purapDoc.getAccountsPayablePurchasingDocumentLinkIdentifier().toString());
             }
         }
     }

@@ -1791,7 +1791,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     private boolean hasRecurrence() {
-        return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate() != null);
+        return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().isActive());
     }
 
 }

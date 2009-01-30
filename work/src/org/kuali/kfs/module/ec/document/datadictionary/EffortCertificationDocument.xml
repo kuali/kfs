@@ -140,8 +140,8 @@
   <bean id="EffortCertificationDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 			<list>
-				<value>chartOfAccountsCode</value>
-				<value>accountNumber</value>	    					
+				<value>effortCertificationDetailLines.account.chartOfAccountsCode</value>
+				<value>effortCertificationDetailLines.account.accountNumber</value>	    					
 			</list>
 		</property>
   </bean>

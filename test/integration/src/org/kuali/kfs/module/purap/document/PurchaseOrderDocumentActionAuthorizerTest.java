@@ -39,6 +39,11 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         purchaseOrderDocument = null;
         super.tearDown();
     }
+    
+    // The tests in this class have apparently been commented out because of the removal of PurchaseOrderDocumentActionAuthorizer.
+    public void testPlaceHolder() {
+        assertTrue(true);
+    }
 
 //    /**
 //     * Tests that the retransmit button is displayed.

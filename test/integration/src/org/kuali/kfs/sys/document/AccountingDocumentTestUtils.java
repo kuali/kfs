@@ -180,7 +180,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
 
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
         routeDocument(document, "saving copy source document", null, documentService);
-        if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+        if (!document.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
             DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
             assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
             assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
@@ -198,7 +198,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             LOG.debug("documentHeaderId = " + documentHeaderId);
             // route the original doc, wait for status change
             routeDocument(document, "saving errorCorrection source document", null, documentService);
-            if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            if (!document.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
                 DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(documentService, documentHeaderId, "R");
                 assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
                 document = (AccountingDocument) documentService.getByDocumentHeaderId(documentHeaderId);
@@ -295,7 +295,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         // save the original doc, wait for status change
         document.prepareForSave();
         routeDocument(document, "saving copy source document", null, documentService);
-        if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+        if (!document.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
             DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
             assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
             assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());

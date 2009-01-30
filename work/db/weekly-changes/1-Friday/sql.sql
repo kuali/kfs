@@ -19,4 +19,11 @@ UPDATE KRIM_ATTR_DEFN_T
     SET CMPNT_NM = 'org.kuali.kfs.module.purap.identity.PurapKimAttributes'
     WHERE NMSPC_CD = 'KFS-PURAP'
 /
-
+insert into krns_parm_t 
+(SELECT 'KFS-PURAP', 'Requisition',
+'AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT', sys_guid(),1,
+'CONFG', '1000',
+'If the automatic Purchase Order limit amount cannot be determined based on the vendor contract or the organization on the Requisition, use this default limit amount.',
+'A'
+FROM dual)
+/

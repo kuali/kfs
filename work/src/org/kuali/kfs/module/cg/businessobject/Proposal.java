@@ -792,6 +792,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * @return the lookup {@link Person}
      */
     public Person getLookupPerson() {
+        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
         return lookupPerson;
     }
 
@@ -810,7 +811,6 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * @return the id of the lookup person
      */
     public String getLookupPersonUniversalIdentifier() {
-        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
         return lookupPersonUniversalIdentifier;
     }
 

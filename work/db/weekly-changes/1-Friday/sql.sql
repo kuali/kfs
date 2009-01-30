@@ -80,3 +80,13 @@ FROM dual)
 /
 alter table CG_AWD_T drop column WRKGRP_NM
 / 
+UPDATE KRIM_ATTR_DEFN_T
+    SET CMPNT_NM = 'org.kuali.kfs.module.cg.identity.CgKimAttributes'
+    WHERE NMSPC_CD = 'KFS-CG'
+/
+UPDATE KRIM_ATTR_DEFN_T
+    SET CMPNT_NM = 'org.kuali.kfs.module.purap.identity.PurapKimAttributes'
+    WHERE NMSPC_CD = 'KFS-PURAP'
+/
+COMMIT
+/

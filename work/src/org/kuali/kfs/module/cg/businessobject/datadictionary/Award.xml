@@ -885,8 +885,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="lookupPerson.principalName" />
         <bean parent="FieldDefinition"
-              p:attributeName="lookupPerson.name" />
-        <bean parent="FieldDefinition"
               p:attributeName="awardOrganizations.organization.organizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="awardAccounts.account.accountNumber" />

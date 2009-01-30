@@ -20,13 +20,6 @@
 		<creator id="spring" class="org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
 	</init>
     <allow>
-        <!-- convert converter="bean" match="org.kuali.rice.kim.bo.impl.PersonImpl">
-            <param name="include" value="principalId,name,primaryDepartmentCode" />
-        </convert>
-        <create creator="spring" javascript="PersonService">
-            <param name="beanName" value="personService" />
-            <include method="getPersonByPrincipalName" />
-        </create-->
         <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.SubContractor">
             <param name="include" value="subcontractorName" />
         </convert>

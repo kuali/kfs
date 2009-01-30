@@ -1469,7 +1469,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
     
     private boolean isTransmissionMethodPrint() {
-        if (this.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.PRINT)) {
+        if (this.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.PRINT) ||
+            this.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX) ||
+            this.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.ELECTRONIC)) {
             return true;
         }
         else {

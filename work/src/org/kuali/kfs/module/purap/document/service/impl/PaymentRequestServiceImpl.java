@@ -38,6 +38,7 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.PurapParameterConstants.NRATaxParameters;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.AutoApproveExclude;
@@ -747,34 +748,34 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         removeTaxItems(preq);
         
         // reserve the grand total excluding any tax amount, to be used as the base to compute all tax items
-        // if we don't reserve this, the pre tax total could be changed as new tax items are added 
-        KualiDecimal taxableAmount = preq.getGrandPreTaxTotal();  
+        // if we don't reserve this, the pre-tax total could be changed as new tax items are added 
+        BigDecimal taxableAmount = preq.getGrandPreTaxTotal().bigDecimalValue();  
         
-        // generated and add state tax gross up item and its accounting line, update total amount, 
+        // generate and add state tax gross up item and its accounting line, update total amount, 
         // if gross up indicator is true and tax rate is non-zero
-        if (preq.getGrossUpIndicator() && !KualiDecimal.ZERO.equals(preq.getStateTaxPercent())) {
+        if (preq.getGrossUpIndicator() && preq.getStateTaxPercent().compareTo(new BigDecimal(0)) != 0) {
             PurApItem stateGrossItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE, taxableAmount);
             // FIXME which total to update?
             //preq.setGrandTotal(preq.getGrandTotal().add(stateGrossItem.getExtendedPrice())); // FIXME which total to update?
         }        
 
-        // generated and add state tax item and its accounting line, update total amount, if tax rate is non-zero
-        if (!KualiDecimal.ZERO.equals(preq.getStateTaxPercent())) {
+        // generate and add state tax item and its accounting line, update total amount, if tax rate is non-zero
+        if (preq.getStateTaxPercent().compareTo(new BigDecimal(0)) != 0) {
             PurApItem stateTaxItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE, taxableAmount);
             // FIXME which total to update?
             //preq.setGrandTotal(preq.getGrandTotal().add(stateTaxItem.getExtendedPrice())); 
         }
 
-        // generated and add federal tax gross up item and its accounting line, update total amount, 
+        // generate and add federal tax gross up item and its accounting line, update total amount, 
         // if gross up indicator is true and tax rate is non-zero
-        if (preq.getGrossUpIndicator() && !KualiDecimal.ZERO.equals(preq.getFederalTaxPercent())) {
+        if (preq.getGrossUpIndicator() && preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) != 0) {
             PurApItem federalGrossItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE, taxableAmount);
             // FIXME which total to update?
             //preq.setGrandTotal(preq.getGrandTotal().add(federalGrossItem.getExtendedPrice())); 
         }
 
-        // generated and add federal tax item and its accounting line, update total amount, if tax rate is non-zero
-        if (!KualiDecimal.ZERO.equals(preq.getFederalTaxPercent())) {
+        // generate and add federal tax item and its accounting line, update total amount, if tax rate is non-zero
+        if (preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) != 0) {
             PurApItem federalTaxItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE, taxableAmount);
             // FIXME which totals to update?
             //preq.setGrandTotal(preq.getGrandTotal().add(federalTaxItem.getExtendedPrice())); 
@@ -814,7 +815,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param taxableAmount The amount to which tax is computed against.
      * @return A fully populated PurApItem instance representing NRA tax amount data for the specified payment request.
      */
-    private PurApItem addTaxItem(PaymentRequestDocument preq, String itemTypeCode, KualiDecimal taxableAmount) {
+    private PurApItem addTaxItem(PaymentRequestDocument preq, String itemTypeCode, BigDecimal taxableAmount) {
         PurApItem taxItem = null;
         
         try {
@@ -844,7 +845,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         itemType = (ItemType) businessObjectService.retrieve(itemType);
         taxItem.setItemType(itemType);              
         taxItem.setItemDescription(itemType.getItemTypeDescription());              
-        //FIXME what else need to be set?
         
         return taxItem;
     }
@@ -856,7 +856,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param taxableAmount The amount to which tax is computed against.
      * @return A fully populated PurApAccountingLine instance for the specified tax item.
      */
-    private PurApAccountingLine addTaxAccountingLine(PurApItem taxItem, KualiDecimal taxableAmount) {
+    private PurApAccountingLine addTaxAccountingLine(PurApItem taxItem, BigDecimal taxableAmount) {
         PaymentRequestDocument preq = taxItem.getPurapDocument();
         PurApAccountingLine taxLine = null;
         
@@ -870,84 +870,89 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             throw new InfrastructureException("Unable to instantiate sourceAccountingLineClass", e);
         }
        
-        // use pre-tax total amount as taxable amount
-        KualiDecimal taxAmount = null;
+        // tax item type indicators
+        boolean isFederalTax = ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE.equals(taxItem.getItemTypeCode());
+        boolean isFederalGross = ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE.equals(taxItem.getItemTypeCode());
+        boolean isStateTax = ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE.equals(taxItem.getItemTypeCode());
+        boolean isStateGross = ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE.equals(taxItem.getItemTypeCode());                
+        boolean isFederal = isFederalTax || isFederalGross; // true for federal tax/gross; false for state tax/gross        
+        boolean isGross = isFederalGross || isStateGross; // true for federal/state gross, false for federal/state tax
+
+        // obtain accounting line info according to tax item type code
         String taxChart = null;
         String taxAccount = null;
         String taxObjectCode = null;
-        
-        // obtain accounting line info and calculate tax amount according to item type code
-        if (ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE.equals(taxItem.getItemTypeCode())) {
-            //FIXME get chart, account, object code info from parameters
-            taxChart = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_CHART_SUFFIX);
-            taxAccount = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_ACCOUNT_SUFFIX);
-            taxObjectCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, preq.getTaxClassificationCode());
 
-            if (StringUtils.isBlank(taxChart) || StringUtils.isBlank(taxAccount) || StringUtils.isBlank(taxObjectCode)) {
-                LOG.error("Unable to retrieve federal tax parameters.");
-                throw new RuntimeException("Unable to retrieve federal tax parameters.");
-            }
-            
-            // federal tax amount
-            BigDecimal taxPercent = preq.getFederalTaxPercent();
-            BigDecimal taxDecimal = taxPercent.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
-            taxAmount = new KualiDecimal(taxableAmount.bigDecimalValue().multiply(taxDecimal).negate());                
-        }
-        else if (ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE.equals(taxItem.getItemTypeCode())) {
-            //FIXME use first item's first accounting line for gross line attributes
+        if (isGross) {
+            // for gross up tax items, use preq's first item's first accounting line, which shall exist at this point
             AccountingLine line1 = preq.getFirstAccount();        
             taxChart = line1.getChartOfAccountsCode();
             taxAccount = line1.getAccountNumber();
             taxObjectCode = line1.getFinancialObjectCode();
-
-            // federal tax gross up amount
-            BigDecimal taxPercent = preq.getFederalTaxPercent();
-            BigDecimal taxDecimal = taxPercent.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
-            taxAmount = new KualiDecimal(taxableAmount.bigDecimalValue().multiply(taxDecimal));                
         }            
-        else if (ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE.equals(taxItem.getItemTypeCode())) {
-            //FIXME get chart, account, object code info from parameters
-            taxChart = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_CHART_SUFFIX);
-            taxAccount = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_ACCOUNT_SUFFIX);
-            taxObjectCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, preq.getTaxClassificationCode());
-
+        else if (isFederalTax) {
+            // for federal tax item, get chart, account, object code info from parameters
+            taxChart = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_CHART_SUFFIX);
+            taxAccount = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_ACCOUNT_SUFFIX);
+            taxObjectCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, preq.getTaxClassificationCode());
+            if (StringUtils.isBlank(taxChart) || StringUtils.isBlank(taxAccount) || StringUtils.isBlank(taxObjectCode)) {
+                LOG.error("Unable to retrieve federal tax parameters.");
+                throw new RuntimeException("Unable to retrieve federal tax parameters.");
+            }            
+        }
+        else if (isStateTax) {
+            // for state tax item, get chart, account, object code info from parameters
+            taxChart = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_CHART_SUFFIX);
+            taxAccount = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_ACCOUNT_SUFFIX);
+            taxObjectCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, preq.getTaxClassificationCode());
             if (StringUtils.isBlank(taxChart) || StringUtils.isBlank(taxAccount) || StringUtils.isBlank(taxObjectCode)) {
                 LOG.error("Unable to retrieve state tax parameters.");
                 throw new RuntimeException("Unable to retrieve state tax parameters.");
             }
-            
-            // state tax amount
-            BigDecimal taxPercent = preq.getStateTaxPercent();
-            BigDecimal taxDecimal = taxPercent.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
-            taxAmount = new KualiDecimal(taxableAmount.bigDecimalValue().multiply(taxDecimal).negate());                                        
         }
-        else if (ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE.equals(taxItem.getItemTypeCode())) {
-            //FIXME use first item's first accounting line for gross line attributes
-            AccountingLine line1 = preq.getSourceAccountingLine(0);        
-            taxChart = line1.getChartOfAccountsCode();
-            taxAccount = line1.getAccountNumber();
-            taxObjectCode = line1.getFinancialObjectCode();
+            
+        // calculate tax amount according to gross up indicator and federal/state tax type
+        /* 
+         * The formula of tax and gross up amount are as follows:
+         * if (not gross up)
+         *   gross not existing
+         *   taxFederal/State = - amount * rateFederal/State 
+         * otherwise gross up    
+         *   grossFederal/State = amount * rateFederal/State / (1 - rateFederal - rateState) 
+         *   tax = - gross
+         */
+        
+        // pick federal/state tax rate
+        BigDecimal taxPercentFederal = preq.getFederalTaxPercent();
+        BigDecimal taxPercentState = preq.getStateTaxPercent();
+        BigDecimal taxPercent = isFederal ? taxPercentFederal : taxPercentState;    
+              
+        // divider value according to gross up or not
+        BigDecimal taxDivider = new BigDecimal(100);           
+        if (preq.getGrossUpIndicator()) {
+            taxDivider = taxDivider.subtract(taxPercentFederal.add(taxPercentState));
+        }        
 
-            // state tax gross up amount
-            BigDecimal taxPercent = preq.getStateTaxPercent();
-            BigDecimal taxDecimal = taxPercent.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
-            taxAmount = new KualiDecimal(taxableAmount.bigDecimalValue().multiply(taxDecimal));                
+        // tax = amount * rate / divider
+        BigDecimal taxAmount = taxableAmount.multiply(taxPercent);
+        taxAmount = taxAmount.divide(taxDivider, 5, BigDecimal.ROUND_HALF_UP);    
+        
+        // tax is always negative, since it reduces the total amount; while gross up is always the positive of tax
+        if (!isGross) {
+            taxAmount = taxAmount.negate();
         }
-            
+                   
         // populate necessary accounting line fields
         taxLine.setDocumentNumber(preq.getDocumentNumber());
         taxLine.setSequenceNumber(preq.getNextSourceLineNumber());
         taxLine.setChartOfAccountsCode(taxChart);
         taxLine.setAccountNumber(taxAccount);
         taxLine.setFinancialObjectCode(taxObjectCode);
-        taxLine.setAmount(taxAmount);
-        //FIXME anything else to set?
+        taxLine.setAmount(new KualiDecimal(taxAmount));
 
         // add the accounting line to the item
         taxLine.setItemIdentifier(taxItem.getItemIdentifier());
         taxLine.setPurapItem(taxItem);        
-        taxItem.getSourceAccountingLines().add(taxLine);
-        //FIXME anything else to update?
         
         return taxLine;
     }

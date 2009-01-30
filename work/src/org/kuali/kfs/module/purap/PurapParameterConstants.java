@@ -155,4 +155,12 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         public static final String SALES_TAX_UPPER_VARIANCE_PERCENT = "SALES_TAX_UPPER_VARIANCE_PERCENT";
         public static final String SALES_TAX_LOWER_VARIANCE_PERCENT = "SALES_TAX_LOWER_VARIANCE_PERCENT";
     }
+    
+    public static class NRATaxParameters {
+        public static final String FEDERAL_TAX_PARM_PREFIX = "NON_RESIDENT_ALIEN_TAX_FEDERAL_";
+        public static final String STATE_TAX_PARM_PREFIX = "NON_RESIDENT_ALIEN_TAX_STATE_";
+        public static final String TAX_PARM_ACCOUNT_SUFFIX = "ACCOUNT";
+        public static final String TAX_PARM_CHART_SUFFIX = "CHART";
+        public static final String TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX = "OBJECT_CODE_BY_INCOME_CLASS";
+    }        
 }

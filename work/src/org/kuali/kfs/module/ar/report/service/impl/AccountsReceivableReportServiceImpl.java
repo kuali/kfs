@@ -190,8 +190,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         reportDataHolder.setSysinfo(sysinfoMap);
 
-        invoiceMap.put("billingOrgFax", (ObjectUtils.isNull(orgOptions.getOrganizationFaxNumber())?"":orgOptions.getOrganizationFaxNumber()));
-        invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
+        invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(orgOptions.getOrganizationFaxNumber()));
+        invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(orgOptions.getOrganizationPhoneNumber()));
 
         creditMemo.populateCustomerCreditMemoDetailsAfterLoad();
         List<CustomerCreditMemoDetail> detailsList = creditMemo.getCreditMemoDetails();

@@ -117,13 +117,10 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
             // Encrypt value if it is a secure field
             // TODO: revisit authorization checks in this class
-            // String displayWorkgroup = dataDictionaryService.getAttributeDisplayWorkgroup(bo.getClass(), fieldNm);
 
             if (fieldConversions.containsKey(fieldNm)) {
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
-
-            // if (StringUtils.isNotBlank(displayWorkgroup) && !SpringContext.getBean(IdentityManagementService.class).isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, displayWorkgroup)) {}
 
             // need to format date in url
             if (fieldVal instanceof Date) {

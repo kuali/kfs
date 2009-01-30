@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionSer
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.role.QualifierResolver;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.RoutingTypeDefinition;
@@ -92,9 +93,9 @@ import org.kuali.rice.kns.service.DocumentService;
 public class DataDictionaryQualifierResolver implements QualifierResolver {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DataDictionaryQualifierResolver.class);
     
-    private static final String KIM_ATTRIBUTE_DOCUMENT_TYPE_NAME = "documentTypeName";
-    private static final String KIM_ATTRIBUTE_DOCUMENT_NUMBER = "documentNumber";
-    private static final String KIM_ATTRIBUTE_ROUTE_LEVEL_NAME = "routeLevelName";
+    private static final String KIM_ATTRIBUTE_DOCUMENT_TYPE_NAME = KimAttributes.DOCUMENT_TYPE_NAME;
+    private static final String KIM_ATTRIBUTE_DOCUMENT_NUMBER = KimAttributes.DOCUMENT_NUMBER;
+    private static final String KIM_ATTRIBUTE_ROUTE_LEVEL_NAME = KimAttributes.ROUTE_NODE_NAME;
 
     /**
      * Given the RouteContext, determines the document type of the document being routed and the current

@@ -227,45 +227,6 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
-    public final void testApprove_deleteLastAccessibleAccount() throws Exception {
-        // switch user to WESPRICE, build and route document with
-        // accountingLines
-        AccountingDocument retrieved;
-        AccountingDocument original;
-        String docId;
-
-        changeCurrentUser(getInitialUserName());
-        original = buildDocument();
-        routeDocument(original, SpringContext.getBean(DocumentService.class));
-        docId = original.getDocumentNumber();
-
-        // switch user to AHORNICK, delete all accountingLines for that user
-        changeCurrentUser(getTestUserName());
-        retrieved = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        deleteSourceAccountingLine(retrieved, 2);
-        deleteSourceAccountingLine(retrieved, 0);
-
-        deleteTargetAccountingLine(retrieved, 2);
-        deleteTargetAccountingLine(retrieved, 0);
-
-        // approve document, wait for failure
-        boolean failedAsExpected = false;
-        try {
-            approveDocument(retrieved, SpringContext.getBean(DocumentService.class));
-        }
-        catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE);
-        }
-        catch (DocumentAuthorizationException dae) {
-            // this means that the workflow status didn't change in time for the check, so this is
-            // an expected exception
-            failedAsExpected = true;
-        }
-        assertTrue(failedAsExpected);
-    }
-
-
     @AnnotationTestSuite(CrossSectionSuite.class)
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testApprove_updateAccessibleAccount() throws Exception {

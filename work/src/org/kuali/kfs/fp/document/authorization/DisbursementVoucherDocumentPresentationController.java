@@ -59,16 +59,16 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
-            editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE);
+            editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
         }
         else if (workflowDocument.stateIsEnroute()) {
             if (editModes.contains(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY)) {
-                editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE);
+                editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
             }
             else {
                 List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
                 if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) {
-                    editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE);
+                    editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
                 }
             }
         }

@@ -26,7 +26,7 @@ public class KfsAuthorizationConstants extends JSTLConstants {
     }
 
     public static class DisbursementVoucherEditMode extends TransactionalEditMode {
-        public static final String PAYEE_EDIT_MODE = "payeeEntry";
+        public static final String PAYEE_ENTRY = "payeeEntry";
         public static final String TAX_ENTRY = "taxEntry";
         public static final String FRN_ENTRY = "frnEntry";
         public static final String WIRE_ENTRY = "wireEntry";

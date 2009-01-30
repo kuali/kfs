@@ -34,11 +34,11 @@
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="projectDirector.person" />
+          <property name="objectAttributeName" value="projectDirector" />
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="projectDirector.principalId"
+                    p:sourceName="principalId"
                     p:targetName="principalId" />
             </list>
           </property>
@@ -68,7 +68,7 @@
   </bean>
   <bean id="AwardAccount-principalId" parent="AwardAccount-principalId-parentBean" />
 
-  <bean id="AwardAccount-principalId-parentBean" abstract="true" parent="ProjectDirector-principalId">
+  <bean id="AwardAccount-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="label" value="Project Director ID" />
     <property name="shortLabel" value="Proj Dir ID" />
     <property name="control" >

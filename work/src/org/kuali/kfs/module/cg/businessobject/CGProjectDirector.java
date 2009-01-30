@@ -16,6 +16,8 @@
 
 package org.kuali.kfs.module.cg.businessobject;
 
+import org.kuali.rice.kim.bo.Person;
+
 
 /**
  * This interface defines all the necessary methods to define a contracts and grants project director object.
@@ -55,7 +57,7 @@ public interface CGProjectDirector {
      * 
      * @return the projectDirector.
      */
-    public ProjectDirector getProjectDirector();
+    public Person getProjectDirector();
 
     /**
      * Sets the projectDirector.
@@ -63,7 +65,7 @@ public interface CGProjectDirector {
      * @param projectDirector the projectDirector to set
      * @deprecated required by PersonServiceImpl.isPersonProperty() for PojoPropertyUtilsBean.getPropertyDescriptor()
      */
-    public void setProjectDirector(ProjectDirector projectDirector);
+    public void setProjectDirector(Person projectDirector);
 
 }
 

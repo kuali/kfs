@@ -26,7 +26,6 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -93,10 +92,13 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     private Agency agency;
     private Agency federalPassThroughAgency;
     private ProposalPurpose awardPurpose;
-    private KimGroup workgroup;
     private AwardOrganization primaryAwardOrganization;
     private String routingOrg;
     private String routingChart;
+    
+    /** Dummy value used to facilitate lookups */
+    private transient String lookupPersonUniversalIdentifier;
+    private transient Person lookupPerson;
 
     /**
      * Default no-args constructor.
@@ -1134,6 +1136,43 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      */
     public void setRoutingOrg(String routingOrg) {
         this.routingOrg = routingOrg;
+    }
+    
+    /**
+     * Gets the lookup {@link Person}.
+     * 
+     * @return the lookup {@link Person}
+     */
+    public Person getLookupPerson() {
+        return lookupPerson;
+    }
+
+    /**
+     * Sets the lookup {@link Person}
+     * 
+     * @param lookupPerson
+     */
+    public void setLookupPerson(Person lookupPerson) {
+        this.lookupPerson = lookupPerson;
+    }
+
+    /**
+     * Gets the universal user id of the lookup person.
+     * 
+     * @return the id of the lookup person
+     */
+    public String getLookupPersonUniversalIdentifier() {
+        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
+        return lookupPersonUniversalIdentifier;
+    }
+
+    /**
+     * Sets the universal user id of the lookup person
+     * 
+     * @param lookupPersonId the id of the lookup person
+     */
+    public void setLookupPersonUniversalIdentifier(String lookupPersonId) {
+        this.lookupPersonUniversalIdentifier = lookupPersonId;
     }
 
 }

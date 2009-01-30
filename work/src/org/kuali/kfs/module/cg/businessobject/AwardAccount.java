@@ -21,6 +21,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -39,7 +42,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
 
     private Account account;
     private Chart chartOfAccounts;
-    private ProjectDirector projectDirector;
+    private Person projectDirector;
     private Award award;
 
     /**
@@ -47,7 +50,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      */
     public AwardAccount() {
         // Struts needs this instance to populate the secondary key, principalName.
-        projectDirector = new ProjectDirector();
+        projectDirector = new PersonImpl();
     }
 
     /***
@@ -157,7 +160,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirector()
      */
-    public ProjectDirector getProjectDirector() {
+    public Person getProjectDirector() {
+        projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
         return projectDirector;
     }
 
@@ -169,7 +173,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *             creation of the object and should not be changed.
      */
     @Deprecated
-    public void setProjectDirector(ProjectDirector projectDirector) {
+    public void setProjectDirector(Person projectDirector) {
         this.projectDirector = projectDirector;
     }
 
@@ -223,7 +227,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      */
     public String getProjectDirectorName() {
         if (!ObjectUtils.isNull(projectDirector)) {
-            return projectDirector.getPerson().getName();
+            return projectDirector.getName();
         }
         return null;
     }

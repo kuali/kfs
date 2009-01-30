@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
@@ -33,7 +34,8 @@ public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     private static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
     private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.projectDirector.principalId";
-    private static final String PROJECT_DIRECTOR_USER_ID_LOOKUP_FIELD = "person.principalName";
+
+    private PersonService personService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
@@ -42,20 +44,37 @@ public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperSe
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         // perform the lookup on the project director object first
         if (!StringUtils.isBlank(fieldValues.get(LOOKUP_USER_ID_FIELD))) {
-            HashMap<String, String> newParam = new HashMap<String, String>(1);
-            newParam.put(PROJECT_DIRECTOR_USER_ID_LOOKUP_FIELD, fieldValues.get(LOOKUP_USER_ID_FIELD));
-            Collection<ProjectDirector> pds = getLookupService().findCollectionBySearchUnbounded(ProjectDirector.class, newParam);
+            Person person = personService.getPersonByPrincipalName(fieldValues.get(LOOKUP_USER_ID_FIELD));
+
             // if no project directors match, we can return an empty list right now
-            if (pds.isEmpty()) {
+            if (person == null) {
                 return Collections.EMPTY_LIST;
             }
+            
             // place the universal ID into the fieldValues map and remove the dummy attribute
-            fieldValues.put(LOOKUP_UNIVERSAL_USER_ID_FIELD, pds.iterator().next().getPrincipalId());
+            fieldValues.put(LOOKUP_UNIVERSAL_USER_ID_FIELD, person.getPrincipalId());
             fieldValues.remove(LOOKUP_USER_ID_FIELD);
         }
 
         return super.getSearchResultsHelper(fieldValues, unbounded);
     }
 
-}
+    /**
+     * Gets the personService attribute.
+     * 
+     * @return Returns the personService.
+     */
+    protected PersonService getPersonService() {
+        return personService;
+    }
 
+    /**
+     * Sets the personService attribute value.
+     * 
+     * @param personService The personService to set.
+     */
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
+}

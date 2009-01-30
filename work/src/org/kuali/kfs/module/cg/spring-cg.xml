@@ -105,7 +105,11 @@
 		</property>
 	</bean>
 	
-	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
+	</bean>
 
 	<bean id="proposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
@@ -113,20 +117,15 @@
 		</property>
 	</bean>
 
-    <bean id="awardLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+    <bean id="awardLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
+    </bean>
 
     <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="awardLookupableHelperService" />
-        </property>
-    </bean>
-
-    <bean id="projectDirectorService" class="org.kuali.kfs.module.cg.service.impl.ProjectDirectorServiceImpl">
-        <property name="personService">
-            <ref bean="personService" />
-        </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
         </property>
     </bean>
 

@@ -25,7 +25,6 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
-import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormBudget;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganizationCreditPercent;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
@@ -36,8 +35,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -182,7 +182,7 @@ public class RoutingFormAuditRule {
 
                 Map fieldValues = new HashMap();
                 fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, person.getPrincipalId());
-                ProjectDirector projectDirector = (ProjectDirector) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ProjectDirector.class, fieldValues);
+                Person projectDirector = SpringContext.getBean(PersonService.class).getPerson(person.getPrincipalId());
                 if (projectDirector == null) {
                     valid = false;
                     auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].principalId", CGKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));

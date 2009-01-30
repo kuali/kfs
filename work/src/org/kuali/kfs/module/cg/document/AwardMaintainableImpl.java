@@ -31,14 +31,14 @@ import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
-import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
-import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -209,11 +209,14 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
         if (ObjectUtils.isNotNull(director.getProjectDirector())) {
             String secondaryKey = director.getProjectDirector().getPrincipalName();
             if (StringUtils.isNotBlank(secondaryKey)) {
-                ProjectDirector dir = SpringContext.getBean(ProjectDirectorService.class).getByPersonUserIdentifier(secondaryKey);
+                Person dir = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(secondaryKey);
                 director.setPrincipalId(dir == null ? null : dir.getPrincipalId());
             }
-            if (StringUtils.isNotBlank(director.getPrincipalId()) && SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(director.getPrincipalId())) {
-                ((PersistableBusinessObject) director).refreshNonUpdateableReferences();
+            if (StringUtils.isNotBlank(director.getPrincipalId()) ) {
+                Person person = SpringContext.getBean(PersonService.class).getPerson(director.getPrincipalId());
+                if (person != null) {
+                    ((PersistableBusinessObject) director).refreshNonUpdateableReferences();
+                }
             }
         }
     }

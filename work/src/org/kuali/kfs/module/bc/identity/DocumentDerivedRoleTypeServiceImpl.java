@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.bc.identity;
 
+import java.util.List;
+
 import org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
-import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
@@ -27,58 +30,30 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
     private static final String DOCUMENT_VIEWER_ROLE_NAME = "Document Viewer";
     private static final String DOCUMENT_EDITOR_ROLE_NAME = "Document Editor";
     private static final String BC_PROCESSOR_ROLE_NAME = "Processor";
-    
-    private BudgetConstructionOrganizationReportsService organizationService;
 
     @Override
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
         AttributeSet newQualification = new AttributeSet();
 
-        int organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
-
-        if (BC_PROCESSOR_ROLE_NAME.equals(memberRoleName)) {
-            String chartOfAccountsCode = qualification.get(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
-            String organizationCode = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
-            String descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_FALSE_VALUE;
-
-            if (DOCUMENT_VIEWER_ROLE_NAME.equals(roleName)) {
-                descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_TRUE_VALUE;
-            }
-
-            if (organizationLevelCode == 0) {
-                if (DOCUMENT_EDITOR_ROLE_NAME.equals(roleName)) {
-                    organizationCode = UNMATCHABLE_QUALIFICATION;
-                }
-            }
-            else {
-                for (int i = 2; i <= organizationLevelCode; i++) {
-                    BudgetConstructionOrganizationReports newOrganization = organizationService.getByPrimaryId(chartOfAccountsCode, organizationCode);
-                    chartOfAccountsCode = newOrganization.getReportsToChartOfAccountsCode();
-                    organizationCode = newOrganization.getReportsToOrganizationCode();
-                }
-            }
-
-            newQualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-            newQualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
-            newQualification.put(KfsKimAttributes.DESCEND_HIERARCHY, descendHierarchy);
-
+        String universityFiscalYear = qualification.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
+        Integer organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
+        if (!BC_PROCESSOR_ROLE_NAME.equals(roleName) && organizationLevelCode != 0) {
+            accountNumber = UNMATCHABLE_QUALIFICATION;
         }
-        else {
-            String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-            String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
 
-            if (organizationLevelCode != 0) {
-                accountNumber = UNMATCHABLE_QUALIFICATION;
-            }
-
-            newQualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-            newQualification.put(KfsKimAttributes.ACCOUNT_NUMBER, accountNumber);
+        String descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_FALSE_VALUE;
+        if (DOCUMENT_VIEWER_ROLE_NAME.equals(roleName)) {
+            descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_TRUE_VALUE;
         }
+
+        newQualification.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        newQualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        newQualification.put(KfsKimAttributes.ACCOUNT_NUMBER, accountNumber);
+        newQualification.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, organizationLevelCode.toString());
+        newQualification.put(KfsKimAttributes.DESCEND_HIERARCHY, descendHierarchy);
 
         return newQualification;
-    }
-
-    public void setOrganizationService(BudgetConstructionOrganizationReportsService organizationService) {
-        this.organizationService = organizationService;
     }
 }

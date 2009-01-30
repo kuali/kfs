@@ -90,7 +90,7 @@ function organizationNameLookup( anyFieldOnProposalOrganization ) {
 function proposalDirectorIDLookup( userIdField ) {
     var userIdFieldName = userIdField.name;
     var elPrefix = findElPrefix( userIdFieldName );
-	var userNameFieldName = elPrefix + ".personName";
+	var userNameFieldName = elPrefix + ".name";
 	var universalIdFieldName = findElPrefix( elPrefix ) + ".principalId";
 	
 	loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldName );
@@ -117,7 +117,7 @@ function loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldN
                 setRecipientValue( userNameFieldName, wrapError( "director not found" ), true );
             }
         };
-        ProjectDirectorService.getByPersonUserIdentifier( userId, dwrReply );
+        PersonService.getPersonByPrincipalName( userId, dwrReply );
     }
 }
 

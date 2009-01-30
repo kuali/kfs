@@ -20,18 +20,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk;
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
 import org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFinder;
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
-import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.AssertionUtils;
@@ -40,7 +40,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Methods for the Proposal maintenance document UI.
  */
-public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
+public class ProposalMaintainableImpl extends FinancialSystemMaintainable {  
     public ProposalMaintainableImpl() {
         super();
     }
@@ -190,16 +190,18 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
      */
     private static void refreshWithSecondaryKey(ProposalProjectDirector ppd) {
         String secondaryKey = null;
-        ppd.refreshReferenceObject("projectDirector");
         if (ObjectUtils.isNotNull(ppd.getProjectDirector())) {
             secondaryKey = ppd.getProjectDirector().getPrincipalName();
         }
         if (StringUtils.isNotBlank(secondaryKey)) {
-            ProjectDirector dir = SpringContext.getBean(ProjectDirectorService.class).getByPersonUserIdentifier(secondaryKey);
+            Person dir = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(secondaryKey);
             ppd.setPrincipalId(dir == null ? null : dir.getPrincipalId());
         }
-        if (StringUtils.isNotBlank(ppd.getPrincipalId()) && SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(ppd.getPrincipalId())) {
-            ppd.refreshNonUpdateableReferences();
+        if (StringUtils.isNotBlank(ppd.getPrincipalId()) ) {
+            Person person = SpringContext.getBean(PersonService.class).getPerson(ppd.getPrincipalId());
+            if (person != null) {
+                ppd.refreshNonUpdateableReferences();
+            }
         }
     }
 

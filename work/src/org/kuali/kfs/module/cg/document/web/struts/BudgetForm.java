@@ -626,8 +626,8 @@ public class BudgetForm extends ResearchDocumentFormBase {
         if (this.getBudgetDocument().getBudget().isProjectDirectorToBeNamedIndicator()) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", getToBeNamedLabel()));
         }
-        else if (!ObjectUtils.isNull(this.getBudgetDocument().getBudget().getProjectDirector()) && !ObjectUtils.isNull(this.getBudgetDocument().getBudget().getProjectDirector().getPerson()) && !ObjectUtils.isNull(this.getBudgetDocument().getBudget().getProjectDirector().getPerson().getPrincipalId())) {
-            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getPerson().getName()));
+        else if (!ObjectUtils.isNull(this.getBudgetDocument().getBudget().getProjectDirector()) && !ObjectUtils.isNull(this.getBudgetDocument().getBudget().getProjectDirector()) && !ObjectUtils.isNull(this.getBudgetDocument().getBudget().getProjectDirector().getPrincipalId())) {
+            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getName()));
         }
         if (this.getBudgetDocument().getBudget().isAgencyToBeNamedIndicator()) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetAgency", getToBeNamedLabel()));

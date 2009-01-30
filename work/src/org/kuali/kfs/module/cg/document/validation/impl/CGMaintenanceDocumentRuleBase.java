@@ -25,11 +25,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Primaryable;
-import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.reference.impl.EmploymentStatusImpl;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -108,7 +108,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         for (T pd : projectDirectors) {
             String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
             String id = pd.getPrincipalId();
-            if (StringUtils.isBlank(id) || !SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(id)) {
+            if (StringUtils.isBlank(id) || (SpringContext.getBean(PersonService.class).getPerson(id) == null)) {
                 putFieldError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
                 success = false;
             }
@@ -131,7 +131,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
         for (T pd : projectDirectors) {
-            String pdEmplStatusCode = pd.getProjectDirector().getPerson().getEmployeeStatusCode();
+            String pdEmplStatusCode = pd.getProjectDirector().getEmployeeStatusCode();
             HashMap<String, String> criteria = new HashMap<String, String>();
             criteria.put( "code", pdEmplStatusCode );
             if (StringUtils.isBlank(pdEmplStatusCode) || Arrays.asList(PROJECT_DIRECTOR_INVALID_STATUSES).contains(pdEmplStatusCode)) {

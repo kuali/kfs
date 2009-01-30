@@ -65,7 +65,6 @@
     </property>
     <property name="documentTypeName" value="ProposalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.ProposalRule" />
-    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentPresentationController" />        	
     
@@ -244,7 +243,7 @@
                     p:name="projectDirector.name"
                     p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="principalId"
+                    p:name="principalId" 
                     p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="proposalPrimaryProjectDirectorIndicator" />

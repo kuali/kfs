@@ -20,6 +20,7 @@ import java.util.Map;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -27,7 +28,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
     /**
-     * Add role qualifications (chart, account, org chart, org, level code) needed from document
+     * Add role qualifications (chart, account, year, level code) needed from document
      * 
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject,
      *      java.util.Map)
@@ -35,14 +36,12 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
-        
+
         BudgetConstructionDocument document = (BudgetConstructionDocument) businessObject;
-        BudgetConstructionAccountReports bcAccountReports = document.getBudgetConstructionAccountReports();
 
         attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, document.getChartOfAccountsCode());
         attributes.put(KfsKimAttributes.ACCOUNT_NUMBER, document.getAccountNumber());
-        attributes.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, bcAccountReports.getReportsToChartOfAccountsCode());
-        attributes.put(KfsKimAttributes.ORGANIZATION_CODE, bcAccountReports.getReportsToOrganizationCode());
+        attributes.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, document.getUniversityFiscalYear().toString());
         attributes.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, document.getOrganizationLevelCode().toString());
     }
 

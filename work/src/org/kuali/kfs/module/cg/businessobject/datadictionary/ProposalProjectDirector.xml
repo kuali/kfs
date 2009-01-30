@@ -27,6 +27,31 @@
         <ref bean="ProposalProjectDirector-active" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="projectDirector" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="principalId"
+                    p:targetName="principalId" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="projectDirector.principalName"
+                    p:targetName="principalName" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="projectDirector.name"
+                    p:targetName="name" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -34,7 +59,7 @@
 
   <bean id="ProposalProjectDirector-principalId" parent="ProposalProjectDirector-principalId-parentBean" />
 
-  <bean id="ProposalProjectDirector-principalId-parentBean" abstract="true" parent="ProjectDirector-principalId">
+  <bean id="ProposalProjectDirector-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
   	<property name="forceUppercase" value="true" />
     <property name="label" value="Project Director ID" />
     <property name="shortLabel" value="Proj Dir ID" />

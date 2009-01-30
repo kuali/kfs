@@ -1033,23 +1033,20 @@
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionOrganizationOptionalHierarchyQualificationRoleTypeService"
-		class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
-		p:qualificationDeterminesDescendHierarchy="true"
-		p:chartService-ref="chartService"
-		p:organizationService-ref="budgetConstructionOrganizationReportsService" />
+	<bean id="budgetConstructionAccountOrganizationHierarchyRoleTypeService"
+		class="org.kuali.kfs.module.bc.identity.AccountOrganizationHierarchyRoleTypeServiceImpl"
+		p:budgetDocumentService-ref="budgetDocumentService" />
 		
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService"
-				p:service-ref="budgetConstructionOrganizationOptionalHierarchyQualificationRoleTypeService"
-				p:localServiceName="budgetConstructionOrganizationOptionalHierarchyQualificationRoleTypeService" />
+				p:service-ref="budgetConstructionAccountOrganizationHierarchyRoleTypeService"
+				p:localServiceName="budgetConstructionAccountOrganizationHierarchyRoleTypeService" />
 		</property>
 	</bean>
 
 	<bean name="budgetConstructionDocumentDerivedRoleTypeService"
-		class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl"
-		p:organizationService-ref="budgetConstructionOrganizationReportsService" />
+		class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl" />
 		
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">

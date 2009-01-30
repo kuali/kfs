@@ -39,7 +39,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 @NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
-    
+
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,
      *      java.lang.String)
@@ -53,7 +53,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         if (proposals != null && !proposals.isEmpty()) {
             AwardAccount proposalWithMaxProposalNumber = proposals.iterator().next();
 
-            return proposalWithMaxProposalNumber.getProjectDirector().getPerson();
+            return proposalWithMaxProposalNumber.getProjectDirector();
         }
 
         return null;

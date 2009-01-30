@@ -492,7 +492,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
     private void cleanseIndirectCost(BudgetDocument budgetDocument) {
         // if there are no lines in the list, then it's likely the first time that the save is occurring. We don't care about
         // cleansing in that case.
-        if (budgetDocument.getBudget().getIndirectCost() != null && budgetDocument.getBudget().getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {
+        if (ObjectUtils.isNotNull(budgetDocument.getBudget().getIndirectCost()) && budgetDocument.getBudget().getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {
             List taskPeriodItems = budgetDocument.getBudget().getIndirectCost().getBudgetTaskPeriodIndirectCostItems();
             List budgetTasks = budgetDocument.getBudget().getTasks();
             List budgetPeriods = budgetDocument.getBudget().getPeriods();

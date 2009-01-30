@@ -40,10 +40,10 @@
                 <th align=right valign=middle width="25%">Budget Document Number:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <kul:htmlControlAttribute property="document.routingFormBudgetNumber" attributeEntry="${routingFormDocumentAttributes.routingFormBudgetNumber}" onblur="budgetNameLookup('document.routingFormBudgetNumber')" />
-	    		  <kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Budget" lookupParameters="document.routingFormBudgetNumber:documentNumber" fieldConversions="documentNumber:document.routingFormBudgetNumber,projectDirector.person.name:document.budget.projectDirector.person.name,budgetAgency.fullName:document.budget.budgetAgency.fullName" anchor="${currentTabIndex}" />
+	    		  <kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Budget" lookupParameters="document.routingFormBudgetNumber:documentNumber" fieldConversions="documentNumber:document.routingFormBudgetNumber,projectDirector.name:document.budget.projectDirector.name,budgetAgency.fullName:document.budget.budgetAgency.fullName" anchor="${currentTabIndex}" />
                   <html:hidden property="document.budget.documentNumber" />
                   <html:hidden property="document.budget.budgetName" />
-                  <html:hidden property="document.budget.projectDirector.person.name" />
+                  <html:hidden property="document.budget.projectDirector.name" />
                   <html:hidden property="document.budget.budgetAgency.fullName" />
 		           <div id="budgetNameDiv">
     			    <div id="document.budget.projectDirector.person.name.div" style="float: left; text-align: left;">

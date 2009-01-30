@@ -18,6 +18,9 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -33,14 +36,14 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     private String proposalProjectDirectorProjectTitle;
     private boolean active = true;
 
-    private ProjectDirector projectDirector;
+    private Person projectDirector;
 
     /**
      * Default constructor.
      */
     public ProposalProjectDirector() {
         // Struts needs this instance to populate the secondary key, principalName.
-        projectDirector = new ProjectDirector();
+        projectDirector = new PersonImpl();
     }
 
     /**
@@ -55,11 +58,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      */
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
-        if (projectDirector != null) {
-            projectDirector.setPrincipalId(principalId);
-        }
     }
-
 
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProposalNumber()
@@ -141,14 +140,15 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProjectDirector()
      */
-    public ProjectDirector getProjectDirector() {
+    public Person getProjectDirector() {
+        projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
         return projectDirector;
     }
 
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setProjectDirector(org.kuali.kfs.module.cg.businessobject.ProjectDirector)
      */
-    public void setProjectDirector(ProjectDirector projectDirector) {
+    public void setProjectDirector(Person projectDirector) {
         this.projectDirector = projectDirector;
     }
 

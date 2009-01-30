@@ -28,8 +28,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -63,8 +63,7 @@ public class Budget extends PersistableBusinessObjectBase {
 
     private Agency budgetAgency;
     private Agency federalPassThroughAgency;
-    private ProjectDirector projectDirector;
-    private Person person;
+    private Person projectDirector;
     private BudgetModular modularBudget;
     private List tasks;
     private List periods;
@@ -132,14 +131,15 @@ public class Budget extends PersistableBusinessObjectBase {
     /**
      * @return Returns the projectDirector.
      */
-    public ProjectDirector getProjectDirector() {
+    public Person getProjectDirector() {
+        projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetProjectDirectorUniversalIdentifier, projectDirector);
         return projectDirector;
     }
 
     /**
      * @param projectDirector The projectDirector to set.
      */
-    public void setProjectDirector(ProjectDirector projectDirector) {
+    public void setProjectDirector(Person projectDirector) {
         this.projectDirector = projectDirector;
     }
 
@@ -936,14 +936,6 @@ public class Budget extends PersistableBusinessObjectBase {
             this.getBudgetIndirectCostLookups().add(new BudgetIndirectCostLookup());
         }
         return this.getBudgetIndirectCostLookups().get(index);
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 }
 

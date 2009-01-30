@@ -131,11 +131,11 @@ public class BudgetXml {
             projectDirectorElement.setAttribute("FIRST_NAME", TO_BE_NAMED);
         }
         else if (budget.getProjectDirector() != null) {
-            projectDirectorElement.setAttribute("FIRST_NAME", ObjectUtils.toString(budget.getProjectDirector().getPerson().getFirstName()));
+            projectDirectorElement.setAttribute("FIRST_NAME", ObjectUtils.toString(budget.getProjectDirector().getFirstName()));
 
-            projectDirectorElement.setAttribute("LAST_NAME", ObjectUtils.toString(budget.getProjectDirector().getPerson().getLastName()));
+            projectDirectorElement.setAttribute("LAST_NAME", ObjectUtils.toString(budget.getProjectDirector().getLastName()));
 
-            projectDirectorElement.setAttribute("USER_ID", ObjectUtils.toString(budget.getProjectDirector().getPerson().getEmailAddress()));
+            projectDirectorElement.setAttribute("USER_ID", ObjectUtils.toString(budget.getProjectDirector().getEmailAddress()));
         }
 
         return projectDirectorElement;

@@ -412,12 +412,12 @@
 	  </property>
 	</bean>
 	
-    <bean id="researchRiskReviewRoleTypeServiceImpl" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl"/>    
+    <bean id="researchRiskReviewRoleTypeService" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl"/>    
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
-	      p:service-ref="researchRiskReviewRoleTypeServiceImpl"
-	      p:localServiceName="researchRiskReviewRoleTypeServiceImpl" />
+	      p:service-ref="researchRiskReviewRoleTypeService"
+	      p:localServiceName="researchRiskReviewRoleTypeService" />
 	  </property>
 	</bean>
 

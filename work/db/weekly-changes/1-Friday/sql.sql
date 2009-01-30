@@ -27,3 +27,8 @@ insert into krns_parm_t
 'A'
 FROM dual)
 /
+UPDATE krim_typ_t
+    SET nm = 'Financial System User'
+      , SRVC_NM = 'financialSystemUserRoleTypeService'
+    WHERE KIM_TYP_ID = '36'
+/

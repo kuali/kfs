@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.batch.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
@@ -38,10 +36,12 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ModuleService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @see org.kuali.kfs.coa.batch.service.FiscalYearMakerService
  */
+@Transactional
 public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(FiscalYearMakerServiceImpl.class);
 

@@ -91,7 +91,7 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
         assertFalse( "roleQualifiers should not be empty", roleQualifiers.isEmpty() );
         System.out.println( roleQualifiers );
         assertTrue( "Org UA-UA was not in the list and should have been.", checkForChartOrg( roleQualifiers, "UA", "UA") );
-        assertTrue( "Org EA-EA was not in the list and should have been.", checkForChartOrg( roleQualifiers, "EA", "EA") );
+        assertTrue( "Org BL-BL was not in the list and should have been.", checkForChartOrg( roleQualifiers, "BL", "BL") );
     }
     
     public void testNonProcessorQualifications() {

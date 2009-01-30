@@ -27,8 +27,6 @@
 	    	<param name="beanName" value="commodityCodeService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
-	</allow>
-	<allow>
 	   	<convert converter="bean" match="org.kuali.kfs.vnd.businessobject.VendorDetail">
 	   		<param name="include" value="vendorNumber,vendorName,vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" />
 	   	</convert>

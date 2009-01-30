@@ -45,19 +45,22 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetPaymentDetails");
-        if (assetGlobal.isCapitalAssetBuilderOriginIndicator() || SpringContext.getBean(AssetGlobalService.class).isAssetSeparateDocument(assetGlobal)) {
+        if (assetGlobal.isCapitalAssetBuilderOriginIndicator() || SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
             // do not include payment add section within the payment details collection
             maintCollDef.setIncludeAddLine(false);
         }
         else {
+            // conversely allow add during any other case. This is important because the attribute is set on the DD and the DD is only
+            // loaded on project startup. Hence setting is important to avoid state related bugs
             maintCollDef.setIncludeAddLine(true);
         }
 
-        if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparateByPaymentDocument(assetGlobal)) {
+        if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparateByPayment(assetGlobal)) {
             // Show payment sequence number field only if a separate by payment was selected
             fields.add(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER);
         }
-        if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparateDocument(assetGlobal)) {
+        
+        if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
             fields.addAll(getAssetGlobalLocationHiddenFields(assetGlobal));
 
             fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
@@ -87,7 +90,7 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         // "Asset Separate" document functionality
-        if (SpringContext.getBean(AssetGlobalService.class).isAssetSeparateDocument(assetGlobal)) {
+        if (SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
             fields.addAll(getAssetGlobalDetailsReadOnlyFields());
             fields.addAll(getAssetGlobalPaymentsReadOnlyFields(assetGlobal));
         }
@@ -107,7 +110,7 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         // hide "Asset Information", "Recalculate Total Amount" tabs if not "Asset Separate" doc
-        if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparateDocument(assetGlobal)) {
+        if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
             fields.add(CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION);
             fields.add(CamsConstants.AssetGlobal.SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT);
         }

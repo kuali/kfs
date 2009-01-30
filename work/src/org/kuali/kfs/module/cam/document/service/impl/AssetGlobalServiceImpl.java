@@ -296,9 +296,9 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isAssetSeparateDocument(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isAssetSeparate(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
-    public boolean isAssetSeparateDocument(AssetGlobal assetGlobal) {
+    public boolean isAssetSeparate(AssetGlobal assetGlobal) {
         if (ObjectUtils.isNotNull(assetGlobal.getFinancialDocumentTypeCode()) && assetGlobal.getFinancialDocumentTypeCode().equals(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE)) {
             return true;
         }
@@ -306,10 +306,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
     
     /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isAssetSeparateByPaymentDocument(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isAssetSeparateByPayment(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
-    public boolean isAssetSeparateByPaymentDocument(AssetGlobal assetGlobal) {
-        if (this.isAssetSeparateDocument(assetGlobal) && ObjectUtils.isNotNull(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
+    public boolean isAssetSeparateByPayment(AssetGlobal assetGlobal) {
+        if (this.isAssetSeparate(assetGlobal) && ObjectUtils.isNotNull(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
             return true;
         }
         return false;
@@ -384,7 +384,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         // Need to make a copy because offsetPayments are changed and saved
         HashMap<String, AssetPayment> offsetAssetPayments = new HashMap<String, AssetPayment>();
         for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
-            if (!this.isAssetSeparateByPaymentDocument(assetGlobal)) {
+            if (!this.isAssetSeparateByPayment(assetGlobal)) {
                 offsetAssetPayments.put(assetPayment.getObjectId(), new AssetPayment(assetPayment, false));
             } else if (assetPayment.getPaymentSequenceNumber().equals(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
                 // If this is separate by payment, then only add the payment that we are interested in

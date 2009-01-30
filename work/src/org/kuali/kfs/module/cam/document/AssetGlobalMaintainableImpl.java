@@ -79,7 +79,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
 
         // populate required fields for "Asset Separate" doc
-        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+        if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             Asset asset = getAsset(assetGlobal);
             AssetOrganization assetOrganization = getAssetOrganization(assetGlobal);
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
@@ -87,7 +87,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
             AssetGlobalRule.validateAssetTotalCostMatchesPaymentTotalCost(assetGlobal);
 
-            if (getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
+            if (getAssetGlobalService().isAssetSeparateByPayment(assetGlobal)) {
                 AssetGlobalRule.validateAssetAlreadySeparated(assetGlobal.getSeparateSourceCapitalAssetNumber());
             }
         }
@@ -170,7 +170,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.getAssetPaymentDetails().clear();
         List<AssetPaymentDetail> newAssetPaymentDetailList = assetGlobal.getAssetPaymentDetails();
 
-        if (!getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
+        if (!getAssetGlobalService().isAssetSeparateByPayment(assetGlobal)) {
             // Separate by Asset. Pick all payments up
 
             for (AssetPayment assetPayment : asset.getAssetPayments()) {
@@ -280,7 +280,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
             // if not set, populate unique asset fields using original asset data. "Asset Separate" doc (location tab)
             if (ObjectUtils.isNotNull(assetGlobal)) {
-                if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+                if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
                     if (assetGlobalDetail.getCapitalAssetTypeCode() == null) {
                         assetGlobalDetail.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
                     }
@@ -312,7 +312,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             newAssetUnique.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
 
             // populate unique asset fields using original asset data. "Asset Separate" doc (location tab)
-            if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+            if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
                 newAssetUnique.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
                 newAssetUnique.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
                 newAssetUnique.setManufacturerName(assetGlobal.getManufacturerName());
@@ -356,7 +356,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
 
-        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+        if (assetGlobalService.isAssetSeparate(assetGlobal)) {
             MaintenanceLock assetSeperateMaintenanceLock = new MaintenanceLock();
             StringBuffer lockRep = new StringBuffer();
 
@@ -515,7 +515,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         }
 
         // button actions for Asset Separate document
-        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal) && sharedDetailsList.size() >= 1) {
+        if (getAssetGlobalService().isAssetSeparate(assetGlobal) && sharedDetailsList.size() >= 1) {
             String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
 
             // calculate equal source total amounts and set separate source amount fields

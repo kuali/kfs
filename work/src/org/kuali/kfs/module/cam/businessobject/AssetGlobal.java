@@ -643,7 +643,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         
-        if (assetGlobalService.isAssetSeparateDocument(this)) {
+        if (assetGlobalService.isAssetSeparate(this)) {
             persistables = assetGlobalService.getSeparateAssets(this);
         } else {
             persistables = assetGlobalService.getCreateNewAssets(this);
@@ -876,7 +876,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         else {
             AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
 
-            return assetGlobalService.isAssetSeparateDocument(this) ? documentHeader.getDocumentFinalDate() : null;
+            return assetGlobalService.isAssetSeparate(this) ? documentHeader.getDocumentFinalDate() : null;
         }
     }
 

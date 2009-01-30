@@ -128,7 +128,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         
         // check for existance and active when not separating. This can't be done in the DD because we have a condition on it. Note: Even though
         // on separate the payment lines can't be edited we still can't force the rules because data may have gone inactive since then.
-        if (!getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+        if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
             if (StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) || isAccountInvalid(assetPaymentDetail.getAccount())) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_PAYMENT_ACCT_NOT_VALID, new String[] { assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getAccountNumber() });
@@ -308,7 +308,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         // only for "Asset Separate" document
-        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+        if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             // qty. of assets (unique) to be created
             success &= validateLocationQuantity(line);
             // total cost must be > 0
@@ -560,7 +560,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         // only for "Asset Separate" document
-        if (getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+        if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
 
             if (getAssetPaymentService().getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
                 /*
@@ -605,7 +605,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
             success &= validateAssetTotalCostMatchesPaymentTotalCost(assetGlobal);
             
-            if (getAssetGlobalService().isAssetSeparateByPaymentDocument(assetGlobal)) {
+            if (getAssetGlobalService().isAssetSeparateByPayment(assetGlobal)) {
                 AssetGlobalRule.validateAssetAlreadySeparated(assetGlobal.getSeparateSourceCapitalAssetNumber());
             }
         } // end ASEP
@@ -686,7 +686,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         String statusCode = assetGlobal.getInventoryStatusCode();
 
         // no need to validate specific fields if document is "Asset Separate"
-        if (!getAssetGlobalService().isAssetSeparateDocument(assetGlobal)) {
+        if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             success &= validateAccount(assetGlobal);
 
             AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);

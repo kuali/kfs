@@ -46,7 +46,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         }
         
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)){
+        if (assetGlobalService.isAssetSeparate(assetGlobal)){
             Asset spearateAsset = assetGlobal.getSeparateSourceCapitalAsset();
             
             String chart = spearateAsset.getOrganizationOwnerChartOfAccountsCode();

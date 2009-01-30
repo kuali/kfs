@@ -15,17 +15,23 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -51,19 +57,17 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
 
         AccountingLineAuthorizer accountingLineAuthorizer = new AccountingLineAuthorizerBase();
         boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocument, accountingLineForValidation, KFSPropertyConstants.ACCOUNT_NUMBER, financialSystemUser);
-        
+
         // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
         // but only if the document is enroute
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         if (!isAccessible && workflowDocument.stateIsEnroute()) {
 
-            // if approval is requested and it is special conditions routing and the user is in a special conditions routing
-            // workgroup then the line is accessible
-            // TODO fix for kim
-            DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) this.getAccountingDocumentForValidation();
-//            if (workflowDocument.isApprovalRequested() && dvDocument.isSpecialRouting() && this.isUserInDisbursementVouchWorkGroups(financialSystemUser)) {
-//                isAccessible = true;
-//            }
+            // if approval is requested and the user has required edit permission, then the line is accessible
+            List<String> candidateEditModes = this.getCandidateEditModes();
+            if (workflowDocument.isApprovalRequested() && this.hasRequiredEditMode(accountingDocument, financialSystemUser, candidateEditModes)) {
+                isAccessible = true;
+            }
         }
 
         // report errors if the current user can have no access to the account
@@ -76,6 +80,47 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         }
 
         return isAccessible;
+    }
+
+    /**
+     * determine whether the give user has permission to any edit mode defined in the given candidate edit modes
+     * 
+     * @param accountingDocument the given accounting document
+     * @param financialSystemUser the given user
+     * @param candidateEditEditModes the given candidate edit modes
+     * @return true if the give user has permission to any edit mode defined in the given candidate edit modes; otherwise, false
+     */
+    private boolean hasRequiredEditMode(AccountingDocument accountingDocument, Person financialSystemUser, List<String> candidateEditModes) {
+        DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
+        AccountingDocumentAuthorizer documentAuthorizer = (AccountingDocumentAuthorizer) documentHelperService.getDocumentAuthorizer(accountingDocument);
+        TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentHelperService.getDocumentPresentationController(accountingDocument);
+
+        Set<String> presentationControllerEditModes = presentationController.getEditModes(accountingDocument);
+        Set<String> editModes = documentAuthorizer.getEditModes(accountingDocument, financialSystemUser, presentationControllerEditModes);
+
+        for (String editMode : candidateEditModes) {
+            if (editModes.contains(editMode)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * define the possibly desired edit modes
+     * 
+     * @return the possibly desired edit modes
+     */
+    private List<String> getCandidateEditModes() {
+        List<String> candidateEdiModes = new ArrayList<String>();
+        candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
+        candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY);
+        candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
+        candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY);
+        candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.ADMIN_ENTRY);
+
+        return candidateEdiModes;
     }
 
     /**

@@ -15,6 +15,10 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
@@ -23,13 +27,17 @@ import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -45,20 +53,18 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
         boolean isValid = true;
-       
+
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherNonResidentAlienTax nonResidentAlienTax = document.getDvNonResidentAlienTax();
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
-        
-        Person financialSystemUser = GlobalVariables.getUserSession().getPerson(); 
-        
-        
-        
-        // TODO fix for kim
-//        if (!payeeDetail.isDisbVchrAlienPaymentCode() || !disbursementVoucherWorkGroupService.isUserInTaxGroup(financialSystemUser)) {
-//            return true;
-//        }
-        
+
+        Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
+
+        List<String> taxEditMode = this.getTaxEditMode();
+        if (!payeeDetail.isDisbVchrAlienPaymentCode() || !this.hasRequiredEditMode(document, financialSystemUser, taxEditMode)) {
+            return true;
+        }
+
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
@@ -143,6 +149,43 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
     }
 
     /**
+     * determine whether the give user has permission to any edit mode defined in the given candidate edit modes
+     * 
+     * @param accountingDocument the given accounting document
+     * @param financialSystemUser the given user
+     * @param candidateEditEditModes the given candidate edit modes
+     * @return true if the give user has permission to any edit mode defined in the given candidate edit modes; otherwise, false
+     */
+    private boolean hasRequiredEditMode(AccountingDocument accountingDocument, Person financialSystemUser, List<String> candidateEditModes) {
+        DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
+        AccountingDocumentAuthorizer documentAuthorizer = (AccountingDocumentAuthorizer) documentHelperService.getDocumentAuthorizer(accountingDocument);
+        TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentHelperService.getDocumentPresentationController(accountingDocument);
+
+        Set<String> presentationControllerEditModes = presentationController.getEditModes(accountingDocument);
+        Set<String> editModes = documentAuthorizer.getEditModes(accountingDocument, financialSystemUser, presentationControllerEditModes);
+
+        for (String editMode : candidateEditModes) {
+            if (editModes.contains(editMode)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * define the tax edit mode name
+     * 
+     * @return the tax edit mode name
+     */
+    private List<String> getTaxEditMode() {
+        List<String> candidateEdiModes = new ArrayList<String>();
+        candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
+
+        return candidateEdiModes;
+    }
+
+    /**
      * Sets the accountingDocumentForValidation attribute value.
      * 
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
@@ -152,7 +195,8 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute. 
+     * Gets the accountingDocumentForValidation attribute.
+     * 
      * @return Returns the accountingDocumentForValidation.
      */
     public AccountingDocument getAccountingDocumentForValidation() {
@@ -160,4 +204,3 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
     }
 
 }
-

@@ -630,12 +630,12 @@
 	  </property>
 	</bean>
 
-    <bean id="organizationAndOptionalNamespaceRoleTypeService" class="org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl"/>
+    <bean id="financialSystemUserRoleTypeService" class="org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
     <property name="serviceDefinition">
       <bean parent="kfsService"
-        p:service-ref="organizationAndOptionalNamespaceRoleTypeService"
-        p:localServiceName="organizationAndOptionalNamespaceRoleTypeService" />
+        p:service-ref="financialSystemUserRoleTypeService"
+        p:localServiceName="financialSystemUserRoleTypeService" />
     </property>
   </bean>
   

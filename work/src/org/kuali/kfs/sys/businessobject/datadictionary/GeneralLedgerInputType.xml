@@ -52,7 +52,7 @@
   <bean id="GeneralLedgerInputType-documentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="Doc Type Name" />
-    <property name="maxLength" value="40" />
+    <property name="maxLength" value="255" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />

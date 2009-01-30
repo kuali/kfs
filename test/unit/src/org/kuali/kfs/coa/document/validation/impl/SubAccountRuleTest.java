@@ -189,38 +189,6 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
 
     }
 
-    /**
-     * This method simulates a user that has permission to deal with CG accounts
-     */
-    public void testIsCgAuthorized_goodUser() {
-        SubAccountRule rule = new SubAccountRule();
-        Person user = GOOD_CG_USERID.getPerson();
-        // setup rule, document, and bo
-        newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
-        newSubAccount.getAccount().setContractsAndGrantsAccountResponsibilityId(11);
-        rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
-
-        // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
-        assertEquals(true, rule.isCgAuthorized(user));
-
-    }
-
-    /**
-     * This method simulates a user that does not have permission to deal with CG accounts
-     */
-    public void testIsCgAuthorized_badUser() {
-        SubAccountRule rule = new SubAccountRule();
-        Person user = BAD_CG_USERID.getPerson();
-        // setup rule, document, and bo
-        newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
-        rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
-
-        // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
-        assertEquals(false, rule.isCgAuthorized(user));
-    }
-
     public void testCheckCgRules_badFundGroup() {
         SubAccountRule rule = new SubAccountRule();
         // setup rule, document, and bo

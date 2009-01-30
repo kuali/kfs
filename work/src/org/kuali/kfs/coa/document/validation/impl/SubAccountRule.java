@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.SubFundGroupService;
@@ -30,16 +29,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -72,11 +65,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
-
-        // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getPerson()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         checkForPartiallyEnteredReportingFields();
@@ -98,13 +87,9 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-
-        boolean success = true;
-
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
-
-        // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getPerson()));
+        
+        boolean success = true;
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkForPartiallyEnteredReportingFields();
@@ -130,9 +115,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
-
-        // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getPerson()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkForPartiallyEnteredReportingFields();
@@ -460,38 +442,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         success &= StringUtils.isEmpty(newA21SubAccount.getOffCampusCode() ? "1" : "");
 
         return success;
-    }
-
-    /**
-     * This method tests whether the specified user is part of the group that grants authorization to the CG fields.
-     * 
-     * @param user - the user to test
-     * @return true if user is part of the group, false otherwise
-     */
-    protected boolean isCgAuthorized(Person user) {
-        String principalId = user.getPrincipalId();
-        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-        String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
-        
-        Account account = newSubAccount.getAccount();
-        String responsibilityId = account.getContractsAndGrantsAccountResponsibilityId() + "";
-        
-        AttributeSet roleQualifiers = new AttributeSet();
-        roleQualifiers.put(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID, responsibilityId);
-        
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, SubAccount.class.getSimpleName());
-        permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.A21_SUB_ACCOUNT);
-        
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-        if (isAuthorized) {
-            LOG.info("User '" + user.getPrincipalName() + "' has access to the CG fields.");
-            return true;
-        }
-        
-        LOG.info("User '" + user.getPrincipalName() + "' has no access to the CG fields.");
-        return false;
     }
 
     /**

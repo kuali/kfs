@@ -40,21 +40,24 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
     @Override
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
         Set<String> fields = super.getConditionallyHiddenPropertyNames(businessObject);
-        
+
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
-        
-        if(assetGlobal.isCapitalAssetBuilderOriginIndicator() || SpringContext.getBean(AssetGlobalService.class).isAssetSeparateDocument(assetGlobal)) {
+
+        MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetPaymentDetails");
+        if (assetGlobal.isCapitalAssetBuilderOriginIndicator() || SpringContext.getBean(AssetGlobalService.class).isAssetSeparateDocument(assetGlobal)) {
             // do not include payment add section within the payment details collection
-            MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetPaymentDetails");
             maintCollDef.setIncludeAddLine(false);
         }
-        
+        else {
+            maintCollDef.setIncludeAddLine(true);
+        }
+
         if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparateByPaymentDocument(assetGlobal)) {
             // Show payment sequence number field only if a separate by payment was selected
             fields.add(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER);
         }
-        else {
+        if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparateDocument(assetGlobal)) {
             fields.addAll(getAssetGlobalLocationHiddenFields(assetGlobal));
 
             fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
@@ -73,45 +76,45 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
                 }
             }
         }
-        
+
         return fields;
     }
-    
+
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> fields = super.getConditionallyReadOnlyPropertyNames(document);
-        
+
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
-        
+
         // "Asset Separate" document functionality
         if (SpringContext.getBean(AssetGlobalService.class).isAssetSeparateDocument(assetGlobal)) {
             fields.addAll(getAssetGlobalDetailsReadOnlyFields());
             fields.addAll(getAssetGlobalPaymentsReadOnlyFields(assetGlobal));
         }
-        else if(assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
+        else if (assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
             // If asset global document is created from CAB, disallow add payment to collection.
             fields.addAll(getAssetGlobalPaymentsReadOnlyFields(assetGlobal));
         }
-        
+
         return fields;
     }
-    
+
     @Override
     public Set<String> getConditionallyHiddenSectionIds(BusinessObject businessObject) {
         Set<String> fields = super.getConditionallyHiddenSectionIds(businessObject);
-        
+
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
-        
+
         // hide "Asset Information", "Recalculate Total Amount" tabs if not "Asset Separate" doc
         if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparateDocument(assetGlobal)) {
             fields.add(CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION);
             fields.add(CamsConstants.AssetGlobal.SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT);
         }
-        
+
         return fields;
     }
-    
+
     /**
      * @param assetGlobal
      * @return Asset Location fields with index that are present on AssetGlobal. Includes add line. Useful for hiding them.
@@ -147,17 +150,17 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
 
             i++;
         }
-        
+
         return fields;
     }
-    
+
     /**
      * @param assetGlobal
      * @return posting year and fiscal month on every payment. Useful for hiding them.
      */
     protected Set<String> getAssetGlobalPaymentsHiddenFields(AssetGlobal assetGlobal) {
         Set<String> fields = new HashSet<String>();
-        
+
         int i = 0;
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             fields.add(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE);
@@ -168,16 +171,16 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
             fields.add(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE);
             i++;
         }
-        
+
         return fields;
     }
-    
+
     /**
      * @return Asset Global Detail fields that should be read only
      */
     protected Set<String> getAssetGlobalDetailsReadOnlyFields() {
         Set<String> fields = new HashSet<String>();
-        
+
         fields.add(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
         fields.add(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER);
         fields.add(CamsPropertyConstants.Asset.AGENCY_NUMBER); // owner
@@ -198,17 +201,17 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
         fields.add(CamsPropertyConstants.Asset.LAND_COUNTRY_NAME);
         fields.add(CamsPropertyConstants.Asset.LAND_ACREAGE_SIZE);
         fields.add(CamsPropertyConstants.Asset.LAND_PARCEL_NUMBER);
-        
+
         return fields;
     }
-    
+
     /**
      * @param assetGlobal
      * @return Asset Global Payment lines with index that should be set to read only.
      */
     protected Set<String> getAssetGlobalPaymentsReadOnlyFields(AssetGlobal assetGlobal) {
         Set<String> fields = new HashSet<String>();
-        
+
         // set all payment detail fields to read only
         int i = 0;
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
@@ -232,7 +235,7 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
 
             i++;
         }
-        
+
         return fields;
     }
 }

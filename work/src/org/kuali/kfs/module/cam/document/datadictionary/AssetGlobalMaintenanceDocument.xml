@@ -426,7 +426,7 @@
                     p:unconditionallyReadOnly="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="postingPeriodCode"
-                    p:unconditionallyReadOnly="false" />
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="amount"
                     p:readOnlyAfterAdd="true"

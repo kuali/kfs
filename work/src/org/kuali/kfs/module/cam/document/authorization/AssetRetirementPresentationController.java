@@ -26,9 +26,9 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -59,6 +59,30 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
             fields.add(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
             fields.add(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC);
         }
+        
+        // Hide all the fields in the add section within the new asset retired details collection, except capitalAssetNumber.
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ORGANIZATION_CODE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.INVENTORY_STATUS_CODE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.CONDITION_CODE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.VENDOR_NAME);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.SERIAL_NUMBER);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.GOVERNMENT_TAG_NUMBER);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.LAST_INVENTORY_DATE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.CREATE_DATE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.TOTAL_COST_AMOUNT);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ACCUMULATED_DEPRECIATION);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.BOOK_VALUE);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION);
+        fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ORGANIZATION_TEXT);
         
         return fields;
     }

@@ -134,7 +134,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         }
 
-        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         Person user = null;
         try {
             user = personService.getPersonByPrincipalName(initiatorID);
@@ -265,7 +265,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         }
 
-        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         Person user = null;
         try {
             user = personService.getPersonByPrincipalName(initiatorID);
@@ -518,7 +518,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getAllCustomerInvoiceDocuments();
         for (CustomerInvoiceDocument invoice : invoices) {
             if (ArConstants.PrintInvoiceOptions.PRINT_BY_USER.equalsIgnoreCase(invoice.getPrintInvoiceIndicator())) {
-                if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(initiator)) {
+                if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equals(initiator)) {
                     reports.add(generateInvoice(invoice));
                 }
             }

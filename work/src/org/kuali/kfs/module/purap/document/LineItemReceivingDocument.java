@@ -3,13 +3,18 @@ package org.kuali.kfs.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -121,6 +126,24 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         }
         
         super.prepareForSave(event);
+    }
+    
+    @Override
+    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+        /**
+         * FIXME: For KULPURAP-3218, This method has been added to update the doc status sothat 
+         * the ApproveLineItemReceivingStep job can pick the docs in this status (ReceivingDaoOjb.getReceivingDocumentsForPOAmendment()) and check 
+         * for PO amendment. When testing, i got some exception (not sure the exact exception). Since I'm in a hurry packing up for my India trip, 
+         * I'm leaving this code commented without fixing the root cause :) If the PurapConstants for this looks wired, can rename it to some
+         * good one. And, needs to check the LineItemReceivingDocumentStrings/LineItemReceivingStatus class in PurapConstants to match up with
+         * the other documents constants
+         */
+//        if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS, change.getNewNodeName())){
+//            setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatus.AWAITING_PO_OPEN_STATUS);
+//        }else{
+//            setLineItemReceivingStatusCode(StringUtils.EMPTY);
+//        }
+//        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
     }
     
     /**

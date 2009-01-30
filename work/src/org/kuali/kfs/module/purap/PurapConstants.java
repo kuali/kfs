@@ -498,7 +498,7 @@ public class PurapConstants extends JSTLConstants {
     public static class LineItemReceivingDocumentStrings{
         public static final String DUPLICATE_RECEIVING_LINE_QUESTION = "DuplicateReceivingLine";
         public static final String VENDOR_DATE = "Vendor Date";
-        public static final String AWAITING_PO_OPEN_STATUS = "Awaiting Purchase Order Open Status";
+        public static final String AWAITING_PO_OPEN_STATUS = "OutstandingTransactions";
     }
     
     public static class LineItemReceivingStatus{

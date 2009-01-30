@@ -182,31 +182,6 @@
    		</property>
    	</bean>
    	            
-<!-- We probably don't need this ?      
-    <bean id="RoutingType-PaymentRequestDocument-PurchaseWasReceived" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-			    	<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
-			    	<property name="attributeName" value="awaitingReceiving" />
-			    </bean>
-	    
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    				<property name="documentValues">
-    					<list>
-    						<value>awaitingReceiving</value>
-    					</list>
-    				</property>
-			   	</bean>
-    		</list>
-    	</property>
-    </bean>      
--->   
-
 <!-- All of the Search Type Attributes -->  
 
     <bean id="WorkflowAttributeMetaData-purapDocumentIdentifier" abstract="true">

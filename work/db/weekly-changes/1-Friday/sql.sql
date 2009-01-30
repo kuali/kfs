@@ -1,85 +1,16 @@
-delete from krew_doc_typ_t
-where doc_typ_nm ='UniversalUserMaintenanceDocument'
+UPDATE KREW_DOC_TYP_T set POST_PRCSR='org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor' where DOC_TYP_NM='RoutingRuleDocument' and CUR_IND=1
 /
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EDENSERVICE-DOCS.DocumentType'
+ALTER TABLE KREW_RULE_T MODIFY FRM_DT DATE NULL
 /
-delete from krew_doc_typ_t
-where doc_typ_nm ='PayeeMaintenanceDocument'
+ALTER TABLE KREW_RULE_T MODIFY TO_DT DATE NULL
 /
-delete from krew_doc_typ_t
-where doc_typ_nm = 'KualiBaseDocument'
+UPDATE KREW_DLGN_RSP_T RSP1 SET RSP1.RULE_RSP_ID=(SELECT RSP2.RSP_ID FROM KREW_RULE_RSP_T RSP2 WHERE RSP1.RULE_RSP_ID=RSP2.RULE_RSP_ID)
 /
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EmployeeStatusMaintenanceDocument'
+ALTER TABLE KREW_DLGN_RSP_T RENAME COLUMN RULE_RSP_ID TO RSP_ID
 /
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EmployeeTypeMaintenanceDocument'
+DELETE FROM KREW_DOC_TYP_PLCY_RELN_T where DOC_PLCY_NM='PRE_APPROVE'
 /
-delete from krew_doc_typ_t
-where doc_typ_nm = 'KualiEmployeeStatusMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'KualiEmployeeTypeMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'BankAccountMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EDENSERVICE-DOCS'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EDENSERVICE-DOCS.RuleDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm ='NonpersonnelSubCategoryMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm ='UniversalUserMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EDENSERVICE-DOCS.DocumentType'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm ='PayeeMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'KualiBaseDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EmployeeStatusMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EmployeeTypeMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'KualiEmployeeStatusMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'KualiEmployeeTypeMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'BankAccountMaintenanceDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EDENSERVICE-DOCS'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm = 'EDENSERVICE-DOCS.RuleDocument'
-/
-delete from krew_doc_typ_t
-where doc_typ_nm ='NonpersonnelSubCategoryMaintenanceDocument'
-/
-insert into krns_parm_t 
-(SELECT 'KFS-AR', 'CustomerInvoiceWriteoff',
-'APPROVAL_THRESHOLD', sys_guid(),1,
-'CONFG', '50',
-'Writing off invoices of this value or higher requires Fiscal Officer approval.',
-'A'
-FROM dual)
-/
-alter table CG_AWD_T drop column WRKGRP_NM
-/ 
+
 UPDATE KRIM_ATTR_DEFN_T
     SET CMPNT_NM = 'org.kuali.kfs.module.cg.identity.CgKimAttributes'
     WHERE NMSPC_CD = 'KFS-CG'
@@ -88,5 +19,4 @@ UPDATE KRIM_ATTR_DEFN_T
     SET CMPNT_NM = 'org.kuali.kfs.module.purap.identity.PurapKimAttributes'
     WHERE NMSPC_CD = 'KFS-PURAP'
 /
-COMMIT
-/
+

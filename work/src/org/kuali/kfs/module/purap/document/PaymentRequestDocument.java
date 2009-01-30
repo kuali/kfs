@@ -1125,16 +1125,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.REQUIRES_INVOICE_ATTACHMENT)) return isInvoiceAttachmentRequired();
+        if (nodeName.equals(PurapWorkflowConstants.REQUIRES_INVOICE_ATTACHMENT)) return requiresAccountsPayableReviewRouting();
         if (nodeName.equals(PurapWorkflowConstants.PURCHASE_WAS_RECEIVED)) return isAwaitingReceiving();
         if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) return isVendorEmployeeOrNonResidentAlien();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
-    
-    private boolean isInvoiceAttachmentRequired() {
-        return getPaymentAttachmentIndicator();
-    }
-    
+        
     private boolean isVendorEmployeeOrNonResidentAlien() {
         String vendorHeaderGeneratedId = this.getVendorHeaderGeneratedIdentifier().toString();
         if (StringUtils.isBlank(vendorHeaderGeneratedId)) {

@@ -38,6 +38,7 @@
     <property name="description" value="Document used to create or update General Ledger Input Type objects" />
     <property name="documentTypeName" value="GeneralLedgerInputTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="FSDT" />
 <!--
     <property name="authorizations" >
       <list>

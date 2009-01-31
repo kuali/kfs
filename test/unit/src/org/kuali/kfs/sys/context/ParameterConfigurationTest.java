@@ -141,30 +141,6 @@ public class ParameterConfigurationTest extends KualiTestBase {
         HashSet<DocumentEntry> documentEntries = new HashSet(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries().values());
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
         for (DocumentEntry documentEntry : documentEntries) {
-            HelpDefinition docHelp = documentEntry.getHelpDefinition();
-            if(ObjectUtils.isNotNull(docHelp)) {
-                /*
-                Class paramClass = null;
-                if(documentEntry instanceof MaintenanceDocumentEntry) {
-                    paramClass = ((MaintenanceDocumentEntry)documentEntry).getBusinessObjectClass();
-                } 
-                if(paramClass == null) {
-                    paramClass = documentEntry.getDocumentClass();
-                }
-                exists = SpringContext.getBean(ParameterService.class).parameterExists(paramClass, docHelp.getParameterName());
-                */
-                
-                HashMap<String, String> crit = new HashMap<String, String>(3);
-                crit.put("parameterNamespaceCode", docHelp.getParameterNamespace());
-                crit.put("parameterDetailTypeCode", docHelp.getParameterDetailType());
-                crit.put("parameterName", docHelp.getParameterName());
-                exists =  (Parameter) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Parameter.class, crit) != null;
-                
-                if(!exists) {
-                    documentParamsMissingFromDB.add("Document Parameter: " + docHelp.getParameterNamespace() + " - " + docHelp.getParameterName() + " help parameter in " +documentEntry.getDocumentTypeName()+ " is not in the database.");
-                    exists = true;
-                }
-            }
             List<HeaderNavigation> headerNavigations = documentEntry.getHeaderNavigationList();
             for(HeaderNavigation headerNav : headerNavigations) {
                 HelpDefinition headerNavHelp = headerNav.getHelpDefinition();

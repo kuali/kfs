@@ -92,6 +92,9 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
         // run search
 
         KualiDecimal test0to30total = new KualiDecimal("0.00");
+        KualiDecimal test31to60total = new KualiDecimal("0.00");
+        KualiDecimal test61to90total = new KualiDecimal("0.00");
+
         assertNotNull("search results not null", displayList = customerAgingReportLookupableHelperServiceImpl.getSearchResults(fieldValues));
 
 
@@ -99,9 +102,17 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
         for (Object aDisplayList : displayList) {
             CustomerAgingReportDetail detail = (CustomerAgingReportDetail) aDisplayList;
             test0to30total = test0to30total.add(detail.getUnpaidBalance0to30());
+            test31to60total = test31to60total.add(detail.getUnpaidBalance31to60());
+            test61to90total = test61to90total.add(detail.getUnpaidBalance61to90());
         }
         assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString(), test0to30total.toString());
-        LOG.info("\n\n\n\n**********************************************************************************\n\n\t\t testtotal = " + customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString() + "\t\tactualtotal = " + test0to30total.toString() + "\n\n**********************************************************************************\n\n");
+        assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal31to60().toString(), test31to60total.toString());
+        assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal61to90().toString(), test61to90total.toString());
+        LOG.info("\n\n\n\n**********************************************************************************\n" +
+                "\n\t\t testtotal0to30 = " + customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString() + "\t\tactualtotal0to30 = " + test0to30total.toString() +
+                "\n\t\t testtotal31to60 = " + customerAgingReportLookupableHelperServiceImpl.getTotal31to60().toString() + "\t\t\tactualtotal31to60 = " + test31to60total.toString() +
+                "\n\t\t testtotal61to90 = " + customerAgingReportLookupableHelperServiceImpl.getTotal61to90().toString() + "\t\t\tactualtotal61to90 = " + test61to90total.toString() +
+                "\n\n**********************************************************************************\n\n");
 
 
     }

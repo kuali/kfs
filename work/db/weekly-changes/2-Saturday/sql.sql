@@ -1,6 +1,6 @@
-update krns_parm_t set parm_typ_cd = 'CONFIG' where parm_typ_cd = 'AUTH'
+update krns_parm_t set parm_typ_cd = 'CONFG' where parm_typ_cd = 'AUTH'
 /
-delete from krns_parm_typ_t where parm_typ_cd = ('AUTH', 'HELP')
+delete from krns_parm_typ_t where parm_typ_cd in ('AUTH', 'HELP')
 /
 
 DELETE FROM KREW_DOC_TYP_PLCY_RELN_T where DOC_PLCY_NM='PRE_APPROVE'
@@ -94,14 +94,14 @@ INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, AC
     VALUES('558', sys_guid(), 1, '29', '294', 'Y')
 /
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
-    VALUES('558', sys_guid(), 1, '86', '294', 'Y')
+    VALUES('559', sys_guid(), 1, '86', '294', 'Y')
 /
 
 INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD) 
     VALUES('295', sys_guid(), 1, '1', 'Use Organization Salary Setting', null, 'Y', 'KFS-BC')
 /
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
-    VALUES('559', sys_guid(), 1, '81', '295', 'Y')
+    VALUES('562', sys_guid(), 1, '81', '295', 'Y')
 /
 INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD) 
     VALUES('296', sys_guid(), 1, '1', 'Edit Account Funding', null, 'Y', 'KFS-BC')
@@ -110,7 +110,7 @@ INSERT INTO KRIM_PERM_RQRD_ATTR_T(PERM_RQRD_ATTR_ID, OBJ_ID, VER_NBR, PERM_ID, K
     VALUES('120', sys_guid(), 1, '296', '22', 'Y')
 /
 INSERT INTO KRIM_PERM_RQRD_ATTR_T(PERM_RQRD_ATTR_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_ATTR_DEFN_ID, ACTV_IND) 
-    VALUES('120', sys_guid(), 1, '296', '23', 'Y')
+    VALUES('121', sys_guid(), 1, '296', '23', 'Y')
 /
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
     VALUES('560', sys_guid(), 1, '75', '296', 'Y')
@@ -126,7 +126,7 @@ update krew_doc_typ_t set lbl = 'Line Item Receiving Status' where DOC_TYP_NM = 
 /
 update krew_doc_typ_t set lbl = 'Payee ACH Account' where DOC_TYP_NM = 'PayeeACHAccountMaintenanceDocument'
 /
-update krew_doc_typ_t set HELP_DEF_URL = (select help_def_url from krew_doc_typ_t where doc_typ_nm = 'PaymentRequestDocument' and doc_typ_cur_ind = 0) where doc_typ_nm = 'PaymentRequestDocument' and doc_typ_cur_ind = 1
+update krew_doc_typ_t set HELP_DEF_URL = (select help_def_url from krew_doc_typ_t where doc_typ_nm = 'PaymentRequestDocument' and CUR_IND = 0) where doc_typ_nm = 'PaymentRequestDocument' and cur_ind = 1
 /
 
 update krew_doc_typ_t set lbl = 'Routing Rule' where doc_typ_nm = 'RoutingRuleDocument'
@@ -908,4 +908,7 @@ INSERT INTO GL_INPUT_TYP_T(INPUT_TYP_CD, OBJ_ID, VER_NBR, DOC_TYP_NM, ACTIVE_IND
 /
 INSERT INTO GL_INPUT_TYP_T(INPUT_TYP_CD, OBJ_ID, VER_NBR, DOC_TYP_NM, ACTIVE_IND, TRNSCTN_SCRBR_OFFST_GEN_IND)
   VALUES('INV', '61AD9AB218140FCCE0404F8189D8515D', 1, 'CustomerInvoiceDocument', 'Y', 'N')
+/
+
+drop table krns_doc_typ_t cascade constraints
 /

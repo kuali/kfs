@@ -94,7 +94,8 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
         KualiDecimal test0to30total = new KualiDecimal("0.00");
         KualiDecimal test31to60total = new KualiDecimal("0.00");
         KualiDecimal test61to90total = new KualiDecimal("0.00");
-
+        KualiDecimal test91toSYSPRtotal = new KualiDecimal("0.00");
+        KualiDecimal testSYSPRplus1orMoretotal = new KualiDecimal("0.00");
         assertNotNull("search results not null", displayList = customerAgingReportLookupableHelperServiceImpl.getSearchResults(fieldValues));
 
 
@@ -104,15 +105,19 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
             test0to30total = test0to30total.add(detail.getUnpaidBalance0to30());
             test31to60total = test31to60total.add(detail.getUnpaidBalance31to60());
             test61to90total = test61to90total.add(detail.getUnpaidBalance61to90());
+            test91toSYSPRtotal = test91toSYSPRtotal.add(detail.getUnpaidBalance91toSYSPR());
+            testSYSPRplus1orMoretotal = testSYSPRplus1orMoretotal.add(detail.getUnpaidBalanceSYSPRplus1orMore());
         }
         assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString(), test0to30total.toString());
         assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal31to60().toString(), test31to60total.toString());
         assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal61to90().toString(), test61to90total.toString());
-        LOG.info("\n\n\n\n**********************************************************************************\n" +
-                "\n\t\t testtotal0to30 = " + customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString() + "\t\tactualtotal0to30 = " + test0to30total.toString() +
-                "\n\t\t testtotal31to60 = " + customerAgingReportLookupableHelperServiceImpl.getTotal31to60().toString() + "\t\t\tactualtotal31to60 = " + test31to60total.toString() +
-                "\n\t\t testtotal61to90 = " + customerAgingReportLookupableHelperServiceImpl.getTotal61to90().toString() + "\t\t\tactualtotal61to90 = " + test61to90total.toString() +
-                "\n\n**********************************************************************************\n\n");
+        LOG.info("\n\n\n\n***************************************************************************************\n" +
+                "\n\t\t testtotal0to30 = " + customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString() + "\t\t\t\t\tactualtotal0to30 = " + test0to30total.toString() +
+                "\n\t\t testtotal31to60 = " + customerAgingReportLookupableHelperServiceImpl.getTotal31to60().toString() + "\t\t\t\t\t\tactualtotal31to60 = " + test31to60total.toString() +
+                "\n\t\t testtotal61to90 = " + customerAgingReportLookupableHelperServiceImpl.getTotal61to90().toString() + "\t\t\t\t\t\tactualtotal61to90 = " + test61to90total.toString() +
+                "\n\t\t testtotal91toSYSPR = " + customerAgingReportLookupableHelperServiceImpl.getTotal91toSYSPR().toString() + "\t\t\t\t\tactualtotal91toSYSPR = " + test91toSYSPRtotal.toString() +
+                "\n\t\t testtotalSYSPRplus1orMore = " + customerAgingReportLookupableHelperServiceImpl.getTotalSYSPRplus1orMore().toString() + "\t\t\tactualtotalSYSPRplus1orMore = " + testSYSPRplus1orMoretotal.toString() +
+                "\n\n***************************************************************************************\n\n");
 
 
     }

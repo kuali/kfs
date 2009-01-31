@@ -1,0 +1,125 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+>
+
+
+    <bean id="WorkflowAttributeMetaData-customerNumber" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="attributeName" value="customerNumber" />
+    </bean>
+    <bean id="SearchingAttribute-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerNumber" />
+
+    <bean id="WorkflowAttributeMetaData-customerName" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+    	<property name="attributeName" value="customerName" />
+    </bean>
+    <bean id="SearchingAttribute-customerName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerName" />
+    
+    <bean id="WorkflowAttributeMetaData-billingChartOfAccountsCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+    	<property name="attributeName" value="billByChartOfAccountCode" />
+    </bean>  
+    <bean id="SearchingAttribute-billingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-billingChartOfAccountsCode" />
+
+    <bean id="WorkflowAttributeMetaData-billingOrganizationCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+    	<property name="attributeName" value="billedByOrganizationCode" />
+    </bean>
+    <bean id="SearchingAttribute-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-billingOrganizationCode" />
+    
+    <bean id="WorkflowAttributeMetaData-processingChartOfAccountsCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="attributeName" value="processingChartOfAccountCode" />
+    </bean>  
+    <bean id="SearchingAttribute-processingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-processingChartOfAccountsCode" />
+
+    <bean id="WorkflowAttributeMetaData-processingOrganizationCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="attributeName" value="processingOrganizationCode" />
+    </bean>
+    <bean id="SearchingAttribute-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-processingOrganizationCode" />
+
+    <bean id="WorkflowAttributeMetaData-invoiceItemCode" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
+    	<property name="attributeName" value="invoiceItemCode" />
+    </bean>  
+    <bean id="SearchingAttribute-invoiceItemCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-invoiceItemCode" />
+
+    <bean id="WorkflowAttributeMetaData-parentInvoiceNumber" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader" />
+    	<property name="attributeName" value="documentTemplateNumber" />
+    </bean>  
+    <bean id="SearchingAttribute-parentInvoiceNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-parentInvoiceNumber" />
+
+    <bean id="WorkflowAttributeMetaData-financialDocumentReferenceInvoiceNumber" abstract="true">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />
+    	<property name="attributeName" value="financialDocumentReferenceInvoiceNumber" />
+    </bean>  
+    <bean id="SearchingAttribute-financialDocumentReferenceInvoiceNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-financialDocumentReferenceInvoiceNumber" />
+    
+	<bean id="WorkflowAttributeMetaData-lockboxNumber" abstract="true">
+  		<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.SystemInformation" />
+  		<property name="attributeName" value="lockboxNumber" />
+	</bean>  
+	<bean id="SearchingAttribute-lockboxNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-lockboxNumber" />
+
+	<bean id="WorkflowAttributeMetaData-customerPaymentMediumCode" abstract="true">
+  		<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.PaymentMedium" />
+  		<property name="attributeName" value="customerPaymentMediumCode" />
+	</bean>  
+	<bean id="SearchingAttribute-customerPaymentMediumCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerPaymentMediumCode" />
+
+	<bean id="WorkflowAttributeMetaData-customerPaymentMediumIdentifier" abstract="true">
+  		<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.CashControlDetail" />
+  		<property name="attributeName" value="customerPaymentMediumIdentifier" />
+	</bean>  
+	<bean id="SearchingAttribute-customerPaymentMediumIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerPaymentMediumIdentifier" />
+
+
+
+
+
+	<bean id="SearchingType-AccountsReceivableDocument-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-customerNumber" />
+        <property name="documentValues">
+        	<list>
+        		<value>accountsReceivableDocumentHeader.customerNumber</value>
+        	</list>
+        </property>
+    </bean>
+	<bean id="SearchingType-AccountsReceivableDocument-customerName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-customerName" />
+        <property name="documentValues">
+        	<list>
+        		<value>accountsReceivableDocumentHeader.customer.customerName</value>
+        	</list>
+        </property>
+    </bean>
+	<bean id="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-processingChartOfAccountsCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>accountsReceivableDocumentHeader.processingChartOfAccountCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingType-AccountsReceivableDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-processingOrganizationCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>accountsReceivableDocumentHeader.processingOrganizationCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingType-AccountsReceivableDocument-financialDocumentReferenceInvoiceNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-financialDocumentReferenceInvoiceNumber" />
+        <property name="documentValues">
+        	<list>
+        		<value>financialDocumentReferenceInvoiceNumber</value>
+        	</list>
+        </property>
+    </bean>
+</beans>

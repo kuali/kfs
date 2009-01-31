@@ -670,15 +670,16 @@
   <bean id="CustomerInvoiceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
    	<property name="searchingTypeDefinitions">
    		<list>
-   			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
-   			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
-   			<ref bean="SearchingType-CustomerInvoiceDocument-customerNumber" />
-   			<ref bean="SearchingType-CustomerInvoiceDocument-customerName" />
+   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber" />
+   			<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
+   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode" />
+   			<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode" />
    			<ref bean="SearchingType-CustomerInvoiceDocument-billingChartOfAccountsCode" />
    			<ref bean="SearchingType-CustomerInvoiceDocument-billingOrganizationCode" />
-   			<ref bean="SearchingType-CustomerInvoiceDocument-processingChartOfAccountsCode" />
-   			<ref bean="SearchingType-CustomerInvoiceDocument-processingOrganizationCode" />
+   			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
+   			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
    			<ref bean="SearchingType-CustomerInvoiceDocument-invoiceItemCode" />
+   			<ref bean="SearchingType-CustomerInvoiceDocument-parentInvoiceNumber" />
    		</list>
    	</property>
    	<property name="routingTypeDefinitions">
@@ -689,36 +690,6 @@
    	</property>
 	</bean>	   
 
-    <bean id="SearchingType-CustomerInvoiceDocument-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-customerNumber" />
-        <property name="documentValues">
-        	<list>
-        		<value>accountsReceivableDocumentHeader.customerNumber</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-customerNumber" />
-    
-    <bean id="WorkflowAttribute-customerNumber" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
-    	<property name="attributeName" value="customerNumber" />
-    </bean>  
-
-    <bean id="SearchingType-CustomerInvoiceDocument-customerName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-customerName" />
-        <property name="documentValues">
-        	<list>
-        		<value>customerName</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-customerName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-customerName" />
-    
-    <bean id="WorkflowAttribute-customerName" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
-    	<property name="attributeName" value="customerName" />
-    </bean>  
-
     <bean id="SearchingType-CustomerInvoiceDocument-billingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-billingChartOfAccountsCode" />
         <property name="documentValues">
@@ -727,58 +698,14 @@
         	</list>
         </property>
     </bean>
-    <bean id="SearchingAttribute-billingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-billingChartOfAccountsCode" />
-    
-    <bean id="WorkflowAttribute-billingChartOfAccountsCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
-    	<property name="attributeName" value="billByChartOfAccountCode" />
-    </bean>  
-
     <bean id="SearchingType-CustomerInvoiceDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-CustomerInvoiceDocument-billingOrganizationCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-billingOrganizationCode" />
         <property name="documentValues">
         	<list>
         		<value>billedByOrganizationCode</value>
         	</list>
         </property>
     </bean>
-    <bean id="SearchingAttribute-CustomerInvoiceDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerInvoiceDocument-billingOrganizationCode" />
-    
-    <bean id="WorkflowAttribute-CustomerInvoiceDocument-billingOrganizationCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
-    	<property name="attributeName" value="billedByOrganizationCode" />
-    </bean>
-
-    <bean id="SearchingType-CustomerInvoiceDocument-processingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-processingChartOfAccountsCode" />
-        <property name="documentValues">
-        	<list>
-        		<value>accountsReceivableDocumentHeader.processingChartOfAccountCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-processingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-processingChartOfAccountsCode" />
-    
-    <bean id="WorkflowAttribute-processingChartOfAccountsCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
-    	<property name="attributeName" value="processingChartOfAccountCode" />
-    </bean>  
-
-    <bean id="SearchingType-CustomerInvoiceDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-processingOrganizationCode" />
-        <property name="documentValues">
-        	<list>
-        		<value>accountsReceivableDocumentHeader.processingOrganizationCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-processingOrganizationCode" />
-    
-    <bean id="WorkflowAttribute-processingOrganizationCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
-    	<property name="attributeName" value="processingOrganizationCode" />
-    </bean>
-
     <bean id="SearchingType-CustomerInvoiceDocument-invoiceItemCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-invoiceItemCode" />
         <property name="documentValues">
@@ -787,10 +714,12 @@
         	</list>
         </property>
     </bean>
-    <bean id="SearchingAttribute-invoiceItemCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-invoiceItemCode" />
-    
-    <bean id="WorkflowAttribute-invoiceItemCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
-    	<property name="attributeName" value="invoiceItemCode" />
-    </bean>  
+    <bean id="SearchingType-CustomerInvoiceDocument-parentInvoiceNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-parentInvoiceNumber" />
+        <property name="documentValues">
+        	<list>
+        		<value>documentHeader.documentTemplateNumber</value>
+        	</list>
+        </property>
+    </bean>
 </beans>

@@ -80,15 +80,15 @@
 	<bean id="CustomerInvoiceWriteoffDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-	   			<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-customerNumber" />
-   				<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-customerName" />
-   				<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-billChartOfAccountsCode" />
+	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber" />
+   				<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
+	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode" />
+   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode" />
+   				<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-billingChartOfAccountsCode" />
    				<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-billingOrganizationCode" />
-	   			<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-processingChartOfAccountsCode" />
-   				<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-processingOrganizationCode" />
     			<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-chartOfAccountsCode" />
     			<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-accountNumber" />
-    			<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber" />
+    			<ref bean="SearchingType-AccountsReceivableDocument-financialDocumentReferenceInvoiceNumber" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
@@ -97,8 +97,43 @@
     		</map>
     	</property>
 	</bean>  
+
+    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-billingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-billingChartOfAccountsCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>customerInvoiceDocument.billByChartOfAccountCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-billingOrganizationCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>customerInvoiceDocument.billedByOrganizationCode</value>
+        	</list>
+        </property>
+    </bean>
+	<bean id="SearchingType-CustomerInvoiceWriteoffDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>customerInvoiceDocument.sourceAccountingLines.chartOfAccountsCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-accountNumber" />
+        <property name="documentValues">
+        	<list>
+        		<value>customerInvoiceDocument.sourceAccountingLines.accountNumber</value>
+        	</list>
+        </property>
+    </bean>
+
 	
-	 <bean id="RoutingType-CustomerInvoiceWriteoffDocument-Account-sourceOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	
+	<bean id="RoutingType-CustomerInvoiceWriteoffDocument-Account-sourceOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
@@ -120,134 +155,13 @@
 	</property>
 	</bean>
 	
-    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-CustomerInvoiceWriteoffDocument-customerNumber" />
-        <property name="documentValues">
-        	<list>
-        		<value>accountsReceivableDocumentHeader.customerNumber</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-CustomerInvoiceWriteoffDocument-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerInvoiceWriteoffDocument-customerNumber" />
-    
-    <bean id="WorkflowAttribute-CustomerInvoiceWriteoffDocument-customerNumber" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
-    	<property name="attributeName" value="customerNumber" />
-    </bean>  
-
-    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-customerName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-CustomerInvoiceWriteoffDocument-customerName" />
-        <property name="documentValues">
-        	<list>
-        		<value>accountsReceivableDocumentHeader.customer.customerName</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-CustomerInvoiceWriteoffDocument-customerName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerInvoiceWriteoffDocument-customerName" />
-    
-    <bean id="WorkflowAttribute-CustomerInvoiceWriteoffDocument-customerName" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
-    	<property name="attributeName" value="customerName" />
-    </bean>  
-
-    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-billChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-CustomerInvoiceWriteoffDocument-billChartOfAccountsCode" />
-        <property name="documentValues">
-        	<list>
-        		<value>customerInvoiceDocument.billByChartOfAccountCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-CustomerInvoiceWriteoffDocument-billChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerInvoiceWriteoffDocument-billChartOfAccountsCode" />
-    
-    <bean id="WorkflowAttribute-CustomerInvoiceWriteoffDocument-billChartOfAccountsCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
-    	<property name="attributeName" value="billByChartOfAccountCode" />
-    </bean>  
-
-    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-CustomerInvoiceWriteoffDocument-billingOrganizationCode" />
-        <property name="documentValues">
-        	<list>
-        		<value>customerInvoiceDocument.billedByOrganizationCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-CustomerInvoiceWriteoffDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerInvoiceWriteoffDocument-billingOrganizationCode" />
-    
-    <bean id="WorkflowAttribute-CustomerInvoiceWriteoffDocument-billingOrganizationCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
-    	<property name="attributeName" value="billedByOrganizationCode" />
-    </bean>
-
-    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-processingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-CustomerInvoiceWriteoffDocument-processingChartOfAccountsCode" />
-        <property name="documentValues">
-        	<list>
-        		<value>accountsReceivableDocumentHeader.processingChartOfAccountCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-CustomerInvoiceWriteoffDocument-processingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerInvoiceWriteoffDocument-processingChartOfAccountsCode" />
-    
-    <bean id="WorkflowAttribute-CustomerInvoiceWriteoffDocument-processingChartOfAccountsCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
-    	<property name="attributeName" value="processingChartOfAccountCode" />
-    </bean>  
-
-    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-CustomerInvoiceWriteoffDocument-processingOrganizationCode" />
-        <property name="documentValues">
-        	<list>
-        		<value>accountsReceivableDocumentHeader.processingOrganizationCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-CustomerInvoiceWriteoffDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerInvoiceWriteoffDocument-processingOrganizationCode" />
-    
-    <bean id="WorkflowAttribute-CustomerInvoiceWriteoffDocument-processingOrganizationCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
-    	<property name="attributeName" value="processingOrganizationCode" />
-    </bean>
-
-	<bean id="SearchingType-CustomerInvoiceWriteoffDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
-        <property name="documentValues">
-        	<list>
-        		<value>customerInvoiceDocument.sourceAccountingLines.chartOfAccountsCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-accountNumber" />
-        <property name="documentValues">
-        	<list>
-        		<value>customerInvoiceDocument.sourceAccountingLines.accountNumber</value>
-        	</list>
-        </property>
-    </bean>
-
-    <bean id="SearchingType-CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber" />
-        <property name="documentValues">
-        	<list>
-        		<value>financialDocumentReferenceInvoiceNumber</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingAttribute-CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttribute-CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber" />
-    
-    <bean id="WorkflowAttribute-CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument" />
-    	<property name="attributeName" value="financialDocumentReferenceInvoiceNumber" />
-    </bean>  
-
     <bean id="RoutingAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" />
 
     <bean id="WorkflowAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" abstract="true">
     	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument" />
     	<property name="attributeName" value="invoiceWriteoffAmount" />
 	</bean>
+
 	
 <!--  Granular Validations -->
 

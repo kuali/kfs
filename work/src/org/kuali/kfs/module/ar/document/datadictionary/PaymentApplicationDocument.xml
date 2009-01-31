@@ -25,6 +25,9 @@
 			</list>
 		</property>
 		<property name="validationMap" ref="PaymentApplicationDocument-validations" />
+    <property name="workflowAttributes" >
+      <ref bean="PaymentApplicationDocument-workflowAttributes" />
+    </property>
 	</bean>
     
 	<bean id="PaymentApplicationDocument-versionNumber" parent="PaymentApplicationDocument-versionNumber-parentBean" />
@@ -77,4 +80,69 @@
 		</map>
 	  </property>
   </bean>
+   
+<!-- Start - Workflow Attribute Beans -->   
+
+    <bean id="PaymentApplicationDocument-workflowAttributes" parent="PaymentApplicationDocument-workflowAttributes-parentBean" />
+	<bean id="PaymentApplicationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="searchingTypeDefinitions">
+    		<list>
+	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber" />
+   				<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
+	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode" />
+   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode" />
+<!--
+    			<ref bean="SearchingType-PaymentApplicationDocument-billingChartOfAccountsCode" />
+    			<ref bean="SearchingType-PaymentApplicationDocument-billingOrganizationCode" />
+    			<ref bean="SearchingType-PaymentApplicationDocument-chartOfAccountsCode" />
+    			<ref bean="SearchingType-PaymentApplicationDocument-accountNumber" />
+    			<ref bean="SearchingType-PaymentApplicationDocument-financialDocumentReferenceInvoiceNumber" />
+    			<ref bean="SearchingType-PaymentApplicationDocument-customerPaymentMediumIdentifier" />
+-->
+    		</list>
+    	</property>
+	</bean>
+
+<!--
+    <bean id="SearchingType-PaymentApplicationDocument-billingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-billingChartOfAccountsCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>invoicePaidApplieds.invoiceItem.customerInvoiceDocument.billByChartOfAccountCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingType-PaymentApplicationDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-billingOrganizationCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>invoicePaidApplieds.invoiceItem.customerInvoiceDocument.billedByOrganizationCode</value>
+        	</list>
+        </property>
+    </bean>
+	<bean id="SearchingType-PaymentApplicationDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+        <property name="documentValues">
+        	<list>
+        		<value>invoicePaidApplieds.invoiceItem.customerInvoiceDocument.sourceAccountingLines.chartOfAccountsCode</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingType-PaymentApplicationDocument-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-accountNumber" />
+        <property name="documentValues">
+        	<list>
+        		<value>invoicePaidApplieds.invoiceItem.customerInvoiceDocument.sourceAccountingLines.accountNumber</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="SearchingType-PaymentApplicationDocument-customerPaymentMediumIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-customerPaymentMediumIdentifier" />
+        <property name="documentValues">
+        	<list>
+        		<value>cashControlDetail.customerPaymentMediumIdentifier</value>
+        	</list>
+        </property>
+    </bean>  
+-->
 </beans>

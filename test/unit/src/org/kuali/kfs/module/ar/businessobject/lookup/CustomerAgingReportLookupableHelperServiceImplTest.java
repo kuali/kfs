@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -89,32 +90,18 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
 //        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", new Date(), 2, new KualiDecimal(5), new BigDecimal(3), "2224601", "BA");  // $30 entries
 
         // run search
+
+        KualiDecimal test0to30total = new KualiDecimal("0.00");
         assertNotNull("search results not null", displayList = customerAgingReportLookupableHelperServiceImpl.getSearchResults(fieldValues));
-        LOG.info("\n\n\n\n\n\n\t\t\t\t displaylist---size--: " + displayList.size());
-        LOG.info("\n\n\n\n\n\n\t\t\t\t displaylist---array--: " + displayList.toArray().toString());
 
-        for (Object object : displayList) {
-            LOG.info("\n\n\t\t\t\t --- " + object.toString());
+
+        // add all 0to30 totals
+        for (Object aDisplayList : displayList) {
+            CustomerAgingReportDetail detail = (CustomerAgingReportDetail) aDisplayList;
+            test0to30total = test0to30total.add(detail.getUnpaidBalance0to30());
         }
-
-        // iterate through result list and wrap rows with return url and action urls
-        for (Iterator iter = displayList.iterator(); iter.hasNext();) {
-            CustomerAgingReportDetail detail = (CustomerAgingReportDetail) iter.next();
-
-            LOG.info("\n\n\t\t\t\t 0to30etcetc: " + detail.getUnpaidBalance0to30().toString() + detail.getUnpaidBalance31to60().toString() + detail.getUnpaidBalance61to90().toString() + detail.getUnpaidBalance91toSYSPR().toString() + detail.getUnpaidBalanceSYSPRplus1orMore() + detail.getAccountNumber() + detail.getChartOfAccountsCode() + detail.getCustomerName() + detail.getCustomerNumber() + detail.getReportOption() + detail.getOrganizationCode());
-
-            //  List<Column> columns = customerAgingReportLookupableHelperServiceImpl.getColumns();
-//            for (Iterator iterator = ((List) detail).iterator(); iterator.hasNext();) {
-//
-//                LOG.info("\n\n\t\t\t\t interator.next"+ iterator.next().toString());
-//
-////                Object prop = ObjectUtils.getPropertyValue(detail, col.getPropertyName());
-////                LOG.info("\n\n\t\t\t\t testGetSearchResultsMap: " + col.getPropertyName() +": "+prop.toString());
-//            }
-        }
-        for (Object displaylistentry : displayList) {
-            //          LOG.info("\n\n\t\t\t\t 0to30 OBJECT UTILS: " + ObjectUtils.getPropertyValue(displaylistentry, "getUnpaidBalance0to30"));
-        }
+        assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString(), test0to30total.toString());
+        LOG.info("\n\n\n\n**********************************************************************************\n\n\t\t testtotal = " + customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString() + "\t\tactualtotal = " + test0to30total.toString() + "\n\n**********************************************************************************\n\n");
 
 
     }

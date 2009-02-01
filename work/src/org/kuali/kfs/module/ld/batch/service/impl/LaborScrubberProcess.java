@@ -90,7 +90,7 @@ public class LaborScrubberProcess {
 
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -163,10 +163,10 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
+        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
         this.laborOriginEntryService = laborOriginEntryService;
         this.originEntryGroupService = originEntryGroupService;
         this.dateTimeService = dateTimeService;
@@ -838,7 +838,7 @@ public class LaborScrubberProcess {
         scrubbedEntry.setHrmsCompany(unscrubbedEntry.getHrmsCompany());
         scrubbedEntry.setSetid(unscrubbedEntry.getSetid());
         scrubbedEntry.setTransactionDateTimeStamp(unscrubbedEntry.getTransactionDateTimeStamp());
-        scrubbedEntry.setReferenceGeneralLedgerInputType(unscrubbedEntry.getReferenceGeneralLedgerInputType());
+        scrubbedEntry.setReferenceFinancialSystemDocumentTypeCode(unscrubbedEntry.getReferenceFinancialSystemDocumentTypeCode());
         scrubbedEntry.setReferenceFinancialSystemOrigination(unscrubbedEntry.getReferenceFinancialSystemOrigination());
         scrubbedEntry.setPayrollEndDateFiscalPeriod(unscrubbedEntry.getPayrollEndDateFiscalPeriod());
 

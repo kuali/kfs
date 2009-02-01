@@ -127,20 +127,20 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * Get GL input type for given origin entryable
      * 
      * @param entry the origin entry to retrieve the GL input type of
-     * @return the related GeneralLedgerInputType record, or null if not found
+     * @return the related FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType(OriginEntry entry) {
-        return cachingDao.getGeneralLedgerInputType(entry);
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode(OriginEntry entry) {
+        return cachingDao.getFinancialSystemDocumentTypeCode(entry);
     }
 
     /**
      * Get the reference GL input type for the given origin entryable
      * 
      * @param entry origin entryable to lookup the reference GL input type for
-     * @return the related reference GeneralLedgerInputType record, or null if not found
+     * @return the related reference FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType(OriginEntry entry) {
-        return cachingDao.getReferenceGeneralLedgerInputType(entry);
+    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry) {
+        return cachingDao.getReferenceFinancialSystemDocumentTypeCode(entry);
     }
 
     /**

@@ -68,7 +68,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private SubObjectCode financialSubObject;
     private ProjectCode project;
     private AccountingPeriod financialDocumentPostingPeriod;
-    private FinancialSystemDocumentTypeCode generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
     private DocumentHeader documentHeader;
     private OriginationCode financialSystemOrigination;
     private SystemOptions option;
@@ -1047,20 +1047,20 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the generalLedgerInputType attribute. 
-     * @return Returns the generalLedgerInputType.
+     * Gets the financialSystemDocumentTypeCode attribute. 
+     * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
-        return generalLedgerInputType;
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
     /**
-     * Sets the generalLedgerInputType attribute value.
-     * @param generalLedgerInputType The generalLedgerInputType to set.
+     * Sets the financialSystemDocumentTypeCode attribute value.
+     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      * @deprecated
      */
-    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
-        this.generalLedgerInputType = generalLedgerInputType;
+    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
     /**

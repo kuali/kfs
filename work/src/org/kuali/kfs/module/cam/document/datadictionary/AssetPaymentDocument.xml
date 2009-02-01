@@ -25,7 +25,7 @@
     <property name="defaultExistenceChecks" >
       <list>
         <bean parent="ReferenceDefinition"
-              p:attributeName="expenditureGeneralLedgerInputType"
+              p:attributeName="expenditureFinancialSystemDocumentTypeCode"
               p:collection="sourceAccountingLines"
               p:attributeToHighlightOnFail="expenditureFinancialDocumentTypeCode"/>
         <bean parent="ReferenceDefinition"

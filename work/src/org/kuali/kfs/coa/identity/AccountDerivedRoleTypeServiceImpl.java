@@ -63,7 +63,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
-        String generalLedgerInputTypeCode = qualification.get(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
+        String financialSystemDocumentTypeCodeCode = qualification.get(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
         String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
         //Default to 0 total amount
         if(StringUtils.isEmpty(totalDollarAmount))
@@ -77,11 +77,11 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
             Account account = getAccount(chartOfAccountsCode, accountNumber);
             if(account!=null) principalIds.add(account.getAccountFiscalOfficerSystemIdentifier());
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
-            AccountDelegate primaryDelegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, generalLedgerInputTypeCode, totalDollarAmount);
+            AccountDelegate primaryDelegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, financialSystemDocumentTypeCodeCode, totalDollarAmount);
             if(primaryDelegate!=null) principalIds.add(primaryDelegate.getAccountDelegateSystemId());
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
             List<AccountDelegate> secondaryDelegates = 
-                getSecondaryDelegates(chartOfAccountsCode, accountNumber, generalLedgerInputTypeCode, totalDollarAmount);
+                getSecondaryDelegates(chartOfAccountsCode, accountNumber, financialSystemDocumentTypeCodeCode, totalDollarAmount);
             for(AccountDelegate secondaryDelegate: secondaryDelegates)
                 principalIds.add(secondaryDelegate.getAccountDelegateSystemId());
         } else if(KFSConstants.SysKimConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){

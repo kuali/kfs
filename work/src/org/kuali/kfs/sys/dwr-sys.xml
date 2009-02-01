@@ -47,7 +47,7 @@
             <param name="include" value="financialSystemDocumentTypeCode,documentTypeName,active" />
         </convert>
         <create creator="spring" javascript="FinancialSystemDocumentTypeCodeService">
-            <param name="beanName" value="generalLedgerInputTypeService" />
+            <param name="beanName" value="financialSystemDocumentTypeCodeService" />
             <include method="getFinancialSystemDocumentTypeCodeByPrimaryKey" />
         </create>
 	</allow>

@@ -86,7 +86,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     private KualiCodeService kualiCodeService;
     private BankService bankService;
     private OriginationCodeService originationCodeService;
-    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
@@ -229,7 +229,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                 // validate doc type if given
                 if (StringUtils.isNotBlank(paymentDetail.getFinancialDocumentTypeCode())) {
                     try {
-                        FinancialSystemDocumentTypeCode generalLedgerInputType = generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(paymentDetail.getFinancialDocumentTypeCode());
+                        FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(paymentDetail.getFinancialDocumentTypeCode());
                     }
                     catch (UnknownDocumentTypeException e) {
                         errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialDocumentTypeCode());
@@ -758,11 +758,11 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Sets the generalLedgerInputTypeService attribute value.
-     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     * Sets the financialSystemDocumentTypeCodeService attribute value.
+     * @param financialSystemDocumentTypeCodeService The financialSystemDocumentTypeCodeService to set.
      */
-    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
+    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
+        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
     }
 
 }

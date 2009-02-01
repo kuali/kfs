@@ -475,7 +475,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         
         // Get handles to the services we need
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-        FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+        FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
         BalanceTypService balanceTypeService = SpringContext.getBean(BalanceTypService.class);
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         SystemInformationService systemInformationService = SpringContext.getBean(SystemInformationService.class);
@@ -486,8 +486,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         
         // Document type codes
-        String cashControlDocumentTypeCode = generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(CashControlDocument.class).getFinancialSystemDocumentTypeCode();
-        String paymentApplicationDocumentTypeCode = generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(PaymentApplicationDocument.class).getFinancialSystemDocumentTypeCode(); 
+        String cashControlDocumentTypeCode = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(CashControlDocument.class).getFinancialSystemDocumentTypeCode();
+        String paymentApplicationDocumentTypeCode = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(PaymentApplicationDocument.class).getFinancialSystemDocumentTypeCode(); 
         
         // The processing chart and org comes from the current user.
         // It will be the same as the chart and org on the cash control document if there is one.

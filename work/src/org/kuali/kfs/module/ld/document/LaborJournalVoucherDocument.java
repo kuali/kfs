@@ -41,7 +41,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
     private String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
     private List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
-    private FinancialSystemDocumentTypeCode generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
 
     /**
      * Constructs a LaborJournalVoucherDocument.java.
@@ -118,19 +118,19 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * Gets the generalLedgerInputType attribute. 
-     * @return Returns the generalLedgerInputType.
+     * Gets the financialSystemDocumentTypeCode attribute. 
+     * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
-        return generalLedgerInputType;
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
     /**
-     * Sets the generalLedgerInputType attribute value.
-     * @param generalLedgerInputType The generalLedgerInputType to set.
+     * Sets the financialSystemDocumentTypeCode attribute value.
+     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      */
-    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
-        this.generalLedgerInputType = generalLedgerInputType;
+    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
     /**

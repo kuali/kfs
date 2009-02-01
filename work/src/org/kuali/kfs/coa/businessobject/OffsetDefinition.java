@@ -38,7 +38,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private BalanceType financialBalanceType;
-    private FinancialSystemDocumentTypeCode generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
 
     /**
      * Default no-arg constructor.
@@ -218,22 +218,22 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the generalLedgerInputType attribute.
+     * Gets the financialSystemDocumentTypeCode attribute.
      * 
-     * @return Returns the generalLedgerInputType.
+     * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
-        return generalLedgerInputType;
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
     /**
-     * Sets the generalLedgerInputType attribute value.
+     * Sets the financialSystemDocumentTypeCode attribute value.
      * 
-     * @param generalLedgerInputType The generalLedgerInputType to set.
+     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      * @deprecated
      */
-    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
-        this.generalLedgerInputType = generalLedgerInputType;
+    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
     /**

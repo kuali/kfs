@@ -425,8 +425,8 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             valid &= isValidReferenceOriginCode(referenceOrigin, accountingLineEntry);
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceTypeCode())) {
-            accountingLine.refreshReferenceObject("referenceGeneralLedgerInputType");
-            FinancialSystemDocumentTypeCode referenceType = accountingLine.getReferenceGeneralLedgerInputType();
+            accountingLine.refreshReferenceObject("referenceFinancialSystemDocumentTypeCode");
+            FinancialSystemDocumentTypeCode referenceType = accountingLine.getReferenceFinancialSystemDocumentTypeCode();
             valid &= isValidReferenceTypeCode(referenceType, accountingLineEntry);
         }
         valid &= hasRequiredOverrides(accountingLine, accountingLine.getOverrideCode());

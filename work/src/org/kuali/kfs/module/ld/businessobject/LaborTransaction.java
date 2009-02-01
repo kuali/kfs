@@ -74,7 +74,7 @@ public interface LaborTransaction extends Transaction {
 
     public String getSetid();
 
-    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType();
+    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode();
 
     public OriginationCode getReferenceFinancialSystemOrigination();
 

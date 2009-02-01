@@ -26,7 +26,7 @@
               p:attributeName="accountDelegate"
               p:attributeToHighlightOnFail="accountDelegate.principalName" />
         <bean parent="ReferenceDefinition"
-              p:attributeName="generalLedgerInputType"
+              p:attributeName="financialSystemDocumentTypeCode"
               p:attributeToHighlightOnFail="financialDocumentTypeCode" />
       </list>
     </property>

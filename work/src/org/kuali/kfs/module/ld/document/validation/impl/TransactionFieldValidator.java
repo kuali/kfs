@@ -252,8 +252,8 @@ public class TransactionFieldValidator {
      */
     public static Message checkFinancialDocumentTypeCode(LaborTransaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        FinancialSystemDocumentTypeCode  generalLedgerInputType = referenceLookup.get().getGeneralLedgerInputType((LaborOriginEntry) transaction);
-        if (StringUtils.isBlank(documentTypeCode) || ObjectUtils.isNull(generalLedgerInputType)) {
+        FinancialSystemDocumentTypeCode  financialSystemDocumentTypeCode = referenceLookup.get().getFinancialSystemDocumentTypeCode((LaborOriginEntry) transaction);
+        if (StringUtils.isBlank(documentTypeCode) || ObjectUtils.isNull(financialSystemDocumentTypeCode)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, documentTypeCode, Message.TYPE_FATAL);
         }
         return null;

@@ -1072,8 +1072,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      */
     protected boolean isSalesTaxRequired(AccountingDocument financialDocument, AccountingLine accountingLine) {
         boolean required = false;
-        FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
-        String docType = generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(financialDocument.getClass()).getFinancialSystemDocumentTypeCode();
+        FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+        String docType = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(financialDocument.getClass()).getFinancialSystemDocumentTypeCode();
         // first we need to check just the doctype to see if it needs the sales tax check
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         // apply the rule, see if it fails

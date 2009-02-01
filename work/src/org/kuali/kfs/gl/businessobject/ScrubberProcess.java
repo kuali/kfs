@@ -105,7 +105,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private OriginEntryService originEntryService;
     private OriginEntryLiteService originEntryLiteService;
     private OriginEntryGroupService originEntryGroupService;
@@ -174,10 +174,10 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService, String batchFileDirectoryName) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService, String batchFileDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
+        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
         this.originEntryService = originEntryService;
         this.originEntryLiteService = originEntryLiteService;
         this.originEntryGroupService = originEntryGroupService;
@@ -1570,12 +1570,12 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
             // do nothing if flexible offset is enabled and scrubber offset indicator of the document
             // type code is turned off in the document type table
-            String generalLedgerInputTypeCode = scrubbedEntry.getFinancialDocumentTypeCode();
+            String financialSystemDocumentTypeCodeCode = scrubbedEntry.getFinancialDocumentTypeCode();
             
             //TODO: Shawn - need to check this part later!!
-            FinancialSystemDocumentTypeCode generalLedgerInputType = generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(generalLedgerInputTypeCode);
+            FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(financialSystemDocumentTypeCodeCode);
             
-            if ((!generalLedgerInputType.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled()) {
+            if ((!financialSystemDocumentTypeCode.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled()) {
                 return true;
             }
             
@@ -1637,7 +1637,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             offsetEntry.setOrganizationDocumentNumber(null);
             offsetEntry.setOrganizationReferenceId(null);
             offsetEntry.setReferenceFinancialDocumentTypeCode(null);
-            offsetEntry.setReferenceGeneralLedgerInputType(null);
+            offsetEntry.setReferenceFinancialSystemDocumentTypeCode(null);
             offsetEntry.setReferenceFinancialSystemOriginationCode(null);
             offsetEntry.setReferenceFinancialDocumentNumber(null);
             offsetEntry.setTransactionEncumbranceUpdateCode(null);

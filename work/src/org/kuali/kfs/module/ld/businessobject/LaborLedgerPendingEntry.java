@@ -518,12 +518,12 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
     }
 
     /**
-     * Gets the ReferenceGeneralLedgerInputType.
+     * Gets the ReferenceFinancialSystemDocumentTypeCode.
      * 
      * @see org.kuali.kfs.module.ld.businessobject.LaborTransaction#getReferenceFinancialDocumentType()
      */
     public FinancialSystemDocumentTypeCode getReferenceFinancialDocumentType() {
-        return super.getReferenceGeneralLedgerInputType();
+        return super.getReferenceFinancialSystemDocumentTypeCode();
     }
 
     /**

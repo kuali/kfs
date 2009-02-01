@@ -76,7 +76,7 @@ public class Reversal extends PersistableBusinessObjectBase implements Transacti
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private ProjectCode project;
-    private FinancialSystemDocumentTypeCode generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
     private UniversityDate universityDate;
     private SystemOptions option;
     private AccountingPeriod accountingPeriod;
@@ -620,12 +620,12 @@ public class Reversal extends PersistableBusinessObjectBase implements Transacti
         this.chart = chart;
     }
     
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
-        return generalLedgerInputType;
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
-    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
-        this.generalLedgerInputType = generalLedgerInputType;
+    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
     public ObjectCode getFinancialObject() {

@@ -31,7 +31,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     // bo references    
     private AccountingPeriod financialDocumentPostingPeriod;
-    private FinancialSystemDocumentTypeCode expenditureGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode expenditureFinancialSystemDocumentTypeCode;
     private OriginationCode expenditureFinancialSystemOrigination;
 
 
@@ -168,13 +168,13 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
     }
 
-    public FinancialSystemDocumentTypeCode getExpenditureGeneralLedgerInputType() {
-        return expenditureGeneralLedgerInputType;
+    public FinancialSystemDocumentTypeCode getExpenditureFinancialSystemDocumentTypeCode() {
+        return expenditureFinancialSystemDocumentTypeCode;
     }
 
 
-    public void setExpenditureGeneralLedgerInputType(FinancialSystemDocumentTypeCode expenditureGeneralLedgerInputType) {
-        this.expenditureGeneralLedgerInputType = expenditureGeneralLedgerInputType;
+    public void setExpenditureFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode expenditureFinancialSystemDocumentTypeCode) {
+        this.expenditureFinancialSystemDocumentTypeCode = expenditureFinancialSystemDocumentTypeCode;
     }
 
 

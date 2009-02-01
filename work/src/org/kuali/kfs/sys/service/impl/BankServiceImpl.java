@@ -37,7 +37,7 @@ public class BankServiceImpl implements BankService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankServiceImpl.class);
     
     private BusinessObjectService businessObjectService;
-    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private ParameterService parameterService;
 
     /**
@@ -54,7 +54,7 @@ public class BankServiceImpl implements BankService {
      * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.Class)
      */
     public Bank getDefaultBankByDocType(Class documentClass) {
-        String documentTypeCode = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(documentClass).getFinancialSystemDocumentTypeCode();
+        String documentTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(documentClass).getFinancialSystemDocumentTypeCode();
         if (StringUtils.isBlank(documentTypeCode)) {
             throw new RuntimeException("Document type not found for document class: " + documentClass.getName());
         }
@@ -95,19 +95,19 @@ public class BankServiceImpl implements BankService {
     }
 
     /**
-     * Gets the generalLedgerInputTypeService attribute. 
-     * @return Returns the generalLedgerInputTypeService.
+     * Gets the financialSystemDocumentTypeCodeService attribute. 
+     * @return Returns the financialSystemDocumentTypeCodeService.
      */
-    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
-        return generalLedgerInputTypeService;
+    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
+        return financialSystemDocumentTypeCodeService;
     }
 
     /**
-     * Sets the generalLedgerInputTypeService attribute value.
-     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     * Sets the financialSystemDocumentTypeCodeService attribute value.
+     * @param financialSystemDocumentTypeCodeService The financialSystemDocumentTypeCodeService to set.
      */
-    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
+    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
+        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
     }
 
     /**

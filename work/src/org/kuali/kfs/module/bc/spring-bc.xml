@@ -366,8 +366,8 @@
 	</bean>	
 
 	<bean id="budgetConstructionDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoOjb">
-	    <property name="generalLedgerInputTypeService">
-	       <ref bean="generalLedgerInputTypeService"/>
+	    <property name="financialSystemDocumentTypeCodeService">
+	       <ref bean="financialSystemDocumentTypeCodeService"/>
 	    </property>   
         <property name="kualiModuleService">
             <ref bean="kualiModuleService" />
@@ -398,8 +398,8 @@
 	</bean>
 
 	<bean id="bcOrganizationBCDocumentSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.OrganizationBCDocumentSearchDaoJdbc">
-	    <property name="generalLedgerInputTypeService">
-	      <ref bean="generalLedgerInputTypeService" />
+	    <property name="financialSystemDocumentTypeCodeService">
+	      <ref bean="financialSystemDocumentTypeCodeService" />
 	    </property>
 	</bean>
 	

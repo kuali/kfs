@@ -71,7 +71,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     private String hrmsCompany;
     private String setid;
     private Date transactionDateTimeStamp;
-    private FinancialSystemDocumentTypeCode  referenceGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode  referenceFinancialSystemDocumentTypeCode;
     private OriginationCode referenceFinancialSystemOrigination;
     private AccountingPeriod payrollEndDateFiscalPeriod;
 
@@ -186,7 +186,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setLaborLedgerOriginalFinancialSubObjectCode(t.getLaborLedgerOriginalFinancialSubObjectCode());
         setHrmsCompany(t.getHrmsCompany());
         setSetid(t.getSetid());
-        setReferenceGeneralLedgerInputType(t.getReferenceGeneralLedgerInputType());
+        setReferenceFinancialSystemDocumentTypeCode(t.getReferenceFinancialSystemDocumentTypeCode());
         setReferenceFinancialSystemOrigination(t.getReferenceFinancialSystemOrigination());
         setPayrollEndDateFiscalPeriod(t.getPayrollEndDateFiscalPeriod());
     }
@@ -660,8 +660,8 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @return Returns the referenceFinancialDocumentType.
      */
-    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType() {
-        return referenceGeneralLedgerInputType;
+    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode() {
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
     /**
@@ -669,8 +669,8 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @param referenceFinancialDocumentType The referenceFinancialDocumentType to set.
      */
-    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType) {
-        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
+    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode) {
+        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
     }
 
     /**

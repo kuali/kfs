@@ -54,13 +54,13 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private ProjectCode project;
-    private FinancialSystemDocumentTypeCode generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
     private UniversityDate universityDate;
     private SystemOptions option;
     private AccountingPeriod accountingPeriod;
     private UniversityDate reversalDate;
     private OriginationCode origination;
-    private FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode;
 
     public OriginEntryFull(GeneralLedgerPendingEntry glpe) {
         accountNumber = glpe.getAccountNumber();
@@ -218,12 +218,12 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.chart = chart;
     }
 
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
-        return generalLedgerInputType;
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
-    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
-        this.generalLedgerInputType = generalLedgerInputType;
+    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
     public ObjectCode getFinancialObject() {
@@ -306,12 +306,12 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.origination = origination;
     }
 
-    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType() {
-        return referenceGeneralLedgerInputType;
+    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode() {
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
-    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType) {
-        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
+    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode) {
+        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
     }
 
     public static OriginEntryFull copyFromOriginEntryable(OriginEntry oe) {

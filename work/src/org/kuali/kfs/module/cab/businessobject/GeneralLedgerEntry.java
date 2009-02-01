@@ -70,7 +70,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private SubAccount subAccount;
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
-    private FinancialSystemDocumentTypeCode generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
 
     private List<GeneralLedgerEntryAsset> generalLedgerEntryAssets;
     private List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts;
@@ -681,19 +681,19 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the generalLedgerInputType attribute. 
-     * @return Returns the generalLedgerInputType.
+     * Gets the financialSystemDocumentTypeCode attribute. 
+     * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
-        return generalLedgerInputType;
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
     /**
-     * Sets the generalLedgerInputType attribute value.
-     * @param generalLedgerInputType The generalLedgerInputType to set.
+     * Sets the financialSystemDocumentTypeCode attribute value.
+     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      */
-    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
-        this.generalLedgerInputType = generalLedgerInputType;
+    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
     /**

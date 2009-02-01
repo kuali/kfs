@@ -62,13 +62,13 @@ public interface PurchasingAccountsPayableModuleService {
     /**
      * This method...
      * 
-     * @param generalLedgerInputType
+     * @param financialSystemDocumentTypeCode
      * @return
      */
-    public boolean isPurchasingBatchDocument(String generalLedgerInputType);
+    public boolean isPurchasingBatchDocument(String financialSystemDocumentTypeCode);
 
-    public void handlePurchasingBatchCancels(String documentNumber, String generalLedgerInputType, boolean primaryCancel, boolean disbursedPayment);
+    public void handlePurchasingBatchCancels(String documentNumber, String financialSystemDocumentTypeCode, boolean primaryCancel, boolean disbursedPayment);
 
-    public void handlePurchasingBatchPaids(String documentNumber, String generalLedgerInputType, Date processDate);
+    public void handlePurchasingBatchPaids(String documentNumber, String financialSystemDocumentTypeCode, Date processDate);
 
 }

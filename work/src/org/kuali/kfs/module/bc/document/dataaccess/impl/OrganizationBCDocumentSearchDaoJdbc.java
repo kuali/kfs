@@ -30,7 +30,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
     private static String[] buildAccountManagerDelegateListTemplates = new String[3];
 
-    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
 
     public OrganizationBCDocumentSearchDaoJdbc() {
 
@@ -248,8 +248,8 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      *      java.lang.Integer)
      */
     public int buildAccountManagerDelegateList(String principalName, Integer universityFiscalYear) {
-        String budgetGeneralLedgerInputType = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(BudgetConstructionDocument.class).getFinancialSystemDocumentTypeCode();
-        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, budgetGeneralLedgerInputType, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
+        String budgetFinancialSystemDocumentTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(BudgetConstructionDocument.class).getFinancialSystemDocumentTypeCode();
+        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, budgetFinancialSystemDocumentTypeCode, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
       
         // update level chart and org
         getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[1], principalName);
@@ -266,19 +266,19 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     }
 
     /**
-     * Gets the generalLedgerInputTypeService attribute. 
-     * @return Returns the generalLedgerInputTypeService.
+     * Gets the financialSystemDocumentTypeCodeService attribute. 
+     * @return Returns the financialSystemDocumentTypeCodeService.
      */
-    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
-        return generalLedgerInputTypeService;
+    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
+        return financialSystemDocumentTypeCodeService;
     }
 
     /**
-     * Sets the generalLedgerInputTypeService attribute value.
-     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     * Sets the financialSystemDocumentTypeCodeService attribute value.
+     * @param financialSystemDocumentTypeCodeService The financialSystemDocumentTypeCodeService to set.
      */
-    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
+    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
+        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
     }
 
 }

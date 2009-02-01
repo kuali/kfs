@@ -129,7 +129,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
     public int countPendingSalaryExpenseTransfer(String emplid) {
-        String documentTypeCode = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(SalaryExpenseTransferDocument.class).getFinancialSystemDocumentTypeCode();
+        String documentTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(SalaryExpenseTransferDocument.class).getFinancialSystemDocumentTypeCode();
 
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(KFSPropertyConstants.EMPLID, emplid);
@@ -287,11 +287,11 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * Gets the generalLedgerInputTypeService attribute.
+     * Gets the financialSystemDocumentTypeCodeService attribute.
      * 
-     * @return an implementation of the generalLedgerInputTypeService.
+     * @return an implementation of the financialSystemDocumentTypeCodeService.
      */
-    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
+    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
         return SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
     }
 

@@ -42,7 +42,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberServiceImpl.class);
 
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -65,7 +65,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
         sp.scrubGroupReportOnly(group, documentNumber);
         sp.setReferenceLookup(null);
@@ -80,7 +80,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
         sp.scrubEntries();
         sp.setReferenceLookup(null);
@@ -88,7 +88,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     
     public void performDemerger() {
         LOG.debug("performDemerger() started");
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, generalLedgerInputTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
         sp.performDemerger();
                 
     }
@@ -105,12 +105,12 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     }
 
     /**
-     * Sets the generalLedgerInputTypeService attribute value.
+     * Sets the financialSystemDocumentTypeCodeService attribute value.
      * 
-     * @param generalLedgerInputTypeService The documentTypeService to set.
+     * @param financialSystemDocumentTypeCodeService The documentTypeService to set.
      */
-    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
+    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
+        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
     }
 
     /**

@@ -101,8 +101,8 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     private boolean canHaveBankEntry(Document document) {
         boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
         if (bankSpecificationEnabled) {
-            FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
-            String documentTypeCode = generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(document.getClass()).getFinancialSystemDocumentTypeCode();
+            FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+            String documentTypeCode = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(document.getClass()).getFinancialSystemDocumentTypeCode();
 
             ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeCode);
             return evaluator.evaluationSucceeds();

@@ -21,7 +21,7 @@ import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
- * GeneralLedgerInputType is used to hold financial system data for particular document types. It links to Kuali Enterprise Workflow
+ * FinancialSystemDocumentTypeCode is used to hold financial system data for particular document types. It links to Kuali Enterprise Workflow
  * and to the Kuali Nervous System Data Dictionary via the document type name.
  */
 public class FinancialSystemDocumentTypeCode extends PersistableBusinessObjectBase implements Inactivateable {

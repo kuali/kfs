@@ -97,7 +97,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private UniversityDateDao universityDateDao;
     private WorkflowDocumentService workflowDocumentService;
     private HomeOriginationService homeOriginationService;
-    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private Integer fiscalYear;
     private Integer fiscalMonth;
     private String documentNumber;
@@ -495,7 +495,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private void processGeneralLedgerPendingEntry(SortedMap<String, AssetDepreciationTransaction> trans) {
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
 
-        String generalLedgerInputTypeCode;
+        String financialSystemDocumentTypeCodeCode;
         try {
             KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("AssetDepreciationDocument", GlobalVariables.getUserSession().getPerson());
 
@@ -522,8 +522,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
             // Getting depreciation document type code for the transactions
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting document type for depreciation.");
-            generalLedgerInputTypeCode = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(AssetDepreciationDocument.class).getFinancialSystemDocumentTypeCode();
-            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation Document Type Code: " + generalLedgerInputTypeCode);
+            financialSystemDocumentTypeCodeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(AssetDepreciationDocument.class).getFinancialSystemDocumentTypeCode();
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation Document Type Code: " + financialSystemDocumentTypeCodeCode);
 
             Timestamp transactionTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
 
@@ -556,7 +556,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     explicitEntry.setTransactionLedgerEntryAmount(t.getTransactionAmount().abs());
                     explicitEntry.setTransactionDebitCreditCode(t.getTransactionType());
                     explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
-                    explicitEntry.setFinancialDocumentTypeCode(generalLedgerInputTypeCode);
+                    explicitEntry.setFinancialDocumentTypeCode(financialSystemDocumentTypeCodeCode);
                     explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.YES);
                     explicitEntry.setVersionNumber(new Long(1));
                     explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
@@ -614,12 +614,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         this.homeOriginationService = homeOriginationService;
     }
 
-    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
-        return generalLedgerInputTypeService;
+    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
+        return financialSystemDocumentTypeCodeService;
     }
 
-    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
+    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
+        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
     }
 
 }

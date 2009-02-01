@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocumentBase implements LedgerPostingDocument {
     static private transient DateTimeService dateTimeService;
     static private transient AccountingPeriodService accountingPeriodService;
-    static private transient FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    static private transient FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
        
     protected AccountingPeriod accountingPeriod;
     protected Integer postingYear;
@@ -133,19 +133,19 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
     }
     
     /**
-     * Returns the financial document type code for the given document, using the GeneralLedgerInputTypeService
+     * Returns the financial document type code for the given document, using the FinancialSystemDocumentTypeCodeService
      * @return the financial document type code for the given document
      */
     public String getFinancialDocumentTypeCode() {
-        return getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(this.getClass()).getFinancialSystemDocumentTypeCode();
+        return getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(this.getClass()).getFinancialSystemDocumentTypeCode();
     }
     
 
-    public static FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
-        if ( generalLedgerInputTypeService == null ) {
-            generalLedgerInputTypeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+    public static FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
+        if ( financialSystemDocumentTypeCodeService == null ) {
+            financialSystemDocumentTypeCodeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
         }
-        return generalLedgerInputTypeService;
+        return financialSystemDocumentTypeCodeService;
     }
 
     public static DateTimeService getDateTimeService() {

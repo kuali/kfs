@@ -72,7 +72,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private boolean transactionEntryOffsetIndicator;
     private Date transactionEntryProcessedTs;
 
-    private FinancialSystemDocumentTypeCode generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
     private FinancialSystemDocumentHeader documentHeader;
 
     private SystemOptions option;
@@ -88,7 +88,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private OriginationCode originationCode;
     private ProjectCode project;
     private OriginationCode referenceOriginationCode;
-    private FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode;
     
     @Deprecated
     private transient AccountingPeriod accountingPeriod;
@@ -139,7 +139,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         transactionEntryOffsetIndicator = original.isTransactionEntryOffsetIndicator();
         transactionEntryProcessedTs = original.getTransactionEntryProcessedTs();
         
-        generalLedgerInputType = original.getGeneralLedgerInputType();
+        financialSystemDocumentTypeCode = original.getFinancialSystemDocumentTypeCode();
         documentHeader = original.getDocumentHeader();
 
         option = original.getOption();
@@ -154,15 +154,15 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         originationCode = original.getOriginationCode();
         project = original.getProject();
         referenceOriginationCode = original.getReferenceOriginationCode();
-        referenceGeneralLedgerInputType = original.getReferenceGeneralLedgerInputType();
+        referenceFinancialSystemDocumentTypeCode = original.getReferenceFinancialSystemDocumentTypeCode();
     }
 
-    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType() {
-        return referenceGeneralLedgerInputType;
+    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode() {
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
-    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType) {
-        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
+    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode) {
+        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
     }
 
     public OriginationCode getReferenceOriginationCode() {
@@ -735,19 +735,19 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the generalLedgerInputType attribute. 
-     * @return Returns the generalLedgerInputType.
+     * Gets the financialSystemDocumentTypeCode attribute. 
+     * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
-        return generalLedgerInputType;
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
     /**
-     * Sets the generalLedgerInputType attribute value.
-     * @param generalLedgerInputType The generalLedgerInputType to set.
+     * Sets the financialSystemDocumentTypeCode attribute value.
+     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      */
-    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
-        this.generalLedgerInputType = generalLedgerInputType;
+    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
     /**

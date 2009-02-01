@@ -83,8 +83,8 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private ProjectCode project;
-    private FinancialSystemDocumentTypeCode generalLedgerInputType;
-    private FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
+    private FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode;
     private UniversityDate universityDate;
     private SystemOptions option;
     private AccountingPeriod accountingPeriod;
@@ -220,21 +220,21 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     }
 
     /**
-     * Gets the generalLedgerInputType attribute. 
+     * Gets the financialSystemDocumentTypeCode attribute. 
      * 
-     * @return Returns the generalLedgerInputType.
+     * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
-        return generalLedgerInputType;
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
     /**
-     * Sets the generalLedgerInputType attribute value.
+     * Sets the financialSystemDocumentTypeCode attribute value.
      * 
-     * @param generalLedgerInputType The generalLedgerInputType to set.
+     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      */
-    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
-        this.generalLedgerInputType = generalLedgerInputType;
+    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
     /**
@@ -823,21 +823,21 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     }
 
     /**
-     * Gets the referenceGeneralLedgerInputType attribute. 
+     * Gets the referenceFinancialSystemDocumentTypeCode attribute. 
      * 
-     * @return Returns the referenceGeneralLedgerInputType.
+     * @return Returns the referenceFinancialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType() {
-        return referenceGeneralLedgerInputType;
+    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode() {
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
     /**
-     * Sets the referenceGeneralLedgerInputType attribute value.
+     * Sets the referenceFinancialSystemDocumentTypeCode attribute value.
      * 
-     * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
+     * @param referenceFinancialSystemDocumentTypeCode The referenceFinancialSystemDocumentTypeCode to set.
      */
-    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType) {
-        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
+    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode) {
+        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
     }
 
 }

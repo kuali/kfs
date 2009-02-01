@@ -105,7 +105,7 @@ public interface Transaction {
 
     public SubObjectCode getFinancialSubObject();
 
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType();
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode();
     
     public void setChart(Chart chart);
 

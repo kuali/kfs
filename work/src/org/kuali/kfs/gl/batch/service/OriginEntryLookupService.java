@@ -121,17 +121,17 @@ public interface OriginEntryLookupService {
      * Get general ledger input type for given origin entryable
      * 
      * @param entry the origin entry to retrieve the GL input type of
-     * @return the related GeneralLedgerInputType record, or null if not found
+     * @return the related FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType(OriginEntry entry);
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode(OriginEntry entry);
 
     /**
      * Get the reference general ledger input type for the given origin entryable
      * 
      * @param entry origin entryable to lookup the reference GL input type for
-     * @return the related reference GeneralLedgerInputType record, or null if not found
+     * @return the related reference FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType(OriginEntry entry);
+    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry);
 
     /**
      * Retrieves the project code for the given origin entryable

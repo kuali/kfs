@@ -108,8 +108,8 @@
 		<property name="homeOriginationService">
 			<ref bean="homeOriginationService" />
 		</property>
-		<property name="generalLedgerInputTypeService">
-			<ref bean="generalLedgerInputTypeService" />
+		<property name="financialSystemDocumentTypeCodeService">
+			<ref bean="financialSystemDocumentTypeCodeService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

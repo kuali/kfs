@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
  */
 public class OriginEntryKey {
     static BalanceTypService balanceTypService = (BalanceTypService) SpringContext.getBean(BalanceTypService.class);
-    static FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService = (FinancialSystemDocumentTypeCodeService) SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+    static FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService = (FinancialSystemDocumentTypeCodeService) SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
 
     /*
      * (non-Javadoc)
@@ -41,7 +41,7 @@ public class OriginEntryKey {
         }
 
         OriginEntryKey key = (OriginEntryKey) obj;
-        return ObjectHelper.isEqual(getAccountNumber(), key.getAccountNumber()) && ObjectHelper.isEqual(getBalanceTypeCode(), key.getBalanceTypeCode()) && ObjectHelper.isEqual(getChartCode(), key.getChartCode()) && ObjectHelper.isEqual(getGeneralLedgerInputTypeCode(), key.getGeneralLedgerInputTypeCode()) && ObjectHelper.isEqual(getEntrySequenceNumber(), key.getEntrySequenceNumber()) && ObjectHelper.isEqual(getDocumentNumber(), key.getDocumentNumber()) && ObjectHelper.isEqual(getFinancialObjectCode(), key.getFinancialObjectCode()) && ObjectHelper.isEqual(getFiscalPeriodCode(), key.getFiscalPeriodCode()) && ObjectHelper.isEqual(getFiscalYear(), key.getFiscalYear()) && ObjectHelper.isEqual(getObjectTypeCode(), key.getObjectTypeCode()) && ObjectHelper.isEqual(getSubAccountNumber(), key.getSubAccountNumber()) && ObjectHelper.isEqual(getSubObjectCode(), key.getSubObjectCode()) && ObjectHelper.isEqual(getSystemOriginationCode(), key.getSystemOriginationCode());
+        return ObjectHelper.isEqual(getAccountNumber(), key.getAccountNumber()) && ObjectHelper.isEqual(getBalanceTypeCode(), key.getBalanceTypeCode()) && ObjectHelper.isEqual(getChartCode(), key.getChartCode()) && ObjectHelper.isEqual(getFinancialSystemDocumentTypeCodeCode(), key.getFinancialSystemDocumentTypeCodeCode()) && ObjectHelper.isEqual(getEntrySequenceNumber(), key.getEntrySequenceNumber()) && ObjectHelper.isEqual(getDocumentNumber(), key.getDocumentNumber()) && ObjectHelper.isEqual(getFinancialObjectCode(), key.getFinancialObjectCode()) && ObjectHelper.isEqual(getFiscalPeriodCode(), key.getFiscalPeriodCode()) && ObjectHelper.isEqual(getFiscalYear(), key.getFiscalYear()) && ObjectHelper.isEqual(getObjectTypeCode(), key.getObjectTypeCode()) && ObjectHelper.isEqual(getSubAccountNumber(), key.getSubAccountNumber()) && ObjectHelper.isEqual(getSubObjectCode(), key.getSubObjectCode()) && ObjectHelper.isEqual(getSystemOriginationCode(), key.getSystemOriginationCode());
     }
 
     /**
@@ -57,7 +57,7 @@ public class OriginEntryKey {
         key.setAccountNumber(entry.getAccountNumber());
         key.setBalanceTypeCode(entry.getFinancialBalanceTypeCode());
         key.setChartCode(entry.getChartOfAccountsCode());
-        key.setGeneralLedgerInputTypeCode(entry.getFinancialDocumentTypeCode());
+        key.setFinancialSystemDocumentTypeCodeCode(entry.getFinancialDocumentTypeCode());
         key.setEntrySequenceNumber(entry.getTransactionLedgerEntrySequenceNumber().toString());
         key.setDocumentNumber(entry.getDocumentNumber());
         key.setFinancialObjectCode(entry.getFinancialObjectCode());
@@ -77,7 +77,7 @@ public class OriginEntryKey {
         entry.setAccountNumber(getAccountNumber());
         entry.setBalanceType(balanceTypService.getBalanceTypByCode(getBalanceTypeCode()));
         entry.setChartOfAccountsCode(getChartCode());
-        entry.setGeneralLedgerInputType(generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(getGeneralLedgerInputTypeCode()));
+        entry.setFinancialSystemDocumentTypeCode(financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(getFinancialSystemDocumentTypeCodeCode()));
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(getEntrySequenceNumber()));
         entry.setDocumentNumber(getDocumentNumber());
         entry.setFinancialObjectCode(getFinancialObjectCode());
@@ -147,21 +147,21 @@ public class OriginEntryKey {
     }
 
     /**
-     * @return Returns the generalLedgerInputTypeCode.
+     * @return Returns the financialSystemDocumentTypeCodeCode.
      */
-    public String getGeneralLedgerInputTypeCode() {
-        return new String(generalLedgerInputTypeCode);
+    public String getFinancialSystemDocumentTypeCodeCode() {
+        return new String(financialSystemDocumentTypeCodeCode);
     }
 
     /**
-     * @param generalLedgerInputTypeCode The generalLedgerInputTypeCode to set.
+     * @param financialSystemDocumentTypeCodeCode The financialSystemDocumentTypeCodeCode to set.
      */
-    public void setGeneralLedgerInputTypeCode(String generalLedgerInputTypeCode) {
-        if (null != generalLedgerInputTypeCode) {
-            System.arraycopy(generalLedgerInputTypeCode.toCharArray(), 0, this.generalLedgerInputTypeCode, 0, this.generalLedgerInputTypeCode.length);
+    public void setFinancialSystemDocumentTypeCodeCode(String financialSystemDocumentTypeCodeCode) {
+        if (null != financialSystemDocumentTypeCodeCode) {
+            System.arraycopy(financialSystemDocumentTypeCodeCode.toCharArray(), 0, this.financialSystemDocumentTypeCodeCode, 0, this.financialSystemDocumentTypeCodeCode.length);
         }
         else {
-            Arrays.fill(this.generalLedgerInputTypeCode, (char) 0);
+            Arrays.fill(this.financialSystemDocumentTypeCodeCode, (char) 0);
         }
     }
 
@@ -358,7 +358,7 @@ public class OriginEntryKey {
 
     final private char[] fiscalPeriodCode = new char[2];
 
-    final private char[] generalLedgerInputTypeCode = new char[4];
+    final private char[] financialSystemDocumentTypeCodeCode = new char[4];
 
     final private char[] systemOriginationCode = new char[2];
 

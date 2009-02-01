@@ -92,7 +92,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private PurapRunDateService purapRunDateService;
     private PdpEmailService paymentFileEmailService;
     private BankService bankService;
-    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private PurapAccountingServiceImpl purapAccountingService;
 
     /**
@@ -457,7 +457,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             List<String> preqDocIds = new ArrayList<String>();
             List<String> cmDocIds = new ArrayList<String>();
 
-            String creditMemoDocTypeCode = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(VendorCreditMemoDocument.class).getFinancialSystemDocumentTypeCode();
+            String creditMemoDocTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(VendorCreditMemoDocument.class).getFinancialSystemDocumentTypeCode();
 
             List<PaymentDetail> pds = paymentGroup.getPaymentDetails();
             for (PaymentDetail payDetail : pds) {
@@ -521,7 +521,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
         }
 
-        String creditMemoDocType = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(VendorCreditMemoDocument.class).getFinancialSystemDocumentTypeCode();
+        String creditMemoDocType = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(VendorCreditMemoDocument.class).getFinancialSystemDocumentTypeCode();
         paymentDetail.setFinancialDocumentTypeCode(creditMemoDocType);
         paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
 
@@ -606,7 +606,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentDetail.setOrganizationDocNbr(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
         }
 
-        String paymentRequestDocType = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(PaymentRequestDocument.class).getFinancialSystemDocumentTypeCode();
+        String paymentRequestDocType = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(PaymentRequestDocument.class).getFinancialSystemDocumentTypeCode();
         paymentDetail.setFinancialDocumentTypeCode(paymentRequestDocType);
         paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
         
@@ -669,7 +669,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param documentType
      */
     private void addAccounts(AccountsPayableDocument accountsPayableDocument, PaymentDetail paymentDetail, String documentType) {
-        String creditMemoDocType = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(VendorCreditMemoDocument.class).getFinancialSystemDocumentTypeCode();
+        String creditMemoDocType = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(VendorCreditMemoDocument.class).getFinancialSystemDocumentTypeCode();
         List<SourceAccountingLine> sourceAccountingLines = purapAccountingService.generateSourceAccountsForVendorRemit(accountsPayableDocument);
         for (SourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
           KualiDecimal lineAmount = sourceAccountingLine.getAmount();  
@@ -691,7 +691,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentDetail.addAccountDetail(paymentAccountDetail);
         }
 //ORIGINAL METHOD
-//        String creditMemoDocType = getGeneralLedgerInputTypeService().getInputTypeCodeByClass(CreditMemoDocument.class);
+//        String creditMemoDocType = getFinancialSystemDocumentTypeCodeService().getInputTypeCodeByClass(CreditMemoDocument.class);
 //
 //        // Calculate the total amount for each account across all items
 //        Map<AccountingInfo, KualiDecimal> accountTotals = new HashMap<AccountingInfo, KualiDecimal>();
@@ -1202,19 +1202,19 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * Gets the generalLedgerInputTypeService attribute. 
-     * @return Returns the generalLedgerInputTypeService.
+     * Gets the financialSystemDocumentTypeCodeService attribute. 
+     * @return Returns the financialSystemDocumentTypeCodeService.
      */
-    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
-        return generalLedgerInputTypeService;
+    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
+        return financialSystemDocumentTypeCodeService;
     }
 
     /**
-     * Sets the generalLedgerInputTypeService attribute value.
-     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     * Sets the financialSystemDocumentTypeCodeService attribute value.
+     * @param financialSystemDocumentTypeCodeService The financialSystemDocumentTypeCodeService to set.
      */
-    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
+    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
+        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
     }
 
     public void setPurapAccountingService(PurapAccountingServiceImpl purapAccountingService) {

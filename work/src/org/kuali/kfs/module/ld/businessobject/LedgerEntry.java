@@ -101,8 +101,8 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     private BalanceType balanceType;
     private AccountingPeriod universityFiscalPeriod;
     private AccountingPeriod payrollEndDateFiscalPeriod;
-    private FinancialSystemDocumentTypeCode generalLedgerInputType;
-    private FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
+    private FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode;
     private SystemOptions option;
     private OriginationCode referenceOriginationCode;
     private ProjectCode project;
@@ -1065,37 +1065,37 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     }
 
     /**
-     * Gets the generalLedgerInputType attribute. 
-     * @return Returns the generalLedgerInputType.
+     * Gets the financialSystemDocumentTypeCode attribute. 
+     * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
-        return generalLedgerInputType;
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
     /**
-     * Sets the generalLedgerInputType attribute value.
-     * @param generalLedgerInputType The generalLedgerInputType to set.
+     * Sets the financialSystemDocumentTypeCode attribute value.
+     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      */
     @Deprecated
-    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
-        this.generalLedgerInputType = generalLedgerInputType;
+    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
     /**
-     * Gets the referenceGeneralLedgerInputType attribute. 
-     * @return Returns the referenceGeneralLedgerInputType.
+     * Gets the referenceFinancialSystemDocumentTypeCode attribute. 
+     * @return Returns the referenceFinancialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType() {
-        return referenceGeneralLedgerInputType;
+    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode() {
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
     /**
-     * Sets the referenceGeneralLedgerInputType attribute value.
-     * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
+     * Sets the referenceFinancialSystemDocumentTypeCode attribute value.
+     * @param referenceFinancialSystemDocumentTypeCode The referenceFinancialSystemDocumentTypeCode to set.
      */
     @Deprecated
-    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType) {
-        this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
+    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode) {
+        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
     }
 
     /**

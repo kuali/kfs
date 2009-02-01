@@ -57,7 +57,7 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao {
 
-    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private KualiModuleService kualiModuleService;
 
     /**
@@ -341,7 +341,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         // active BC account delegates are marked with the BC document type or the special "ALL" document type
         List docTypes = new ArrayList();
         docTypes.add(BCConstants.DOCUMENT_TYPE_CODE_ALL);
-        docTypes.add(getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(BudgetConstructionDocument.class).getFinancialSystemDocumentTypeCode());
+        docTypes.add(getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(BudgetConstructionDocument.class).getFinancialSystemDocumentTypeCode());
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
@@ -519,19 +519,19 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * Gets the generalLedgerInputTypeService attribute. 
-     * @return Returns the generalLedgerInputTypeService.
+     * Gets the financialSystemDocumentTypeCodeService attribute. 
+     * @return Returns the financialSystemDocumentTypeCodeService.
      */
-    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
-        return generalLedgerInputTypeService;
+    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
+        return financialSystemDocumentTypeCodeService;
     }
 
     /**
-     * Sets the generalLedgerInputTypeService attribute value.
-     * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
+     * Sets the financialSystemDocumentTypeCodeService attribute value.
+     * @param financialSystemDocumentTypeCodeService The financialSystemDocumentTypeCodeService to set.
      */
-    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
-        this.generalLedgerInputTypeService = generalLedgerInputTypeService;
+    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
+        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
     }
 
 }

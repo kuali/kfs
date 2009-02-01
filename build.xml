@@ -431,8 +431,8 @@
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
-			<pathelement location="build/foundation/ant-contrib-1.0b3.jar" />
-			<pathelement location="build/foundation/bcel-5.2.jar" />
+			<pathelement location="build/ant-contrib-1.0b3.jar" />
+			<pathelement location="build/bcel-5.2.jar" />
 		</classpath>
 	</taskdef>    	
 

@@ -228,7 +228,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="build-dd-doc" depends="init-properties" description="Builds documentation for the Data Dictionary custom tags.">
 		<taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task">
 			<classpath>
-				<pathelement location="build/foundation/xsddoc.jar" />
+				<pathelement location="build/xsddoc.jar" />
 				<fileset dir="${lib.directory}">
 					<include name="x*.jar"/>
 				</fileset>

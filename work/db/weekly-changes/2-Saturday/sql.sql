@@ -937,3 +937,8 @@ ALTER TABLE fs_doc_header_t
 	REFERENCES FS_DOC_TYP_CD_T(FS_DOC_TYP_CD))
 /
 
+update krim_role_perm_t set role_id = '63' where perm_id = '149'
+/
+INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
+    VALUES('563', sys_guid(), 1, '44', '149', 'Y')
+/

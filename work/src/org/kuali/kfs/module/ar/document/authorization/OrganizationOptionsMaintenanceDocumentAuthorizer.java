@@ -37,7 +37,7 @@ public class OrganizationOptionsMaintenanceDocumentAuthorizer extends Maintenanc
         }
         attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, organizationOptions.getChartOfAccountsCode());
         attributes.put(KfsKimAttributes.ORGANIZATION_CODE, organizationOptions.getOrganizationCode());
-        attributes.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, organizationOptions.getProcessingChartOfAccountCode());
-        attributes.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, organizationOptions.getProcessingOrganizationCode());
+        attributes.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, organizationOptions.getProcessingChartOfAccountCode());
+        attributes.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, organizationOptions.getProcessingOrganizationCode());
     }
 }

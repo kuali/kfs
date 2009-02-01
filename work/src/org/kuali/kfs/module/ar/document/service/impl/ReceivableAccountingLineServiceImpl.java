@@ -41,7 +41,7 @@ public class ReceivableAccountingLineServiceImpl implements ReceivableAccounting
     public void setReceivableAccountingLineForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
 
         Integer currentUniverisityFiscalYear = universityDateService.getCurrentFiscalYear();
-        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
         
         Map criteria = new HashMap();
         criteria.put("universityFiscalYear", currentUniverisityFiscalYear);

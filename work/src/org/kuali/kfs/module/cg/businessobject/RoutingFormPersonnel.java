@@ -112,7 +112,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      */
     public void populateWithUserServiceFields() {
         // retrieve services and refresh Person objects (it's empty after returning from a kul:lookup)
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, CGConstants.CG_NAMESPACE_CODE);
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(user, CGConstants.CG_NAMESPACE_CODE);
         // set chart / org for new person
         this.setChartOfAccountsCode(chartOrg.getChartOfAccountsCode());
         this.setOrganizationCode(chartOrg.getOrganizationCode());

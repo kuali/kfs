@@ -22,34 +22,17 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.rice.kim.bo.Person;
 
 public interface FinancialSystemUserService {
-
-    /**
-     * determine whether the given person is active in financial system
-     * 
-     * @param person the given person
-     * @return true if the given person is active in financial system; otherwsie, false
-     */
+    boolean isActiveFinancialSystemUser(String principalId);
     boolean isActiveFinancialSystemUser(Person person);
 
     /**
-     * get the chart and organization within the specified namespace that the given person belongs to
-     * 
-     * @param person the given person
-     * @param namespaceCode the specified namespace
-     * @return the chart and organization within the specified namespace that the given person belongs to
+     * If the specified person has the KFS-SYS User role for the specified namespace, this will return the organization associated with that assignment.
+     * If the specified person does not have the KFS-SYS User role for the specified namespace but does with a blank namespace, this will return the organization associated with that assignment.
+     * If the person does not have the KFS-SYS User role at all, this method will derive the organization from the Person Record.
      */
-    ChartOrgHolder getOrganizationByNamespaceCode(Person person, String namespaceCode);
-
-    /**
-     * get the chart and organization within the specified namespace that the given principalId belongs to
-     * 
-     * @param principalId the given person
-     * @param namespaceCode the specified namespace
-     * @return the chart and organization within the specified namespace that the given person belongs to
-     */
-    ChartOrgHolder getOrganizationByNamespaceCode(String principalId, String namespaceCode);
+    ChartOrgHolder getPrimaryOrganization(Person person, String namespaceCode);
+    ChartOrgHolder getPrimaryOrganization(String principalId, String namespaceCode);
     
-    Collection<String> getPrincipalIdsForOrganizationUsers( String namespaceCode, ChartOrgHolder chartOrg );
-    
-    Collection<String> getPrincipalIdsForOrganizationUsers( String namespaceCode, List<ChartOrgHolder> chartOrgs );
+    Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers( String namespaceCode, ChartOrgHolder chartOrg );
+    Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers( String namespaceCode, List<ChartOrgHolder> chartOrgs );
 }

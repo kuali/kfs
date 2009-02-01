@@ -401,7 +401,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
             String chart = "";
             String org = "";
-            ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(this.user, CGConstants.CG_NAMESPACE_CODE);
+            ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(this.user, CGConstants.CG_NAMESPACE_CODE);
             if ( chartOrg != null ) {
                 chart = chartOrg.getChartOfAccountsCode();
                 org = chartOrg.getOrganizationCode();

@@ -61,10 +61,10 @@ public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
 
         Person finSysUser = GlobalVariables.getUserSession().getPerson();
         
-        String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(finSysUser, ArConstants.AR_NAMESPACE_CODE).getChartOfAccountsCode();
+        String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(finSysUser, ArConstants.AR_NAMESPACE_CODE).getChartOfAccountsCode();
         newOptions.setProcessingChartOfAccountCode(chartAccountsCode);
         
-        String organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(finSysUser, ArConstants.AR_NAMESPACE_CODE).getOrganizationCode();
+        String organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(finSysUser, ArConstants.AR_NAMESPACE_CODE).getOrganizationCode();
         newOptions.setProcessingOrganizationCode(organizationCode);
         
         updateRemitToAddress(chartAccountsCode, organizationCode);

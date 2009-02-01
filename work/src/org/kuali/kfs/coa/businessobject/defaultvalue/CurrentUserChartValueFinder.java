@@ -34,7 +34,7 @@ public class CurrentUserChartValueFinder implements ValueFinder {
     public String getValue() {
         Person currentUser = ValueFinderUtil.getCurrentPerson();
         if (currentUser != null) {
-            return SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(currentUser, KFSConstants.ParameterNamespaces.CHART).getChartOfAccountsCode();
+            return SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.CHART).getChartOfAccountsCode();
         }
         else {
             return KFSConstants.EMPTY_STRING;

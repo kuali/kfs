@@ -39,7 +39,7 @@ public class CustomerInvoiceItemCodePreRule extends PreRulesContinuationBase {
         CustomerInvoiceItemCode invoiceItemCode = (CustomerInvoiceItemCode) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
     
         Person user = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, ArConstants.AR_NAMESPACE_CODE);
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(user, ArConstants.AR_NAMESPACE_CODE);
         
         invoiceItemCode.setChartOfAccountsCode( chartOrg.getChartOfAccountsCode() );
         invoiceItemCode.setOrganizationCode( chartOrg.getOrganizationCode() );

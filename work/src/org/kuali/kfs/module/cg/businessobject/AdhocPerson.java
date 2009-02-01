@@ -96,7 +96,7 @@ public class AdhocPerson extends AbstractAdhoc {
         if (user == null) {
             return "";
         }
-        org = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, CGConstants.CG_NAMESPACE_CODE).getOrganizationCode();
+        org = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(user, CGConstants.CG_NAMESPACE_CODE).getOrganizationCode();
         return org;
     }
 

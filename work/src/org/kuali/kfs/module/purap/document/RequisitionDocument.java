@@ -162,7 +162,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
             
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(currentUser, PurapConstants.PURAP_NAMESPACE);
+        ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser, PurapConstants.PURAP_NAMESPACE);
         if (ObjectUtils.isNotNull(purapChartOrg)) {
         this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
         this.setOrganizationCode(purapChartOrg.getOrganizationCode());
@@ -238,7 +238,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         super.toCopy();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(currentUser, PurapConstants.PURAP_NAMESPACE);
+        ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser, PurapConstants.PURAP_NAMESPACE);
         this.setPurapDocumentIdentifier(null);
 
         // Set req status to INPR.

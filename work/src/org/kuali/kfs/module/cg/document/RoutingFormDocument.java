@@ -1850,7 +1850,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
                 xml.append(projectDirector.getChartOfAccountsCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
                 if (StringUtils.isBlank(projectDirector.getOrganizationCode())) {
-                    xml.append(org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(projectDirector.getUser(),CGConstants.CG_NAMESPACE_CODE).getOrganizationCode());
+                    xml.append(org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(projectDirector.getUser(),CGConstants.CG_NAMESPACE_CODE).getOrganizationCode());
                 }
                 else {
                     xml.append(projectDirector.getOrganizationCode());

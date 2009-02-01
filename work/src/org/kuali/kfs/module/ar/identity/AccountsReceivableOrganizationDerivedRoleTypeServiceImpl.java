@@ -106,12 +106,15 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
     
     @Override
     public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
-        ChartOrgHolder userOrg = getFinancialSystemUserService().getOrganizationByNamespaceCode(principalId, ArConstants.AR_NAMESPACE_CODE);
-        if (PROCESSOR_ROLE_NAME.equals(roleName)) {
-            return hasProcessorRole(userOrg, qualification);
-        } else {  // billing role
-            return hasBillerRole(userOrg, qualification) || hasProcessorRole(userOrg, qualification);
+        if (getFinancialSystemUserService().isActiveFinancialSystemUser(principalId)) {
+            ChartOrgHolder userOrg = getFinancialSystemUserService().getPrimaryOrganization(principalId, ArConstants.AR_NAMESPACE_CODE);
+            if (PROCESSOR_ROLE_NAME.equals(roleName)) {
+                return hasProcessorRole(userOrg, qualification);
+            } else {  // billing role
+                return hasBillerRole(userOrg, qualification) || hasProcessorRole(userOrg, qualification);
+            }
         }
+        return false;
     }
     
     @Override
@@ -127,10 +130,10 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
                 for ( OrganizationOptions oo : ooList ) {
                     chartOrgList.add( new ChartOrgHolderImpl( oo.getProcessingChartOfAccountCode(), oo.getProcessingOrganizationCode() ) );
                 }
-                results.addAll( getFinancialSystemUserService().getPrincipalIdsForOrganizationUsers(namespaceCode, new ArrayList<ChartOrgHolder>(chartOrgList)));
+                results.addAll( getFinancialSystemUserService().getPrincipalIdsForFinancialSystemOrganizationUsers(namespaceCode, new ArrayList<ChartOrgHolder>(chartOrgList)));
             } else {
                 // get all users for the given org
-                results.addAll( getFinancialSystemUserService().getPrincipalIdsForOrganizationUsers(ArConstants.AR_NAMESPACE_CODE, processingOrg) );
+                results.addAll( getFinancialSystemUserService().getPrincipalIdsForFinancialSystemOrganizationUsers(ArConstants.AR_NAMESPACE_CODE, processingOrg) );
             }
         } else { // billing role
             ChartOrgHolderImpl billingOrg = new ChartOrgHolderImpl();
@@ -145,10 +148,10 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
                 for ( OrganizationOptions oo : ooList ) {
                     chartOrgList.add( new ChartOrgHolderImpl( oo.getChartOfAccountsCode(), oo.getOrganizationCode() ) );
                 }
-                results.addAll( getFinancialSystemUserService().getPrincipalIdsForOrganizationUsers(namespaceCode, chartOrgList));
+                results.addAll( getFinancialSystemUserService().getPrincipalIdsForFinancialSystemOrganizationUsers(namespaceCode, chartOrgList));
             } else {
                 // get all users for given org
-                results.addAll( getFinancialSystemUserService().getPrincipalIdsForOrganizationUsers(ArConstants.AR_NAMESPACE_CODE, billingOrg) );
+                results.addAll( getFinancialSystemUserService().getPrincipalIdsForFinancialSystemOrganizationUsers(ArConstants.AR_NAMESPACE_CODE, billingOrg) );
             }
         }
         return new ArrayList<String>( results );

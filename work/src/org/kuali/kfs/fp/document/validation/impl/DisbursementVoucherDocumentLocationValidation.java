@@ -66,7 +66,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         }
 
         Person initiator = getInitiator(document);
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getOrganizationByNamespaceCode(initiator, KFSConstants.ParameterNamespaces.FINANCIAL);
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(initiator, KFSConstants.ParameterNamespaces.FINANCIAL);
         String locationCode = (chartOrg == null || chartOrg.getOrganization() == null) ? null : chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
 
         // initiator campus code restrictions

@@ -165,7 +165,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
             
-            ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(user, PurapConstants.PURAP_NAMESPACE);
+            ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(user, PurapConstants.PURAP_NAMESPACE);
             if (ObjectUtils.isNotNull(purapChartOrg)) {
                 req.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
                 req.setOrganizationCode(purapChartOrg.getOrganizationCode());

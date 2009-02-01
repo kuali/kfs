@@ -233,7 +233,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         
         // Set the processing chart and org
         UserSession userSession = GlobalVariables.getUserSession();
-        ChartOrgHolder organization = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByNamespaceCode(userSession.getPerson(), ArConstants.AR_NAMESPACE_CODE);
+        ChartOrgHolder organization = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(userSession.getPerson(), ArConstants.AR_NAMESPACE_CODE);
         arDocumentHeader.setProcessingChartOfAccountCode(organization.getChartOfAccountsCode());
         arDocumentHeader.setProcessingOrganizationCode(organization.getOrganizationCode());
         

@@ -115,7 +115,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         if (chartOrgHolder == null) {
             chartOrgHolder = getOrganizationForNonFinancialSystemUser(person);
         }
-        return chartOrgHolder;
+        return (chartOrgHolder == null) ? new ChartOrgHolderImpl() : chartOrgHolder;
     }
 
     /**
@@ -127,7 +127,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         if (chartOrgHolder == null) {
             chartOrgHolder = getOrganizationForNonFinancialSystemUser(getPersonService().getPerson(principalId));
         }
-        return chartOrgHolder;
+        return (chartOrgHolder == null) ? new ChartOrgHolderImpl() : chartOrgHolder;
     }
     
     protected ChartOrgHolder getOrganizationForFinancialSystemUser(String principalId, String namespaceCode) {
@@ -148,7 +148,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         if (person.getPrimaryDepartmentCode().contains("-")) {
             return new ChartOrgHolderImpl(StringUtils.substringBefore(person.getPrimaryDepartmentCode(), "-"), StringUtils.substringAfter(person.getPrimaryDepartmentCode(), "-"));
         }
-        return new ChartOrgHolderImpl();
+        return null;
     }
     
     public Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers( String namespaceCode, ChartOrgHolder chartOrg) {

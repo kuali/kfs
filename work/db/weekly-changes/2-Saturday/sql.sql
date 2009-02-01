@@ -119,7 +119,7 @@ INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, AC
     VALUES('297', sys_guid(), 1, '1', 'View Account Funding Amounts', null, 'Y', 'KFS-BC')
 /
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
-    VALUES('561', sys_guid(), 1, '75', '297', 'Y')
+    VALUES('561', sys_guid(), 1, '80', '297', 'Y')
 /
 
 update krew_doc_typ_t set lbl = 'Line Item Receiving Status' where DOC_TYP_NM = 'LineItemReceivingStatusMaintenanceDocument'

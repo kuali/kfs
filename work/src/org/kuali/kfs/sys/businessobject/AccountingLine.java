@@ -100,14 +100,14 @@ public interface AccountingLine extends PersistableBusinessObject, GeneralLedger
      *  
      * @return Returns the referenceGeneralLedgerInputType.
      */
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType();
+    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType();
 
     /**
      * Sets the referenceGeneralLedgerInputType attribute value.
      * 
      * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
      */
-    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType);
+    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType);
 
     /**
      * @param organizationReferenceId The organizationReferenceId to set.

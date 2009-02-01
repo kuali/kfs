@@ -55,7 +55,7 @@
   </bean>
   <bean id="OffsetDefinition-financialDocumentTypeCode" parent="OffsetDefinition-financialDocumentTypeCode-parentBean" />
 
-  <bean id="OffsetDefinition-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
+  <bean id="OffsetDefinition-financialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
     <property name="forceUppercase" value="true" />
   </bean>

@@ -33,7 +33,7 @@ import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -48,7 +48,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceImpl.class);
 
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -144,7 +144,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * 
      * @param documentTypeService The generalLedgerInputTypeService to set.
      */
-    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService glInputTypeService) {
+    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService glInputTypeService) {
         this.generalLedgerInputTypeService = glInputTypeService;
     }
 

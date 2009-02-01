@@ -53,7 +53,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -97,7 +97,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private UniversityDateDao universityDateDao;
     private WorkflowDocumentService workflowDocumentService;
     private HomeOriginationService homeOriginationService;
-    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
     private Integer fiscalYear;
     private Integer fiscalMonth;
     private String documentNumber;
@@ -522,7 +522,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
             // Getting depreciation document type code for the transactions
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting document type for depreciation.");
-            generalLedgerInputTypeCode = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(AssetDepreciationDocument.class).getInputTypeCode();
+            generalLedgerInputTypeCode = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(AssetDepreciationDocument.class).getFinancialSystemDocumentTypeCode();
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation Document Type Code: " + generalLedgerInputTypeCode);
 
             Timestamp transactionTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
@@ -614,11 +614,11 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         this.homeOriginationService = homeOriginationService;
     }
 
-    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
         return generalLedgerInputTypeService;
     }
 
-    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
         this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 

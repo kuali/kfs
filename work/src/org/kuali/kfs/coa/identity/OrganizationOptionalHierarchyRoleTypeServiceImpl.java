@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
@@ -25,14 +22,6 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends Organizati
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
     public static final String DESCEND_HIERARCHY_FALSE_VALUE = "N";
     private boolean qualificationDeterminesDescendHierarchy;
-    {
-        if (qualificationDeterminesDescendHierarchy) {
-            qualificationRequiredAttributes.add(KfsKimAttributes.DESCEND_HIERARCHY);
-        }
-        else {
-            roleQualifierRequiredAttributes.add(KfsKimAttributes.DESCEND_HIERARCHY);
-        }
-    }
 
     /***
      * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
@@ -40,8 +29,6 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends Organizati
      */
     @Override
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        validateRequiredAttributesAgainstReceived(qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-        validateRequiredAttributesAgainstReceived(roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
         // if no qualification is passed, then we have no basis to reject this
         // (if a null is let through, then we get an NPE below) 
         if ( qualification == null || qualification.isEmpty() || roleQualifier == null || roleQualifier.isEmpty() ) {

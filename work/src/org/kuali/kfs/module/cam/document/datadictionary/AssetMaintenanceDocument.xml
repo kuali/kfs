@@ -9,13 +9,14 @@
   <bean id="AssetMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.Asset" />
     <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetMaintainableImpl" />
+    <property name="allowsNewOrCopy" value="false" />
     <property name="maintainableSections" >
       <list>
         <ref bean="AssetMaintenanceDocument-AssetDetailInformation" />
         <ref bean="AssetMaintenanceDocument-AssetLocation" />
         <ref bean="AssetMaintenanceDocument-OrganizationInformation" />
         <ref bean="AssetMaintenanceDocument-PaymentInformation" />
-		<ref bean="AssetMaintenanceDocument-AssetPaymentLink" />
+		<ref bean="AssetMaintenanceDocument-AssetPaymentLink" />        
 		<ref bean="AssetMaintenanceDocument-ViewRelatedDocumentLink" />        
         <ref bean="AssetMaintenanceDocument-FabricationInformation" />
         <ref bean="AssetMaintenanceDocument-LandInformation" />
@@ -102,7 +103,7 @@
       </list>
 	</property>
   </bean>
-  
+
   <bean id="AssetMaintenanceDocument-AssetDetailInformation" parent="AssetMaintenanceDocument-AssetDetailInformation-parentBean" />
 
   <bean id="AssetMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">

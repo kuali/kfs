@@ -19,7 +19,7 @@ package org.kuali.kfs.coa.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -43,7 +43,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
     private boolean active;
 
     private Chart chartOfAccounts;
-    private GeneralLedgerInputType generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode generalLedgerInputType;
     private Person accountDelegate;
 
     /**
@@ -178,7 +178,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
      * Gets the generalLedgerInputType attribute. 
      * @return Returns the generalLedgerInputType.
      */
-    public GeneralLedgerInputType getGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
         return generalLedgerInputType;
     }
 
@@ -186,7 +186,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
      * Sets the generalLedgerInputType attribute value.
      * @param generalLedgerInputType The generalLedgerInputType to set.
      */
-    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
         this.generalLedgerInputType = generalLedgerInputType;
     }
 

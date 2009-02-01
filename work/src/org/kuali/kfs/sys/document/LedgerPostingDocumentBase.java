@@ -20,7 +20,7 @@ import java.sql.Date;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocumentBase implements LedgerPostingDocument {
     static private transient DateTimeService dateTimeService;
     static private transient AccountingPeriodService accountingPeriodService;
-    static private transient GeneralLedgerInputTypeService generalLedgerInputTypeService;
+    static private transient FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
        
     protected AccountingPeriod accountingPeriod;
     protected Integer postingYear;
@@ -137,13 +137,13 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * @return the financial document type code for the given document
      */
     public String getFinancialDocumentTypeCode() {
-        return getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(this.getClass()).getInputTypeCode();
+        return getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(this.getClass()).getFinancialSystemDocumentTypeCode();
     }
     
 
-    public static GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+    public static FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
         if ( generalLedgerInputTypeService == null ) {
-            generalLedgerInputTypeService = SpringContext.getBean(GeneralLedgerInputTypeService.class);
+            generalLedgerInputTypeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
         }
         return generalLedgerInputTypeService;
     }

@@ -24,7 +24,7 @@ import org.kuali.rice.kim.bo.Person;
 /**
  * This interface defines methods that a Chart Service must provide
  */
-public interface ChartService extends ChartHierarchyService {
+public interface ChartService {
     /**
      * Retrieves a chart object by its primary key - the chart code.
      * 
@@ -70,5 +70,14 @@ public interface ChartService extends ChartHierarchyService {
      * @return chart manager <code>Person</code>
      */
     public Person getChartManager(String chartOfAccountsCode);
+
+    /**
+     * This method traverses the hierarchy to see if the potentialChildChartCode reports to the potentialParentChartCode
+     * 
+     * @param potentialChildChartCode
+     * @param potentialParentChartCode
+     * @return boolean indicating whether the first parameter reports to the second
+     */
+    public boolean isParentChart(String potentialChildChartCode, String potentialParentChartCode);
 }
 

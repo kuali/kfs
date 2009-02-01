@@ -67,9 +67,9 @@ import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -105,7 +105,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
     private OriginEntryService originEntryService;
     private OriginEntryLiteService originEntryLiteService;
     private OriginEntryGroupService originEntryGroupService;
@@ -174,7 +174,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, GeneralLedgerInputTypeService generalLedgerInputTypeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService, String batchFileDirectoryName) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService, String batchFileDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.generalLedgerInputTypeService = generalLedgerInputTypeService;
@@ -1573,7 +1573,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             String generalLedgerInputTypeCode = scrubbedEntry.getFinancialDocumentTypeCode();
             
             //TODO: Shawn - need to check this part later!!
-            GeneralLedgerInputType generalLedgerInputType = generalLedgerInputTypeService.getGeneralLedgerInputTypeByInputTypeCode(generalLedgerInputTypeCode);
+            FinancialSystemDocumentTypeCode generalLedgerInputType = generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(generalLedgerInputTypeCode);
             
             if ((!generalLedgerInputType.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled()) {
                 return true;

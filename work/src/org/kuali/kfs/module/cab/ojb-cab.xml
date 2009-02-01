@@ -91,7 +91,7 @@
         <foreignkey field-ref="financialObjectTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="generalLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="generalLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
     
@@ -115,7 +115,7 @@
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="documentNumber"/>
 	</reference-descriptor>
-    <reference-descriptor name="generalLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="generalLedgerInputType" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentTypeCode"/>
 	</reference-descriptor>
 	<collection-descriptor name="purchasingAccountsPayableItemAssets" element-class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">

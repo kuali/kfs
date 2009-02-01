@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -37,7 +37,7 @@ public class BankServiceImpl implements BankService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankServiceImpl.class);
     
     private BusinessObjectService businessObjectService;
-    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
     private ParameterService parameterService;
 
     /**
@@ -54,7 +54,7 @@ public class BankServiceImpl implements BankService {
      * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.Class)
      */
     public Bank getDefaultBankByDocType(Class documentClass) {
-        String documentTypeCode = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(documentClass).getInputTypeCode();
+        String documentTypeCode = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(documentClass).getFinancialSystemDocumentTypeCode();
         if (StringUtils.isBlank(documentTypeCode)) {
             throw new RuntimeException("Document type not found for document class: " + documentClass.getName());
         }
@@ -98,7 +98,7 @@ public class BankServiceImpl implements BankService {
      * Gets the generalLedgerInputTypeService attribute. 
      * @return Returns the generalLedgerInputTypeService.
      */
-    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
         return generalLedgerInputTypeService;
     }
 
@@ -106,7 +106,7 @@ public class BankServiceImpl implements BankService {
      * Sets the generalLedgerInputTypeService attribute value.
      * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
      */
-    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
         this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 

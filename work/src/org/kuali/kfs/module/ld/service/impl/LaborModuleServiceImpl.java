@@ -43,7 +43,7 @@ import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -129,7 +129,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
     public int countPendingSalaryExpenseTransfer(String emplid) {
-        String documentTypeCode = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(SalaryExpenseTransferDocument.class).getInputTypeCode();
+        String documentTypeCode = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(SalaryExpenseTransferDocument.class).getFinancialSystemDocumentTypeCode();
 
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(KFSPropertyConstants.EMPLID, emplid);
@@ -291,8 +291,8 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * 
      * @return an implementation of the generalLedgerInputTypeService.
      */
-    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
-        return SpringContext.getBean(GeneralLedgerInputTypeService.class);
+    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
+        return SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
     }
 
     /**

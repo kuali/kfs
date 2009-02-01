@@ -28,7 +28,7 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
@@ -546,7 +546,7 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      *  
      * @return Returns the generalLedgerInputType.
      */
-    public GeneralLedgerInputType getGeneralLedgerInputType();
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType();
 
     /**
      * Sets the generalLedgerInputType attribute value.
@@ -554,7 +554,7 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      * @param generalLedgerInputType The generalLedgerInputType to set.
      */
     @Deprecated
-    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType);
+    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType);
 
     /**
      * Gets the grade
@@ -851,7 +851,7 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      * 
      * @return Returns the referenceGeneralLedgerInputType.
      */
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType();
+    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType();
 
     /**
      * Sets the referenceGeneralLedgerInputType attribute value.
@@ -859,7 +859,7 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
      */
     @Deprecated
-    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType);
+    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType);
 
     /**
      * Gets the referenceOriginationCode

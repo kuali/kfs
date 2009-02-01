@@ -34,7 +34,7 @@
   </bean>
   <bean id="CreditCardDetail-financialDocumentTypeCode" parent="CreditCardDetail-financialDocumentTypeCode-parentBean" />
 
-  <bean id="CreditCardDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
+  <bean id="CreditCardDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
     <property name="forceUppercase" value="true" />
   </bean>

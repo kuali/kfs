@@ -26,7 +26,7 @@ import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -41,7 +41,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
     private String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
     private List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
-    private GeneralLedgerInputType generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode generalLedgerInputType;
 
     /**
      * Constructs a LaborJournalVoucherDocument.java.
@@ -121,7 +121,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
      * Gets the generalLedgerInputType attribute. 
      * @return Returns the generalLedgerInputType.
      */
-    public GeneralLedgerInputType getGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
         return generalLedgerInputType;
     }
 
@@ -129,7 +129,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
      * Sets the generalLedgerInputType attribute value.
      * @param generalLedgerInputType The generalLedgerInputType to set.
      */
-    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
         this.generalLedgerInputType = generalLedgerInputType;
     }
 

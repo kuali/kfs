@@ -30,7 +30,7 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -54,13 +54,13 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private ProjectCode project;
-    private GeneralLedgerInputType generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode generalLedgerInputType;
     private UniversityDate universityDate;
     private SystemOptions option;
     private AccountingPeriod accountingPeriod;
     private UniversityDate reversalDate;
     private OriginationCode origination;
-    private GeneralLedgerInputType referenceGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType;
 
     public OriginEntryFull(GeneralLedgerPendingEntry glpe) {
         accountNumber = glpe.getAccountNumber();
@@ -218,11 +218,11 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.chart = chart;
     }
 
-    public GeneralLedgerInputType getGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
         return generalLedgerInputType;
     }
 
-    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
         this.generalLedgerInputType = generalLedgerInputType;
     }
 
@@ -306,11 +306,11 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         this.origination = origination;
     }
 
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType() {
         return referenceGeneralLedgerInputType;
     }
 
-    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType) {
         this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
 

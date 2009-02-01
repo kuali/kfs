@@ -33,7 +33,7 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -71,7 +71,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     private String hrmsCompany;
     private String setid;
     private Date transactionDateTimeStamp;
-    private GeneralLedgerInputType  referenceGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode  referenceGeneralLedgerInputType;
     private OriginationCode referenceFinancialSystemOrigination;
     private AccountingPeriod payrollEndDateFiscalPeriod;
 
@@ -660,7 +660,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @return Returns the referenceFinancialDocumentType.
      */
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType() {
         return referenceGeneralLedgerInputType;
     }
 
@@ -669,7 +669,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @param referenceFinancialDocumentType The referenceFinancialDocumentType to set.
      */
-    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType) {
         this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
 

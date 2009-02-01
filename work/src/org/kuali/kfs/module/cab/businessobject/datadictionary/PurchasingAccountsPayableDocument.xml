@@ -55,7 +55,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="PurchasingAccountsPayableDocument-documentTypeCode" parent="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" />
-  <bean id="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
+  <bean id="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
   	<property name="name" value="documentTypeCode" />
   	<property name="label" value="Doc Typ" />
     <property name="shortLabel" value="Doc Type" />

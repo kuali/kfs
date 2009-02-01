@@ -167,7 +167,7 @@
     	<property name="assetService" ref="assetService"/>    
     </bean>
        
-    <bean id="assetLookupable" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableImpl" scope="prototype">
+    <bean id="assetLookupable" parent="kualiLookupable">
         <property name="lookupableHelperService">
             <ref bean="assetLookupableHelperService" />
         </property>

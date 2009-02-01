@@ -20,9 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
-import org.kuali.kfs.sys.exception.UnknownGeneralLedgerInputTypeException;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -34,7 +33,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This is the implementation of {@link GeneralLedgerInputTypeService} that is used to retrieve financial information about certain
  * documents by utilizing the document type name
  */
-public class GeneralLedgerInputTypeServiceImpl implements GeneralLedgerInputTypeService {
+public class FinancialSystemDocumentTypeCodeServiceImpl implements FinancialSystemDocumentTypeCodeService {
 
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
@@ -84,7 +83,7 @@ public class GeneralLedgerInputTypeServiceImpl implements GeneralLedgerInputType
     /**
      * @see org.kuali.kfs.sys.service.GeneralLedgerInputTypeService#getGeneralLedgerInputTypeByDocumentClass(java.lang.Class)
      */
-    public GeneralLedgerInputType getGeneralLedgerInputTypeByDocumentClass(Class documentClass) {
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(Class documentClass) {
         if (documentClass == null) {
             throw new IllegalArgumentException("invalid (null) documentClass");
         }
@@ -96,24 +95,24 @@ public class GeneralLedgerInputTypeServiceImpl implements GeneralLedgerInputType
         if (StringUtils.isBlank(documentTypeName)) {
             throw new UnknownDocumentTypeException("unable to get documentTypeName for unknown documentClass '" + documentClass.getName() + "'");
         }
-        return getGeneralLedgerInputTypeByDocumentName(documentTypeName);
+        return getFinancialSystemDocumentTypeCodeByDocumentName(documentTypeName);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.GeneralLedgerInputTypeService#getGeneralLedgerInputTypeByDocumentName(java.lang.String)
      */
-    public GeneralLedgerInputType getGeneralLedgerInputTypeByDocumentName(String documentTypeName) {
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCodeByDocumentName(String documentTypeName) {
         if (StringUtils.isBlank(documentTypeName)) {
             throw new IllegalArgumentException("invalid (blank) documentTypeName");
         }
         // call bo service to get GeneralLedgerInputType using the 'documentName' criteria option
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("documentTypeName", documentTypeName);
-        Collection generalLedgerInputTypes = getBusinessObjectService().findMatching(GeneralLedgerInputType.class, fieldValues);
+        Collection generalLedgerInputTypes = getBusinessObjectService().findMatching(FinancialSystemDocumentTypeCode.class, fieldValues);
         if (generalLedgerInputTypes.size() == 0) {
-            throw new UnknownGeneralLedgerInputTypeException("unable to get GeneralLedgerInputType for documentTypeName '" + documentTypeName + "'");
+            throw new RuntimeException("unable to get GeneralLedgerInputType for documentTypeName '" + documentTypeName + "'");
         } else if (generalLedgerInputTypes.size() == 1) {
-            return (GeneralLedgerInputType) generalLedgerInputTypes.iterator().next();
+            return (FinancialSystemDocumentTypeCode) generalLedgerInputTypes.iterator().next();
         } else {
             throw new RuntimeException("Too many general ledger input types found for documentTypeName '" + documentTypeName + "'. Require only 1 but found " + generalLedgerInputTypes.size());
         }
@@ -122,16 +121,16 @@ public class GeneralLedgerInputTypeServiceImpl implements GeneralLedgerInputType
     /**
      * @see org.kuali.kfs.sys.service.GeneralLedgerInputTypeService#getGeneralLedgerInputTypeByInputTypeCode(java.lang.String)
      */
-    public GeneralLedgerInputType getGeneralLedgerInputTypeByInputTypeCode(String generalLedgerInputTypeCode) {
+    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCodeByPrimaryKey(String generalLedgerInputTypeCode) {
         if (StringUtils.isBlank(generalLedgerInputTypeCode)) {
             throw new IllegalArgumentException("invalid (blank) generalLedgerInputTypeCode");
         }
         // call bo service to get GeneralLedgerInputType using the 'inputTypeCode' criteria option
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("inputTypeCode", generalLedgerInputTypeCode);
-        GeneralLedgerInputType generalLedgerInputType = (GeneralLedgerInputType) getBusinessObjectService().findByPrimaryKey(GeneralLedgerInputType.class, primaryKeys);
+        FinancialSystemDocumentTypeCode generalLedgerInputType = (FinancialSystemDocumentTypeCode) getBusinessObjectService().findByPrimaryKey(FinancialSystemDocumentTypeCode.class, primaryKeys);
         if (ObjectUtils.isNull(generalLedgerInputType)) {
-            throw new UnknownGeneralLedgerInputTypeException("unable to get GeneralLedgerInputType for generalLedgerInputTypeCode '" + generalLedgerInputTypeCode + "'");
+            throw new RuntimeException("unable to get GeneralLedgerInputType for generalLedgerInputTypeCode '" + generalLedgerInputTypeCode + "'");
         }
         return generalLedgerInputType;
     }

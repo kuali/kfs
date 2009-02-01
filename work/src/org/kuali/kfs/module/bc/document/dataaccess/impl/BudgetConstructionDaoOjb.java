@@ -46,7 +46,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -57,7 +57,7 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao {
 
-    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
     private KualiModuleService kualiModuleService;
 
     /**
@@ -341,7 +341,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         // active BC account delegates are marked with the BC document type or the special "ALL" document type
         List docTypes = new ArrayList();
         docTypes.add(BCConstants.DOCUMENT_TYPE_CODE_ALL);
-        docTypes.add(getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(BudgetConstructionDocument.class).getInputTypeCode());
+        docTypes.add(getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(BudgetConstructionDocument.class).getFinancialSystemDocumentTypeCode());
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
@@ -522,7 +522,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      * Gets the generalLedgerInputTypeService attribute. 
      * @return Returns the generalLedgerInputTypeService.
      */
-    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
         return generalLedgerInputTypeService;
     }
 
@@ -530,7 +530,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      * Sets the generalLedgerInputTypeService attribute value.
      * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
      */
-    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
         this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 

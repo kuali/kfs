@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -53,7 +53,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
 
     private Chart chart;
     private Account account;
-    private GeneralLedgerInputType generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode generalLedgerInputType;
     private Person accountDelegate;
 
     /**
@@ -243,7 +243,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
      * Gets the generalLedgerInputType attribute. 
      * @return Returns the generalLedgerInputType.
      */
-    public GeneralLedgerInputType getGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
         return generalLedgerInputType;
     }
 
@@ -251,7 +251,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
      * Sets the generalLedgerInputType attribute value.
      * @param generalLedgerInputType The generalLedgerInputType to set.
      */
-    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
         this.generalLedgerInputType = generalLedgerInputType;
     }
 

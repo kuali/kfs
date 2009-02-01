@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -132,7 +132,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
         advanceDepositDetail.setFinancialDocumentLineNumber(this.nextAdvanceDepositLineNumber);
         advanceDepositDetail.setFinancialDocumentColumnTypeCode(KFSConstants.AdvanceDepositConstants.CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE);
         advanceDepositDetail.setDocumentNumber(this.getDocumentNumber());
-        advanceDepositDetail.setFinancialDocumentTypeCode(SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(this.getClass()).getInputTypeCode());
+        advanceDepositDetail.setFinancialDocumentTypeCode(SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class).getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(this.getClass()).getFinancialSystemDocumentTypeCode());
     }
 
     /**

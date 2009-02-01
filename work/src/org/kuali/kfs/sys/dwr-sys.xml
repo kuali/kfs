@@ -35,14 +35,7 @@
 			<param name="beanName" value="postalCodeService" />
 			<include method="getByPrimaryId" />
 		</create>
-						
 	    <convert match="org.kuali.rice.kns.util.KualiDecimal" converter="kualinumber" />
-	    <!--  
-	    <create creator="spring" javascript="PersonService">
-	    	<param name="beanName" value="personService" />
-	    	<include method="getPersonByEmployeeId" />
-	    </create>
-	    -->
 	    <convert converter="bean" match="org.kuali.kfs.sys.businessobject.Bank">
 	   		<param name="include" value="bankCode,bankName,bankShortName" />
 	   	</convert>
@@ -50,12 +43,12 @@
 	    	<param name="beanName" value="bankService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
-        <convert converter="bean" match="org.kuali.kfs.sys.businessobject.GeneralLedgerInputType">
-            <param name="include" value="inputTypeCode,documentTypeName,documentTypeActiveIndicator" />
+        <convert converter="bean" match="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode">
+            <param name="include" value="financialSystemDocumentTypeCode,documentTypeName,active" />
         </convert>
-        <create creator="spring" javascript="GeneralLedgerInputTypeService">
+        <create creator="spring" javascript="FinancialSystemDocumentTypeCodeService">
             <param name="beanName" value="generalLedgerInputTypeService" />
-            <include method="getGeneralLedgerInputTypeByInputTypeCode" />
+            <include method="getFinancialSystemDocumentTypeCodeByPrimaryKey" />
         </create>
 	</allow>
 </dwr>

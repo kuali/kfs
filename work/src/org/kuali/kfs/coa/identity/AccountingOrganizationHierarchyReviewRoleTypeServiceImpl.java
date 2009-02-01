@@ -28,11 +28,6 @@ import org.kuali.rice.kim.service.support.KimDelegationTypeService;
 public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl 
         extends OrganizationHierarchyReviewRoleTypeServiceImpl implements KimDelegationTypeService {
 
-    {
-        qualificationRequiredAttributes.add(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
-        qualificationRequiredAttributes.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
-    }
-
     /**
      * Create role type service - org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeService 
      * for KFS-COA/"Organization: Always Hierarchical, Document Type & Accounting"

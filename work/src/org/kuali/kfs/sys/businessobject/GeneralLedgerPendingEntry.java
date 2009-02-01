@@ -72,7 +72,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private boolean transactionEntryOffsetIndicator;
     private Date transactionEntryProcessedTs;
 
-    private GeneralLedgerInputType generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode generalLedgerInputType;
     private FinancialSystemDocumentHeader documentHeader;
 
     private SystemOptions option;
@@ -88,7 +88,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private OriginationCode originationCode;
     private ProjectCode project;
     private OriginationCode referenceOriginationCode;
-    private GeneralLedgerInputType referenceGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType;
     
     @Deprecated
     private transient AccountingPeriod accountingPeriod;
@@ -157,11 +157,11 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         referenceGeneralLedgerInputType = original.getReferenceGeneralLedgerInputType();
     }
 
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType() {
         return referenceGeneralLedgerInputType;
     }
 
-    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType) {
         this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
 
@@ -738,7 +738,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      * Gets the generalLedgerInputType attribute. 
      * @return Returns the generalLedgerInputType.
      */
-    public GeneralLedgerInputType getGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
         return generalLedgerInputType;
     }
 
@@ -746,7 +746,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      * Sets the generalLedgerInputType attribute value.
      * @param generalLedgerInputType The generalLedgerInputType to set.
      */
-    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
         this.generalLedgerInputType = generalLedgerInputType;
     }
 

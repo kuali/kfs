@@ -36,7 +36,7 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -131,8 +131,8 @@ public interface CachingDao {
          * @param entry the origin entry to retrieve the document type of
          * @return the related document type record, or null if not found
          */
-        public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry entry);
-        public GeneralLedgerInputType getGeneralLedgerInputType(String financialDocumentTypeCode);
+        public FinancialSystemDocumentTypeCode getGeneralLedgerInputType(OriginEntry entry);
+        public FinancialSystemDocumentTypeCode getGeneralLedgerInputType(String financialDocumentTypeCode);
 
         /**
          * Get the reference document type for the given origin entryable
@@ -140,7 +140,7 @@ public interface CachingDao {
          * @param entry origin entryable to lookup the reference document type for
          * @return the related reference DocumentType record, or null if not found
          */
-        public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry entry);
+        public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType(OriginEntry entry);
 
         /**
          * Retrieves the project code for the given origin entryable

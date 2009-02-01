@@ -24,7 +24,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -60,7 +60,7 @@ public class AssetPaymentDocumentTypeValidation extends GenericValidation {
             Map<String, Object> keyToFind = new HashMap<String, Object>();
             keyToFind.put(KFSPropertyConstants.GENERAL_LEDGER_INPUT_TYPE_CODE, assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
 
-            if (businessObjectService.findByPrimaryKey(GeneralLedgerInputType.class, keyToFind) == null) {
+            if (businessObjectService.findByPrimaryKey(FinancialSystemDocumentTypeCode.class, keyToFind) == null) {
                 label = dataDictionaryService.getAttributeLabel(AssetPaymentDetail.class, CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;

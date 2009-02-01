@@ -459,7 +459,7 @@
   
   <bean id="PaymentDetail-financialDocumentTypeCode" parent="PaymentDetail-financialDocumentTypeCode-parentBean" />
 
-  <bean id="PaymentDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
+  <bean id="PaymentDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="PaymentDetail-notesText" parent="PaymentDetail-notesText-parentBean" />

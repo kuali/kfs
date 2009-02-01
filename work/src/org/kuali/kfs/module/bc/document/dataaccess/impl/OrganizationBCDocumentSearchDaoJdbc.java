@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 
 /**
  * This class...
@@ -30,7 +30,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
     private static String[] buildAccountManagerDelegateListTemplates = new String[3];
 
-    private GeneralLedgerInputTypeService generalLedgerInputTypeService;
+    private FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService;
 
     public OrganizationBCDocumentSearchDaoJdbc() {
 
@@ -248,7 +248,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      *      java.lang.Integer)
      */
     public int buildAccountManagerDelegateList(String principalName, Integer universityFiscalYear) {
-        String budgetGeneralLedgerInputType = getGeneralLedgerInputTypeService().getGeneralLedgerInputTypeByDocumentClass(BudgetConstructionDocument.class).getInputTypeCode();
+        String budgetGeneralLedgerInputType = getGeneralLedgerInputTypeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(BudgetConstructionDocument.class).getFinancialSystemDocumentTypeCode();
         int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, budgetGeneralLedgerInputType, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
       
         // update level chart and org
@@ -269,7 +269,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      * Gets the generalLedgerInputTypeService attribute. 
      * @return Returns the generalLedgerInputTypeService.
      */
-    public GeneralLedgerInputTypeService getGeneralLedgerInputTypeService() {
+    public FinancialSystemDocumentTypeCodeService getGeneralLedgerInputTypeService() {
         return generalLedgerInputTypeService;
     }
 
@@ -277,7 +277,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      * Sets the generalLedgerInputTypeService attribute value.
      * @param generalLedgerInputTypeService The generalLedgerInputTypeService to set.
      */
-    public void setGeneralLedgerInputTypeService(GeneralLedgerInputTypeService generalLedgerInputTypeService) {
+    public void setGeneralLedgerInputTypeService(FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService) {
         this.generalLedgerInputTypeService = generalLedgerInputTypeService;
     }
 

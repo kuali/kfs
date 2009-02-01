@@ -38,8 +38,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
     private static final String PROCESSOR_ROLE_NAME = "Processor";
-    public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE;
-    public static final String PROCESSING_ORGANIZATION_CODE = ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE;
 
     private BusinessObjectService businessObjectService;
     private FinancialSystemUserService financialSystemUserService;
@@ -49,8 +47,8 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
         if ( qualification != null ) {
             chartOrg = new ChartOrgHolderImpl();
             // if the processing org is specified from the qualifications, use that
-            chartOrg.setChartOfAccountsCode( qualification.get(PROCESSING_CHART_OF_ACCOUNTS_CODE) );
-            chartOrg.setOrganizationCode( qualification.get(PROCESSING_ORGANIZATION_CODE) );
+            chartOrg.setChartOfAccountsCode( qualification.get(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE) );
+            chartOrg.setOrganizationCode( qualification.get(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE) );
             // otherwise default to the normal chart/org values and derive the processing chart/org
             if (StringUtils.isBlank(chartOrg.getChartOfAccountsCode()) || StringUtils.isBlank(chartOrg.getOrganizationCode())) {
                 chartOrg.setChartOfAccountsCode( qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );

@@ -60,15 +60,15 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
+        List<HtmlData> anchorHtmlDataList = super.getCustomActionUrls(bo, pkNames);
+        
         Asset asset = (Asset) bo;
-        List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         
         // For retired asset, all action link will be hidden.
         if (assetService.isAssetRetired(asset)) {
             anchorHtmlDataList.add(getViewAssetUrl(asset));
         }
         else {
-            anchorHtmlDataList.add(getUrlData(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
             anchorHtmlDataList.add(getLoanUrl(asset));
             anchorHtmlDataList.add(getMergeUrl(asset));
             anchorHtmlDataList.add(getSeparateUrl(asset));

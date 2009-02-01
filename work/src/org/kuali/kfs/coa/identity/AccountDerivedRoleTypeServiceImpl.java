@@ -40,7 +40,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     {
         requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         requiredAttributes.add(KfsKimAttributes.ACCOUNT_NUMBER);
-        requiredAttributes.add(KfsKimAttributes.GENERAL_LEDGER_INPUT_TYPE_CODE);
+        requiredAttributes.add(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
     }
     
     /**
@@ -63,7 +63,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
-        String generalLedgerInputTypeCode = qualification.get(KfsKimAttributes.GENERAL_LEDGER_INPUT_TYPE_CODE);
+        String generalLedgerInputTypeCode = qualification.get(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
         String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
         //Default to 0 total amount
         if(StringUtils.isEmpty(totalDollarAmount))

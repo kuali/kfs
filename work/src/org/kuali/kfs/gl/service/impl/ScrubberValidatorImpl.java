@@ -44,7 +44,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -659,7 +659,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateDocumentType(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateDocumentType() started");
 
-        GeneralLedgerInputType originEntryInputType = referenceLookup.get().getGeneralLedgerInputType(originEntry);
+        FinancialSystemDocumentTypeCode originEntryInputType = referenceLookup.get().getGeneralLedgerInputType(originEntry);
 //DocumentType originEntryDocumentType = getDocumentType(originEntry.getFinancialDocumentTypeCode());
         if (originEntryInputType == null) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, originEntry.getFinancialDocumentTypeCode(), Message.TYPE_FATAL);
@@ -1020,7 +1020,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
             if (!typeCodeNullIndicator){
                 // Validate reference document type
-                GeneralLedgerInputType originEntryReferenceInputType = referenceLookup.get().getReferenceGeneralLedgerInputType(originEntry);
+                FinancialSystemDocumentTypeCode originEntryReferenceInputType = referenceLookup.get().getReferenceGeneralLedgerInputType(originEntry);
                 if (originEntryReferenceInputType != null) {
                     workingEntry.setReferenceFinancialDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
                 }

@@ -11,7 +11,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -68,7 +68,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private SubObjectCode financialSubObject;
     private ProjectCode project;
     private AccountingPeriod financialDocumentPostingPeriod;
-    private GeneralLedgerInputType generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode generalLedgerInputType;
     private DocumentHeader documentHeader;
     private OriginationCode financialSystemOrigination;
     private SystemOptions option;
@@ -1050,7 +1050,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      * Gets the generalLedgerInputType attribute. 
      * @return Returns the generalLedgerInputType.
      */
-    public GeneralLedgerInputType getGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
         return generalLedgerInputType;
     }
 
@@ -1059,7 +1059,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      * @param generalLedgerInputType The generalLedgerInputType to set.
      * @deprecated
      */
-    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
         this.generalLedgerInputType = generalLedgerInputType;
     }
 

@@ -211,7 +211,7 @@
   </bean>
   <bean id="GECSourceAccountingLine-referenceTypeCode" parent="GECSourceAccountingLine-referenceTypeCode-parentBean" />
 
-  <bean id="GECSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
+  <bean id="GECSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

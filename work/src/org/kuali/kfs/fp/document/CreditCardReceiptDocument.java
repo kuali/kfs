@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -142,7 +142,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
         creditCardReceiptDetail.setFinancialDocumentLineNumber(this.nextCcCrLineNumber);
         creditCardReceiptDetail.setFinancialDocumentColumnTypeCode(KFSConstants.CreditCardReceiptConstants.CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE);
         creditCardReceiptDetail.setDocumentNumber(this.getDocumentNumber());
-        creditCardReceiptDetail.setFinancialDocumentTypeCode(SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(this.getClass()).getInputTypeCode());
+        creditCardReceiptDetail.setFinancialDocumentTypeCode(SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class).getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(this.getClass()).getFinancialSystemDocumentTypeCode());
     }
 
     /**

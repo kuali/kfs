@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
@@ -101,8 +101,8 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     private boolean canHaveBankEntry(Document document) {
         boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
         if (bankSpecificationEnabled) {
-            GeneralLedgerInputTypeService generalLedgerInputTypeService = SpringContext.getBean(GeneralLedgerInputTypeService.class);
-            String documentTypeCode = generalLedgerInputTypeService.getGeneralLedgerInputTypeByDocumentClass(document.getClass()).getInputTypeCode();
+            FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+            String documentTypeCode = generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(document.getClass()).getFinancialSystemDocumentTypeCode();
 
             ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeCode);
             return evaluator.evaluationSucceeds();

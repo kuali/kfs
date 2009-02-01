@@ -18,7 +18,7 @@ package org.kuali.kfs.integration.purap;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 
 
 /**

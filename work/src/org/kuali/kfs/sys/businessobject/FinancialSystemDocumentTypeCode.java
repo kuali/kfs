@@ -17,33 +17,34 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * GeneralLedgerInputType is used to hold financial system data for particular document types. It links to Kuali Enterprise Workflow
  * and to the Kuali Nervous System Data Dictionary via the document type name.
  */
-public class GeneralLedgerInputType extends PersistableBusinessObjectBase {
+public class FinancialSystemDocumentTypeCode extends PersistableBusinessObjectBase implements Inactivateable {
 
-    private String inputTypeCode;
+    private String financialSystemDocumentTypeCode;
     private String documentTypeName;
-    private boolean documentTypeActiveIndicator;
+    private boolean active;
     private boolean transactionScrubberOffsetGenerationIndicator;
 
     /**
      * Gets the inputTypeCode attribute. 
      * @return Returns the inputTypeCode.
      */
-    public String getInputTypeCode() {
-        return inputTypeCode;
+    public String getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
     }
 
     /**
      * Sets the inputTypeCode attribute value.
      * @param inputTypeCode The inputTypeCode to set.
      */
-    public void setInputTypeCode(String inputTypeCode) {
-        this.inputTypeCode = inputTypeCode;
+    public void setFinancialSystemDocumentTypeCode(String inputTypeCode) {
+        this.financialSystemDocumentTypeCode = inputTypeCode;
     }
 
     /**
@@ -65,15 +66,15 @@ public class GeneralLedgerInputType extends PersistableBusinessObjectBase {
     /**
      * @return the documentTypeActiveIndicator
      */
-    public boolean isDocumentTypeActiveIndicator() {
-        return this.documentTypeActiveIndicator;
+    public boolean isActive() {
+        return this.active;
     }
 
     /**
      * @param documentTypeActiveIndicator the documentTypeActiveIndicator to set
      */
-    public void setDocumentTypeActiveIndicator(boolean documentTypeActiveIndicator) {
-        this.documentTypeActiveIndicator = documentTypeActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**
@@ -98,10 +99,7 @@ public class GeneralLedgerInputType extends PersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("inputTypeCode", this.inputTypeCode);
-        m.put("documentTypeName", this.documentTypeName);
-        m.put("activeDocumentType", this.documentTypeActiveIndicator);
-        m.put("transactionScrubberOffsetGenerationIndicator", this.transactionScrubberOffsetGenerationIndicator);
+        m.put("inputTypeCode", this.financialSystemDocumentTypeCode);
         return m;
     }
 

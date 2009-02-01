@@ -21,14 +21,14 @@ import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 
 /**
  * This class represents an origin entry key
  */
 public class OriginEntryKey {
     static BalanceTypService balanceTypService = (BalanceTypService) SpringContext.getBean(BalanceTypService.class);
-    static GeneralLedgerInputTypeService generalLedgerInputTypeService = (GeneralLedgerInputTypeService) SpringContext.getBean(GeneralLedgerInputTypeService.class);
+    static FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService = (FinancialSystemDocumentTypeCodeService) SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
 
     /*
      * (non-Javadoc)
@@ -77,7 +77,7 @@ public class OriginEntryKey {
         entry.setAccountNumber(getAccountNumber());
         entry.setBalanceType(balanceTypService.getBalanceTypByCode(getBalanceTypeCode()));
         entry.setChartOfAccountsCode(getChartCode());
-        entry.setGeneralLedgerInputType(generalLedgerInputTypeService.getGeneralLedgerInputTypeByInputTypeCode(getGeneralLedgerInputTypeCode()));
+        entry.setGeneralLedgerInputType(generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(getGeneralLedgerInputTypeCode()));
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(getEntrySequenceNumber()));
         entry.setDocumentNumber(getDocumentNumber());
         entry.setFinancialObjectCode(getFinancialObjectCode());

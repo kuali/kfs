@@ -42,7 +42,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -234,27 +234,27 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return originEntryChart;
     }
     
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry originEntry) {
+    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType(OriginEntry originEntry) {
         return getGeneralLedgerInputType(originEntry.getReferenceFinancialDocumentTypeCode());
     }
-    public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry originEntry) {
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType(OriginEntry originEntry) {
         return getGeneralLedgerInputType(originEntry.getFinancialDocumentTypeCode());
     }
-    public GeneralLedgerInputType getGeneralLedgerInputType(String generalLedgerInputTypeCode) {
-        GeneralLedgerInputType generalLedgerInputType = null;
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType(String generalLedgerInputTypeCode) {
+        FinancialSystemDocumentTypeCode generalLedgerInputType = null;
         String key = "GL_INPUT_TYP_T:" + generalLedgerInputTypeCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
-                generalLedgerInputType = (GeneralLedgerInputType) value;
+                generalLedgerInputType = (FinancialSystemDocumentTypeCode) value;
             }
         } else {
             try {
                 generalLedgerInputTypePreparedSelect.setString(1, generalLedgerInputTypeCode);
                 ResultSet rs = generalLedgerInputTypePreparedSelect.executeQuery();
                 if (rs.next()) {
-                    generalLedgerInputType = new GeneralLedgerInputType();
-                    generalLedgerInputType.setInputTypeCode(generalLedgerInputTypeCode);
+                    generalLedgerInputType = new FinancialSystemDocumentTypeCode();
+                    generalLedgerInputType.setFinancialSystemDocumentTypeCode(generalLedgerInputTypeCode);
                     dataCache.put(key, generalLedgerInputType);
                 } else { LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); }
                 if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }

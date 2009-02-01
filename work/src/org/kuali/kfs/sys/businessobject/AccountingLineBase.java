@@ -85,7 +85,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private ProjectCode project;
     private BalanceType balanceTyp;
     private OriginationCode referenceOrigin;
-    private GeneralLedgerInputType referenceGeneralLedgerInputType;
+    private FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType;
     private SalesTax salesTax;
 
     /**
@@ -225,7 +225,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * Gets the referenceGeneralLedgerInputType attribute. 
      * @return Returns the referenceGeneralLedgerInputType.
      */
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType() {
         return referenceGeneralLedgerInputType;
     }
 
@@ -234,7 +234,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * Sets the referenceGeneralLedgerInputType attribute value.
      * @param referenceGeneralLedgerInputType The referenceGeneralLedgerInputType to set.
      */
-    public void setReferenceGeneralLedgerInputType(GeneralLedgerInputType referenceGeneralLedgerInputType) {
+    public void setReferenceGeneralLedgerInputType(FinancialSystemDocumentTypeCode referenceGeneralLedgerInputType) {
         this.referenceGeneralLedgerInputType = referenceGeneralLedgerInputType;
     }
 

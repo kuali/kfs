@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
@@ -42,7 +42,7 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
     private Date accountDelegateStartDate;
 
     private Person accountDelegate;
-    private GeneralLedgerInputType generalLedgerInputType;
+    private FinancialSystemDocumentTypeCode generalLedgerInputType;
 
     /**
      * Default constructor.
@@ -64,7 +64,7 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
      * Gets the generalLedgerInputType attribute. 
      * @return Returns the generalLedgerInputType.
      */
-    public GeneralLedgerInputType getGeneralLedgerInputType() {
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType() {
         return generalLedgerInputType;
     }
 
@@ -73,7 +73,7 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
      * @param generalLedgerInputType The generalLedgerInputType to set.
      * @deprecated
      */
-    public void setGeneralLedgerInputType(GeneralLedgerInputType generalLedgerInputType) {
+    public void setGeneralLedgerInputType(FinancialSystemDocumentTypeCode generalLedgerInputType) {
         this.generalLedgerInputType = generalLedgerInputType;
     }
 

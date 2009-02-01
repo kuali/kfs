@@ -255,7 +255,7 @@
   </bean>
   
   <bean id="AssetGlobal-financialDocumentTypeCode" parent="AssetGlobal-financialDocumentTypeCode-parentBean" />
-  <bean id="AssetGlobal-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerInputType-inputTypeCode">
+  <bean id="AssetGlobal-financialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
     <property name="label" value="Financial Document Type Code" />
     <property name="shortLabel" value="financialDocumentTypeCode" />

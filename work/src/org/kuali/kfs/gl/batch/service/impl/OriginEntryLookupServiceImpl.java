@@ -40,7 +40,7 @@ import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -129,7 +129,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @param entry the origin entry to retrieve the GL input type of
      * @return the related GeneralLedgerInputType record, or null if not found
      */
-    public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry entry) {
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType(OriginEntry entry) {
         return cachingDao.getGeneralLedgerInputType(entry);
     }
 
@@ -139,7 +139,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @param entry origin entryable to lookup the reference GL input type for
      * @return the related reference GeneralLedgerInputType record, or null if not found
      */
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry entry) {
+    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType(OriginEntry entry) {
         return cachingDao.getReferenceGeneralLedgerInputType(entry);
     }
 

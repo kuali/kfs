@@ -28,9 +28,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * AssetAuthorizer for Asset edit.
  */
 public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
-    /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#populateRoleQualification(org.kuali.rice.kns.document.Document, java.util.Map)
-     */
+
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);

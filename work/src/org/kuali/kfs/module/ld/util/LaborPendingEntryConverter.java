@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -291,7 +291,7 @@ public class LaborPendingEntryConverter {
         LaborLedgerPendingEntry pendingEntry = getSimpleDefaultPendingEntry();
         DocumentHeader documentHeader = document.getDocumentHeader();
 
-        String documentTypeCode = SpringContext.getBean(GeneralLedgerInputTypeService.class).getGeneralLedgerInputTypeByDocumentClass(document.getClass()).getInputTypeCode();
+        String documentTypeCode = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class).getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(document.getClass()).getFinancialSystemDocumentTypeCode();
         pendingEntry.setFinancialDocumentTypeCode(documentTypeCode);
 
         pendingEntry.setDocumentNumber(documentHeader.getDocumentNumber());

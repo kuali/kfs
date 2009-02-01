@@ -64,7 +64,7 @@ import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
-import org.kuali.kfs.sys.service.GeneralLedgerInputTypeService;
+import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -1072,8 +1072,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      */
     protected boolean isSalesTaxRequired(AccountingDocument financialDocument, AccountingLine accountingLine) {
         boolean required = false;
-        GeneralLedgerInputTypeService generalLedgerInputTypeService = SpringContext.getBean(GeneralLedgerInputTypeService.class);
-        String docType = generalLedgerInputTypeService.getGeneralLedgerInputTypeByDocumentClass(financialDocument.getClass()).getInputTypeCode();
+        FinancialSystemDocumentTypeCodeService generalLedgerInputTypeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+        String docType = generalLedgerInputTypeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(financialDocument.getClass()).getFinancialSystemDocumentTypeCode();
         // first we need to check just the doctype to see if it needs the sales tax check
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         // apply the rule, see if it fails

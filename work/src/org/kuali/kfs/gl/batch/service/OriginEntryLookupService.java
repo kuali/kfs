@@ -33,7 +33,7 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerInputType;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -123,7 +123,7 @@ public interface OriginEntryLookupService {
      * @param entry the origin entry to retrieve the GL input type of
      * @return the related GeneralLedgerInputType record, or null if not found
      */
-    public GeneralLedgerInputType getGeneralLedgerInputType(OriginEntry entry);
+    public FinancialSystemDocumentTypeCode getGeneralLedgerInputType(OriginEntry entry);
 
     /**
      * Get the reference general ledger input type for the given origin entryable
@@ -131,7 +131,7 @@ public interface OriginEntryLookupService {
      * @param entry origin entryable to lookup the reference GL input type for
      * @return the related reference GeneralLedgerInputType record, or null if not found
      */
-    public GeneralLedgerInputType getReferenceGeneralLedgerInputType(OriginEntry entry);
+    public FinancialSystemDocumentTypeCode getReferenceGeneralLedgerInputType(OriginEntry entry);
 
     /**
      * Retrieves the project code for the given origin entryable

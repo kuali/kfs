@@ -15,26 +15,18 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kfs.coa.service.ChartHierarchyService;
-import org.kuali.kfs.coa.service.OrganizationHierarchyService;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
+import uk.ltd.getahead.dwr.util.Logger;
+
 public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimRoleTypeServiceBase {
-    protected List<String> roleQualifierRequiredAttributes = new ArrayList<String>();
-    protected List<String> qualificationRequiredAttributes = new ArrayList<String>();
-    {
-        roleQualifierRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-
-        qualificationRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        qualificationRequiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-    }
-
-    private ChartHierarchyService chartService;
-    private OrganizationHierarchyService organizationService;
+    private static final Logger LOG = Logger.getLogger(OrganizationHierarchyAwareRoleTypeServiceBase.class);
+    private ChartService chartService;
+    private OrganizationService organizationService;
 
     protected boolean isParentOrg(String qualificationChartCode, String qualificationOrgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy) {
         if (roleOrgCode == null) {
@@ -42,12 +34,24 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
         }
         return (roleChartCode.equals(qualificationChartCode) && roleOrgCode.equals(qualificationOrgCode)) || (descendHierarchy && organizationService.isParentOrganization(qualificationChartCode, qualificationOrgCode, roleChartCode, roleOrgCode));
     }
+    
+    @Override
+    public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
+        AttributeSet newQualification = new AttributeSet(qualification);
+        try {
+            newQualification.put(KfsKimAttributes.CAMPUS_CODE, organizationService.getByPrimaryId(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), qualification.get(KfsKimAttributes.ORGANIZATION_CODE)).getOrganizationPhysicalCampusCode());
+        }
+        catch (Exception e) {
+            if (LOG.isDebugEnabled()) LOG.warn("Unable to convert organization qualification to physical campus", e);
+        }
+        return newQualification;
+    }
 
-    public void setOrganizationService(OrganizationHierarchyService organizationService) {
+    public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }
 
-    public void setChartService(ChartHierarchyService chartService) {
+    public void setChartService(ChartService chartService) {
         this.chartService = chartService;
     }
 }

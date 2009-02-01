@@ -22,8 +22,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 /**
  * This interface defines methods that an Org Service must provide.
  */
-public interface OrganizationService extends OrganizationHierarchyService {
-
+public interface OrganizationService {
     /**
      * This method retrieves an organization instance by its composite primary keys (parameters passed in).
      * 
@@ -80,4 +79,16 @@ public interface OrganizationService extends OrganizationHierarchyService {
      * returns the chart and organization of the ACTIVE root-level organization
      */
     public String[] getRootOrganizationCode();
+    
+    /**
+     * This method traverses the hierarchy to see if the organization represented by the potentialChildChartCode and potentialChildOrganizationCode 
+     * reports to the organization represented by the potentialParentChartCode and potentialParentOrganizationCode
+     * 
+     * @param potentialChildChartCode
+     * @param potentialChildOrganizationCode
+     * @param potentialParentChartCode
+     * @param potentialParentOrganizationCode
+     * @return boolean indicating whether the organization represented by the first two parameters reports to one represented by the last two parameters
+     */
+    public boolean isParentOrganization(String potentialChildChartCode, String potentialChildOrganizationCode, String potentialParentChartCode, String potentialParentOrganizationCode);
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.service.impl;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +47,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private OriginEntryGroupDao originEntryGroupDao;
     private OriginEntryDao originEntryDao;
     private DateTimeService dateTimeService;
+    private String batchFileDirectoryName;
 
     /**
      * Constructs a OriginEntryGroupServiceImpl instance
@@ -427,5 +429,17 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
+    }
+    
+    public File[] getAllFileInBatchDirectory(){
+        File[] returnFiles = null;
+        //can add filter here: listFiles(filter); -- check out originEntryTestBase from Jeff
+        returnFiles = new File(batchFileDirectoryName).listFiles();
+            
+        return returnFiles;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 }

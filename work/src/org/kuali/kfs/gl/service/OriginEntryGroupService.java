@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.service;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Map;
@@ -178,4 +179,7 @@ public interface OriginEntryGroupService {
      * @return true if it still exists in the persistence mechanism, false otherwise
      */
     public boolean getGroupExists(Integer groupId);
+    
+    
+    public File[] getAllFileInBatchDirectory();
 }

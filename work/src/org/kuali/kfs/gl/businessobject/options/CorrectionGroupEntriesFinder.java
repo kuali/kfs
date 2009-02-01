@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.gl.businessobject.options;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,24 +43,39 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
 
 
         OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+        
+        //TODO: Shawn - need to change using file
+        //Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
+        //List<OriginEntryGroup> sortedGroupList = (List) groupList;
 
-        Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
+        File[] fileList = originEntryGroupService.getAllFileInBatchDirectory();
+        
+        
+        //TODO: Shawn - need to ask to Sterling for group name sorting.
+//        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
+//        Collections.sort(sortedGroupList, oegTypeComparator);
 
-        List<OriginEntryGroup> sortedGroupList = (List) groupList;
-
-        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
-        Collections.sort(sortedGroupList, oegTypeComparator);
-
-        String groupException = "";
-        for (int i = 0; i < KFSConstants.LLCP_GROUP_FILTER_EXCEPTION.length; i++) {
-            groupException += KFSConstants.LLCP_GROUP_FILTER_EXCEPTION[i] + " ";
+        for (File file : fileList){
+            String fileName = file.getName();
+            activeLabels.add(new KeyLabelPair(fileName, fileName));
+            
         }
+        
+        
 
-        for (OriginEntryGroup oeg : sortedGroupList) {
-            if (!oeg.getSourceCode().startsWith("L") || groupException.contains(oeg.getSourceCode())) {
-                activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
-            }
-        }
+        
+        //TODO: Shawn - need to keep this part??
+//        String groupException = "";
+//        for (int i = 0; i < KFSConstants.LLCP_GROUP_FILTER_EXCEPTION.length; i++) {
+//            groupException += KFSConstants.LLCP_GROUP_FILTER_EXCEPTION[i] + " ";
+//        }
+
+        
+//        for (OriginEntryGroup oeg : sortedGroupList) {
+//            if (!oeg.getSourceCode().startsWith("L") || groupException.contains(oeg.getSourceCode())) {
+//                activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
+//            }
+//        }
         return activeLabels;
     }
 

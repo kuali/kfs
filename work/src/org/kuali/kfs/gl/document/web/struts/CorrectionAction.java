@@ -496,9 +496,12 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 // if users choose database, then get the list of origin entry groups and set the default
 
                 // I shouldn't have to do this query twice, but with the current architecture, I can't find anyway not to do it.
+                //TODO: Shawn - need to change using file
                 CorrectionGroupEntriesFinder f = new CorrectionGroupEntriesFinder();
                 List values = f.getKeyValues();
                 if (values.size() > 0) {
+                    
+                    //TODO: Shawn - need to change using file
                     OriginEntryGroup g = CorrectionAction.originEntryGroupService.getNewestScrubberErrorGroup();
                     if (g != null) {
                         document.setCorrectionInputGroupId(g.getId());
@@ -598,6 +601,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             GeneralLedgerCorrectionProcessDocument doc = (GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument();
             doc.setCorrectionInputGroupId(correctionForm.getInputGroupId());
 
+            // TODO: Shawn - need to change using file
             int inputGroupSize = originEntryService.getGroupCount(correctionForm.getInputGroupId());
             int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
             correctionForm.setPersistedOriginEntriesMissing(false);
@@ -619,7 +623,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             }
             else {
                 correctionForm.setRestrictedFunctionalityMode(false);
-
+                
+                //TODO: Shawn - need to change using file
                 loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
 
                 if (correctionForm.getAllEntries().size() > 0) {
@@ -1234,6 +1239,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         if (!correctionForm.isRestrictedFunctionalityMode()) {
             GeneralLedgerCorrectionProcessDocument document = correctionForm.getCorrectionDocument();
+            //TODO: Shawn - need to change it using file
             List<OriginEntryFull> searchResults = originEntryService.getEntriesByGroupId(groupId);
 
             correctionForm.setAllEntries(searchResults);
@@ -1258,6 +1264,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     /**
      * Show all entries for Manual edit with groupId and persist these entries to the DB
      */
+    
+    //TODO: Shawn - need to check - this method is using for docHandler, but commented out 
     private void loadPersistedInputGroup(CorrectionForm correctionForm) throws Exception {
 
         GeneralLedgerCorrectionProcessDocument document = correctionForm.getCorrectionDocument();

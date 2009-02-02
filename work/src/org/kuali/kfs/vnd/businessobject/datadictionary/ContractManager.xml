@@ -69,7 +69,7 @@
   <bean id="ContractManager-contractManagerFaxNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contractManagerFaxNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Contract Manager Fax Number" />
+    <property name="label" value="Published Fax Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
@@ -103,7 +103,7 @@
   <bean id="ContractManager-contractManagerPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contractManagerPhoneNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Contract Manager Phone Number" />
+    <property name="label" value="Published Phone Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >

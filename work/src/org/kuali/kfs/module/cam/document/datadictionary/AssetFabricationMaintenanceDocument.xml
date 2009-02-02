@@ -40,7 +40,7 @@
   <bean id="RoutingType-AssetFabricationMaintenanceDocument-Management" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-campusCode" />
 		        <ref bean="RoutingAttribute-organizationCode" />
     		</list>
     	</property>
@@ -49,7 +49,7 @@
     			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     				<property name="documentValues">
 	    				<list>
-	    					<value>newMaintainableObject.businessObject.organizationOwnerChartOfAccountsCode</value>
+	    					<value>newMaintainableObject.businessObject.organizationOwnerAccount.organization.organizationPhysicalCampus.campusCode</value>
 	    					<value>newMaintainableObject.businessObject.organizationOwnerAccount.organizationCode</value>	    					
 	    				</list>
     				</property>

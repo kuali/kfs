@@ -9,6 +9,9 @@
 				<attribute>
 					<name>FinancialSystemSearchableAttribute</name>
 				</attribute>
+				<attribute>
+					<name>FinancialSystemDocumentSearchResultProcessorAttribute</name>
+				</attribute>
 			</attributes>
 </documentType>
 </documentTypes>

@@ -54,15 +54,13 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
         //TODO: Shawn - need to ask to Sterling for group name sorting.
 //        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
 //        Collections.sort(sortedGroupList, oegTypeComparator);
-
-        for (File file : fileList){
-            String fileName = file.getName();
-            activeLabels.add(new KeyLabelPair(fileName, fileName));
-            
+        if (fileList != null){
+            for (File file : fileList){
+                String fileName = file.getName();
+                activeLabels.add(new KeyLabelPair(fileName, fileName));
+                
+            }    
         }
-        
-        
-
         
         //TODO: Shawn - need to keep this part??
 //        String groupException = "";

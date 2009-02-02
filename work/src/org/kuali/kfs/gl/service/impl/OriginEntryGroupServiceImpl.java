@@ -434,8 +434,9 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     public File[] getAllFileInBatchDirectory(){
         File[] returnFiles = null;
         //can add filter here: listFiles(filter); -- check out originEntryTestBase from Jeff
-        returnFiles = new File(batchFileDirectoryName).listFiles();
-            
+        if(new File(batchFileDirectoryName) != null){
+            returnFiles = new File(batchFileDirectoryName).listFiles();    
+        }
         return returnFiles;
     }
 

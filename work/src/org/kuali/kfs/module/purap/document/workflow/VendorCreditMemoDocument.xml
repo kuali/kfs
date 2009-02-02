@@ -7,22 +7,22 @@
 <docHandler>${application.url}/purapVendorCreditMemo.do?methodToCall=docHandler</docHandler>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="RequiresInvoiceAttachment"/>
-          <split name="RequiresInvoiceAttachment" nextNode="Account">
+          <start name="AdHoc" nextNode="RequiresImageAttachment"/>
+          <split name="RequiresImageAttachment" nextNode="Account">
 			<branch name="True">
-				<requests name="InvoiceAttachment" nextNode="JoinRequiresInvoiceAttachment"/>
+				<requests name="ImageAttachment" nextNode="JoinRequiresImageAttachment"/>
 			</branch>
 			<branch name="False">
-				<simple name="NoOpRequiresInvoiceAttachment" nextNode="JoinRequiresInvoiceAttachment"/>
+				<simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment"/>
 			</branch>
-			<join name="JoinRequiresInvoiceAttachment"/>
+			<join name="JoinRequiresImageAttachment"/>
 		  </split>
           <requests name="Account"/>
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="AdHoc"/>
-<role name="InvoiceAttachment">
+<role name="ImageAttachment">
 <!--<ruleTemplate>KualiAccountsPayableTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
@@ -30,13 +30,13 @@
 <!--<ruleTemplate>KualiPurApAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<split name="RequiresInvoiceAttachment">
+<split name="RequiresImageAttachment">
 <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 </split>
-<simple name="NoOpRequiresInvoiceAttachment">
+<simple name="NoOpRequiresImageAttachment">
 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 </simple>
-<join name="JoinRequiresInvoiceAttachment"/>
+<join name="JoinRequiresImageAttachment"/>
 </routeNodes>
 </documentType>
 </documentTypes>

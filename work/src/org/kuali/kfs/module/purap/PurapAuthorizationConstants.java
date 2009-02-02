@@ -85,8 +85,8 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String LOCK_TAX_AMOUNT_ENTRY = "lockTaxAmountEntry";
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
         public static final String ALLOW_REOPEN_PURCHASE_ORDER = "allowReopenPurchaseOrder";
-        public static final String HOLD = "requestCreditMemoHold";
-        public static final String REMOVE_HOLD = "creditMemoHoldCancelRemoval";
+        public static final String HOLD = "requestVendorCreditMemoHold";
+        public static final String REMOVE_HOLD = "vendorCreditMemoHoldRemoval";
         public static final String ACCOUNTS_PAYABLE_PROCESSOR_CANCEL = "processorCancel";
         public static final String FULL_DOCUMENT_ENTRY_COMPLETED = "fullDocumentEntryCompleted";
     }

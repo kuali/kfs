@@ -13,7 +13,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class NonAppliedHolding extends PersistableBusinessObjectBase {
 
 	private String referenceFinancialDocumentNumber;
-	private KualiDecimal financialDocumentLineAmount;
+	private KualiDecimal financialDocumentLineAmount = KualiDecimal.ZERO;
 	private String customerNumber;
 
 	private Customer customer;

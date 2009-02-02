@@ -197,7 +197,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return the non-applied holding total.
      */
     public KualiDecimal getNonAppliedHoldingAmount() {
-        return null == nonAppliedHolding ? KualiDecimal.ZERO : nonAppliedHolding.getFinancialDocumentLineAmount();
+        if(ObjectUtils.isNull(getNonAppliedHolding())) {
+            return KualiDecimal.ZERO;
+        }
+        if(ObjectUtils.isNull(getNonAppliedHolding().getFinancialDocumentLineAmount())) {
+            return KualiDecimal.ZERO;
+        }
+        return getNonAppliedHolding().getFinancialDocumentLineAmount();
     }
     
     /**
@@ -584,6 +590,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
             actualCreditEntry.setAccountNumber(nonInvoiced.getAccountNumber());
             actualCreditEntry.setFinancialObjectCode(nonInvoiced.getFinancialObjectCode());
+            nonInvoiced.refreshReferenceObject("financialObject");
             actualCreditEntry.setFinancialObjectTypeCode(nonInvoiced.getFinancialObject().getFinancialObjectTypeCode());
             actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());

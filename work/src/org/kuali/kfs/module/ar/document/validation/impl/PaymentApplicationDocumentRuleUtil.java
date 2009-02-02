@@ -24,6 +24,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
@@ -146,7 +147,11 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateUnappliedAmountDoesntExceedCashControlTotal(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
-        return paymentApplicationDocument.getTotalFromCashControl().isGreaterEqual(paymentApplicationDocument.getNonAppliedHoldingAmount());
+        KualiDecimal a = paymentApplicationDocument.getNonAppliedHoldingAmount();
+        if(null == a) {
+            return true;
+        }
+        return paymentApplicationDocument.getTotalFromCashControl().isGreaterEqual(a);
     }
     
     /**
@@ -157,6 +162,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateUnappliedAmountIsGreaterThanOrEqualToZero(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+        if(null == paymentApplicationDocument.getNonAppliedHoldingAmount()) { return true; }
         return KualiDecimal.ZERO.isLessEqual(paymentApplicationDocument.getNonAppliedHoldingAmount());
     }
 
@@ -287,29 +293,40 @@ public class PaymentApplicationDocumentRuleUtil {
     public static boolean validateNonAppliedHolding(PaymentApplicationDocument applicationDocument) throws WorkflowException {
         // The amount of the unapplied attribute must be less than the cash control document amount
         CashControlDetail cashControlDetail = applicationDocument.getCashControlDetail();
+        if(ObjectUtils.isNull(cashControlDetail)) { return true; }
         KualiDecimal cashControlTotalAmount = cashControlDetail.getFinancialDocumentLineAmount();
-        KualiDecimal totalUnapplied = applicationDocument.getNonAppliedHoldingAmount();
+        NonAppliedHolding nonAppliedHolding = applicationDocument.getNonAppliedHolding();
         
-        //  if there is no value in Unapplied, then we have nothing to do here
-        if (totalUnapplied == null || totalUnapplied.isZero()) {
-            return true;
+        if(StringUtils.isNotEmpty(nonAppliedHolding.getCustomerNumber())) {
+            KualiDecimal nonAppliedAmount = nonAppliedHolding.getFinancialDocumentLineAmount();
+            if(null == nonAppliedAmount) { nonAppliedAmount = KualiDecimal.ZERO; }
+            boolean isValid = cashControlTotalAmount.isGreaterEqual(nonAppliedAmount);
+            if(!isValid) {
+                String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
+                String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT;
+                GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+            }
+            // The amount of the unapplied can't exceed the remaining balance to be applied 
+            KualiDecimal totalBalanceToBeApplied = applicationDocument.getUnallocatedBalance();
+            isValid = KualiDecimal.ZERO.isLessEqual(totalBalanceToBeApplied);
+            if(!isValid) {
+                String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
+                String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_BALANCE_TO_BE_APPLIED;
+                GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+            }
+            return isValid;
+        } else {
+            if(ObjectUtils.isNull(nonAppliedHolding.getFinancialDocumentLineAmount()) || KualiDecimal.ZERO.equals(nonAppliedHolding.getFinancialDocumentLineAmount())) {
+                // All's OK. Both customer number and amount are empty/null.
+                return true;
+            } else {
+                // Error. Customer number is empty but amount wasn't.
+                String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_CUSTOMER_NUMBER;
+                String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_BE_EMPTY_OR_ZERO;
+                GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+                return false;
+            }
         }
-        
-        boolean isValid = cashControlTotalAmount.isGreaterEqual(totalUnapplied);
-        if(!isValid) {
-            String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
-            String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT;
-            GlobalVariables.getErrorMap().putError(propertyName, errorKey);
-        }
-        // The amount of the unapplied can't exceed the remaining balance to be applied 
-        KualiDecimal totalBalanceToBeApplied = applicationDocument.getUnallocatedBalance();
-        isValid = KualiDecimal.ZERO.isLessEqual(totalBalanceToBeApplied);
-        if(!isValid) {
-            String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
-            String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_BALANCE_TO_BE_APPLIED;
-            GlobalVariables.getErrorMap().putError(propertyName, errorKey);
-        }
-        return isValid;
     }
     
     /**

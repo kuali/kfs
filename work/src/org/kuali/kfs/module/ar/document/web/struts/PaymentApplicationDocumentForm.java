@@ -60,6 +60,8 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     private KualiDecimal nonAppliedHoldingAmount;
     private String nonAppliedHoldingCustomerNumber;
 
+    private KualiDecimal oldNonAppliedHoldingAmount;
+
     /**
      * Constructs a PaymentApplicationDocumentForm.java.
      */
@@ -376,39 +378,12 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
     }
 
-    public KualiDecimal getNonAppliedHoldingAmount() {
-        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) getDocument();
-        if(ObjectUtils.isNotNull(paymentApplicationDocument.getNonAppliedHolding())) {
-            return paymentApplicationDocument.getNonAppliedHolding().getFinancialDocumentLineAmount();
-        } else {
-            return nonAppliedHoldingAmount;
-        }
+    public KualiDecimal getOldNonAppliedHoldingAmount() {
+        return oldNonAppliedHoldingAmount;
     }
 
-    public void setNonAppliedHoldingAmount(KualiDecimal nonAppliedAmount) {
-        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) getDocument();
-        if(ObjectUtils.isNull(paymentApplicationDocument.getNonAppliedHolding())) {
-            nonAppliedHoldingAmount = nonAppliedAmount;
-        } else {
-            paymentApplicationDocument.getNonAppliedHolding().setFinancialDocumentLineAmount(nonAppliedAmount);
-        }
+    public void setOldNonAppliedHoldingAmount(KualiDecimal oldNonAppliedHoldingAmount) {
+        this.oldNonAppliedHoldingAmount = oldNonAppliedHoldingAmount;
     }
 
-    public String getNonAppliedHoldingCustomerNumber() {
-        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) getDocument();
-        if(ObjectUtils.isNotNull(paymentApplicationDocument.getNonAppliedHolding())) {
-            return paymentApplicationDocument.getNonAppliedHolding().getCustomerNumber();
-        } else {
-            return nonAppliedHoldingCustomerNumber;
-        }
-    }
-
-    public void setNonAppliedHoldingCustomerNumber(String nonAppliedCustomerNumber) {
-        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) getDocument();
-        if(ObjectUtils.isNull(paymentApplicationDocument.getNonAppliedHolding())) {
-            this.nonAppliedHoldingCustomerNumber = nonAppliedCustomerNumber;
-        } else {
-            paymentApplicationDocument.getNonAppliedHolding().setCustomerNumber(nonAppliedCustomerNumber);
-        }
-    }
 }

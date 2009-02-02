@@ -183,6 +183,8 @@ public class ArKeyConstants {
         public static final String CANNOT_APPLY_MORE_THAN_BALANCE_TO_BE_APPLIED = "error.document.paymentApplication.AppliedAmountExceedsBalanceToBeApplied";
         public static final String UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT = "error.document.paymentApplication.unappliedAmountCannotExceedAvailableAmount";
         public static final String UNAPPLIED_AMOUNT_CANNOT_EXCEED_BALANCE_TO_BE_APPLIED = "error.document.paymentApplication.unappliedAmountCannotExceedBalanceToBeApplied";
+        public static final String UNAPPLIED_AMOUNT_CANNOT_BE_EMPTY_OR_ZERO = "error.document.paymentApplication.unappliedAmountCannotBeEmptyOrZero";
+        public static final String UNAPPLIED_CUSTOMER_NUMBER_CANNOT_BE_LEFT_BLANK = "error.document.paymentApplication.unappliedCustomerNumberCannotBeBlank";
         public static final String NON_AR_AMOUNT_EXCEEDS_SELECTED_INVOICE_BALANCE = "error.document.paymentApplication.nonArLineAmountExceedsInvoiceBalance";
         public static final String NON_AR_AMOUNT_EXCEEDS_BALANCE_TO_BE_APPLIED = "error.document.paymentApplication.nonArLineAmountExceedsBalanceToBeApplied";
         public static final String NON_INVOICED_CHART_IS_REQUIRED = "error.document.paymentApplication.nonInvoicedChartRequired=Chart is required on non-ar lines.";

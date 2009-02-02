@@ -90,6 +90,14 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // to succeed before the document is saved again.
         doc.setCashControlDetail(cashControlDetail);
         
+//        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader2 = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
+//        accountsReceivableDocumentHeader2.setDocumentNumber(doc.getDocumentNumber());
+//        accountsReceivableDocumentHeader2.setCustomerNumber(cashControlDetail.getCustomerNumber());
+//        doc.getNonAppliedHolding().setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader2);
+//        doc.getNonAppliedHolding().setCustomerNumber(cashControlDetail.getCustomerNumber());
+//        doc.getNonAppliedHolding().setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
+        doc.setNonAppliedHolding(null);
+        
         documentService.saveDocument(doc);
         
         return doc;

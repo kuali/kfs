@@ -55,20 +55,15 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     private static final String RETIRED_ASSET_TRANSFERRED_EXTERNALLY = "RetiredAssetTransferredExternally";
     private static final String RETIRED_ASSET_SOLD_OR_GIFTED = "RetiredAssetSoldOrGifted";
 
-    private static final Map<String, String[]> NON_VIEWABLE_SECTION_MAP = new HashMap<String, String[]>();
-    static {
-        NON_VIEWABLE_SECTION_MAP.put(CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER, new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD, CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT });
-        NON_VIEWABLE_SECTION_MAP.put(CamsConstants.AssetRetirementReasonCode.GIFT, new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD, CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT });
-        NON_VIEWABLE_SECTION_MAP.put(CamsConstants.AssetRetirementReasonCode.SOLD, new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT, CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT });
-        NON_VIEWABLE_SECTION_MAP.put(CamsConstants.AssetRetirementReasonCode.AUCTION, new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT, CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT });
-        NON_VIEWABLE_SECTION_MAP.put(CamsConstants.AssetRetirementReasonCode.THEFT, new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD, CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT });
-    }
-
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         String retirementReason = ((AssetRetirementGlobal) getBusinessObject()).getRetirementReasonCode();
-        if (nodeName.equals(this.RETIRED_ASSET_TRANSFERRED_EXTERNALLY)) return CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER.equalsIgnoreCase(retirementReason);
-        if (nodeName.equals(this.RETIRED_ASSET_SOLD_OR_GIFTED)) return CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(retirementReason) || CamsConstants.AssetRetirementReasonCode.GIFT.equalsIgnoreCase(retirementReason);;
+        if (nodeName.equals(this.RETIRED_ASSET_TRANSFERRED_EXTERNALLY)){
+            return CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER.equalsIgnoreCase(retirementReason);            
+        }
+        if (nodeName.equals(this.RETIRED_ASSET_SOLD_OR_GIFTED)) {
+            return CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(retirementReason) || CamsConstants.AssetRetirementReasonCode.GIFT.equalsIgnoreCase(retirementReason);
+        }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 

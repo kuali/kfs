@@ -24,6 +24,7 @@ public class PurapParameterConstants implements ParameterKeyConstants {
 
     public static final String B2B_ALLOW_COPY_DAYS = "B2B_ALLOW_COPY_DAYS";
     public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
+    public static final String AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT = "AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT";
 
     public static final String PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_CM_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";

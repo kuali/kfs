@@ -468,6 +468,12 @@ public class PurapServiceImpl implements PurapService {
             organizationParameter = (OrganizationParameter) businessObjectService.findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
             purchaseOrderTotalLimit = (organizationParameter == null) ? null : organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
         }
+        
+        String defaultLimit = parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT);
+        if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
+            purchaseOrderTotalLimit = new KualiDecimal(defaultLimit);
+        }
+
         return purchaseOrderTotalLimit;
     }
 

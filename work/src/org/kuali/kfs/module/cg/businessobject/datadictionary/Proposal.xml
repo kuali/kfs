@@ -23,7 +23,7 @@
         <ref bean="Proposal-award.proposalNumber" />
         <ref bean="Proposal-proposalOrganizations.organization.organizationCode" />
         <ref bean="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber" />
-        <ref bean="Proposal-proposalProjectDirectors.projectDirector.principalId" />
+        <ref bean="Proposal-proposalProjectDirectors.principalId" />
         <ref bean="Proposal-lookupPersonUniversalIdentifier" />
         <ref bean="Proposal-lookupPerson.principalName" />
         <ref bean="Proposal-lookupPerson.name" />
@@ -199,10 +199,10 @@
     <property name="name" value="proposalSubcontractors.subcontractor.subcontractorNumber" />
     <property name="shortLabel" value="Subcontr Num" />
   </bean>
-  <bean id="Proposal-proposalProjectDirectors.projectDirector.principalId" parent="Proposal-proposalProjectDirectors.projectDirector.principalId-parentBean" />
+  <bean id="Proposal-proposalProjectDirectors.principalId" parent="Proposal-proposalProjectDirectors.principalId-parentBean" />
 
-  <bean id="Proposal-proposalProjectDirectors.projectDirector.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="proposalProjectDirectors.projectDirector.principalId" />
+  <bean id="Proposal-proposalProjectDirectors.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="proposalProjectDirectors.principalId" />
     <property name="label" value="Project Director ID" />
     <property name="shortLabel" value="Proj Dir ID" />
   </bean>

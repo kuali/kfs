@@ -33,7 +33,7 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
-    private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.projectDirector.principalId";
+    private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.principalId";
 
     private PersonService personService;
 

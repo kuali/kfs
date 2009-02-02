@@ -19,43 +19,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.role.KimRole;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
     private DocumentService documentService;
 
     @Override
-    public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
-        List<String> principalIds = new ArrayList<String>();
+    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
         try {
             PaymentRequestDocument document = (PaymentRequestDocument) getDocumentService().getByDocumentHeaderId(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER));
             if ((document != null) && (document.getLastActionPerformedByUser() != null)) {
-                principalIds.add(document.getLastActionPerformedByUser().getPrincipalId());
+                members.add( new RoleMembershipInfo(null,null,document.getLastActionPerformedByUser().getPrincipalId(),KimRole.PRINCIPAL_MEMBER_TYPE,null) );
             }
         }
         catch (WorkflowException e) {
-            throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole", e);
+            throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole: " + qualification.get(KfsKimAttributes.DOCUMENT_NUMBER), e);
         }
-        return principalIds;
-    }
-
-    /***
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List,
-     *      java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
-     */
-    @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
-        return getPrincipalIdsFromApplicationRole(namespaceCode, roleName, qualification).contains(principalId);
+        return members;
     }
 
     protected DocumentService getDocumentService() {
         if (documentService == null) {
-            documentService = KNSServiceLocator.getDocumentService();
+            documentService = SpringContext.getBean(DocumentService.class);
         }
         return documentService;
     }

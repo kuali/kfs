@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cg.identity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
@@ -26,6 +27,8 @@ import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.bo.role.KimRole;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
@@ -36,6 +39,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
     private static final String KRA_BUDGET_DOC_TYPE = "KualiBudgetDocument";
     private static final String KRA_ROUTING_FORM_DOC_TYPE = "KualiRoutingFormDocument";
+
+    private DocumentService documentService;
 
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
@@ -55,27 +60,31 @@ public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends Kim
      * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
 
         String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
-        List<String> principalIds = new ArrayList<String>();
+        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
         Document document = getDocument(documentNumber);
         if(CGConstants.CGKimConstants.ROUTING_FORM_ADHOC_ACKNOWLEDGER_KIM_ROLE_NAME.equals(roleName)){
             if (document.getAdHocRoutePersons() != null) {
                 for (AdHocRoutePerson adHocRoutePerson : document.getAdHocRoutePersons()) {
-                    principalIds.add(adHocRoutePerson.getId());
+                    members.add( new RoleMembershipInfo(null,null,adHocRoutePerson.getId(),KimRole.PRINCIPAL_MEMBER_TYPE,null) );
                 }
             }
         } else if(CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){
             String documentType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
             if(KRA_ROUTING_FORM_DOC_TYPE.equals(documentType)){
-                principalIds.addAll(getProjectDirectors((RoutingFormDocument)document));
+                for ( String principalId : getProjectDirectors((RoutingFormDocument)document) ) {
+                    members.add( new RoleMembershipInfo(null,null,principalId,KimRole.PRINCIPAL_MEMBER_TYPE,null) );
+                }
             } else if(KRA_BUDGET_DOC_TYPE.equals(documentType)){
-                principalIds.addAll(getProjectDirectors((BudgetDocument)document));
+                for ( String principalId : getProjectDirectors((BudgetDocument)document) ) {
+                    members.add( new RoleMembershipInfo(null,null,principalId,KimRole.PRINCIPAL_MEMBER_TYPE,null) );
+                }
             }
         }
-        return principalIds;
+        return members;
     }
 
     /***
@@ -88,18 +97,22 @@ public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends Kim
 
         String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
         boolean hasApplicationRole = false;
-        Document document = getDocument(documentNumber);
-        if(CGConstants.CGKimConstants.ROUTING_FORM_ADHOC_ACKNOWLEDGER_KIM_ROLE_NAME.equals(roleName)){
-            hasApplicationRole = document.getAdHocRoutePersons()!=null && document.getAdHocRoutePersons().contains(principalId);
-        } else if(CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){
-            String documentType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
-            List projectDirs;
-            if(KRA_ROUTING_FORM_DOC_TYPE.equals(documentType)){
-                projectDirs = getProjectDirectors((RoutingFormDocument)document);
-                hasApplicationRole = projectDirs!=null && projectDirs.contains(principalId);
-            } else if(KRA_BUDGET_DOC_TYPE.equals(documentType)){
-                projectDirs = getProjectDirectors((BudgetDocument)document);
-                hasApplicationRole = projectDirs!=null && projectDirs.contains(principalId);
+        if ( StringUtils.isNotBlank(documentNumber)) {
+            Document document = getDocument(documentNumber);
+            if ( document != null ) {
+                if(CGConstants.CGKimConstants.ROUTING_FORM_ADHOC_ACKNOWLEDGER_KIM_ROLE_NAME.equals(roleName)){
+                    hasApplicationRole = document.getAdHocRoutePersons()!=null && document.getAdHocRoutePersons().contains(principalId);
+                } else if(CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){
+                    String documentType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+                    List projectDirs;
+                    if(KRA_ROUTING_FORM_DOC_TYPE.equals(documentType)){
+                        projectDirs = getProjectDirectors((RoutingFormDocument)document);
+                        hasApplicationRole = projectDirs!=null && projectDirs.contains(principalId);
+                    } else if(KRA_BUDGET_DOC_TYPE.equals(documentType)){
+                        projectDirs = getProjectDirectors((BudgetDocument)document);
+                        hasApplicationRole = projectDirs!=null && projectDirs.contains(principalId);
+                    }
+                }
             }
         }
         return hasApplicationRole;
@@ -107,10 +120,9 @@ public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends Kim
 
     protected Document getDocument(String documentNumber){
         try{
-            return (Document)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+            return (Document)getDocumentService().getByDocumentHeaderId(documentNumber);
         } catch (WorkflowException e) {
-            String errorMessage = "Workflow problem while trying to get document using doc id '" + documentNumber + "'";
-            throw new RuntimeException(errorMessage, e);
+            throw new RuntimeException("Workflow problem while trying to get document using doc id '" + documentNumber + "'", e);
         }
     }
 
@@ -132,6 +144,13 @@ public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends Kim
             }
         }
         return principalIds;
+    }
+    
+    protected DocumentService getDocumentService() {
+        if ( documentService == null ) {
+            documentService = SpringContext.getBean(DocumentService.class);
+        }
+        return documentService;
     }
     
 }

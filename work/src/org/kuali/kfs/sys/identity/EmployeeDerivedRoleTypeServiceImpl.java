@@ -24,6 +24,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.bo.entity.KimEntity;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
+import org.kuali.rice.kim.bo.role.KimRole;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -55,17 +57,21 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
      * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
-        List<String> principalIds = new ArrayList<String>();
+    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 
         String principalId = qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID);
-
-        if(hasApplicationRole(principalId, null, namespaceCode, roleName, qualification))
-            principalIds.add( principalId );
-        else
-            principalIds = getPrincipalIds(getIdentityManagementService().lookupEntitys(buildCriteria(roleName, null)));
         
-        return principalIds;
+        if ( StringUtils.isNotBlank(principalId) ) {
+            members.add( new RoleMembershipInfo( null, null, principalId, KimRole.PRINCIPAL_MEMBER_TYPE, null ) );
+        } else {
+            List<String> principalIds = getPrincipalIds(getIdentityManagementService().lookupEntitys(buildCriteria(roleName, null)));
+            for ( String id : principalIds ) {
+                members.add( new RoleMembershipInfo( null, null, id, KimRole.PRINCIPAL_MEMBER_TYPE, null ) );
+            }
+        }
+        
+        return members;
     }
 
     protected List<String> getPrincipalIds(List<? extends KimEntity> kimEntities){
@@ -78,8 +84,9 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     
     protected List<String> getPrincipalIds(KimEntity kimEntity){
         List<String> principalIds = new ArrayList<String>();
-        for(KimPrincipal kimPrincipal: kimEntity.getPrincipals())
+        for(KimPrincipal kimPrincipal: kimEntity.getPrincipals()) {
             principalIds.add(kimPrincipal.getPrincipalId());
+        }
         return principalIds;
     }
     
@@ -90,8 +97,9 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     public boolean hasApplicationRole(
             String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification){
 
-        if(StringUtils.isEmpty(principalId))
+        if(StringUtils.isBlank(principalId)) {
             return false;
+        }
 
         List<KimEntity> kimEntities = getIdentityManagementService().lookupEntitys(buildCriteria(roleName, principalId));
         return kimEntities!=null && kimEntities.size()>0;
@@ -100,6 +108,7 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     protected Map<String, String> buildCriteria(String roleName, String principalId){
         Map<String,String> criteria = new HashMap<String,String>();
         criteria.put("active", KFSConstants.ACTIVE_INDICATOR);
+        criteria.put("principals.active", KFSConstants.ACTIVE_INDICATOR);
         
         criteria.put("employmentInformation.active", KFSConstants.ACTIVE_INDICATOR);
         criteria.put("employmentInformation.employeeStatusCode", A_EMPLOYEE_STATUS_CODE);
@@ -111,10 +120,8 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
 
         } else if(KFSConstants.SysKimConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME.equals(roleName)){
             criteria.put("employmentInformation.employeeTypeCode", P_EMPLOYEE_TYPE_CODE);
-
         }
-        if(StringUtils.isNotEmpty(principalId)){
-            criteria.put("principals.active", KFSConstants.ACTIVE_INDICATOR);
+        if(StringUtils.isNotBlank(principalId)){
             criteria.put("principals.principalId", principalId);
         }
         return criteria;

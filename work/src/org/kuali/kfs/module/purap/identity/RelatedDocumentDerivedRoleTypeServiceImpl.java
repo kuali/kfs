@@ -21,8 +21,11 @@ import java.util.List;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.role.service.impl.RouteLogDerivedRoleTypeServiceImpl;
+import org.kuali.rice.kim.bo.role.KimRole;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
@@ -47,15 +50,18 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
      *      java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
-        List<String> principalIds = new ArrayList<String>();
+    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
         if (SOURCE_DOCUMENT_ROUTER_ROLE_NAME.equals(roleName)) {
             try {
                 PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) getDocumentService().getByDocumentHeaderId(qualification.get(PurapKimAttributes.DOCUMENT_NUMBER));
                 if (document != null) {
                     PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
-                    if (sourceDocument != null)
-                        principalIds.add(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
+                    if (sourceDocument != null) {
+                        AttributeSet roleQualifier = new AttributeSet(1);
+                        roleQualifier.put(KfsKimAttributes.DOCUMENT_NUMBER, sourceDocument.getDocumentNumber() );
+                        members.add( new RoleMembershipInfo(null,null,sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(),KimRole.PRINCIPAL_MEMBER_TYPE,roleQualifier) );
+                    }
                 }
             }
             catch (WorkflowException e) {
@@ -66,19 +72,12 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
             for (String documentId : getPurapService().getRelatedDocumentIds(new Integer(qualification.get(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)))) {
                 AttributeSet tempQualification = new AttributeSet();
                 tempQualification.put(PurapKimAttributes.DOCUMENT_NUMBER, documentId);
-                principalIds.addAll(getRoleManagementService().getRoleMemberPrincipalIds(KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification));
+                for ( String principalId : getRoleManagementService().getRoleMemberPrincipalIds(KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification) ) {
+                    members.add( new RoleMembershipInfo(null,null,principalId,KimRole.PRINCIPAL_MEMBER_TYPE,tempQualification) );
+                }
             }
         }
-        return principalIds;
-    }
-
-    /***
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List,
-     *      java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
-     */
-    @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
-        return getPrincipalIdsFromApplicationRole(namespaceCode, roleName, qualification).contains(principalId);
+        return members;
     }
 
     protected DocumentService getDocumentService() {

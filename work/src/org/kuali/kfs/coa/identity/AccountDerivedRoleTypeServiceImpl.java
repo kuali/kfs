@@ -28,14 +28,19 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.role.KimRole;
 import org.kuali.rice.kim.bo.role.dto.KimDelegationMemberInfo;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimDelegationTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 
 public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimDelegationTypeService {
+    private static final String FISCAL_OFFICER_PRINCIPAL_ID = "accountFiscalOfficerSystemIdentifier";
+    private static final String ACCOUNT_SUPERVISOR_PRINCIPAL_ID = "accountsSupervisorySystemsIdentifier";
 
     private AccountService accountService;
+    private ContractsAndGrantsModuleService contractsAndGrantsModuleService; 
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
         requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
@@ -58,59 +63,86 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public List<String> getPrincipalIdsFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         //validate received attributes
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
         String financialSystemDocumentTypeCodeCode = qualification.get(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
         String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
+        String fiscalOfficerPrincipalID = qualification.get(FISCAL_OFFICER_PRINCIPAL_ID);
+        String accountSupervisorPrincipalID = qualification.get(ACCOUNT_SUPERVISOR_PRINCIPAL_ID);
         //Default to 0 total amount
         if(StringUtils.isEmpty(totalDollarAmount))
                 totalDollarAmount = getDefaultTotalAmount();
-        List<String> principalIds = new ArrayList<String>();
+        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        AttributeSet roleQualifier = new AttributeSet();
+        roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        roleQualifier.put(KfsKimAttributes.ACCOUNT_NUMBER, accountNumber);
         
         if(KFSConstants.SysKimConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)){
-            Account account = getAccount(chartOfAccountsCode, accountNumber);
-            if(account!=null) principalIds.add(account.getAccountsSupervisorySystemsIdentifier());
+            if (StringUtils.isNotBlank(accountSupervisorPrincipalID)) {
+                members.add( new RoleMembershipInfo( null, null, accountSupervisorPrincipalID, KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+            } else {
+                Account account = getAccount(chartOfAccountsCode, accountNumber);
+                if(account!=null) {
+                    members.add( new RoleMembershipInfo( null, null, account.getAccountsSupervisorySystemsIdentifier(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                }
+            }
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)){
-            Account account = getAccount(chartOfAccountsCode, accountNumber);
-            if(account!=null) principalIds.add(account.getAccountFiscalOfficerSystemIdentifier());
+            if (StringUtils.isNotBlank(fiscalOfficerPrincipalID)) {
+                members.add( new RoleMembershipInfo( null, null, fiscalOfficerPrincipalID, KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+            } else {
+                Account account = getAccount(chartOfAccountsCode, accountNumber);
+                if(account!=null) {
+                    members.add( new RoleMembershipInfo( null, null, account.getAccountFiscalOfficerSystemIdentifier(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+                }
+            }
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
-            AccountDelegate primaryDelegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, financialSystemDocumentTypeCodeCode, totalDollarAmount);
-            if(primaryDelegate!=null) principalIds.add(primaryDelegate.getAccountDelegateSystemId());
+            AccountDelegate delegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, financialSystemDocumentTypeCodeCode, totalDollarAmount);
+            roleQualifier.put(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE, delegate.getFinancialDocumentTypeCode());
+            roleQualifier.put(KfsKimAttributes.FROM_AMOUNT, (delegate.getFinDocApprovalFromThisAmt()==null)?"0":delegate.getFinDocApprovalFromThisAmt().toString());
+            roleQualifier.put(KfsKimAttributes.TO_AMOUNT, (delegate.getFinDocApprovalToThisAmount()==null)?"NOLIMIT":delegate.getFinDocApprovalToThisAmount().toString());
+            if(delegate!=null) {
+                members.add( new RoleMembershipInfo( null, null, delegate.getAccountDelegateSystemId(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+            }
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
-            List<AccountDelegate> secondaryDelegates = 
+            List<AccountDelegate> delegates = 
                 getSecondaryDelegates(chartOfAccountsCode, accountNumber, financialSystemDocumentTypeCodeCode, totalDollarAmount);
-            for(AccountDelegate secondaryDelegate: secondaryDelegates)
-                principalIds.add(secondaryDelegate.getAccountDelegateSystemId());
+            for(AccountDelegate delegate: delegates) {
+                roleQualifier.put(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE, delegate.getFinancialDocumentTypeCode());
+                roleQualifier.put(KfsKimAttributes.FROM_AMOUNT, (delegate.getFinDocApprovalFromThisAmt()==null)?"0":delegate.getFinDocApprovalFromThisAmt().toString());
+                roleQualifier.put(KfsKimAttributes.TO_AMOUNT, (delegate.getFinDocApprovalToThisAmount()==null)?"NOLIMIT":delegate.getFinDocApprovalToThisAmount().toString());
+                members.add( new RoleMembershipInfo( null, null, delegate.getAccountDelegateSystemId(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+            }
         } else if(KFSConstants.SysKimConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){
             Person person = getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);
-            if(person!=null) principalIds.add(person.getPrincipalId());
+            if(person!=null) {
+                members.add( new RoleMembershipInfo( null, null, person.getPrincipalId(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+            }
         }
         
-        return principalIds;
+        return members;
     }
 
     protected Account getAccount(String chartOfAccountsCode, String accountNumber){
-        return accountService.getByPrimaryId(chartOfAccountsCode, accountNumber);
+        return getAccountService().getByPrimaryId(chartOfAccountsCode, accountNumber);
     }
 
     protected AccountDelegate getPrimaryDelegate(
             String chartOfAccountsCode, String accountNumber, String fisDocumentTypeCode, String totalDollarAmount){
-        return SpringContext.getBean(AccountService.class).getPrimaryDelegationByExample(
+        return getAccountService().getPrimaryDelegationByExample(
             getDelegateExample(chartOfAccountsCode, accountNumber, fisDocumentTypeCode), totalDollarAmount);
     }
 
     protected List<AccountDelegate> getSecondaryDelegates(
             String chartOfAccountsCode, String accountNumber, String fisDocumentTypeCode, String totalDollarAmount){
-        return SpringContext.getBean(AccountService.class).getSecondaryDelegationsByExample(
+        return getAccountService().getSecondaryDelegationsByExample(
             getDelegateExample(chartOfAccountsCode, accountNumber, fisDocumentTypeCode), totalDollarAmount);
     }
     
     protected Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber){
-        return SpringContext.getBean(
-                ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);
+        return getContractsAndGrantsModuleService().getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);
     }
 
     //Default to 0 total amount
@@ -131,6 +163,9 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      * @return Returns the accountService.
      */
     public AccountService getAccountService() {
+        if ( accountService == null ) {
+            accountService = SpringContext.getBean(AccountService.class);
+        }
         return accountService;
     }
 
@@ -160,6 +195,13 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
 
     public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes){
         return qualificationAttributes;
+    }
+
+    public ContractsAndGrantsModuleService getContractsAndGrantsModuleService() {
+        if ( contractsAndGrantsModuleService == null ) {
+            contractsAndGrantsModuleService = SpringContext.getBean(ContractsAndGrantsModuleService.class);
+        }
+        return contractsAndGrantsModuleService;
     }
 
 }

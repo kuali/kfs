@@ -308,21 +308,6 @@
   <bean id="AssetRetirementGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     <property name="searchingTypeDefinitions">
     	<list>
-	    	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-		    	<property name="searchingAttribute">
-		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-		    			<property name="attributeName" value="capitalAssetNumber" />
-		    		</bean>
-		    	</property>
-		    	<property name="documentValues">
-		    		<list>
-		    			<value>newMaintainableObject.businessObject.assetRetirementGlobalDetails.capitalAssetNumber</value>
-		    			<value>newMaintainableObject.businessObject.mergedTargetCapitalAssetNumber</value>
-		    		</list>
-		    	</property>
-		    </bean>
-		    
 		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

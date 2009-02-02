@@ -6,6 +6,7 @@
 
   <bean name="AssetFabricationMaintenanceDocument" parent="AssetMaintenanceDocument">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetFabrication" />
+    <property name="allowsNewOrCopy" value="true" />
     <property name="label" value="Asset Fabrication" />
     <property name="shortLabel" value="Asset Fabrication" />
     <property name="documentTypeName" value="AssetFabricationMaintenanceDocument" />
@@ -20,7 +21,6 @@
   <bean id="AssetFabricationMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     <property name="searchingTypeDefinitions">
     		<list>
-				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-capitalAssetNumber"/>
 				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-campusTagNumber"/>
 				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationOwnerChartOfAccountsCode"/>
 				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationCode"/>

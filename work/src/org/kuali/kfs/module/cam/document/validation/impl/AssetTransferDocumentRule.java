@@ -361,7 +361,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
         Asset asset = assetTransferDocument.getAsset();
         String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
-        if (finObjectSubTypeCode == null) {
+        if (finObjectSubTypeCode == null && ObjectUtils.isNotNull(asset.getAssetPayments()) && !asset.getAssetPayments().isEmpty()) {
             AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
             firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
             finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();

@@ -16,7 +16,7 @@
         <ref bean="AssetMaintenanceDocument-AssetLocation" />
         <ref bean="AssetMaintenanceDocument-OrganizationInformation" />
         <ref bean="AssetMaintenanceDocument-PaymentInformation" />
-		<ref bean="AssetMaintenanceDocument-AssetPaymentLink" />        
+		<ref bean="AssetMaintenanceDocument-AssetPaymentLink" />
 		<ref bean="AssetMaintenanceDocument-ViewRelatedDocumentLink" />        
         <ref bean="AssetMaintenanceDocument-FabricationInformation" />
         <ref bean="AssetMaintenanceDocument-LandInformation" />
@@ -103,7 +103,7 @@
       </list>
 	</property>
   </bean>
-
+  
   <bean id="AssetMaintenanceDocument-AssetDetailInformation" parent="AssetMaintenanceDocument-AssetDetailInformation-parentBean" />
 
   <bean id="AssetMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
@@ -717,7 +717,6 @@
   <bean id="AssetMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-capitalAssetNumber"/>
 				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-campusTagNumber"/>
 				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationOwnerChartOfAccountsCode"/>
 				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationCode"/>

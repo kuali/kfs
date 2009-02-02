@@ -86,7 +86,7 @@
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode" parent="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" />
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
     <property name="name" value="expenditureFinancialDocumentTypeCode" />
-    <property name="shortLabel" value="Doc. Type" />
+    <property name="label" value="Document Type Code" />
     <property name="required" value="true" />
   </bean>
   

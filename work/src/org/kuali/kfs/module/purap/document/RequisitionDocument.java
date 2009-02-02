@@ -158,7 +158,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
-        this.setFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.DEFAULT_FUNDING_SOURCE));
+        this.setFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
         this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
             
         Person currentUser = GlobalVariables.getUserSession().getPerson();
@@ -216,7 +216,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             // The allowed copy date is the document creation date plus a set number of days.
             Date createDate = getDocumentHeader().getWorkflowDocument().getCreateDate();
             c.setTime(createDate);
-            String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.B2B_ALLOW_COPY_DAYS);
+            String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapParameterConstants.B2B_ALLOW_COPY_DAYS);
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
             Date allowedCopyDate = c.getTime();
             Date currentDate = dateTimeService.getCurrentDate();

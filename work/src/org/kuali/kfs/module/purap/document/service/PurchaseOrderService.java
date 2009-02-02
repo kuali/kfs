@@ -38,6 +38,10 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public interface PurchaseOrderService extends PurchasingDocumentSpecificService {
 
+    public boolean isPurchaseOrderOpenForProcessing(Integer poId);
+    
+    public boolean isPurchaseOrderOpenForProcessing(PurchaseOrderDocument purchaseOrderDocument);
+
     /**
      * Creates an automatic purchase order document using the given requisition document
      * 
@@ -319,8 +323,6 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      *         already been updated based on our findings on the items' commodity codes.
      */
     public VendorDetail updateVendorWithMissingCommodityCodesIfNecessary(PurchaseOrderDocument po);
-    
-    public boolean isPurchasingUser(PurchaseOrderDocument document, String actionType);
     
     /**
      * Determines if a purchase order item is new unordered item. 

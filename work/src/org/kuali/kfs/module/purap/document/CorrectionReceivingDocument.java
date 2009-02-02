@@ -137,11 +137,6 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     }
 
     @Override
-    public AccountsPayableDocumentSpecificService getDocumentSpecificService() {        
-        return null;
-    }
-
-    @Override
     public Integer getAlternateVendorDetailAssignedIdentifier() {
         return getLineItemReceivingDocument().getAlternateVendorDetailAssignedIdentifier();
     }

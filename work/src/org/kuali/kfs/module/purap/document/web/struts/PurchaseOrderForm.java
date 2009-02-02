@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -43,6 +43,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderCloseDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -52,12 +53,12 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
-import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -395,29 +396,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @return boolean true if the amend button can be displayed.
      */
     private boolean canAmend() {
-        // check PO status etc
-        boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
-        can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
-        
-        // in addition, check conditions about No In Process PREQ and CM) 
-        if (can) {
-            List<PaymentRequestView> preqViews = getPurchaseOrderDocument().getRelatedViews().getRelatedPaymentRequestViews();
-            if ( preqViews != null ) {
-                for (PaymentRequestView preqView : preqViews) {
-                    if (StringUtils.equalsIgnoreCase(preqView.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
-                        return false;
-                    }
-                }
-            }            
-            List<CreditMemoView> cmViews = getPurchaseOrderDocument().getRelatedViews().getRelatedCreditMemoViews();
-            if ( cmViews != null ) {
-                for (CreditMemoView cmView : cmViews) {
-                    if (StringUtils.equalsIgnoreCase(cmView.getCreditMemoStatusCode(), CreditMemoStatuses.IN_PROCESS)) {
-                        return false;
-                    }
-                }
-            }
-        }
+        boolean can = SpringContext.getBean(PurchaseOrderService.class).isPurchaseOrderOpenForProcessing(getPurchaseOrderDocument());
         
         // check user authorization
         if (can) {
@@ -468,11 +447,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @return boolean true if the close order button can be displayed.
      */
     private boolean canClose() {        
-        // invoke the validation in the business rule class to find out whether this purchase order is eligible to be closed
-        //TODO why calling processRouteDocument instead of processValidation ???
-        PurchaseOrderCloseDocumentRule rule = new PurchaseOrderCloseDocumentRule();
-        boolean can = rule.processRouteDocument(getPurchaseOrderDocument());
-
+        // check PO status etc
+        boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+        can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
+        can = can && processPaymentRequestRulesForCanClose(getPurchaseOrderDocument());
+        
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
@@ -482,7 +461,55 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         return can;        
     }
-    
+
+    /**
+     * Processes validation rules having to do with any payment requests that the given purchase order may have. Specifically,
+     * validates that at least one payment request exists, and makes further checks about the status of such payment requests.
+     * 
+     * @param document A PurchaseOrderDocument
+     * @return True if the document passes all the validations.
+     */
+    private boolean processPaymentRequestRulesForCanClose(PurchaseOrderDocument document) {
+        boolean valid = true;
+        // The PO must have at least one PREQ against it.
+        Integer poDocId = document.getPurapDocumentIdentifier();
+        List<PaymentRequestDocument> pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(poDocId);
+        if (ObjectUtils.isNotNull(pReqs)) {
+            if (pReqs.size() == 0) {
+                valid = false;
+            }
+            else {
+                boolean checkInProcess = true;
+                boolean hasInProcess = false;
+
+                for (PaymentRequestDocument pReq : pReqs) {
+                    // skip exception docs
+                    if (pReq.getDocumentHeader().getWorkflowDocument().stateIsException()) {
+                        continue;
+                    }
+                    // TODO NOTE for below, this could/should be changed to look at the first route level after full entry instead of
+                    // being tied to AwaitingFiscal (in case full entry is moved)
+                    // look for a doc that is currently routing, that will probably be the one that called this close if called from
+                    // preq (with close po box)
+                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
+                        // terminate the search since this close doc is probably being called by this doc, a doc should never be In
+                        // Process and enroute in any other case
+                        checkInProcess = false;
+                        break;
+                    }
+                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                        hasInProcess = true;
+                    }
+                }
+                if (checkInProcess && hasInProcess) {
+                    valid = false;
+                }
+            }
+        }
+
+        return valid;
+    }
+
     /**
      * Determines whether to display the open order button to reopen the purchase order document.
      * Conditions: PO status is close, PO is current and not pending, and the user is in purchasing group.

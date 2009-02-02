@@ -10,6 +10,7 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
@@ -29,8 +30,6 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     //Collections
     private List<LineItemReceivingItem> items;
 
-    //Used by Routing
-    boolean awaitingPurchaseOrderOpen;
     /**
      * Default constructor.
      */
@@ -181,22 +180,6 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         }
     }
 
-    @Override
-    public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /*public LineItemReceivingItem getItemByLineNumber(int lineNumber) {
-        for (Iterator iter = items.iterator(); iter.hasNext();) {
-            LineItemReceivingItem item = (LineItemReceivingItem) iter.next();
-            if (item.getItemLineNumber().intValue() == lineNumber) {
-                return item;
-            }
-        }
-        return null;
-    }*/
-    
     /**
      * FIXME: Have to move this method to the base class to make it available for the correction doc also - vpc
      */
@@ -209,18 +192,9 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         getDocumentHeader().setDocumentDescription(description);
     }
 
-    @Override
-    public void populateDocumentForRouting() {
-        this.setAwaitingPurchaseOrderOpen( SpringContext.getBean(ReceivingService.class).isAwaitingPurchaseOrderOpen(this.getDocumentNumber()) );
-        super.populateDocumentForRouting();
-    }
 
-    public boolean isAwaitingPurchaseOrderOpen() {
-        return awaitingPurchaseOrderOpen;
-    }
-
-    public void setAwaitingPurchaseOrderOpen(boolean awaitingPurchaseOrderOpen) {
-        this.awaitingPurchaseOrderOpen = awaitingPurchaseOrderOpen;
+    private boolean isAwaitingPurchaseOrderOpen() {
+        return SpringContext.getBean(PurchaseOrderService.class).isPurchaseOrderOpenForProcessing(getPurchaseOrderDocument());
     }
 
     /**

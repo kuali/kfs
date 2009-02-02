@@ -66,7 +66,9 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
             }
 
             // Check that the user is in purchasing workgroup.
-            valid &= SpringContext.getBean(PurchaseOrderService.class).isPurchasingUser(document, "reopen");
+            
+            //FIXME hjs: fix for KIM; do we even need this class
+//            valid &= SpringContext.getBean(PurchaseOrderService.class).isPurchasingUser(document, "reopen");
         }
         return valid;
     }

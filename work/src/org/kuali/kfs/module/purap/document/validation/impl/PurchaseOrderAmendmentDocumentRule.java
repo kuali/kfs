@@ -45,8 +45,6 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
-        // Check that the user is in purchasing workgroup.
-        valid &= SpringContext.getBean(PurchaseOrderService.class).isPurchasingUser((PurchaseOrderDocument)purapDocument, "amend");
         valid &= validateContainsAtLeastOneActiveItem(purapDocument);
         return valid;
     }

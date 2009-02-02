@@ -56,6 +56,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
@@ -98,11 +99,14 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.document.DocumentBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -220,6 +224,38 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.mailService = mailService;
     }
     
+    
+    public boolean isPurchaseOrderOpenForProcessing(Integer poId) {
+        return isPurchaseOrderOpenForProcessing(getCurrentPurchaseOrder(poId));
+    }
+    
+    public boolean isPurchaseOrderOpenForProcessing(PurchaseOrderDocument purchaseOrderDocument) {
+        boolean can = PurchaseOrderStatuses.OPEN.equals(purchaseOrderDocument.getStatusCode());
+        can = can && purchaseOrderDocument.isPurchaseOrderCurrentIndicator() && !purchaseOrderDocument.isPendingActionIndicator();
+        
+        // in addition, check conditions about No In Process PREQ and CM) 
+        if (can) {
+            List<PaymentRequestView> preqViews = purchaseOrderDocument.getRelatedViews().getRelatedPaymentRequestViews();
+            if ( preqViews != null ) {
+                for (PaymentRequestView preqView : preqViews) {
+                    if (StringUtils.equalsIgnoreCase(preqView.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                        return false;
+                    }
+                }
+            }            
+            List<CreditMemoView> cmViews = purchaseOrderDocument.getRelatedViews().getRelatedCreditMemoViews();
+            if ( cmViews != null ) {
+                for (CreditMemoView cmView : cmViews) {
+                    if (StringUtils.equalsIgnoreCase(cmView.getCreditMemoStatusCode(), CreditMemoStatuses.IN_PROCESS)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return can;
+    }
+
     /**
      * Sets the error map to a new, empty error map before calling saveDocumentNoValidation to save the document.
      * 
@@ -527,43 +563,44 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param po The purchase order document upon which the workflow actions would be taken
      * @param annotation The annotation String that we'll pass to workflow when we invoke superUserActionRequestApprove.
      */
-    private void takeWorkflowActionsForDocumentTransmission(PurchaseOrderDocument po, String annotation) {
-        try {
-            List<ActionRequestDTO> docTransRequests = new ArrayList<ActionRequestDTO>();
-            ActionRequestDTO[] actionRequests = workflowInfoService.getActionRequests(Long.valueOf(po.getDocumentNumber()));
-            for (ActionRequestDTO actionRequestDTO : actionRequests) {
-                if (actionRequestDTO.isActivated()) {
-                    if (StringUtils.equals(actionRequestDTO.getNodeName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName())) {
-                        docTransRequests.add(actionRequestDTO);
-                    }
-                }
-            }
-            if (!docTransRequests.isEmpty()) {
-                for (ActionRequestDTO actionRequest : docTransRequests) {
-                    po.getDocumentHeader().getWorkflowDocument().superUserActionRequestApprove(actionRequest.getActionRequestId(), annotation);
-                }
-            }
-            if (po.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
-                documentService.approveDocument(po, null, new ArrayList());
-            }
-            else if (po.getDocumentHeader().getWorkflowDocument().isAcknowledgeRequested()) {
-                documentService.acknowledgeDocument(po, null, new ArrayList());
-            }
-            else if (po.getDocumentHeader().getWorkflowDocument().isFYIRequested()) {
-                documentService.clearDocumentFyi(po, new ArrayList());
-            }
-        }
-        catch (NumberFormatException nfe) {
-            String errorMsg = "Exception trying to convert '" + po.getDocumentNumber() + "' into a number (Long)";
-            LOG.error(errorMsg, nfe);
-            throw new RuntimeException(errorMsg, nfe);
-        }
-        catch (WorkflowException we) {
-            String errorMsg = "Workflow Exception caught trying to take actions for document transmission node: " + we.getLocalizedMessage();
-            LOG.error(errorMsg, we);
-            throw new RuntimeException(errorMsg, we);
-        }
-    }
+//TODO hjs: cleanup don't think this method is being used
+    //    private void takeWorkflowActionsForDocumentTransmission(PurchaseOrderDocument po, String annotation) {
+//        try {
+//            List<ActionRequestDTO> docTransRequests = new ArrayList<ActionRequestDTO>();
+//            ActionRequestDTO[] actionRequests = workflowInfoService.getActionRequests(Long.valueOf(po.getDocumentNumber()));
+//            for (ActionRequestDTO actionRequestDTO : actionRequests) {
+//                if (actionRequestDTO.isActivated()) {
+//                    if (StringUtils.equals(actionRequestDTO.getNodeName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName())) {
+//                        docTransRequests.add(actionRequestDTO);
+//                    }
+//                }
+//            }
+//            if (!docTransRequests.isEmpty()) {
+//                for (ActionRequestDTO actionRequest : docTransRequests) {
+//                    po.getDocumentHeader().getWorkflowDocument().superUserActionRequestApprove(actionRequest.getActionRequestId(), annotation);
+//                }
+//            }
+//            if (po.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+//                documentService.approveDocument(po, null, new ArrayList());
+//            }
+//            else if (po.getDocumentHeader().getWorkflowDocument().isAcknowledgeRequested()) {
+//                documentService.acknowledgeDocument(po, null, new ArrayList());
+//            }
+//            else if (po.getDocumentHeader().getWorkflowDocument().isFYIRequested()) {
+//                documentService.clearDocumentFyi(po, new ArrayList());
+//            }
+//        }
+//        catch (NumberFormatException nfe) {
+//            String errorMsg = "Exception trying to convert '" + po.getDocumentNumber() + "' into a number (Long)";
+//            LOG.error(errorMsg, nfe);
+//            throw new RuntimeException(errorMsg, nfe);
+//        }
+//        catch (WorkflowException we) {
+//            String errorMsg = "Workflow Exception caught trying to take actions for document transmission node: " + we.getLocalizedMessage();
+//            LOG.error(errorMsg, we);
+//            throw new RuntimeException(errorMsg, we);
+//        }
+//    }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#retransmitPurchaseOrderPDF(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
@@ -1491,22 +1528,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
 
         return adHocRoutePersons;
-    }
-    
-    public boolean isPurchasingUser(PurchaseOrderDocument document, String actionType) {
-        boolean valid = true;
-        // Check that the user is in purchasing workgroup.
-        String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        Person user = personService.getPersonByPrincipalName(initiatorNetworkId);
-        if (user == null) {
-            return false;
-        }
-        String purchasingGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-        if (!KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, purchasingGroup)) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, initiatorNetworkId, actionType, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
-        }        
-        return valid;
     }
     
     /**

@@ -25,18 +25,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.KimGroup;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -49,26 +47,23 @@ public class PrintAction extends KualiAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // do security check
-        // get current user and check to see if they 
-
         //get parameters
         String poDocNumber = request.getParameter("poDocNumber");
         Integer vendorQuoteId = new Integer(request.getParameter("vendorQuoteId"));
         if (StringUtils.isEmpty(poDocNumber) || StringUtils.isEmpty(poDocNumber)) {
             throw new RuntimeException();
         }
-        // doc service - get this doc
-        // get the vendor quote
-        // call the print service
-        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocNumber);
-        Person curUser = GlobalVariables.getUserSession().getPerson();
-        // TODO fix for kim
-//        if (!hasPrintAuthorization(po, curUser)) {
-//            throw new DocumentInitiationAuthorizationException(KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, new String[]{curUser.getPrincipalName(), "print", "Purchase Order"});
-//        }
 
-        
+        // doc service - get this doc
+        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocNumber);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(po);
+        String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderDocument.class);
+
+        if (!documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson())) {
+            throw new DocumentInitiationAuthorizationException(KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, new String[]{GlobalVariables.getUserSession().getPerson().getPrincipalName(), "print", "Purchase Order"});
+        }
+
+        // get the vendor quote
         PurchaseOrderVendorQuote poVendorQuote = null;
         for (PurchaseOrderVendorQuote vendorQuote : po.getPurchaseOrderVendorQuotes()) {
             if (vendorQuote.getPurchaseOrderVendorQuoteIdentifier().equals(vendorQuoteId)) {
@@ -76,9 +71,11 @@ public class PrintAction extends KualiAction {
                 break;
             }
         }
-        if (poVendorQuote==null) {
+
+        if (poVendorQuote == null) {
             throw new RuntimeException();
         }
+
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         poVendorQuote.setTransmitPrintDisplayed(false);
         try {
@@ -89,6 +86,7 @@ public class PrintAction extends KualiAction {
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
 
+            // call the print service
             boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderQuotePDF(po, poVendorQuote, baosPDF);
 
             if (!success) {
@@ -128,16 +126,5 @@ public class PrintAction extends KualiAction {
         return null;
     }
     
-    //TODO hjs chagne this for KIM
-//    private boolean hasPrintAuthorization(Document document, Person user) {
-//        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
-//        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, authorizedWorkgroup);
-//        if (group != null) {
-//            return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
-//        } else {
-//            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
-//        }
-//    }
-
 }
 

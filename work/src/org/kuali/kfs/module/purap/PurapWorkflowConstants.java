@@ -52,7 +52,7 @@ public class PurapWorkflowConstants {
     public static final String REQUIRES_INVOICE_ATTACHMENT = "RequiresInvoiceAttachment";
     public static final String PURCHASE_WAS_RECEIVED = "PurchaseWasReceived";
     
-    public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
+    public static final String DOC_ADHOC_NODE_NAME = "AdHoc";
 
     public static class ContractManagerAssignmentDocument {
         public static final String WORKFLOW_DOCUMENT_TITLE = "Contract Manager Assignment";

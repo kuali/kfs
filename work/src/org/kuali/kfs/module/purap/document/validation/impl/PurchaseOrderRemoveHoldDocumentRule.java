@@ -88,7 +88,8 @@ public class PurchaseOrderRemoveHoldDocumentRule extends TransactionalDocumentRu
             }
 
             // Check that the user is in purchasing workgroup.
-            valid &= SpringContext.getBean(PurchaseOrderService.class).isPurchasingUser(document, "remove payment hold for");
+            //FIXME hjs: clean up for KIM do we even need this class?
+            //valid &= SpringContext.getBean(PurchaseOrderService.class).isPurchasingUser(document, "remove payment hold for");
         }
         return valid;
     }

@@ -28,7 +28,9 @@ public class VendorCreditMemoCancelValidation extends GenericValidation {
     
     public boolean validate(AttributedDocumentEvent event) {
         VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) event.getDocument();
-        return creditMemoService.canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getPerson());
+        //TODO hjs- need to review, but shouldn't need to check cancel rules here
+//        return creditMemoService.canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getPerson());
+        return true;
     }
 
     public CreditMemoService getCreditMemoService() {

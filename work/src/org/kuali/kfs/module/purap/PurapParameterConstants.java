@@ -22,7 +22,9 @@ import org.kuali.kfs.sys.ParameterKeyConstants;
  */
 public class PurapParameterConstants implements ParameterKeyConstants {
 
-    // PARAMETER NAMES
+    public static final String B2B_ALLOW_COPY_DAYS = "B2B_ALLOW_COPY_DAYS";
+    public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
+
     public static final String PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_CM_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_PO_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
@@ -100,40 +102,16 @@ public class PurapParameterConstants implements ParameterKeyConstants {
 
     public static final String PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME = "PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME";
     
-    public static class Workgroups {
-        public static final String SEARCH_SPECIAL_ACCESS = "SEARCH_SPECIAL_ACCESS_GROUP";
-
-        // PURCHASE ORDER DOCUMENT
-        public static final String WORKGROUP_PURCHASING = "PURCHASING_GROUP";
-        public static final String PURAP_DOCUMENT_PO_INITIATE_ACTION = "INITIATE_ACTION";
-        public static final String PURAP_DOCUMENT_PO_ACTIONS = "ACTION_TAKING_GROUP";
-
-        // ACCOUNTS PAYABLE DOCUMENT
-        public static final String WORKGROUP_ACCOUNTS_PAYABLE = "ACCOUNTS_PAYABLE_GROUP";
-        public static final String WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR = "ACCOUNTS_PAYABLE_SUPERVISOR_GROUP";
-        
-        // Tax Review Workgroups
-        public static final String PA_NONRESIDENT_ALIEN_TAX_REVIEWERS = "PA_NON-RESIDENT_ALIEN_TAX_REVIEWERS";
-        public static final String PA_EMPLOYEE_VENDOR_REVIEWERS = "PA_EMPLOYEE_VENDOR_REVIEWERS";
-        public static final String PA_EMPLOYEE_AND_NONRESIDENT_ALIEN_VENDOR_TAX_REVIEWERS = "PA_EMPLOYEE_AND_NON-RESIDENT_ALIEN_VENDOR_TAX_REVIEWERS";
-        
-    }
-
     public static class WorkflowParameters {
         public static class RequisitionDocument {
-            // config parameters
             public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
-            // Workgroups
-            public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = "SEPARATION_OF_DUTIES_GROUP";
         }
 
         public static class PurchaseOrderDocument {
             // Config parameter group names
+            //TODO hjs:these aren't being used, but shouldn't they be?
             public static final String CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM = "CG_ROUTE_OBJECT_CODES_BY_CHART";
             public static final String NO_CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM = "NO_CG_ROUTE_OBJECT_CODES_BY_CHART";
-            // Workgroups
-            public static final String CONTRACT_MANAGERS_WORKGROUP_NAME = "CONTRACT_MANAGERS_GROUP";
-            public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = "INTERNAL_PURCHASING_REVIEWERS_GROUP";
         }
     }
     

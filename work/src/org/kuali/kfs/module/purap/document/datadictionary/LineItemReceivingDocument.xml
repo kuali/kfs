@@ -60,7 +60,6 @@
         <ref bean="LineItemReceivingDocument-vendorStateCode" />
         <ref bean="LineItemReceivingDocument-vendorPostalCode" />
         <ref bean="LineItemReceivingDocument-versionNumber" />
-        <ref bean="LineItemReceivingDocument-awaitingPurchaseOrderOpen" />
         <ref bean="LineItemReceivingDocument-lineItemReceivingStatusCode" />        
       </list>
     </property>
@@ -417,18 +416,6 @@
   <bean id="LineItemReceivingDocument-versionNumber" parent="LineItemReceivingDocument-versionNumber-parentBean" />
 
   <bean id="LineItemReceivingDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
-  
-  <bean id="LineItemReceivingDocument-awaitingPurchaseOrderOpen" parent="LineItemReceivingDocument-awaitingPurchaseOrderOpen-parentBean" />
-  
-  <bean id="LineItemReceivingDocument-awaitingPurchaseOrderOpen-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awaitingPurchaseOrderOpen" />
-    <property name="label" value="Awaiting Purchase Order Open" />
-    <property name="shortLabel" value="Awaiting Purchase Order Open" />
-    <property name="control" >
-       <bean parent="CheckboxControlDefinition" />
-    </property>
-    <property name="maxLength" value="1" />
   </bean>
   
   <bean id="LineItemReceivingDocument-lineItemReceivingStatusCode" parent="LineItemReceivingDocument-lineItemReceivingStatusCode-parentBean" />

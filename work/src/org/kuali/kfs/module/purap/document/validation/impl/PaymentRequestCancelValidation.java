@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
@@ -29,8 +28,9 @@ public class PaymentRequestCancelValidation extends GenericValidation {
         // no errors for now since we are not showing the button if they can't cancel, if that changes we need errors
         // also this is different than CreditMemo even though the rules are almost identical we should merge and have one consistent
         // way to do this
-        PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq, null);
-        valid = valid &= preqAuth.canCancel();
+//TODO hjs-cleanup; don't think we need this as presentation controller takes care of everything
+//        PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq, null);
+//        valid = valid &= preqAuth.canCancel();
         
         return valid;
     }

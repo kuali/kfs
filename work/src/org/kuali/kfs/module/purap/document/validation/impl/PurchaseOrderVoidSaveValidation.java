@@ -49,7 +49,8 @@ public class PurchaseOrderVoidSaveValidation extends GenericValidation {
             }
 
             // Check that the user is in purchasing workgroup.
-            valid &= purchaseOrderService.isPurchasingUser(document, "void");
+            //FIXME hjs: fix for KIM; do we even need this class 
+//            valid &= purchaseOrderService.isPurchasingUser(document, "void");
         }
         return valid;
     }

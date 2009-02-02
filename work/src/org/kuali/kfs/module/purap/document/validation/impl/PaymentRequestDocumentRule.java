@@ -39,7 +39,6 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -1237,8 +1236,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         // no errors for now since we are not showing the button if they can't cancel, if that changes we need errors
         // also this is different than CreditMemo even though the rules are almost identical we should merge and have one consistent
         // way to do this
-        PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq, null);
-        valid = valid &= preqAuth.canCancel();
+//FIXME hjs-cleanup; don't think we need this as presentation controller and security covers this
+//        PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq, null);
+//        valid = valid &= preqAuth.canCancel();
         return valid;
     }
 

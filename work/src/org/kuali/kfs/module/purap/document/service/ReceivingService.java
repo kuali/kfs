@@ -107,14 +107,6 @@ public interface ReceivingService {
     public HashMap<String, String> receivingLineDuplicateMessages(LineItemReceivingDocument rlDoc);
 
     /**
-     * returns true if po is not in a status that can allow amendments
-     * 
-     * @param documentNumber the doc number
-     * @return true if po is not in a status that allows amendments
-     */
-    public boolean isAwaitingPurchaseOrderOpen(String documentNumber);
-
-    /**
      * 
      * This method deletes unneeded items and updates the totals on the po and does any additional processing based on items i.e. FYI etc
      * @param receivingDocument receiving document

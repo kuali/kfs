@@ -59,6 +59,27 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     private KualiConfigurationService kualiConfigurationService;
     private PurapRunDateService purapRunDateService;
 
+    public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao) {
+        this.negativePaymentRequestApprovalLimitDao = negativePaymentRequestApprovalLimitDao;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setPurapRunDateService(PurapRunDateService purapRunDateService) {
+        this.purapRunDateService = purapRunDateService;
+    }
+    
+
     /**
      * The special payments query should be this: select * from pur.ap_pmt_rqst_t where pmt_rqst_stat_cd in ('AUTO', 'DPTA') and
      * prcs_cmp_cd = ? and pmt_extrt_ts is NULL and pmt_hld_ind = 'N' and ( ( ( pmt_spcl_handlg_instrc_ln1_txt is not NULL or
@@ -370,26 +391,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             returnList.add((String) cols[0]);
         }
         return returnList;
-    }
-    
-    public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao) {
-        this.negativePaymentRequestApprovalLimitDao = negativePaymentRequestApprovalLimitDao;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
-        this.purapAccountingService = purapAccountingService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    public void setPurapRunDateService(PurapRunDateService purapRunDateService) {
-        this.purapRunDateService = purapRunDateService;
     }
     
     public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus() {

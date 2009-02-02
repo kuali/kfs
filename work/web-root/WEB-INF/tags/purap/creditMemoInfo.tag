@@ -19,6 +19,7 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="fullDocumentEntryCompleted" value="${not empty KualiForm.editingMode['fullDocumentEntryCompleted']}" />
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 
 <kul:tab tabTitle="Credit Memo Info" defaultOpen="true">
@@ -58,20 +59,18 @@
                 </td>
              </tr>
              
-             <c:choose>
-                 <c:when test="${KualiForm.fullDocumentEntryCompleted eq false}">
-                     <tr>
-                        <th align=right valign=middle class="bord-l-b">                   
-		    	    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoAmount}" useShortLabel="true" /></div>
-                        </th>
-                        <td align=left valign=middle class="datacell">                   
-                        	<kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoAmount}" property="document.creditMemoAmount" readOnly="true" />
-                        </td>
-                        <th align=right valign=middle class="bord-l-b">&nbsp;</th>               
-                        <td align=left valign=middle class="datacell">&nbsp;</td>                
-                     <tr>   
-                 </c:when>
-             </c:choose>
+             <c:if test="${not fullDocumentEntryCompleted}">
+                  <tr>
+                     <th align=right valign=middle class="bord-l-b">                   
+        	    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoAmount}" useShortLabel="true" /></div>
+                     </th>
+                     <td align=left valign=middle class="datacell">                   
+                     	<kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoAmount}" property="document.creditMemoAmount" readOnly="true" />
+                     </td>
+                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>               
+                     <td align=left valign=middle class="datacell">&nbsp;</td>                
+                  <tr>   
+             </c:if>
 
              <tr>   
                 <th align=right valign=middle class="bord-l-b">

@@ -33,6 +33,14 @@ import org.kuali.rice.kim.bo.Person;
 public interface CreditMemoService extends AccountsPayableDocumentSpecificService {
 
     /**
+     * Populates the document from either the associated payment request document, purchase order document, or vendor detail based
+     * on the credit memo type.
+     * 
+     * @param cmDocument - Credit Memo Document to Populate
+     */
+    public void populateDocumentAfterInit(VendorCreditMemoDocument cmDocument);
+
+    /**
      * Gets the Credit memos that can be extracted.
      * 
      * @param chartCode Chart to select from.
@@ -116,18 +124,6 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
     public VendorCreditMemoDocument addHoldOnCreditMemo(VendorCreditMemoDocument cmDocument, String note) throws Exception;
 
     /**
-     * Determines if the document can be put on hold and if the user has permission to do so.
-     * Must be an Accounts Payable user, credit memo not already on hold, extracted date is null, and credit memo 
-     * status approved or complete.
-     * 
-     * 
-     * @param cmDocument - credit memo document to hold.
-     * @param user - user requesting the hold.
-     * @return boolean - true if hold can occur, false if not allowed.
-     */
-    public boolean canHoldCreditMemo(VendorCreditMemoDocument cmDocument, Person user);
-
-    /**
      * Removes a hold on the credit memo document.
      * 
      * @param cmDocument - credit memo document to remove hold on.
@@ -135,27 +131,6 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @return the CreditMemoDocument with updated information.
      */
     public VendorCreditMemoDocument removeHoldOnCreditMemo(VendorCreditMemoDocument cmDocument, String note) throws Exception;
-
-    /**
-     * Determines if the document can be taken off hold and if the given user has permission to do so.
-     * Must be person who put credit memo on hold or accounts payable supervisor and credit memo must be on hold.
-     * 
-     * @param cmDocument - credit memo document that is on hold.
-     * @param user - user requesting to remove the hold.
-     * @return boolean - true if user can take document off hold, false if they cannot.
-     */
-    public boolean canRemoveHoldCreditMemo(VendorCreditMemoDocument cmDocument, Person user);
-
-    /**
-     * Determines if the document can be canceled and if the given user has permission to do so.
-     * Document can be canceled if not in canceled status already, extracted date is null, hold indicator is false, and user is
-     * member of the accounts payable workgroup.
-     * 
-     * @param cmDocument - credit memo document to cancel.
-     * @param user - user requesting the cancel.
-     * @return boolean - true if document can be canceled, false if it cannot be.
-     */
-    public boolean canCancelCreditMemo(VendorCreditMemoDocument cmDocument, Person user);
 
     /**
      * This is called by PDP to cancel a CreditMemoDocument that has already been extracted     

@@ -49,7 +49,8 @@ public class PurchaseOrderReopenSaveValidation extends GenericValidation {
             }
 
             // Check that the user is in purchasing workgroup.
-            valid &= purchaseOrderService.isPurchasingUser(document, "reopen");
+            //FIXME hjs: fix for KIM; do we even need this class (should not be checkign user logic here)
+//            valid &= purchaseOrderService.isPurchasingUser(document, "reopen");
         }
         return valid;
     }

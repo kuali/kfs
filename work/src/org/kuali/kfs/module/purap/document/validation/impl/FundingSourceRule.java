@@ -17,8 +17,8 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.FundingSource;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -56,7 +56,7 @@ public class FundingSourceRule extends MaintenanceDocumentRuleBase {
     protected boolean checkForSystemParametersExistence() {
         LOG.info("checkForSystemParametersExistence called");
         boolean success = true;
-        List<String> parameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.DEFAULT_FUNDING_SOURCE);
+        List<String> parameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE);
         FundingSource newFundingSource = (FundingSource)getNewBo();
         FundingSource oldFundingSource= (FundingSource)getOldBo();
         //If the new funding source code matches with the funding source in the DEFAULT_FUNDING_SOURCE 

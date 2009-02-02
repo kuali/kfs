@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus;
-import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
@@ -100,505 +99,193 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         super();           
     }
         
-    /**
-     * Gets the carrierCode attribute.
-     * 
-     * @return Returns the carrierCode
-     * 
-     */
     public String getCarrierCode() { 
         return carrierCode;
     }
-
-    /**
-     * Sets the carrierCode attribute.
-     * 
-     * @param carrierCode The carrierCode to set.
-     * 
-     */
     public void setCarrierCode(String carrierCode) {
         this.carrierCode = carrierCode;
     }
 
-
-    /**
-     * Gets the shipmentPackingSlipNumber attribute.
-     * 
-     * @return Returns the shipmentPackingSlipNumber
-     * 
-     */
     public String getShipmentPackingSlipNumber() { 
         return shipmentPackingSlipNumber;
     }
 
-    /**
-     * Sets the shipmentPackingSlipNumber attribute.
-     * 
-     * @param shipmentPackingSlipNumber The shipmentPackingSlipNumber to set.
-     * 
-     */
     public void setShipmentPackingSlipNumber(String shipmentPackingSlipNumber) {
         this.shipmentPackingSlipNumber = shipmentPackingSlipNumber;
     }
 
-
-    /**
-     * Gets the shipmentReferenceNumber attribute.
-     * 
-     * @return Returns the shipmentReferenceNumber
-     * 
-     */
     public String getShipmentReferenceNumber() { 
         return shipmentReferenceNumber;
     }
 
-    /**
-     * Sets the shipmentReferenceNumber attribute.
-     * 
-     * @param shipmentReferenceNumber The shipmentReferenceNumber to set.
-     * 
-     */
     public void setShipmentReferenceNumber(String shipmentReferenceNumber) {
         this.shipmentReferenceNumber = shipmentReferenceNumber;
     }
 
-
-    /**
-     * Gets the shipmentBillOfLadingNumber attribute.
-     * 
-     * @return Returns the shipmentBillOfLadingNumber
-     * 
-     */
     public String getShipmentBillOfLadingNumber() { 
         return shipmentBillOfLadingNumber;
     }
 
-    /**
-     * Sets the shipmentBillOfLadingNumber attribute.
-     * 
-     * @param shipmentBillOfLadingNumber The shipmentBillOfLadingNumber to set.
-     * 
-     */
     public void setShipmentBillOfLadingNumber(String shipmentBillOfLadingNumber) {
         this.shipmentBillOfLadingNumber = shipmentBillOfLadingNumber;
     }
 
-
-    /**
-     * Gets the shipmentReceivedDate attribute.
-     * 
-     * @return Returns the shipmentReceivedDate
-     * 
-     */
     public Date getShipmentReceivedDate() { 
         return shipmentReceivedDate;
     }
 
-    /**
-     * Sets the shipmentReceivedDate attribute.
-     * 
-     * @param shipmentReceivedDate The shipmentReceivedDate to set.
-     * 
-     */
     public void setShipmentReceivedDate(Date shipmentReceivedDate) {
         this.shipmentReceivedDate = shipmentReceivedDate;
     }
 
-
-    /**
-     * Gets the vendorHeaderGeneratedIdentifier attribute.
-     * 
-     * @return Returns the vendorHeaderGeneratedIdentifier
-     * 
-     */
     public Integer getVendorHeaderGeneratedIdentifier() { 
         return vendorHeaderGeneratedIdentifier;
     }
 
-    /**
-     * Sets the vendorHeaderGeneratedIdentifier attribute.
-     * 
-     * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-     * 
-     */
     public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
     }
 
-
-    /**
-     * Gets the vendorDetailAssignedIdentifier attribute.
-     * 
-     * @return Returns the vendorDetailAssignedIdentifier
-     * 
-     */
     public Integer getVendorDetailAssignedIdentifier() { 
         return vendorDetailAssignedIdentifier;
     }
 
-    /**
-     * Sets the vendorDetailAssignedIdentifier attribute.
-     * 
-     * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-     * 
-     */
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
         this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
     }
 
-
-    /**
-     * Gets the vendorName attribute.
-     * 
-     * @return Returns the vendorName
-     * 
-     */
     public String getVendorName() { 
         return vendorName;
     }
 
-    /**
-     * Sets the vendorName attribute.
-     * 
-     * @param vendorName The vendorName to set.
-     * 
-     */
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
 
-
-    /**
-     * Gets the vendorLine1Address attribute.
-     * 
-     * @return Returns the vendorLine1Address
-     * 
-     */
     public String getVendorLine1Address() { 
         return vendorLine1Address;
     }
 
-    /**
-     * Sets the vendorLine1Address attribute.
-     * 
-     * @param vendorLine1Address The vendorLine1Address to set.
-     * 
-     */
     public void setVendorLine1Address(String vendorLine1Address) {
         this.vendorLine1Address = vendorLine1Address;
     }
 
-
-    /**
-     * Gets the vendorLine2Address attribute.
-     * 
-     * @return Returns the vendorLine2Address
-     * 
-     */
     public String getVendorLine2Address() { 
         return vendorLine2Address;
     }
 
-    /**
-     * Sets the vendorLine2Address attribute.
-     * 
-     * @param vendorLine2Address The vendorLine2Address to set.
-     * 
-     */
     public void setVendorLine2Address(String vendorLine2Address) {
         this.vendorLine2Address = vendorLine2Address;
     }
 
-
-    /**
-     * Gets the vendorCityName attribute.
-     * 
-     * @return Returns the vendorCityName
-     * 
-     */
     public String getVendorCityName() { 
         return vendorCityName;
     }
 
-    /**
-     * Sets the vendorCityName attribute.
-     * 
-     * @param vendorCityName The vendorCityName to set.
-     * 
-     */
     public void setVendorCityName(String vendorCityName) {
         this.vendorCityName = vendorCityName;
     }
 
-
-    /**
-     * Gets the vendorStateCode attribute.
-     * 
-     * @return Returns the vendorStateCode
-     * 
-     */
     public String getVendorStateCode() { 
         return vendorStateCode;
     }
 
-    /**
-     * Sets the vendorStateCode attribute.
-     * 
-     * @param vendorStateCode The vendorStateCode to set.
-     * 
-     */
     public void setVendorStateCode(String vendorStateCode) {
         this.vendorStateCode = vendorStateCode;
     }
 
-
-    /**
-     * Gets the vendorPostalCode attribute.
-     * 
-     * @return Returns the vendorPostalCode
-     * 
-     */
     public String getVendorPostalCode() { 
         return vendorPostalCode;
     }
 
-    /**
-     * Sets the vendorPostalCode attribute.
-     * 
-     * @param vendorPostalCode The vendorPostalCode to set.
-     * 
-     */
     public void setVendorPostalCode(String vendorPostalCode) {
         this.vendorPostalCode = vendorPostalCode;
     }
 
-
-    /**
-     * Gets the vendorCountryCode attribute.
-     * 
-     * @return Returns the vendorCountryCode
-     * 
-     */
     public String getVendorCountryCode() { 
         return vendorCountryCode;
     }
 
-    /**
-     * Sets the vendorCountryCode attribute.
-     * 
-     * @param vendorCountryCode The vendorCountryCode to set.
-     * 
-     */
     public void setVendorCountryCode(String vendorCountryCode) {
         this.vendorCountryCode = vendorCountryCode;
     }
 
-
-    /**
-     * Gets the deliveryCampusCode attribute.
-     * 
-     * @return Returns the deliveryCampusCode
-     * 
-     */
     public String getDeliveryCampusCode() { 
         return deliveryCampusCode;
     }
 
-    /**
-     * Sets the deliveryCampusCode attribute.
-     * 
-     * @param deliveryCampusCode The deliveryCampusCode to set.
-     * 
-     */
     public void setDeliveryCampusCode(String deliveryCampusCode) {
         this.deliveryCampusCode = deliveryCampusCode;
     }
 
-
-    /**
-     * Gets the deliveryBuildingCode attribute.
-     * 
-     * @return Returns the deliveryBuildingCode
-     * 
-     */
     public String getDeliveryBuildingCode() { 
         return deliveryBuildingCode;
     }
 
-    /**
-     * Sets the deliveryBuildingCode attribute.
-     * 
-     * @param deliveryBuildingCode The deliveryBuildingCode to set.
-     * 
-     */
     public void setDeliveryBuildingCode(String deliveryBuildingCode) {
         this.deliveryBuildingCode = deliveryBuildingCode;
     }
 
-
-    /**
-     * Gets the deliveryBuildingName attribute.
-     * 
-     * @return Returns the deliveryBuildingName
-     * 
-     */
     public String getDeliveryBuildingName() { 
         return deliveryBuildingName;
     }
 
-    /**
-     * Sets the deliveryBuildingName attribute.
-     * 
-     * @param deliveryBuildingName The deliveryBuildingName to set.
-     * 
-     */
     public void setDeliveryBuildingName(String deliveryBuildingName) {
         this.deliveryBuildingName = deliveryBuildingName;
     }
 
-
-    /**
-     * Gets the deliveryBuildingRoomNumber attribute.
-     * 
-     * @return Returns the deliveryBuildingRoomNumber
-     * 
-     */
     public String getDeliveryBuildingRoomNumber() { 
         return deliveryBuildingRoomNumber;
     }
 
-    /**
-     * Sets the deliveryBuildingRoomNumber attribute.
-     * 
-     * @param deliveryBuildingRoomNumber The deliveryBuildingRoomNumber to set.
-     * 
-     */
     public void setDeliveryBuildingRoomNumber(String deliveryBuildingRoomNumber) {
         this.deliveryBuildingRoomNumber = deliveryBuildingRoomNumber;
     }
 
-
-    /**
-     * Gets the deliveryBuildingLine1Address attribute.
-     * 
-     * @return Returns the deliveryBuildingLine1Address
-     * 
-     */
     public String getDeliveryBuildingLine1Address() { 
         return deliveryBuildingLine1Address;
     }
 
-    /**
-     * Sets the deliveryBuildingLine1Address attribute.
-     * 
-     * @param deliveryBuildingLine1Address The deliveryBuildingLine1Address to set.
-     * 
-     */
     public void setDeliveryBuildingLine1Address(String deliveryBuildingLine1Address) {
         this.deliveryBuildingLine1Address = deliveryBuildingLine1Address;
     }
 
-
-    /**
-     * Gets the deliveryBuildingLine2Address attribute.
-     * 
-     * @return Returns the deliveryBuildingLine2Address
-     * 
-     */
     public String getDeliveryBuildingLine2Address() { 
         return deliveryBuildingLine2Address;
     }
 
-    /**
-     * Sets the deliveryBuildingLine2Address attribute.
-     * 
-     * @param deliveryBuildingLine2Address The deliveryBuildingLine2Address to set.
-     * 
-     */
     public void setDeliveryBuildingLine2Address(String deliveryBuildingLine2Address) {
         this.deliveryBuildingLine2Address = deliveryBuildingLine2Address;
     }
 
-
-    /**
-     * Gets the deliveryCityName attribute.
-     * 
-     * @return Returns the deliveryCityName
-     * 
-     */
     public String getDeliveryCityName() { 
         return deliveryCityName;
     }
 
-    /**
-     * Sets the deliveryCityName attribute.
-     * 
-     * @param deliveryCityName The deliveryCityName to set.
-     * 
-     */
     public void setDeliveryCityName(String deliveryCityName) {
         this.deliveryCityName = deliveryCityName;
     }
 
-
-    /**
-     * Gets the deliveryStateCode attribute.
-     * 
-     * @return Returns the deliveryStateCode
-     * 
-     */
     public String getDeliveryStateCode() { 
         return deliveryStateCode;
     }
 
-    /**
-     * Sets the deliveryStateCode attribute.
-     * 
-     * @param deliveryStateCode The deliveryStateCode to set.
-     * 
-     */
     public void setDeliveryStateCode(String deliveryStateCode) {
         this.deliveryStateCode = deliveryStateCode;
     }
 
-
-    /**
-     * Gets the deliveryPostalCode attribute.
-     * 
-     * @return Returns the deliveryPostalCode
-     * 
-     */
     public String getDeliveryPostalCode() { 
         return deliveryPostalCode;
     }
 
-    /**
-     * Sets the deliveryPostalCode attribute.
-     * 
-     * @param deliveryPostalCode The deliveryPostalCode to set.
-     * 
-     */
     public void setDeliveryPostalCode(String deliveryPostalCode) {
         this.deliveryPostalCode = deliveryPostalCode;
     }
 
-
-    /**
-     * Gets the deliveryCountryCode attribute.
-     * 
-     * @return Returns the deliveryCountryCode
-     * 
-     */
     public String getDeliveryCountryCode() { 
         return deliveryCountryCode;
     }
 
-    /**
-     * Sets the deliveryCountryCode attribute.
-     * 
-     * @param deliveryCountryCode The deliveryCountryCode to set.
-     * 
-     */
     public void setDeliveryCountryCode(String deliveryCountryCode) {
         this.deliveryCountryCode = deliveryCountryCode;
     }
@@ -610,214 +297,104 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         return null;
     }
        
-    /**
-     * Gets the deliveryToName attribute.
-     * 
-     * @return Returns the deliveryToName
-     * 
-     */
     public String getDeliveryToName() { 
         return deliveryToName;
     }
 
-    /**
-     * Sets the deliveryToName attribute.
-     * 
-     * @param deliveryToName The deliveryToName to set.
-     * 
-     */
     public void setDeliveryToName(String deliveryToName) {
         this.deliveryToName = deliveryToName;
     }
 
-
-    /**
-     * Gets the deliveryToEmailAddress attribute.
-     * 
-     * @return Returns the deliveryToEmailAddress
-     * 
-     */
     public String getDeliveryToEmailAddress() { 
         return deliveryToEmailAddress;
     }
 
-    /**
-     * Sets the deliveryToEmailAddress attribute.
-     * 
-     * @param deliveryToEmailAddress The deliveryToEmailAddress to set.
-     * 
-     */
     public void setDeliveryToEmailAddress(String deliveryToEmailAddress) {
         this.deliveryToEmailAddress = deliveryToEmailAddress;
     }
 
-
-    /**
-     * Gets the deliveryToPhoneNumber attribute.
-     * 
-     * @return Returns the deliveryToPhoneNumber
-     * 
-     */
     public String getDeliveryToPhoneNumber() { 
         return deliveryToPhoneNumber;
     }
 
-    /**
-     * Sets the deliveryToPhoneNumber attribute.
-     * 
-     * @param deliveryToPhoneNumber The deliveryToPhoneNumber to set.
-     * 
-     */
     public void setDeliveryToPhoneNumber(String deliveryToPhoneNumber) {
         this.deliveryToPhoneNumber = deliveryToPhoneNumber;
     }
 
-
-    /**
-     * Gets the deliveryRequiredDate attribute.
-     * 
-     * @return Returns the deliveryRequiredDate
-     * 
-     */
     public Date getDeliveryRequiredDate() { 
         return deliveryRequiredDate;
     }
 
-    /**
-     * Sets the deliveryRequiredDate attribute.
-     * 
-     * @param deliveryRequiredDate The deliveryRequiredDate to set.
-     * 
-     */
     public void setDeliveryRequiredDate(Date deliveryRequiredDate) {
         this.deliveryRequiredDate = deliveryRequiredDate;
     }
 
-
-    /**
-     * Gets the deliveryInstructionText attribute.
-     * 
-     * @return Returns the deliveryInstructionText
-     * 
-     */
     public String getDeliveryInstructionText() { 
         return deliveryInstructionText;
     }
 
-    /**
-     * Sets the deliveryInstructionText attribute.
-     * 
-     * @param deliveryInstructionText The deliveryInstructionText to set.
-     * 
-     */
     public void setDeliveryInstructionText(String deliveryInstructionText) {
         this.deliveryInstructionText = deliveryInstructionText;
     }
 
-
-    /**
-     * Gets the deliveryRequiredDateReasonCode attribute.
-     * 
-     * @return Returns the deliveryRequiredDateReasonCode
-     * 
-     */
     public String getDeliveryRequiredDateReasonCode() { 
         return deliveryRequiredDateReasonCode;
     }
 
-    /**
-     * Sets the deliveryRequiredDateReasonCode attribute.
-     * 
-     * @param deliveryRequiredDateReasonCode The deliveryRequiredDateReasonCode to set.
-     * 
-     */
     public void setDeliveryRequiredDateReasonCode(String deliveryRequiredDateReasonCode) {
         this.deliveryRequiredDateReasonCode = deliveryRequiredDateReasonCode;
     }
 
-    /**
-     * Gets the deliveryCampus attribute.
-     * 
-     * @return Returns the deliveryCampus
-     * 
-     */
     public Campus getDeliveryCampus() { 
         return deliveryCampus;
     }
 
     /**
-     * Sets the deliveryCampus attribute.
-     * 
-     * @param deliveryCampus The deliveryCampus to set.
      * @deprecated
      */
     public void setDeliveryCampus(Campus deliveryCampus) {
         this.deliveryCampus = deliveryCampus;
     }
 
-    /**
-     * Gets the carrier attribute. 
-     * @return Returns the carrier.
-     */
     public Carrier getCarrier() {
         return carrier;
     }
 
     /**
-     * Sets the carrier attribute value.
-     * @param carrier The carrier to set.
      * @deprecated
      */
     public void setCarrier(Carrier carrier) {
         this.carrier = carrier;
     }
 
-    /**
-     * Gets the deliveryRequiredDateReason attribute. 
-     * @return Returns the deliveryRequiredDateReason.
-     */
     public DeliveryRequiredDateReason getDeliveryRequiredDateReason() {
         return deliveryRequiredDateReason;
     }
 
     /**
-     * Sets the deliveryRequiredDateReason attribute value.
-     * @param deliveryRequiredDateReason The deliveryRequiredDateReason to set.
      * @deprecated
      */
     public void setDeliveryRequiredDateReason(DeliveryRequiredDateReason deliveryRequiredDateReason) {
         this.deliveryRequiredDateReason = deliveryRequiredDateReason;
     }
 
-    /**
-     * Gets the vendorCountry attribute. 
-     * @return Returns the vendorCountry.
-     */
     public Country getVendorCountry() {
         vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, vendorCountryCode, vendorCountry);
         return vendorCountry;
     }
 
     /**
-     * Sets the vendorCountry attribute value.
-     * @param vendorCountry The vendorCountry to set.
      * @deprecated
      */
     public void setVendorCountry(Country vendorCountry) {
         this.vendorCountry = vendorCountry;
     }
 
-    /**
-     * Gets the vendorDetail attribute. 
-     * @return Returns the vendorDetail.
-     */
     public VendorDetail getVendorDetail() {
         return vendorDetail;
     }
 
     /**
-     * Sets the vendorDetail attribute value.
-     * @param vendorDetail The vendorDetail to set.
      * @deprecated
      */
     public void setVendorDetail(VendorDetail vendorDetail) {
@@ -887,8 +464,6 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
     }
 
-    public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
-    
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
@@ -955,6 +530,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     public void initiateDocument(){
         //initiate code
     }
+
     /**
      * FIXME: this is same as PurchaseOrderDoc please move somewhere appropriate
      * Sends FYI workflow request to the given user on this document.

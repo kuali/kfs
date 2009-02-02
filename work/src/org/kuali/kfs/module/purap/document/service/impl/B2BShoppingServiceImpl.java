@@ -25,6 +25,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.B2BInformation;
 import org.kuali.kfs.module.purap.businessobject.B2BShoppingCartItem;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
@@ -182,7 +183,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setVendorName(vendor.getVendorName());
             req.setVendorRestrictedIndicator(vendor.getVendorRestrictedIndicator());
             req.setItems(itemsForVendor);
-            req.setFundingSourceCode(parameterService.getParameterValue(RequisitionDocument.class, PurapConstants.DEFAULT_FUNDING_SOURCE));
+            req.setFundingSourceCode(parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
             req.setRequisitionSourceCode(PurapConstants.RequisitionSources.B2B);
             req.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
             req.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.ELECTRONIC);

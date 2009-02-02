@@ -22,11 +22,11 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
  */
 public interface CreditMemoCreateService {
 
-    /**
-     * Populates the document from either the associated payment request document, purchase order document, or vendor detail based
-     * on the credit memo type.
-     * 
-     * @param cmDocument - Credit Memo Document to Populate
-     */
-    public void populateDocumentAfterInit(VendorCreditMemoDocument cmDocument);
+//    /**
+//     * Populates the document from either the associated payment request document, purchase order document, or vendor detail based
+//     * on the credit memo type.
+//     * 
+//     * @param cmDocument - Credit Memo Document to Populate
+//     */
+//    public void populateDocumentAfterInit(VendorCreditMemoDocument cmDocument);
 }

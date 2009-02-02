@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -35,13 +36,15 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.CreditMemoDao;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
@@ -51,25 +54,28 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorUtils;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -83,19 +89,74 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreditMemoServiceImpl implements CreditMemoService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoServiceImpl.class);
 
-    private CreditMemoDao creditMemoDao;
-    private KualiConfigurationService kualiConfigurationService;
-    private ParameterService parameterService;
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private NoteService noteService;
-    private PurapService purapService;
-    private PurapGeneralLedgerService purapGeneralLedgerService;
-    private PaymentRequestService paymentRequestService;
-    private PurchaseOrderService purchaseOrderService;
-    private PurapAccountingService purapAccountingService;
     private AccountsPayableService accountsPayableService;
+    private CreditMemoDao creditMemoDao;
+    private DataDictionaryService dataDictionaryService;
+    private DocumentService documentService;
+    private KualiConfigurationService kualiConfigurationService;
+    private NoteService noteService;
+    private PaymentRequestService paymentRequestService;
+    private PurapAccountingService purapAccountingService;
+    private PurapGeneralLedgerService purapGeneralLedgerService;
+    private PurapService purapService;
+    private PurchaseOrderService purchaseOrderService;
+    private VendorService vendorService;
     private WorkflowDocumentService workflowDocumentService;
+    
+
+    public void setAccountsPayableService(AccountsPayableService accountsPayableService) {
+        this.accountsPayableService = accountsPayableService;
+    }
+
+    public void setCreditMemoDao(CreditMemoDao creditMemoDao) {
+        this.creditMemoDao = creditMemoDao;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+
+    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
+        this.paymentRequestService = paymentRequestService;
+    }
+
+    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
+    }
+
+    public void setPurapGeneralLedgerService(PurapGeneralLedgerService purapGeneralLedgerService) {
+        this.purapGeneralLedgerService = purapGeneralLedgerService;
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
+    }
+
+    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
+        this.purchaseOrderService = purchaseOrderService;
+    }
+
+    public void setVendorService(VendorService vendorService) {
+        this.vendorService = vendorService;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService){
+        this.workflowDocumentService = workflowDocumentService;
+    }
+    
+
     
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
@@ -322,21 +383,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public boolean canHoldCreditMemo(VendorCreditMemoDocument cmDocument, Person user) {
-        boolean canHold = false;
-
-        String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if ((!cmDocument.isHoldIndicator()) && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedTimestamp()) && (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode()))) {
-            canHold = true;
-        }
-
-        return canHold;
-    }
-
-    /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#addHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
@@ -360,21 +406,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public boolean canRemoveHoldCreditMemo(VendorCreditMemoDocument cmDocument, Person user) {
-        boolean canRemoveHold = false;
-
-        String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-        if (cmDocument.isHoldIndicator() && (user.getPrincipalId().equals(cmDocument.getLastActionPerformedByPersonId()) || KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableSupervisorGroup))) {
-            canRemoveHold = true;
-        }
-
-        return canRemoveHold;
-    }
-
-    /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#removeHoldOnCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
@@ -395,22 +426,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         cmDocument.setLastActionPerformedByPersonId(null);
         
         return cmDoc;
-    }
-
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canCancelCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public boolean canCancelCreditMemo(VendorCreditMemoDocument cmDocument, Person user) {
-        boolean canCancel = false;
-
-        String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if ((!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedTimestamp() == null && !cmDocument.isHoldIndicator() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, accountsPayableGroup)) {
-            canCancel = true;
-        }
-
-        return canCancel;
     }
 
     /**
@@ -504,59 +519,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         LOG.debug("resetExtractedCreditMemo() ended");
     }
 
-
-    public void setCreditMemoDao(CreditMemoDao creditMemoDao) {
-        this.creditMemoDao = creditMemoDao;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    public void setNoteService(NoteService noteService) {
-        this.noteService = noteService;
-    }
-
-    public void setPurapService(PurapService purapService) {
-        this.purapService = purapService;
-    }
-
-    public void setPurapGeneralLedgerService(PurapGeneralLedgerService purapGeneralLedgerService) {
-        this.purapGeneralLedgerService = purapGeneralLedgerService;
-    }
-
-    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
-        this.paymentRequestService = paymentRequestService;
-    }
-
-    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
-        this.purchaseOrderService = purchaseOrderService;
-    }
-
-    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
-        this.purapAccountingService = purapAccountingService;
-    }
-
-    public void setAccountsPayableService(AccountsPayableService accountsPayableService) {
-        this.accountsPayableService = accountsPayableService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService){
-        this.workflowDocumentService = workflowDocumentService;
-    }
-    
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#shouldPurchaseOrderBeReversed(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
@@ -682,5 +644,214 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         
         return hasActiveCreditMemos;
     }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoCreateService#populateDocumentAfterInit(org.kuali.kfs.module.purap.document.CreditMemoDocument)
+     */
+    public void populateDocumentAfterInit(VendorCreditMemoDocument cmDocument) {
+
+        // make a call to search for expired/closed accounts
+        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = accountsPayableService.getExpiredOrClosedAccountList(cmDocument);
+
+        if (cmDocument.isSourceDocumentPaymentRequest()) {
+            populateDocumentFromPreq(cmDocument, expiredOrClosedAccountList);
+        }
+        else if (cmDocument.isSourceDocumentPurchaseOrder()) {
+            populateDocumentFromPO(cmDocument, expiredOrClosedAccountList);
+        }
+        else {
+            populateDocumentFromVendor(cmDocument);
+        }
+
+        populateDocumentDescription(cmDocument);
+
+        // write a note for expired/closed accounts if any exist and add a message stating there were expired/closed accounts at the
+        // top of the document
+        accountsPayableService.generateExpiredOrClosedAccountNote(cmDocument, expiredOrClosedAccountList);
+
+        // set indicator so a message is displayed for accounts that were replaced due to expired/closed status
+        if (!expiredOrClosedAccountList.isEmpty()) {
+            cmDocument.setContinuationAccountIndicator(true);
+        }
+
+    }   
+
+    /**
+     * Populate Credit Memo of type Payment Request.
+     * 
+     * @param cmDocument - Credit Memo Document to Populate
+     */
+    protected void populateDocumentFromPreq(VendorCreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+        PaymentRequestDocument paymentRequestDocument = paymentRequestService.getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
+        cmDocument.getDocumentHeader().setOrganizationDocumentNumber(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
+        cmDocument.setPaymentRequestDocument(paymentRequestDocument);
+        cmDocument.setPurchaseOrderDocument(paymentRequestDocument.getPurchaseOrderDocument());
+        cmDocument.setUseTaxIndicator(paymentRequestDocument.isUseTaxIndicator());
+        
+        // credit memo address taken directly from payment request
+        cmDocument.setVendorHeaderGeneratedIdentifier(paymentRequestDocument.getVendorHeaderGeneratedIdentifier());
+        cmDocument.setVendorDetailAssignedIdentifier(paymentRequestDocument.getVendorDetailAssignedIdentifier());
+        cmDocument.setVendorAddressGeneratedIdentifier(paymentRequestDocument.getVendorAddressGeneratedIdentifier());
+        cmDocument.setVendorCustomerNumber(paymentRequestDocument.getVendorCustomerNumber());
+        cmDocument.setVendorName(paymentRequestDocument.getVendorName());
+        cmDocument.setVendorLine1Address(paymentRequestDocument.getVendorLine1Address());
+        cmDocument.setVendorLine2Address(paymentRequestDocument.getVendorLine2Address());
+        cmDocument.setVendorCityName(paymentRequestDocument.getVendorCityName());
+        cmDocument.setVendorStateCode(paymentRequestDocument.getVendorStateCode());
+        cmDocument.setVendorPostalCode(paymentRequestDocument.getVendorPostalCode());
+        cmDocument.setVendorCountryCode(paymentRequestDocument.getVendorCountryCode());
+        cmDocument.setVendorAttentionName(paymentRequestDocument.getVendorAttentionName());
+        cmDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(paymentRequestDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
+
+        // prep the item lines (also collect warnings for later display) this is only done on paymentRequest
+        purapAccountingService.convertMoneyToPercent(paymentRequestDocument);
+        populateItemLinesFromPreq(cmDocument, expiredOrClosedAccountList);
+    }
+
+    /**
+     * Populates the credit memo items from the payment request items.
+     * 
+     * @param cmDocument - Credit Memo Document to Populate
+     */
+    protected void populateItemLinesFromPreq(VendorCreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+        PaymentRequestDocument preqDocument = cmDocument.getPaymentRequestDocument();
+
+        for (PaymentRequestItem preqItemToTemplate : (List<PaymentRequestItem>) preqDocument.getItems()) {
+            if (preqItemToTemplate.getItemType().isLineItemIndicator()) {
+                cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate, preqItemToTemplate.getPurchaseOrderItem(), expiredOrClosedAccountList));
+            }
+        }
+
+        // add below the line items
+        purapService.addBelowLineItems(cmDocument);
+        
+        cmDocument.fixItemReferences();
+    }
+
+    /**
+     * Populate Credit Memo of type Purchase Order.
+     * 
+     * @param cmDocument - Credit Memo Document to Populate
+     */
+    protected void populateDocumentFromPO(VendorCreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+        PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
+        cmDocument.setPurchaseOrderDocument(purchaseOrderDocument);
+        cmDocument.getDocumentHeader().setOrganizationDocumentNumber(purchaseOrderDocument.getDocumentHeader().getOrganizationDocumentNumber());
+        cmDocument.setUseTaxIndicator(cmDocument.isUseTaxIndicator());
+        
+        cmDocument.setVendorHeaderGeneratedIdentifier(purchaseOrderDocument.getVendorHeaderGeneratedIdentifier());
+        cmDocument.setVendorDetailAssignedIdentifier(purchaseOrderDocument.getVendorDetailAssignedIdentifier());
+        cmDocument.setVendorCustomerNumber(purchaseOrderDocument.getVendorCustomerNumber());
+        cmDocument.setVendorName(purchaseOrderDocument.getVendorName());
+        cmDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
+
+        // populate cm vendor address with the default remit address type for the vendor if found
+        String userCampus = GlobalVariables.getUserSession().getPerson().getCampusCode();
+        VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(purchaseOrderDocument.getVendorHeaderGeneratedIdentifier(), purchaseOrderDocument.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
+        if (vendorAddress != null) {
+            cmDocument.templateVendorAddress(vendorAddress);
+            cmDocument.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
+            cmDocument.setVendorAttentionName(StringUtils.defaultString(vendorAddress.getVendorAttentionName()));
+        }
+        else {
+            // set address from PO
+            cmDocument.setVendorAddressGeneratedIdentifier(purchaseOrderDocument.getVendorAddressGeneratedIdentifier());
+            cmDocument.setVendorLine1Address(purchaseOrderDocument.getVendorLine1Address());
+            cmDocument.setVendorLine2Address(purchaseOrderDocument.getVendorLine2Address());
+            cmDocument.setVendorCityName(purchaseOrderDocument.getVendorCityName());
+            cmDocument.setVendorStateCode(purchaseOrderDocument.getVendorStateCode());
+            cmDocument.setVendorPostalCode(purchaseOrderDocument.getVendorPostalCode());
+            cmDocument.setVendorCountryCode(purchaseOrderDocument.getVendorCountryCode());
+            
+            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
+            if (blankAttentionLine){
+                cmDocument.setVendorAttentionName(StringUtils.EMPTY);
+            }else{
+                cmDocument.setVendorAttentionName(StringUtils.defaultString(purchaseOrderDocument.getVendorAttentionName()));
+            }
+        }
+
+        populateItemLinesFromPO(cmDocument, expiredOrClosedAccountList);
+    }
+
+    /**
+     * Populates the credit memo items from the payment request items.
+     * 
+     * @param cmDocument - Credit Memo Document to Populate
+     */
+    protected void populateItemLinesFromPO(VendorCreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+        List<PurchaseOrderItem> invoicedItems = getPOInvoicedItems(cmDocument.getPurchaseOrderDocument());
+        for (PurchaseOrderItem poItem : invoicedItems) {
+            CreditMemoItem creditMemoItem = new CreditMemoItem(cmDocument, poItem, expiredOrClosedAccountList);
+            cmDocument.getItems().add(creditMemoItem);
+            PurchasingCapitalAssetItem purchasingCAMSItem = cmDocument.getPurchaseOrderDocument().getPurchasingCapitalAssetItemByItemIdentifier(poItem.getItemIdentifier());
+            if(purchasingCAMSItem!=null) {
+                creditMemoItem.setCapitalAssetTransactionTypeCode(purchasingCAMSItem.getCapitalAssetTransactionTypeCode());
+            } 
+            
+        }
+
+        // add below the line items
+        purapService.addBelowLineItems(cmDocument);
+        
+        cmDocument.fixItemReferences();
+    }
+
+    /**
+     * Populate Credit Memo of type Vendor.
+     * 
+     * @param cmDocument - Credit Memo Document to Populate
+     */
+    protected void populateDocumentFromVendor(VendorCreditMemoDocument cmDocument) {
+        Integer vendorHeaderId = VendorUtils.getVendorHeaderId(cmDocument.getVendorNumber());
+        Integer vendorDetailId = VendorUtils.getVendorDetailId(cmDocument.getVendorNumber());
+
+        VendorDetail vendorDetail = vendorService.getVendorDetail(vendorHeaderId, vendorDetailId);
+        cmDocument.setVendorDetail(vendorDetail);
+        
+        cmDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
+        cmDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
+        cmDocument.setVendorCustomerNumber(vendorDetail.getVendorNumber());
+        cmDocument.setVendorName(vendorDetail.getVendorName());
+
+
+        // credit memo type vendor uses the default remit type address for the vendor if found
+        String userCampus = GlobalVariables.getUserSession().getPerson().getCampusCode();
+        VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(vendorHeaderId, vendorDetailId, VendorConstants.AddressTypes.REMIT, userCampus);
+        if (vendorAddress == null) {
+            // pick up the default vendor po address type
+            vendorAddress = vendorService.getVendorDefaultAddress(vendorHeaderId, vendorDetailId, VendorConstants.AddressTypes.PURCHASE_ORDER, userCampus);
+        }
+
+        cmDocument.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
+        cmDocument.templateVendorAddress(vendorAddress);
+
+        // add below the line items
+        purapService.addBelowLineItems(cmDocument);        
+    }
+
+    /**
+     * Defaults the document description based on the credit memo source type.
+     * 
+     * @param cmDocument - Credit Memo Document to Populate
+     */
+    private void populateDocumentDescription(VendorCreditMemoDocument cmDocument) {
+        String description = "";
+        if (cmDocument.isSourceVendor()) {
+            description = "Vendor: " + cmDocument.getVendorName();
+        }
+        else {
+            description = "PO: " + cmDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier() + " Vendor: " + cmDocument.getVendorName();
+        }
+
+        // trim description if longer than whats specified in the data dictionary
+        int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+        if (noteTextMaxLength < description.length()) {
+            description = description.substring(0, noteTextMaxLength);
+        }
+
+        cmDocument.getDocumentHeader().setDocumentDescription(description);
+    }
+
 }
 

@@ -69,17 +69,6 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         return false;
     }
 
-    //TODO try without this as super should be removing close when doc isnt' saved
-//    @Override
-//    protected boolean canClose(Document document) {
-//        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-//        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
-//            return false;
-//        }
-//        return super.canClose(document);
-//    }
-
-    
     @Override
     public boolean canApprove(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;

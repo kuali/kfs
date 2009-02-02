@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -42,9 +41,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
-import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.LogicContainer;
-import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
@@ -68,8 +65,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ReceivingServiceImpl implements ReceivingService {
 
-    private PaymentRequestService paymentRequestService;
-    private CreditMemoService creditMemoService;
     private PurchaseOrderService purchaseOrderService;
     private ReceivingDao receivingDao;
     private DocumentService documentService;
@@ -77,14 +72,6 @@ public class ReceivingServiceImpl implements ReceivingService {
     private KualiConfigurationService configurationService;    
     private PurapService purapService;
     private NoteService noteService;
-
-    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
-        this.paymentRequestService = paymentRequestService;
-    }
-
-    public void setCreditMemoService(CreditMemoService creditMemoService) {
-        this.creditMemoService = creditMemoService;
-    }
 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
@@ -196,36 +183,6 @@ public class ReceivingServiceImpl implements ReceivingService {
         return canCreateLineItemReceivingDocument(po, null);
     }
     
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#isAwaitingPurchaseOrderOpen(java.lang.String)
-     */
-    public boolean isAwaitingPurchaseOrderOpen(String documentNumber) {       
-        boolean awaitingPurchaseOrderOpen = false;
-        LineItemReceivingDocument rlDoc = null;
-        PurchaseOrderDocument po = null;
-        
-        try{
-            //retrieve receiving doc
-            rlDoc = (LineItemReceivingDocument) documentService.getByDocumentHeaderId(documentNumber);
-        }catch(WorkflowException we){
-            throw new RuntimeException(we);
-        }
-        
-        po = rlDoc.getPurchaseOrderDocument();
-        //if po is not in "open" status, able to have receiving line docs created, and
-        // there are pending payment requests or credit memos, its awaiting purchase order open
-        if( po != null &&
-            !(po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
-              po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
-              po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD)) ||
-             (paymentRequestService.hasActivePaymentRequestsForPurchaseOrder(rlDoc.getPurchaseOrderIdentifier()) ||
-              creditMemoService.hasActiveCreditMemosForPurchaseOrder(rlDoc.getPurchaseOrderIdentifier())) ){
-            awaitingPurchaseOrderOpen = true;
-        }
-        
-        return awaitingPurchaseOrderOpen;
-    }
-
     private boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po, String receivingDocumentNumber){
 
         boolean canCreate = false;

@@ -613,7 +613,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
 
         // first populate, then call super
         if (event instanceof ContinuePurapEvent) {
-            SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(this);
+            SpringContext.getBean(CreditMemoService.class).populateDocumentAfterInit(this);
         }
 
         super.prepareForSave(event);

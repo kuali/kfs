@@ -29,6 +29,7 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
@@ -75,19 +76,31 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
     public ActionForward continueCreditMemo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         VendorCreditMemoForm cmForm = (VendorCreditMemoForm) form;
         VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) cmForm.getDocument();
-        // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
-        creditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier()).getAccountsPayablePurchasingDocumentLinkIdentifier());
-
-        //TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data (add this to all other docs except acm doc)
-        if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
-            throw buildAuthorizationException("initiate document", creditMemoDocument);
+        
+        if (creditMemoDocument.isSourceDocumentPaymentRequest()) {
+            // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
+            creditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(creditMemoDocument.getPaymentRequestIdentifier()).getAccountsPayablePurchasingDocumentLinkIdentifier());
+            
+            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+                throw buildAuthorizationException("initiate document", creditMemoDocument);
+            }
+        }
+        else if (creditMemoDocument.isSourceDocumentPurchaseOrder()) {
+            // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
+            creditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier()).getAccountsPayablePurchasingDocumentLinkIdentifier());
+            
+            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+                throw buildAuthorizationException("initiate document", creditMemoDocument);
+            }
+        }
+        else {
+            //do nothing for credit memos against a vendor; no link to PO means no need to hide doc based on sensitive data
         }
 
 
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicateCreditMemoCheck(mapping, form, request, response, creditMemoDocument);
         if (forward != null) {
-
             return forward;
         }
 

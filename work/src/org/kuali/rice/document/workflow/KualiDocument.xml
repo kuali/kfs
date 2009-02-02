@@ -8,6 +8,12 @@
 			<name>KualiDocument</name>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<policies>
+				<policy>
+					<name>LOOK_FUTURE</name>
+					<value>true</value>
+				</policy>
+			</policies>
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" />

@@ -134,18 +134,7 @@
 	   	</list>
 	</property>
   </bean>   
-   
-  <bean id="EffortCertificationDocument-DocumentValuePathGroup" parent="EffortCertificationDocument-DocumentValuePathGroup-parentBean" />
-  
-  <bean id="EffortCertificationDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-		<property name="documentValues">
-			<list>
-				<value>effortCertificationDetailLines.account.chartOfAccountsCode</value>
-				<value>effortCertificationDetailLines.account.accountNumber</value>	    					
-			</list>
-		</property>
-  </bean>
-  
+    
   <bean id="RoutingType-EffortCertificationDocument-ProjectManagement" parent="RoutingType-EffortCertificationDocument-parentBean" />
   
   <bean id="RoutingType-EffortCertificationDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
@@ -153,11 +142,6 @@
     		<list>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
 		        <ref bean="RoutingAttribute-accountNumber" />
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="EffortCertificationDocument-DocumentValuePathGroup" />    			
     		</list>
     	</property>
   </bean>

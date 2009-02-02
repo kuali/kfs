@@ -15,6 +15,7 @@
     <property name="lookupDefinition" >
       <ref bean="VendorContract-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="vendorContractName" />
     <property name="attributes" >
       <list>
         <ref bean="VendorContract-vendorContractName" />
@@ -343,7 +344,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="vendorDetail.vendorName" />
         <bean parent="FieldDefinition"
-              p:attributeName="vendorContractDescription" />
+              p:attributeName="vendorContractName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContractDescription" />      
         <bean parent="FieldDefinition"
               p:attributeName="vendorDetail.vendorHeader.vendorSupplierDiversities" />
         <bean parent="FieldDefinition"

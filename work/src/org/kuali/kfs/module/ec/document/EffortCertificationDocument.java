@@ -43,8 +43,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class EffortCertificationDocument extends FinancialSystemTransactionalDocumentBase  {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
-    private static final String DO_AWARD_SPLIT = "Do Award Split";
-    private static final String DO_RECREATE_SPLIT = "Do Recreate Split";
+    private static final String DO_AWARD_SPLIT = "DoAwardSplit";
+    private static final String DO_RECREATE_SPLIT = "DoRecreateSplit";
     
     private String effortCertificationReportNumber;
     private boolean effortCertificationDocumentCode;

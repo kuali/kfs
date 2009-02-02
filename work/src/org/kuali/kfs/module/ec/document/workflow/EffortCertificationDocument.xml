@@ -22,7 +22,7 @@
           </split>
           <split name="DoRecreateSplit" >
             <branch name="True">
-              <requests name="Recreate" nextNode="RecreateJoin"/>
+              <requests name="Management" nextNode="RecreateJoin"/>
             </branch>
             <branch name="False">
               <simple name="RecreateDoNothing" nextNode="RecreateJoin"/>

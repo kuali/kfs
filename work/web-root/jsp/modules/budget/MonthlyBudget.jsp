@@ -24,6 +24,7 @@
     transactionalDocument="false"
 	>
 
+<%--  FIXME: remove when verified as not needed
     <c:forEach items="${KualiForm.documentActions}" var="action">
       <html:hidden property="documentActions(${action.key})"/>
     </c:forEach>
@@ -32,6 +33,7 @@
       <html:hidden property="editingMode(${mode.key})"/>
     </c:forEach>
     <html:hidden property="monthlyReadOnly" />
+--%>
 
     <c:set var="readOnly" value="${KualiForm.monthlyReadOnly}" />
 

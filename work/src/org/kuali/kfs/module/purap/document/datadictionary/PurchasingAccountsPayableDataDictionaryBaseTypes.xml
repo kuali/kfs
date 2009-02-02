@@ -183,7 +183,7 @@
    	            
 <!-- All of the Search Type Attributes -->
 
- 	<bean id="SearchingType-PurchasingAccountsPayableDocument-purapDocumentIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+ 	<!--  <bean id="SearchingType-PurchasingAccountsPayableDocument-purapDocumentIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-purapDocumentIdentifier" />
         <property name="documentValues">
         	<list>
@@ -195,14 +195,14 @@
     	<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase" />
     	<property name="attributeName" value="purapDocumentIdentifier" />
     </bean>
-    <bean id="SearchingAttribute-purapDocumentIdentifier" parent="WorkflowAttributeMetaData-purapDocumentIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
+    <bean id="SearchingAttribute-purapDocumentIdentifier" parent="WorkflowAttributeMetaData-purapDocumentIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" /> -->
     
     
     <bean id="WorkflowAttributeMetaData-requestorPersonName" abstract="true">
         <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
         <property name="attributeName" value="requestorPersonName" />
     </bean>
-    <bean id="SearchingAttribute-requestorPersonName" parent="WorkflowAttributeMetaData-requestorPersonName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" /> 
+    <bean id="SearchingAttribute-requestorPersonName" parent="WorkflowAttributeMetaData-requestorPersonName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
     
   
 </beans>

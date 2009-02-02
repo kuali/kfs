@@ -164,22 +164,23 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
       List<SearchingTypeDefinition> searchingTypeDefinitions = attrs.getSearchingTypeDefinitions();
       for (SearchingTypeDefinition definition: searchingTypeDefinitions) {
           SearchingAttribute attr = definition.getSearchingAttribute();
-          String attributeName = attr.getAttributeName();
-          String businessObjectClassName = attr.getBusinessObjectClassName();
-          final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(businessObjectClassName);
-          DocumentSearchField searchField = buildSearchField(attributeName, boEntry);
-          
-          List<Field> fieldList = new ArrayList<Field>();
+          if (attr.isShowAttributeInSearchCriteria()) {
+              String attributeName = attr.getAttributeName();
+              String businessObjectClassName = attr.getBusinessObjectClassName();
+              final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(businessObjectClassName);
+              DocumentSearchField searchField = buildSearchField(attributeName, boEntry);
+
+              List<Field> fieldList = new ArrayList<Field>();
               fieldList.add(searchField);
               if (searchField.isUsingDatePicker()) {
                   fieldList.add(buildDatePickerField(attributeName));
               }
               String quickfinderService = searchField.getQuickFinderClassNameImpl();
-//              if (!Utilities.isEmpty(quickfinderService)) {
-//                  fieldList.add(new DocumentSearchField("", "", Field.QUICKFINDER, false, "", "", null, quickfinderService));
-//              }
+//            if (!Utilities.isEmpty(quickfinderService)) {
+//            fieldList.add(new DocumentSearchField("", "", Field.QUICKFINDER, false, "", "", null, quickfinderService));
+//            }
               searchFields.add(new DocumentSearchRow(fieldList));
-              
+          } 
       }
         
         return searchFields;
@@ -249,7 +250,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
                 "" // quick finder class name
                 );
         //TODO remove setfieldtype call once DocumentSearchField is fixed to not drop field type in constructor.
-        field.setFieldType(determineKEWFieldType(attributeDefinition));
+   //     field.setFieldType(determineKEWFieldType(attributeDefinition));
         calibrateField(field, attributeDefinition);
         return field;
     }

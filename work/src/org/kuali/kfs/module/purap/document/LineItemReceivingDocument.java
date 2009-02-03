@@ -7,20 +7,27 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -38,6 +45,12 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         items = new TypedArrayList(getItemClass());
     }
 
+    @Override
+    public void initiateDocument(){
+        super.initiateDocument();
+        this.setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.IN_PROCESS);
+    }
+    
     public void populateReceivingLineFromPurchaseOrder(PurchaseOrderDocument po){
         
         //populate receiving line document from purchase order
@@ -126,23 +139,31 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         
         super.prepareForSave(event);
     }
+
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        // DOCUMENT CANCELED
+        // If the document is canceled then set the line item receiving 
+        // status code to CANC.
+        if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.CANCELLED);
+        }
+    }
     
     @Override
     public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
-        /**
-         * FIXME: For KULPURAP-3218, This method has been added to update the doc status sothat 
-         * the ApproveLineItemReceivingStep job can pick the docs in this status (ReceivingDaoOjb.getReceivingDocumentsForPOAmendment()) and check 
-         * for PO amendment. When testing, i got some exception (not sure the exact exception). Since I'm in a hurry packing up for my India trip, 
-         * I'm leaving this code commented without fixing the root cause :) If the PurapConstants for this looks wired, can rename it to some
-         * good one. And, needs to check the LineItemReceivingDocumentStrings/LineItemReceivingStatus class in PurapConstants to match up with
-         * the other documents constants
-         */
-//        if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS, change.getNewNodeName())){
-//            setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatus.AWAITING_PO_OPEN_STATUS);
-//        }else{
-//            setLineItemReceivingStatusCode(StringUtils.EMPTY);
-//        }
-//        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+        //If the new node is Outstanding Transactions then we want to set the line item
+        //receiving status code to APOO.
+        if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS, change.getNewNodeName())){
+            setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.AWAITING_PO_OPEN_STATUS);
+        } 
+        //If the new node is Join, this means we're done with the routing, so we'll set
+        //the line item receiving status code to CMPT.
+        else if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.JOIN_NODE, change.getNewNodeName())) {
+            setLineItemReceivingStatusCode(PurapConstants.LineItemReceivingStatuses.COMPLETE);
+        }
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
     }
     
     /**

@@ -25,7 +25,7 @@ public class ApproveLineItemReceivingStep extends AbstractStep {
     private ReceivingService receivingService;
     
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        //receivingService.approveReceivingDocsForPOAmendment();
+        receivingService.approveReceivingDocsForPOAmendment();
         return true;
     }
 

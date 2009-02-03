@@ -495,10 +495,14 @@ public class PurapConstants extends JSTLConstants {
         public static final String DUPLICATE_RECEIVING_LINE_QUESTION = "DuplicateReceivingLine";
         public static final String VENDOR_DATE = "Vendor Date";
         public static final String AWAITING_PO_OPEN_STATUS = "OutstandingTransactions";
+        public static final String JOIN_NODE = "Join";
     }
     
-    public static class LineItemReceivingStatus{
-        public static final String AWAITING_PO_OPEN_STATUS = "APOS";
+    public static class LineItemReceivingStatuses{
+        public static final String IN_PROCESS = "INPR";
+        public static final String AWAITING_PO_OPEN_STATUS = "APOO";
+        public static final String COMPLETE = "CMPT";
+        public static final String CANCELLED = "CANC";
     }
 
     public static class CorrectionReceivingDocumentStrings{

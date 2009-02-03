@@ -387,7 +387,7 @@
               <html:image property="methodToCall.performReportDump.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-orgrepdump.gif" title="Organization Report Export" alt="Organization Report/Dump" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
               <html:image property="methodToCall.performRequestImport.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-requestimport.gif" title="Organization Request Import" alt="Organization Request Import" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
               <html:image property="methodToCall.performLockMonitor.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-lockmonitor.gif" title="Lock Monitor" alt="Lock Monitor" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-              <c:if test="${KualiForm.rootApprover}">
+              <c:if test="${KualiForm.canPerformPayrateImportExport}">
                 <c:if test="${!KualiForm.salarySettingDisabled}">
                   <html:image property="methodToCall.performPayrateImportExport.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-payrateimpexp.gif" title="Payrate Import/Export" alt="Payrate Import/Export" styleClass="tinybutton" />
                 </c:if>

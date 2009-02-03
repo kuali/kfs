@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -50,6 +51,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -386,9 +390,14 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         Map<String, String> urlParms = new HashMap<String, String>();
 
-        // check if current user is an budget approver at the top level (root) org
-        boolean isRootApprover = SpringContext.getBean(BudgetConstructionProcessorService.class).isRootProcessor(GlobalVariables.getUserSession().getPerson());
-        urlParms.put(KFSConstants.SUPPRESS_ACTIONS, Boolean.toString(!isRootApprover));
+        // check if current user has permission to unlock
+        String[] rootOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
+        AttributeSet qualification = new AttributeSet();
+        qualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, rootOrg[0]);
+        qualification.put(KfsKimAttributes.ORGANIZATION_CODE, rootOrg[1]);
+        
+        boolean canUnlock = SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.UNLOCK_PERMISSION_NAME, null, qualification);
+        urlParms.put(KFSConstants.SUPPRESS_ACTIONS, Boolean.toString(!canUnlock));
 
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, budgetConstructionSelectionForm, BCConstants.TempListLookupMode.LOCK_MONITOR, BudgetConstructionLockSummary.class.getName(), urlParms);

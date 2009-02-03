@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -113,16 +114,12 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
     protected void initAuthorization(SalarySettingBaseForm salarySettingForm) {
         Person user = GlobalVariables.getUserSession().getPerson();
-        try {
-            List<Organization> processorOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(user);
-            if (!processorOrgs.isEmpty()) {
-                salarySettingForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_EDIT, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
-            }
-            else {
-                throw new AuthorizationException(user.getName(), "view", salarySettingForm.getAccountNumber() + ", " + salarySettingForm.getSubAccountNumber());
-            }
+        
+        boolean isAuthorized = SpringContext.getBean(IdentityManagementService.class).isAuthorized(user.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.USE_ORG_SALARY_SETTING_PERMISSION_NAME, null, null);
+        if (isAuthorized) {
+            salarySettingForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_EDIT, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
-        catch (Exception e) {
+        else {
             throw new AuthorizationException(user.getName(), "view", salarySettingForm.getAccountNumber() + ", " + salarySettingForm.getSubAccountNumber());
         }
 

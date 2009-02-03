@@ -790,12 +790,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             return false;
         }
 
-        // get the organizations for which the user could be an processor
-        List<Organization> processorOrgs = budgetConstructionProcessorService.getProcessorOrgs(user);
-        if (processorOrgs == null || processorOrgs.isEmpty()) {
-            return false;
-        }
-
         BudgetConstructionDocument document;
         try {
             document = (BudgetConstructionDocument) documentService.getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
@@ -806,48 +800,13 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
 
-        boolean hasEditAccess = documentAuthorizer.isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId());
+        boolean hasEditAccess = documentAuthorizer.isAuthorizedByTemplate(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.EDIT_BCAF_PERMISSION_NAME, user.getPrincipalId());
         appointmentFunding.setDisplayOnlyMode(!hasEditAccess);
 
-        appointmentFunding.setExcludedFromTotal(isOrgProcessorAboveDocumentLevelCode(budgetConstructionHeader, user));
+        boolean hasViewAmountsAccess = documentAuthorizer.isAuthorizedByTemplate(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.VIEW_BCAF_AMOUNTS_PERMISSION_NAME, user.getPrincipalId());
+        appointmentFunding.setExcludedFromTotal(!hasViewAmountsAccess);
 
         return true;
-    }
-
-    /**
-     * Determines whether the given user is an bc processor for an org in the account review hierarchy with level greater than or
-     * equal to the document level code
-     * 
-     * @param budgetConstructionHeader header for budget document to check access
-     * @param user user to check access for
-     * @return true if user is processor above the document's org level code, false otherwise
-     */
-    protected boolean isOrgProcessorAboveDocumentLevelCode(BudgetConstructionHeader budgetConstructionHeader, Person user) {
-        boolean excludedFromTotal = true;
-
-        List<BudgetConstructionAccountOrganizationHierarchy> accountReviewHierarchy = budgetDocumentService.retrieveOrBuildAccountOrganizationHierarchy(budgetConstructionHeader.getUniversityFiscalYear(), budgetConstructionHeader.getChartOfAccountsCode(), budgetConstructionHeader.getAccountNumber());
-        if (accountReviewHierarchy != null && !accountReviewHierarchy.isEmpty()) {
-            Map<String, BudgetConstructionAccountOrganizationHierarchy> accountReviewHierarchyMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>();
-            for (BudgetConstructionAccountOrganizationHierarchy accountHierarchy : accountReviewHierarchy) {
-                accountReviewHierarchyMap.put(accountHierarchy.getOrganizationChartOfAccountsCode() + accountHierarchy.getOrganizationCode(), accountHierarchy);
-            }
-
-            List<Organization> processorOrgs = (List<Organization>) budgetConstructionProcessorService.getProcessorOrgs(GlobalVariables.getUserSession().getPerson());
-            if (processorOrgs != null && !processorOrgs.isEmpty()) {
-                SortedSet<Integer> accountReviewProcessorOrgLevels = new TreeSet<Integer>();
-                for (Organization organization : processorOrgs) {
-                    if (accountReviewHierarchyMap.containsKey(organization.getChartOfAccountsCode() + organization.getOrganizationCode())) {
-                        accountReviewProcessorOrgLevels.add(accountReviewHierarchyMap.get(organization.getChartOfAccountsCode() + organization.getOrganizationCode()).getOrganizationLevelCode());
-                    }
-                }
-
-                if (!accountReviewProcessorOrgLevels.isEmpty() && accountReviewProcessorOrgLevels.last() >= budgetConstructionHeader.getOrganizationLevelCode()) {
-                    excludedFromTotal = false;
-                }
-            }
-        }
-
-        return excludedFromTotal;
     }
 
     /**

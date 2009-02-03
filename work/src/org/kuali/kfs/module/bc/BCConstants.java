@@ -467,6 +467,11 @@ public class BCConstants extends JSTLConstants {
     
     public class KimConstants {
         public static final String BC_PROCESSOR_ROLE_NAME = "Processor";
+        public static final String USE_ORG_SALARY_SETTING_PERMISSION_NAME = "Use Organization Salary Setting";
+        public static final String EDIT_BCAF_PERMISSION_NAME = "Edit Appointment Funding";
+        public static final String VIEW_BCAF_AMOUNTS_PERMISSION_NAME = "View Appointment Funding Amounts";
+        public static final String IMPORT_EXPORT_PAYRATE_PERMISSION_NAME = "Import / Export Payrate";
+        public static final String UNLOCK_PERMISSION_NAME = "Unlock";
     }
     
     /**

@@ -35,12 +35,6 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
     {
         roleQualifierRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         roleQualifierRequiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-
-        qualificationRequiredAttributes.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        qualificationRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        qualificationRequiredAttributes.add(KfsKimAttributes.ACCOUNT_NUMBER);
-        qualificationRequiredAttributes.add(BCPropertyConstants.ORGANIZATION_LEVEL_CODE);
-        qualificationRequiredAttributes.add(KfsKimAttributes.DESCEND_HIERARCHY);
     }
 
     private BudgetDocumentService budgetDocumentService;
@@ -53,38 +47,49 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         validateRequiredAttributesAgainstReceived(qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         validateRequiredAttributesAgainstReceived(roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
-        // if no qualification is passed, then we have no basis to reject this
-        // (if a null is let through, then we get an NPE below)
-        if (qualification == null || qualification.isEmpty() || roleQualifier == null || roleQualifier.isEmpty()) {
+        
+        // if no qualification given but the user is assigned an organization then return they have the role
+        if ((qualification == null || qualification.isEmpty()) && roleQualifier != null && !roleQualifier.isEmpty()) {
             return true;
         }
 
-        Integer universityFiscalYear = Integer.valueOf(qualification.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
-        String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
-        Integer organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
-
-        String roleChartOfAccountsCode = roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        String roleOrganizationCode = roleQualifier.get(KfsKimAttributes.ORGANIZATION_CODE);
-        Integer roleOrganizationLevelCode = -1;
-
-        List<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) budgetDocumentService.retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
-        for (BudgetConstructionAccountOrganizationHierarchy accountOrganization : accountOrganizationHierarchy) {
-            if (accountOrganization.getOrganizationChartOfAccountsCode().equals(roleChartOfAccountsCode) && accountOrganization.getOrganizationCode().equals(roleOrganizationCode)) {
-                roleOrganizationLevelCode = accountOrganization.getOrganizationLevelCode();
-            }
-        }
-
-        String descendHierarchy = qualification.get(KfsKimAttributes.DESCEND_HIERARCHY);
-        if (organizationLevelCode == 0 && DESCEND_HIERARCHY_FALSE_VALUE.equals(descendHierarchy)) {
+        // if they don't have a qualification then return false for the role
+        if (qualification == null || qualification.isEmpty() || roleQualifier == null || roleQualifier.isEmpty()) {
             return false;
         }
-        else if (DESCEND_HIERARCHY_TRUE_VALUE.equals(descendHierarchy)) {
-            return roleOrganizationLevelCode >= organizationLevelCode;
+
+        String orgChartOfAccountsCode = qualification.get(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+        String organizationCode = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
+        String roleChartOfAccountsCode = roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        String roleOrganizationCode = roleQualifier.get(KfsKimAttributes.ORGANIZATION_CODE);
+
+        String descendHierarchy = DESCEND_HIERARCHY_FALSE_VALUE;
+        if (qualification.containsKey(KfsKimAttributes.DESCEND_HIERARCHY)) {
+            descendHierarchy = qualification.get(KfsKimAttributes.DESCEND_HIERARCHY);
         }
-        else {
-            return roleOrganizationLevelCode == organizationLevelCode;
+
+        if (DESCEND_HIERARCHY_TRUE_VALUE.equals(descendHierarchy)) {
+            Integer universityFiscalYear = Integer.valueOf(qualification.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
+            String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+            String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
+            Integer organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
+            
+            Integer roleOrganizationLevelCode = -1;
+            List<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) budgetDocumentService.retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
+            for (BudgetConstructionAccountOrganizationHierarchy accountOrganization : accountOrganizationHierarchy) {
+                if (accountOrganization.getOrganizationChartOfAccountsCode().equals(roleChartOfAccountsCode) && accountOrganization.getOrganizationCode().equals(roleOrganizationCode)) {
+                    roleOrganizationLevelCode = accountOrganization.getOrganizationLevelCode();
+                }
+            }
+            
+            if (roleOrganizationLevelCode == -1) {
+                return false;
+            }
+
+            return roleOrganizationLevelCode.intValue() >= organizationLevelCode.intValue();
         }
+
+        return roleChartOfAccountsCode.equals(orgChartOfAccountsCode) && roleOrganizationCode.equals(organizationCode);
     }
 
     /**

@@ -21,11 +21,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -131,19 +137,16 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the rootApprover attribute. 
-     * @return Returns the rootApprover.
+     * Checks whether the user has permission to do payrate import/export
      */
-    public boolean isRootApprover() {
-        return SpringContext.getBean(BudgetConstructionProcessorService.class).isRootProcessor(GlobalVariables.getUserSession().getPerson());
-    }
-
-    /**
-     * Sets the rootApprover attribute value.
-     * @param rootApprover The rootApprover to set.
-     */
-    public void setRootApprover(boolean rootApprover) {
-        this.rootApprover = rootApprover;
+    public boolean getCanPerformPayrateImportExport() {
+        SpringContext.getBean(BudgetConstructionProcessorService.class).isRootProcessor(GlobalVariables.getUserSession().getPerson());
+        String[] rootOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
+        AttributeSet qualification = new AttributeSet();
+        qualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, rootOrg[0]);
+        qualification.put(KfsKimAttributes.ORGANIZATION_CODE, rootOrg[1]);
+        
+        return SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.IMPORT_EXPORT_PAYRATE_PERMISSION_NAME, null, qualification);
     }
 
     /**

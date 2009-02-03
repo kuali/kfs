@@ -339,6 +339,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm current bc action form that will be updated
      */
     protected void initAuthorization(BudgetConstructionForm budgetConstructionForm) {
+       // GlobalVariables.setRequestCache(ROLE_QUALIFICATION_CACHE_NAME, budgetConstructionForm)
         super.populateAuthorizationFields(budgetConstructionForm);
         
         BudgetConstructionAuthorizationStatus editStatus = new BudgetConstructionAuthorizationStatus();

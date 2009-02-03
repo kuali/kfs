@@ -49,6 +49,16 @@ public class BudgetConstructionDocumentPresentationController extends FinancialS
     }
 
     /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canSave(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canSave(Document document) {
+        BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) document;
+
+        return SpringContext.getBean(FiscalYearFunctionControlService.class).isBudgetUpdateAllowed(bcDocument.getUniversityFiscalYear());
+    }
+
+    /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
      */
     @Override

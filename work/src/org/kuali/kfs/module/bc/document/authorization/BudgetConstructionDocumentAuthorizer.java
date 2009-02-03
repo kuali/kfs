@@ -18,7 +18,6 @@ package org.kuali.kfs.module.bc.document.authorization;
 import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
@@ -38,11 +37,13 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
         super.addRoleQualification(businessObject, attributes);
 
         BudgetConstructionDocument document = (BudgetConstructionDocument) businessObject;
-
+        
         attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, document.getChartOfAccountsCode());
         attributes.put(KfsKimAttributes.ACCOUNT_NUMBER, document.getAccountNumber());
         attributes.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, document.getUniversityFiscalYear().toString());
         attributes.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, document.getOrganizationLevelCode().toString());
+        attributes.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, document.getOrganizationLevelChartOfAccountsCode());
+        attributes.put(KfsKimAttributes.ORGANIZATION_CODE, document.getOrganizationLevelOrganizationCode());
     }
 
 }

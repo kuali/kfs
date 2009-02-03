@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.dataaccess.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -120,19 +121,25 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
      */
     public String[] getRootOrganizationCode(String rootChart, String selfReportsOrgTypeCode) {
         String[] returnValues = { null, null };
+        
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, rootChart);
         criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_TYPE_CODE, selfReportsOrgTypeCode);
-        // the root organization must be active
         criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
-        String[] attributeList = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ORGANIZATION_CODE };
-        ReportQueryByCriteria rptQuery = new ReportQueryByCriteria(Organization.class, attributeList, criteria);
-        Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rptQuery);
-        if (Results.hasNext()) {
-            Object[] returnList = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(Results);
-            returnValues[0] = (String) returnList[0];
-            returnValues[1] = (String) returnList[1];
+        
+        Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Organization.class, criteria));
+        if (results != null && !results.isEmpty()) {
+            Organization org = (Organization) results.iterator().next();
+            returnValues[0] = org.getChartOfAccountsCode();
+            returnValues[1] = org.getOrganizationCode();       
         }
+        
+//        Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rptQuery);
+//        if (Results.hasNext()) {
+//            Object[] returnList = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(Results);
+//            returnValues[0] = (String) returnList[0];
+//            returnValues[1] = (String) returnList[1];
+//        }
         return returnValues;
     }
 

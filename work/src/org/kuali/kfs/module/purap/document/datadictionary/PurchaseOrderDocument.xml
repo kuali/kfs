@@ -324,7 +324,12 @@
   <bean id="PurchaseOrderDocument-statusCode" parent="PurchaseOrderDocument-statusCode-parentBean" />
 
   <bean id="PurchaseOrderDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
-    <property name="name" value="statusCode" />
+    <property name="name" value="statusCode"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderStatusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
   </bean>
   <bean id="PurchaseOrderDocument-chartOfAccountsCode" parent="PurchaseOrderDocument-chartOfAccountsCode-parentBean" />
 
@@ -985,7 +990,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp" parent="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp-parentBean" />
 
-  <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="purchaseOrderInitialOpenTimestamp" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Purchase Order Initial Open Date" />
@@ -994,14 +999,10 @@
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp" parent="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean" />
 
-  <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="purchaseOrderLastTransmitTimestamp" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Purchase Order Last Transmit Date" />
@@ -1009,10 +1010,6 @@
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
     </property>
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" parent="PurchaseOrderDocument-purchaseOrderPreviousIdentifier-parentBean" />
@@ -1346,7 +1343,7 @@
 			    <entry>
 				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent</value></key>
 				    <value>PurchaseOrder-performAssignSensitiveDataValidation</value>
-			    </entry>				    			    				    	 
+			    </entry>				    			    				    	    
 				<entry>
 					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
 					<value>PurchaseOrder-addPurchasingAccountsPayableItemValidation</value>				
@@ -1545,21 +1542,8 @@
     						<value>deliveryRequiredDate</value>
     					</list>
     				</property>
-    			</bean>  			
-        		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader" />
-    						<property name="attributeName" value="documentDescription" />
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>documentDescription</value>
-    					</list>
-    				</property>
-    			</bean>    			
-    			
+    			</bean>
+    			   			
         		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

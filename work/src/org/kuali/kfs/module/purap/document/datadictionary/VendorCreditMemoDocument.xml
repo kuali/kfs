@@ -615,6 +615,103 @@
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account" />
     		</map>
     	</property>
+    	<property name="searchingTypeDefinitions">
+    		<list>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="purapDocumentIdentifier" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>purapDocumentIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">				
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="creditMemoNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>creditMemoNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">				
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="paymentRequestIdentifier" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>paymentRequestIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="purchaseOrderIdentifier" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>purchaseOrderIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="vendorName" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>vendorName</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+   					<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="vendorHeaderGeneratedIdentifier" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>vendorHeaderGeneratedIdentifier</value>
+    						<value>vendorDetailAssignedIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+				<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+   					<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="processingCampusCode" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>processingCampusCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
     </bean>
             
 </beans>

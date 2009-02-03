@@ -968,7 +968,7 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
 				<value>PaymentRequest-saveDocumentValidation</value>				
-			</entry>		
+			</entry>																												
 			<entry>
 				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedPaymentRequestForEInvoiceEvent</value></key>
 				<value>PaymentRequest-eInvoiceValidation</value>				
@@ -1071,7 +1071,179 @@
     						<value>vendorDetailAssignedIdentifier</value>
     					</list>
     				</property>
-    			</bean>    			
+    			</bean>
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+  				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="processingCampusCode" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>processingCampusCode</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="vendorCustomerNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>vendorCustomerNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="invoiceDate" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>invoiceDate</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="paymentRequestPayDate" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>paymentRequestPayDate</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="accountsPayableApprovalTimestamp" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>accountsPayableApprovalTimestamp</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="extractedTimestamp" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>extractedTimestamp</value>
+    					</list>
+    				</property>
+    			</bean>
+
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="holdIndicator" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>holdIndicator</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="paymentRequestedCancelIndicator" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>paymentRequestedCancelIndicator</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="paymentPaidTimestamp" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>paymentPaidTimestamp</value>
+    					</list>
+    				</property>
+    			</bean>
+
+          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="statusCode" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>statusCode</value>
+    					</list>
+    				</property>
+    			</bean>
+          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="statusDescription" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>status.statusDescription</value>
+    					</list>
+    				</property>
+    			</bean>
+          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="receivingDocumentRequiredIndicator" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>receivingDocumentRequiredIndicator</value>
+    					</list>
+    				</property>
+    			</bean>
+          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    						<property name="attributeName" value="paymentRequestPositiveApprovalIndicator" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>paymentRequestPositiveApprovalIndicator</value>
+    					</list>
+    				</property>
+    			</bean>	
     		</list>
     	</property>
 	</bean>

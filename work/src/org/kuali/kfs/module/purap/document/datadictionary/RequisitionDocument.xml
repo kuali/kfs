@@ -1117,7 +1117,7 @@
     				</property>
     			</bean>
      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<!-- Dave's note: Should be a ref to PurchasingDocumentBase.  Could this be organizationCode? -->
+    				<!-- Could this be organizationCode? -->
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />

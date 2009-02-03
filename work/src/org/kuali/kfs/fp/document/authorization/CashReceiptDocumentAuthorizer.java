@@ -55,18 +55,5 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
     public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         return new HashMap();
     }
-    
-    /**
-     * Method used by <code>{@link org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService}</code> to determine of the
-     * <code>{@link CashReceiptDocument}</code> validates business rules for generating a cover page. <br/> <br/> Rule is the
-     * <code>{@link Document}</code> must be ENROUTE.
-     * 
-     * @param document submitted cash receipt document
-     * @return true if state is not cancelled, initiated, disapproved, saved, or exception
-     */
-    public boolean isCoverSheetPrintable(CashReceiptFamilyBase document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
-    }
 }
 

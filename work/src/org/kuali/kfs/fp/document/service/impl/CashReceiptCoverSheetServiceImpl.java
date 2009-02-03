@@ -25,10 +25,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -111,8 +111,8 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @see org.kuali.kfs.fp.document.validation.impl.CashReceiptDocumentRule#isCoverSheetPrintable(org.kuali.kfs.fp.document.CashReceiptFamilyBase)
      */
     public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc) {
-        CashReceiptDocumentAuthorizer authorizer = (CashReceiptDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(crDoc);
-        return authorizer.isCoverSheetPrintable(crDoc);
+        KualiWorkflowDocument workflowDocument = crDoc.getDocumentHeader().getWorkflowDocument();
+        return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
     }
     
     /**

@@ -324,7 +324,7 @@
   <bean id="PurchaseOrderDocument-statusCode" parent="PurchaseOrderDocument-statusCode-parentBean" />
 
   <bean id="PurchaseOrderDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
-    <property name="name" value="statusCode"/>
+    <property name="name" value="statusCode" />
     <property name="control">
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderStatusValuesFinder"
@@ -1343,7 +1343,7 @@
 			    <entry>
 				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent</value></key>
 				    <value>PurchaseOrder-performAssignSensitiveDataValidation</value>
-			    </entry>				    			    				    	    
+			    </entry>				    			    				    	 
 				<entry>
 					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
 					<value>PurchaseOrder-addPurchasingAccountsPayableItemValidation</value>				
@@ -1542,8 +1542,21 @@
     						<value>deliveryRequiredDate</value>
     					</list>
     				</property>
-    			</bean>
-    			   			
+    			</bean>  			
+        		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader" />
+    						<property name="attributeName" value="documentDescription" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>documentHeader.documentDescription</value>
+    					</list>
+    				</property>
+    			</bean>    			
+    			
         		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

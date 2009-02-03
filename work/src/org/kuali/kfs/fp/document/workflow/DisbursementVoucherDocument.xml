@@ -17,8 +17,8 @@
 						</branch>
 						<join name="JoinPayeeIsPurchaseOrderVendor"/>
 					</split>
-					<requests name="Account" nextNode="OrganizationHierarchy"/>
-					<requests name="OrganizationHierarchy" nextNode="RequiresTaxReview"/>
+					<requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
+					<requests name="AccountingOrganizationHierarchy" nextNode="RequiresTaxReview"/>
 					<split name="RequiresTaxReview" nextNode="Campus">
 						<branch name="True">
 							<requests name="Tax" nextNode="JoinRequiresTaxReview"/>
@@ -72,7 +72,7 @@
 					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 					<mandatoryRoute>true</mandatoryRoute>
 				</role>
-<role name="OrganizationHierarchy">
+<role name="AccountingOrganizationHierarchy">
 					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 				</role>
 <role name="Tax">

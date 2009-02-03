@@ -10,8 +10,8 @@
           <start name="AdHoc" nextNode="Organization"/>
           <requests name="Organization" nextNode="SubAccount"/>
           <requests name="SubAccount" nextNode="Account"/>
-          <requests name="Account" nextNode="OrganizationHierarchy"/>
-          <requests name="OrganizationHierarchy" nextNode="Commodity"/>
+          <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <requests name="AccountingOrganizationHierarchy" nextNode="Commodity"/>
           <requests name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview"/>
          <split name="AmountRequiresSeparationOfDutiesReview">
 						<branch name="True">
@@ -27,28 +27,22 @@
 <routeNodes>
 <start name="AdHoc"/>
 <role name="Organization">
-<!--<ruleTemplate>KualiRequisitionContentTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="SubAccount">
-<!--<ruleTemplate>KualiSubAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Account">
-<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 <mandatoryRoute>true</mandatoryRoute>
 </role>
-<role name="OrganizationHierarchy">
-<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<role name="AccountingOrganizationHierarchy">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Commodity">
-<!--<ruleTemplate>KualiPurApCommodityCodeTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="SeparationOfDuties">
-<!--<ruleTemplate>KualiRequisitionSeparationOfDutiesTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <split name="AmountRequiresSeparationOfDutiesReview">

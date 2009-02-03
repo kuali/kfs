@@ -4,31 +4,6 @@
 <documentType>
 <name>FinancialProcessingTransactionalDocument</name>
 <parent>FinancialSystemDocument</parent>
-<routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Account"/>
-					<requests name="Account" nextNode="OrganizationHierarchy"/>
-					<requests name="OrganizationHierarchy" nextNode="SubFund"/>
-					<requests name="SubFund" nextNode="Award"/>
-					<requests name="Award"/>
-				</routePath>
-			</routePaths>
-<routeNodes>
-<start name="AdHoc"/>
-<role name="Account">
-					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<mandatoryRoute>true</mandatoryRoute>
-				</role>
-<role name="OrganizationHierarchy">
-					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				</role>
-<role name="SubFund">
-					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				</role>
-<role name="Award">
-					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				</role>
-</routeNodes>
 </documentType>
 </documentTypes>
 </data>

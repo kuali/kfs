@@ -6,24 +6,21 @@
 <parent>FinancialProcessingTransactionalDocument</parent>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
-          <requests name="OrganizationHierarchy" nextNode="SubFund"/>
+          <start name="AdHoc" nextNode="AccountingOrganizationHierarchy"/>
+          <requests name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
           <requests name="SubFund" nextNode="Award"/>
           <requests name="Award"/>
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="AdHoc"/>
-<role name="OrganizationHierarchy">
-<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<role name="AccountingOrganizationHierarchy">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="SubFund">
-<!--<ruleTemplate>KualiSubFundTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Award">
-<!--<ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

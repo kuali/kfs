@@ -8,23 +8,20 @@
 <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>
-          <requests name="Account" nextNode="OrganizationHierarchy"/>
-          <requests name="OrganizationHierarchy" nextNode="Subfund"/>
+          <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <requests name="AccountingOrganizationHierarchy" nextNode="Subfund"/>
           <requests name="Subfund"/>
         </routePath>
       </routePaths>
 <routeNodes>
 <start name="AdHoc"/>
 <role name="Account">
-<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
-<role name="OrganizationHierarchy">
-<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<role name="AccountingOrganizationHierarchy">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Subfund">
-<!--<ruleTemplate>KualiSubFundTargetTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

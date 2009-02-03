@@ -14,7 +14,6 @@
 <routeNodes>
 <start name="AdHoc"/>
 <role name="CashManagement">
-<!--<ruleTemplate>KualiCashReceiptVerificationWorkgroupTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 <mandatoryRoute>true</mandatoryRoute>
 </role>

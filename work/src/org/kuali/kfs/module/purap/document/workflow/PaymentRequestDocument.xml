@@ -27,8 +27,8 @@
 						<join name="JoinReceiving"/>
 					</split>
           <requests name="SubAccount" nextNode="Account"/>
-          <requests name="Account" nextNode="OrganizationHierarchy"/>
-          <requests name="OrganizationHierarchy" nextNode="Tax"/>
+          <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <requests name="AccountingOrganizationHierarchy" nextNode="Tax"/>
           <split name="VendorIsEmployeeOrNonResidentAlien">
 						<branch name="True">
 							<requests name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
@@ -43,28 +43,22 @@
 <routeNodes>
 <start name="AdHoc"/>
 <role name="ImageAttachment">
-<!--<ruleTemplate>KualiAccountsPayableTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Receiving">
-<!--<ruleTemplate>AwaitingReceivingStatusTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="SubAccount">
-<!--<ruleTemplate>KualiSubAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Account">
-<!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 <mandatoryRoute>true</mandatoryRoute>
 </role>
-<role name="OrganizationHierarchy">
-<!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+<role name="AccountingOrganizationHierarchy">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Tax">
-<ruleTemplate>KualiVendorTaxReviewTemplate</ruleTemplate>
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 

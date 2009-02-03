@@ -198,8 +198,8 @@
   	  <property name="routingTypeDefinitions">
   	  		<map>
   	  			<entry key="ProjectManagement" value-ref="RoutingType-EffortCertificationDocument-ProjectManagement" />
-  	  			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly" />
-  	  			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
+  	  			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
+  	  			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
   	  			
   	  		</map>
   	  </property>	

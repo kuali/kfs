@@ -43,7 +43,8 @@
 			<c:set var="colSpanItemType" value="3"/>
 			<c:set var="colSpanDescription" value="7"/>
 			<c:set var="colSpanExtendedPrice" value="2"/>
-
+			<c:set var="colSpanBlank" value="0"/>
+			
     		<purap:purPOLineItemTotals documentAttributes="${documentAttributes}" />
 
 	    	<purap:paymentRequestItems 
@@ -61,7 +62,8 @@
 			<c:set var="colSpanItemType" value="5"/>
 			<c:set var="colSpanDescription" value="7"/>
 			<c:set var="colSpanExtendedPrice" value="2"/>
-
+			<c:set var="colSpanBlank" value="0"/>
+			
 	    	<purap:creditMemoItems 
 		    	itemAttributes="${itemAttributes}"
 	    		accountingLineAttributes="${accountingLineAttributes}" />
@@ -75,6 +77,7 @@
 			<c:set var="colSpanItemType" value="5"/>
 			<c:set var="colSpanDescription" value="7"/>
 			<c:set var="colSpanExtendedPrice" value="2"/>
+			<c:set var="colSpanBlank" value="0"/>
 		</c:if>
 
 		<!-- BEGIN TOTAL SECTION -->
@@ -105,7 +108,7 @@
 			showInvoiced="${showInvoiced}"
 			specialItemTotalType="DISC" 
 			mainColumnCount="${mainColumnCount}"
-			colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}">
+			colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}" colSpanBlank="${colSpanBlank}">
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
 					<td align=right width='75%' colspan="5" scope="row" class="datacell">

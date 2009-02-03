@@ -41,14 +41,16 @@
 
 <c:choose>
 <c:when test="${displayRequisitionFields}">
-	<c:set var="colSpanItemType" value="4"/>
-	<c:set var="colSpanDescription" value="5"/>
-	<c:set var="colSpanExtendedPrice" value="5"/>
+	<c:set var="colSpanItemType" value="6"/>
+	<c:set var="colSpanDescription" value="2"/>
+	<c:set var="colSpanExtendedPrice" value="1"/>
+	<c:set var="colSpanBlank" value="5"/>
 </c:when>
 <c:otherwise>
-	<c:set var="colSpanItemType" value="4"/>
-	<c:set var="colSpanDescription" value="5"/>
-	<c:set var="colSpanExtendedPrice" value="5"/>
+	<c:set var="colSpanItemType" value="6"/>
+	<c:set var="colSpanDescription" value="2"/>
+	<c:set var="colSpanExtendedPrice" value="1"/>
+	<c:set var="colSpanBlank" value="5"/>
 </c:otherwise>
 </c:choose>
 
@@ -380,6 +382,10 @@
 						    attributeEntry="${itemAttributes.itemDescription}"
 						    property="document.item[${ctr}].itemDescription"
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" />
+						<kul:expandedTextArea 
+							textAreaFieldName="document.item[${ctr}].itemDescription"
+							action="purapRequisition"
+							textAreaLabel="description" />
 					</td>
 					<td class="infoline">
 					    <div align="right">
@@ -538,7 +544,7 @@
 			<th height=30 colspan="${mainColumnCount}">&nbsp;</th>
 		</tr>
 
-		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" descriptionFirst="${isATypeofPurDoc}" mainColumnCount="${mainColumnCount}" colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}" />
+		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" descriptionFirst="${isATypeofPurDoc}" mainColumnCount="${mainColumnCount}" colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}" colSpanBlank="${colSpanBlank}" />
 		</c:if>
 		
 		<!-- BEGIN TOTAL SECTION -->
@@ -555,7 +561,7 @@
 
 		<c:if test="${purapTaxEnabled}">
 		<tr>
-			<th align=right width='75%' colspan=9 scope="row">
+			<th align=right width='75%' colspan=8 scope="row">
 			    <div align="right">
 			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalPreTaxDollarAmount}" />
 			    </div>
@@ -568,11 +574,11 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td colspan=6 class="datacell">&nbsp;</td>
+			<td colspan=7 class="datacell">&nbsp;</td>
 		</tr>
 
 		<tr>
-			<th align=right width='75%' colspan=9 scope="row">
+			<th align=right width='75%' colspan=8 scope="row">
 			    <div align="right">
 			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalTaxAmount}" />
 			    </div>
@@ -585,12 +591,12 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td colspan=6 class="datacell">&nbsp;</td>
+			<td colspan=7 class="datacell">&nbsp;</td>
 		</tr>
 		</c:if>
 
 		<tr>
-			<th align=right width='75%' colspan=9 scope="row">
+			<th align=right width='75%' colspan=8 scope="row">
 			    <div align="right">
 			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}" />
 			    </div>
@@ -603,11 +609,11 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td colspan=6 class="datacell">&nbsp;</td>
+			<td colspan=7 class="datacell">&nbsp;</td>
 		</tr>
 
 		<tr>
-			<th align=right width='75%' colspan=9 scope="row">
+			<th align=right width='75%' colspan=8 scope="row">
 			    <c:if test="${displayRequisitionFields}">
 				    <div align="right">
 				        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}" />
@@ -637,7 +643,7 @@
                     </div>
 			    </c:if>
 			</td>
-			<td colspan="6" class="datacell">&nbsp;</td>
+			<td colspan="7" class="datacell">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
 

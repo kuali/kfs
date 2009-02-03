@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.DocumentSearchField;
 import org.kuali.rice.kew.docsearch.DocumentSearchRow;
@@ -75,17 +74,11 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         if (doc instanceof AmountTotaling) {
             SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
             searchableAttributeValue.setSearchableAttributeKey("financialDocumentTotalAmount");
-            searchableAttributeValue.setSearchableAttributeValue(getTotalAmount((FinancialSystemTransactionalDocumentBase)doc).toString());
+            searchableAttributeValue.setSearchableAttributeValue(((AmountTotaling)doc).getTotalDollarAmount().toString());
             searchAttrValues.add(searchableAttributeValue);
         }
         
-        
         return searchAttrValues;
-    }
-    
-    
-    protected KualiDecimal getTotalAmount(FinancialSystemTransactionalDocumentBase doc) {
-       return doc.getDocumentHeader().getFinancialDocumentTotalAmount();
     }
     
 }

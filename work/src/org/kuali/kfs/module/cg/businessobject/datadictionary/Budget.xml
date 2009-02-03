@@ -385,7 +385,7 @@
     </property>
     <property name="summary" value="Project Director ..." />
     <property name="description" value="Project Director ..." />
-    <property name="displayLabelAttribute" value="person.principalName" />
+    <property name="displayLabelAttribute" value="projectDirector.principalName" />
   </bean>
   <bean id="Budget-projectDirector.principalName" parent="Budget-projectDirector.principalName-parentBean" />
 

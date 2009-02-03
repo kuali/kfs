@@ -31,7 +31,8 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
  */
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#populateRoleQualification(org.kuali.rice.kns.document.Document, java.util.Map)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#populateRoleQualification(org.kuali.rice.kns.document.Document,
+     *      java.util.Map)
      */
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
@@ -41,17 +42,20 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         if (businessObject instanceof MaintenanceDocument) {
             assetGlobal = (AssetGlobal) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
         }
-        else {
+        else if (businessObject instanceof AssetGlobal) {
             assetGlobal = (AssetGlobal) businessObject;
         }
-        
+        else {
+            return;
+        }
+
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-        if (assetGlobalService.isAssetSeparate(assetGlobal)){
+        if (assetGlobalService.isAssetSeparate(assetGlobal)) {
             Asset spearateAsset = assetGlobal.getSeparateSourceCapitalAsset();
-            
+
             String chart = spearateAsset.getOrganizationOwnerChartOfAccountsCode();
             String org = spearateAsset.getOrganizationOwnerAccount().getOrganizationCode();
-            
+
             attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
             attributes.put(KfsKimAttributes.ORGANIZATION_CODE, org);
         }

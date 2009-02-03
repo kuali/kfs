@@ -462,7 +462,7 @@
   <bean id="VendorMaintenanceDocument-VendorCommodityCodes" parent="VendorMaintenanceDocument-VendorCommodityCodes-parentBean" />
 
   <bean id="VendorMaintenanceDocument-VendorCommodityCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Vendor Commodity Codes" />
+    <property name="id" value="vendorCommodities" />
     <property name="title" value="Vendor Commodity Codes" />
     <property name="maintainableItems" >
       <list>
@@ -632,7 +632,7 @@
   <bean id="VendorMaintenanceDocument-Contracts" parent="VendorMaintenanceDocument-Contracts-parentBean" />
 
   <bean id="VendorMaintenanceDocument-Contracts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Contracts" />
+    <property name="id" value="vendorContracts" />
     <property name="title" value="Contracts" />
     <property name="maintainableItems" >
       <list>

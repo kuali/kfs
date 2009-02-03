@@ -15,24 +15,27 @@
  */
 package org.kuali.kfs.vnd.document.authorization;
 
-import java.util.List;
+import java.util.Set;
 
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
-import org.kuali.kfs.vnd.businessobject.VendorContract;
-import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
-import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 
 /**
  * Authorizer class for Vendor maintenance document
  */
 public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
+    
+    @Override
+    public Set<String> getSecurePotentiallyReadOnlySectionIds() {
+        Set<String> readOnlySectionIds = super.getSecurePotentiallyReadOnlySectionIds();
+        
+        // vendor contracts and commodity codes are the potentially readonly sections
+        readOnlySectionIds.add(VendorPropertyConstants.VENDOR_CONTRACT);
+        readOnlySectionIds.add(VendorPropertyConstants.VENDOR_COMMODITIES_CODE);
+        
+        return readOnlySectionIds;
+    }    
+    
     // TODO fix for kim
 
 //    /**

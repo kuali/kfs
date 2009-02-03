@@ -394,7 +394,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
     }
 
-    /**
+/*    *//**
      * Overrides the section implementation to turn off the include add line property unless the user
      * is in the vendor contract workgroup.
      * 
@@ -402,7 +402,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * but the vendor was previously (in the old maintainable) not a parent.
      * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.maintenance.Maintainable)
-     */
+     *//*
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
@@ -465,7 +465,8 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
 
         return sections;
     }
-
+*/
+    
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */

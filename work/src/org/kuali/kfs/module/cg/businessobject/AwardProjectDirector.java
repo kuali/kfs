@@ -42,8 +42,6 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
      * Default no-args constructor.
      */
     public AwardProjectDirector() {
-        // Struts needs this instance to populate the secondary key, principalName.
-        projectDirector = new PersonImpl();
     }
 
     /**

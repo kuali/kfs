@@ -42,8 +42,6 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      * Default constructor.
      */
     public ProposalProjectDirector() {
-        // Struts needs this instance to populate the secondary key, principalName.
-        projectDirector = new PersonImpl();
     }
 
     /**

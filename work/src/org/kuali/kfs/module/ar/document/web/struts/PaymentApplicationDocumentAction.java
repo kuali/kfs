@@ -356,14 +356,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 for(CustomerInvoiceDetail customerInvoiceDetail : form.getSelectedInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts()) {
                     customerInvoiceDetail.setCurrentPaymentApplicationDocument(paymentApplicationDocument);
                 }
-                // Struts/Spring likes to set the nonAppliedHolding to a new instance
-                // when it should be null (i.e. has not yet been set) 
-//                NonAppliedHolding holding = paymentApplicationDocument.getNonAppliedHolding();
-//                if(ObjectUtils.isNotNull(holding)) {
-//                    if(ObjectUtils.isNull(holding.getObjectId())) {
-//                        paymentApplicationDocument.setNonAppliedHolding(null);
-//                    }
-//                }
             }
             if (null == form.getNextNonInvoicedLineNumber()) {
                 form.setNextNonInvoicedLineNumber(1);
@@ -377,10 +369,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * 
      * @param applicationDocumentForm
      */
-    private void loadInvoices(PaymentApplicationDocumentForm applicationDocumentForm) throws WorkflowException {
+    private void loadInvoices(PaymentApplicationDocumentForm applicationDocumentForm, String selectedInvoiceNumber) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = applicationDocumentForm.getPaymentApplicationDocument();
         String customerNumber = applicationDocument.getAccountsReceivableDocumentHeader() == null ? null : applicationDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
-        String currentInvoiceNumber = applicationDocumentForm.getEnteredInvoiceDocumentNumber();
+        //String currentInvoiceNumber = applicationDocumentForm.getEnteredInvoiceDocumentNumber();
+        String currentInvoiceNumber = selectedInvoiceNumber;
 
         // if customer number is null but invoice number is not null then get the customer number based on the invoice number
         if ((customerNumber == null || customerNumber.equals("")) && (currentInvoiceNumber != null && !currentInvoiceNumber.equals(""))) {
@@ -397,11 +390,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         if ((customerNumber != null && !customerNumber.equals("")) && (currentInvoiceNumber == null || "".equalsIgnoreCase(currentInvoiceNumber))) {
             if (applicationDocumentForm.getInvoices() != null && applicationDocumentForm.getInvoices().size() > 0) {
                 currentInvoiceNumber = applicationDocumentForm.getInvoices().iterator().next().getDocumentNumber();
-                applicationDocumentForm.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
             }
         }
+        
         // set the selected invoice to be the first one in the list
         applicationDocumentForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
+        applicationDocumentForm.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
 
         if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
             // load information for the current selected invoice
@@ -421,14 +415,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward goToInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
-        String currentInvoiceNumber = paymentApplicationDocumentForm.getSelectedInvoiceDocumentNumber();
-        if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
-            // set entered invoice number to be the current selected invoice number
-            paymentApplicationDocumentForm.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
-            // load information for the current selected invoice
-            paymentApplicationDocumentForm.setSelectedInvoiceDocument(customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(currentInvoiceNumber));
-        }
-
+        loadInvoices(paymentApplicationDocumentForm, paymentApplicationDocumentForm.getSelectedInvoiceDocumentNumber());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -509,7 +496,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward loadInvoices(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
-        loadInvoices(pform);
+        loadInvoices(pform, pform.getEnteredInvoiceDocumentNumber());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -551,7 +538,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) kualiDocumentFormBase;
-        loadInvoices(pform);
+        loadInvoices(pform, pform.getEnteredInvoiceDocumentNumber());
     }
 
     /**

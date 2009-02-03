@@ -88,23 +88,13 @@
 									<td colspan='2' class='tab-subhead'>
 										<label for="selectedInvoiceDocumentNumber">Invoices</label>
 										<c:if test="${readOnly ne true}">
-											<select id="selectedInvoiceDocumentNumber" name="selectedInvoiceDocumentNumber">
+											<html:select property="selectedInvoiceDocumentNumber">
 												<c:forEach items="${KualiForm.invoices}" var="invoice">
-													<c:choose>
-														<c:when
-															test="${invoice.documentNumber eq KualiForm.selectedInvoiceDocumentNumber}">
-															<option selected>
-																<c:out value="${invoice.documentNumber}" />
-															</option>
-														</c:when>
-														<c:otherwise>
-															<option>
-																<c:out value="${invoice.documentNumber}" />
-															</option>
-														</c:otherwise>
-													</c:choose>
+													<html:option value="${invoice.documentNumber}">
+														<c:out value="${invoice.documentNumber}" />
+													</html:option>
 												</c:forEach>
-											</select>
+											</html:select>
 											<logic:iterate id="invoices" name="KualiForm"
 												property="invoices" indexId="ctr">
 											</logic:iterate>

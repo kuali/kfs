@@ -130,7 +130,7 @@
     	<property name="routingTypeDefinitions">
     		<map>
     			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly" />
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-targetOnly" />
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-targetOnly" />
     			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly" />
     		</map>
     	</property>

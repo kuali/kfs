@@ -100,10 +100,10 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
             }
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
             AccountDelegate delegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, financialSystemDocumentTypeCodeCode, totalDollarAmount);
-            roleQualifier.put(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE, delegate.getFinancialDocumentTypeCode());
-            roleQualifier.put(KfsKimAttributes.FROM_AMOUNT, (delegate.getFinDocApprovalFromThisAmt()==null)?"0":delegate.getFinDocApprovalFromThisAmt().toString());
-            roleQualifier.put(KfsKimAttributes.TO_AMOUNT, (delegate.getFinDocApprovalToThisAmount()==null)?"NOLIMIT":delegate.getFinDocApprovalToThisAmount().toString());
             if(delegate!=null) {
+                roleQualifier.put(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE, delegate.getFinancialDocumentTypeCode());
+                roleQualifier.put(KfsKimAttributes.FROM_AMOUNT, (delegate.getFinDocApprovalFromThisAmt()==null)?"0":delegate.getFinDocApprovalFromThisAmt().toString());
+                roleQualifier.put(KfsKimAttributes.TO_AMOUNT, (delegate.getFinDocApprovalToThisAmount()==null)?"NOLIMIT":delegate.getFinDocApprovalToThisAmount().toString());
                 members.add( new RoleMembershipInfo( null, null, delegate.getAccountDelegateSystemId(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
             }
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){

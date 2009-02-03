@@ -213,6 +213,16 @@
     	<property name="attributeName" value="chartOfAccountsCode" />
 	</bean>
 	
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account" />
+    	<property name="attributeName" value="accountFiscalOfficerSystemIdentifier" />
+	</bean>
+	
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account" />
+    	<property name="attributeName" value="accountsSupervisorySystemsIdentifier" />
+	</bean>
+	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
 		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account" />
     	<property name="attributeName" value="accountNumber" />
@@ -242,12 +252,23 @@
 	   		</list>
    		</property>
    	</bean>
-	
+   	
    	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-ChartAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" >
 		<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
 	   			<value>newMaintainableObject.businessObject.accountNumber</value>
+	   		</list>
+   		</property>
+   	</bean>
+	
+   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficers" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" >
+		<property name="documentValues">
+	   		<list>
+	   			<value>oldMaintainableObject.businessObject.accountsSupervisorySystemsIdentifier</value>
+	   			<value>newMaintainableObject.businessObject.accountsSupervisorySystemsIdentifier</value>
+	   			<value>oldMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
+	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
 	   		</list>
    		</property>
    	</bean>
@@ -279,12 +300,17 @@
 	<bean id="AccountMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
+    			<ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier"/>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier"/>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier" />
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier" />
 		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart" />
-		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Account"/>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Account" />
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
+    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficers" />
     			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-ChartAccount" />
     		</list>
     	</property>
@@ -343,69 +369,5 @@
     		</list>
     	</property>
     </bean>
-  
-  <!--  
-  
-  
-	<dd:workflowAttributes id="AccountMaintenanceDocument-workflowAttributes-parentBean" abstract="true">
-		<dd:routingType nodeName="AccountSupervisor">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="accountNumber" />
-	        </dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
-            	<dd:documentValue path="newMaintainableObject.businessObject.accountNumber"/>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-		<dd:routingType nodeName="Account">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="accountNumber" />
-	        </dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
-            	<dd:documentValue path="newMaintainableObject.businessObject.accountNumber"/>
-            	<dd:documentValue path="oldMaintainableObject.businessObject.chartOfAccountsCode"/>
-            	<dd:documentValue path="oldMaintainableObject.businessObject.accountNumber"/>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-		<dd:routingType nodeName="OrganizationHierarchy">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Organization" attributeName="organizationCode" />
-        	</dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
-                <dd:documentValue path="newMaintainableObject.businessObject.organizationCode"/>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-		<dd:routingType nodeName="Chart">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-        	</dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-		<dd:routingType nodeName="SubFund">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.SubFundGroup" attributeName="subFundGroupCode" />
-        	</dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-            	<dd:documentValue path="newMaintainableObject.businessObject.subFundGroupCode"/>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-		<dd:routingType nodeName="Award">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="contractsAndGrantsAccountResponsibilityId" />
-        	</dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-            	<dd:documentValue path="newMaintainableObject.businessObject.contractsAndGrantsAccountResponsibilityId"/>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-	</dd:workflowAttributes>  
-	
-	-->
 </beans>
 

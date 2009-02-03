@@ -980,7 +980,7 @@
     <bean id="PaymentRequestDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="routingTypeDefinitions">
     		<map>
-    		    <!-- no qualifiers for RequiresInvoiceAttachment -->
+    		    <!-- no qualifiers for RequiresImageAttachment -->
                 <!-- no qualifiers for PurchaseWasReceived -->
     		    <entry key="SubAccount" value-ref="RoutingType-PurchasingAccountsPayableDocument-SubAccount" />
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account" />

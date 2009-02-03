@@ -669,7 +669,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.REQUIRES_INVOICE_ATTACHMENT)) return requiresAccountsPayableReviewRouting();
+        if (nodeName.equals(PurapWorkflowConstants.REQUIRES_IMAGE_ATTACHMENT)) return requiresAccountsPayableReviewRouting();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
     

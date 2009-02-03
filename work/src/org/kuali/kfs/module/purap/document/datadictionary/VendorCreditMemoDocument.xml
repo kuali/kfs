@@ -608,7 +608,7 @@
     <bean id="VendorCreditMemoDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
     	<property name="routingTypeDefinitions">
     		<map>
-    		    <!-- no qualifiers for RequiresInvoiceAttachment -->
+    		    <!-- no qualifiers for RequiresImageAttachment -->
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account" />
     		</map>
     	</property>

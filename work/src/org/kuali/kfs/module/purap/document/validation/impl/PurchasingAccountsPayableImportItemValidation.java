@@ -23,19 +23,19 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 
 public class PurchasingAccountsPayableImportItemValidation extends GenericValidation {
 
-    private PurApItem item;
+    private PurApItem itemForValidation;
     private DictionaryValidationService dictionaryValidationService;
 
     public boolean validate(AttributedDocumentEvent event) {
-        return getDictionaryValidationService().isBusinessObjectValid(item, PurapConstants.ITEM_TAB_ERROR_PROPERTY);
+        return getDictionaryValidationService().isBusinessObjectValid(itemForValidation, PurapConstants.ITEM_TAB_ERROR_PROPERTY);
     }
 
-    public PurApItem getItem() {
-        return item;
+    public PurApItem getItemForValidation() {
+        return itemForValidation;
     }
 
-    public void setItem(PurApItem item) {
-        this.item = item;
+    public void setItemForValidation(PurApItem item) {
+        this.itemForValidation = item;
     }
 
     public DictionaryValidationService getDictionaryValidationService() {

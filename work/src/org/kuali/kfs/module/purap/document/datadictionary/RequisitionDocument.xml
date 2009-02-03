@@ -1048,6 +1048,38 @@
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
 				<value>Requisition-reviewAccountingLineValidation</value>
 			</entry>				
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
+				<value>Requisition-addPurchasingAccountsPayableItemValidation</value>				
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
+				<value>Requisition-importPurchasingAccountsPayableItemValidation</value>				
+			</entry>						
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedValidateCapitalAssetsForAutomaticPurchaseOrderEvent</value></key>
+				<value>Requisition-validateCapitalAssetsForAutomaticPurchaseOrderValidation</value>
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedChangeSystemPurapEvent</value></key>
+				<value>Requisition-changeSystemPurapValidation</value>				
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedSelectSystemPurapEvent</value></key>
+				<value>Requisition-selectSystemPurapValidation</value>				
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedUpdateCamsViewPurapEvent</value></key>
+				<value>Requisition-updateCamsViewPurapValidation</value>				
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingItemCapitalAssetEvent</value></key>
+				<value>Requisition-addPurchasingItemCapitalAssetValidation</value>				
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingCapitalAssetLocationEvent</value></key>
+				<value>Requisition-addPurchasingCapitalAssetLocationValidation</value>				
+			</entry>						
     	</map>
     </property>
   </bean>  

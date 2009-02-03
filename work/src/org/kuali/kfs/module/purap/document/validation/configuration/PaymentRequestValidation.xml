@@ -374,6 +374,17 @@
   		</property>								
 	</bean>
 
+	<!-- Pre Calculate Accounts Payable Event -->
+    <bean id="PaymentRequest-preCalculateAccountsPayableValidation" parent="PaymentRequest-preCalculateAccountsPayableValidation-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-preCalculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="AccountsPayable-preCalculateValidation" scope="prototype" />  			
+			</list>
+		</property>
+	</bean>
+
 	<!-- Calculate Accounts Payable Event -->
     <bean id="PaymentRequest-calculateAccountsPayableValidation" parent="PaymentRequest-calculateAccountsPayableValidation-parentBean" scope="prototype" />
   
@@ -448,5 +459,93 @@
   				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype"/>		  			
 			</list>
 		</property>
-	</bean>       
+	</bean>
+
+    <bean id="PaymentRequest-eInvoiceValidation" parent="PaymentRequest-eInvoiceValidation-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-eInvoiceValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  					<property name="collectionProperty" value="document.items" />
+  					<property name="validations">
+  						<list>
+						<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+							<property name="parameterProperties">
+								<list>
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="iterationSubject" />
+										<property name="targetValidationProperty" value="businessObjectForValidation" />
+									</bean>
+								</list>
+							</property>
+						</bean>
+						
+						<bean parent="PaymentRequest-reviewValidation" scope="prototype">
+							<property name="parameterProperties">
+					            <list>
+			  	                    <bean parent="validationFieldConversion">
+				   	                    <property name="sourceEventProperty" value="iterationSubject" />
+							            <property name="targetValidationProperty" value="itemForValidation" />
+						            </bean>
+								</list>
+							</property>
+						</bean>
+
+						<bean parent="PaymentRequest-processItemValidation" scope="prototype">
+							<property name="parameterProperties">
+					            <list>
+			  	                    <bean parent="validationFieldConversion">
+				   	                    <property name="sourceEventProperty" value="iterationSubject" />
+							            <property name="targetValidationProperty" value="itemForValidation" />
+						            </bean>
+								</list>
+							</property>
+						</bean>
+																				
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>				
+
+				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  																
+				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  												
+				<bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  				
+				<bean parent="PaymentRequest-invoiceValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  									
+				
+				<bean parent="PurchasingAccountsPayabale-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>							
+								<key><value>notFullDocumentEntry</value></key>
+								<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
+							</entry>		
+						</map>
+					</property>
+				</bean>
+														
+				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  															
+				<bean parent="PaymentRequest-vendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  															
+				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  															
+			
+				<bean parent="PaymentRequest-checkNegativeAccountsValidation" scope="prototype"/>	  						  			
+			</list>
+		</property>
+	</bean>
+		       
 </beans>

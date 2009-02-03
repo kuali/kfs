@@ -41,8 +41,8 @@ import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecif
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
-import org.kuali.kfs.module.purap.document.validation.event.CancelAccountsPayableEvent;
-import org.kuali.kfs.module.purap.document.validation.event.PreCalculateAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedCancelAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedPreCalculateAccountsPayableEvent;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -127,7 +127,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
 
         // call precalculate
-        if (SpringContext.getBean(KualiRuleService.class).applyRules(new PreCalculateAccountsPayableEvent(apDoc))) {
+        if (SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPreCalculateAccountsPayableEvent(apDoc))) {
             customCalculate(apDoc);
 
             // set calculated flag according to document type and status
@@ -407,7 +407,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         // validate cancel rules
         //FIXME hjs-this is checking user logic and using the actionauthorizers
-        boolean rulePassed = KNSServiceLocator.getKualiRuleService().applyRules(new CancelAccountsPayableEvent(document));
+        boolean rulePassed = KNSServiceLocator.getKualiRuleService().applyRules(new AttributedCancelAccountsPayableEvent(document));
 
         if (!rulePassed) {
 

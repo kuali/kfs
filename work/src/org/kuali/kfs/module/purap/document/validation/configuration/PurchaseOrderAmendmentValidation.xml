@@ -67,9 +67,58 @@
 				
 				<bean parent="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
+				</bean>  														
+  			</list>
+  		</property>
+  	</bean>
+  
+  	<bean id="PurchaseOrderAmendment-approveDocumentValidation" parent="PurchaseOrderAmendment-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="PurchaseOrderAmendment-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>  				
+  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+  					<property name="parameterProperties">
+  						<list>
+  							<bean parent="validationFieldConversion">
+  								<property name="sourceEventProperty" value="iterationSubject" />
+  								<property name="targetValidationProperty" value="businessObjectForValidation" />
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>
+
+  				<bean parent="PurchaseOrderAmendment-newProcessItemValidation-parentBean" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+				
+				<bean parent="PurchaseOrder-processVendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
 				</bean>  
 				
-										
+				<bean parent="PurchaseOrder-processVendorStipulationValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+				<bean parent="Purchasing-capitalAssetValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-paymentInfoValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-deliveryValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+				<bean parent="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  													
   			</list>
   		</property>
   	</bean>
@@ -78,6 +127,91 @@
 	<bean id="PurchaseOrderAmendment-addAccountingLineValidation" parent="PurchaseOrderAmendment-addAccountingLineValidation-parentBean" scope="prototype" />
   
 	<bean id="PurchaseOrderAmendment-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="Purchasing-accountNotExpiredValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="updatedAccountingLine" />
+						</bean>
+					</property>
+				</bean>				
+
+				<bean parent="PurchaseOrderAmendment-addAccountingLineDefaultValidation-parentBean" scope="prototype">
+					<property name="quitOnFail" value="true" />
+				</bean>
+
+
+				<bean parent="Purchasing-accountingLinePercentValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="updatedAccountingLine" />
+						</bean>
+					</property>				
+				</bean>
+
+			</list>
+  		</property>
+	</bean>
+
+	<bean id="PurchaseOrderAmendment-addAccountingLineDefaultValidation" parent="PurchaseOrderAmendment-addAccountingLineDefaultValidation-parentBean" scope="prototype"/>
+	
+	<bean id="PurchaseOrderAmendment-addAccountingLineDefaultValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation"  abstract="true" scope="protoptype">
+		<property name="validations">
+			<list>
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+					<property name="validations">
+						<list>
+							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="accountingLine" />
+										<property name="targetValidationProperty" value="businessObjectForValidation" />
+									</bean>
+								</property>
+							</bean>
+							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="accountingLine" />
+											<property name="targetValidationProperty" value="accountingLineForValidation" />
+										</bean>
+									</list>
+								</property>
+								<property name="quitOnFail" value="true" />
+							</bean>
+							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+								<property name="accountingDocumentParameterPropertyName" value="document" />
+								<property name="accountingLineParameterPropertyName" value="accountingLine" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="PurchaseOrderAmendment-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>			
+			</list>
+		</property>
+	</bean>
+
+	<!-- Update Accounting Line Event -->
+    <bean id="PurchaseOrder-updateAccountingLineValidation" parent="PurchaseOrder-updateAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrder-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
@@ -102,7 +236,7 @@
 									</list>
 								</property>
 								<property name="quitOnFail" value="false" />
-							</bean>
+							</bean>			
 							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 								<property name="accountingDocumentParameterPropertyName" value="document" />
 								<property name="accountingLineParameterPropertyName" value="accountingLine" />
@@ -126,6 +260,192 @@
 				</bean>
 			</list>
   		</property>
+	</bean>
+	
+    <!-- Split Purchase Order Event -->
+    <bean id="PurchaseOrderAmendment-performSplitValidation" parent="PurchaseOrderAmendment-performSplitValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-performSplitValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchaseOrder-splitValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>
+	
+	<!--Add Quote To Vendor Event -->
+    <bean id="PurchaseOrderAmendment-performAddQuoteToVendorValidation" parent="PurchaseOrderAmendment-performAddQuoteToVendorValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-performAddQuoteToVendorValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchaseOrder-addQuoteToVendorValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="purchaseOrderVendorQuote" />
+								<property name="targetValidationProperty" value="vendorQuote" />
+							</bean>							
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>
+	
+	<!--Assign Sensitive Data Event -->
+    <bean id="PurchaseOrderAmendment-performAssignSensitiveDataValidation" parent="PurchaseOrderAmendment-performAssignSensitiveDataValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-performAssignSensitiveDataValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchaseOrder-assignSensitiveDataValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="sensitiveDatas" />
+								<property name="targetValidationProperty" value="sensitiveDatas" />
+							</bean>							
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>	
+	
+	<!-- Add Item Event -->
+    <bean id="PurchaseOrderAmendment-addPurchasingAccountsPayableItemValidation" parent="PurchaseOrderAmendment-addPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-addPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+				<bean parent="Purchasing-addItemValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="item" />
+								<property name="targetValidationProperty" value="itemForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>	
+	</bean>
+
+	<!-- Import Item Event -->
+    <bean id="PurchaseOrderAmendment-importPurchasingAccountsPayableItemValidation" parent="PurchaseOrderAmendment-importPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-importPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+				<bean parent="Purchasing-importItemValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="item" />
+								<property name="targetValidationProperty" value="item" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="PurchaseOrderAmendment-validateCapitalAssetsForAutomaticPurchaseOrderValidation" parent="PurchaseOrderAmendment-validateCapitalAssetsForAutomaticPurchaseOrderValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-validateCapitalAssetsForAutomaticPurchaseOrderValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+	  			<bean parent="Purchasing-capitalAssetsForAutomaticPurchaseOrderValidation" scope="prototype"/>  			
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="PurchaseOrderAmendment-changeSystemPurapValidation" parent="PurchaseOrderAmendment-changeSystemPurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-changeSystemPurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+	  			<bean parent="Purchasing-changeSystemValidation" scope="prototype"/>		  			
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="PurchaseOrderAmendment-selectSystemPurapValidation" parent="PurchaseOrderAmendment-selectSystemPurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-selectSystemPurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+  				<bean parent="Purchasing-selectSystemValidation" scope="prototype"/>  			
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="PurchaseOrderAmendment-updateCamsViewPurapValidation" parent="PurchaseOrderAmendment-updateCamsViewPurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-updateCamsViewPurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+  				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="PurchaseOrderAmendment-addPurchasingItemCapitalAssetValidation" parent="PurchaseOrderAmendment-addPurchasingItemCapitalAssetValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-addPurchasingItemCapitalAssetValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+	  			<bean parent="Purchasing-addItemCapitalAssetValidation" scope="prototype">
+					<property name="parameterProperties">
+		                <list>
+		                    <bean parent="validationFieldConversion">
+		                        <property name="sourceEventProperty" value="itemCapitalAsset" />
+		                        <property name="targetValidationProperty" value="asset" />
+		                    </bean>
+		                </list>
+		            </property>
+				</bean>  			
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="PurchaseOrderAmendment-addPurchasingCapitalAssetLocationValidation" parent="PurchaseOrderAmendment-addPurchasingCapitalAssetLocationValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-addPurchasingCapitalAssetLocationValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+	  			<bean parent="Purchasing-addCapitalAssetLocationValidation" scope="prototype">
+					<property name="parameterProperties">
+		                <list>
+		                    <bean parent="validationFieldConversion">
+		                        <property name="sourceEventProperty" value="capitalAssetLocation" />
+		                        <property name="targetValidationProperty" value="location" />
+		                    </bean>
+		                </list>
+		            </property>
+				</bean>  			  			
+			</list>
+		</property>
 	</bean>
 	
 	<!-- New Process Item Validation Definitions -->

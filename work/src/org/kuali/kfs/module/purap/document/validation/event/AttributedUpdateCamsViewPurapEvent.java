@@ -15,50 +15,37 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
+import org.kuali.kfs.module.purap.document.validation.UpdateCamsViewPurapRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.rule.BusinessRule;
 import org.kuali.rice.kns.rule.event.SaveEvent;
+import org.kuali.rice.kns.rule.event.SaveOnlyDocumentEvent;
 
 /**
- * Continue Event for Accounts Payable Document.
- * This could be triggered when a user presses the continue button to go to the next page.
+ * UpdateCamsView Event for Accounts Payable Document.
+ * This could be triggered when a user presses the UpdateCamsView button to go to the next page.
  */
-public final class ContinuePurapEvent extends AttributedSaveDocumentEvent implements SaveEvent {
+public final class AttributedUpdateCamsViewPurapEvent extends AttributedSaveDocumentEvent implements SaveEvent {
 
     /**
      * Overridden constructor.
      * 
      * @param document the document for this event
      */
-    public ContinuePurapEvent(Document document) {
+    public AttributedUpdateCamsViewPurapEvent(Document document) {
         this(KFSConstants.EMPTY_STRING, document);
     }
 
     /**
-     * Constructs a ContinuePurapEvent with the given errorPathPrefix and document.
+     * Constructs a UpdateCamsViewPurapEvent with the given errorPathPrefix and document.
      * 
      * @param errorPathPrefix the error path
      * @param document document the event was invoked upon
      */
-    public ContinuePurapEvent(String errorPathPrefix, Document document) {
-        super("continuing for document " + getDocumentId(document), errorPathPrefix, document);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return ContinuePurapRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ContinuePurapRule) rule).processContinuePurapBusinessRules((TransactionalDocument) getDocument());
+    public AttributedUpdateCamsViewPurapEvent(String errorPathPrefix, Document document) {
+        super("updating view for document " + getDocumentId(document), errorPathPrefix, document);
     }
 }

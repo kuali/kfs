@@ -16,48 +16,34 @@
 package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.validation.PreCalculateAccountsPayableRule;
+import org.kuali.kfs.module.purap.document.validation.CalculateAccountsPayableRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
- * Pre-Calculate event for an Accounts Payable Document
+ * Calculate event for Accounts Payable Document
  * This could be triggered when a user presses the Calculate button to calculate the doc.
  */
-public final class PreCalculateAccountsPayableEvent extends KualiDocumentEventBase {
+public final class AttributedCalculateAccountsPayableEvent extends AttributedDocumentEventBase {
 
     /**
      * Overridden constructor.
      * 
      * @param document the document for this event
-    */
-    public PreCalculateAccountsPayableEvent(Document document) {
+     */
+    public AttributedCalculateAccountsPayableEvent(Document document) {
         this(KFSConstants.EMPTY_STRING, document);
     }
 
     /**
-     * Constructs a CalculateAccountsPayableEvent with the given errorPathPrefix and document.
+     * Constructs a CalculateAccountsPayableEvent with the given errorPathPrefix, document, and item.
      * 
      * @param errorPathPrefix the error path
      * @param document document the event was invoked upon
      */
-    public PreCalculateAccountsPayableEvent(String errorPathPrefix, Document document) {
+    public AttributedCalculateAccountsPayableEvent(String errorPathPrefix, Document document) {
         super("calculating on document " + getDocumentId(document), errorPathPrefix, document);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return PreCalculateAccountsPayableRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((PreCalculateAccountsPayableRule) rule).processPreCalculateAccountsPayableBusinessRules((AccountsPayableDocument) getDocument());
     }
 }

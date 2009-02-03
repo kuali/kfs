@@ -16,13 +16,13 @@
 package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * 
  * Purchasing Accounts Payable Item Event
  */
-public interface PurchasingAccountsPayableItemEvent extends KualiDocumentEvent {
+public interface AttributedPurchasingAccountsPayableItemEvent extends AttributedDocumentEvent {
 
     /**
      * gets an item for the item events

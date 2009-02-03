@@ -28,7 +28,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * Add a vendor to the quote tab event. 
  * This is triggered when a user presses the add vendor button for a given vendor.
  */
-public final class AddVendorToQuoteEvent extends AttributedDocumentEventBase {
+public final class AttributedAddVendorToQuoteEvent extends AttributedDocumentEventBase {
     
     private PurchaseOrderVendorQuote vendorQuote;
     
@@ -38,22 +38,8 @@ public final class AddVendorToQuoteEvent extends AttributedDocumentEventBase {
      * @param errorPathPrefix the error path
      * @param document document the event was invoked on
      */
-    public AddVendorToQuoteEvent(String errorPathPrefix, Document document, PurchaseOrderVendorQuote vendorQuote) {
+    public AttributedAddVendorToQuoteEvent(String errorPathPrefix, Document document, PurchaseOrderVendorQuote vendorQuote) {
         super("adding vendor to document " + getDocumentId(document), errorPathPrefix, document);
         this.vendorQuote = vendorQuote;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return AddVendorToQuoteRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddVendorToQuoteRule) rule).processAddVendorBusinessRules((PurchaseOrderDocument)getDocument(), vendorQuote);
     }
 }

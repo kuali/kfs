@@ -1,12 +1,12 @@
 /*
- * Copyright 2008 The Kuali Foundation.
- *
+ * Copyright 2007 The Kuali Foundation.
+ * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl1.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,33 +16,24 @@
 package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
+import org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- *
- * This class...
+ * Add Purchasing Accounts Payble Item Event. 
+ * This is triggered when a user presses the add button for a given document's item line.
  */
-public class AddAttributedPurchasingAccountsPayableItemEvent extends AttributedDocumentEventBase {
-    private PurApItem item;
-    
+public final class AttributedAddPurchasingAccountsPayableItemEvent extends AttributedPurchasingAccountsPayableItemEventBase {
     /**
      * Constructs an AddItemEvent with the given errorPathPrefix, document, and item.
-     *
+     * 
      * @param errorPathPrefix the error path
      * @param document document the event was invoked on
-     * @param item the item being added
+     * @param item the item being added 
      */
-    public AddAttributedPurchasingAccountsPayableItemEvent(String errorPathPrefix, Document document, PurApItem item) {
-        super("adding item to document " + getDocumentId(document), errorPathPrefix, document);
-        this.item = item;
-    }
-
-    /**
-     * Gets the item attribute.
-     * @return Returns the item.
-     */
-    public PurApItem getItem() {
-        return item;
+    public AttributedAddPurchasingAccountsPayableItemEvent(String errorPathPrefix, Document document, PurApItem item) {
+        super("adding item to document " + getDocumentId(document), errorPathPrefix, document, item);
     }
 }

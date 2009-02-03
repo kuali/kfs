@@ -40,7 +40,7 @@ import org.kuali.kfs.module.purap.document.service.CreditMemoCreateService;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -612,7 +612,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     public void prepareForSave(KualiDocumentEvent event) {
 
         // first populate, then call super
-        if (event instanceof ContinuePurapEvent) {
+        if (event instanceof AttributedContinuePurapEvent) {
             SpringContext.getBean(CreditMemoService.class).populateDocumentAfterInit(this);
         }
 

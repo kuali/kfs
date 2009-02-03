@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
 
-public final class AssignSensitiveDataEvent extends AttributedDocumentEventBase {
+public final class AttributedAssignSensitiveDataEvent extends AttributedDocumentEventBase {
     
     private List<SensitiveData> sensitiveDatas;
     
@@ -35,23 +35,9 @@ public final class AssignSensitiveDataEvent extends AttributedDocumentEventBase 
      * @param document document the event was invoked on
      * @param sensitiveDatas the sensitive data list to be checked for assignment
      */
-    public AssignSensitiveDataEvent(String errorPathPrefix, Document document, List<SensitiveData> sensitiveDatas) {
+    public AttributedAssignSensitiveDataEvent(String errorPathPrefix, Document document, List<SensitiveData> sensitiveDatas) {
         super("Assign sensitive data to purchase order " + getDocumentId(document), errorPathPrefix, document);
         this.sensitiveDatas = sensitiveDatas;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return AssignSensitiveDataRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AssignSensitiveDataRule)rule).processAssignSensitiveDataBusinessRules((PurchaseOrderDocument)getDocument(), sensitiveDatas);
     }
 
 }

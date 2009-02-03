@@ -15,29 +15,19 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.validation.CalculateAccountsPayableRule;
 import org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
-public final class PaymentRequestForEInvoiceEvent extends KualiDocumentEventBase {
+public final class AttributedPaymentRequestForEInvoiceEvent extends AttributedDocumentEventBase {
 
-    public PaymentRequestForEInvoiceEvent(Document document) {
+    public AttributedPaymentRequestForEInvoiceEvent(Document document) {
         this(KFSConstants.EMPTY_STRING, document);
     }
 
-    public PaymentRequestForEInvoiceEvent(String errorPathPrefix, Document document) {
+    public AttributedPaymentRequestForEInvoiceEvent(String errorPathPrefix, Document document) {
         super("Validaing for EInvoice " + getDocumentId(document), errorPathPrefix, document);
-    }
-
-    public Class getRuleInterfaceClass() {
-        return PaymentRequestDocumentRule.class;
-    }
-
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((PaymentRequestDocumentRule) rule).processRouteDocumentBusinessRules(getDocument());
     }
 }

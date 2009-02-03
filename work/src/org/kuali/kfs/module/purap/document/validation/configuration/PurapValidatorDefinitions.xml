@@ -59,7 +59,23 @@
 
 	<bean id="PurchasingAccountsPayabale-fullDocumentEntryCompletedBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayabaleFullDocumentEntryCompletedBranchingValidation" abstract="true" />
 
-<!-- Purchasing Definitions -->
+<!-- Purchasing Definitions -->	
+	<bean id="Purchasing-capitalAssetsForAutomaticPurchaseOrderValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetsForAutomaticPurchaseOrderValidation" abstract="true">
+		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+	</bean>
+
+	<bean id="Purchasing-changeSystemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingChangeSystemValidation" abstract="true"/>	
+	
+	<bean id="Purchasing-selectSystemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingSelectSystemValidation" abstract="true"/>
+
+	<bean id="Purchasing-addItemCapitalAssetValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAddItemCapitalAssetValidation" abstract="true">
+		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+	</bean>	
+	
+	<bean id="Purchasing-addCapitalAssetLocationValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAddCapitalAssetLocationValidation" abstract="true">
+		<property name="purapService" ref="purapService" />
+	</bean>		
+	
 	<bean id="Purchasing-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewProcessItemValidation" abstract="true">
 		<property name="purapService" ref="purapService" />
 	</bean>
@@ -109,6 +125,7 @@
 
 	<bean id="Purchasing-addItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAddItemValidation" abstract="true">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="dictionaryValidationService" ref="dictionaryValidationService" />		
 		<property name="businessObjectService" ref="businessObjectService" />		
 	</bean>		
 
@@ -433,6 +450,8 @@
 	<bean id="AccountsPayable-validateAccountsPayableItemsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableValidateAccountsPayableItemsValidation" abstract="true">
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
+
+	<bean id="AccountsPayable-preCalculateValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayablePreCalculateValidation" abstract="true"/>	
 	
 <!-- Credit Memo Definitions -->
 	<bean id="VendorCreditMemo-totalOverZeroValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoTotalOverZeroValidation" abstract="true"/>

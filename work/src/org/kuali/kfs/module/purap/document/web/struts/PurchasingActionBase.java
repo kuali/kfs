@@ -51,11 +51,11 @@ import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
-import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
-import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingCapitalAssetLocationEvent;
-import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingItemCapitalAssetEvent;
-import org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent;
-import org.kuali.kfs.module.purap.document.validation.event.UpdateCamsViewPurapEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingCapitalAssetLocationEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingItemCapitalAssetEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedUpdateCamsViewPurapEvent;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
 import org.kuali.kfs.module.purap.util.ItemParser;
@@ -380,7 +380,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         PurApItem item = purchasingForm.getNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddPurchasingAccountsPayableItemEvent("", purDocument, item));
 
         if (rulePassed) {
             item = purchasingForm.getAndResetNewPurchasingItemLine();
@@ -422,7 +422,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 // Before the validation, set the item line number to the same as the line number in the import file (starting from 1)
                 // so that the error message will use the correct line number if there're errors for the current item line.
                 item.setItemLineNumber(++itemLineNumber);
-                allPassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new ImportPurchasingAccountsPayableItemEvent("", purDocument, item));
+                allPassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedImportPurchasingAccountsPayableItemEvent("", purDocument, item));
                 // After the validation, set the item line number to the correct value as if it's added to the item list.
                 item.setItemLineNumber(itemLineNumber + itemLinePosition);
             }
@@ -806,7 +806,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         ItemCapitalAsset asset = purDocument.getPurchasingCapitalAssetItems().get(0).getNewPurchasingItemCapitalAssetLine();
         
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingItemCapitalAssetEvent("", purDocument, asset));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddPurchasingItemCapitalAssetEvent("", purDocument, asset));
 
         if (rulePassed) {
             //get specific asset item and grab system as well and attach asset number
@@ -827,7 +827,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         
         ItemCapitalAsset asset = assetItem.getNewPurchasingItemCapitalAssetLine();
         
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingItemCapitalAssetEvent("", purDocument, asset));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddPurchasingItemCapitalAssetEvent("", purDocument, asset));
 
         if (rulePassed) {
             //grab system as well and attach asset number
@@ -886,7 +886,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         CapitalAssetLocation location = purchasingForm.getAndResetNewPurchasingCapitalAssetLocationLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingCapitalAssetLocationEvent("", purDocument, location));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddPurchasingCapitalAssetLocationEvent("", purDocument, location));
         rulePassed = rulePassed && SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
         
         if (rulePassed) {
@@ -904,7 +904,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();        
         CapitalAssetLocation location = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request)).getPurchasingCapitalAssetSystem().getAndResetNewPurchasingCapitalAssetLocationLine();
         
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingCapitalAssetLocationEvent("", purDocument, location));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddPurchasingCapitalAssetLocationEvent("", purDocument, location));
         rulePassed = rulePassed && SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
 
         if (rulePassed) {
@@ -1038,7 +1038,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateCamsViewPurapEvent(document));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedUpdateCamsViewPurapEvent(document));
  
         if (rulePassed) {
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);

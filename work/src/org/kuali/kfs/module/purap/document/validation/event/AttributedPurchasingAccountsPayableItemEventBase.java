@@ -26,8 +26,8 @@ import org.kuali.rice.kns.document.Document;
  * 
  * contains the base methods for item events
  */
-public abstract class PurchasingAccountsPayableItemEventBase extends AttributedDocumentEventBase implements PurchasingAccountsPayableItemEvent {
-    private static final Logger LOG = Logger.getLogger(PurchasingAccountsPayableItemEventBase.class);
+public abstract class AttributedPurchasingAccountsPayableItemEventBase extends AttributedDocumentEventBase implements AttributedPurchasingAccountsPayableItemEvent {
+    private static final Logger LOG = Logger.getLogger(AttributedPurchasingAccountsPayableItemEventBase.class);
 
 
     private final PurApItem item;
@@ -40,7 +40,7 @@ public abstract class PurchasingAccountsPayableItemEventBase extends AttributedD
      * @param document the document the event is being called on
      * @param item the item that is having the event called on
      */
-    public PurchasingAccountsPayableItemEventBase(String description, String errorPathPrefix, Document document, PurApItem item) {
+    public AttributedPurchasingAccountsPayableItemEventBase(String description, String errorPathPrefix, Document document, PurApItem item) {
         super(description, errorPathPrefix, document);
 
         this.item = item;

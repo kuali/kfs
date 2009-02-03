@@ -65,7 +65,6 @@
   			</list>
   		</property>
   	</bean>
-
   
   	<bean id="Requisition-approveDocumentValidation" parent="Requisition-approveDocumentValidation-parentBean" scope="prototype" />
   
@@ -301,7 +300,125 @@
   		</property>
 	</bean>
 
-<!-- New Process Item Validation Definitions -->
+	<!-- Add Item Event -->
+    <bean id="Requisition-addPurchasingAccountsPayableItemValidation" parent="Requisition-addPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+  
+	<bean id="Requisition-addPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+				<bean parent="Purchasing-addItemValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="item" />
+								<property name="targetValidationProperty" value="itemForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>	
+	</bean>
+
+	<!-- Import Item Event -->
+    <bean id="Requisition-importPurchasingAccountsPayableItemValidation" parent="Requisition-importPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+  
+	<bean id="Requisition-importPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+				<bean parent="Purchasing-importItemValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="item" />
+								<property name="targetValidationProperty" value="item" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="Requisition-validateCapitalAssetsForAutomaticPurchaseOrderValidation" parent="Requisition-validateCapitalAssetsForAutomaticPurchaseOrderValidation-parentBean" scope="prototype" />
+  
+	<bean id="Requisition-validateCapitalAssetsForAutomaticPurchaseOrderValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+	  			<bean parent="Purchasing-capitalAssetsForAutomaticPurchaseOrderValidation" scope="prototype"/>  			
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="Requisition-changeSystemPurapValidation" parent="Requisition-changeSystemPurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="Requisition-changeSystemPurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+	  			<bean parent="Purchasing-changeSystemValidation" scope="prototype"/>		  			
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="Requisition-selectSystemPurapValidation" parent="Requisition-selectSystemPurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="Requisition-selectSystemPurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+  				<bean parent="Purchasing-selectSystemValidation" scope="prototype"/>  			
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="Requisition-updateCamsViewPurapValidation" parent="Requisition-updateCamsViewPurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="Requisition-updateCamsViewPurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+  				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="Requisition-addPurchasingItemCapitalAssetValidation" parent="Requisition-addPurchasingItemCapitalAssetValidation-parentBean" scope="prototype" />
+  
+	<bean id="Requisition-addPurchasingItemCapitalAssetValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+	  			<bean parent="Purchasing-addItemCapitalAssetValidation" scope="prototype">
+					<property name="parameterProperties">
+		                <list>
+		                    <bean parent="validationFieldConversion">
+		                        <property name="sourceEventProperty" value="itemCapitalAsset" />
+		                        <property name="targetValidationProperty" value="asset" />
+		                    </bean>
+		                </list>
+		            </property>
+				</bean>  			
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="Requisition-addPurchasingCapitalAssetLocationValidation" parent="Requisition-addPurchasingCapitalAssetLocationValidation-parentBean" scope="prototype" />
+  
+	<bean id="Requisition-addPurchasingCapitalAssetLocationValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+	  			<bean parent="Purchasing-addCapitalAssetLocationValidation" scope="prototype">
+					<property name="parameterProperties">
+		                <list>
+		                    <bean parent="validationFieldConversion">
+		                        <property name="sourceEventProperty" value="capitalAssetLocation" />
+		                        <property name="targetValidationProperty" value="location" />
+		                    </bean>
+		                </list>
+		            </property>
+				</bean>  			  			
+			</list>
+		</property>
+	</bean>
+
+	<!-- New Process Item Validation Definitions -->
     <bean id="Requisition-newProcessItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true"> 								
         <property name="quitOnFail" value="false" />
         <property name="validations">

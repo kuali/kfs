@@ -73,8 +73,8 @@ import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
-import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
-import org.kuali.kfs.module.purap.document.validation.event.PaymentRequestForEInvoiceEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedPaymentRequestForEInvoiceEvent;
 import org.kuali.kfs.module.purap.exception.CxmlParseException;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceHelperService;
@@ -1138,7 +1138,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
          * Validate totals,paydate
          */
         //PaymentRequestDocumentRule.processCalculateAccountsPayableBusinessRules
-        SpringContext.getBean(KualiRuleService.class).applyRules(new CalculateAccountsPayableEvent(preqDoc));
+        SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(preqDoc));
         
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc,true);
         
@@ -1153,7 +1153,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
          * PaymentRequestReview 
          */
         //PaymentRequestDocumentRule.processRouteDocumentBusinessRules
-        SpringContext.getBean(KualiRuleService.class).applyRules(new PaymentRequestForEInvoiceEvent(preqDoc));
+        SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPaymentRequestForEInvoiceEvent(preqDoc));
         
         if(GlobalVariables.getErrorMap().size() > 0){
             if (LOG.isDebugEnabled()){

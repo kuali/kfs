@@ -46,7 +46,7 @@ import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.PrintService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -91,7 +91,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
     public void populateAndSaveBulkReceivingDocument(BulkReceivingDocument blkRecDoc) 
     throws WorkflowException {
         try {            
-            documentService.saveDocument(blkRecDoc, ContinuePurapEvent.class);
+            documentService.saveDocument(blkRecDoc, AttributedContinuePurapEvent.class);
         }
         catch (WorkflowException we) {
             String errorMsg = "Error saving document # " + blkRecDoc.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();

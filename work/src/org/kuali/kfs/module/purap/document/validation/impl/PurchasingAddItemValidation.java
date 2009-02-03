@@ -35,21 +35,21 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class PurchasingAddItemValidation extends GenericValidation {
+public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddItemValidation {
 
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
-    private PurApItem itemForValidation;
     
     public boolean validate(AttributedDocumentEvent event) {
-        boolean valid=true;
+        boolean valid=true;        
         GlobalVariables.getErrorMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
-        valid &= validateItemUnitPrice(itemForValidation);
-        valid &= validateUnitOfMeasure(itemForValidation);
-        if (itemForValidation.getItemType().isLineItemIndicator()) {
-            valid &= validateItemDescription(itemForValidation);
-            valid &= validateItemQuantity(itemForValidation);
-            valid &= validateCommodityCodes(itemForValidation, commodityCodeIsRequired());
+        valid &= super.validate(event);
+        valid &= validateItemUnitPrice(getItemForValidation());
+        valid &= validateUnitOfMeasure(getItemForValidation());
+        if (getItemForValidation().getItemType().isLineItemIndicator()) {
+            valid &= validateItemDescription(getItemForValidation());
+            valid &= validateItemQuantity(getItemForValidation());
+            valid &= validateCommodityCodes(getItemForValidation(), commodityCodeIsRequired());
         }
         GlobalVariables.getErrorMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
 
@@ -234,14 +234,6 @@ public class PurchasingAddItemValidation extends GenericValidation {
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
-    }
-
-    public PurApItem getItemForValidation() {
-        return itemForValidation;
-    }
-
-    public void setItemForValidation(PurApItem itemForValidation) {
-        this.itemForValidation = itemForValidation;
     }
 
 }

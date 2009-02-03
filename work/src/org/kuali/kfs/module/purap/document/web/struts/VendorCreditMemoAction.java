@@ -32,7 +32,7 @@ import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -180,7 +180,7 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(cmDocument);
         
         // notice we're ignoring the boolean because these are just warnings they shouldn't halt anything
-        SpringContext.getBean(KualiRuleService.class).applyRules(new CalculateAccountsPayableEvent(cmDocument));
+        SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(cmDocument));
         // }
     }
 

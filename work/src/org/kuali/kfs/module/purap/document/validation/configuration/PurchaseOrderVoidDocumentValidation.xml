@@ -174,21 +174,11 @@
 	<bean id="PurchaseOrderVoid-addPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean parent="PurchasingAccountsPayable-addItemValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="iterationSubject" />
-								<property name="targetValidationProperty" value="item" />
-							</bean>
-						</list>
-					</property>
-				</bean>
 				<bean parent="Purchasing-addItemValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="sourceEventProperty" value="item" />
 								<property name="targetValidationProperty" value="itemForValidation" />
 							</bean>
 						</list>
@@ -204,21 +194,11 @@
 	<bean id="PurchaseOrderVoid-importPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean parent="PurchasingAccountsPayable-importItemValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="iterationSubject" />
-								<property name="targetValidationProperty" value="item" />
-							</bean>
-						</list>
-					</property>
-				</bean>
 				<bean parent="Purchasing-importItemValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="sourceEventProperty" value="item" />
 								<property name="targetValidationProperty" value="itemForValidation" />
 							</bean>
 						</list>

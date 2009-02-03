@@ -18,16 +18,16 @@ package org.kuali.kfs.module.purap.document.validation.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
  * Event Base class for Purchasing Item Capital Asset
  * 
  * contains the base methods for item events
  */
-public abstract class PurchasingItemCapitalAssetEventBase extends KualiDocumentEventBase implements PurchasingItemCapitalAssetEvent {
-    private static final Logger LOG = Logger.getLogger(PurchasingItemCapitalAssetEventBase.class);
+public abstract class AttributedPurchasingItemCapitalAssetEventBase extends AttributedDocumentEventBase implements AttributedPurchasingItemCapitalAssetEvent {
+    private static final Logger LOG = Logger.getLogger(AttributedPurchasingItemCapitalAssetEventBase.class);
 
 
     private final ItemCapitalAsset itemCapitalAsset;
@@ -40,7 +40,7 @@ public abstract class PurchasingItemCapitalAssetEventBase extends KualiDocumentE
      * @param document the document the event is being called on
      * @param item the item that is having the event called on
      */
-    public PurchasingItemCapitalAssetEventBase(String description, String errorPathPrefix, Document document, ItemCapitalAsset itemCapitalAsset) {
+    public AttributedPurchasingItemCapitalAssetEventBase(String description, String errorPathPrefix, Document document, ItemCapitalAsset itemCapitalAsset) {
         super(description, errorPathPrefix, document);
 
         this.itemCapitalAsset = itemCapitalAsset;

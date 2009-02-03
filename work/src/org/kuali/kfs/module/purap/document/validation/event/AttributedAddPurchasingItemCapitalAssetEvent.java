@@ -25,7 +25,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * Add Purchasing Item Capital Asset Event. 
  * This is triggered when a user presses the add button for a given document's item capital asset line.
  */
-public final class AddPurchasingItemCapitalAssetEvent extends PurchasingItemCapitalAssetEventBase {
+public final class AttributedAddPurchasingItemCapitalAssetEvent extends AttributedPurchasingItemCapitalAssetEventBase {
     /**
      * Constructs an AddItemEvent with the given errorPathPrefix, document, and item.
      * 
@@ -33,21 +33,7 @@ public final class AddPurchasingItemCapitalAssetEvent extends PurchasingItemCapi
      * @param document document the event was invoked on
      * @param itemCapitalAsset the item being added 
      */
-    public AddPurchasingItemCapitalAssetEvent(String errorPathPrefix, Document document, ItemCapitalAsset itemCapitalAsset) {
+    public AttributedAddPurchasingItemCapitalAssetEvent(String errorPathPrefix, Document document, ItemCapitalAsset itemCapitalAsset) {
         super("adding item capital asset to document " + getDocumentId(document), errorPathPrefix, document, itemCapitalAsset);
-    }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return AddPurchasingItemCapitalAssetRule.class;
-    }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddPurchasingItemCapitalAssetRule) rule).processAddItemCapitalAssetBusinessRules((PurchasingDocument)getDocument(), getItemCapitalAsset());
     }
 }

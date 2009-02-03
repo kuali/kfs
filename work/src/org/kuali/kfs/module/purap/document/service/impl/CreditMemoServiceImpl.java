@@ -51,7 +51,7 @@ import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
@@ -348,7 +348,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
                 }
             }
             
-            documentService.saveDocument(document, ContinuePurapEvent.class);
+            documentService.saveDocument(document, AttributedContinuePurapEvent.class);
         }
         catch (ValidationException ve) {
             document.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);

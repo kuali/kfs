@@ -26,7 +26,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * This is triggered when a user presses the import button on a purchasing document, 
  * and then clicks the add button after selecting a file to import items from.
  */
-public class ImportPurchasingAccountsPayableItemEvent extends PurchasingAccountsPayableItemEventBase {
+public class AttributedImportPurchasingAccountsPayableItemEvent extends AttributedPurchasingAccountsPayableItemEventBase {
     /**
      * Constructs an ImportItemEvent with the given errorPathPrefix, document, and item.
      * 
@@ -34,22 +34,8 @@ public class ImportPurchasingAccountsPayableItemEvent extends PurchasingAccounts
      * @param document document the event was invoked on
      * @param item the item being added 
      */
-    public ImportPurchasingAccountsPayableItemEvent(String errorPathPrefix, Document document, PurApItem item) {
+    public AttributedImportPurchasingAccountsPayableItemEvent(String errorPathPrefix, Document document, PurApItem item) {
         super("importing item to document " + getDocumentId(document), errorPathPrefix, document, item);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return ImportPurchasingAccountsPayableItemRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ImportPurchasingAccountsPayableItemRule) rule).processImportItemBusinessRules((AccountingDocument) getDocument(), getItem());
     }
 
 }

@@ -15,25 +15,26 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.document.validation.ChangeSystemPurapRule;
+import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.SaveOnlyDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveEvent;
 
 /**
  * Continue Event for Accounts Payable Document.
  * This could be triggered when a user presses the continue button to go to the next page.
  */
-public final class ChangeSystemPurapEvent extends SaveOnlyDocumentEvent {
+public final class AttributedContinuePurapEvent extends AttributedSaveDocumentEvent implements SaveEvent {
 
     /**
      * Overridden constructor.
      * 
      * @param document the document for this event
      */
-    public ChangeSystemPurapEvent(Document document) {
+    public AttributedContinuePurapEvent(Document document) {
         this(KFSConstants.EMPTY_STRING, document);
     }
 
@@ -43,21 +44,7 @@ public final class ChangeSystemPurapEvent extends SaveOnlyDocumentEvent {
      * @param errorPathPrefix the error path
      * @param document document the event was invoked upon
      */
-    public ChangeSystemPurapEvent(String errorPathPrefix, Document document) {
-        super("changing system for document " + getDocumentId(document), errorPathPrefix, document);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return ChangeSystemPurapRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ChangeSystemPurapRule) rule).processChangeSystemPurapBusinessRules((TransactionalDocument) getDocument());
+    public AttributedContinuePurapEvent(String errorPathPrefix, Document document) {
+        super("continuing for document " + getDocumentId(document), errorPathPrefix, document);
     }
 }

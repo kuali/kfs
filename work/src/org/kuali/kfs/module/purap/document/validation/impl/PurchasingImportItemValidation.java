@@ -29,7 +29,6 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -37,23 +36,24 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class PurchasingImportItemValidation extends GenericValidation {
+public class PurchasingImportItemValidation extends PurchasingAccountsPayableImportItemValidation {
 
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
-    private PurApItem itemForValidation;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
+        
+        valid &= super.validate(event);
         GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
         
-        if (itemForValidation.getItemType().isLineItemIndicator()) {
-            valid &= validateItemDescription(itemForValidation);
+        if (getItemForValidation().getItemType().isLineItemIndicator()) {
+            valid &= validateItemDescription(getItemForValidation());
         }
-        valid &= validateItemUnitPrice(itemForValidation);
-        valid &= validateUnitOfMeasureCodeExists(itemForValidation);
+        valid &= validateItemUnitPrice(getItemForValidation());
+        valid &= validateUnitOfMeasureCodeExists(getItemForValidation());
         
-        valid &= validateCommodityCodes(itemForValidation, commodityCodeIsRequired());
+        valid &= validateCommodityCodes(getItemForValidation(), commodityCodeIsRequired());
         
         GlobalVariables.getErrorMap().removeFromErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
 
@@ -211,14 +211,6 @@ public class PurchasingImportItemValidation extends GenericValidation {
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
-    }
-
-    public PurApItem getItemForValidation() {
-        return itemForValidation;
-    }
-
-    public void setItemForValidation(PurApItem itemForValidation) {
-        this.itemForValidation = itemForValidation;
     }
 
 }

@@ -16,13 +16,13 @@
 package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * 
  * Purchasing Item Capital Asset Event
  */
-public interface PurchasingItemCapitalAssetEvent extends KualiDocumentEvent {
+public interface AttributedPurchasingItemCapitalAssetEvent extends AttributedDocumentEvent {
 
     /**
      * gets an item for the item events

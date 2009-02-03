@@ -15,49 +15,37 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.document.validation.SelectSystemPurapRule;
+import org.kuali.kfs.module.purap.document.validation.ChangeSystemPurapRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.SaveEvent;
 import org.kuali.rice.kns.rule.event.SaveOnlyDocumentEvent;
 
 /**
- * SelectSystem Event for Accounts Payable Document.
- * This could be triggered when a user presses the SelectSystem button to go to the next page.
+ * Continue Event for Accounts Payable Document.
+ * This could be triggered when a user presses the continue button to go to the next page.
  */
-public final class SelectSystemPurapEvent extends SaveOnlyDocumentEvent {
+public final class AttributedChangeSystemPurapEvent extends AttributedSaveDocumentEvent implements SaveEvent {
 
     /**
      * Overridden constructor.
      * 
      * @param document the document for this event
      */
-    public SelectSystemPurapEvent(Document document) {
+    public AttributedChangeSystemPurapEvent(Document document) {
         this(KFSConstants.EMPTY_STRING, document);
     }
 
     /**
-     * Constructs a SelectSystemPurapEvent with the given errorPathPrefix and document.
+     * Constructs a ContinuePurapEvent with the given errorPathPrefix and document.
      * 
      * @param errorPathPrefix the error path
      * @param document document the event was invoked upon
      */
-    public SelectSystemPurapEvent(String errorPathPrefix, Document document) {
-        super("selecting system for document " + getDocumentId(document), errorPathPrefix, document);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return SelectSystemPurapRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((SelectSystemPurapRule) rule).processSelectSystemPurapBusinessRules((TransactionalDocument) getDocument());
+    public AttributedChangeSystemPurapEvent(String errorPathPrefix, Document document) {
+        super("changing system for document " + getDocumentId(document), errorPathPrefix, document);
     }
 }

@@ -22,28 +22,13 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
 
-public class SplitPurchaseOrderEvent extends AttributedDocumentEventBase {
+public class AttributedSplitPurchaseOrderEvent extends AttributedDocumentEventBase {
 
-    public SplitPurchaseOrderEvent(Document document) {
+    public AttributedSplitPurchaseOrderEvent(Document document) {
         this(KFSConstants.EMPTY_STRING, document);  
     }
     
-    public SplitPurchaseOrderEvent(String errorPathPrefix, Document document) {
+    public AttributedSplitPurchaseOrderEvent(String errorPathPrefix, Document document) {
         super("Validating Split of document " + getDocumentId(document), errorPathPrefix, document);
     }
-    
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return PurchaseOrderSplitRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((PurchaseOrderSplitRule)rule).validateSplit((PurchaseOrderDocument)getDocument());
-    }
-
 }

@@ -56,9 +56,9 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.service.FaxService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent;
-import org.kuali.kfs.module.purap.document.validation.event.AssignSensitiveDataEvent;
-import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAddVendorToQuoteEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -519,7 +519,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         // Check business rules before splitting.
 
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SplitPurchaseOrderEvent(poToSplit));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedSplitPurchaseOrderEvent(poToSplit));
         if (!rulePassed) {
             poToSplit.setPendingSplit(true);
         }
@@ -640,7 +640,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
         
         // check business rules
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AssignSensitiveDataEvent("", po, sds));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAssignSensitiveDataEvent("", po, sds));
         if (!rulePassed) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -1469,7 +1469,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         PurchaseOrderVendorQuote vendorQuote = poForm.getNewPurchaseOrderVendorQuote();
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddVendorToQuoteEvent("", document, vendorQuote));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddVendorToQuoteEvent("", document, vendorQuote));
         if (rulePassed) {
             poForm.getNewPurchaseOrderVendorQuote().setDocumentNumber(document.getDocumentNumber());
             document.getPurchaseOrderVendorQuotes().add(vendorQuote);

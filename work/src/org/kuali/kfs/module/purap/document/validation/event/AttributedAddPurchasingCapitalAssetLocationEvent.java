@@ -25,7 +25,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * Add Purchasing Capital Asset Location Event. 
  * This is triggered when a user presses the add button for a given document's location line.
  */
-public final class AddPurchasingCapitalAssetLocationEvent extends PurchasingCapitalAssetLocationEventBase {
+public final class AttributedAddPurchasingCapitalAssetLocationEvent extends AttributedPurchasingCapitalAssetLocationEventBase {
     /**
      * Constructs an AddLocationEvent with the given errorPathPrefix, document, and location.
      * 
@@ -33,21 +33,7 @@ public final class AddPurchasingCapitalAssetLocationEvent extends PurchasingCapi
      * @param document document the event was invoked on
      * @param item the item being added 
      */
-    public AddPurchasingCapitalAssetLocationEvent(String errorPathPrefix, Document document, CapitalAssetLocation location) {
+    public AttributedAddPurchasingCapitalAssetLocationEvent(String errorPathPrefix, Document document, CapitalAssetLocation location) {
         super("adding location to document " + getDocumentId(document), errorPathPrefix, document, location);
-    }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return AddPurchasingCapitalAssetLocationRule.class;
-    }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddPurchasingCapitalAssetLocationRule) rule).processAddCapitalAssetLocationBusinessRules((PurchasingDocument)getDocument(), getCapitalAssetLocation());
     }
 }

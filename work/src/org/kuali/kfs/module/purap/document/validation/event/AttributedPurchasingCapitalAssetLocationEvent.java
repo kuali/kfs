@@ -16,13 +16,13 @@
 package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * 
  * Purchasing Capital Asset Location Event
  */
-public interface PurchasingCapitalAssetLocationEvent extends KualiDocumentEvent {
+public interface AttributedPurchasingCapitalAssetLocationEvent extends AttributedDocumentEvent {
 
     /**
      * gets a location for the location events

@@ -45,7 +45,15 @@
 <!-- Exported Workflow Attributes -->
   <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes" parent="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean" />
   
-  <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" >
+    <property name="routingTypeDefinitions">
+    	<map>
+    		<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+    		<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+    		<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    	</map>
+    </property>
+  </bean>
   
   <!-- Validations -->
   

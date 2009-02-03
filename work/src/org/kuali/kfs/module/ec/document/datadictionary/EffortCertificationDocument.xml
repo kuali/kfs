@@ -199,7 +199,7 @@
   	  		<map>
   	  			<entry key="ProjectManagement" value-ref="RoutingType-EffortCertificationDocument-ProjectManagement" />
   	  			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
-  	  			<entry key="OrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+  	  			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
   	  			
   	  		</map>
   	  </property>	

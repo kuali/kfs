@@ -984,7 +984,7 @@
                 <!-- no qualifiers for PurchaseWasReceived -->
     		    <entry key="SubAccount" value-ref="RoutingType-PurchasingAccountsPayableDocument-SubAccount" />
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account" />
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-OrganizationHierarchy" />
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy" />
                 <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
     		</map>
     	</property>

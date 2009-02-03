@@ -204,7 +204,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.RELATES_TO_OUTSTANDING_TRANSACTIONS)) return isAwaitingPurchaseOrderOpen();
+        if (nodeName.equals(PurapWorkflowConstants.RELATES_TO_OUTSTANDING_TRANSACTIONS)) return !isAwaitingPurchaseOrderOpen();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
     

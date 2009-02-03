@@ -254,7 +254,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_BLANK_CAPITAL_ASSET_NUMBER);
             success = false;
         }
-        else {
+        else if (!getAssetService().isDocumentEnrouting(document)){
             success &= checkRetirementDetailOneLine(assetRetirementGlobalDetail, assetRetirementGlobal, document);
             success &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(0), document);
         }
@@ -381,8 +381,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(maintenanceDocument);
-        boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
-                CamsConstants.PermissionNames.RETIRE_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.RETIRE_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (!getAssetService().isAssetMovableCheckByAsset(asset) && !isAuthorized) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_USER_GROUP_FOR_NON_MOVEABLE_ASSET, asset.getCapitalAssetNumber().toString());
@@ -407,11 +406,14 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
             valid &= validateMergeTargetAsset(assetRetirementGlobal);
         }
-        valid &= validateRetirementDetails(assetRetirementGlobal, maintenanceDocument);
-        valid &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(1), maintenanceDocument);
 
+        if (!getAssetService().isDocumentEnrouting(maintenanceDocument)) {
+            valid &= validateRetirementDetails(assetRetirementGlobal, maintenanceDocument);
+            valid &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(1), maintenanceDocument);
+        }
         return valid;
     }
+
 
     /**
      * Validate mergedTargetCapitalAsset. Only valid and active capital asset is allowed.

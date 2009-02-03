@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,8 +57,8 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         String retirementReason = ((AssetRetirementGlobal) getBusinessObject()).getRetirementReasonCode();
-        if (nodeName.equals(this.RETIRED_ASSET_TRANSFERRED_EXTERNALLY)){
-            return CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER.equalsIgnoreCase(retirementReason);            
+        if (nodeName.equals(this.RETIRED_ASSET_TRANSFERRED_EXTERNALLY)) {
+            return CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER.equalsIgnoreCase(retirementReason);
         }
         if (nodeName.equals(this.RETIRED_ASSET_SOLD_OR_GIFTED)) {
             return CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(retirementReason) || CamsConstants.AssetRetirementReasonCode.GIFT.equalsIgnoreCase(retirementReason);
@@ -152,7 +151,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
 
         if (KFSConstants.MULTIPLE_VALUE.equalsIgnoreCase(refreshCaller)) {
-            if (!getAssetRetirementService().isAllowedRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), document) && assetRetirementGlobalDetails.size() > new Integer(1)) {
+            if (!getAssetService().isDocumentEnrouting(document) && !getAssetRetirementService().isAllowedRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), document) && assetRetirementGlobalDetails.size() > new Integer(1)) {
                 String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);

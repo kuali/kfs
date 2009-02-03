@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -28,6 +29,14 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * The interface defines methods for Asset Document
  */
 public interface AssetService {
+    /**
+     * Checks if given mainenanceDocument has started routing.
+     * 
+     * @param document
+     * @return
+     */
+    boolean isDocumentEnrouting(Document document);
+
     /**
      * A helper method for determining the route levels for a given document.
      * 

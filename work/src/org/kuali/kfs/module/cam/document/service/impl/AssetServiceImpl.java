@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -390,4 +391,12 @@ public class AssetServiceImpl implements AssetService {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isMaintenanceDocumentEnroute(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    public boolean isDocumentEnrouting(Document document) {
+        return document.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+    }
+
 }

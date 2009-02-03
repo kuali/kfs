@@ -24,14 +24,17 @@ import java.util.Set;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -47,19 +50,21 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
         NON_VIEWABLE_SECTION_MAP.put(CamsConstants.AssetRetirementReasonCode.AUCTION, new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT, CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT });
         NON_VIEWABLE_SECTION_MAP.put(CamsConstants.AssetRetirementReasonCode.THEFT, new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD, CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT });
     }
-    
+
     @Override
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
         Set<String> fields = super.getConditionallyHiddenPropertyNames(businessObject);
 
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
-        
+
         if (!SpringContext.getBean(AssetRetirementService.class).isAssetRetiredByMerged(assetRetirementGlobal)) {
             fields.add(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
             fields.add(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC);
         }
-        
+
+        conditionallyHideAssetCollectionEditing(document);
+
         // Hide all the fields in the add section within the new asset retired details collection, except capitalAssetNumber.
         fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
         fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER);
@@ -83,17 +88,40 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
         fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.BOOK_VALUE);
         fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION);
         fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET + "." + CamsPropertyConstants.Asset.ORGANIZATION_TEXT);
-        
+
         return fields;
     }
+
+    /**
+     * Hide add asset collection when document starts routing.
+     * 
+     * @param document
+     */
+    protected void conditionallyHideAssetCollectionEditing(MaintenanceDocument document) {
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
+        MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetRetirementGlobalMaintenanceDocument", "assetRetirementGlobalDetails");
+        if (SpringContext.getBean(AssetService.class).isDocumentEnrouting(document)) {
+            // Once document starts routing, disallow add/delete asset button and multiple lookup.
+            maintCollDef.setIncludeAddLine(false);
+            maintCollDef.setIncludeMultipleLookupLine(false);
+            for (AssetRetirementGlobalDetail assetDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
+                assetDetail.setNewCollectionRecord(false);
+            }
+        }
+        else {
+            maintCollDef.setIncludeAddLine(true);
+            maintCollDef.setIncludeMultipleLookupLine(true);
+        }
+    }
+
 
     @Override
     public Set<String> getConditionallyHiddenSectionIds(BusinessObject businessObject) {
         Set<String> fields = super.getConditionallyHiddenSectionIds(businessObject);
-        
+
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
-        
+
         // If retirement reason code is not defined in NON_VIEWABLE_SECTION_MAP, hide all retirement detail sections.
         String[] nonViewableSections = NON_VIEWABLE_SECTION_MAP.get(assetRetirementGlobal.getRetirementReasonCode());
 
@@ -101,29 +129,30 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
             fields.add(CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD);
             fields.add(CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT);
             fields.add(CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT);
-        } else {
+        }
+        else {
             fields.addAll(Arrays.asList(nonViewableSections));
         }
-        
+
         if (!SpringContext.getBean(AssetRetirementService.class).isAssetRetiredByMerged(assetRetirementGlobal)) {
             fields.add(CamsConstants.AssetRetirementGlobal.SECTION_TARGET_ASSET_RETIREMENT_INFO);
         }
-        
+
         return fields;
     }
-    
+
     @Override
     protected boolean canEdit(Document document) {
-        KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument)document.getDocumentHeader().getWorkflowDocument();
-        
+        KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
+
         if (workflowDocument.stateIsEnroute()) {
-            List<String> nodeNames = SpringContext.getBean(AssetService.class).getCurrentRouteLevels(workflowDocument) ;
-            
+            List<String> nodeNames = SpringContext.getBean(AssetService.class).getCurrentRouteLevels(workflowDocument);
+
             if (nodeNames.contains(CamsConstants.RouteLevelNames.EXTERNAL_TRANSFER) || nodeNames.contains(CamsConstants.RouteLevelNames.PURCHASING)) {
                 return false;
             }
         }
         return super.canEdit(document);
     }
-    
+
 }

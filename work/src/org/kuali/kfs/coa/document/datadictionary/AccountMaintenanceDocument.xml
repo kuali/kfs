@@ -252,23 +252,16 @@
 	   		</list>
    		</property>
    	</bean>
-   	
-   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-ChartAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" >
-		<property name="documentValues">
-	   		<list>
-	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   			<value>newMaintainableObject.businessObject.accountNumber</value>
-	   		</list>
-   		</property>
-   	</bean>
 	
-   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficers" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" >
+   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" >
 		<property name="documentValues">
 	   		<list>
 	   			<value>oldMaintainableObject.businessObject.accountsSupervisorySystemsIdentifier</value>
 	   			<value>newMaintainableObject.businessObject.accountsSupervisorySystemsIdentifier</value>
 	   			<value>oldMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
 	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   			<value>newMaintainableObject.businessObject.accountNumber</value>
 	   		</list>
    		</property>
    	</bean>
@@ -310,8 +303,7 @@
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficers" />
-    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-ChartAccount" />
+    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount" />
     		</list>
     	</property>
     </bean>

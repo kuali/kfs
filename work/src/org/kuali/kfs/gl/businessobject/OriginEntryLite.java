@@ -216,7 +216,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
 
     protected String getValue(String line, int s, int e) {
       //  String v = line.substring(s, e);
-        return org.springframework.util.StringUtils.trimLeadingWhitespace(org.springframework.util.StringUtils.trimTrailingWhitespace(StringUtils.substring(line, s, e)));
+        return org.springframework.util.StringUtils.trimTrailingWhitespace(StringUtils.substring(line, s, e));
     }
 
     /**

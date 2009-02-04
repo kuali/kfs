@@ -856,7 +856,8 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setProjectCode(getValue(line, 64, 74));
         setTransactionLedgerEntryDescription(getValue(line, 74, 114));
         try {
-            setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 114, 133)));
+           // setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 114, 133)));
+            setTransactionLedgerEntryAmount(new KualiDecimal(StringUtils.substring(line, 114, 133).trim()));
         }
         catch (NumberFormatException e) {
             GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Ledger Entry Amount" });

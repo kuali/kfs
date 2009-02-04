@@ -293,10 +293,15 @@ public class PaymentApplicationDocumentRuleUtil {
     public static boolean validateNonAppliedHolding(PaymentApplicationDocument applicationDocument) throws WorkflowException {
         // The amount of the unapplied attribute must be less than the cash control document amount
         CashControlDetail cashControlDetail = applicationDocument.getCashControlDetail();
-        if(ObjectUtils.isNull(cashControlDetail)) { return true; }
+        if(ObjectUtils.isNull(cashControlDetail)) { 
+            return true; 
+        }
         KualiDecimal cashControlTotalAmount = cashControlDetail.getFinancialDocumentLineAmount();
         NonAppliedHolding nonAppliedHolding = applicationDocument.getNonAppliedHolding();
-        
+        if(ObjectUtils.isNull(nonAppliedHolding)) {
+            return true;
+        }
+
         if(StringUtils.isNotEmpty(nonAppliedHolding.getCustomerNumber())) {
             KualiDecimal nonAppliedAmount = nonAppliedHolding.getFinancialDocumentLineAmount();
             if(null == nonAppliedAmount) { nonAppliedAmount = KualiDecimal.ZERO; }

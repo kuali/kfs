@@ -904,6 +904,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <dd:field attributeName="intrnlFinEncumSufficntFndIndicator" />
               <dd:field attributeName="finPreencumSufficientFundIndicator" />
               <dd:field attributeName="financialObjectivePrsctrlIndicator" />
+              <dd:field attributeName="contractsAndGrantsAccountResponsibilityId" />
             </list>
           </property>
         </bean>
@@ -950,8 +951,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                   <list>
                     <dd:field attributeName="proposalNumber" />
                     <dd:field attributeName="projectDirector.name" />
-                    <dd:field attributeName="award.workgroupName" />
-                    <dd:field attributeName="award.kimGroupNames" />
                     <dd:field attributeName="award.proposal.proposalFederalPassThroughIndicator" />
                     <dd:field attributeName="award.proposal.federalPassThroughAgencyNumber" />
                   </list>

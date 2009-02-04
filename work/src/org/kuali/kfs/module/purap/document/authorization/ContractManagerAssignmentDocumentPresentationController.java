@@ -20,7 +20,6 @@ import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 
 
 public class ContractManagerAssignmentDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
@@ -41,7 +40,7 @@ public class ContractManagerAssignmentDocumentPresentationController extends Fin
     public boolean canInitiate(String documentTypeName) {
         int numberOfRequisitions = SpringContext.getBean(RequisitionService.class).getCountOfRequisitionsAwaitingContractManagerAssignment();
         if (numberOfRequisitions == 0) {
-            throw new DocumentInitiationAuthorizationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[] { documentTypeName });
+            throw new DocumentInitiationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[] { documentTypeName });
         }
 
         return super.canInitiate(documentTypeName);

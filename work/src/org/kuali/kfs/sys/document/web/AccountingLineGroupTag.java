@@ -271,7 +271,7 @@ public class AccountingLineGroupTag extends TagSupport {
         for (AccountingLine accountingLine : getAccountingLineCollection()) {
             final RenderableAccountingLineContainer container = buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count), (addedTopLine ? false : true));
             containers.add(container);
-            anyEditableLines = anyEditableLines || container.isEditableLine();
+            anyEditableLines = anyEditableLines || container.isEditableLine() || isErrorMapContainingErrorsOnLine(container.getAccountingLinePropertyPath());
             count += 1;
             addedTopLine = true;
         }
@@ -283,6 +283,18 @@ public class AccountingLineGroupTag extends TagSupport {
         }
         
         return containers;
+    }
+    
+    /**
+     * Determines if the error map contains any errors which exist on the currently rendered accounting line
+     * @param accountingLinePropertyName the property name of the accounting line
+     * @return true if there are errors on the line, false otherwise
+     */
+    protected boolean isErrorMapContainingErrorsOnLine(String accountingLinePropertyName) {
+        for (Object errorKeyAsObject : GlobalVariables.getErrorMap().keySet()) {
+            if (((String)errorKeyAsObject).startsWith(accountingLinePropertyName)) return true;
+        }
+        return false;
     }
     
     /**

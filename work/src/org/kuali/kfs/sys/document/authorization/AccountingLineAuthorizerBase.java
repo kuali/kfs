@@ -38,6 +38,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -60,12 +61,24 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     public final List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer accountingLineIndex, Person currentUser, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
 
-        if (accountingLineRenderingContext.isEditableLine()) {
+        if (accountingLineRenderingContext.isEditableLine() || isErrorMapContainingErrorsOnLine(accountingLinePropertyName)) {
             Map<String, AccountingLineViewAction> actionMap = this.getActionMap(accountingLineRenderingContext, accountingLinePropertyName, accountingLineIndex, groupTitle);
             actions.addAll(actionMap.values());
         }
 
         return actions;
+    }
+    
+    /**
+     * Determines if the error map contains any errors which exist on the currently rendered accounting line
+     * @param accountingLinePropertyName the property name of the accounting line
+     * @return true if there are errors on the line, false otherwise
+     */
+    protected boolean isErrorMapContainingErrorsOnLine(String accountingLinePropertyName) {
+        for (Object errorKeyAsObject : GlobalVariables.getErrorMap().keySet()) {
+            if (((String)errorKeyAsObject).startsWith(accountingLinePropertyName)) return true;
+        }
+        return false;
     }
 
     /**
@@ -115,6 +128,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
 
         return false;
     }
+    
+    
 
     /**
      * determine whether the given accounting line is a new line or not. If it is not in the given document, it is a new line

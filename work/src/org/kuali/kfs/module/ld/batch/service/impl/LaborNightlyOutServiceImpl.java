@@ -94,8 +94,8 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             LaborOriginEntry entry = new LaborOriginEntry(pendingEntry);
             // copy the pending entry to labor origin entry table
             // TODO: Shawn - do we need it???
-            //boolean isSaved = saveAsLaborOriginEntry(pendingEntry, group);
-            boolean isSaved = true; 
+        //    boolean isSaved = saveAsLaborOriginEntry(pendingEntry, group);
+           boolean isSaved = true; 
             
             try {
                 outputFilePs.printf("%s\n", entry.getLine());

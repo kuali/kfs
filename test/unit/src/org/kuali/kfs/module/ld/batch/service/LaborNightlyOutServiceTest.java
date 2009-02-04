@@ -86,7 +86,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         laborNightlyOutService.copyApprovedPendingLedgerEntries();
 
         List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
+        Collection originEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
         for (Object entry : originEntries) {
             LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
             ObjectUtil.buildObject(originEntryForTesting, entry);

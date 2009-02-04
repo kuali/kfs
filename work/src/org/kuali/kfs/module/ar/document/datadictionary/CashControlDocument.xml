@@ -108,8 +108,8 @@
 	<bean id="CashControlDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber" />
-   				<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
+	   			<ref bean="SearchingType-CashControlDocument-customerNumber" />
+   				<ref bean="SearchingType-CashControlDocument-customerName" />
 	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode" />
    				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode" />
     			<ref bean="SearchingType-CashControlDocument-lockboxNumber" />

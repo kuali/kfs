@@ -7,13 +7,13 @@
 
 
     <bean id="WorkflowAttributeMetaData-customerNumber" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
     	<property name="attributeName" value="customerNumber" />
     </bean>
     <bean id="SearchingAttribute-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerNumber" />
 
     <bean id="WorkflowAttributeMetaData-customerName" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
     	<property name="attributeName" value="customerName" />
     </bean>
     <bean id="SearchingAttribute-customerName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerName" />
@@ -46,7 +46,10 @@
     	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
     	<property name="attributeName" value="invoiceItemCode" />
     </bean>  
-    <bean id="SearchingAttribute-invoiceItemCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-invoiceItemCode" />
+    <bean id="SearchingAttribute-invoiceItemCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-invoiceItemCode">
+         <property name="showAttributeInSearchCriteria" value="true"/>
+         <property name="showAttributeInResultSet" value="false"/>
+	</bean>
 
     <bean id="WorkflowAttributeMetaData-parentInvoiceNumber" abstract="true">
     	<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader" />
@@ -95,6 +98,22 @@
         <property name="documentValues">
         	<list>
         		<value>accountsReceivableDocumentHeader.customer.customerName</value>
+        	</list>
+        </property>
+    </bean>
+	<bean id="SearchingType-CashControlDocument-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-customerNumber" />
+        <property name="documentValues">
+        	<list>
+        		<value>cashControlDetails.customerNumber</value>
+        	</list>
+        </property>
+    </bean>
+	<bean id="SearchingType-CashControlDocument-customerName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute" ref="SearchingAttribute-customerName" />
+        <property name="documentValues">
+        	<list>
+        		<value>cashControlDetails.customer.customerName</value>
         	</list>
         </property>
     </bean>

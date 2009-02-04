@@ -516,6 +516,8 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     }
 
     public String getLockboxNumber() {
+        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+        this.lockboxNumber = cashControlDocumentService.getLockboxNumber(this);
         return lockboxNumber;
     }
 

@@ -21,14 +21,15 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
@@ -40,13 +41,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class PaymentRequestDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
-//FIXME hjs KIM cleanup    move this to geteditmodes to remove the bank edit mode if extracted
-//                //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
-//                if (!paymentRequestDocument.isExtracted()) {
-//                    flags.setCanEditBank(true);
-//                }
-
-    
     
     @Override
     protected boolean canSave(Document document) {
@@ -211,6 +205,12 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
         if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.VENDOR_TAX_REVIEW)) {
             editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
+
+        // Remove editBank edit mode if the document has been extracted
+        if (paymentRequestDocument.isExtracted()) {
+            editModes.remove(KFSConstants.BANK_ENTRY_EDITABLE_EDITING_MODE);
+        }
+
         return editModes;
     }
 

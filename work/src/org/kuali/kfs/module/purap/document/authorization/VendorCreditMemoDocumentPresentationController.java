@@ -22,27 +22,18 @@ import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.CreditMemoEditMode;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 public class VendorCreditMemoDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
-
-//FIXME hjs KIM cleanup    
-//                //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
-//                if (!vendorCreditMemoDocument.isExtracted()) {
-//                    flags.setCanEditBank(true);
-//                }
 
     @Override
     protected boolean canSave(Document document) {
@@ -139,6 +130,11 @@ public class VendorCreditMemoDocumentPresentationController extends FinancialSys
             editModes.add(CreditMemoEditMode.ALLOW_REOPEN_PURCHASE_ORDER);
         }
         
+        // Remove editBank edit mode if the document has been extracted
+        if (vendorCreditMemoDocument.isExtracted()) {
+            editModes.remove(KFSConstants.BANK_ENTRY_EDITABLE_EDITING_MODE);
+        }
+
         return editModes;
     }
 

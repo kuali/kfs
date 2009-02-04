@@ -186,7 +186,7 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingD
             try {
                 connection = getDataSource().getConnection();
                 laborObjectPreparedSelect = connection.prepareStatement("select finobj_frngslry_cd from LD_LABOR_OBJ_T where univ_fiscal_yr = ? and fin_coa_cd = ? and fin_object_cd = ?");
-                ledgerEntryInsert = connection.prepareStatement("INSERT INTO LD_LDGR_ENTR_T VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                ledgerEntryInsert = connection.prepareStatement("INSERT INTO LD_LDGR_ENTR_T VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 ledgerEntryPreparedSelect = connection.prepareStatement("select max(trn_entr_seq_nbr) from ld_ldgr_entr_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ? and fin_balance_typ_cd = ? and fin_obj_typ_cd = ? and univ_fiscal_prd_cd = ? and fdoc_typ_cd = ? and fs_origin_cd = ? and fdoc_nbr = ?");
             }
             catch (SQLException e) {

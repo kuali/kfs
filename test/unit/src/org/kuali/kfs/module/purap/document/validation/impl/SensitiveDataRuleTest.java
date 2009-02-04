@@ -33,6 +33,8 @@ import org.kuali.kfs.module.purap.fixture.SensitiveDataFixture;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -91,6 +93,7 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
      * since the latter involves all major operations provided by the service class. 
      */
     @ConfigureContext(session = parke)
+    @RelatesTo(JiraIssue.KULPURAP3266)
     public final void testSensitiveDataInactivationBlocking() {
         // create a new sensitive data entry and save it (if not exists yet) for this test     
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);

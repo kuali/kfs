@@ -1951,10 +1951,11 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         Properties params = new Properties();
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "doDocSearch");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber().toString());
+        params.put("capitalAssetNumber", this.getCapitalAssetNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
         params.put("criteria.docTypeFullName", "AssetMaintenanceDocument");
 
-        return UrlFactory.parameterizeUrl("../en/DocumentSearch.do", params);
+        String url = UrlFactory.parameterizeUrl("/en/DocumentSearch.do", params);
+        return "http://localhost:8080/kuali-dev/portal.do?channelTitle=asset docs&channelUrl=http://localhost:8080/kuali-dev" + url;
     }
 }

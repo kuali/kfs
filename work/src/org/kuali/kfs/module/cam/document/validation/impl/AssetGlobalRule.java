@@ -529,33 +529,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_PAYMENT_REQUIRED);
             success &= false;
         }
-
-        // check if amount is above threshold for capital assets for normal user. minTotalPaymentByAsset and maxTotalPaymentByAsset
-        // are used to check against threshold. Due to the decimal rounding, the asset total amount could have 1 cent difference
-        // with each other. We need to pick up the right value for different threshold check.
-        KualiDecimal minTotalPaymentByAsset = getAssetGlobalService().totalPaymentByAsset(assetGlobal, false);
-        KualiDecimal maxTotalPaymentByAsset = getAssetGlobalService().totalPaymentByAsset(assetGlobal, true);
-        if (minTotalPaymentByAsset.isGreaterThan(maxTotalPaymentByAsset)) {
-            // swap min and max
-            KualiDecimal totalPayment = minTotalPaymentByAsset;
-            minTotalPaymentByAsset = maxTotalPaymentByAsset;
-            maxTotalPaymentByAsset = totalPayment;
-        }
-
-        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
-        boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-
-        String capitalizationThresholdAmount = getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
-        if (isCapitalStatus(assetGlobal) && minTotalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !isOverrideAuthorized) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, capitalizationThresholdAmount);
-            success &= false;
-        }
-
-        // check if amount is less than threshold for non-capital assets for all users
-        if (!isCapitalStatus(assetGlobal) && maxTotalPaymentByAsset.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX, capitalizationThresholdAmount);
-            success &= false;
-        }
+        // check total amount
+        success &= validatePaymentTotalAmount(document);
 
         // only for "Asset Separate" document
         if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
@@ -610,6 +585,47 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         success &= validateLocationCollection(assetGlobal, assetSharedDetails);
         success &= validateTagDuplication(assetSharedDetails);
+        return success;
+    }
+
+
+    /**
+     * check if amount is above threshold for capital assets for normal user. minTotalPaymentByAsset and maxTotalPaymentByAsset are
+     * used to check against threshold. Due to the decimal rounding, the asset total amount could have 1 cent difference with each
+     * other. We need to pick up the right value for different threshold check.
+     * 
+     * @param document
+     * @return
+     */
+    private boolean validatePaymentTotalAmount(MaintenanceDocument document) {
+        boolean success = true;
+        AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
+
+        if (!getAssetService().isDocumentEnrouting(document)) {
+            KualiDecimal minTotalPaymentByAsset = getAssetGlobalService().totalPaymentByAsset(assetGlobal, false);
+            KualiDecimal maxTotalPaymentByAsset = getAssetGlobalService().totalPaymentByAsset(assetGlobal, true);
+            if (minTotalPaymentByAsset.isGreaterThan(maxTotalPaymentByAsset)) {
+                // swap min and max
+                KualiDecimal totalPayment = minTotalPaymentByAsset;
+                minTotalPaymentByAsset = maxTotalPaymentByAsset;
+                maxTotalPaymentByAsset = totalPayment;
+            }
+
+            AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
+            boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+
+            String capitalizationThresholdAmount = getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
+            if (isCapitalStatus(assetGlobal) && minTotalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !isOverrideAuthorized) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, capitalizationThresholdAmount);
+                success &= false;
+            }
+
+            // check if amount is less than threshold for non-capital assets for all users
+            if (!isCapitalStatus(assetGlobal) && maxTotalPaymentByAsset.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX, capitalizationThresholdAmount);
+                success &= false;
+            }
+        }
         return success;
     }
 

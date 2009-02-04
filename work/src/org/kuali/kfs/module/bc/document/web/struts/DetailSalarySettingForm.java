@@ -551,10 +551,4 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         this.name = name;
     }
 
-    /**
-     * @return Returns the viewOnlyEntry.
-     */
-    public boolean isViewOnlyEntry() {
-        return super.isViewOnlyEntry() || !isEditAllowed();
-    }
 }

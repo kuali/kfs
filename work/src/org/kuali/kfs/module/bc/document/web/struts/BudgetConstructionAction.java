@@ -33,6 +33,7 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAuthorizationStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
@@ -49,6 +50,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -1590,9 +1592,17 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     protected boolean hasEditPermission(BudgetConstructionDocument document, String orgLevelCode, Person user) {
         TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
-
+        
         AttributeSet roleQualifiers = new AttributeSet();
         roleQualifiers.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, orgLevelCode);
+
+        List<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) SpringContext.getBean(BudgetDocumentService.class).retrieveOrBuildAccountOrganizationHierarchy(document.getUniversityFiscalYear(), document.getChartOfAccountsCode(), document.getAccountNumber());
+        for (BudgetConstructionAccountOrganizationHierarchy accountOrganization : accountOrganizationHierarchy) {
+            if (accountOrganization.getOrganizationLevelCode().intValue() == Integer.parseInt(orgLevelCode)) {
+                roleQualifiers.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, accountOrganization.getOrganizationChartOfAccountsCode());
+                roleQualifiers.put(KfsKimAttributes.ORGANIZATION_CODE, accountOrganization.getOrganizationCode());
+            }
+        }
 
         return documentAuthorizer.isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId(), null, roleQualifiers);
     }

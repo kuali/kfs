@@ -53,49 +53,51 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingD
             ledgerEntryInsert.setString(11, ledgerEntry.getFinancialSystemOriginationCode());
             ledgerEntryInsert.setString(12, ledgerEntry.getDocumentNumber());
             ledgerEntryInsert.setInt(13, ledgerEntry.getTransactionLedgerEntrySequenceNumber());
-            ledgerEntryInsert.setString(14, ledgerEntry.getPositionNumber());
-            ledgerEntryInsert.setString(15, ledgerEntry.getProjectCode());
-            ledgerEntryInsert.setString(16, ledgerEntry.getTransactionLedgerEntryDescription());
-            ledgerEntryInsert.setBigDecimal(17, ledgerEntry.getTransactionLedgerEntryAmount().bigDecimalValue());
-            ledgerEntryInsert.setString(18, ledgerEntry.getTransactionDebitCreditCode());
-            ledgerEntryInsert.setDate(19, ledgerEntry.getTransactionDate());
-            ledgerEntryInsert.setString(20, ledgerEntry.getOrganizationDocumentNumber());
-            ledgerEntryInsert.setString(21, ledgerEntry.getOrganizationReferenceId());
-            ledgerEntryInsert.setString(22, ledgerEntry.getReferenceFinancialDocumentTypeCode());
-            ledgerEntryInsert.setString(23, ledgerEntry.getReferenceFinancialSystemOriginationCode());
-            ledgerEntryInsert.setString(24, ledgerEntry.getReferenceFinancialDocumentNumber());
-            ledgerEntryInsert.setDate(25, ledgerEntry.getFinancialDocumentReversalDate());
-            ledgerEntryInsert.setString(26, ledgerEntry.getTransactionEncumbranceUpdateCode());
-            ledgerEntryInsert.setDate(27, ledgerEntry.getTransactionPostingDate());
-            ledgerEntryInsert.setDate(28, ledgerEntry.getPayPeriodEndDate());
-            ledgerEntryInsert.setBigDecimal(29, ledgerEntry.getTransactionTotalHours());
+            ledgerEntryInsert.setString(14, ledgerEntry.getObjectId());
+            ledgerEntryInsert.setLong(15, ledgerEntry.getVersionNumber());
+            ledgerEntryInsert.setString(16, ledgerEntry.getPositionNumber());
+            ledgerEntryInsert.setString(17, ledgerEntry.getProjectCode());
+            ledgerEntryInsert.setString(18, ledgerEntry.getTransactionLedgerEntryDescription());
+            ledgerEntryInsert.setBigDecimal(19, ledgerEntry.getTransactionLedgerEntryAmount().bigDecimalValue());
+            ledgerEntryInsert.setString(20, ledgerEntry.getTransactionDebitCreditCode());
+            ledgerEntryInsert.setDate(21, ledgerEntry.getTransactionDate());
+            ledgerEntryInsert.setString(22, ledgerEntry.getOrganizationDocumentNumber());
+            ledgerEntryInsert.setString(23, ledgerEntry.getOrganizationReferenceId());
+            ledgerEntryInsert.setString(24, ledgerEntry.getReferenceFinancialDocumentTypeCode());
+            ledgerEntryInsert.setString(25, ledgerEntry.getReferenceFinancialSystemOriginationCode());
+            ledgerEntryInsert.setString(26, ledgerEntry.getReferenceFinancialDocumentNumber());
+            ledgerEntryInsert.setDate(27, ledgerEntry.getFinancialDocumentReversalDate());
+            ledgerEntryInsert.setString(28, ledgerEntry.getTransactionEncumbranceUpdateCode());
+            ledgerEntryInsert.setDate(29, ledgerEntry.getTransactionPostingDate());
+            ledgerEntryInsert.setDate(30, ledgerEntry.getPayPeriodEndDate());
+            ledgerEntryInsert.setBigDecimal(31, ledgerEntry.getTransactionTotalHours());
             if (ledgerEntry.getPayrollEndDateFiscalYear() == null) {
-                ledgerEntryInsert.setNull(30, java.sql.Types.INTEGER);
+                ledgerEntryInsert.setNull(32, java.sql.Types.INTEGER);
             }
             else {
-                ledgerEntryInsert.setInt(30, ledgerEntry.getPayrollEndDateFiscalYear());
+                ledgerEntryInsert.setInt(32, ledgerEntry.getPayrollEndDateFiscalYear());
             }
-            ledgerEntryInsert.setString(31, ledgerEntry.getPayrollEndDateFiscalPeriodCode());
-            ledgerEntryInsert.setString(32, ledgerEntry.getEmplid());
+            ledgerEntryInsert.setString(33, ledgerEntry.getPayrollEndDateFiscalPeriodCode());
+            ledgerEntryInsert.setString(34, ledgerEntry.getEmplid());
             if (ledgerEntry.getEmployeeRecord() == null) {
-                ledgerEntryInsert.setNull(33, java.sql.Types.INTEGER);
+                ledgerEntryInsert.setNull(35, java.sql.Types.INTEGER);
             }
             else {
-                ledgerEntryInsert.setInt(33, ledgerEntry.getEmployeeRecord());
+                ledgerEntryInsert.setInt(35, ledgerEntry.getEmployeeRecord());
             }
-            ledgerEntryInsert.setString(34, ledgerEntry.getEarnCode());
-            ledgerEntryInsert.setString(35, ledgerEntry.getPayGroup());
-            ledgerEntryInsert.setString(36, ledgerEntry.getSalaryAdministrationPlan());
-            ledgerEntryInsert.setString(37, ledgerEntry.getGrade());
-            ledgerEntryInsert.setString(38, ledgerEntry.getRunIdentifier());
-            ledgerEntryInsert.setString(39, ledgerEntry.getLaborLedgerOriginalChartOfAccountsCode());
-            ledgerEntryInsert.setString(40, ledgerEntry.getLaborLedgerOriginalAccountNumber());
-            ledgerEntryInsert.setString(41, ledgerEntry.getLaborLedgerOriginalSubAccountNumber());
-            ledgerEntryInsert.setString(42, ledgerEntry.getLaborLedgerOriginalFinancialObjectCode());
-            ledgerEntryInsert.setString(43, ledgerEntry.getLaborLedgerOriginalFinancialSubObjectCode());
-            ledgerEntryInsert.setString(44, ledgerEntry.getHrmsCompany());
-            ledgerEntryInsert.setString(45, ledgerEntry.getSetid());
-            ledgerEntryInsert.setTimestamp(46, ledgerEntry.getTransactionDateTimeStamp());
+            ledgerEntryInsert.setString(36, ledgerEntry.getEarnCode());
+            ledgerEntryInsert.setString(37, ledgerEntry.getPayGroup());
+            ledgerEntryInsert.setString(38, ledgerEntry.getSalaryAdministrationPlan());
+            ledgerEntryInsert.setString(39, ledgerEntry.getGrade());
+            ledgerEntryInsert.setString(40, ledgerEntry.getRunIdentifier());
+            ledgerEntryInsert.setString(41, ledgerEntry.getLaborLedgerOriginalChartOfAccountsCode());
+            ledgerEntryInsert.setString(42, ledgerEntry.getLaborLedgerOriginalAccountNumber());
+            ledgerEntryInsert.setString(43, ledgerEntry.getLaborLedgerOriginalSubAccountNumber());
+            ledgerEntryInsert.setString(44, ledgerEntry.getLaborLedgerOriginalFinancialObjectCode());
+            ledgerEntryInsert.setString(45, ledgerEntry.getLaborLedgerOriginalFinancialSubObjectCode());
+            ledgerEntryInsert.setString(46, ledgerEntry.getHrmsCompany());
+            ledgerEntryInsert.setString(47, ledgerEntry.getSetid());
+            ledgerEntryInsert.setTimestamp(48, ledgerEntry.getTransactionDateTimeStamp());
 
             ledgerEntryInsert.executeQuery();
         }

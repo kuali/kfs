@@ -248,7 +248,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.kfs.coa.businessobject.Org"
+				    boClassName="org.kuali.kfs.coa.businessobject.Organization"
 				    keyValues="chartOfAccountsCode=${KualiForm.budgetConstructionHeader.account.organization.reportsToChartOfAccountsCode}&amp;organizationCode=${KualiForm.budgetConstructionHeader.account.organization.reportsToOrganizationCode}"
 				    render="${!empty KualiForm.budgetConstructionHeader.account.organization.reportsToOrganizationCode}">
 			    	<html:hidden write="true" property="${orgPropString}.reportsToOrganizationCode" />
@@ -352,7 +352,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.kfs.coa.businessobject.Org"
+				    boClassName="org.kuali.kfs.coa.businessobject.Organization"
 				    keyValues="chartOfAccountsCode=${KualiForm.budgetConstructionHeader.budgetConstructionAccountReports.budgetConstructionOrganizationReports.reportsToChartOfAccountsCode}&amp;organizationCode=${KualiForm.budgetConstructionHeader.budgetConstructionAccountReports.budgetConstructionOrganizationReports.reportsToOrganizationCode}"
 				    render="${!empty KualiForm.budgetConstructionHeader.budgetConstructionAccountReports.budgetConstructionOrganizationReports.reportsToOrganizationCode}">
 			    	<html:hidden write="true" property="${orgRptsPropString}.reportsToOrganizationCode" />

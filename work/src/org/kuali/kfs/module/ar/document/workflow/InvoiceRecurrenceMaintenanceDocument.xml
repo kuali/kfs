@@ -22,12 +22,22 @@
       </routePaths>
 <routeNodes>
 <start name="AdHoc"/>
+<role name="Initiator">
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
 <role name="Account">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Management">
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
+<split name="InvoiceRecurrenceIsInactivating">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOpInvoiceRecurrenceIsInactivating">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<join name="JoinInvoiceRecurrenceIsInactivating" />
 </routeNodes>
 </documentType>
 </documentTypes>

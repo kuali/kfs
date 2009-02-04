@@ -27,6 +27,8 @@
         <ref bean="Proposal-lookupPersonUniversalIdentifier" />
         <ref bean="Proposal-lookupPerson.principalName" />
         <ref bean="Proposal-lookupPerson.name" />
+        <ref bean="Proposal-userLookupRoleNamespaceCode" />
+        <ref bean="Proposal-userLookupRoleName" />
         <ref bean="Proposal-proposal.grantNumber" />
         <ref bean="Proposal-agency.fullName" />
         <ref bean="Proposal-agencyNumber" />
@@ -136,12 +138,17 @@
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
                     p:sourceName="lookupPerson.principalName"
                     p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
                     p:sourceName="lookupPerson.name"
                     p:targetName="name" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="userLookupRoleNamespaceCode"
+                    p:targetName="lookupRoleNamespaceCode" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="userLookupRoleName"
+                    p:targetName="lookupRoleName" />
             </list>
           </property>
         </bean>
@@ -236,7 +243,30 @@
     <property name="name" value="lookupPerson.name" />
     <property name="label" value="Project Director User Name" />
     <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
   </bean>
+  
+  <bean id="Proposal-userLookupRoleNamespaceCode" parent="AttributeDefinition">
+    <property name="name" value="userLookupRoleNamespaceCode" />
+    <property name="label" value="Role Namespace Code" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  
+  <bean id="Proposal-userLookupRoleName" parent="AttributeDefinition">
+    <property name="name" value="userLookupRoleName" />
+    <property name="label" value="Role Name" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  
+  
   <bean id="Proposal-proposal.grantNumber" parent="Proposal-proposal.grantNumber-parentBean" />
 
   <bean id="Proposal-proposal.grantNumber-parentBean" abstract="true" parent="Proposal-grantNumber">
@@ -763,6 +793,12 @@
               p:attributeName="lookupPersonUniversalIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="lookupPerson.principalName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupPerson.name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="userLookupRoleNamespaceCode" p:defaultValue="KFS-CG" />
+        <bean parent="FieldDefinition"
+              p:attributeName="userLookupRoleName" p:defaultValue="Pre-Award Project Director" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

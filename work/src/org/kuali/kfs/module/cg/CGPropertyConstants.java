@@ -33,4 +33,11 @@ public class CGPropertyConstants extends JSTLConstants {
 
     // Indirect Cost Lookup
     public static final String COST_RATE = "budgetIndirectCostRate";
+    
+    // Routing form 
+    public static final String PERSON_ROLE_CODE = "personRoleCode";
+    public static final String PERSON_TO_BE_NAMED_IND = "personToBeNamedIndicator";
+    
+    // budget user
+    public static final String PERSON_PROJECT_DIRECTOR_IND = "personProjectDirectorIndicator";
 }

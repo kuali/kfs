@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.cg.CGConstants;
@@ -743,23 +744,22 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
     public boolean isProjectDirector() {
         final String PERSON_ROLE_CODE_PD = getParameterService().getParameterValue(RoutingFormDocument.class, CGConstants.PERSON_ROLE_CODE_PROJECT_DIRECTOR);
-
-        return PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
+        return StringUtils.equals(PERSON_ROLE_CODE_PD, getPersonRoleCode());
     }
 
     public boolean isContactPerson() {
         final String PERSON_ROLE_CODE_CP = getParameterService().getParameterValue(RoutingFormDocument.class, CGConstants.PERSON_ROLE_CODE_CONTACT_PERSON);
 
-        return PERSON_ROLE_CODE_CP.equals(this.getPersonRoleCode());
+        return StringUtils.equals(PERSON_ROLE_CODE_CP, getPersonRoleCode());
     }
 
-    public PersonService getKfsUserService() {
+    protected PersonService getKfsUserService() {
         if ( personService == null ) {
             personService = SpringContext.getBean(PersonService.class);
         }
         return personService;
     }
-    public ParameterService getParameterService() {
+    protected ParameterService getParameterService() {
         if ( parameterService == null ) {
             parameterService = SpringContext.getBean(ParameterService.class);
         }

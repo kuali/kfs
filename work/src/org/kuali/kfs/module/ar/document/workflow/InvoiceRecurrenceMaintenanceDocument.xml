@@ -6,7 +6,16 @@
 <parent>AccountsReceivableComplexMaintenanceDocument</parent>
 <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Account"/>
+          <start name="AdHoc" nextNode="InvoiceRecurrenceIsInactivating"/>
+          <split name="InvoiceRecurrenceIsInactivating" nextNode="Account">
+          	<branch name="True">
+				<requests name="Initiator" nextNode="JoinInvoiceRecurrenceIsInactivating"/>
+			</branch>
+			<branch name="False">
+				<simple name="NoOpInvoiceRecurrenceIsInactivating" nextNode="JoinInvoiceRecurrenceIsInactivating"/>
+			</branch>
+			<join name="JoinInvoiceRecurrenceIsInactivating"/>
+          </split>
           <requests name="Account" nextNode="Management"/>
           <requests name="Management"/>
         </routePath>

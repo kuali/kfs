@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
@@ -40,9 +41,12 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument)document;
         
         // Validate the applied payments
+        int appliedAmountIndex = 0;
         for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
             try {
-                if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied,null)) {
+                String fieldName = ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N;
+                fieldName = StringUtils.replace(fieldName, "{0}", new Integer(appliedAmountIndex).toString());
+                if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied, fieldName)) {
                     isValid = false;
                     LOG.info("One of the invoice paid applieds for the payment application document is not valid.");
                 }
@@ -50,6 +54,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
                 isValid = false;
                 LOG.error("Workflow exception encountered when trying to validate invoiced paid applied on payment application document.", workflowException);
             }
+            appliedAmountIndex++;
         }
         
         // Validate the nonInvoiced payments

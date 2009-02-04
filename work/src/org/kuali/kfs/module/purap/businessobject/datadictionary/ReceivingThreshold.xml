@@ -158,7 +158,7 @@
   <bean id="ReceivingThreshold-inquiryDefinition" parent="ReceivingThreshold-inquiryDefinition-parentBean" />
 
   <bean id="ReceivingThreshold-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Purchase Order Status Inquiry" />
+    <property name="title" value="Receiving Threshold" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -199,8 +199,8 @@
   <bean id="ReceivingThreshold-lookupDefinition" parent="ReceivingThreshold-lookupDefinition-parentBean" />
 
   <bean id="ReceivingThreshold-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Threshold Lookup" />
-    <property name="instructions" value="Lookup a Threshold" />
+    <property name="title" value="Receiving Threshold Lookup" />
+    <property name="instructions" value="Lookup a Receiving Threshold" />
     <property name="lookupableID" value="thresholdLookupable" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

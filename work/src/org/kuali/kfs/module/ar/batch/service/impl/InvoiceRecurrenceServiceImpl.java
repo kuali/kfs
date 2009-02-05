@@ -85,7 +85,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             /* Get some dates and calendars  */
             Date currentDate = getDateTimeService().getCurrentSqlDate();
             Calendar currentCalendar = Calendar.getInstance();
-            currentCalendar.setTime(new Timestamp(getDateTimeService().getCurrentDate().getTime()));
+            currentCalendar.setTime(getDateTimeService().getCurrentTimestamp());
 
             Date currentMonthProcessDate;
             Calendar currentMonthProcessCalendar = Calendar.getInstance();

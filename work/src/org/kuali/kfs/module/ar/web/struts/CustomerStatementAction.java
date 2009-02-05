@@ -81,7 +81,7 @@ public class CustomerStatementAction extends KualiAction {
             fileName.append(chartCode);
             fileName.append(orgCode);
         } else if (customerNumber != null) {
-            reports = reportService.generateStatementByCustomer(customerNumber);
+            reports = reportService.generateStatementByCustomer(customerNumber.toUpperCase());
             fileName.append(customerNumber);
         } else if (accountNumber != null) {
             reports = reportService.generateStatementByAccount(accountNumber);
@@ -96,17 +96,18 @@ public class CustomerStatementAction extends KualiAction {
                 //   File file = new File(fileName);
                 Document document = null;
                 PdfCopy  writer = null;
-                for (Iterator itr = reports.iterator(); itr.hasNext();) {
+                for (File file : reports) {
                     // we create a reader for a certain document
-                    String reportName = ((File)itr.next()).getAbsolutePath();
+                    String reportName = file.getAbsolutePath();
                     PdfReader reader = new PdfReader(reportName);
                     reader.consolidateNamedDestinations();
                     // we retrieve the total number of pages
                     int n = reader.getNumberOfPages();
                     List bookmarks = SimpleBookmark.getBookmark(reader);
                     if (bookmarks != null) {
-                        if (pageOffset != 0)
+                        if (pageOffset != 0) {
                             SimpleBookmark.shiftPageNumbers(bookmarks, pageOffset, null);
+                        }
                         master.addAll(bookmarks);
                     }
                     pageOffset += n;

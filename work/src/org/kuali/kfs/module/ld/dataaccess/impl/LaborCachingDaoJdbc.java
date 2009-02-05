@@ -53,8 +53,8 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingD
             ledgerEntryInsert.setString(11, ledgerEntry.getFinancialSystemOriginationCode());
             ledgerEntryInsert.setString(12, ledgerEntry.getDocumentNumber());
             ledgerEntryInsert.setInt(13, ledgerEntry.getTransactionLedgerEntrySequenceNumber());
-            ledgerEntryInsert.setString(14, ledgerEntry.getObjectId());
-            ledgerEntryInsert.setLong(15, ledgerEntry.getVersionNumber());
+            ledgerEntryInsert.setString(14, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            ledgerEntryInsert.setLong(15, 1);
             ledgerEntryInsert.setString(16, ledgerEntry.getPositionNumber());
             ledgerEntryInsert.setString(17, ledgerEntry.getProjectCode());
             ledgerEntryInsert.setString(18, ledgerEntry.getTransactionLedgerEntryDescription());

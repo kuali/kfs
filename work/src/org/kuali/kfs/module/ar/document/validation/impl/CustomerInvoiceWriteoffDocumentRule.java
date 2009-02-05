@@ -151,11 +151,9 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
         if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
-            if (isWriteoffGenerationEnabled()) {
-                success &= doesWriteoffAccountNumberExist(organizationAccountingDefault);
-                success &= doesWriteoffChartOfAccountsCodeExist(organizationAccountingDefault);
-                success &= doesWriteoffFinancialObjectCodeExist(organizationAccountingDefault);
-            }
+            success &= doesWriteoffAccountNumberExist(organizationAccountingDefault);
+            success &= doesWriteoffChartOfAccountsCodeExist(organizationAccountingDefault);
+            success &= doesWriteoffFinancialObjectCodeExist(organizationAccountingDefault);
         }
         else {
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_MUST_EXIST, new String[] { currentFiscalYear.toString(), billByChartOfAccountCode, billedByOrganizationCode });
@@ -166,10 +164,6 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
     }
 
-    private boolean isWriteoffGenerationEnabled() {
-        return ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD));
-    }
-    
     /**
      * This method returns true if payment account number is provided and is valid.
      * 

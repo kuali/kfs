@@ -55,8 +55,16 @@ public class PaymentApplicationDocumentRuleUtil {
         boolean isValid = true;
         
         invoicePaidApplied.refreshReferenceObject("invoiceItem");
+        if(ObjectUtils.isNull(invoicePaidApplied) || ObjectUtils.isNull(invoicePaidApplied.getInvoiceItem())) { return true; }
         KualiDecimal amountOwed = invoicePaidApplied.getInvoiceItem().getAmount();
         KualiDecimal amountPaid = invoicePaidApplied.getInvoiceItemAppliedAmount();
+        
+        if(ObjectUtils.isNull(amountOwed)) {
+            amountOwed = KualiDecimal.ZERO;
+        }
+        if(ObjectUtils.isNull(amountPaid)) {
+            amountPaid = KualiDecimal.ZERO;
+        }
         
         // Can't pay more than you owe.
         if(!amountPaid.isLessEqual(amountOwed)) {
@@ -298,10 +306,7 @@ public class PaymentApplicationDocumentRuleUtil {
         }
         KualiDecimal cashControlTotalAmount = cashControlDetail.getFinancialDocumentLineAmount();
         NonAppliedHolding nonAppliedHolding = applicationDocument.getNonAppliedHolding();
-        if(ObjectUtils.isNull(nonAppliedHolding)) {
-            return true;
-        }
-
+        if(ObjectUtils.isNull(nonAppliedHolding)) { return true; }
         if(StringUtils.isNotEmpty(nonAppliedHolding.getCustomerNumber())) {
             KualiDecimal nonAppliedAmount = nonAppliedHolding.getFinancialDocumentLineAmount();
             if(null == nonAppliedAmount) { nonAppliedAmount = KualiDecimal.ZERO; }

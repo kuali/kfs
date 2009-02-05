@@ -55,7 +55,7 @@
 								<c:if test="${readOnly ne true}">
 	                                <td>
 	                                	<center>
-		                                    <html:checkbox property="invoice[${current.index}].quickApply" value="true" />
+		                                    <html:checkbox property="updatedBalanceInvoices[${current.index}].invoice.quickApply" value="true" />
 		                                </center>
 	                                </td>
 	                            </c:if>

@@ -1767,6 +1767,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return quickApply;
     }
 
+    public boolean getQuickApply() {
+        return isQuickApply();
+    }
+    
     /**
      * Sets the quickApply attribute value.
      * 

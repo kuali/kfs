@@ -383,8 +383,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
 
         // get open invoices for the current customer
-        Collection<CustomerInvoiceDocument> openInvoicesForCustomer = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
-        applicationDocumentForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
+        if(ObjectUtils.isNull(applicationDocumentForm.getInvoices()) || applicationDocumentForm.getInvoices().isEmpty()) {
+            Collection<CustomerInvoiceDocument> openInvoicesForCustomer = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+            applicationDocumentForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
+        }
 
         // if no invoice number entered than get the first invoice
         if ((customerNumber != null && !customerNumber.equals("")) && (currentInvoiceNumber == null || "".equalsIgnoreCase(currentInvoiceNumber))) {

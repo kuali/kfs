@@ -31,11 +31,12 @@
         <ref bean="ElectronicInvoiceRejectDocument-purchaseOrderDeliveryCampusCode" />
         <ref bean="ElectronicInvoiceRejectDocument-purchaseOrderIdentifier" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceCustomerNumber" />
-        
+        <ref bean="ElectronicInvoiceRejectDocument-vendorNumber" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileDate" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileName" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileNumber" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileDeploymentModeValue" />
+        <ref bean="ElectronicInvoiceRejectDocument-invoiceResearchIndicator" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileDiscountInLineIndicator" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileHeaderTypeIndicator" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileInformationOnlyIndicator" />
@@ -77,6 +78,7 @@
         <ref bean="ElectronicInvoiceRejectDocument-invoiceOrderSupplierOrderInformationIdentifier" />
         
         <ref bean="ElectronicInvoiceRejectDocument-invoiceProcessTimestamp" />
+        <ref bean="ElectronicInvoiceRejectDocument-accountsPayableApprovalTimestamp" />
         <ref bean="ElectronicInvoiceRejectDocument-invoicePurchaseOrderNumber" />
         <!-- 
         <ref bean="ElectronicInvoiceRejectDocument-invoiceRejectExtractDate" />
@@ -192,6 +194,13 @@
             p:size="52" />
     </property>
   </bean>
+
+  <bean id="ElectronicInvoiceRejectDocument-vendorNumber" parent="ElectronicInvoiceRejectDocument-vendorNumber-parentBean" />
+
+  <bean id="ElectronicInvoiceRejectDocument-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+    <property name="required" value="false" />
+  </bean>
+    
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDate" parent="ElectronicInvoiceRejectDocument-invoiceFileDate-parentBean" />
 
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
@@ -225,6 +234,20 @@
             p:size="52" />
     </property>
   </bean>
+  
+  <bean id="ElectronicInvoiceRejectDocument-invoiceResearchIndicator" parent="ElectronicInvoiceRejectDocument-invoiceResearchIndicator-parentBean" />
+
+  <bean id="ElectronicInvoiceRejectDocument-invoiceResearchIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceResearchIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Research Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+    
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDiscountInLineIndicator" parent="ElectronicInvoiceRejectDocument-invoiceFileDiscountInLineIndicator-parentBean" />
 
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDiscountInLineIndicator-parentBean" abstract="true" parent="AttributeDefinition">
@@ -862,6 +885,24 @@
             p:size="9" />
     </property>
   </bean>
+  
+  <bean id="ElectronicInvoiceRejectDocument-accountsPayableApprovalTimestamp" parent="ElectronicInvoiceRejectDocument-accountsPayableApprovalTimestamp-parentBean" />
+
+  <bean id="ElectronicInvoiceRejectDocument-accountsPayableApprovalTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountsPayableApprovalTimestamp" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Approval Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  
   <bean id="ElectronicInvoiceRejectDocument-invoicePurchaseOrderNumber" parent="ElectronicInvoiceRejectDocument-invoicePurchaseOrderNumber-parentBean" />
 
   <bean id="ElectronicInvoiceRejectDocument-invoicePurchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -1495,6 +1536,127 @@
   <bean id="ElectronicInvoiceRejectDocument-workflowAttributes" parent="ElectronicInvoiceRejectDocument-workflowAttributes-parentBean" />
   
   <bean id="ElectronicInvoiceRejectDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+      <property name="searchingTypeDefinitions">
+          <list>
+      	      <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    					  <property name="attributeName" value="invoiceCustomerNumber" />
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>invoiceCustomerNumber</value>
+    				  </list>
+    			  </property>
+    		  </bean>
+              <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    					  <property name="attributeName" value="purapDocumentIdentifier" />
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>purapDocumentIdentifier</value>
+    				  </list>
+    			  </property>
+    		  </bean>    	
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    					  <property name="attributeName" value="purchaseOrderIdentifier" />
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>purchaseOrderIdentifier</value>
+    				  </list>
+    			  </property>
+    		  </bean> 	  
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    					  <property name="attributeName" value="vendorNumber" />
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>vendorNumber</value>
+    				  </list>
+    			  </property>
+    		  </bean> 
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    					  <property name="attributeName" value="vendorDunsNumber" />
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>vendorDunsNumber</value>
+    				  </list>
+    			  </property>
+    		  </bean> 
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    					  <property name="attributeName" value="purchaseOrderDeliveryCampusCode" />
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>purchaseOrderDeliveryCampusCode</value>
+    				  </list>
+    			  </property>
+    		  </bean> 
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    					  <property name="attributeName" value="accountsPayableApprovalTimestamp" />
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>accountsPayableApprovalTimestamp</value>
+    				  </list>
+    			  </property>
+    		  </bean> 
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    					  <property name="attributeName" value="invoiceResearchIndicator" />
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>invoiceResearchIndicator</value>
+    				  </list>
+    			  </property>
+    		  </bean> 
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    					  <property name="attributeName" value="totalAmount" />
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>totalAmount</value>
+    				  </list>
+    			  </property>
+    		  </bean> 
+          </list>  
+      </property>  
   </bean>
 
 

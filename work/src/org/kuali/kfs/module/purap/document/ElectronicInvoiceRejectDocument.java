@@ -30,6 +30,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author delyea
@@ -140,6 +141,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     
     private boolean isDocumentCreationInProgress = false;
 
+    private String vendorNumber;
+    
     /**
    * 
    */
@@ -1773,7 +1776,26 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public void setDocumentCreationInProgress(boolean isDocumentCreationInProgress) {
         this.isDocumentCreationInProgress = isDocumentCreationInProgress;
     }
+    
+    /**
+     * Returns the vendor number for this document.
+     * 
+     * @return the vendor number for this document.
+     */
+    public String getVendorNumber() {
+        if (StringUtils.isNotEmpty(vendorNumber)) {
+            return vendorNumber;
+        }
+        else if (ObjectUtils.isNotNull(vendorDetail)) {
+            return vendorDetail.getVendorNumber();
+        }
+        else
+            return "";
+    }
 
+    public void setVendorNumber(String vendorNumber) {
+        this.vendorNumber = vendorNumber;
+    }
 }
 /*
  * Copyright (c) 2004, 2005 The National Association of College and University Business Officers, Cornell University, Trustees of

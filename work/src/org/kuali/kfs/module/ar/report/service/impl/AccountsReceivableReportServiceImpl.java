@@ -696,7 +696,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         KualiDecimal amount = KualiDecimal.ZERO;
         String currentAmount = invoiceMap.get(mapKey);
         if(StringUtils.isNotEmpty(currentAmount)) {
-            amount = new KualiDecimal(currentAmount);
+            try {
+                amount = new KualiDecimal(currentAmount);
+            } catch(NumberFormatException nfe) {
+                LOG.error(currentAmount+" is an invalid amount.", nfe);
+            }
         }
         invoiceMap.put(mapKey, currencyFormatter.format(amount.add(amountToAdd)).toString());
     }

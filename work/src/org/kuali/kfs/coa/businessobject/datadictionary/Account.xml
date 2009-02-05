@@ -904,7 +904,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <dd:field attributeName="intrnlFinEncumSufficntFndIndicator" />
               <dd:field attributeName="finPreencumSufficientFundIndicator" />
               <dd:field attributeName="financialObjectivePrsctrlIndicator" />
-              <dd:field attributeName="contractsAndGrantsAccountResponsibilityId" />
             </list>
           </property>
         </bean>

@@ -38,3 +38,15 @@ INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, AC
 
 update krim_role_rsp_actn_t set actn_plcy_cd = 'A' where role_rsp_id in (select role_rsp_id from krim_role_rsp_t where role_id = (select role_id from krim_role_t where nmspc_cd = 'KFS-SYS' and role_nm = 'Fiscal Officer'))
 /
+update fp_fscl_yr_ctrl_t
+set fs_func_active_ind = 'Y'
+where univ_fiscal_yr = 2008
+and fs_func_ctrl_cd in ('BAACTV','BASEAD')
+/
+update fp_fscl_yr_ctrl_t
+set fs_func_active_ind = 'N'
+where univ_fiscal_yr = 2004
+and fs_func_ctrl_cd = 'BAACTV'
+/
+insert into PUR_RCVNG_LN_STAT_T values ('CANC', sys_guid(), 1, 'Cancelled')
+/

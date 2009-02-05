@@ -199,29 +199,4 @@
     		</list>
     	</property>
     </bean>
-	
-
-	<!-- workflow attributes 
-  	<bean id="ObjectCodeMaintenanceDocument-workflowAttributes" parent="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean" />
-  
-	<dd:workflowAttributes id="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean" abstract="true">
-		<dd:routingType nodeName="OrganizationHierarchy">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Organization" attributeName="organizationCode" />
-        	</dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-            	<dd:documentValue path="newMaintainableObject.initiatorChartOfAccountsCode"/>
-                <dd:documentValue path="newMaintainableObject.initiatorOrganizationCode"/>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-		<dd:routingType nodeName="Chart">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-	        </dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-            	<dd:documentValue path="newMaintainableObject.businessObject.chartOfAccountsCode"/>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-	</dd:workflowAttributes> -->
 </beans>

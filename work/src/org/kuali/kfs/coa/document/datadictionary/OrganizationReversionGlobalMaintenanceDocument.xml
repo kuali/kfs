@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd
+        http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="OrganizationReversionGlobalMaintenanceDocument" parent="OrganizationReversionGlobalMaintenanceDocument-parentBean" />
 
@@ -57,6 +60,9 @@
         <value>../dwr/interface/ObjectCodeService.js</value>
         <value>../scripts/chart/orgReversionChangeDocument.js</value>
       </list>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="OrganizationReversionGlobalMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>
 
@@ -157,4 +163,86 @@
       </list>
     </property>
   </bean>
+  
+  	<!-- workflow attributes -->
+  	<bean id="OrganizationReversionGlobalMaintenanceDocument-workflowAttributes" parent="OrganizationReversionGlobalMaintenanceDocument-workflowAttributes-parentBean" />
+  	
+  	<bean id="OrganizationReversionGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="OrganizationHierarchy" value-ref="OrganizationReversionGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy" />
+	    		<entry key="Chart" value-ref="OrganizationReversionGlobalMaintenanceDocument-RoutingType-Chart" />
+    		</map>
+		</property>
+	</bean>
+	
+	<bean id="OrganizationReversionGlobalMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
+    	<property name="attributeName" value="chartOfAccountsCode" />
+	</bean>
+	
+	<bean id="OrganizationReversionGlobalMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
+    	<property name="attributeName" value="organizationCode" />
+	</bean>
+	
+	<bean id="OrganizationReversionGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+    		<bean parent="OrganizationReversionGlobalMaintenanceDocument-DocumentCollectionPath-chartAndOrganization">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.organizationReversionGlobalOrganizations" />
+    		</bean>
+    	</property>
+   	</bean>
+   	
+   	 <bean id="OrganizationReversionGlobalMaintenanceDocument-DocumentCollectionPath-chartAndOrganization" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+		<property name="documentValues">
+	   		<list>
+	   			<value>chartOfAccountsCode</value>
+	   			<value>organizationCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	<bean id="OrganizationReversionGlobalMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+    		<bean parent="OrganizationReversionGlobalMaintenanceDocument-DocumentCollectionPath-chart">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.organizationReversionGlobalOrganizations" />
+    		</bean>
+    	</property>
+   	</bean>
+   	
+   	 <bean id="OrganizationReversionGlobalMaintenanceDocument-DocumentCollectionPath-chart" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+		<property name="documentValues">
+	   		<list>
+	   			<value>chartOfAccountsCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	<bean id="OrganizationReversionGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="OrganizationReversionGlobalMaintenanceDocument-RoutingAttribute-Chart" />
+    			<ref bean="OrganizationReversionGlobalMaintenanceDocument-RoutingAttribute-Organization" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="OrganizationReversionGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" />
+    		</list>
+    	</property>
+    </bean>
+   	
+	<bean id="OrganizationReversionGlobalMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="OrganizationReversionGlobalMaintenanceDocument-RoutingAttribute-Chart" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="OrganizationReversionGlobalMaintenanceDocument-DocumentValuePathGroup-Chart" />
+    		</list>
+    	</property>
+    </bean>
 </beans>

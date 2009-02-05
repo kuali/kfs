@@ -14,11 +14,9 @@
 <routeNodes>
 <start name="AdHoc"/>
 <role name="OrganizationHierarchy">
-<!-- <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate> -->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 <role name="Chart">
-<!--<ruleTemplate>KualiChartTemplate</ruleTemplate> -->
 <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 </role>
 </routeNodes>

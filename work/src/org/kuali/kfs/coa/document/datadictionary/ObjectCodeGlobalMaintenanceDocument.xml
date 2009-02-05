@@ -204,21 +204,4 @@
     		</list>
     	</property>
     </bean>
-
-
-	<!-- workflow attributes 
-  	<bean id="ObjectCodeGlobalMaintenanceDocument-workflowAttributes" parent="ObjectCodeGlobalMaintenanceDocument-workflowAttributes-parentBean" />
-  
-	<dd:workflowAttributes id="ObjectCodeGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true">
-		<dd:routingType nodeName="Chart">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-	        </dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-        		<dd:documentCollectionPath path="newMaintainableObject.businessObject.objectCodeGlobalDetails">
-	            	<dd:documentValue path="chartOfAccountsCode"/>
-    	        </dd:documentCollectionPath>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-	</dd:workflowAttributes>-->
 </beans>

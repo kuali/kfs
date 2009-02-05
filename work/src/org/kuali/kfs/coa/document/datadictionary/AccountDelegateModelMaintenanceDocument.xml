@@ -215,35 +215,5 @@
     		</list>
     	</property>
     </bean>
-
-
-
-	<!-- workflow attributes 
-  	<bean id="AccountDelegateModelMaintenanceDocument-workflowAttributes" parent="AccountDelegateModelMaintenanceDocument-workflowAttributes-parentBean" />
-  
-	<dd:workflowAttributes id="AccountDelegateModelMaintenanceDocument-workflowAttributes-parentBean" abstract="true">
-		<dd:routingType nodeName="OrganizationHierarchy">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Organization" attributeName="organizationCode" />
-        	</dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-        		<dd:documentCollectionPath path="newMaintainableObject.businessObject.accountGlobalDetails">
-	            	<dd:documentValue path="chartOfAccountsCode"/>
-    	            <dd:documentValue path="account.organizationCode"/>
-    	        </dd:documentCollectionPath>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-		<dd:routingType nodeName="Chart">
-			<dd:routingAttributes>
-            	<dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
-	        </dd:routingAttributes>
-        	<dd:documentValuePathGroup>
-        		<dd:documentCollectionPath path="newMaintainableObject.businessObject.accountGlobalDetails">
-	            	<dd:documentValue path="chartOfAccountsCode"/>
-    	        </dd:documentCollectionPath>
-	        </dd:documentValuePathGroup>
-		</dd:routingType>
-	</dd:workflowAttributes> -->
 </beans>
 

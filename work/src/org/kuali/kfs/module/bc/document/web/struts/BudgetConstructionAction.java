@@ -56,7 +56,10 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentHelperService;
@@ -100,8 +103,47 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             budgetConstructionForm.getBudgetConstructionDocument().setCleanupModeActionForceCheck(Boolean.FALSE);
         }
 
-        ActionForward forward = super.execute(mapping, form, request, response);
+        // TODO: the catch code comes from KualiDocumentActionBase.loadDocument()
+        // this allows the top portion of the document to be populated and the close button to function
+        // and also displays all the possible error messages for now
+        // we need to update this once KIM is adjusted to handle BC no access cases
+        // and maybe just show the authorization exception message
+        ActionForward forward = null;
+        try {
+            forward = super.execute(mapping, form, request, response);
+        }
+        catch (AuthorizationException e){
+            forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+            String docId = budgetConstructionForm.getDocId();
+            Document doc = null;
+            doc = getDocumentService().getByDocumentHeaderId(docId);
+            if (doc == null) {
+                throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
+            }
+            KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
+//            if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
+//                throw buildAuthorizationException("open", doc);
+//            }
+            // re-retrieve the document using the current user's session - remove the system user from the WorkflowDcument object
+            if ( workflowDocument != doc.getDocumentHeader().getWorkflowDocument() ) {
+                LOG.warn( "Workflow document changed via canOpen check" );
+                doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
+            }
+            budgetConstructionForm.setDocument(doc);
+            KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+            budgetConstructionForm.setDocTypeName(workflowDoc.getDocumentType());
+            // KualiDocumentFormBase.populate() needs this updated in the session
+            GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
 
+            budgetConstructionForm.setSecurityNoAccess(true);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+            budgetConstructionForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_CLOSE, Boolean.TRUE);
+
+        }
+
+        // TODO: remove this once handling of KIM no access interaction is fixed
         // handle any security no access cases
 //        if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_ORG_APPROVER)) {
 //            budgetConstructionForm.setSecurityNoAccess(true);

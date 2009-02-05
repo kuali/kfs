@@ -108,7 +108,90 @@ public enum ElectronicInvoiceRejectDocumentFixture {
             new BigDecimal("1821.00"), // invoiceNetAmount
             new ElectronicInvoiceRejectItemFixture[] {ElectronicInvoiceRejectItemFixture.EIRI_BASIC},
             new ElectronicInvoiceRejectReasonFixture[] {}            
-    ), ;
+    ),
+    EIR_MATCHING(
+            new Timestamp(new java.util.Date().getTime()), // invoiceProcessTimestamp
+            Boolean.FALSE, // fileHeaderTypeIndicator
+            Boolean.FALSE, // fileInformationOnlyIndicator
+            Boolean.FALSE, // fileTaxInLineIndicator
+            Boolean.FALSE, // fileSpecHandlingInLineIndicator
+            Boolean.FALSE, // fileShippingInLineIndicator
+            Boolean.FALSE, // fileDiscountInLineIndicator
+            "nullfile.xml", // invoiceFileName
+            "002254837", // vendorDunsNumber
+            1001, // vendorHeaderID
+            0, // vendorDetailID
+            "2008-07-11", // invoiceFileDate
+            "35106833", // invoiceFileNumber
+            "standard", // filePurposeId
+            "new", // fileOperationId
+            null, // deploymentMode
+            "446665", // referenceOrderId
+            "446665", // referenceDocumentRefPayloadId
+            null, // referenceDocumentRefText
+            null, // masterAgreementReferenceId
+            null, // masterAgreementReferenceDate
+            null, // masterAgreementInfoId
+            null, // masterAgreementInfoDate
+            "446665", // invoiceOrderId
+            "2008-07-11", // invoiceOrderDate
+            "37625311", // supplierOrderInfoId
+            null, // invoiceShipDate
+            "Biology, Lynch Lab, A. Seyfert", // shipToAddressName
+            "BLBI", // shipToAddressType
+            "1001 E 3rd St", // shipToAddressLine1
+            "Room #A108", // shipToAddressLine2
+            null, // shipToAddressLine3
+            "Bloomington", // shipToAddressCityName
+            "IN", // shipToAddressStateCode
+            "47405-7005", // shipToAddressPostalCode
+            "US", // shipToAddressCountryCode
+            null, // shipToAddressCountryName
+            "IN UNIV BLOOMINGTON", // billToAddressName
+            null, // billToAddressType
+            "PO BOX 4095", // billToAddressLine1
+            "FINANCIAL MGMT SERVICES", // billToAddressLine2
+            null, // billToAddressLine3
+            "BLOOMINGTON", // billToAddressCityName
+            "IN", // billToAddressStateCode
+            "47402", // billToAddressPostalCode
+            "US", // billToAddressCountryCode
+            null, // billToAddressCountryName
+            "VWR INTERNATIONAL", // remitToAddressName
+            null, // remitToAddressType
+            "P. O. BOX 640169", // remitToAddressLine1
+            null, // remitToAddressLine2
+            null, // remitToAddressLine3
+            "PITTSBURGH", // remitToAddressCityName
+            "PA", // remitToAddressStateCode
+            "15264-0169", // remitToAddressPostalCode
+            "US", // remitToAddressCountryCode
+            null, // remitToAddressCountryName
+            null, // invoiceCustomerNumber
+            null, // invoicePurchaseOrderId
+            null, // purchaseOrderId
+            null, // purchaseOrderDeliveryCampusCode
+            "USD", // invoiceSubTotalAmountCurrency
+            null, // invoiceSpecialHandlingAmountCurrency
+            null, // invoiceSpecialHandlingDescription
+            null, // invoiceShippingAmountCurrency
+            null, // invoiceShippingDescription
+            "USD", // invoiceTaxAmountCurrency
+            null, // invoiceTaxDescription
+            "USD", // invoiceGrossAmountCurrency
+            "USD", // invoiceDiscountAmountCurrency
+            "USD", // invoiceNetAmountCurrency
+            new BigDecimal("1821.00"), // invoiceSubTotalAmount
+            new BigDecimal("1"), // invoiceSpecialHandlingAmount
+            new BigDecimal("2"), // invoiceShippingAmount
+            new BigDecimal("0"), // invoiceTaxAmount
+            new BigDecimal("1821.00"), // invoiceGrossAmount
+            new BigDecimal("1.00"), // invoiceDiscountAmount
+            new BigDecimal("1821.00"), // invoiceNetAmount
+            new ElectronicInvoiceRejectItemFixture[] {ElectronicInvoiceRejectItemFixture.EIRI_BASIC},
+            new ElectronicInvoiceRejectReasonFixture[] {}            
+    ),
+    ;
 
     public Integer purapDocumentIdentifier;
     public Integer accountsPayablePurchasingDocumentLinkIdentifier;

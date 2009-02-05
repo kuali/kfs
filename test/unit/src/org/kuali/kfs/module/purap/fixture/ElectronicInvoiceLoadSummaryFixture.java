@@ -24,7 +24,7 @@ public enum ElectronicInvoiceLoadSummaryFixture {
 
     EILS_BASIC(
             "123456789", // vendorDunsNumber
-            3005, // vendorHeaderGeneratedIdentifier
+            1000, // vendorHeaderGeneratedIdentifier
             0, // vendorDetailAssignedIdentifier
             "Test Vendor", //vendorName
             new Integer(1), // invoiceLoadSuccessCount
@@ -33,7 +33,20 @@ public enum ElectronicInvoiceLoadSummaryFixture {
             new KualiDecimal(0.00), // invoiceLoadFailAmount
             Boolean.TRUE, // isEmpty
             new Timestamp(new java.util.Date().getTime()) // fileProcessTimestamp
-    ), ;
+    ),
+    EILS_MATCHING(
+            "002254837", // vendorDunsNumber
+            1001, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "Kuali University", //vendorName
+            new Integer(1), // invoiceLoadSuccessCount
+            new KualiDecimal(10.00), // invoiceLoadSuccessAmount
+            new Integer(0), // invoiceLoadFailCount
+            new KualiDecimal(0.00), // invoiceLoadFailAmount
+            Boolean.TRUE, // isEmpty
+            new Timestamp(new java.util.Date().getTime()) // fileProcessTimestamp
+    ),
+    ;
 
     private Integer invoiceLoadSummaryIdentifier;
     private String vendorDunsNumber; // this is string constant if DUNS not found

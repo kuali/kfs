@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>VendorCreditMemoDocument</name>
+<parent>AccountsPayableTransactionalDocument</parent>
+<docHandler>${application.url}/purapVendorCreditMemo.do?methodToCall=docHandler</docHandler>
+<routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresImageAttachment"/>
+          <split name="RequiresImageAttachment" nextNode="Account">
+			<branch name="True">
+				<requests name="ImageAttachment" nextNode="JoinRequiresImageAttachment"/>
+			</branch>
+			<branch name="False">
+				<simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment"/>
+			</branch>
+			<join name="JoinRequiresImageAttachment"/>
+		  </split>
+          <requests name="Account"/>
+        </routePath>
+      </routePaths>
+<routeNodes>
+<start name="AdHoc"/>
+<role name="ImageAttachment">
+<!--<ruleTemplate>KualiAccountsPayableTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<role name="Account">
+<!--<ruleTemplate>KualiPurApAccountTemplate</ruleTemplate>-->
+<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+<split name="RequiresImageAttachment">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+<simple name="NoOpRequiresImageAttachment">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+<join name="JoinRequiresImageAttachment"/>
+</routeNodes>
+</documentType>
+</documentTypes>
+</data>

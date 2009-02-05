@@ -21,11 +21,6 @@ package org.kuali.kfs.vnd;
  */
 public class VendorConstants {
 
-    //FIXME hjs-get rid of this for KIM
-    public static class Workgroups {
-        public static final String WORKGROUP_VENDOR_CONTRACT = "VENDOR_CONTRACT_GROUP";
-    }
-    
     public static class VendorTypes {
         public static final String DISBURSEMENT_VOUCHER = "DV";
         public static final String PURCHASE_ORDER = "PO";

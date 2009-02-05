@@ -129,22 +129,16 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public void handleRouteStatusChange(DocumentHeader header) {
         super.handleRouteStatusChange(header);
-
         VendorDetail vendorDetail = (VendorDetail) getBusinessObject();
-
         KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
+
         // This code is only executed when the final approval occurs
         if (workflowDoc.stateIsProcessed()) {
-            /**
-             * This id and versionNumber null check is needed here since those fields are always null
-             * for a fresh maintenance doc. - KULPURAP-2488          
-             */
-            if (vendorDetail.isVendorParentIndicator() && 
-                vendorDetail.getVendorHeaderGeneratedIdentifier() != null &&
-                vendorDetail.getVersionNumber() != null) {
+            // This id and versionNumber null check is needed here since those fields are always null for a fresh maintenance doc.
+            if (vendorDetail.isVendorParentIndicator() && vendorDetail.getVendorHeaderGeneratedIdentifier() != null && vendorDetail.getVersionNumber() != null) {
                 VendorDetail previousParent = SpringContext.getBean(VendorService.class).getParentVendor(vendorDetail.getVendorHeaderGeneratedIdentifier());
-                //We'll only need to do the following if the previousParent is not the same as the current vendorDetail, because the
-                //following lines are for vendor parent indicator changes.
+                // We'll only need to do the following if the previousParent is not the same as the current vendorDetail, because
+                // the following lines are for vendor parent indicator changes.
                 if (previousParent.getVendorHeaderGeneratedIdentifier().intValue() != vendorDetail.getVendorHeaderGeneratedIdentifier().intValue() || previousParent.getVendorDetailAssignedIdentifier().intValue() != vendorDetail.getVendorDetailAssignedIdentifier().intValue()) {
                     previousParent.setVendorParentIndicator(false);
                     addNoteForParentIndicatorChange(vendorDetail, previousParent, header.getDocumentNumber());
@@ -157,9 +151,9 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * Add a note to the previous parent vendor to denote that parent vendor indicator change had occurred.
      * 
-     * @param newVendorDetail  The current vendor
-     * @param oldVendorDetail  The parent vendor of the current vendor prior to this change.
-     * @param documentNumber   The document number of the document where we're attempting the parent vendor indicator change.
+     * @param newVendorDetail The current vendor
+     * @param oldVendorDetail The parent vendor of the current vendor prior to this change.
+     * @param documentNumber The document number of the document where we're attempting the parent vendor indicator change.
      */
     private void addNoteForParentIndicatorChange(VendorDetail newVendorDetail, VendorDetail oldVendorDetail, String documentNumber) {
         String noteText = VendorUtils.buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, documentNumber, newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");   
@@ -369,7 +363,6 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-
         if (ObjectUtils.isNotNull(((VendorDetail) getBusinessObject()).getVendorDetailAssignedIdentifier())) {
             return super.generateMaintenanceLocks();
         }
@@ -394,79 +387,6 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
     }
 
-/*    *//**
-     * Overrides the section implementation to turn off the include add line property unless the user
-     * is in the vendor contract workgroup.
-     * 
-     * Also, don't show the vendor diversity add line if the vendor is not a parent, or if the vendor is a parent
-     * but the vendor was previously (in the old maintainable) not a parent.
-     * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.maintenance.Maintainable)
-     *//*
-    @Override
-    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        List<Section> sections = super.getSections(document, oldMaintainable);
-        Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
-        String vendorContractWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorContract.class, VendorConstants.Workgroups.WORKGROUP_VENDOR_CONTRACT);
-        boolean isVendorParent = ((VendorDetail) getBusinessObject()).isVendorParentIndicator();
-        boolean isInVendorContractGroup = KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(currentUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, vendorContractWorkgroup);
-        
-        //Because it is possible for the user to change the vendor parent indicator on the screen, we'll need to find out
-        //whether the old vendor was a parent as well.
-        boolean isOldVendorParent = true;
-        if (oldMaintainable != null) {
-            isOldVendorParent = ((VendorDetail)oldMaintainable.getBusinessObject()).isVendorParentIndicator();
-        }
-        if (!isVendorParent || (isVendorParent && !isOldVendorParent) || !isInVendorContractGroup) {
-            for (Section section : sections) {
-                if (!isVendorParent || (isVendorParent && !isOldVendorParent)) {
-                    if (section.getContainedCollectionNames().contains(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES)) {
-                        Iterator<Row> rows = section.getRows().iterator();
-                        while (rows.hasNext()) {
-                            Row row = rows.next();
-                            if (row.getFields().size() > 0) {
-                                Field field = row.getFields().get(0);
-                                if (StringUtils.equals(field.getPropertyName(), VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES)) {
-                                    rows.remove();
-                                }
-                            }
-                        }
-                    }
-                }
-                // If the user is not in vendor contract workgroup, don't include add line for vendor contract and vendor contract
-                // organization
-                if (!isInVendorContractGroup) {
-                    if (section.getContainedCollectionNames().contains(VendorPropertyConstants.VENDOR_CONTRACT) || section.getContainedCollectionNames().contains(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION)) {
-                        Iterator<Row> rows = section.getRows().iterator();
-                        while (rows.hasNext()) {
-                            Row row = rows.next();
-                            if (row.getFields().size() > 0) {
-                                Field field = row.getFields().get(0);
-                                if (StringUtils.equals(field.getPropertyName(), VendorPropertyConstants.VENDOR_CONTRACT)) {
-                                    rows.remove();
-                                    continue;
-                                }
-                                if (StringUtils.equals(field.getFieldType(), "container") && field.getContainerName().startsWith(VendorPropertyConstants.VENDOR_CONTRACT + "[")) {
-                                    Iterator<Row> cRows = field.getContainerRows().iterator();
-                                    while (cRows.hasNext()) {
-                                        Field cField = cRows.next().getFields().get(0);
-                                        if (StringUtils.equals(cField.getPropertyName(), VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION)) {
-                                            cRows.remove();
-                                            continue;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return sections;
-    }
-*/
-    
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */

@@ -25,10 +25,13 @@ import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=true)
+@RelatesTo(JiraIssue.KULPURAP3268)
 public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
 
     PurchaseOrderCloseDocumentRule closeRule;

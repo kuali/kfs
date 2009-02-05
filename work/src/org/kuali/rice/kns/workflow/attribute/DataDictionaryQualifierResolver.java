@@ -138,8 +138,6 @@ public class DataDictionaryQualifierResolver implements QualifierResolver {
     protected Document getDocument(RouteContext context, Class<? extends Document> documentClass) {
         String documentID = getDocumentId(context);
         
-        Map<String, String> documentNumberCriteria = new HashMap<String, String>();
-        documentNumberCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentID);
         if (documentID != null) {
             try {
                 return SpringContext.getBean(DocumentService.class).getByDocumentHeaderIdSessionless(documentID);

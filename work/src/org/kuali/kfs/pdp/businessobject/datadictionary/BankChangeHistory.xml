@@ -29,8 +29,9 @@
         <ref bean="BankChangeHistory-paymentGroup.disbursementType.name" />
         <ref bean="BankChangeHistory-paymentGroup.disbursementNbr" />
         <ref bean="BankChangeHistory-paymentGroup.netPaymentAmount" />
-        <ref bean="BankChangeHistory-paymentGroup.paymentGroupHistory.origBankCode" />
+        <ref bean="BankChangeHistory-originalBankCodeList" />
         <ref bean="BankChangeHistory-paymentGroup.bankCode" />
+        <ref bean="BankChangeHistory-paymentGroup.paymentGroupHistory.origBankCode" />
       </list>
     </property>
   </bean>  
@@ -112,16 +113,23 @@
     <property name="name" value="paymentGroup.netPaymentAmount" />
   </bean> 
   
-  <bean id="BankChangeHistory-paymentGroup.paymentGroupHistory.origBankCode" parent="BankChangeHistory-paymentGroup.paymentGroupHistory.origBankCode-parentBean" />
-  <bean id="BankChangeHistory-paymentGroup.paymentGroupHistory.origBankCode-parentBean" abstract="true" parent="Bank-bankCode">
-    <property name="name" value="paymentGroup.paymentGroupHistory.origBankCode" />
-    <property name="label" value="Original Bank Code" />
+  <bean id="BankChangeHistory-originalBankCodeList" parent="BankChangeHistory-originalBankCodeList-parentBean" />
+  <bean id="BankChangeHistory-originalBankCodeList-parentBean" parent="Bank-bankCode">
+    <property name="name" value="originalBankCodeList" />
+    <property name="label" value="Original Bank Code List" />
     <property name="shortLabel" value="Orig Bnk Cd" />
   </bean> 
   
   <bean id="BankChangeHistory-paymentGroup.bankCode" parent="BankChangeHistory-paymentGroup.bankCode-parentBean" />
   <bean id="BankChangeHistory-paymentGroup.bankCode-parentBean" abstract="true" parent="Bank-bankCode">
     <property name="name" value="paymentGroup.bankCode" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-paymentGroup.paymentGroupHistory.origBankCode" parent="BankChangeHistory-paymentGroup.paymentGroupHistory.origBankCode-parentBean" />
+  <bean id="BankChangeHistory-paymentGroup.paymentGroupHistory.origBankCode-parentBean" abstract="true" parent="PaymentGroupHistory-origBankCode">
+    <property name="name" value="paymentGroup.paymentGroupHistory.origBankCode" />
+    <property name="label" value="Original Bank Code" />
+    <property name="shortLabel" value="Orig Bnk Cd" />
   </bean> 
   
   <!-- Business Object Lookup Definition -->
@@ -136,7 +144,7 @@
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
-            <value>paymentGroup.paymentGroupHistory.origBankCode</value>
+            <!--value>paymentGroup.paymentGroupHistory.origBankCode</value-->
             <value>paymentGroup.bankCode</value>
           </list>
         </property>
@@ -195,8 +203,10 @@
                     p:attributeName="paymentGroup.disbursementNbr" />  
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.netPaymentAmount" />   
+              <!--bean parent="FieldDefinition"
+                    p:attributeName="paymentGroup.paymentGroupHistory.origBankCode" /-->
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.paymentGroupHistory.origBankCode" />  
+                    p:attributeName="originalBankCodeList" />
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.bankCode" /> 
       </list>

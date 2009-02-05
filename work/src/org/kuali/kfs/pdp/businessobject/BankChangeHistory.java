@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import org.apache.commons.lang.StringUtils;
+
+
 
 /**
  * Report object for the bank change lookup
@@ -25,4 +28,16 @@ public class BankChangeHistory extends PaymentDetail {
 
     }
   
+    public String getOriginalBankCodeList() {
+        String commaSeparatedOriginalBankCodeList = "";
+        
+        for (PaymentGroupHistory paymentGroupHistory : this.getPaymentGroup().getPaymentGroupHistory()) {
+            if ( !StringUtils.isEmpty(paymentGroupHistory.getOrigBankCode()) ) commaSeparatedOriginalBankCodeList = commaSeparatedOriginalBankCodeList + paymentGroupHistory.getOrigBankCode() + ", ";
+        }
+        
+        commaSeparatedOriginalBankCodeList = StringUtils.strip(commaSeparatedOriginalBankCodeList);
+        commaSeparatedOriginalBankCodeList = StringUtils.removeEnd(commaSeparatedOriginalBankCodeList, ",");
+        
+        return commaSeparatedOriginalBankCodeList;
+    }
 }

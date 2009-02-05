@@ -40,7 +40,7 @@ public class ContractManagerAssignmentDocumentPresentationController extends Fin
     public boolean canInitiate(String documentTypeName) {
         int numberOfRequisitions = SpringContext.getBean(RequisitionService.class).getCountOfRequisitionsAwaitingContractManagerAssignment();
         if (numberOfRequisitions == 0) {
-            throw new DocumentInitiationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[] { documentTypeName });
+            throw new DocumentInitiationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[] { documentTypeName }, true);
         }
 
         return super.canInitiate(documentTypeName);

@@ -26,6 +26,10 @@ public class DocumentInitiationException extends KualiException {
         super(MessageFormat.format(getConfigurationService().getPropertyString(messageKey), messageParameters));
     }
     
+    public DocumentInitiationException(String messageKey, Object[] messageParameters, boolean hideIncidentReport) {
+        super(MessageFormat.format(getConfigurationService().getPropertyString(messageKey), messageParameters), hideIncidentReport);
+    }
+    
     private static KualiConfigurationService configurationService;
     private static KualiConfigurationService getConfigurationService() {
         if (configurationService == null) {

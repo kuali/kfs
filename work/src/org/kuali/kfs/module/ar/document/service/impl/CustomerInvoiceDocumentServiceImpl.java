@@ -82,9 +82,8 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
         invoices = customerInvoiceDocumentDao.getAll();
         // return invoices;
-        List documentHeaderIds = new ArrayList();
-        for (Iterator itr = invoices.iterator(); itr.hasNext();) {
-            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) itr.next();
+        List<String> documentHeaderIds = new ArrayList<String>();
+        for (CustomerInvoiceDocument invoice : invoices) {
             documentHeaderIds.add(invoice.getDocumentNumber());
 
         }
@@ -151,7 +150,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return invoices;
     }
     
-    public Collection getOpenInvoiceDocumentsByCustomerNameByCustomerType(String customerName, String customerTypeCode) {
+    public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNameByCustomerType(String customerName, String customerTypeCode) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
         
         //  trim and force-caps the customer name
@@ -291,16 +290,15 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
         Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
 
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("billByChartOfAccountCode", chartOfAccountsCode);
         fieldValues.put("billedByOrganizationCode", organizationCode);
 
 
         customerInvoiceDocuments = businessObjectService.findMatching(CustomerInvoiceDocument.class, fieldValues);
 
-        List docNumbers = new ArrayList();
-        for (Iterator itr = customerInvoiceDocuments.iterator(); itr.hasNext();) {
-            CustomerInvoiceDocument doc = (CustomerInvoiceDocument) itr.next();
+        List<String> docNumbers = new ArrayList<String>();
+        for (CustomerInvoiceDocument doc : customerInvoiceDocuments) {
             docNumbers.add(doc.getDocumentNumber());
         }
         customerInvoiceDocuments.clear();
@@ -322,7 +320,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
 
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("processingChartOfAccountCode", chartOfAccountsCode);
         fieldValues.put("processingOrganizationCode", organizationCode);
 

@@ -9,3 +9,6 @@ delete from krim_role_perm_t where perm_id = '110'
 /
 delete from krim_perm_t where perm_id = '110'
 /
+
+update krim_role_perm_t set role_id = '66' where perm_id = '259'
+/

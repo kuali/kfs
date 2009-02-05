@@ -383,8 +383,8 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_N_OTHERS_NOTEMPTY.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_COUNTRY_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_NQI_ID, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
@@ -393,8 +393,8 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_NOTN_TAX_COUNTRY_EMPTY.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_COUNTRY_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF));
         assertTrue(errMap.getErrorCount() == 3);
         
@@ -407,13 +407,13 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_F_FED_INVALID.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_F_ST_INVALID.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         // Independent Contractor
@@ -423,13 +423,13 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_I_FED_INVALID.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_I_ST_INVALID.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         // Royalties
@@ -439,13 +439,13 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_R_FED_INVALID.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_R_ST_INVALID.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         // Artists/Athletes
@@ -455,13 +455,13 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_A_FED_INVALID.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         errMap.clear();
         PaymentRequestTaxTabFixture.INCOME_A_ST_INVALID.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         // relationship between federal/state tax rates        
@@ -471,13 +471,13 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.FFD_ZERO_ST_NOTZERO.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         errMap.clear();
         PaymentRequestTaxTabFixture.FED_NOTZERO_ST_ZERO.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
         // testing tax indicators
@@ -493,7 +493,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.GROSS_TAX_ZERO.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF));
         assertTrue(errMap.getErrorCount() == 1);
 
         // choose foreign source
@@ -503,8 +503,8 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.FOREIGN_TAX_NOTZERO.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
         assertTrue(errMap.getErrorCount() == 2);
 
         // choose USAID per diem
@@ -514,9 +514,9 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.USAID_INCOME_NOTF_TAX_NOTZERO.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
         assertTrue(errMap.getErrorCount() == 3);
 
         // choose exempt under other code
@@ -526,7 +526,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         errMap.clear();
         PaymentRequestTaxTabFixture.OTHER_TAX_NOTZERO.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
         assertTrue(errMap.getErrorCount() == 1);
 
         // choose special W4
@@ -538,8 +538,8 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         assertFalse(rule.validateTaxArea(preq));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_MUST_NOT_NEGATIVE));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
         assertTrue(errMap.getErrorCount() == 4);
 
         // most indicators shall be mutual exclusive
@@ -547,10 +547,10 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         PaymentRequestTaxTabFixture.SW4_TREATY_GROSS_FOREIGN_USAID_OTHER.populate(preq);
         assertFalse(rule.validateTaxArea(preq));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));               
     }
 }

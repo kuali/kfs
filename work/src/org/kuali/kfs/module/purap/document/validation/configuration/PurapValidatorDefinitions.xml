@@ -59,7 +59,7 @@
 
 	<bean id="PurchasingAccountsPayabale-fullDocumentEntryCompletedBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayabaleFullDocumentEntryCompletedBranchingValidation" abstract="true" />
 
-<!-- Purchasing Definitions -->	
+<!-- Purchasing Definitions -->
 	<bean id="Purchasing-capitalAssetsForAutomaticPurchaseOrderValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetsForAutomaticPurchaseOrderValidation" abstract="true">
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
@@ -450,7 +450,7 @@
 	<bean id="AccountsPayable-validateAccountsPayableItemsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableValidateAccountsPayableItemsValidation" abstract="true">
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
-
+	
 	<bean id="AccountsPayable-preCalculateValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayablePreCalculateValidation" abstract="true"/>	
 	
 <!-- Credit Memo Definitions -->
@@ -498,6 +498,8 @@
 		<property name="persistenceService" ref="persistenceService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="PaymentRequest-taxAreaValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestTaxAreaValidation" abstract="true"/>	        
 
 	<bean id="PaymentRequest-cancelValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestCancelValidation" abstract="true"/>
 	
@@ -512,8 +514,7 @@
 	</bean>	
 
 	<bean id="PaymentRequest-reviewAccountingLine" parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype"/>
-	
-	
+		
 	<bean id="PaymentRequest-processItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestProcessItemValidation" abstract="true">
 		<property name="purapService" ref="purapService" />
 		<property name="reviewAccountingLineValidation" ref="PaymentRequest-reviewAccountingLine" />		

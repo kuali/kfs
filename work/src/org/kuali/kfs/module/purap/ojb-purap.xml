@@ -2606,15 +2606,15 @@
 	<field-descriptor name="useTaxIndicator" column="USE_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="taxClassificationCode" column="TAX_CLSIF_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="federalTaxPercent" column="FTX_PCT" jdbc-type="DECIMAL" />
-	<field-descriptor name="stateTaxPercent" column="STX_PCT" jdbc-type="DECIMAL" />
+	<field-descriptor name="taxFederalPercent" column="FTX_PCT" jdbc-type="DECIMAL" />
+	<field-descriptor name="taxStatePercent" column="STX_PCT" jdbc-type="DECIMAL" />
 	<field-descriptor name="taxCountryCode" column="TAX_CNTRY_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="grossUpIndicator" column="GRS_UP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="taxGrossUpIndicator" column="GRS_UP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	<field-descriptor name="taxExemptTreatyIndicator" column="TRTY_EXMPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-	<field-descriptor name="foreignSourceIndicator" column="FRGN_SRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="taxForeignSourceIndicator" column="FRGN_SRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	<field-descriptor name="taxSpecialW4Amount" column="SPCL_W4_INC_AMT" jdbc-type="DECIMAL" />
 	<field-descriptor name="taxUSAIDPerDiemIndicator" column="USAID_DIEM_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-	<field-descriptor name="otherTaxExemptIndicator" column="INC_TAX_EXMPT_CD_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="taxOtherExemptIndicator" column="INC_TAX_EXMPT_CD_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	<field-descriptor name="taxNQIId" column="NQI_CUST_TAX_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR" />
     

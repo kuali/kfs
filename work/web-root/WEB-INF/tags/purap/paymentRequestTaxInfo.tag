@@ -38,24 +38,24 @@
                 	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxClassificationCode}" property="document.taxClassificationCode" readOnly="${not taxAreaEditable}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.foreignSourceIndicator}" /></div>
+                	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.taxForeignSourceIndicator}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.foreignSourceIndicator}" property="document.foreignSourceIndicator" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxForeignSourceIndicator}" property="document.taxForeignSourceIndicator" readOnly="${not taxAreaEditable}" />
                 </td>
             </tr>
             
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                	<div align="right"><kul:htmlAttributeLabel forceRequired = "true" attributeEntry="${documentAttributes.federalTaxPercent}" /></div>
+                	<div align="right"><kul:htmlAttributeLabel forceRequired = "true" attributeEntry="${documentAttributes.taxFederalPercent}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.federalTaxPercent}" property="document.federalTaxPercent" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxFederalPercent}" property="document.taxFederalPercent" readOnly="${not taxAreaEditable}" />
 					&nbsp;                
                     <c:if test="${taxAreaEditable}">
                    		<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent"
                     		lookupParameters="document.taxClassificationCode:incomeClassCode,'F':incomeTaxTypeCode,'Y':active"
-                        	fieldConversions="incomeTaxPercent:document.federalTaxPercent"/>   
+                        	fieldConversions="incomeTaxPercent:document.taxFederalPercent"/>   
                     </c:if>                
                 </td>
                 <th align=right valign=middle class="bord-l-b">
@@ -68,22 +68,22 @@
                         
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                	<div align="right"><kul:htmlAttributeLabel forceRequired = "true" attributeEntry="${documentAttributes.stateTaxPercent}" /></div>
+                	<div align="right"><kul:htmlAttributeLabel forceRequired = "true" attributeEntry="${documentAttributes.taxStatePercent}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.stateTaxPercent}" property="document.stateTaxPercent" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxStatePercent}" property="document.taxStatePercent" readOnly="${not taxAreaEditable}" />
 					&nbsp;                
                     <c:if test="${taxAreaEditable}">
                    		<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent"
                     		lookupParameters="document.taxClassificationCode:incomeClassCode,'S':incomeTaxTypeCode,'Y':active"
-                        	fieldConversions="incomeTaxPercent:document.stateTaxPercent"/>   
+                        	fieldConversions="incomeTaxPercent:document.taxStatePercent"/>   
                     </c:if>                
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                	<div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.otherTaxExemptIndicator}" /></div>
+                	<div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.taxOtherExemptIndicator}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.otherTaxExemptIndicator}" property="document.otherTaxExemptIndicator" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxOtherExemptIndicator}" property="document.taxOtherExemptIndicator" readOnly="${not taxAreaEditable}" />
                 </td>
             </tr>
 
@@ -95,10 +95,10 @@
                 	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxCountryCode}" property="document.taxCountryCode" readOnly="${not taxAreaEditable}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                	<div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.grossUpIndicator}" /></div>
+                	<div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.taxGrossUpIndicator}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.grossUpIndicator}" property="document.grossUpIndicator" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxGrossUpIndicator}" property="document.taxGrossUpIndicator" readOnly="${not taxAreaEditable}" />
                 </td>
             </tr>
 

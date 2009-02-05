@@ -29,11 +29,11 @@ import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.util.JSTLConstants;
@@ -380,7 +380,8 @@ public class PurapConstants extends JSTLConstants {
 
     //TAB ERROR KEYS
     public static final String PAYMENT_REQUEST_INIT_TAB_ERRORS = "document.purchaseOrderIdentifier,document.invoiceNumber,document.invoiceDate,document.vendorInvoiceAmount,document.specialHandlingInstructionLine1Text,document.specialHandlingInstructionLine2Text,document.specialHandlingInstructionLine3Text";
-    //public static final String PAYMENT_REQUEST_TAX_TAB_ERRORS = "document.federalTaxPercent,document.stateTaxPercent,document.taxSpecialW4Amount,document.taxNQIId";
+    public static final String PAYMENT_REQUEST_TAX_TAB_ERRORS = "document.tax*";
+    //public static final String PAYMENT_REQUEST_TAX_TAB_ERRORS = "document.taxClassificationCode,document.taxFederalPercent,document.taxStatePercent,document.taxCountryCode,document.taxGrossUpIndicator,document.taxExemptTreatyIndicator,document.taxForeignSourceIndicator,document.taxSpecialW4Amount,document.taxUSAIDPerDiemIndicator,document.taxOtherExemptIndicator,document.taxNQIId";
     public static final String RECEIVING_LINE_INIT_TAB_ERRORS = "document.purchaseOrderIdentifier,document.shipmentReceivedDate,document.shipmentPackingSlipNumber,document.shipmentBillOfLadingNumber,document.carrierCode";
     public static final String BULK_RECEIVING_INIT_TAB_ERRORS = "document.purchaseOrderIdentifier,document.shipmentReceivedDate,document.shipmentPackingSlipNumber,document.shipmentBillOfLadingNumber,document.carrierCode";
     public static final String BULK_RECEIVING_VENDOR_TAB_ERRORS = "document.vendor*,document.alternate*,document.goodsDelivered*,document.shipmentReceivedDate,document.shipmentPackingSlipNumber,document.shipmentBillOfLadingNumber,document.carrierCode,document.shipmentReferenceNumber,document.shipmentWeight,document.noOfCartons,document.trackingNumber";

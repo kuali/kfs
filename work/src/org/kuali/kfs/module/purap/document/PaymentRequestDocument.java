@@ -107,18 +107,18 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
     
-    // TAX ROUTING FIELDS
+    // TAX EDIT AREA FIELDS
     private String taxClassificationCode;
-    private BigDecimal federalTaxPercent;       // number is in whole form so 5% is 5.00
-    private BigDecimal stateTaxPercent;         // number is in whole form so 5% is 5.00
     private String taxCountryCode;
-    private Boolean grossUpIndicator;
-    private Boolean taxExemptTreatyIndicator;
-    private Boolean foreignSourceIndicator;
-    private KualiDecimal taxSpecialW4Amount;
-    private Boolean taxUSAIDPerDiemIndicator;
-    private Boolean otherTaxExemptIndicator;
     private String taxNQIId;
+    private BigDecimal taxFederalPercent;       // number is in whole form so 5% is 5.00
+    private BigDecimal taxStatePercent;         // number is in whole form so 5% is 5.00
+    private KualiDecimal taxSpecialW4Amount;
+    private Boolean taxGrossUpIndicator;
+    private Boolean taxExemptTreatyIndicator;
+    private Boolean taxForeignSourceIndicator;
+    private Boolean taxUSAIDPerDiemIndicator;
+    private Boolean taxOtherExemptIndicator;
     
     // NOT PERSISTED IN DB
     private String vendorShippingTitleCode;
@@ -1176,20 +1176,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.taxClassificationCode = taxClassificationCode;
     }
 
-    public BigDecimal getFederalTaxPercent() {
-        return federalTaxPercent;
+    public BigDecimal getTaxFederalPercent() {
+        return taxFederalPercent;
     }
 
-    public void setFederalTaxPercent(BigDecimal federalTaxPercent) {
-        this.federalTaxPercent = federalTaxPercent;
+    public void setTaxFederalPercent(BigDecimal taxFederalPercent) {
+        this.taxFederalPercent = taxFederalPercent;
     }
 
-    public BigDecimal getStateTaxPercent() {
-        return stateTaxPercent;
+    public BigDecimal getTaxStatePercent() {
+        return taxStatePercent;
     }
 
-    public void setStateTaxPercent(BigDecimal stateTaxPercent) {
-        this.stateTaxPercent = stateTaxPercent;
+    public void setTaxStatePercent(BigDecimal taxStatePercent) {
+        this.taxStatePercent = taxStatePercent;
     }
 
     public String getTaxCountryCode() {
@@ -1200,12 +1200,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.taxCountryCode = taxCountryCode;
     }
 
-    public Boolean getGrossUpIndicator() {
-        return grossUpIndicator;
+    public Boolean getTaxGrossUpIndicator() {
+        return taxGrossUpIndicator;
     }
 
-    public void setGrossUpIndicator(Boolean grossUpIndicator) {
-        this.grossUpIndicator = grossUpIndicator;
+    public void setTaxGrossUpIndicator(Boolean taxGrossUpIndicator) {
+        this.taxGrossUpIndicator = taxGrossUpIndicator;
     }
 
     public Boolean getTaxExemptTreatyIndicator() {
@@ -1216,12 +1216,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.taxExemptTreatyIndicator = taxExemptTreatyIndicator;
     }
 
-    public Boolean getForeignSourceIndicator() {
-        return foreignSourceIndicator;
+    public Boolean getTaxForeignSourceIndicator() {
+        return taxForeignSourceIndicator;
     }
 
-    public void setForeignSourceIndicator(Boolean foreignSourceIndicator) {
-        this.foreignSourceIndicator = foreignSourceIndicator;
+    public void setTaxForeignSourceIndicator(Boolean taxForeignSourceIndicator) {
+        this.taxForeignSourceIndicator = taxForeignSourceIndicator;
     }
 
     public KualiDecimal getTaxSpecialW4Amount() {
@@ -1240,12 +1240,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.taxUSAIDPerDiemIndicator = taxUSAIDPerDiemIndicator;
     }
 
-    public Boolean getOtherTaxExemptIndicator() {
-        return otherTaxExemptIndicator;
+    public Boolean getTaxOtherExemptIndicator() {
+        return taxOtherExemptIndicator;
     }
 
-    public void setOtherTaxExemptIndicator(Boolean otherTaxExemptIndicator) {
-        this.otherTaxExemptIndicator = otherTaxExemptIndicator;
+    public void setTaxOtherExemptIndicator(Boolean taxOtherExemptIndicator) {
+        this.taxOtherExemptIndicator = taxOtherExemptIndicator;
     }
 
     public String getTaxNQIId() {

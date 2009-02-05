@@ -30,7 +30,8 @@
 			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
   					<property name="collectionProperty" value="document.items" />
   					<property name="validations">
-  						<list>
+  					  <list>
+  					  
 						<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 							<property name="parameterProperties">
 								<list>
@@ -62,9 +63,9 @@
 						            </bean>
 								</list>
 							</property>
-						</bean>
-																				
-						</list>
+						</bean>			
+																						
+					  </list>
 					</property>
 				</bean>
 
@@ -72,13 +73,16 @@
 
 				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  																
+				</bean>  				
+																
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  												
+				</bean>  	
+															
 				<bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  				
+				</bean>  	
+							
 				<bean parent="PaymentRequest-invoiceValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  									
@@ -96,10 +100,12 @@
 														
 				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  															
+				</bean>  			
+																
 				<bean parent="PaymentRequest-vendorValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  															
+				</bean>  			
+																
 				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  															
@@ -150,13 +156,16 @@
 
 				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  																
+				</bean>  									
+											
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  												
+				</bean>  							
+									
 				<bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  				
+				
 				<bean parent="PaymentRequest-invoiceValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  									
@@ -174,10 +183,12 @@
 										
 				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  															
+				</bean>  		
+																	
 				<bean parent="PaymentRequest-vendorValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  															
+				</bean>  		
+																	
 				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  															
@@ -380,14 +391,15 @@
 	<bean id="PaymentRequest-preCalculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
+  				<bean parent="PaymentRequest-taxAreaValidation" scope="prototype" /> 
   				<bean parent="AccountsPayable-preCalculateValidation" scope="prototype" />  			
 			</list>
 		</property>
 	</bean>
 
-	<!-- Calculate Accounts Payable Event -->
+	<!-- Calculate Accounts Payable Event --> 
     <bean id="PaymentRequest-calculateAccountsPayableValidation" parent="PaymentRequest-calculateAccountsPayableValidation-parentBean" scope="prototype" />
-  
+	
 	<bean id="PaymentRequest-calculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
@@ -395,9 +407,38 @@
   				<bean parent="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" scope="prototype" />
   				<bean parent="PaymentRequest-grandTotalOverZeroValidation" scope="prototype" />
   				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype" />
+  				<bean parent="PaymentRequest-taxAreaValidation" scope="prototype" /> 
   			</list>
   		</property>										
 	</bean>
+					
+	<!-- 
+    <bean id="PaymentRequest-calculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestCalculationBranchingValidation" scope="prototype" abstract="true">
+		<property name="branchMap">
+			<map>
+				<entry>							
+					<key><value>notAwaitingTaxReview</value></key>
+					<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  						<property name="validations">
+  							<list>
+  								<bean parent="PaymentRequest-totalsValidation" scope="prototype" />
+  								<bean parent="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" scope="prototype" />
+  								<bean parent="PaymentRequest-grandTotalOverZeroValidation" scope="prototype" />
+  								<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype" />
+  							</list>
+  						</property>										
+					</bean>
+				</entry>		
+				<entry>							
+					<key><value>waitingTaxReview</value></key>
+  					<bean parent="PaymentRequest-taxAreaValidation" scope="prototype">
+  						<property name="quitOnFail" value="true" />
+					</bean>  				  					  															  				  							
+				</entry>		
+			</map>
+		</property>
+	</bean>
+	-->
 
 	<!-- Cancel Accounts Payable Event -->
     <bean id="PaymentRequest-cancelAccountsPayableValidation" parent="PaymentRequest-cancelAccountsPayableValidation-parentBean" scope="prototype" />
@@ -459,7 +500,7 @@
   				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype"/>		  			
 			</list>
 		</property>
-	</bean>
+	</bean>       
 
     <bean id="PaymentRequest-eInvoiceValidation" parent="PaymentRequest-eInvoiceValidation-parentBean" scope="prototype" />
   

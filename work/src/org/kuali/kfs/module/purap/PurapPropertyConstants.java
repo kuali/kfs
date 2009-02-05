@@ -153,16 +153,16 @@ public class PurapPropertyConstants {
     public static final String RECURRING_PAYMENT_TYPE = "recurringPaymentType";
     // tax tab fields
     public static final String TAX_CLASSIFICATION_CODE = "taxClassificationCode";
-    public static final String FEDERAL_TAX_PERCENT = "federalTaxPercent";
-    public static final String STATE_TAX_PERCENT = "stateTaxPercent";
     public static final String TAX_COUNTRY_CODE = "taxCountryCode";
     public static final String TAX_NQI_ID = "taxNQIId";
-    public static final String GROSS_UP_INDICATOR = "grossUpIndicator";
-    public static final String TAX_EXEMPT_TREATY_INDICATOR = "taxExemptTreatyIndicator";
-    public static final String FOREIGN_SOURCE_INDICATOR = "foreignSourceIndicator";
-    public static final String TAX_USAID_PER_DIEM_INDICATOR = "taxUSAIDPerDiemIndicator";
-    public static final String OTHER_TAX_EXEMPT_INDICATOR = "otherTaxExemptIndicator";
+    public static final String TAX_FEDERAL_PERCENT = "taxFederalPercent";
+    public static final String TAX_STATE_PERCENT = "taxStatePercent";
     public static final String TAX_SPECIAL_W4_AMOUNT = "taxSpecialW4Amount";
+    public static final String TAX_GROSS_UP_INDICATOR = "taxGrossUpIndicator";
+    public static final String TAX_EXEMPT_TREATY_INDICATOR = "taxExemptTreatyIndicator";
+    public static final String TAX_FOREIGN_SOURCE_INDICATOR = "taxForeignSourceIndicator";
+    public static final String TAX_USAID_PER_DIEM_INDICATOR = "taxUSAIDPerDiemIndicator";
+    public static final String TAX_OTHER_EXEMPT_INDICATOR = "taxOtherExemptIndicator";
 
     // CREDIT MEMO DOCUMENT
     public static final String PAYMENT_REQUEST_ID = "paymentRequestIdentifier";

@@ -753,32 +753,24 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
         // generate and add state tax gross up item and its accounting line, update total amount, 
         // if gross up indicator is true and tax rate is non-zero
-        if (preq.getGrossUpIndicator() && preq.getStateTaxPercent().compareTo(new BigDecimal(0)) != 0) {
+        if (preq.getTaxGrossUpIndicator() && preq.getTaxStatePercent().compareTo(new BigDecimal(0)) != 0) {
             PurApItem stateGrossItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE, taxableAmount);
-            // FIXME which total to update?
-            //preq.setGrandTotal(preq.getGrandTotal().add(stateGrossItem.getExtendedPrice())); // FIXME which total to update?
         }        
 
         // generate and add state tax item and its accounting line, update total amount, if tax rate is non-zero
-        if (preq.getStateTaxPercent().compareTo(new BigDecimal(0)) != 0) {
+        if (preq.getTaxStatePercent().compareTo(new BigDecimal(0)) != 0) {
             PurApItem stateTaxItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE, taxableAmount);
-            // FIXME which total to update?
-            //preq.setGrandTotal(preq.getGrandTotal().add(stateTaxItem.getExtendedPrice())); 
         }
 
         // generate and add federal tax gross up item and its accounting line, update total amount, 
         // if gross up indicator is true and tax rate is non-zero
-        if (preq.getGrossUpIndicator() && preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) != 0) {
+        if (preq.getTaxGrossUpIndicator() && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0) {
             PurApItem federalGrossItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE, taxableAmount);
-            // FIXME which total to update?
-            //preq.setGrandTotal(preq.getGrandTotal().add(federalGrossItem.getExtendedPrice())); 
         }
 
         // generate and add federal tax item and its accounting line, update total amount, if tax rate is non-zero
-        if (preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) != 0) {
+        if (preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0) {
             PurApItem federalTaxItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE, taxableAmount);
-            // FIXME which totals to update?
-            //preq.setGrandTotal(preq.getGrandTotal().add(federalTaxItem.getExtendedPrice())); 
         }
 
         //FIXME update account summary?
@@ -923,13 +915,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
          */
         
         // pick federal/state tax rate
-        BigDecimal taxPercentFederal = preq.getFederalTaxPercent();
-        BigDecimal taxPercentState = preq.getStateTaxPercent();
+        BigDecimal taxPercentFederal = preq.getTaxFederalPercent();
+        BigDecimal taxPercentState = preq.getTaxStatePercent();
         BigDecimal taxPercent = isFederal ? taxPercentFederal : taxPercentState;    
               
         // divider value according to gross up or not
         BigDecimal taxDivider = new BigDecimal(100);           
-        if (preq.getGrossUpIndicator()) {
+        if (preq.getTaxGrossUpIndicator()) {
             taxDivider = taxDivider.subtract(taxPercentFederal.add(taxPercentState));
         }        
 

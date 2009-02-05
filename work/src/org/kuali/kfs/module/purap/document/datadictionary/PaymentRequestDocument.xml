@@ -109,15 +109,15 @@
         <ref bean="PaymentRequestDocument-useTaxIndicator" />
         <ref bean="PaymentRequestDocument-bankCode" />
     	<ref bean="PaymentRequestDocument-taxClassificationCode" />
-    	<ref bean="PaymentRequestDocument-federalTaxPercent" />      
-    	<ref bean="PaymentRequestDocument-stateTaxPercent" />         
+    	<ref bean="PaymentRequestDocument-taxFederalPercent" />      
+    	<ref bean="PaymentRequestDocument-taxStatePercent" />         
     	<ref bean="PaymentRequestDocument-taxCountryCode" />
-    	<ref bean="PaymentRequestDocument-grossUpIndicator" />
+    	<ref bean="PaymentRequestDocument-taxGrossUpIndicator" />
     	<ref bean="PaymentRequestDocument-taxExemptTreatyIndicator" />
-    	<ref bean="PaymentRequestDocument-foreignSourceIndicator" />
+    	<ref bean="PaymentRequestDocument-taxForeignSourceIndicator" />
     	<ref bean="PaymentRequestDocument-taxSpecialW4Amount" />
     	<ref bean="PaymentRequestDocument-taxUSAIDPerDiemIndicator" />
-    	<ref bean="PaymentRequestDocument-otherTaxExemptIndicator" />
+    	<ref bean="PaymentRequestDocument-taxOtherExemptIndicator" />
     	<ref bean="PaymentRequestDocument-taxNQIId" />        
       </list>
     </property>
@@ -728,17 +728,17 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="PaymentRequestDocument-federalTaxPercent" parent="PaymentRequestDocument-federalTaxPercent-parentBean" />
+  <bean id="PaymentRequestDocument-taxFederalPercent" parent="PaymentRequestDocument-taxFederalPercent-parentBean" />
   
-  <bean id="PaymentRequestDocument-federalTaxPercent-parentBean" abstract="true" parent="NonResidentAlienTaxPercent-incomeTaxPercent" >
-    <property name="name" value="federalTaxPercent" />
+  <bean id="PaymentRequestDocument-taxFederalPercent-parentBean" abstract="true" parent="NonResidentAlienTaxPercent-incomeTaxPercent" >
+    <property name="name" value="taxFederalPercent" />
     <property name="label" value="Federal Tax Percent" />
     <property name="shortLabel" value="Federal Percent" />
   </bean>
-  <bean id="PaymentRequestDocument-stateTaxPercent" parent="PaymentRequestDocument-stateTaxPercent-parentBean" />
+  <bean id="PaymentRequestDocument-taxStatePercent" parent="PaymentRequestDocument-taxStatePercent-parentBean" />
   
-  <bean id="PaymentRequestDocument-stateTaxPercent-parentBean" abstract="true" parent="NonResidentAlienTaxPercent-incomeTaxPercent" >
-    <property name="name" value="stateTaxPercent" />
+  <bean id="PaymentRequestDocument-taxStatePercent-parentBean" abstract="true" parent="NonResidentAlienTaxPercent-incomeTaxPercent" >
+    <property name="name" value="taxStatePercent" />
     <property name="label" value="State Tax Percent" />
     <property name="shortLabel" value="State Percent" />
   </bean>
@@ -761,10 +761,10 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="PaymentRequestDocument-grossUpIndicator" parent="PaymentRequestDocument-grossUpIndicator-parentBean" />
+  <bean id="PaymentRequestDocument-taxGrossUpIndicator" parent="PaymentRequestDocument-taxGrossUpIndicator-parentBean" />
        
-  <bean id="PaymentRequestDocument-grossUpIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
-  	<property name="name" value="grossUpIndicator" />
+  <bean id="PaymentRequestDocument-taxGrossUpIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="taxGrossUpIndicator" />
   	<property name="label" value="Gross Up Payment" />
   	<property name="shortLabel" value="Gross Up" />
   </bean>
@@ -775,10 +775,10 @@
   	<property name="label" value="Treaty Exempt" />
   	<property name="shortLabel" value="Treaty Exempt" />
   </bean>
-  <bean id="PaymentRequestDocument-foreignSourceIndicator" parent="PaymentRequestDocument-foreignSourceIndicator-parentBean" />
+  <bean id="PaymentRequestDocument-taxForeignSourceIndicator" parent="PaymentRequestDocument-taxForeignSourceIndicator-parentBean" />
        
-  <bean id="PaymentRequestDocument-foreignSourceIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
-  	<property name="name" value="foreignSourceIndicator" />
+  <bean id="PaymentRequestDocument-taxForeignSourceIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="taxForeignSourceIndicator" />
   	<property name="label" value="Foreign Source" />
   	<property name="shortLabel" value="Foreign Source" />
   </bean>
@@ -796,10 +796,10 @@
   	<property name="label" value="USAID Per Diem" />
   	<property name="shortLabel" value="USAID Per Diem" />
   </bean>
-  <bean id="PaymentRequestDocument-otherTaxExemptIndicator" parent="PaymentRequestDocument-otherTaxExemptIndicator-parentBean" />
+  <bean id="PaymentRequestDocument-taxOtherExemptIndicator" parent="PaymentRequestDocument-taxOtherExemptIndicator-parentBean" />
        
-  <bean id="PaymentRequestDocument-otherTaxExemptIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
-  	<property name="name" value="otherTaxExemptIndicator" />
+  <bean id="PaymentRequestDocument-taxOtherExemptIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="taxOtherExemptIndicator" />
   	<property name="label" value="Exempt Under Other Code" />
   	<property name="shortLabel" value="Other Exempt" />
   </bean>

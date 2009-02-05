@@ -111,16 +111,16 @@ public enum PaymentRequestTaxTabFixture {
 
     public PaymentRequestDocument populate(PaymentRequestDocument preqDocument) {
         preqDocument.setTaxClassificationCode(taxClassificationCode);
-        preqDocument.setFederalTaxPercent(federalTaxPercent);
-        preqDocument.setStateTaxPercent(stateTaxPercent);
+        preqDocument.setTaxFederalPercent(federalTaxPercent);
+        preqDocument.setTaxStatePercent(stateTaxPercent);
         preqDocument.setTaxCountryCode(taxCountryCode);
         preqDocument.setTaxNQIId(taxNQIId);
         preqDocument.setTaxSpecialW4Amount(taxSpecialW4Amount);
         preqDocument.setTaxExemptTreatyIndicator(taxExemptTreatyIndicator);
-        preqDocument.setGrossUpIndicator(grossUpIndicator);
-        preqDocument.setForeignSourceIndicator(foreignSourceIndicator);
+        preqDocument.setTaxGrossUpIndicator(grossUpIndicator);
+        preqDocument.setTaxForeignSourceIndicator(foreignSourceIndicator);
         preqDocument.setTaxUSAIDPerDiemIndicator(taxUSAIDPerDiemIndicator);
-        preqDocument.setOtherTaxExemptIndicator(otherTaxExemptIndicator);
+        preqDocument.setTaxOtherExemptIndicator(otherTaxExemptIndicator);
 
         return preqDocument;
     }

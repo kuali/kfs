@@ -885,13 +885,13 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
        }
        // If TaxClassificationCode is N (Non_Reportable, then other fields shall be blank.
        else if (StringUtils.equalsIgnoreCase(preq.getTaxClassificationCode(), "N")) {
-           if (preq.getFederalTaxPercent() != null && preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) != 0) {
+           if (preq.getTaxFederalPercent() != null && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.FEDERAL_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_FEDERAL_PERCENT);
            }
-           if (preq.getStateTaxPercent() != null && preq.getStateTaxPercent().compareTo(new BigDecimal(0)) != 0) {
+           if (preq.getTaxStatePercent() != null && preq.getTaxStatePercent().compareTo(new BigDecimal(0)) != 0) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.STATE_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_STATE_PERCENT);
            }
            if (!StringUtils.isEmpty(preq.getTaxCountryCode())) {
                valid = false;
@@ -909,32 +909,32 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                valid = false;
                errorMap.putError(PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR);
            }                         
-           if (ObjectUtils.nullSafeEquals(preq.getGrossUpIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxGrossUpIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.GROSS_UP_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getForeignSourceIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxForeignSourceIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR);
            }               
            if (ObjectUtils.nullSafeEquals(preq.getTaxUSAIDPerDiemIndicator(), true)) { 
                valid = false;
                errorMap.putError(PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getOtherTaxExemptIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxOtherExemptIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR);
            }               
        }
        else {
            // If TaxClassificationCode is not N (Non_Reportable, then the federal/state tax percent and country are required.
-           if (preq.getFederalTaxPercent() == null) {       
+           if (preq.getTaxFederalPercent() == null) {       
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.FEDERAL_TAX_PERCENT);           
+               errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_FEDERAL_PERCENT);           
            }
-           if (preq.getStateTaxPercent() == null) {
+           if (preq.getTaxStatePercent() == null) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.STATE_TAX_PERCENT);           
+               errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_STATE_PERCENT);           
            }
            if (StringUtils.isEmpty(preq.getTaxCountryCode())) {
                valid = false;
@@ -954,8 +954,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean validateTaxRates(PaymentRequestDocument preq) {
        boolean valid = true;
        String code = preq.getTaxClassificationCode();
-       BigDecimal fedrate = preq.getFederalTaxPercent();
-       BigDecimal strate = preq.getStateTaxPercent();
+       BigDecimal fedrate = preq.getTaxFederalPercent();
+       BigDecimal strate = preq.getTaxStatePercent();
        ErrorMap errorMap = GlobalVariables.getErrorMap();
 
        // only test the cases when income class and tax rates aren't empty/N
@@ -966,23 +966,23 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
        ArrayList<BigDecimal> fedrates = (ArrayList<BigDecimal>) federalTaxRates.get(code);
        if (!listContainsValue(fedrates, fedrate)) {
            valid = false;
-           errorMap.putError(PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.FEDERAL_TAX_PERCENT);                      
+           errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_FEDERAL_PERCENT);                      
        }
        ArrayList<BigDecimal> strates = (ArrayList<BigDecimal>) stateTaxRates.get(code);
        if (!listContainsValue(strates, strate)) {
            valid = false;
-           errorMap.putError(PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.STATE_TAX_PERCENT);                      
+           errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF, PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapPropertyConstants.TAX_STATE_PERCENT);                      
        }
        
        // validate that the federal and state tax rate abide to certain relationship
        if (fedrate.compareTo(new BigDecimal(0)) == 0 && strate.compareTo(new BigDecimal(0)) != 0) {
            valid = false;
-           errorMap.putError(PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapPropertyConstants.STATE_TAX_PERCENT);                      
+           errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapPropertyConstants.TAX_STATE_PERCENT);                      
        } 
        boolean hasstrate = code.equalsIgnoreCase("F") || code.equalsIgnoreCase("A") || code.equalsIgnoreCase("O");
        if (fedrate.compareTo(new BigDecimal(0)) > 0 && strate.compareTo(new BigDecimal(0)) <= 0 && hasstrate) {
            valid = false;
-           errorMap.putError(PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF, PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapPropertyConstants.STATE_TAX_PERCENT);                      
+           errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF, PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapPropertyConstants.TAX_STATE_PERCENT);                      
        } 
        
        return valid;
@@ -999,21 +999,21 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
            
        // if choose tax treaty, cannot choose any of the other above 
        if (ObjectUtils.nullSafeEquals(preq.getTaxExemptTreatyIndicator(), true)) {
-           if (ObjectUtils.nullSafeEquals(preq.getGrossUpIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxGrossUpIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.GROSS_UP_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getForeignSourceIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxForeignSourceIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR);
            }               
            if (ObjectUtils.nullSafeEquals(preq.getTaxUSAIDPerDiemIndicator(), true)) { 
                valid = false;
                errorMap.putError(PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getOtherTaxExemptIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxOtherExemptIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR);
            }               
            if (preq.getTaxSpecialW4Amount() != null && preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) != 0) { 
                valid = false;
@@ -1022,62 +1022,62 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
        }
            
        // if choose gross up, cannot choose any other above, and fed tax rate cannot be zero
-       if (ObjectUtils.nullSafeEquals(preq.getGrossUpIndicator(), true)) {
+       if (ObjectUtils.nullSafeEquals(preq.getTaxGrossUpIndicator(), true)) {
            if (ObjectUtils.nullSafeEquals(preq.getTaxExemptTreatyIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.GROSS_UP_INDICATOR, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getForeignSourceIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxForeignSourceIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.GROSS_UP_INDICATOR, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR);
            }               
            if (ObjectUtils.nullSafeEquals(preq.getTaxUSAIDPerDiemIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.GROSS_UP_INDICATOR, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getOtherTaxExemptIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxOtherExemptIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.GROSS_UP_INDICATOR, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR);
            }               
            if (preq.getTaxSpecialW4Amount() != null && preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) != 0) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.GROSS_UP_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
+               errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
            }               
-           if (preq.getFederalTaxPercent() == null || preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) == 0 ) {
+           if (preq.getTaxFederalPercent() == null || preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) == 0 ) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF, PurapPropertyConstants.GROSS_UP_INDICATOR, PurapPropertyConstants.FEDERAL_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapPropertyConstants.TAX_FEDERAL_PERCENT);
            }
        }
        
        // if choose foreign source, cannot choose any other above, and tax rates shall be zero
-       if (ObjectUtils.nullSafeEquals(preq.getForeignSourceIndicator(), true)) {
+       if (ObjectUtils.nullSafeEquals(preq.getTaxForeignSourceIndicator(), true)) {
            if (ObjectUtils.nullSafeEquals(preq.getTaxExemptTreatyIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getGrossUpIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxGrossUpIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.GROSS_UP_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR);
            }               
            if (ObjectUtils.nullSafeEquals(preq.getTaxUSAIDPerDiemIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getOtherTaxExemptIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxOtherExemptIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR);
            }               
            if (preq.getTaxSpecialW4Amount() != null && preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) != 0) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
+               errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
            }               
-           if (preq.getFederalTaxPercent() != null && preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) != 0) {
+           if (preq.getTaxFederalPercent() != null && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.FEDERAL_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_FEDERAL_PERCENT);
            }
-           if (preq.getStateTaxPercent() != null && preq.getStateTaxPercent().compareTo(new BigDecimal(0)) != 0) {
+           if (preq.getTaxStatePercent() != null && preq.getTaxStatePercent().compareTo(new BigDecimal(0)) != 0) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.STATE_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapPropertyConstants.TAX_STATE_PERCENT);
            }
        }
        
@@ -1087,17 +1087,17 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                valid = false;
                errorMap.putError(PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getGrossUpIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxGrossUpIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.GROSS_UP_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getForeignSourceIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxForeignSourceIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR);
            }               
-           if (!ObjectUtils.nullSafeEquals(preq.getOtherTaxExemptIndicator(), true)) { 
+           if (!ObjectUtils.nullSafeEquals(preq.getTaxOtherExemptIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR);
            }               
            if (preq.getTaxSpecialW4Amount() != null && preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) != 0) {
                valid = false;
@@ -1107,41 +1107,41 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                valid = false;
                errorMap.putError(PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.TAX_CLASSIFICATION_CODE);
            }
-           if (preq.getFederalTaxPercent() != null && preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) != 0 ) {
+           if (preq.getTaxFederalPercent() != null && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0 ) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.FEDERAL_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.TAX_FEDERAL_PERCENT);
            }
-           if (preq.getStateTaxPercent() != null && preq.getStateTaxPercent().compareTo(new BigDecimal(0)) != 0 ) {
+           if (preq.getTaxStatePercent() != null && preq.getTaxStatePercent().compareTo(new BigDecimal(0)) != 0 ) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.STATE_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_USAID_PER_DIEM_INDICATOR, PurapPropertyConstants.TAX_STATE_PERCENT);
            }
        }
        
        // if choose exempt under other code, cannot choose any other above except USAID, and tax rates shall be zero
-       if (ObjectUtils.nullSafeEquals(preq.getOtherTaxExemptIndicator(), true)) {
+       if (ObjectUtils.nullSafeEquals(preq.getTaxOtherExemptIndicator(), true)) {
            if (ObjectUtils.nullSafeEquals(preq.getTaxExemptTreatyIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getGrossUpIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxGrossUpIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapPropertyConstants.GROSS_UP_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getForeignSourceIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxForeignSourceIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR);
            }               
            if (preq.getTaxSpecialW4Amount() != null && preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) != 0) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
+               errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
            }               
-           if (preq.getFederalTaxPercent() != null && preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) != 0 ) {
+           if (preq.getTaxFederalPercent() != null && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0 ) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapPropertyConstants.FEDERAL_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_FEDERAL_PERCENT);
            }
-           if (preq.getStateTaxPercent() != null && preq.getStateTaxPercent().compareTo(new BigDecimal(0)) != 0 ) {
+           if (preq.getTaxStatePercent() != null && preq.getTaxStatePercent().compareTo(new BigDecimal(0)) != 0 ) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.OTHER_TAX_EXEMPT_INDICATOR, PurapPropertyConstants.STATE_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_STATE_PERCENT);
            }
        }
               
@@ -1151,13 +1151,13 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                valid = false;
                errorMap.putError(PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getGrossUpIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxGrossUpIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.GROSS_UP_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_GROSS_UP_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.TAX_GROSS_UP_INDICATOR);
            }               
-           if (ObjectUtils.nullSafeEquals(preq.getForeignSourceIndicator(), true)) { 
+           if (ObjectUtils.nullSafeEquals(preq.getTaxForeignSourceIndicator(), true)) { 
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.FOREIGN_SOURCE_INDICATOR);
+               errorMap.putError(PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR);
            }               
            if (preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) < 0) { 
                valid = false;
@@ -1167,13 +1167,13 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                valid = false;
                errorMap.putError(PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.TAX_CLASSIFICATION_CODE);
            }
-           if (preq.getFederalTaxPercent() != null && preq.getFederalTaxPercent().compareTo(new BigDecimal(0)) != 0 ) {
+           if (preq.getTaxFederalPercent() != null && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0 ) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.FEDERAL_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.FEDERAL_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.TAX_FEDERAL_PERCENT);
            }
-           if (preq.getStateTaxPercent() != null && preq.getStateTaxPercent().compareTo(new BigDecimal(0)) != 0 ) {
+           if (preq.getTaxStatePercent() != null && preq.getTaxStatePercent().compareTo(new BigDecimal(0)) != 0 ) {
                valid = false;
-               errorMap.putError(PurapPropertyConstants.STATE_TAX_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.STATE_TAX_PERCENT);
+               errorMap.putError(PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.TAX_STATE_PERCENT);
            }
        }
 

@@ -482,6 +482,24 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                 payment.setNewCollectionRecord(false);
             }
         }
+
+        // When document starts routing, FO won't allow to change asset total amount which is a derived value from Asset payments
+        // and the quantity of assets. To compare asset total amount , we need to calculate and save the value before FO made
+        // changes. No handle to the workflow document and see if it starts routing. Otherwise, we can add if condition here.
+        setAssetTotalAmountFromPersistence(assetGlobal);
+    }
+
+    private void setAssetTotalAmountFromPersistence(AssetGlobal assetGlobal) {
+        KualiDecimal minAssetTotalAmount = getAssetGlobalService().totalPaymentByAsset(assetGlobal, false);
+        KualiDecimal maxAssetTotalAmount = getAssetGlobalService().totalPaymentByAsset(assetGlobal, true);
+        if (minAssetTotalAmount.isGreaterThan(maxAssetTotalAmount)) {
+            // swap min and max
+            KualiDecimal totalPayment = minAssetTotalAmount;
+            minAssetTotalAmount = maxAssetTotalAmount;
+            maxAssetTotalAmount = totalPayment;
+        }
+        assetGlobal.setMinAssetTotalAmount(minAssetTotalAmount);
+        assetGlobal.setMaxAssetTotalAmount(maxAssetTotalAmount);
     }
 
     private String generateLocationKey(AssetGlobalDetail location) {
@@ -537,8 +555,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             }
 
             // Do recalculate every time even if button (CamsConstants.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON) wasn't
-            // pressed. We
-            // do that so that it also happens on add / delete lines.
+            // pressed. We do that so that it also happens on add / delete lines.
             recalculateTotalAmount(assetGlobal);
         }
     }

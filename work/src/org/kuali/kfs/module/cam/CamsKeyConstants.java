@@ -35,7 +35,7 @@ public class CamsKeyConstants {
     public static final String ERROR_INVALID_ASSET_WARRANTY_NO = "error.invalid.asset.warranty.no";
 
     public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
-    public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";    
+    public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";
     public static final String ERROR_ASSET_RETIRED_CAPITAL = "error.asset.retired.capital";
     public static final String ERROR_ASSET_RETIRED_NON_CAPITAL_ACTIVE = "error.asset.retired.non.capital.active";
     public static final String ERROR_ASSET_RETIRED_ACT_NON_CAPITAL_2003 = "error.asset.retired.act.non.capital.2003";
@@ -83,7 +83,7 @@ public class CamsKeyConstants {
         public static final String ERROR_TRFR_LOANED = "error.transfer.asset.loaned";
         public static final String ASSET_LOAN_NOTE = "note.asset.loan.active";
         public static final String ERROR_INVALID_USER_AUTH_ID = "error.representative.user.invalid";
-        public static final String ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND ="error.transfer.document.payment.objectcode.doesnt.exists";        
+        public static final String ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND = "error.transfer.document.payment.objectcode.doesnt.exists";
         public static final String ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET = "error.invalid.user.group.for.transfer.nonmoveable.asset";
     }
 
@@ -94,7 +94,7 @@ public class CamsKeyConstants {
         public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE = "error.object.code.from.asset.object.code.inactive";
         public static final String ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID = "error.object.code.from.asset.object.code.invalid";
     }
-    
+
     public static class AssetLocation {
         public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
         public static final String ERROR_INVALID_CAMPUS_CODE = "error.invalid.campus.code";
@@ -157,7 +157,7 @@ public class CamsKeyConstants {
         public static final String ERROR_CAPITAL_ASSET_IS_RETIRED = "error.document.capitalAsset.retired";
         public static final String ERROR_DUPLICATED_TAG_NUMBER = "error.document.duplicated.tagNumber";
         public static final String ERROR_ASSET_LOCKED = "error.document.locked.asset";
-        public static final String ERROR_INVALID_FILE_TYPE = "error.uploadFile.invalid.type";        
+        public static final String ERROR_INVALID_FILE_TYPE = "error.uploadFile.invalid.type";
         public static final String ERROR_INACTIVE_FIELD = "error.document.inactive.field";
     }
 
@@ -196,7 +196,7 @@ public class CamsKeyConstants {
         public static final String ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN = "error.capital.asset.payment.min.limit";
         public static final String ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX = "error.noncapital.asset.payment.max.limit";
         public static final String ERROR_DOCUMENT_POSTING_DATE_REQUIRED = "error.document.posting.date.required";
-        public static final String ERROR_INVALID_PAYMENT_AMOUNT = "error.payment.amount.invalid";        
+        public static final String ERROR_INVALID_PAYMENT_AMOUNT = "error.payment.amount.invalid";
         public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_NUMBER_REQUIRED = "error.expenditure.financial.document.number.required";
         public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_TYPE_CODE_REQUIRED = "error.expenditure.financial.document.type.code.required";
         public static final String ERROR_FINANCIAL_DOCUMENT_POSTING_YEAR_REQUIRED = "error.financial.document.posting.year.required";
@@ -204,6 +204,7 @@ public class CamsKeyConstants {
         public static final String ERROR_SEPARATE_ASSET_TOTAL_COST_NOT_MATCH_PAYMENT_TOTAL_COST = "error.separate.asset.total.cost.not.match.payment.total.cost";
         public static final String ERROR_SEPARATE_ASSET_ALREADY_SEPARATED = "error.separate.asset.already.separated";
         public static final String ERROR_INVALID_ACQUISITION_INCOME_OBJECT_CODE = "error.invalid.acquisition.income.object.code";
+        public static final String ERROR_CHANGE_ASSET_TOTAL_AMOUNT_DISALLOW = "error.change.asset.total.amount.disallow";
     }
 
     public static class AssetSeparate {

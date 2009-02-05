@@ -60,6 +60,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * Rule implementation for Asset Global document.
@@ -530,7 +531,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         // check total amount
-        success &= validatePaymentTotalAmount(document);
+        success &= validateAssetTotalAmount(document);
 
         // only for "Asset Separate" document
         if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
@@ -597,20 +598,28 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      * @param document
      * @return
      */
-    private boolean validatePaymentTotalAmount(MaintenanceDocument document) {
+    private boolean validateAssetTotalAmount(MaintenanceDocument document) {
         boolean success = true;
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
-        if (!getAssetService().isDocumentEnrouting(document)) {
-            KualiDecimal minTotalPaymentByAsset = getAssetGlobalService().totalPaymentByAsset(assetGlobal, false);
-            KualiDecimal maxTotalPaymentByAsset = getAssetGlobalService().totalPaymentByAsset(assetGlobal, true);
-            if (minTotalPaymentByAsset.isGreaterThan(maxTotalPaymentByAsset)) {
-                // swap min and max
-                KualiDecimal totalPayment = minTotalPaymentByAsset;
-                minTotalPaymentByAsset = maxTotalPaymentByAsset;
-                maxTotalPaymentByAsset = totalPayment;
-            }
+        KualiDecimal minTotalPaymentByAsset = getAssetGlobalService().totalPaymentByAsset(assetGlobal, false);
+        KualiDecimal maxTotalPaymentByAsset = getAssetGlobalService().totalPaymentByAsset(assetGlobal, true);
+        if (minTotalPaymentByAsset.isGreaterThan(maxTotalPaymentByAsset)) {
+            // swap min and max
+            KualiDecimal totalPayment = minTotalPaymentByAsset;
+            minTotalPaymentByAsset = maxTotalPaymentByAsset;
+            maxTotalPaymentByAsset = totalPayment;
+        }
 
+        // Disallow FO change asset total amount during routing. Asset total amount is derived from asset payments total and the
+        // quantity of assets
+        if (getAssetService().isDocumentEnrouting(document) && (!minTotalPaymentByAsset.equals(assetGlobal.getMinAssetTotalAmount()) || !maxTotalPaymentByAsset.equals(assetGlobal.getMaxAssetTotalAmount()))) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS, CamsKeyConstants.AssetGlobal.ERROR_CHANGE_ASSET_TOTAL_AMOUNT_DISALLOW, !minTotalPaymentByAsset.equals(assetGlobal.getMinAssetTotalAmount())? new String[] { (String) new CurrencyFormatter().format(assetGlobal.getMinAssetTotalAmount()), (String) new CurrencyFormatter().format(minTotalPaymentByAsset) }: new String[] { (String) new CurrencyFormatter().format(assetGlobal.getMaxAssetTotalAmount()), (String) new CurrencyFormatter().format(maxTotalPaymentByAsset) });
+            success = false;
+        }
+
+        if (!getAssetService().isDocumentEnrouting(document)) {
+            // run threshold checking before routing 
             AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
             boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 

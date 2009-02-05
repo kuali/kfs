@@ -86,6 +86,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private FinancialSystemDocumentHeader documentHeader;
     private KualiDecimal totalAssetPaymentAmount;
 
+    //
+    private KualiDecimal minAssetTotalAmount;
+    private KualiDecimal maxAssetTotalAmount;
     /**
      * Default constructor.
      */
@@ -972,4 +975,38 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setSeparateSourceTotalAmount(KualiDecimal separateSourceTotalAmount) {
         this.separateSourceTotalAmount = separateSourceTotalAmount;
     }
+
+    /**
+     * Gets the minAssetTotalAmount attribute. 
+     * @return Returns the minAssetTotalAmount.
+     */
+    public KualiDecimal getMinAssetTotalAmount() {
+        return minAssetTotalAmount;
+    }
+
+    /**
+     * Sets the minAssetTotalAmount attribute value.
+     * @param minAssetTotalAmount The minAssetTotalAmount to set.
+     */
+    public void setMinAssetTotalAmount(KualiDecimal minAssetTotalAmount) {
+        this.minAssetTotalAmount = minAssetTotalAmount;
+    }
+
+    /**
+     * Gets the maxAssetTotalAmount attribute. 
+     * @return Returns the maxAssetTotalAmount.
+     */
+    public KualiDecimal getMaxAssetTotalAmount() {
+        return maxAssetTotalAmount;
+    }
+
+    /**
+     * Sets the maxAssetTotalAmount attribute value.
+     * @param maxAssetTotalAmount The maxAssetTotalAmount to set.
+     */
+    public void setMaxAssetTotalAmount(KualiDecimal maxAssetTotalAmount) {
+        this.maxAssetTotalAmount = maxAssetTotalAmount;
+    }
+    
+    
 }

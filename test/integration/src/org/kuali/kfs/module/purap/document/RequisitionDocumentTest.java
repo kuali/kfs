@@ -16,8 +16,6 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.aickes;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.jkitchen;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rjweiss;
@@ -41,8 +39,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;

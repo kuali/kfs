@@ -25,8 +25,8 @@ public enum ElectronicInvoiceRejectItemFixture {
     EIRI_BASIC(
             1, // invoiceItemLineNumber;
             new BigDecimal(1), // invoiceItemQuantity;
-            "BAG", // invoiceItemUnitOfMeasureCode;
-            "1", // invoiceItemCatalogNumber;
+            "BG", // invoiceItemUnitOfMeasureCode;
+            "1212", // invoiceItemCatalogNumber;
             
             "USD", // invoiceItemUnitPriceCurrencyCode;
             "USD", // invoiceItemSubTotalCurrencyCode;

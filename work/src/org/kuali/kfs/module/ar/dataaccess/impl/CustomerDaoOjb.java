@@ -31,7 +31,7 @@ public class CustomerDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerD
      */
     public Customer getByPrimaryId(String customerNumber) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("customerNumber", customerNumber);
+        criteria.addEqualTo("customerNumber", customerNumber==null?customerNumber:customerNumber.toUpperCase());
 
         return (Customer) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Customer.class, criteria));
     }

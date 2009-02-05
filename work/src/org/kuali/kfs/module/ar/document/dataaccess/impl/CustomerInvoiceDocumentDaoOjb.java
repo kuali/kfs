@@ -59,7 +59,7 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         //  OJB deals with the inner join automatically, because we have it setup with 
         // accountsReceivableDocumentHeader as a ReferenceDescriptor to Invoice.
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("accountsReceivableDocumentHeader.customerNumber", customerNumber);
+        criteria.addEqualTo("accountsReceivableDocumentHeader.customerNumber", customerNumber==null?customerNumber:customerNumber.toUpperCase());
         criteria.addEqualTo("openInvoiceIndicator", "true");
         
         QueryByCriteria qbc = QueryFactory.newQuery(CustomerInvoiceDocument.class, criteria);

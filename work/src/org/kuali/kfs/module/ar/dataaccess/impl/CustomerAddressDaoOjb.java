@@ -33,7 +33,7 @@ public class CustomerAddressDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
 
     public CustomerAddress getPrimaryAddress(String customerNumber) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("customerNumber", customerNumber);
+        criteria.addEqualTo("customerNumber", customerNumber==null?customerNumber:customerNumber.toUpperCase());
         criteria.addEqualTo("customerAddressTypeCode", ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
 
         return (CustomerAddress) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CustomerAddress.class, criteria));
@@ -42,7 +42,7 @@ public class CustomerAddressDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
     public Integer getMaxSquenceNumber(String customerNumber) {
         Criteria criteria = new Criteria();
 
-        criteria.addEqualTo(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
+        criteria.addEqualTo(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber==null?customerNumber:customerNumber.toUpperCase());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(CustomerAddress.class, criteria);
         query.setAttributes(new String[] { "max(" + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_IDENTIFIER + ")" });
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);

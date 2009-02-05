@@ -800,10 +800,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
 
-        boolean hasEditAccess = documentAuthorizer.isAuthorizedByTemplate(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.EDIT_BCAF_PERMISSION_NAME, user.getPrincipalId());
+        boolean hasEditAccess = documentAuthorizer.isAuthorized(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.EDIT_BCAF_PERMISSION_NAME, user.getPrincipalId());
         appointmentFunding.setDisplayOnlyMode(!hasEditAccess);
 
-        boolean hasViewAmountsAccess = documentAuthorizer.isAuthorizedByTemplate(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.VIEW_BCAF_AMOUNTS_PERMISSION_NAME, user.getPrincipalId());
+        boolean hasViewAmountsAccess = documentAuthorizer.isAuthorized(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.VIEW_BCAF_AMOUNTS_PERMISSION_NAME, user.getPrincipalId());
         appointmentFunding.setExcludedFromTotal(!hasViewAmountsAccess);
 
         return true;

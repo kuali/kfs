@@ -68,22 +68,6 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         return SpringContext.getBean(AssetSegmentedLookupResultsService.class);
     }
 
-    /**
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    // TODO remove this method.
-    /*
-     * public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse
-     * response) throws Exception { AssetPaymentForm apForm = (AssetPaymentForm) form; String command = ((AssetPaymentForm)
-     * form).getCommand(); String docID = ((AssetPaymentForm) form).getDocId(); String capitalAssetNumber = ((AssetPaymentForm)
-     * form).getCapitalAssetNumber(); LOG.info("***AssetPaymentAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " -
-     * Command:" + command + " - DocId:" + docID + " - Capital Asset Number:" + capitalAssetNumber); AssetPaymentForm
-     * assetPaymentForm = (AssetPaymentForm) form; AssetPaymentDocument assetPaymentDocument =
-     * assetPaymentForm.getAssetPaymentDocument(); List<AssetPaymentAssetDetail> assetPaymentAssetDetails =
-     * assetPaymentForm.getAssetPaymentDocument().getAssetPaymentAssetDetail(); LOG.info("***
-     * AssetPaymentAssetDetail:"+assetPaymentAssetDetails.toString()); return super.execute(mapping, form, request, response); }
-     */
 
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,

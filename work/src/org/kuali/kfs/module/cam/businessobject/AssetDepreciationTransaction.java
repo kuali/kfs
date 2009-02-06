@@ -22,7 +22,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetDepreciationTransaction extends TransientBusinessObjectBase implements Cloneable {
     private Long capitalAssetNumber;
-    //private String financialSystemOriginationCode;
     private String documentNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -75,17 +74,6 @@ public class AssetDepreciationTransaction extends TransientBusinessObjectBase im
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
         this.capitalAssetNumber = capitalAssetNumber;
     }
-
-/*
-    public String getFinancialSystemOriginationCode() {
-        return financialSystemOriginationCode;
-    }
-
-
-    public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
-        this.financialSystemOriginationCode = financialSystemOriginationCode;
-    }
-*/
 
     public String getDocumentNumber() {
         return documentNumber;

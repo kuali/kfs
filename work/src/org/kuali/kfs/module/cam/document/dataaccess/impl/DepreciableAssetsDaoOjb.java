@@ -69,7 +69,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private final static String[] REPORT_GROUP = { "*** BEFORE RUNNING DEPRECIATION PROCESS ****", "*** AFTER RUNNING DEPRECIATION PROCESS ****" };
 
     /**
-     * 
      * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#getListOfDepreciableAssets()
      */
     public Collection<AssetPayment> getListOfDepreciableAssets(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
@@ -93,7 +92,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
 
     /**
-     * 
      * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#updateAssetPayments(java.util.List)
      */
     public void initializeAssetPayment(Integer fiscalMonth) {
@@ -138,7 +136,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     }
 
     /**
-     * 
      * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#updateAssetPayments(java.util.List)
      */
     public void updateAssetPayments(String capitalAssetNumber, String paymentSequenceNumber, KualiDecimal transactionAmount, KualiDecimal accumulatedDepreciationAmount, Integer fiscalMonth) {
@@ -195,7 +192,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
 
     /**
-     * 
      * This method generates a sub query that will retrieve all the assets with pending transfers and pending retriments
      * 
      * @return
@@ -205,7 +201,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Creating subqueries for assets with pending transfers and retirement documents.");
 
         Object[] fieldValue;
-        
+
         List<String> notPendingDocStatuses = new ArrayList<String>();
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
@@ -220,7 +216,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetRetirementGlobalDetail.class, criteria);
         q.setAttributes(new String[] { CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER });
 
-        Iterator<Object> i= getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
         while (i.hasNext()) {
             fieldValue = (Object[]) i.next();
             if (fieldValue[0] != null) {
@@ -235,15 +231,15 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         q = QueryFactory.newReportQuery(AssetTransferDocument.class, criteria);
         q.setAttributes(new String[] { CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER });
 
-        i= getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-        
+        i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+
         while (i.hasNext()) {
             fieldValue = (Object[]) i.next();
             if (fieldValue[0] != null) {
-                capitalAssetNumbers.add(convertCountValueToString(fieldValue[0]));             
+                capitalAssetNumbers.add(convertCountValueToString(fieldValue[0]));
             }
         }
-        
+
         LOG.debug("getAssetsWithPendingAssetDocuments() -  Ended");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished done creating subqueries for assets with pending transfers and retirement documents.");
         return capitalAssetNumbers;
@@ -251,7 +247,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
 
     /**
-     * 
      * This method returns the number of assets with pending transfers or retirements
      * 
      * @return
@@ -261,25 +256,24 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of assets being retired or transferred.");
 
         int result = 0;
-        
+
         List<String> notPendingDocStatuses = new ArrayList<String>();
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
 
-        //Criteria arCriteria = new Criteria();
+        // Criteria arCriteria = new Criteria();
         Criteria criteria = new Criteria();
         criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
-        
+
         result = getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetRetirementGlobal.class, criteria));
 
         result += getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetTransferDocument.class, criteria));
-        
+
         return result;
     }
 
 
     /**
-     * 
      * This method creates the criteria that the program uses in order to retrieve the asset payments eligible for depreciation
      * 
      * @param fiscalYear
@@ -384,11 +378,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 criteria.addNotIn(PAYMENT_TO_OBJECT_REFERENCE_DESCRIPTOR + KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, federallyOwnedObjectSubTypes);
             }
         }
-        // DELETE THESE LINES ******************************************
-        // criteria.addEqualTo("capitalAssetNumber", "389220");
-        // criteria.addEqualTo("capitalAssetNumber", "393098");
-        // ************************************************************
-
         // Getting a list of assets being transferred or retired which documents are pending of approval.
         List<String> assetsWithPendingDocs = this.getAssetsWithPendingAssetDocuments();
         if (!assetsWithPendingDocs.isEmpty()) {
@@ -401,9 +390,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#generateStatistics(boolean, java.lang.String, java.lang.Integer,
-     *      java.lang.Integer, java.util.Calendar)
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#generateStatistics(boolean, java.lang.String,
+     *      java.lang.Integer, java.lang.Integer, java.util.Calendar)
      */
     public List<String[]> generateStatistics(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
         LOG.debug("generateStatistics() -  started");
@@ -548,7 +536,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         if (beforeDepreciationReport) {
             int federallyOwnedAssetPaymentCount = getFederallyOwnedAssetPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
             int retiredAndTransferredAssetCount = getNumberOfAssetsBeingRetiredAndTransferred();
-            
+
             columns[0] = "Object code table - record count";
             columns[1] = (convertCountValueToString(this.getAssetObjectCodesCount(fiscalYear)));
             reportLine.add(columns.clone());
@@ -702,7 +690,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     }
 
     /**
-     * 
      * This method counts the number of assets fully depreciated comparing the depreciation base amount with the accumulated
      * depreciation amount
      * 
@@ -728,23 +715,23 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
 
         Object[] fieldValue;
-        
+
         Integer fullyDepreciatedCounter = 0;
         while (i.hasNext()) {
             fieldValue = (Object[]) i.next();
 
             KualiDecimal salvageAmount = new KualiDecimal(0);
             if (fieldValue[0] != null)
-                salvageAmount = (KualiDecimal)fieldValue[0];
-                        
-            KualiDecimal baseAmount  = new KualiDecimal(0);
+                salvageAmount = (KualiDecimal) fieldValue[0];
+
+            KualiDecimal baseAmount = new KualiDecimal(0);
             if (fieldValue[1] != null)
-                baseAmount = (KualiDecimal)fieldValue[1];
-            
+                baseAmount = (KualiDecimal) fieldValue[1];
+
             KualiDecimal accumulatedDepreciation = new KualiDecimal(0);
             if (fieldValue[2] != null)
-                accumulatedDepreciation = (KualiDecimal)fieldValue[2];
-                
+                accumulatedDepreciation = (KualiDecimal) fieldValue[2];
+
             if (baseAmount.subtract(salvageAmount).compareTo(accumulatedDepreciation) == 0) {
                 fullyDepreciatedCounter++;
             }
@@ -755,13 +742,11 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     }
 
     /**
-     * 
      * This method the number of federally owned asset payments
      * 
      * @param fiscalYear
      * @param fiscalMonth
      * @param depreciationDate
-     * 
      * @return # of federally owned assets
      */
     private int getFederallyOwnedAssetPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
@@ -770,10 +755,10 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of federally owned asset payments.");
 
         int count = 0;
-        
+
         List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
         if (!federallyOwnedObjectSubTypes.isEmpty()) {
-            count =  getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, true)));
+            count = getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, true)));
         }
 
         LOG.debug("DepreciableAssetsDaoOjb.getFederallyOwnedAssetPaymentCount() -  ended");
@@ -783,7 +768,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
 
     /**
-     * 
      * This method returns the number of records found resulting from a join of the organization table and the account table
      * 
      * @param fiscalYear
@@ -812,7 +796,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     }
 
     /**
-     * 
      * This method the value of the system parameter NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
      * 
      * @return
@@ -830,7 +813,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
 
     /**
-     * 
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#getAssetObjectCodes(java.lang.Integer)
      */
     public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear) {
@@ -848,7 +830,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     }
 
     /**
-     * 
      * This method gets a list of Expense object codes from the asset object code table for a particular fiscal year
      * 
      * @param fiscalYear
@@ -876,7 +857,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     }
 
     /**
-     * 
      * This method gets a list of Accumulated Depreciation Object Codes from the asset object code table for a particular fiscal
      * year.
      * 
@@ -905,7 +885,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     }
 
     /**
-     * 
      * This method counts the number of assets that exist in both chart of accounts object code table and capital asset object code
      * tables
      * 
@@ -930,7 +909,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     }
 
     /**
-     * 
      * This method converts a variable of type object to BigDecimal or a Long type in order to return a string
      * 
      * @param fieldValue
@@ -967,31 +945,20 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
 } // end of class
 
 /*
- * A.cptlast_nbr = P.cptlast_nbr // foreign key AND A.cptlast_origin_cd = P.cptlast_origin_cd // ??
- * 
- * AND P.cptlast_origin_cd = '01' // done AND ( P.ast_depr1_base_amt != 0.00 OR P.ast_depr1_base_amt IS NOT NULL ) //done AND (
- * P.ast_trnfr_pmt_cd IN ( 'N', ' ') OR P.ast_trnfr_pmt_cd IS NULL) //done AND ( ( A.ast_depr_mthd1_cd = 'SL'OR A.ast_depr_mthd1_cd
- * IS NULL ) OR ( A.ast_depr_mthd1_cd = 'SV' ) ) //Done
- * 
- * AND A.cptl_ast_int_srvc_dt IS NOT NULL // done AND A.cptl_ast_crt_dt != '01/01/1900' // done AND A.cptl_ast_crt_dt <= v_depr_date //
- * done
- * 
- * AND ( ( A.ast_retir_fscl_yr > v_fiscal_yr ) OR ( A.ast_retir_fscl_yr = v_fiscal_yr AND TO_NUMBER( A.ast_retir_prd_cd ) >
- * v_fiscal_prd ) OR A.ast_retir_fscl_yr IS NULL OR A.ast_retir_prd_cd IS NULL )
- * 
- * AND A.ast_invn_stat_cd NOT IN ( 'N', 'O' ) // done AND A.cptlast_typ_cd = T.cptlast_typ_cd //done AND T.cptlast_deprlf_lmt > 0
- * //done
- * 
+ * A.cptlast_nbr = P.cptlast_nbr // foreign key AND A.cptlast_origin_cd = P.cptlast_origin_cd // ?? AND P.cptlast_origin_cd = '01'
+ * // done AND ( P.ast_depr1_base_amt != 0.00 OR P.ast_depr1_base_amt IS NOT NULL ) //done AND ( P.ast_trnfr_pmt_cd IN ( 'N', ' ')
+ * OR P.ast_trnfr_pmt_cd IS NULL) //done AND ( ( A.ast_depr_mthd1_cd = 'SL'OR A.ast_depr_mthd1_cd IS NULL ) OR ( A.ast_depr_mthd1_cd
+ * = 'SV' ) ) //Done AND A.cptl_ast_int_srvc_dt IS NOT NULL // done AND A.cptl_ast_crt_dt != '01/01/1900' // done AND
+ * A.cptl_ast_crt_dt <= v_depr_date // done AND ( ( A.ast_retir_fscl_yr > v_fiscal_yr ) OR ( A.ast_retir_fscl_yr = v_fiscal_yr AND
+ * TO_NUMBER( A.ast_retir_prd_cd ) > v_fiscal_prd ) OR A.ast_retir_fscl_yr IS NULL OR A.ast_retir_prd_cd IS NULL ) AND
+ * A.ast_invn_stat_cd NOT IN ( 'N', 'O' ) // done AND A.cptlast_typ_cd = T.cptlast_typ_cd //done AND T.cptlast_deprlf_lmt > 0 //done
  * and p.fin_object_cd not in ( -- Exclusing all the federally-owned object sub type codes. Select ca_object_code_t From
  * ca_object_code_t o, cm_cptlast_obj_t a Where o.univ_fiscal_yr = a.univ_fiscal_yr and a.univ_fiscal_yr = v_fiscal_year And
  * o.fin_coa_cd = a.fin_coa_cd And o.fin_obj_sub_typ_cd = a.fin_obj_sub_typ_cd And fin_obj_sub_typ_cd IN ('CO', 'CP', 'UO', 'AM',
- * 'AF', 'LA', 'BY' ) ) and
- * 
- * **** Excluding retired and transferd assets ************* P.cptlast_nbr + cptlast_origin_cd not in ( Select c.cptlast_nbr +
+ * 'AF', 'LA', 'BY' ) ) and Excluding retired and transferd assets P.cptlast_nbr + cptlast_origin_cd not in ( Select c.cptlast_nbr +
  * c.cptlast_origin_cd FROM krns_doc_hdr_t, H cm_cptlast_hdr_t T WHERE H.fs_origin_cd = C.fs_origin_cd and H.fdoc_nbr = C.fdoc_nbr
  * and H.fdoc_typ_cd IN ('AR', 'AT') AND H.fdoc_status_cd NOT IN ('A', 'C') GROUP BY P.cptlast_nbr, P.cptlast_origin_cd )
  */

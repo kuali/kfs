@@ -29,14 +29,8 @@
               p:attributeName="defaultAccount"
               p:attributeToHighlightOnFail="defaultAccountNumber" />
         <bean parent="ReferenceDefinition"
-              p:attributeName="defaultSubAccount"
-              p:attributeToHighlightOnFail="defaultSubAccountNumber" />
-        <bean parent="ReferenceDefinition"
               p:attributeName="defaultObject"
               p:attributeToHighlightOnFail="defaultObjectCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="defaultSubObject"
-              p:attributeToHighlightOnFail="defaultSubObjectCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="defaultProcessingCampus"
               p:attributeToHighlightOnFail="defaultPhysicalCampusProcessingCode" />

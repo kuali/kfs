@@ -36,7 +36,7 @@
 	<strong>Financial Processing</strong><br />
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Cash Management" url="financialCashManagement.do?methodToCall=docHandler&command=initiate&docTypeName=CashManagementDocument" /></li>
-		<li><portal:portalLink displayTitle="true" title="General Ledger Correction Process" url="generalLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=GeneralLedgerCorrectionProcessDocument" /></li>									
+		<li><portal:portalLink displayTitle="true" title="General Ledger Correction Process" url="generalLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=GLCP" /></li>									
 		<li><portal:portalLink displayTitle="true" title="Journal Voucher" url="financialJournalVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=JournalVoucherDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Non-Check Disbursement" url="financialNonCheckDisbursement.do?methodToCall=docHandler&command=initiate&docTypeName=NonCheckDisbursementDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Service Billing" url="financialServiceBilling.do?methodToCall=docHandler&command=initiate&docTypeName=ServiceBillingDocument" /></li>
@@ -50,7 +50,7 @@
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Labor Ledger Correction Process"
-				url="laborLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=LaborLedgerCorrectionProcessDocument" />
+				url="laborLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=LLCP" />
 		</li>
     </ul>
 	<strong>System</strong>

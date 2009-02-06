@@ -43,7 +43,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 @ConfigureContext(session = parke)
 public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
     public static final Class<ContractManagerAssignmentDocument> DOCUMENT_CLASS = ContractManagerAssignmentDocument.class;
-    private static final String ACCOUNT_REVIEW = "Account Review";
+    private static final String ACCOUNT_REVIEW = "Account";
 
     private ContractManagerAssignmentDocument acmDocument = null;
 

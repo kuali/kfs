@@ -61,8 +61,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 @ConfigureContext(session = appleton)
 public class PaymentRequestDocumentTest extends KualiTestBase {
     public static final Class<PaymentRequestDocument> DOCUMENT_CLASS = PaymentRequestDocument.class;
-    private static final String ACCOUNT_REVIEW = "Account Review";
-    private static final String BUDGET_REVIEW = "Budget Office Review";
+    private static final String ACCOUNT_REVIEW = "Account";
     
     protected static DocumentService documentService = null;
     private PaymentRequestDocument paymentRequestDocument = null;
@@ -280,13 +279,14 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         //route if requested
         if(routePO){                        
             AccountingDocumentTestUtils.testRouteDocument(po, documentService);
-            WorkflowTestUtils.waitForNodeChange(po.getDocumentHeader().getWorkflowDocument(), BUDGET_REVIEW);            
+            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), "F");
+            /*WorkflowTestUtils.waitForNodeChange(po.getDocumentHeader().getWorkflowDocument(), BUDGET_REVIEW);            
         
             changeCurrentUser(butt);
             po =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
             AccountingDocumentTestUtils.approveDocument(po, documentService);
             WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
-            
+            */
             po =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
         }
         

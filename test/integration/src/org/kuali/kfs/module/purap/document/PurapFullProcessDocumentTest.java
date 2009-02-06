@@ -20,6 +20,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.ghatten;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.dfogle;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.stroud;
 
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
@@ -46,9 +47,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class PurapFullProcessDocumentTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentServiceImpl.class);
 
-    private static final String SUB_ACCOUNT_REVIEW = "Sub Account Review";
-    private static final String ACCOUNT_REVIEW = "Account Review";
-    private static final String ORG_REVIEW = "Org Review";
+    private static final String SUB_ACCOUNT_REVIEW = "SubAccount";
+    private static final String ACCOUNT_REVIEW = "Account";
+    private static final String ORG_REVIEW = "AccountingOrganizationHierarchy";
 
     protected static DocumentService documentService = null;
 
@@ -119,7 +120,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         
         final String docId = paymentRequestDocument.getDocumentNumber();
         AccountingDocumentTestUtils.routeDocument(paymentRequestDocument, documentService);
-        WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), SUB_ACCOUNT_REVIEW);
+        /*WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), SUB_ACCOUNT_REVIEW);
 
         // the document should now be routed to vputman as Fiscal Officer
         changeCurrentUser(stroud);
@@ -127,7 +128,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, SUB_ACCOUNT_REVIEW));
         assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
         assertTrue("stroud should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        documentService.approveDocument(paymentRequestDocument, "Test approving as stroud", null); 
+        documentService.approveDocument(paymentRequestDocument, "Test approving as stroud", null); */
         WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
         changeCurrentUser(rorenfro);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
@@ -136,10 +137,10 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null); 
-        WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
-        changeCurrentUser(ghatten);
+        WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), "Tax");
+        changeCurrentUser(dfogle);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
-        documentService.approveDocument(paymentRequestDocument, "Test approving as ghatten", null); 
+        documentService.approveDocument(paymentRequestDocument, "Test approving as dfogle", null); 
 
         WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 //

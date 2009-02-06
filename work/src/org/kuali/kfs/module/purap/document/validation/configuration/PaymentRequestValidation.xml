@@ -382,8 +382,8 @@
 	<bean id="PaymentRequest-preCalculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="PaymentRequest-taxAreaValidation" scope="prototype" /> 
-  				<bean parent="AccountsPayable-preCalculateValidation" scope="prototype" />  			
+  				<bean parent="PaymentRequest-taxAreaValidation" scope="prototype"/>
+  				<bean parent="AccountsPayable-preCalculateValidation" scope="prototype"/>
 			</list>
 		</property>
 	</bean>
@@ -397,8 +397,7 @@
   				<bean parent="PaymentRequest-totalsValidation" scope="prototype" />
   				<bean parent="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" scope="prototype" />
   				<bean parent="PaymentRequest-grandTotalOverZeroValidation" scope="prototype" />
-  				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype" />
-  				<bean parent="PaymentRequest-taxAreaValidation" scope="prototype" /> 
+  				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype" />  				
   			</list>
   		</property>										
 	</bean>

@@ -272,9 +272,9 @@
 	</bean>
 
 	<!-- Pre Calculate Accounts Payable Event -->
-    <bean id="PaymentRequest-preCalculateAccountsPayableValidation" parent="PaymentRequest-preCalculateAccountsPayableValidation-parentBean" scope="prototype" />
+    <bean id="VendorCreditMemo-preCalculateAccountsPayableValidation" parent="VendorCreditMemo-preCalculateAccountsPayableValidation-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-preCalculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="VendorCreditMemo-preCalculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountsPayable-preCalculateValidation" scope="prototype" />  			

@@ -17,7 +17,7 @@
         <ref bean="ACHTransactionCodeMaintenanceDocument-EditAchTransactionCode" />
       </list>
     </property>
-    
+    <property name="allowsNewOrCopy" value="false" />
     <property name="lockingKeys" >
       <list>
         <value>code</value>
@@ -44,7 +44,7 @@
     <property name="maintainableItems" >
       <list>
        <bean parent="MaintainableFieldDefinition"
-              p:name="Code"
+              p:name="code"
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="name"

@@ -22,8 +22,8 @@
 		<li><portal:portalLink displayTitle="true" title="Person" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.Person&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="Group (coming soon)" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.group.impl.KimGroupImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="Role" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.role.impl.KimRoleImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="Permission" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.role.impl.KimPermissionImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<li><portal:portalLink displayTitle="true" title="Responsibility" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.role.impl.KimResponsibilityImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Permission" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PermissionImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<li><portal:portalLink displayTitle="true" title="Responsibility" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.ResponsibilityImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	</ul>
 	<strong>Locations</strong>
     <ul class="chan">

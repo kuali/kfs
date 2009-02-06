@@ -140,7 +140,6 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
      * Checks whether the user has permission to do payrate import/export
      */
     public boolean getCanPerformPayrateImportExport() {
-        SpringContext.getBean(BudgetConstructionProcessorService.class).isRootProcessor(GlobalVariables.getUserSession().getPerson());
         String[] rootOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
         AttributeSet qualification = new AttributeSet();
         qualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, rootOrg[0]);

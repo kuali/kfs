@@ -89,25 +89,7 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
 
         return false;
     }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService#isRootProcessor(org.kuali.rice.kim.bo.Person)
-     */
-    public boolean isRootProcessor(Person person) {
-        String[] rootOrg = organizationService.getRootOrganizationCode();
-
-        boolean isRootProcessor;
-        try {
-            isRootProcessor = isOrgProcessor(rootOrg[0], rootOrg[1], person);
-
-        }
-        catch (Exception e) {
-            isRootProcessor = false;
-        }
-
-        return isRootProcessor;
-    }
-
+    
     /**
      * @return role id for the budget processor role
      */

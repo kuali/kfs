@@ -28,5 +28,4 @@ public interface BudgetConstructionProcessorService {
     
     public boolean isOrgProcessor(Organization organization, Person person);
     
-    public boolean isRootProcessor(Person person);
 }

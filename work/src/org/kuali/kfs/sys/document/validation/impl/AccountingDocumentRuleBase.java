@@ -419,7 +419,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         // only count if the doc is enroute
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (workflowDocument.stateIsEnroute()) {
+        if (workflowDocument.stateIsEnroute() || workflowDocument.stateIsInitiated()) {
             int accessibleLines = 0;
             for (Iterator i = financialDocument.getSourceAccountingLines().iterator(); (accessibleLines < min) && i.hasNext();) {
                 AccountingLine line = (AccountingLine) i.next();

@@ -11,14 +11,13 @@
     <property name="shortLabel" value="Barcode Inventory Error" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Barcode Inventory Error Document" />
-    <property name="documentTypeName" value="BarcodeInventoryErrorDocument" />
+    <property name="documentTypeName" value="BCIE" />
     
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentPresentationController" />
     
-    <property name="documentTypeCode" value="BCIE" />
     <property name="workflowAttributes" >
       <ref bean="BarcodeInventoryErrorDocument-workflowAttributes" />
     </property>

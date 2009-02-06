@@ -28,9 +28,8 @@
     <property name="shortLabel" value="Cash Drawer" />
     <property name="summary" value="Cash Drawer Maintenance Document" />
     <property name="description" value="Document used to create a cash drawer." />
-    <property name="documentTypeName" value="CashDrawerMaintenanceDocument" />
+    <property name="documentTypeName" value="CDS" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="CDS" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

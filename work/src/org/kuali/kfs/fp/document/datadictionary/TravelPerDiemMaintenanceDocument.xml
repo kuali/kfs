@@ -30,10 +30,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelPerDiem" p:parameterName="TRAVEL_PER_DIEM" />
     </property>
-    <property name="documentTypeName" value="TravelPerDiemMaintenanceDocument" />
+    <property name="documentTypeName" value="DVPD" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVPD" />
-
     <property name="workflowAttributes">
     	<ref bean="TravelPerDiemMaintenanceDocument-workflowAttributes" />
     </property>

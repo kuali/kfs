@@ -28,9 +28,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.FundingSource" p:parameterName="FUNDING_SOURCE" />
     </property>
-    <property name="documentTypeName" value="FundingSourceMaintenanceDocument" />
+    <property name="documentTypeName" value="PMFS" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMFS" />
     <property name="workflowAttributes">
     	<ref bean="FundingSourceMaintenanceDocument-workflowAttributes" />
     </property>

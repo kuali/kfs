@@ -1,54 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="ns:workflow resource:WorkflowData">
-	<documentTypes xmlns="ns:workflow/DocumentType"
-		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-		<documentType>
-			<name>CashControlDocument</name>
-			<parent>AccountsReceivableTransactionalDocument</parent>
-			<docHandler>
-				${application.url}/arCashControlDocument.do?methodToCall=docHandler
-			</docHandler>
-			<routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Lockbox" />
-					<requests name="Lockbox"
-						nextNode="AssociatedWithElectronicPayment" />
-					<split name="AssociatedWithElectronicPayment">
-						<branch name="True">
-							<requests name="ElectronicPayment" nextNode="Join" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOp" nextNode="Join" />
-						</branch>
-						<join name="Join" />
-					</split>
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<role name="Lockbox">
-					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<mandatoryRoute>true</mandatoryRoute>
-				</role>
-				<role name="ElectronicPayment">
-					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-				</role>
-				<split name="AssociatedWithElectronicPayment">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
-				<simple name="NoOp">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<join name="Join" />
-			</routeNodes>
-		</documentType>
-	</documentTypes>
+<?xml version='1.0' encoding='UTF-8'?> 
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>CTRL</name>
+      <parent>AccountsReceivableTransactionalDocument</parent>
+      <docHandler> ${application.url}/arCashControlDocument.do?methodToCall=docHandler </docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Lockbox"/>
+          <requests name="Lockbox" nextNode="AssociatedWithElectronicPayment"/>
+          <split name="AssociatedWithElectronicPayment">
+            <branch name="True">
+              <requests name="ElectronicPayment" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Lockbox">
+          <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
+          <mandatoryRoute>true</mandatoryRoute>
+        </role>
+        <role name="ElectronicPayment">
+          <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
+        </role>
+        <split name="AssociatedWithElectronicPayment">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="Join"/>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
 </data>
-
-

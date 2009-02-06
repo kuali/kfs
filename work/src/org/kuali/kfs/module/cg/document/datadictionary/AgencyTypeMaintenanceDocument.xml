@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.AgencyType" p:parameterName="AGENCY_TYPE" />
     </property>
-    <property name="documentTypeName" value="AgencyTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="AGTY" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="AGTY" />
-
     <property name="workflowAttributes">
     	<ref bean="AgencyTypeMaintenanceDocument-workflowAttributes" />
     </property>

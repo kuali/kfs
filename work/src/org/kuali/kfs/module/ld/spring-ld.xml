@@ -226,9 +226,6 @@
 		<property name="flexibleOffsetAccountService">
 			<ref bean="flexibleOffsetAccountService" />
 		</property>
-		<property name="financialSystemDocumentTypeCodeService">
-			<ref bean="financialSystemDocumentTypeCodeService" />
-		</property>
 		<property name="laborOriginEntryService">
 			<ref bean="laborOriginEntryService" />
 		</property>

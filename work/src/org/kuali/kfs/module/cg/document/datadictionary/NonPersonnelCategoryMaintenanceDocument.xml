@@ -26,9 +26,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.NonPersonnelCategory" p:parameterName="NONPERSONNEL_CATEGORY" />
     </property>
-    <property name="documentTypeName" value="NonPersonnelCategoryMaintenanceDocument" />
+    <property name="documentTypeName" value="NPC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="NPC" />
     <property name="workflowAttributes" >
       <ref bean="NonPersonnelCategoryMaintenanceDocument-workflowAttributes" />
     </property>

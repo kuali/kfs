@@ -27,8 +27,6 @@ import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -42,7 +40,6 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberServiceImpl.class);
 
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -65,7 +62,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
         sp.scrubGroupReportOnly(group, documentNumber);
         sp.setReferenceLookup(null);
@@ -80,7 +77,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
         sp.scrubEntries();
         sp.setReferenceLookup(null);
@@ -88,29 +85,9 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     
     public void performDemerger() {
         LOG.debug("performDemerger() started");
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
         sp.performDemerger();
                 
-    }
-    
-    
-
-    /**
-     * Sets the flexibleOffsetAccountService attribute value.
-     * 
-     * @param flexibleOffsetAccountService The flexibleOffsetAccountService to set.
-     */
-    public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
-        this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-    }
-
-    /**
-     * Sets the financialSystemDocumentTypeCodeService attribute value.
-     * 
-     * @param financialSystemDocumentTypeCodeService The documentTypeService to set.
-     */
-    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
-        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
     }
 
     /**
@@ -205,5 +182,13 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
 
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+
+    /**
+     * Sets the flexibleOffsetAccountService attribute value.
+     * @param flexibleOffsetAccountService The flexibleOffsetAccountService to set.
+     */
+    public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
+        this.flexibleOffsetAccountService = flexibleOffsetAccountService;
     }
 }

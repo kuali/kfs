@@ -29,11 +29,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType" p:parameterName="INDIRECT_COST_RECOVERY_TYPE" />
     </property>
-    <property name="documentTypeName" value="IndirectCostRecoveryTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="ITYP" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryTypeRule" />
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ITYP" />
-
     <property name="workflowAttributes">
     	<ref bean="IndirectCostRecoveryTypeMaintenanceDocument-workflowAttributes" />
     </property>

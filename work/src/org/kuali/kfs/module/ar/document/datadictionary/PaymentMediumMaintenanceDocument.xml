@@ -24,8 +24,7 @@
     </property>
     <property name="label" value="Payment Medium" />
     <property name="shortLabel" value="PayMedium" />
-    <property name="documentTypeName" value="PaymentMediumMaintenanceDocument" />
-    <property name="documentTypeCode" value="PMED" />
+    <property name="documentTypeName" value="PMED" />
     <property name="workflowAttributes">
     	<ref bean="PaymentMediumMaintenanceDocument-workflowAttributes" />
     </property>

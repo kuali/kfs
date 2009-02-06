@@ -26,9 +26,8 @@
     <property name="shortLabel" value="Effort Cert Report Type Maintenance Document" />
     <property name="summary" value="Report Type Code Document" />
     <property name="description" value="Document used to create or update Effort Certification Report Type" />
-    <property name="documentTypeName" value="EffortCertificationReportTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="ECRT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ARTY" />
     <property name="workflowAttributes">
     	<ref bean="EffortCertificationReportTypeMaintenanceDocument-workflowAttributes" />
     </property>

@@ -44,10 +44,9 @@
     <property name="shortLabel" value="BC - Account Rpts Maint Doc" />
     <property name="summary" value="Budget Construction Account Reports Maintenance Document" />
     <property name="description" value="Document used to create or update Budget Construction Account Reports Maintenance Document objects" />
-    <property name="documentTypeName" value="AccountReportsMaintenanceDocument" />
+    <property name="documentTypeName" value="BCAR" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="BCAR" />
-  </bean>
+    </bean>
 
 <!-- Maintenance Section Definitions -->
 

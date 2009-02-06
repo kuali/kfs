@@ -17,11 +17,10 @@
             p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS"
             p:parameterDetailType="GeneralLedgerCorrectionProcess" />
     </property>
-    <property name="documentTypeName" value="LaborLedgerCorrectionProcessDocument" />
+    <property name="documentTypeName" value="LLCP" />
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborCorrectionDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer" />
     <property name="sessionDocument" value="true" />
-    <property name="documentTypeCode" value="LLCP" />
     <property name="workflowAttributes">
     	<ref bean="LaborLedgerCorrectionProcessDocument-workflowAttributes" />
     </property>    

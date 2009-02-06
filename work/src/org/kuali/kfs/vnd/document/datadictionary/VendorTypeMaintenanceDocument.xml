@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.VendorType" p:parameterName="VENDOR_TYPE" />
     </property>
-    <property name="documentTypeName" value="VendorTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMVT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMVT" />
     <property name="workflowAttributes">
     	<ref bean="VendorTypeMaintenanceDocument-workflowAttributes" />
     </property>

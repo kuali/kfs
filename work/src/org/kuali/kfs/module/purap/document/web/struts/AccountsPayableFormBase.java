@@ -20,7 +20,6 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -30,13 +29,10 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 
@@ -148,7 +144,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
         parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, getDocument().getDocumentNumber());
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class).getFinancialSystemDocumentTypeCodeByDocumentName(getDocTypeName()).getFinancialSystemDocumentTypeCode());
+        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(getDocument().getClass()));
         parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE, orgCode);
         parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE, subUnitCode);
 

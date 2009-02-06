@@ -53,12 +53,12 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -97,7 +97,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private UniversityDateDao universityDateDao;
     private WorkflowDocumentService workflowDocumentService;
     private HomeOriginationService homeOriginationService;
-    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
+    private DataDictionaryService dataDictionaryService;
     private Integer fiscalYear;
     private Integer fiscalMonth;
     private String documentNumber;
@@ -522,7 +522,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
             // Getting depreciation document type code for the transactions
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting document type for depreciation.");
-            financialSystemDocumentTypeCodeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(AssetDepreciationDocument.class).getFinancialSystemDocumentTypeCode();
+            financialSystemDocumentTypeCodeCode = getDataDictionaryService().getDocumentTypeNameByClass(AssetDepreciationDocument.class);
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation Document Type Code: " + financialSystemDocumentTypeCodeCode);
 
             Timestamp transactionTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
@@ -614,12 +614,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         this.homeOriginationService = homeOriginationService;
     }
 
-    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
-        return financialSystemDocumentTypeCodeService;
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
     }
 
-    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
-        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
+    public void setDataDictionaryService(DataDictionaryService financialSystemDocumentTypeCodeService) {
+        this.dataDictionaryService = financialSystemDocumentTypeCodeService;
     }
 
 }

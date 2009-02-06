@@ -17,7 +17,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CashManagementDocument" p:parameterName="CASH_MANAGEMENT" />
     </property>
-    <property name="documentTypeName" value="CashManagementDocument" />
+    <property name="documentTypeName" value="CMD" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashManagementDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentRule" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentPreRules" />    
@@ -25,7 +25,6 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentPresentationController" />
     
-    <property name="documentTypeCode" value="CMD" />
     <property name="sessionDocument" value="true" />
 
     <property name="attributes" >

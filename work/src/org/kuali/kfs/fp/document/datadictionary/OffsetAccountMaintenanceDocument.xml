@@ -55,10 +55,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.OffsetAccount" p:parameterName="OFFSET_ACCOUNT" />
     </property>
-    <property name="documentTypeName" value="OffsetAccountMaintenanceDocument" />
+    <property name="documentTypeName" value="OFAC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="OFAC" />
-
     <property name="workflowAttributes">
     	<ref bean="OffsetAccountMaintenanceDocument-workflowAttributes" />
     </property>

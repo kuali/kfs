@@ -93,9 +93,8 @@
     </property>
     <property name="label" value="Organization Accounting Default" />
     <property name="shortLabel" value="OrgAcctgDefaultMaintDoc" />
-    <property name="documentTypeName" value="OrganizationAccountingDefaultMaintenanceDocument" />
+    <property name="documentTypeName" value="OADF" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDefaultRule" />
-    <property name="documentTypeCode" value="OADF" />
     <property name="workflowAttributes">
     	<ref bean="OrganizationAccountingDefaultMaintenanceDocument-workflowAttributes" />
     </property>

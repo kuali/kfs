@@ -27,10 +27,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.VendorStipulation" p:parameterName="VENDOR_STIPULATION" />
     </property>
-    <property name="documentTypeName" value="VendorStipulationMaintenanceDocument" />
+    <property name="documentTypeName" value="PMSI" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.VendorStipulationRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMSI" />
     <property name="workflowAttributes">
     	<ref bean="VendorStipulationMaintenanceDocument-workflowAttributes" />
     </property>

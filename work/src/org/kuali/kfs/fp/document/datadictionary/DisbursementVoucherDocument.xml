@@ -14,7 +14,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.DisbursementVoucherDocument" p:parameterName="DISBURSEMENT_VOUCHER" />
     </property>
-    <property name="documentTypeName" value="DisbursementVoucherDocument" />
+    <property name="documentTypeName" value="DV" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
 	   
 	<property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules" />   
@@ -23,7 +23,6 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentPresentationController" />
     
-    <property name="documentTypeCode" value="DV" />
     <property name="sessionDocument" value="true" />
     
     <property name="workflowAttributes" >

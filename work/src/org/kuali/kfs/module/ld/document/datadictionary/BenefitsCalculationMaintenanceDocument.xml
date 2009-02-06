@@ -47,10 +47,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" p:parameterName="LABOR_BENEFITS_CALCULATION" />
     </property>
-    <property name="documentTypeName" value="BenefitsCalculationMaintenanceDocument" />
+    <property name="documentTypeName" value="BCAL" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.BenefitsCalculationDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="BCAL" />
     <property name="workflowAttributes">
     	<ref bean="BenefitsCalculationMaintenanceDocument-workflowAttributes" />
     </property>

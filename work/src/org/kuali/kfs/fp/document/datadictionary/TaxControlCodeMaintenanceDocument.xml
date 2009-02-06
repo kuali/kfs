@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TaxControlCode" p:parameterName="TAX_CONTROL" />
     </property>
-    <property name="documentTypeName" value="TaxControlCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="DVCC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVCC" />
-
     <property name="workflowAttributes">
     	<ref bean="TaxControlCodeMaintenanceDocument-workflowAttributes" />
     </property>

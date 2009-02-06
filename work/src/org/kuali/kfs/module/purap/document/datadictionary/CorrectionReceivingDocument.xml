@@ -14,13 +14,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument" p:parameterName="RECEIVING_CORRECTION" />
     </property>        
-    <property name="documentTypeName" value="CorrectionReceivingDocument" />
+    <property name="documentTypeName" value="RCVC" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CorrectionReceivingDocumentRule" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentPreRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.CorrectionReceivingDocumentPresentationController" />
-    <property name="documentTypeCode" value="RCVC" />
     <property name="attributes" >
       <list>
         <ref bean="CorrectionReceivingDocument-documentNumber" />

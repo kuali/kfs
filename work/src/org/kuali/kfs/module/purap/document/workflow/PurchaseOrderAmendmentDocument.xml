@@ -1,44 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?> 
 <data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-<documentType>
-<name>PurchaseOrderAmendmentDocument</name>
-<parent>PurchaseOrderDocument</parent>
-<docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
-<routePaths>
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>POA</name>
+      <parent>PO</parent>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="HasNewUnorderedItems"/>
-            <split name="HasNewUnorderedItems" nextNode="Account">
-						<branch name="True">
-							<requests name="NewUnorderedItems" nextNode="Join"/>
-						</branch>
-						<branch name="False">
-							<simple name="NoOp" nextNode="Join"/>
-						</branch>
-						<join name="Join"/>
-					</split>
+          <split name="HasNewUnorderedItems" nextNode="Account">
+            <branch name="True">
+              <requests name="NewUnorderedItems" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
           <requests name="Account"/>
         </routePath>
       </routePaths>
-<routeNodes>
-<start name="AdHoc"/>
-<split name="HasNewUnorderedItems">
-<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-</split>
-<simple name="NoOp">
-<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-</simple>
-<join name="Join"/>
-<role name="NewUnorderedItems">
-<!--<ruleTemplate>KualiNewUnorderedItemsTemplate</ruleTemplate>-->
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-<role name="Account">
-<!--<ruleTemplate>KualiPurApAccountTemplate</ruleTemplate>-->
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-</routeNodes>
-</documentType>
-</documentTypes>
-</data>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <split name="HasNewUnorderedItems">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="Join"/>
+        <role name="NewUnorderedItems">
 
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Account">
+
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

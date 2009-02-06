@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.DueDateType" p:parameterName="DUE_DATE_TYPE" />
     </property>
-    <property name="documentTypeName" value="DueDateTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="DDT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DDT" />
-
     <property name="workflowAttributes">
     	<ref bean="DueDateTypeMaintenanceDocument-workflowAttributes" />
     </property>

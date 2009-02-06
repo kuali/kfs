@@ -56,11 +56,10 @@
     </property>
     <property name="label" value="Customer Invoice Item Code" />
     <property name="shortLabel" value="InvoiceItemCodeMaintDoc" />
-    <property name="documentTypeName" value="CustomerInvoiceItemCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="IICO" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceItemCodeRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceItemCodeAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceItemCodePresentationController" />
-    <property name="documentTypeCode" value="IICO" />
     <property name="workflowAttributes">
     	<ref bean="CustomerInvoiceItemCodeMaintenanceDocument-workflowAttributes" />
     </property>

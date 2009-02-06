@@ -47,13 +47,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -481,19 +481,19 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         
         // Get handles to the services we need
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-        FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
         BalanceTypService balanceTypeService = SpringContext.getBean(BalanceTypService.class);
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         SystemInformationService systemInformationService = SpringContext.getBean(SystemInformationService.class);
         OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         
         // Current fiscal year
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         
         // Document type codes
-        String cashControlDocumentTypeCode = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(CashControlDocument.class).getFinancialSystemDocumentTypeCode();
-        String paymentApplicationDocumentTypeCode = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(PaymentApplicationDocument.class).getFinancialSystemDocumentTypeCode(); 
+        String cashControlDocumentTypeCode = dataDictionaryService.getDocumentTypeNameByClass(CashControlDocument.class);
+        String paymentApplicationDocumentTypeCode = dataDictionaryService.getDocumentTypeNameByClass(PaymentApplicationDocument.class); 
         
         // The processing chart and org comes from the current user.
         // It will be the same as the chart and org on the cash control document if there is one.

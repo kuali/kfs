@@ -46,9 +46,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.Building" p:parameterName="BUILDING" />
     </property>
-    <property name="documentTypeName" value="BuildingMaintenanceDocument" />
+    <property name="documentTypeName" value="BLDG" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="BLDG" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

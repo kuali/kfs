@@ -43,11 +43,11 @@ import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -129,7 +129,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
     public int countPendingSalaryExpenseTransfer(String emplid) {
-        String documentTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(SalaryExpenseTransferDocument.class).getFinancialSystemDocumentTypeCode();
+        String documentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(SalaryExpenseTransferDocument.class);
 
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(KFSPropertyConstants.EMPLID, emplid);
@@ -291,8 +291,8 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * 
      * @return an implementation of the financialSystemDocumentTypeCodeService.
      */
-    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
-        return SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+    public DataDictionaryService getDataDictionaryService() {
+        return SpringContext.getBean(DataDictionaryService.class);
     }
 
     /**

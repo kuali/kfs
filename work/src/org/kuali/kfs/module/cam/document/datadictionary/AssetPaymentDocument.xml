@@ -11,13 +11,12 @@
     <property name="shortLabel" value="Asset Payments" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Asset Payment Document" />
-    <property name="documentTypeName" value="AssetPaymentDocument" />
+    <property name="documentTypeName" value="MPAY" />
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetPaymentDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentPreRules" />    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentPresentationController" />
-    <property name="documentTypeCode" value="MPAY" />
     <property name="workflowAttributes" >
       <ref bean="AssetPaymentDocument-workflowAttributes" />
     </property>

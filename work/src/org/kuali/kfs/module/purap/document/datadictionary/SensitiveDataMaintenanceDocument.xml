@@ -29,10 +29,9 @@
             p:parameterDetailType="SensitiveData" />
     </property>
     <property name="shortLabel" value="Sensitive Data" />
-    <property name="documentTypeName" value="SensitiveDataMaintenanceDocument" />
+    <property name="documentTypeName" value="PMSN" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.SensitiveDataRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMSN" />
     <property name="workflowAttributes">
     	<ref bean="SensitiveDataMaintenanceDocument-workflowAttributes" />
     </property>

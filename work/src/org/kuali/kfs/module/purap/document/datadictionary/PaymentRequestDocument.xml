@@ -15,14 +15,13 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.PaymentRequestDocument" p:parameterName="PAYMENT_REQUEST" />
     </property>
-    <property name="documentTypeName" value="PaymentRequestDocument" />
+    <property name="documentTypeName" value="PREQ" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentPreRules" />
     <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PaymentRequestAttachmentTypeValuesFinder" />    
-    <property name="documentTypeCode" value="PREQ" />
     <property name="sessionDocument" value="true" />
 
     <property name="workflowAttributes">

@@ -32,10 +32,8 @@
             p:parameterName="OWNERSHIP_TYPE"
             p:parameterDetailType="OwnershipType" />
     </property>
-    <property name="documentTypeName" value="OwnershipTypeCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="DVOT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVOT" />
-
     <property name="workflowAttributes">
     	<ref bean="OwnershipTypeCodeMaintenanceDocument-workflowAttributes" />
     </property>

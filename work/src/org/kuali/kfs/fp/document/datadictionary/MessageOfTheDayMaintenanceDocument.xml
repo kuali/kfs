@@ -36,11 +36,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.MessageOfTheDay" p:parameterName="MESSAGE_OF_THE_DAY" />
     </property>
-    <property name="documentTypeName" value="MessageOfTheDayMaintenanceDocument" />
+    <property name="documentTypeName" value="MOTD" />
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="MOTD" />
-
     <property name="workflowAttributes">
     	<ref bean="MessageOfTheDayMaintenanceDocument-workflowAttributes" />
     </property>

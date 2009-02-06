@@ -41,11 +41,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.businessobject.Customer" p:parameterName="CUSTOMER" />
     </property>
-    <property name="documentTypeName" value="CustomerMaintenanceDocument" />
+    <property name="documentTypeName" value="CUS" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerRule" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerPreRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerAuthorizer" />
-    <property name="documentTypeCode" value="CUS" />
     <property name="webScriptFiles" >
       <list>
         <value>../scripts/ar/customerAddress.js</value>

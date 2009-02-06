@@ -29,9 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode" p:parameterName="CONTRACTS_AND_GRANTS_ROLE_CODE" />
     </property>
-    <property name="documentTypeName" value="ContractsAndGrantsRoleCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="PRSN" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PRSN" />
     <property name="workflowAttributes" >
       <ref bean="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowAttributes" />
     </property>

@@ -26,10 +26,9 @@
     <property name="shortLabel" value="Asset Acquisition Type" />
     <property name="summary" value="Asset acquisition maintenance document" />
     <property name="description" value="Document used to create or update asset acquisition objects" />
-    <property name="documentTypeName" value="AssetAcquisitionTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="ACQT" />
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ACQT" />
     <property name="workflowAttributes">
     	<ref bean="AssetAcquisitionTypeMaintenanceDocument-workflowAttributes" />
     </property>

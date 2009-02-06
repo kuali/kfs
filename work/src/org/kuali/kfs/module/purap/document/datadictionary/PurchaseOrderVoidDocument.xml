@@ -18,13 +18,12 @@
             p:parameterName="PURCHASE_ORDER"
             p:parameterDetailType="PurchaseOrder" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderVoidDocument" />
+    <property name="documentTypeName" value="POV" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderVoidDocumentPresentationController" />
-    <property name="documentTypeCode" value="POV" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderVoidDocument-workflowAttributes" />
     </property>

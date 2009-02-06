@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Purpose" p:parameterName="PURPOSE" />
     </property>
-    <property name="documentTypeName" value="PurposeMaintenanceDocument" />
+    <property name="documentTypeName" value="PRPS" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PRPS" />
-
     <property name="workflowAttributes">
     	<ref bean="PurposeMaintenanceDocument-workflowAttributes" />
     </property>

@@ -18,11 +18,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument" p:parameterName="GENERAL_ERROR_CORRECTION" />
     </property>
-    <property name="documentTypeName" value="GeneralErrorCorrectionDocument" />
+    <property name="documentTypeName" value="GEC" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="GEC" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
 

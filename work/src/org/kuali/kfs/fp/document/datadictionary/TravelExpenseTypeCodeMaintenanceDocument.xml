@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode" p:parameterName="TRAVEL_EXPENSE_TYPE_CODE" />
     </property>
-    <property name="documentTypeName" value="TravelExpenseTypeCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="DVET" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVET" />
-
     <property name="workflowAttributes">
     	<ref bean="TravelExpenseTypeCodeMaintenanceDocument-workflowAttributes" />
     </property>

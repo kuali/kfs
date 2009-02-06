@@ -18,11 +18,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.PreEncumbranceDocument" p:parameterName="PRE_ENCUMBRANCE" />
     </property>
-    <property name="documentTypeName" value="PreEncumbranceDocument" />
+    <property name="documentTypeName" value="PE" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.PreEncumbranceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PE" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
 

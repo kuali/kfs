@@ -18,10 +18,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" p:parameterName="AUXILIARY_VOUCHER" />
     </property>
-    <property name="documentTypeName" value="AuxiliaryVoucherDocument" />
+    <property name="documentTypeName" value="AV" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentTypeCode" value="AV" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
     

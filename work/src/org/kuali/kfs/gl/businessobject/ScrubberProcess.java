@@ -59,6 +59,7 @@ import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -67,9 +68,7 @@ import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -105,7 +104,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private OriginEntryService originEntryService;
     private OriginEntryLiteService originEntryLiteService;
     private OriginEntryGroupService originEntryGroupService;
@@ -174,10 +172,9 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService, String batchFileDirectoryName) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService, String batchFileDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
         this.originEntryService = originEntryService;
         this.originEntryLiteService = originEntryLiteService;
         this.originEntryGroupService = originEntryGroupService;
@@ -1570,12 +1567,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
             // do nothing if flexible offset is enabled and scrubber offset indicator of the document
             // type code is turned off in the document type table
-            String financialSystemDocumentTypeCodeCode = scrubbedEntry.getFinancialDocumentTypeCode();
-            
-            //TODO: Shawn - need to check this part later!!
-            FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(financialSystemDocumentTypeCodeCode);
-            
-            if ((!financialSystemDocumentTypeCode.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled()) {
+            if ((!shouldScrubberGenerateOffsetsForDocType(scrubbedEntry.getFinancialDocumentTypeCode())) && flexibleOffsetAccountService.getEnabled()) {
                 return true;
             }
             
@@ -1727,6 +1719,16 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         List te = new ArrayList();
         te.add(new Message(errorMessage + "(" + errorValue + ")", type));
         scrubberReportErrors.put(s, te);
+    }
+    
+    /**
+     * Determines if the scrubber should generate offsets for the given document type
+     * @param docTypeCode the document type code to check if it generates scrubber offsets
+     * @return true if the scrubber should generate offsets for this doc type, false otherwise
+     */
+    private boolean shouldScrubberGenerateOffsetsForDocType(String docTypeCode) {
+        // TODO check param!!!
+        return true;
     }
 
     /**

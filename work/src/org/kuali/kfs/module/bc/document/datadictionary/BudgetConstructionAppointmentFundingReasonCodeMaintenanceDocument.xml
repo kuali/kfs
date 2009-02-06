@@ -23,11 +23,10 @@
     <property name="shortLabel" value="BC - Appt Funding Reason Code Maint Doc" />
     <property name="summary" value="Budget Construction Appointment Funding Reason Code Maintenance Document" />
     <property name="description" value="Document used to create or update Budget Construction Appointment Funding Reason Code Maintenance Document objects" />
-    <property name="documentTypeName" value="AppointmentFundingReasonCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="BCRC" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionAppointmentFundingReasonCodeRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="BCRC" />
-  </bean>
+    </bean>
 
 <!-- Maintenance Section Definitions -->
 

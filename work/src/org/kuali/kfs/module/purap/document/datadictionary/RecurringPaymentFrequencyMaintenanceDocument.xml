@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency" p:parameterName="RECURRING_PAYMENT_FREQUENCY" />
     </property>
-    <property name="documentTypeName" value="RecurringPaymentFrequencyMaintenanceDocument" />
+    <property name="documentTypeName" value="PMRF" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMRF" />
     <property name="workflowAttributes">
     	<ref bean="RecurringPaymentFrequencyMaintenanceDocument-workflowAttributes" />
     </property>

@@ -28,9 +28,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.ItemType" p:parameterName="ITEM_TYPE" />
     </property>
-    <property name="documentTypeName" value="ItemTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMIT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMIT" />
     <property name="workflowAttributes">
     	<ref bean="ItemTypeMaintenanceDocument-workflowAttributes" />
     </property>

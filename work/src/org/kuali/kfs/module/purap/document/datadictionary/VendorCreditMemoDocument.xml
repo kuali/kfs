@@ -15,14 +15,13 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" p:parameterName="CREDIT_MEMO" />
     </property>
-    <property name="documentTypeName" value="VendorCreditMemoDocument" />
+    <property name="documentTypeName" value="CM" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentPreRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.VendorCreditMemoDocumentPresentationController" />
-    <property name="documentTypeCode" value="CM" />
-     <property name="sessionDocument" value="true" />
+    <property name="sessionDocument" value="true" />
     <property name="workflowAttributes">
     	<ref bean="VendorCreditMemoDocument-workflowAttributes" />
     </property>

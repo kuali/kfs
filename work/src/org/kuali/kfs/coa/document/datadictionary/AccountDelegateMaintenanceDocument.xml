@@ -45,11 +45,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountDelegate" p:parameterName="ACCOUNT_DELEGATE" />
     </property>
-    <property name="documentTypeName" value="AccountDelegateMaintenanceDocument" />
+    <property name="documentTypeName" value="ADEL" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.DelegateRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.DelegatePreRules" />
-    <property name="documentTypeCode" value="ADEL" />
     <property name="workflowAttributes">
     	<ref bean="AccountDelegateMaintenanceDocument-workflowAttributes" />
     </property>

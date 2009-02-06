@@ -12,11 +12,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.CFDAClose" p:parameterName="CFDACLOSE" />
     </property>
-    <property name="documentTypeName" value="CFDACloseDocument" />
+    <property name="documentTypeName" value="CLOS" />
     <property name="documentClass" value="org.kuali.kfs.module.cg.businessobject.CFDAClose" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.CloseDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.CloseDocumentAuthorizer" />
-    <property name="documentTypeCode" value="CLOS" />
     <property name="workflowProperties" >
       <ref bean="CFDACloseDocument-workflowProperties" />
     </property>

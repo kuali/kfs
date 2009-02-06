@@ -45,9 +45,8 @@
     <property name="shortLabel" value="Object Code Benefit Maint Doc" />
     <property name="summary" value="Labor Object Code Benefits Maintenance Document" />
     <property name="description" value="Document used to create or update Labor Object Code Benefit objects" />
-    <property name="documentTypeName" value="PositionObjectBenefitMaintenanceDocument" />
+    <property name="documentTypeName" value="LOBN" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="LOBN" />
     <property name="workflowAttributes">
     	<ref bean="PositionObjectBenefitMaintenanceDocument-workflowAttributes" />
     </property>

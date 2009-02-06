@@ -11,12 +11,11 @@
     <property name="shortLabel" value="Effort Certification" />
     <property name="summary" value="Effort Certification Document" />
     <property name="description" value="Document for the efffort certification creation." />
-    <property name="documentTypeName" value="EffortCertificationDocument" />
+    <property name="documentTypeName" value="ECD" />
     <property name="documentClass" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ec.document.authorization.EffortCertificationDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ec.document.authorization.EffortDocumentPresentationController" />
-    <property name="documentTypeCode" value="A21" />
     <property name="allowsCopy" value="true" />    
     <property name="sessionDocument" value="true" />
     <property name="allowsErrorCorrection" value="false" />

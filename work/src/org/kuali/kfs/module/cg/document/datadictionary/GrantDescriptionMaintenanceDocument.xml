@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.GrantDescription" p:parameterName="GRANT_DESCRIPTION" />
     </property>
-    <property name="documentTypeName" value="GrantDescriptionMaintenanceDocument" />
+    <property name="documentTypeName" value="GDES" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="GDES" />
-
     <property name="workflowAttributes">
     	<ref bean="GrantDescriptionMaintenanceDocument-workflowAttributes" />
     </property>

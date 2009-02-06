@@ -27,9 +27,8 @@
     <property name="shortLabel" value="Effort Cert Prd Status Code Maint Doc" />
     <property name="summary" value="Period Status Code  Maintenance Document" />
     <property name="description" value="Document used to create or update Effort Certification Period Status Code  Maintenance Document" />
-    <property name="documentTypeName" value="EffortCertificationPeriodStatusCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="ECPS" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ARPS" />
     <property name="workflowAttributes">
     	<ref bean="EffortCertificationPeriodStatusCodeMaintenanceDocument-workflowAttributes" />
     </property>

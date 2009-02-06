@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" p:parameterName="ASSET_TRANSACTION_TYPE" />
     </property>
-    <property name="documentTypeName" value="AssetTransactionTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMTT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMTT" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

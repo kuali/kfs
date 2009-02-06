@@ -39,10 +39,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.pdp.businessobject.ACHBank" p:parameterName="BANK" />
     </property>
-    <property name="documentTypeName" value="ACHBankMaintenanceDocument" />
+    <property name="documentTypeName" value="ABNK" />
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.AchBankRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ABNK" />
     <property name="workflowAttributes">
     	<ref bean="ACHBankMaintenanceDocument-workflowAttributes" />
     </property>

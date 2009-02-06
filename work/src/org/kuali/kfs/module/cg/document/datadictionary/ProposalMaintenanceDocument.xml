@@ -63,12 +63,11 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Proposal" p:parameterName="PROPOSAL" />
     </property>
-    <property name="documentTypeName" value="ProposalMaintenanceDocument" />
+    <property name="documentTypeName" value="PRPL" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.ProposalRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentPresentationController" />        	
     
-    <property name="documentTypeCode" value="PRPL" />
     <property name="displayTopicFieldInNotes" value="true" />
     <property name="webScriptFiles" >
       <list>

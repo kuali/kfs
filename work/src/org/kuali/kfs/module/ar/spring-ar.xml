@@ -359,8 +359,8 @@
 		<property name="systemInformationService">
 			<ref bean="systemInformationService" />
 		</property>
-	    <property name="financialSystemDocumentTypeCodeService">
-			<ref bean="financialSystemDocumentTypeCodeService" />
+	    <property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
 		</property>
         <property name="chartService">
 			<ref bean="chartService" />

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * This class...
@@ -30,7 +30,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
     private static String[] buildAccountManagerDelegateListTemplates = new String[3];
 
-    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
+    private DataDictionaryService dataDictionaryService;
 
     public OrganizationBCDocumentSearchDaoJdbc() {
 
@@ -248,7 +248,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      *      java.lang.Integer)
      */
     public int buildAccountManagerDelegateList(String principalName, Integer universityFiscalYear) {
-        String budgetFinancialSystemDocumentTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(BudgetConstructionDocument.class).getFinancialSystemDocumentTypeCode();
+        String budgetFinancialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(BudgetConstructionDocument.class);
         int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, budgetFinancialSystemDocumentTypeCode, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
       
         // update level chart and org
@@ -266,19 +266,19 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCodeService attribute. 
-     * @return Returns the financialSystemDocumentTypeCodeService.
+     * Gets the dataDictionaryService attribute. 
+     * @return Returns the dataDictionaryService.
      */
-    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
-        return financialSystemDocumentTypeCodeService;
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
     }
 
     /**
-     * Sets the financialSystemDocumentTypeCodeService attribute value.
-     * @param financialSystemDocumentTypeCodeService The financialSystemDocumentTypeCodeService to set.
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
      */
-    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
-        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 }

@@ -27,9 +27,8 @@
     <property name="shortLabel" value="Payment Change Code" />
     <property name="summary" value="Payment Change Code Maintenance Document" />
     <property name="description" value="Document used to create or update Payment Change Code Descriptions" />
-    <property name="documentTypeName" value="PaymentChangeCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMTC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMTC" />
     <property name="allowsNewOrCopy" value="false" />
     <property name="workflowAttributes">
     	<ref bean="PaymentChangeCodeMaintenanceDocument-workflowAttributes" />

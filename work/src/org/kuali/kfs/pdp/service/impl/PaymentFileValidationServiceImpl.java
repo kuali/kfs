@@ -55,13 +55,13 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -86,7 +86,6 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     private KualiCodeService kualiCodeService;
     private BankService bankService;
     private OriginationCodeService originationCodeService;
-    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
@@ -228,10 +227,8 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
                 // validate doc type if given
                 if (StringUtils.isNotBlank(paymentDetail.getFinancialDocumentTypeCode())) {
-                    try {
-                        FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode = financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(paymentDetail.getFinancialDocumentTypeCode());
-                    }
-                    catch (UnknownDocumentTypeException e) {
+                    DocumentTypeDTO documentType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(paymentDetail.getFinancialDocumentTypeCode());
+                    if (documentType == null) {
                         errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialDocumentTypeCode());
                     }
                 }
@@ -755,14 +752,6 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      */
     public void setOriginationCodeService(OriginationCodeService originationCodeService) {
         this.originationCodeService = originationCodeService;
-    }
-
-    /**
-     * Sets the financialSystemDocumentTypeCodeService attribute value.
-     * @param financialSystemDocumentTypeCodeService The financialSystemDocumentTypeCodeService to set.
-     */
-    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
-        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
     }
 
 }

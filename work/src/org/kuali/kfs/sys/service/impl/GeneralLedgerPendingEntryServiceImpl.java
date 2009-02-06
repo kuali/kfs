@@ -59,13 +59,13 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.exception.ReferentialIntegrityException;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -88,6 +88,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     private ParameterService parameterService;
     private BalanceTypService balanceTypeService;
     private DateTimeService dateTimeService;
+    private DataDictionaryService dataDictionaryService;
 
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getExpenseSummary(java.util.List, java.lang.String,
@@ -457,7 +458,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @return whether the entry was populated successfully
      */
     public boolean populateBankOffsetGeneralLedgerPendingEntry(Bank bank, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName) {
-        bankOffsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class).getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(financialDocument.getClass()).getFinancialSystemDocumentTypeCode());
+        bankOffsetEntry.setFinancialDocumentTypeCode(dataDictionaryService.getDocumentTypeNameByClass(financialDocument.getClass()));
         bankOffsetEntry.setVersionNumber(1L);
         bankOffsetEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
         Timestamp transactionTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
@@ -727,6 +728,14 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 }

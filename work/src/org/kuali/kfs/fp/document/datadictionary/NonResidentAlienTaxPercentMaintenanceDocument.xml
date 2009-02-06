@@ -30,10 +30,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" p:parameterName="NON_RESIDENT_ALIEN_TAX_PERCENT" />
     </property>
-    <property name="documentTypeName" value="NonResidentAlienTaxPercentMaintenanceDocument" />
+    <property name="documentTypeName" value="DVTX" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVTX" />
-
     <property name="workflowAttributes">
     	<ref bean="NonResidentAlienTaxPercentMaintenanceDocument-workflowAttributes" />
     </property>

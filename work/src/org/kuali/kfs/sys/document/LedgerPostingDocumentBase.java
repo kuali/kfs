@@ -20,8 +20,8 @@ import java.sql.Date;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocumentBase implements LedgerPostingDocument {
     static private transient DateTimeService dateTimeService;
     static private transient AccountingPeriodService accountingPeriodService;
-    static private transient FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
+    static private transient DataDictionaryService dataDictionaryService;
        
     protected AccountingPeriod accountingPeriod;
     protected Integer postingYear;
@@ -137,15 +137,15 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * @return the financial document type code for the given document
      */
     public String getFinancialDocumentTypeCode() {
-        return getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(this.getClass()).getFinancialSystemDocumentTypeCode();
+        return getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
     }
     
 
-    public static FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
-        if ( financialSystemDocumentTypeCodeService == null ) {
-            financialSystemDocumentTypeCodeService = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+    public static DataDictionaryService getDataDictionaryService() {
+        if ( dataDictionaryService == null ) {
+            dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         }
-        return financialSystemDocumentTypeCodeService;
+        return dataDictionaryService;
     }
 
     public static DateTimeService getDateTimeService() {

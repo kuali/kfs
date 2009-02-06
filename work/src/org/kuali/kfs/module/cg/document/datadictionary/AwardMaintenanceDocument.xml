@@ -73,11 +73,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Award" p:parameterName="AWARD" />
     </property>
-    <property name="documentTypeName" value="AwardMaintenanceDocument" />
+    <property name="documentTypeName" value="AWRD" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardPreRules" />
-    <property name="documentTypeCode" value="AWRD" />
     <property name="displayTopicFieldInNotes" value="true" />
     <property name="webScriptFiles" >
       <list>

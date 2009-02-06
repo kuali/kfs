@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ShippingTitle" p:parameterName="SHIPPING_TITLE" />
     </property>
-    <property name="documentTypeName" value="ShippingTitleMaintenanceDocument" />
+    <property name="documentTypeName" value="PMST" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMST" />
     <property name="workflowAttributes">
     	<ref bean="ShippingTitleMaintenanceDocument-workflowAttributes" />
     </property>

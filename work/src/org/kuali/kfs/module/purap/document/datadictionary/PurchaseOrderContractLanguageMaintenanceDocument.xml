@@ -27,10 +27,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage" p:parameterName="PURCHASE_ORDER_CONTRACT_LANGUAGE" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderContractLanguageMaintenanceDocument" />
+    <property name="documentTypeName" value="PMCL" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderContractLanguageRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMCL" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderContractLanguageMaintenanceDocument-workflowAttributes" />
     </property>

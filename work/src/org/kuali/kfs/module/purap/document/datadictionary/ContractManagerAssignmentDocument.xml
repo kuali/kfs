@@ -15,12 +15,11 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument" p:parameterName="CONTRACT_MANAGER_ASSIGNMENT" />
     </property>
-    <property name="documentTypeName" value="ContractManagerAssignmentDocument" />
+    <property name="documentTypeName" value="ACM" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ContractManagerAssignmentDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.ContractManagerAssignmentDocumentPresentationController" />
-    <property name="documentTypeCode" value="ACM" />
     <property name="sessionDocument" value="true" />
     <property name="workflowAttributes">
     	<ref bean="ContractManagerAssignmentDocument-workflowAttributes" />

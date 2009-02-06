@@ -15,14 +15,13 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" p:parameterName="PURCHASE_ORDER" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderDocument" />
+    <property name="documentTypeName" value="PO" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules" />
-    <property name="documentTypeCode" value="PO" />
     <property name="allowsCopy" value="true" />
 
     <property name="workflowAttributes">

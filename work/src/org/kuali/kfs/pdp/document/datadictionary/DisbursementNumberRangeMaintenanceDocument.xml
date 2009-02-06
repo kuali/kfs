@@ -39,10 +39,9 @@
     <property name="shortLabel" value="Disbursement Number Range" />
     <property name="summary" value="Disbursement Number Range Maintenance Document" />
     <property name="description" value="Document used to create or update Disbursement Number Range Maintenance Document" />
-    <property name="documentTypeName" value="DisbursementNumberRangeMaintenanceDocument" />
+    <property name="documentTypeName" value="DBRG" />
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.DisbursementNumberRangeRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DBRG" />
     <property name="workflowAttributes">
     	<ref bean="DisbursementNumberRangeMaintenanceDocument-workflowAttributes" />
     </property>

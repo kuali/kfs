@@ -36,10 +36,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelCompanyCode" p:parameterName="TRAVEL_COMPANY" />
     </property>
-    <property name="documentTypeName" value="TravelCompanyCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="DVTC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVTC" />
-
     <property name="workflowAttributes">
     	<ref bean="TravelCompanyCodeMaintenanceDocument-workflowAttributes" />
     </property>

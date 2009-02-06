@@ -29,9 +29,8 @@
             p:parameterName="ITEM_REASON_ADDED"
             p:parameterDetailType="ItemReasonAdded" />
     </property>   
-    <property name="documentTypeName" value="ItemReasonAddedMaintenanceDocument" />
+    <property name="documentTypeName" value="IRAD" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="IRAD" />
     <property name="workflowAttributes">
     	<ref bean="ItemReasonAddedMaintenanceDocument-workflowAttributes" />
     </property>

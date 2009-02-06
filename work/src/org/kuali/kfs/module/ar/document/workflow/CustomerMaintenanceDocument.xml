@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-<documentType>
-<name>CustomerMaintenanceDocument</name>
-<parent>AccountsReceivableComplexMaintenanceDocument</parent>
-<routePaths>
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>CUS</name>
+      <parent>AccountsReceivableComplexMaintenanceDocument</parent>
+      <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="RequiresApproval"/>
           <split name="RequiresApproval">
@@ -18,19 +18,19 @@
           </split>
         </routePath>
       </routePaths>
-<routeNodes>
-<start name="AdHoc"/>
-<role name="Management">
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-<split name="RequiresApproval">
-<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-</split>
-<simple name="NoOp">
-<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-</simple>
-<join name="Join"/>
-</routeNodes>
-</documentType>
-</documentTypes>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Management">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <split name="RequiresApproval">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="Join"/>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
 </data>

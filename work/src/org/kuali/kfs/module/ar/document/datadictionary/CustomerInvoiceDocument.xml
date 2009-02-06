@@ -10,13 +10,12 @@
     <property name="allowsErrorCorrection" value="true" />
     <property name="label" value="Customer Invoice" />
     <property name="shortLabel" value="Customer Invoice" />
-    <property name="documentTypeName" value="CustomerInvoiceDocument" />
+    <property name="documentTypeName" value="INV" />
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDocumentPreRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentPresentationController" />
-    <property name="documentTypeCode" value="INV" />
     <property name="allowsCopy" value="true" />
 
     <property name="accountingLineGroups">

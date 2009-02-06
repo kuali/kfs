@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" p:parameterName="PROPOSAL_PURPOSE" />
     </property>
-    <property name="documentTypeName" value="ProposalPurposeMaintenanceDocument" />
+    <property name="documentTypeName" value="PURP" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PURP" />
-
     <property name="workflowAttributes">
     	<ref bean="ProposalPurposeMaintenanceDocument-workflowAttributes" />
     </property>

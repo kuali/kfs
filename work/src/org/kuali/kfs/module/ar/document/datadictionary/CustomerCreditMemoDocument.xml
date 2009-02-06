@@ -12,7 +12,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" p:parameterName="CRM" />
     </property>
-    <property name="documentTypeName" value="CustomerCreditMemoDocument" />
+    <property name="documentTypeName" value="CRM" />
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentRule" />
 <!-- the following businessRuleClass should be used for granular validations, if implemented
@@ -20,7 +20,6 @@
 -->
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentPreRules" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerCreditMemoDocumentPresentationController" />
-    <property name="documentTypeCode" value="CRM" />
     <property name="attributes" >
       <list>                                 
         <ref bean="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber" />

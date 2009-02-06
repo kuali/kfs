@@ -14,13 +14,12 @@
     <property name="shortLabel" value="Procurement Card" />
     <property name="summary" value="Procurement Card Document" />
     <property name="description" value="Document for the distribution of procurement card expenses." />
-    <property name="documentTypeName" value="ProcurementCardDocument" />
+    <property name="documentTypeName" value="PCDO" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.ProcurementCardDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentPresentationController" />
     
-    <property name="documentTypeCode" value="PCDO" />
     <property name="sessionDocument" value="true" />
     <property name="allowsErrorCorrection" value="false"/>
 

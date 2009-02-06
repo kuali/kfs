@@ -91,9 +91,8 @@
     </property>
     <property name="label" value="System Information" />
     <property name="shortLabel" value="SystemInformationMaintDoc" />
-    <property name="documentTypeName" value="SystemInformationMaintenanceDocument" />
+    <property name="documentTypeName" value="ARSI" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.SystemInformationRule" />
-    <property name="documentTypeCode" value="ARSI" />
     <property name="workflowAttributes">
     	<ref bean="SystemInformationMaintenanceDocument-workflowAttributes" />
     </property>

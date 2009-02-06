@@ -28,7 +28,6 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -84,7 +83,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         try {
             DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
             DocumentEntry docEntry = ddService.getDataDictionary().getDocumentEntry(ddService.getValidDocumentClassByTypeName("CashControlDocument").getCanonicalName());
-            String documentTypeCode = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class).getFinancialSystemDocumentTypeCodeByDocumentName(docEntry.getDocumentTypeName()).getFinancialSystemDocumentTypeCode();
+            String documentTypeCode = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
             bankCode = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
         }
         catch (Exception x) {
@@ -371,7 +370,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-        String documentType = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class).getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(GeneralErrorCorrectionDocument.class).getFinancialSystemDocumentTypeCode();
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(GeneralErrorCorrectionDocument.class);
         if (explicitEntry.getFinancialDocumentTypeCode().equalsIgnoreCase(documentType)) {
             explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(postable));
 

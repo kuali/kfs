@@ -29,12 +29,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.QuestionType" p:parameterName="QUESTION_TYPE" />
     </property>
-    <property name="documentTypeName" value="QuestionTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="QNT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentPresentationController" />
     
-    <property name="documentTypeCode" value="QNT" />
-
     <property name="workflowAttributes">
     	<ref bean="QuestionTypeMaintenanceDocument-workflowAttributes" />
     </property>

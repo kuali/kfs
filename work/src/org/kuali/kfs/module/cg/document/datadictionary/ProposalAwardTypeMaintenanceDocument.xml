@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" p:parameterName="PROPOSAL_AWARD_TYPE" />
     </property>
-    <property name="documentTypeName" value="ProposalAwardTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="PATY" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PATY" />
-
     <property name="workflowAttributes">
     	<ref bean="ProposalAwardTypeMaintenanceDocument-workflowAttributes" />
     </property>

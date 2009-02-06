@@ -40,10 +40,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl" p:parameterName="FUNCTION_CONTROL_CODE" />
     </property>
-    <property name="documentTypeName" value="FiscalYearFunctionControlMaintenanceDocument" />
+    <property name="documentTypeName" value="BFYC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="BFYC" />
-
     <property name="workflowAttributes">
     	<ref bean="FiscalYearFunctionControlMaintenanceDocument-workflowAttributes" />
     </property>

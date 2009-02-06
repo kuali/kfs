@@ -26,10 +26,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.SubContractor" p:parameterName="SUBCONTRACTOR" />
     </property>
-    <property name="documentTypeName" value="SubContractorMaintenanceDocument" />
+    <property name="documentTypeName" value="SUBC" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.SubcontractorRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="SUBC" />
     <property name="workflowAttributes" >
       <ref bean="SubContractorMaintenanceDocument-workflowAttributes" />
     </property>

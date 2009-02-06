@@ -28,9 +28,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.OwnershipType" p:parameterName="OWNERSHIP_TYPE" />
     </property>
-    <property name="documentTypeName" value="OwnershipTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMOT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMOT" />
     <property name="workflowAttributes">
     	<ref bean="OwnershipTypeMaintenanceDocument-workflowAttributes" />
     </property>

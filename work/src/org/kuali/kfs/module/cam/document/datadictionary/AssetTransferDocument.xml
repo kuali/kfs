@@ -12,11 +12,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Asset Transfer" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Asset Transfer Document" />
-    <property name="documentTypeName" value="AssetTransferDocument" />
+    <property name="documentTypeName" value="AT" />
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetTransferDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetTransferDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetTransferDocumentAuthorizer" />
-    <property name="documentTypeCode" value="AT" />
     <property name="workflowAttributes" >
       <ref bean="AssetTransferDocument-workflowAttributes" />
     </property>

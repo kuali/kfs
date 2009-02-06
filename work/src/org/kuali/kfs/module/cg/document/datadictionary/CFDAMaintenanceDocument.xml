@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.CFDA" p:parameterName="CATALOG_OF_FEDERAL_DOMESTIC_ASSISTANCE_REFERENCE" />
     </property>
-    <property name="documentTypeName" value="CFDAMaintenanceDocument" />
+    <property name="documentTypeName" value="CFDM" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="CFDA" />
-
     <property name="workflowAttributes">
     	<ref bean="CFDAMaintenanceDocument-workflowAttributes" />
     </property>

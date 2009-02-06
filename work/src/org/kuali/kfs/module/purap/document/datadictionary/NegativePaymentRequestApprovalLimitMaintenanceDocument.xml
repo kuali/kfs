@@ -40,9 +40,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit" p:parameterName="NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT" />
     </property>
-    <property name="documentTypeName" value="NegativePaymentRequestApprovalLimitMaintenanceDocument" />
+    <property name="documentTypeName" value="PMNP" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMNP" />
     <property name="workflowAttributes">
     	<ref bean="NegativePaymentRequestApprovalLimitMaintenanceDocument-workflowAttributes" />
     </property>

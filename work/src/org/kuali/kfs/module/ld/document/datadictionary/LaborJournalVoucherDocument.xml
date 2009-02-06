@@ -18,11 +18,10 @@
             p:parameterName="JOURNAL_VOUCHER"
             p:parameterDetailType="JournalVoucher" />
     </property>
-    <property name="documentTypeName" value="LaborJournalVoucherDocument" />
+    <property name="documentTypeName" value="LLJV" />
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.LaborJournalVoucherDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.JournalVoucherDocumentAuthorizer" />
-    <property name="documentTypeCode" value="LLJV" />
     <property name="sessionDocument" value="true" />    
     <property name="allowsCopy" value="true" />
     <property name="workflowAttributes">

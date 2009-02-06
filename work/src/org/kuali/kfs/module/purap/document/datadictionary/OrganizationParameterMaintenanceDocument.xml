@@ -28,10 +28,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.OrganizationParameter" p:parameterName="ORGANIZATION_PARAMETER" />
     </property>
-    <property name="documentTypeName" value="OrganizationParameterMaintenanceDocument" />
+    <property name="documentTypeName" value="PMOP" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.OrganizationParameterRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMOP" />
     <property name="workflowAttributes">
     	<ref bean="OrganizationParameterMaintenanceDocument-workflowAttributes" />
     </property>

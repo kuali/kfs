@@ -28,9 +28,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" p:parameterName="CREDIT_MEMO_STATUS" />
     </property>
-    <property name="documentTypeName" value="CreditMemoStatusMaintenanceDocument" />
+    <property name="documentTypeName" value="PMCM" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMCM" />
     <property name="workflowAttributes">
     	<ref bean="CreditMemoStatusMaintenanceDocument-workflowAttributes" />
     </property>

@@ -14,11 +14,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CreditCardReceiptDocument" p:parameterName="CREDIT_CARD_RECEIPT" />
     </property>
-    <property name="documentTypeName" value="CreditCardReceiptDocument" />
+    <property name="documentTypeName" value="CCR" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CreditCardReceiptDocumentAuthorizer" />
-    <property name="documentTypeCode" value="CCR" />
     <property name="sessionDocument" value="true" />
     
     <property name="allowsCopy" value="true" />

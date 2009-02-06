@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ResearchTypeCode" p:parameterName="RESEARCH_TYPE_CODE" />
     </property>
-    <property name="documentTypeName" value="ResearchTypeCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="RTCM" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="RTCM" />
-
     <property name="workflowAttributes">
     	<ref bean="ResearchTypeCodeMaintenanceDocument-workflowAttributes" />
     </property>

@@ -29,11 +29,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" p:parameterName="RESEARCH_RISK_TYPE" />
     </property>
-    <property name="documentTypeName" value="ResearchRiskTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="RRT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentPresentationController" />        	
-    <property name="documentTypeCode" value="RRT" />
-
     <property name="workflowAttributes">
     	<ref bean="ResearchRiskTypeMaintenanceDocument-workflowAttributes" />
     </property>

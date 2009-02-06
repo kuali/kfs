@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource" p:parameterName="PURCHASE_ORDER_COST_SOURCE" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderCostSourceMaintenanceDocument" />
+    <property name="documentTypeName" value="PMCS" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMCS" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderCostSourceMaintenanceDocument-workflowAttributes" />
     </property>

@@ -29,9 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.BenefitsType" p:parameterName="LABOR_BENEFITS_TYPE" />
     </property>
-    <property name="documentTypeName" value="BenefitsTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="BENT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="BENT" />
     <property name="workflowAttributes">
     	<ref bean="BenefitsTypeMaintenanceDocument-workflowAttributes" />
     </property>

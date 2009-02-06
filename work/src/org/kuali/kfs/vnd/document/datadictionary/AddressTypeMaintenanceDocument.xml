@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.AddressType" p:parameterName="ADDRESS_TYPE" />
     </property>
-    <property name="documentTypeName" value="AddressTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMAT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMAT" />
     <property name="workflowAttributes">
     	<ref bean="AddressTypeMaintenanceDocument-workflowAttributes" />
     </property>

@@ -71,11 +71,10 @@
     <property name="shortLabel" value="Asset" />
     <property name="summary" value="Asset maintenance document" />
     <property name="description" value="Document used to create or update Asset objects" />
-    <property name="documentTypeName" value="AssetMaintenanceDocument" />
+    <property name="documentTypeName" value="CASM" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPresentationController" />
-    <property name="documentTypeCode" value="CASM" />
     <property name="workflowAttributes" >
       <ref bean="AssetMaintenanceDocument-workflowAttributes" />
     </property>

@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.BillingAddress" p:parameterName="BILLING_ADDRESS" />
     </property>
-    <property name="documentTypeName" value="BillingAddressMaintenanceDocument" />
+    <property name="documentTypeName" value="PMBA" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMBA" />
     <property name="workflowAttributes">
     	<ref bean="BillingAddressMaintenanceDocument-workflowAttributes" />
     </property>

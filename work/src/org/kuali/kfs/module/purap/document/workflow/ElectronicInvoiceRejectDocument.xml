@@ -5,10 +5,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>ElectronicInvoiceRejectDocument
-			</name>
-			<parent>AccountsPayableTransactionalDocument
-			</parent>
+			<name>EIRT</name>
+			<parent>AccountsPayableTransactionalDocument</parent>
 			<docHandler>
 				${application.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler
 			</docHandler>
@@ -21,9 +19,7 @@
 			<routeNodes>
 				<start name="AdHoc" />
 				<role name="Management">
-					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
+					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 				</role>
 			</routeNodes>
 		</documentType>

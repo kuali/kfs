@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms" p:parameterName="SHIPPING_PAYMENT_TERMS" />
     </property>
-    <property name="documentTypeName" value="ShippingPaymentTermsMaintenanceDocument" />
+    <property name="documentTypeName" value="PMSP" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMSP" />
     <property name="workflowAttributes">
     	<ref bean="ShippingPaymentTermsMaintenanceDocument-workflowAttributes" />
     </property>

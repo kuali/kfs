@@ -54,11 +54,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.Organization" p:parameterName="ORGANIZATION" />
     </property>
-    <property name="documentTypeName" value="OrganizationMaintenanceDocument" />
+    <property name="documentTypeName" value="ORGN" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrgPreRules" />
-    <property name="documentTypeCode" value="ORGN" />
     <property name="webScriptFiles" >
       <list>
         <value>../dwr/interface/PostalCodeService.js</value>

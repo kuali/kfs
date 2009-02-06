@@ -15,14 +15,13 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.RequisitionDocument" p:parameterName="REQUISITION" />
     </property>
-    <property name="documentTypeName" value="RequisitionDocument" />
+    <property name="documentTypeName" value="REQS" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
 
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentPreRules" />
-    <property name="documentTypeCode" value="REQS" />
     <property name="allowsCopy" value="true" />
     <property name="sessionDocument" value="true" />
 

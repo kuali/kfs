@@ -11,12 +11,11 @@
     <property name="shortLabel" value="BCDoc" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Budget Construction Document" />
-    <property name="documentTypeName" value="BudgetConstructionDocument" />
+    <property name="documentTypeName" value="BC" />
     <property name="documentClass" value="org.kuali.kfs.module.bc.document.BudgetConstructionDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentPresentationController" />
-    <property name="documentTypeCode" value="BC" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionDocument-accountNumber" />

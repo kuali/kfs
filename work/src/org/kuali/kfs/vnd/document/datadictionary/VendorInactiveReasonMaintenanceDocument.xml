@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.VendorInactiveReason" p:parameterName="VENDOR_INACTIVE_REASON" />
     </property>
-    <property name="documentTypeName" value="VendorInactiveReasonMaintenanceDocument" />
+    <property name="documentTypeName" value="PMIR" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMIR" />
     <property name="workflowAttributes">
     	<ref bean="VendorInactiveReasonMaintenanceDocument-workflowAttributes" />
     </property>

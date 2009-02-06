@@ -50,12 +50,11 @@
     <property name="shortLabel" value="Asset Global" />
     <property name="summary" value="Global Asset Maintenance Document" />
     <property name="description" value="Document used to create or update global asset document." />
-    <property name="documentTypeName" value="AssetGlobalMaintenanceDocument" />
+    <property name="documentTypeName" value="AA" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalPreRules" />        
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetGlobalAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetGlobalPresentationController" />
-    <property name="documentTypeCode" value="AA" />
     <property name="workflowAttributes" >
       <ref bean="AssetGlobalMaintenanceDocument-workflowAttributes" />
     </property> 

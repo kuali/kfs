@@ -37,13 +37,13 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -56,7 +56,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     private GeneralLedgerPendingEntryService glpeService;
     private OptionsService optionsService;
     private SystemInformationService systemInformationService;
-    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
+    private DataDictionaryService dataDictionaryService;
     private ChartService chartService;
     private UniversityDateService universityDateService;
 
@@ -169,7 +169,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // build an accounting line that will be used to create the glpe
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // get document type for the glpes
-        String financialSystemDocumentTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(CashReceiptDocument.class).getFinancialSystemDocumentTypeCode();
+        String financialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(CashReceiptDocument.class);
         // create and add the new explicit entry based on this accounting line
         explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
         // create and add the offset entry
@@ -213,7 +213,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // build dummy accounting line for gl population
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // get document type for the glpes
-        String financialSystemDocumentTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(DistributionOfIncomeAndExpenseDocument.class).getFinancialSystemDocumentTypeCode();
+        String financialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
         // create and add the new explicit entry based on this accounting line
         explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
         // create and add the offset entry
@@ -263,7 +263,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // build dummy accounting line for gl creation
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getCreditCardObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
         //get document type for the glpes
-        String financialSystemDocumentTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(GeneralErrorCorrectionDocument.class).getFinancialSystemDocumentTypeCode();
+        String financialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(GeneralErrorCorrectionDocument.class);
         // create and add the new explicit entry based on this accounting line
         createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
 
@@ -418,19 +418,19 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCodeService attribute. 
-     * @return Returns the financialSystemDocumentTypeCodeService.
+     * Gets the dataDictionaryService attribute. 
+     * @return Returns the dataDictionaryService.
      */
-    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
-        return financialSystemDocumentTypeCodeService;
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
     }
 
     /**
-     * Sets the financialSystemDocumentTypeCodeService attribute value.
-     * @param financialSystemDocumentTypeCodeService The financialSystemDocumentTypeCodeService to set.
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
      */
-    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
-        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
     /**

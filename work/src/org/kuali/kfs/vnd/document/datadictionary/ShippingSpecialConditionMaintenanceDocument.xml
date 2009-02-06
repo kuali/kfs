@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition" p:parameterName="SHIPPING_SPECIAL_CONDITION" />
     </property>
-    <property name="documentTypeName" value="ShippingSpecialConditionMaintenanceDocument" />
+    <property name="documentTypeName" value="PMSS" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMSS" />
     <property name="workflowAttributes">
     	<ref bean="ShippingSpecialConditionMaintenanceDocument-workflowAttributes" />
     </property>

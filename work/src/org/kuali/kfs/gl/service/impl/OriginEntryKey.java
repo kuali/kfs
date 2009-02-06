@@ -20,15 +20,14 @@ import java.util.Arrays;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 
 /**
  * This class represents an origin entry key
  */
 public class OriginEntryKey {
-    static BalanceTypService balanceTypService = (BalanceTypService) SpringContext.getBean(BalanceTypService.class);
-    static FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService = (FinancialSystemDocumentTypeCodeService) SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class);
+    static BalanceTypService balanceTypService = SpringContext.getBean(BalanceTypService.class);
 
     /*
      * (non-Javadoc)
@@ -77,7 +76,6 @@ public class OriginEntryKey {
         entry.setAccountNumber(getAccountNumber());
         entry.setBalanceType(balanceTypService.getBalanceTypByCode(getBalanceTypeCode()));
         entry.setChartOfAccountsCode(getChartCode());
-        entry.setFinancialSystemDocumentTypeCode(financialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByPrimaryKey(getFinancialSystemDocumentTypeCodeCode()));
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(getEntrySequenceNumber()));
         entry.setDocumentNumber(getDocumentNumber());
         entry.setFinancialObjectCode(getFinancialObjectCode());
@@ -87,6 +85,7 @@ public class OriginEntryKey {
         entry.setSubAccountNumber(getSubAccountNumber());
         entry.setFinancialSubObjectCode(getSubObjectCode());
         entry.setFinancialSystemOriginationCode(getSystemOriginationCode());
+        entry.setFinancialSystemDocumentTypeCode(new FinancialSystemDocumentTypeCode()); // TODO we likely want to add something useful here once DocType is an EBO
     }
 
     /**

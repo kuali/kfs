@@ -29,9 +29,8 @@
             p:parameterName="CAPITAL_ASSET_SYSTEM_TYPE"
             p:parameterDetailType="CapitalAssetSystemType" />
     </property>
-    <property name="documentTypeName" value="CapitalAssetSystemTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMSY" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMSY" />
     <property name="workflowAttributes">
     	<ref bean="CapitalAssetSystemTypeMaintenanceDocument-workflowAttributes" />
     </property>

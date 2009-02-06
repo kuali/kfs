@@ -29,9 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.OriginationCode" p:parameterName="ORIGINATION" />
     </property>
-    <property name="documentTypeName" value="OriginationCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="ORIG" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ORIG" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

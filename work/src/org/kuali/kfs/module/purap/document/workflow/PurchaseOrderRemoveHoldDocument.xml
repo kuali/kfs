@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-<documentType>
-<name>PurchaseOrderRemoveHoldDocument</name>
-<parent>PurchaseOrderDocument</parent>
-<docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
-<routePaths>
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>PORH</name>
+      <parent>PO</parent>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="AccountsPayable"/>
           <requests name="AccountsPayable"/>
         </routePath>
       </routePaths>
-<routeNodes>
-<start name="AdHoc"/>
-<role name="AccountsPayable">
-<!--<ruleTemplate>KualiPurchaseOrderRemoveHoldNotify</ruleTemplate>-->
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-</routeNodes>
-</documentType>
-</documentTypes>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="AccountsPayable">
+
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
 </data>

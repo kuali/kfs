@@ -15,11 +15,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" p:parameterName="ELECTRONIC_INVOICE_REJECT" />
     </property>
-    <property name="documentTypeName" value="ElectronicInvoiceRejectDocument" />
+    <property name="documentTypeName" value="EIRT" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceRejectDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ElectronicInvoiceRejectDocumentAuthorizer" />
-    <property name="documentTypeCode" value="EIRT" />
     <property name="workflowAttributes">
     	<ref bean="ElectronicInvoiceRejectDocument-workflowAttributes" />
     </property>

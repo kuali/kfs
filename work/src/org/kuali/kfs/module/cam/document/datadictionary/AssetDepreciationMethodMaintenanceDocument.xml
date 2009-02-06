@@ -26,10 +26,9 @@
     <property name="shortLabel" value="Asset Depreciation Method" />
     <property name="summary" value="Asset Depreciation Method maintenance document" />
     <property name="description" value="Document used to create or update Asset Depreciation Method objects" />
-    <property name="documentTypeName" value="AssetDepreciationMethodMaintenanceDocument" />
+    <property name="documentTypeName" value="DPRM" />
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DPRM" />
     <property name="workflowAttributes">
     	<ref bean="AssetDepreciationMethodMaintenanceDocument-workflowAttributes" />
     </property>

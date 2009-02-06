@@ -18,13 +18,12 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.ServiceBillingDocument" p:parameterName="SERVICE_BILLING" />
     </property>
-    <property name="documentTypeName" value="ServiceBillingDocument" />
+    <property name="documentTypeName" value="SB" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.ServiceBillingDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentPresentationController" />
     
-    <property name="documentTypeCode" value="SB" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
 

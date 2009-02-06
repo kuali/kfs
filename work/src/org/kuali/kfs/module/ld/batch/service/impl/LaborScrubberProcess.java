@@ -66,10 +66,8 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -90,7 +88,6 @@ public class LaborScrubberProcess {
 
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -163,10 +160,9 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
         this.laborOriginEntryService = laborOriginEntryService;
         this.originEntryGroupService = originEntryGroupService;
         this.dateTimeService = dateTimeService;

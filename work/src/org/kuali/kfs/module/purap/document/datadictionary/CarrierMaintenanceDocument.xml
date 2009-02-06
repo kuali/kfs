@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.Carrier" p:parameterName="CARRIER" />
     </property>
-    <property name="documentTypeName" value="CarrierMaintenanceDocument" />
+    <property name="documentTypeName" value="PMCA" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMCA" />
     <property name="workflowAttributes">
     	<ref bean="CarrierMaintenanceDocument-workflowAttributes" />
     </property>

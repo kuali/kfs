@@ -32,10 +32,8 @@
             p:parameterName="DOCUMENTATION_LOCATION"
             p:parameterDetailType="DisbursementVoucher" />
     </property>
-    <property name="documentTypeName" value="DisbursementVoucherDocumentationLocationMaintenanceDocument" />
+    <property name="documentTypeName" value="DVDL" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVDL" />
-
     <property name="workflowAttributes">
     	<ref bean="DisbursementVoucherDocumentationLocationMaintenanceDocument-workflowAttributes" />
     </property>

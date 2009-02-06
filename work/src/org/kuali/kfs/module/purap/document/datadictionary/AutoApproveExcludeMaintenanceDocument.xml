@@ -37,9 +37,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude" p:parameterName="AUTO_APPROVE_EXCLUDE" />
     </property>
-    <property name="documentTypeName" value="AutoApproveExcludeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMAA" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMAA" />
     <property name="workflowAttributes">
     	<ref bean="AutoApproveExcludeMaintenanceDocument-workflowAttributes" />
     </property>

@@ -65,9 +65,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.TaxRegion" p:parameterName="TAX_REGION" />
     </property>
-    <property name="documentTypeName" value="TaxRegionMaintenanceDocument" />
-    <property name="documentTypeCode" value="TAXR" />
-     <property name="workflowAttributes">
+    <property name="documentTypeName" value="TAXR" />
+    <property name="workflowAttributes">
     	<ref bean="TaxRegionMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>

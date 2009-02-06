@@ -21,10 +21,9 @@
     </property>
     <property name="label" value="Invoice Recurrence" />
     <property name="shortLabel" value="InvRcurrnc" />
-    <property name="documentTypeName" value="InvoiceRecurrenceMaintenanceDocument" />
+    <property name="documentTypeName" value="INVR" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrencePreRules" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrenceRule" />
-    <property name="documentTypeCode" value="INVR" />
     <property name="webScriptFiles" >
       <list>
         <value>../dwr/interface/CustomerInvoiceDocumentService.js</value>

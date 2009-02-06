@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProposalStatus" p:parameterName="PROPOSAL_STATUS" />
     </property>
-    <property name="documentTypeName" value="ProposalStatusMaintenanceDocument" />
+    <property name="documentTypeName" value="PRST" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PRST" />
-
     <property name="workflowAttributes">
     	<ref bean="ProposalStatusMaintenanceDocument-workflowAttributes" />
     </property>

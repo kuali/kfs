@@ -39,9 +39,8 @@
     <property name="shortLabel" value="Effort Certification Report Earn Pay Document" />
     <property name="summary" value="Report Earn Pay Document" />
     <property name="description" value="Document used to create or update Effort Certification Report Earn Pay Document" />
-    <property name="documentTypeName" value="EffortCertificationReportEarnPaygroupMaintenanceDocument" />
+    <property name="documentTypeName" value="ECPG" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ARPG" />
     <property name="workflowAttributes">
     	<ref bean="EffortCertificationReportEarnPaygroupMaintenanceDocument-workflowAttributes" />
     </property>

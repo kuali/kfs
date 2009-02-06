@@ -27,9 +27,8 @@
     <property name="shortLabel" value="Disbursement Type" />
     <property name="summary" value="Disbursement Type Maintenance Document" />
     <property name="description" value="Document used to create or update Disbursement Type Descriptions" />
-    <property name="documentTypeName" value="DisbursementTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="DSTP" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DSTP" />
     <property name="allowsNewOrCopy" value="false" />
     <property name="workflowAttributes">
     	<ref bean="DisbursementTypeMaintenanceDocument-workflowAttributes" />

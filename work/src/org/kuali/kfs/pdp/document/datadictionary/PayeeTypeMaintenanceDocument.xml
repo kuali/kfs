@@ -27,9 +27,8 @@
     <property name="shortLabel" value="Payee Type" />
     <property name="summary" value="Payee Type Maintenance Document" />
     <property name="description" value="Document used to create or update Payee Type Descriptions" />
-    <property name="documentTypeName" value="PayeeTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="PYTP" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PYTP" />
     <property name="allowsNewOrCopy" value="false" />
     <property name="workflowAttributes">
     	<ref bean="PayeeTypeMaintenanceDocument-workflowAttributes" />

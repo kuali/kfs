@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.CreditCardType" p:parameterName="CREDIT_CARD_TYPE" />
     </property>
-    <property name="documentTypeName" value="CreditCardTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="CCTY" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="CCTY" />
-
     <property name="workflowAttributes">
     	<ref bean="CreditCardTypeMaintenanceDocument-workflowAttributes" />
     </property>

@@ -18,13 +18,12 @@
             p:parameterName="PURCHASE_ORDER"
             p:parameterDetailType="PurchaseOrder" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderPaymentHoldDocument" />
+    <property name="documentTypeName" value="POPH" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderPaymentHoldDocument" />
     <property name="businessRulesClass" value="org.kuali.rice.kns.rules.TransactionalDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderPaymentHoldDocumentPresentationController" />
-    <property name="documentTypeCode" value="POPH" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderPaymentHoldDocument-workflowAttributes" />
     </property>

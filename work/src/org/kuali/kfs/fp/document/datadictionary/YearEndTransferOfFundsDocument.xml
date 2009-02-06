@@ -18,11 +18,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument" p:parameterName="YEAR_END_TRANSFER_OF_FUNDS" />
     </property>
-    <property name="documentTypeName" value="YearEndTransferOfFundsDocument" />
+    <property name="documentTypeName" value="YETF" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="YETF" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
 

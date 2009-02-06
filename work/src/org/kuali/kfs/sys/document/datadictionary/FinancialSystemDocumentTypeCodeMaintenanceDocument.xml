@@ -21,10 +21,9 @@
       </list>
     </property>
     <property name="label" value="Financial System Document Type Code" />
-    <property name="documentTypeName" value="FinancialSystemDocumentTypeCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="FSDT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="FSDT" />
-  </bean>
+    </bean>
 
 <!-- Maintenance Section Definitions -->
 

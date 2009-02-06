@@ -33,11 +33,10 @@
     <property name="shortLabel" value="PayeeACHAccountMaintenanceDocument" />
     <property name="summary" value="Payee ACH account maintenance document" />
     <property name="description" value="Document used to create or update Payee ACH Account objects" />
-    <property name="documentTypeName" value="PayeeACHAccountMaintenanceDocument" />
+    <property name="documentTypeName" value="PAAT" />
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.PayeeAchAccountRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.pdp.document.validation.impl.PayeeAchAccountPreRules" />
-    <property name="documentTypeCode" value="PAAT" />
     <property name="webScriptFiles" >
       <list>
         <value>../scripts/pdp/objectInfo.js</value>

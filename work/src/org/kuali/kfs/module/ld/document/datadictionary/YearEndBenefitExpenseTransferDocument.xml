@@ -12,11 +12,10 @@
     <property name="shortLabel" value="Year End Benefit Expense Transfer" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Year End Benefit Expense Transfer Document" />
-    <property name="documentTypeName" value="YearEndBenefitExpenseTransferDocument" />
+    <property name="documentTypeName" value="YEBT" />
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.YearEndBenefitExpenseTransferDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="YEBT" />
     <property name="sessionDocument" value="true" />    
     <property name="allowsCopy" value="true" />
     <property name="workflowAttributes" >

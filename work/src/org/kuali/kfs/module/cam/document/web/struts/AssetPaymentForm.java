@@ -31,8 +31,8 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -116,7 +116,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         AssetPaymentDetail newSourceLine = (AssetPaymentDetail) super.getNewSourceLine();
 
         // Getting the document type code in order set it as default in the new source accounting line.
-        String documentTypeCode = SpringContext.getBean(FinancialSystemDocumentTypeCodeService.class).getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(AssetPaymentDocument.class).getFinancialSystemDocumentTypeCode();
+        String documentTypeCode = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(AssetPaymentDocument.class);
 
         // Setting default document type.
         if (newSourceLine.getExpenditureFinancialDocumentTypeCode() == null || newSourceLine.getExpenditureFinancialDocumentTypeCode().trim().equals("")) {

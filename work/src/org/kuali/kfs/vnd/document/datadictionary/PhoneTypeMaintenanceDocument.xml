@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PhoneType" p:parameterName="PHONE_TYPE" />
     </property>
-    <property name="documentTypeName" value="PhoneTypeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMPT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMPT" />
     <property name="workflowAttributes">
     	<ref bean="PhoneTypeMaintenanceDocument-workflowAttributes" />
     </property>

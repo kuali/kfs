@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.AwardStatus" p:parameterName="AWARD_STATUS" />
     </property>
-    <property name="documentTypeName" value="AwardStatusMaintenanceDocument" />
+    <property name="documentTypeName" value="AWDS" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="AWDS" />
-
     <property name="workflowAttributes">
     	<ref bean="AwardStatusMaintenanceDocument-workflowAttributes" />
     </property>

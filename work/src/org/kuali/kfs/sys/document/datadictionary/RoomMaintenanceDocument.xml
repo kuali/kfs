@@ -38,9 +38,8 @@
     <property name="shortLabel" value="Room" />
     <property name="summary" value="Room maintenance document" />
     <property name="description" value="Document used to create or update Room objects" />
-    <property name="documentTypeName" value="RoomMaintenanceDocument" />
+    <property name="documentTypeName" value="ROOM" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ROOM" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

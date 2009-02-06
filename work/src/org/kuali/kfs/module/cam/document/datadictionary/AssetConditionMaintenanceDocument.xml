@@ -26,10 +26,9 @@
     <property name="shortLabel" value="Asset Condition" />
     <property name="summary" value="Asset condition maintenance document" />
     <property name="description" value="Document used to create or update Asset condition objects" />
-    <property name="documentTypeName" value="AssetConditionMaintenanceDocument" />
+    <property name="documentTypeName" value="ACON" />
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ACON" />
     <property name="workflowAttributes">
     	<ref bean="AssetConditionMaintenanceDocument-workflowAttributes" />
     </property>

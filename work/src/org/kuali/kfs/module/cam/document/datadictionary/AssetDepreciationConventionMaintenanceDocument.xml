@@ -33,10 +33,9 @@
     <property name="shortLabel" value="Asset Depreciation Convention" />
     <property name="summary" value="Asset Depreciation Convention maintenance document" />
     <property name="description" value="Document used to create or update asset depreciation convention objects" />
-    <property name="documentTypeName" value="AssetDepreciationConventionMaintenanceDocument" />
+    <property name="documentTypeName" value="DPRC" />
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DPRC" />
     <property name="workflowAttributes">
     	<ref bean="AssetDepreciationConventionMaintenanceDocument-workflowAttributes" />
     </property>

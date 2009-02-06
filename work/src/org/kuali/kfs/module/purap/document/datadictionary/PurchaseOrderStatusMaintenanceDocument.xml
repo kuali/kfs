@@ -28,9 +28,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" p:parameterName="PURCHASE_ORDER_STATUS" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderStatusMaintenanceDocument" />
+    <property name="documentTypeName" value="PMPS" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMPS" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderStatusMaintenanceDocument-workflowAttributes" />
     </property>

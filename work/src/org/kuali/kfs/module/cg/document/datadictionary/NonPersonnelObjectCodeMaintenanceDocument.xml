@@ -37,9 +37,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCode" p:parameterName="NONPERSONNEL_OBJECT_CODE" />
     </property>
-    <property name="documentTypeName" value="NonPersonnelObjectCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="NPOC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="NPOC" />
     <property name="workflowAttributes" >
       <ref bean="NonPersonnelObjectCodeMaintenanceDocument-workflowAttributes" />
     </property>

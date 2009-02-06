@@ -9,7 +9,7 @@
 	<bean id="PaymentApplicationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
 		<property name="label" value="Application" />
 		<property name="shortLabel" value="Application" />
-		<property name="documentTypeName" value="PaymentApplicationDocument" />
+		<property name="documentTypeName" value="APP" />
 		<property name="documentClass" value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" />
 		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRule" />
 <!-- Uncommenting this line will move to the accounting line validation framework. To enable it comment out the line above and uncomment this line. -->
@@ -18,7 +18,6 @@
  -->
 		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer" />
 		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentPresentationController" />
-		<property name="documentTypeCode" value="APP" />
 		<property name="attributes" >
 			<list>
 				<ref bean="PaymentApplicationDocument-versionNumber" />

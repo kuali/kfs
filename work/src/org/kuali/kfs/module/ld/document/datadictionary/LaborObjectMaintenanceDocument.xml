@@ -44,9 +44,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.LaborObject" p:parameterName="LABOR_OBJECT_BENEFITS" />
     </property>
-    <property name="documentTypeName" value="LaborObjectMaintenanceDocument" />
+    <property name="documentTypeName" value="LOBJ" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="LOBJ" />
     <property name="workflowAttributes">
     	<ref bean="LaborObjectMaintenanceDocument-workflowAttributes" />
     </property>

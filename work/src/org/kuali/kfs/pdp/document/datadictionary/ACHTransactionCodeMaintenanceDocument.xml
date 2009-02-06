@@ -27,9 +27,8 @@
     <property name="shortLabel" value="ACH Transaction Code" />
     <property name="summary" value="ACH Transaction Code Maintenance Document" />
     <property name="description" value="Document used to create or update Payee Type Descriptions" />
-    <property name="documentTypeName" value="ACHTransactionCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="ACTR" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ACTR" />
     <property name="workflowAttributes">
     	<ref bean="ACHTransactionCodeMaintenanceDocument-workflowAttributes" />
     </property>

@@ -13,12 +13,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Equipment Loan/Return" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Equipment Loan/Return Document" />
-    <property name="documentTypeName" value="EquipmentLoanOrReturnDocument" />
+    <property name="documentTypeName" value="ELR" />
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.EquipmentLoanOrReturnDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.EquipmentLoanOrReturnDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.EquipmentLoanOrReturnDocumentPresentationController" />
-    <property name="documentTypeCode" value="ELR" />
     <property name="workflowAttributes" >
       <ref bean="EquipmentLoanOrReturnDocument-workflowAttributes" />
     </property>

@@ -33,8 +33,6 @@ import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -48,7 +46,6 @@ public class ScrubberServiceImpl implements ScrubberService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceImpl.class);
 
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -78,7 +75,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         sp.scrubGroupReportOnly(group, documentNumber);
         sp.setReferenceLookup(null);
@@ -94,7 +91,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         sp.scrubEntries();
         sp.setReferenceLookup(null);
@@ -116,7 +113,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
 
         // this service is especially developed to support collector scrubbing, demerger, and report generation
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         ScrubberStatus result = sp.scrubCollectorBatch(batch, collectorReportData);
         sp.setReferenceLookup(null);
@@ -125,7 +122,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     
     public void performDemerger() {
         LOG.debug("performDemerger() started");
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, financialSystemDocumentTypeCodeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
         sp.performDemerger();
         
     }
@@ -137,15 +134,6 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-    }
-
-    /**
-     * Sets the financialSystemDocumentTypeCodeService attribute value.
-     * 
-     * @param documentTypeService The financialSystemDocumentTypeCodeService to set.
-     */
-    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService glInputTypeService) {
-        this.financialSystemDocumentTypeCodeService = glInputTypeService;
     }
 
     /**

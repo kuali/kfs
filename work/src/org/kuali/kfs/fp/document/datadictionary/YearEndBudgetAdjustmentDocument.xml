@@ -18,13 +18,12 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndBudgetAdjustmentDocument" p:parameterName="YEAR_END_BUDGET_ADJUSTMENT" />
     </property>
-    <property name="documentTypeName" value="YearEndBudgetAdjustmentDocument" />
+    <property name="documentTypeName" value="YEBA" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndBudgetAdjustmentDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.YearEndBudgetAdjustmentDocumentPresentationController" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules" />
-    <property name="documentTypeCode" value="YEBA" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
 

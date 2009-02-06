@@ -51,10 +51,9 @@
     <property name="shortLabel" value="Pre-Asset Tagging" />
     <property name="summary" value="Pre-Asset Tagging maintenance document" />
     <property name="description" value="Document used to create or update Pre-Asset Tagging" />
-    <property name="documentTypeName" value="PretagMaintenanceDocument" />
+    <property name="documentTypeName" value="PTAG" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cab.document.validation.impl.PretagRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cab.document.authorization.PretagAuthorizer" />
-    <property name="documentTypeCode" value="PTAG" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.WireCharge" p:parameterName="WIRE_CHARGE" />
     </property>
-    <property name="documentTypeName" value="WireChargeMaintenanceDocument" />
+    <property name="documentTypeName" value="DVWT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVWT" />
-
     <property name="workflowAttributes">
     	<ref bean="WireChargeMaintenanceDocument-workflowAttributes" />
     </property>

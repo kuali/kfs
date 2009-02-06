@@ -66,11 +66,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.CreditCardVendor" p:parameterName="CREDIT_CARD_VENDOR" />
     </property>
-    <property name="documentTypeName" value="CreditCardVendorMaintenanceDocument" />
+    <property name="documentTypeName" value="CCVN" />
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardVendorRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="CCVN" />
-
     <property name="workflowAttributes">
     	<ref bean="CreditCardVendorMaintenanceDocument-workflowAttributes" />
     </property>

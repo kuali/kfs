@@ -18,13 +18,12 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument" p:parameterName="DISTRIBUTION_OF_INCOME_AND_EXPENSE" />
     </property>
-    <property name="documentTypeName" value="DistributionOfIncomeAndExpenseDocument" />
+    <property name="documentTypeName" value="DI" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentPresentationController" />
     
-    <property name="documentTypeCode" value="DI" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
     <property name="workflowAttributes">

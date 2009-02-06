@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" p:parameterName="TAX_INCOME_CLASS_CODE" />
     </property>
-    <property name="documentTypeName" value="TaxIncomeClassCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="DVIC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVIC" />
-
     <property name="workflowAttributes">
     	<ref bean="TaxIncomeClassCodeMaintenanceDocument-workflowAttributes" />
     </property>

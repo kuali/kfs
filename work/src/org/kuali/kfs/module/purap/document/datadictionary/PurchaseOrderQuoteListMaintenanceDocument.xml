@@ -28,10 +28,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList" p:parameterName="PURCHASE_ORDER_QUOTE_LIST" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderQuoteListMaintenanceDocument" />
+    <property name="documentTypeName" value="PMQT" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderQuoteListRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMQT" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes" />
     </property>

@@ -24,9 +24,9 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.FinancialSystemDocumentTypeCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * Default implementation of the <code>BankService</code> interface.
@@ -37,7 +37,7 @@ public class BankServiceImpl implements BankService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankServiceImpl.class);
     
     private BusinessObjectService businessObjectService;
-    private FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService;
+    private DataDictionaryService dataDictionaryService;
     private ParameterService parameterService;
 
     /**
@@ -54,7 +54,7 @@ public class BankServiceImpl implements BankService {
      * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.Class)
      */
     public Bank getDefaultBankByDocType(Class documentClass) {
-        String documentTypeCode = getFinancialSystemDocumentTypeCodeService().getFinancialSystemDocumentTypeCodeByTransactionalDocumentClass(documentClass).getFinancialSystemDocumentTypeCode();
+        String documentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(documentClass);
         if (StringUtils.isBlank(documentTypeCode)) {
             throw new RuntimeException("Document type not found for document class: " + documentClass.getName());
         }
@@ -95,19 +95,19 @@ public class BankServiceImpl implements BankService {
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCodeService attribute. 
-     * @return Returns the financialSystemDocumentTypeCodeService.
+     * Gets the dataDictionaryService attribute. 
+     * @return Returns the dataDictionaryService.
      */
-    public FinancialSystemDocumentTypeCodeService getFinancialSystemDocumentTypeCodeService() {
-        return financialSystemDocumentTypeCodeService;
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
     }
 
     /**
-     * Sets the financialSystemDocumentTypeCodeService attribute value.
-     * @param financialSystemDocumentTypeCodeService The financialSystemDocumentTypeCodeService to set.
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
      */
-    public void setFinancialSystemDocumentTypeCodeService(FinancialSystemDocumentTypeCodeService financialSystemDocumentTypeCodeService) {
-        this.financialSystemDocumentTypeCodeService = financialSystemDocumentTypeCodeService;
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
     /**

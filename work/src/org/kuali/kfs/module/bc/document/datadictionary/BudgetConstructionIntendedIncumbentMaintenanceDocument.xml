@@ -23,10 +23,9 @@
     <property name="shortLabel" value="BC - BC Intended Incumbent Code Maint Doc" />
     <property name="summary" value="Budget Construction Intended Incumbent Maintenance Document" />
     <property name="description" value="Document used to create or update Budget Construction Intended Incumbent Maintenance Document objects" />
-    <property name="documentTypeName" value="IntendedIncumbentMaintenanceDocument" />
+    <property name="documentTypeName" value="IINC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="IINC" />
-  </bean>
+    </bean>
 
 <!-- Maintenance Section Definitions -->
 

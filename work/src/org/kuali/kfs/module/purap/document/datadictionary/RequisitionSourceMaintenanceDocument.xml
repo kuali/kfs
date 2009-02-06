@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.RequisitionSource" p:parameterName="REQUISITION_SOURCE" />
     </property>
-    <property name="documentTypeName" value="RequisitionSourceMaintenanceDocument" />
+    <property name="documentTypeName" value="PMSO" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMSO" />
     <property name="workflowAttributes">
     	<ref bean="RequisitionSourceMaintenanceDocument-workflowAttributes" />
     </property>

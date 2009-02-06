@@ -36,10 +36,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate" p:parameterName="GRADUATE_ASSISTANT_RATE" />
     </property>
-    <property name="documentTypeName" value="GraduateAssistantRateMaintenanceDocument" />
+    <property name="documentTypeName" value="GAR" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="GAR" />
-
     <property name="workflowAttributes">
     	<ref bean="GraduateAssistantRateMaintenanceDocument-workflowAttributes" />
     </property>

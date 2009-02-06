@@ -39,10 +39,9 @@
             p:parameterDetailType="ReceivingAddress" />
     </property>    
     <property name="shortLabel" value="Receiving Address" />
-    <property name="documentTypeName" value="ReceivingAddressMaintenanceDocument" />
+    <property name="documentTypeName" value="PMRA" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.ReceivingAddressPreRules" />
-    <property name="documentTypeCode" value="PMRA" />
     <property name="workflowAttributes">
     	<ref bean="ReceivingAddressMaintenanceDocument-workflowAttributes" />
     </property>

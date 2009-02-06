@@ -9,7 +9,7 @@
   <bean id="CashControlDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="Cash Control" />
     <property name="shortLabel" value="Cash Control" />
-    <property name="documentTypeName" value="CashControlDocument" />
+    <property name="documentTypeName" value="CTRL" />
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CashControlDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentRule" />
 <!-- the following businessRuleClass should be used for granular validations, if implemented
@@ -17,7 +17,6 @@
 -->
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentPresentationController" />
-    <property name="documentTypeCode" value="CTRL" />
     <property name="allowsErrorCorrection" value="false"/>
     <property name="defaultExistenceChecks" >
       <list>

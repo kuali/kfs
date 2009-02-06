@@ -18,11 +18,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.JournalVoucherDocument" p:parameterName="JOURNAL_VOUCHER" />
     </property>
-    <property name="documentTypeName" value="JournalVoucherDocument" />
+    <property name="documentTypeName" value="JV" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.JournalVoucherDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.JournalVoucherDocumentAuthorizer" />
-    <property name="documentTypeCode" value="JV" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
 

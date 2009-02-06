@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.PaymentReasonCode" p:parameterName="PAYMENT_REASON" />
     </property>
-    <property name="documentTypeName" value="PaymentReasonCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="DVPR" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVPR" />
-
     <property name="workflowAttributes">
     	<ref bean="PaymentReasonCodeMaintenanceDocument-workflowAttributes" />
     </property>

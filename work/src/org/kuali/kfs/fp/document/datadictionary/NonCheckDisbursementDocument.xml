@@ -18,12 +18,11 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.NonCheckDisbursementDocument" p:parameterName="NON_CHECK_DISBURSEMENT" />
     </property>
-    <property name="documentTypeName" value="NonCheckDisbursementDocument" />
+    <property name="documentTypeName" value="ND" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.NonCheckDisbursementDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementDocumentPreRules" />
-    <property name="documentTypeCode" value="ND" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
 

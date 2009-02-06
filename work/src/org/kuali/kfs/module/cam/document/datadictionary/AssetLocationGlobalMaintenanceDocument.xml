@@ -37,11 +37,10 @@
     <property name="shortLabel" value="Asset Location Global" />
     <property name="summary" value="Location Global Asset Maintenance Document" />
     <property name="description" value="Document used to create or update global location asset document." />
-    <property name="documentTypeName" value="AssetLocationGlobalMaintenanceDocument" />
+    <property name="documentTypeName" value="ALOC" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetLocationGlobalRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 	<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetLocationGlobalPresentationController" />
-    <property name="documentTypeCode" value="ALOC" />
     <property name="workflowAttributes" >
       <ref bean="AssetLocationGlobalMaintenanceDocument-workflowAttributes" />
     </property> 

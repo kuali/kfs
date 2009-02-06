@@ -30,9 +30,8 @@
             p:parameterName="COMMODITY_CODE"
             p:parameterDetailType="CommodityCode" />
     </property>
-    <property name="documentTypeName" value="CommodityCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="PMCC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMCC" />
     <property name="workflowAttributes">
     	<ref bean="CommodityCodeMaintenanceDocument-workflowAttributes" />
     </property>

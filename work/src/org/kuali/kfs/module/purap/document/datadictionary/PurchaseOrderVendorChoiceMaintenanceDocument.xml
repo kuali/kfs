@@ -28,9 +28,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" p:parameterName="PURCHASE_ORDER_VENDOR_CHOICE" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderVendorChoiceMaintenanceDocument" />
+    <property name="documentTypeName" value="PMVC" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMVC" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderVendorChoiceMaintenanceDocument-workflowAttributes" />
     </property>

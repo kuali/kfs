@@ -28,9 +28,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod" p:parameterName="PURCHASE_ORDER_TRANSMISSION_METHOD" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderTransmissionMethodMaintenanceDocument" />
+    <property name="documentTypeName" value="PMTM" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMTM" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes" />
     </property>

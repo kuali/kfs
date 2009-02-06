@@ -22,11 +22,10 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.TransferOfFundsDocument" p:parameterName="TRANSFER_OF_FUNDS" />
     </property>
-    <property name="documentTypeName" value="TransferOfFundsDocument" />
+    <property name="documentTypeName" value="TF" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.TransferOfFundsDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="TF" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
 

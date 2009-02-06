@@ -29,10 +29,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel" p:parameterName="BUDGET_RECORDING_LEVEL" />
     </property>
-    <property name="documentTypeName" value="BudgetRecordingLevelMaintenanceDocument" />
+    <property name="documentTypeName" value="BRL" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="BRL" />
-
     <property name="workflowAttributes">
     	<ref bean="BudgetRecordingLevelMaintenanceDocument-workflowAttributes" />
     </property>

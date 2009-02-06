@@ -18,13 +18,12 @@
             p:parameterName="PURCHASE_ORDER"
             p:parameterDetailType="PurchaseOrder" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderReopenDocument" />
+    <property name="documentTypeName" value="POR" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderReopenDocumentPresentationController" />
-    <property name="documentTypeCode" value="POR" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderReopenDocument-workflowAttributes" />
     </property>

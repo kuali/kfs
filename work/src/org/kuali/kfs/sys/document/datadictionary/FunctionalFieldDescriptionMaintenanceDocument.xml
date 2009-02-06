@@ -54,9 +54,7 @@
 				p:parameterName="FUNCTIONAL_FIELD_DESCRIPTION" />
 		</property>
 		<property name="documentTypeName"
-			value="FunctionalFieldDescriptionMaintenanceDocument" />
-		<property name="documentTypeCode" value="FFD" />
-
+			value="FFD" />
 		<property name="workflowAttributes">
 	    	<ref bean="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes" />
     	</property>

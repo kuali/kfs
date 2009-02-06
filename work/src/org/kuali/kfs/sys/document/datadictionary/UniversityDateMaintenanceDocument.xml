@@ -36,9 +36,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.UniversityDate" p:parameterName="UNIVERSITY_DATE" />
     </property>
-    <property name="documentTypeName" value="UniversityDateMaintenanceDocument" />
+    <property name="documentTypeName" value="UDAT" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="UDAT" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

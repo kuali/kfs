@@ -36,11 +36,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Agency" p:parameterName="AGENCY" />
     </property>
-    <property name="documentTypeName" value="AgencyMaintenanceDocument" />
+    <property name="documentTypeName" value="AGCY" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AgencyRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="AGCY" />
-
     <property name="workflowAttributes">
     	<ref bean="AgencyMaintenanceDocument-workflowAttributes" />
     </property>

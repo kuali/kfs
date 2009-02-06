@@ -18,12 +18,11 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument" p:parameterName="YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE" />
     </property>
-    <property name="documentTypeName" value="YearEndDistributionOfIncomeAndExpenseDocument" />
+    <property name="documentTypeName" value="YEDI" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.YearEndDistributionOfIncomeAndExpenseDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.YearEndDistributionOfIncomeAndExpenseDocumentPresentationController" />
-    <property name="documentTypeCode" value="YEDI" />
     <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
 

@@ -30,10 +30,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelMileageRate" p:parameterName="TRAVEL_MILEAGE_RATE" />
     </property>
-    <property name="documentTypeName" value="TravelMileageRateMaintenanceDocument" />
+    <property name="documentTypeName" value="DVML" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DVML" />
-
     <property name="workflowAttributes">
     	<ref bean="TravelMileageRateMaintenanceDocument-workflowAttributes" />
     </property>

@@ -27,10 +27,9 @@
     <property name="shortLabel" value="BC - BC Position Maint Doc" />
     <property name="summary" value="Budget Construction Position Maintenance Document" />
     <property name="description" value="Document used to create or update Budget Construction Position Maintenance Document objects" />
-    <property name="documentTypeName" value="BudgetConstructionPositionMaintenanceDocument" />
+    <property name="documentTypeName" value="BCPS" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionPositionPreRules" />
-    <property name="documentTypeCode" value="BCPS" />
     <property name="webScriptFiles" >
       <list>
         <value>../dwr/interface/BudgetConstructionPosition.js</value>

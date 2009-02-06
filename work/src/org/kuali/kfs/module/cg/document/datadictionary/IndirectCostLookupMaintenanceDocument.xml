@@ -37,11 +37,9 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.IndirectCostLookup" p:parameterName="INDIRECT_COST_LOOKUP" />
     </property>
-    <property name="documentTypeName" value="IndirectCostLookupMaintenanceDocument" />
+    <property name="documentTypeName" value="IDCL" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.IndirectCostLookupRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="IDCL" />
-
     <property name="workflowAttributes">
     	<ref bean="IndirectCostLookupMaintenanceDocument-workflowAttributes" />
     </property>

@@ -9,8 +9,7 @@
     <property name="allowsNewOrCopy" value="true" />
     <property name="label" value="Asset Fabrication" />
     <property name="shortLabel" value="Asset Fabrication" />
-    <property name="documentTypeName" value="AssetFabricationMaintenanceDocument" />
-    <property name="documentTypeCode" value="FR" />
+    <property name="documentTypeName" value="FR" />
     <property name="workflowAttributes" >
       <ref bean="AssetFabricationMaintenanceDocument-workflowAttributes" />
     </property>

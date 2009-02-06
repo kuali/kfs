@@ -17,7 +17,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET" />
     </property>
-    <property name="documentTypeName" value="BudgetDocument" />
+    <property name="documentTypeName" value="KBD" />
     <property name="documentClass" value="org.kuali.kfs.module.cg.document.BudgetDocument" />
     
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentRule" />
@@ -26,7 +26,6 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.BudgetDocumentAuthorizer" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.BudgetDocumentPresentationController" />
 
-    <property name="documentTypeCode" value="KBD" />
     <property name="allowsNoteDelete" value="true" />
     <property name="displayTopicFieldInNotes" value="true" />
     <property name="sessionDocument" value="true" />

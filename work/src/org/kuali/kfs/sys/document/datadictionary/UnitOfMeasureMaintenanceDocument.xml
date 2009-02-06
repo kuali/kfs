@@ -27,9 +27,8 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.UnitOfMeasure" p:parameterName="UNIT_OF_MEASURE" />
     </property>
-    <property name="documentTypeName" value="UnitOfMeasureMaintenanceDocument" />
+    <property name="documentTypeName" value="PMUM" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMUM" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

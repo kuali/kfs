@@ -18,13 +18,12 @@
             p:parameterName="PURCHASE_ORDER"
             p:parameterDetailType="PurchaseOrder" />
     </property>
-    <property name="documentTypeName" value="PurchaseOrderRetransmitDocument" />
+    <property name="documentTypeName" value="PORT" />
     <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderRetransmitDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRetransmitDocumentPresentationController" />
-    <property name="documentTypeCode" value="PORT" />
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderRetransmitDocument-workflowAttributes" />
     </property>

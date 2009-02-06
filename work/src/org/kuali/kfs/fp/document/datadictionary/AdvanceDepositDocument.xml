@@ -17,12 +17,11 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.AdvanceDepositDocument" p:parameterName="ADVANCE_DEPOSIT" />
     </property>
-    <property name="documentTypeName" value="AdvanceDepositDocument" />
+    <property name="documentTypeName" value="AD" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.AdvanceDepositDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules" />
-    <property name="documentTypeCode" value="AD" />
     <property name="sessionDocument" value="true" />
     
     <property name="allowsCopy" value="true" />

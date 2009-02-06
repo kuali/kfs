@@ -11,11 +11,10 @@
     <property name="shortLabel" value="Asset Depreciation" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Asset Depreciation Document - Batch." />
-    <property name="documentTypeName" value="AssetDepreciationDocument" />
+    <property name="documentTypeName" value="DEPR" />
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetDepreciationDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetDepreciationDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetDepreciationDocumentAuthorizer" />
-    <property name="documentTypeCode" value="DEPR" />
     <property name="workflowAttributes" >
       <ref bean="AssetDepreciationDocument-workflowAttributes" />
     </property>

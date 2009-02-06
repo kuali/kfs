@@ -29,10 +29,9 @@
             p:parameterName="RECEIVING_THRESHOLD"
             p:parameterDetailType="ReceivingThreshold" />
     </property>
-    <property name="documentTypeName" value="ReceivingThresholdMaintenanceDocument" />
+    <property name="documentTypeName" value="THLD" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ThresholdRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="THLD" />
     <property name="workflowAttributes">
     	<ref bean="ReceivingThresholdMaintenanceDocument-workflowAttributes" />
     </property>

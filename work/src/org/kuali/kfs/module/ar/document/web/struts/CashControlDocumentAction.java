@@ -227,17 +227,25 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         // generate the GLPEs
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         boolean success = glpeService.generateGeneralLedgerPendingEntries(cashControlDocument);
-
+        
+        //  initialize the sequenceHelper with the existing number of GLPEs already generated
+        int maxSequence = cashControlDocument.getGeneralLedgerPendingEntries().size();
+        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = 
+            new GeneralLedgerPendingEntrySequenceHelper(maxSequence + 1);
+        
+        //  if its a check payment medium, generate bank entries
         if(cashControlDocument.getCustomerPaymentMedium().getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.CHECK)) {
+            
             // get associated bank
             Bank bank = (Bank)SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
+            
             // add additional GLPE's based on bank code
             if(!glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, cashControlDocument.getCashControlTotalAmount(), cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS)) {
                 success = false;
             }
 
+            //TODO do we really want to add this entry even if it failed above?
             AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
             bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET)); 
             cashControlDocument.addPendingEntry(bankOffsetEntry);
@@ -245,6 +253,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
             GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
             success &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+            //TODO do we really want to add this entry even if it failed above?
             cashControlDocument.addPendingEntry(offsetEntry);
             sequenceHelper.increment();
         }

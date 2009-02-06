@@ -294,28 +294,6 @@ function loadOriginationInfo(originationCodeFieldName, originationCodeNameFieldN
     }
 }
 
-function loadDocumentTypeInfo(documentTypeCodeFieldName, documentTypeNameFieldName) {
-    var documentTypeCode = getElementValue(documentTypeCodeFieldName);
-
-    if (documentTypeCode == '') {
-        clearRecipients(documentTypeNameFieldName);
-    } else {
-		var dwrReply = {
-			callback:function(data) {
-				if ( data != null && typeof data == 'object' ) {
-					setRecipientValue( documentTypeNameFieldName, data.documentName );
-				} else {
-					setRecipientValue( documentTypeNameFieldName, wrapError( "doc type not found" ), true );			
-				}
-			},
-			errorHandler:function( errorMessage ) { 
-				setRecipientValue( documentTypeNameFieldName, wrapError( "doc type not found" ), true );
-			}
-		};
-		FinancialSystemDocumentTypeCodeService.getFinancialSystemDocumentTypeCodeByPrimaryKey( documentTypeCode, dwrReply );
-    }
-}
-
 function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
     var userId = DWRUtil.getValue( emplIdFieldName );
     var containerDiv = document.getElementById(userNameFieldName + divSuffix);

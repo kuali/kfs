@@ -25,27 +25,27 @@
 
   <strong>Capital Asset Management</strong>
   <ul class="chan">
-     <li><portal:portalLink displayTitle="true" title="Asset Payment" url="camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument" /></li>
+     <li><portal:portalLink displayTitle="true" title="Asset Payment" url="camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=MPAY" /></li>
   	 <li><portal:portalLink displayTitle="true" title="Barcode Inventory Process" url="uploadBarcodeInventoryFile.do?methodToCall=start&batchUpload.batchInputTypeName=assetBarcodeInventoryInputFileType" /></li>			 
   </ul>
 
   <strong>Effort Certification</strong>
   <ul class="chan">		
-	 <li><portal:portalLink displayTitle="true" title="Effort Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=EffortCertificationDocument" /></li>
+	 <li><portal:portalLink displayTitle="true" title="Effort Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=A21" /></li>
   </ul>
 	<strong>Financial Processing</strong><br />
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Cash Management" url="financialCashManagement.do?methodToCall=docHandler&command=initiate&docTypeName=CashManagementDocument" /></li>
+        <li><portal:portalLink displayTitle="true" title="Cash Management" url="financialCashManagement.do?methodToCall=docHandler&command=initiate&docTypeName=CMD" /></li>
 		<li><portal:portalLink displayTitle="true" title="General Ledger Correction Process" url="generalLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=GLCP" /></li>									
-		<li><portal:portalLink displayTitle="true" title="Journal Voucher" url="financialJournalVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=JournalVoucherDocument" /></li>
-		<li><portal:portalLink displayTitle="true" title="Non-Check Disbursement" url="financialNonCheckDisbursement.do?methodToCall=docHandler&command=initiate&docTypeName=NonCheckDisbursementDocument" /></li>
-		<li><portal:portalLink displayTitle="true" title="Service Billing" url="financialServiceBilling.do?methodToCall=docHandler&command=initiate&docTypeName=ServiceBillingDocument" /></li>
+		<li><portal:portalLink displayTitle="true" title="Journal Voucher" url="financialJournalVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=JV" /></li>
+		<li><portal:portalLink displayTitle="true" title="Non-Check Disbursement" url="financialNonCheckDisbursement.do?methodToCall=docHandler&command=initiate&docTypeName=ND" /></li>
+		<li><portal:portalLink displayTitle="true" title="Service Billing" url="financialServiceBilling.do?methodToCall=docHandler&command=initiate&docTypeName=SB" /></li>
     </ul>
     <strong>Labor Distribution</strong><br />
     <ul class="chan">
     	<li>
 			<portal:portalLink displayTitle="true" title="Labor Journal Voucher"
-				url="laborJournalVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=LaborJournalVoucherDocument" />
+				url="laborJournalVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=LLJV" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"

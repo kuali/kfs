@@ -19,22 +19,22 @@
 <div class="body">
     <strong>Financial Processing</strong><br />
     <ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Year End Budget Adjustment" url="financialYearEndBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=YearEndBudgetAdjustmentDocument" /></li>
-		<li><portal:portalLink displayTitle="true" title="Year End Distribution of Income and Expense" url="financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler&command=initiate&docTypeName=YearEndDistributionOfIncomeAndExpenseDocument" /></li>
-		<li><portal:portalLink displayTitle="true" title="Year End General Error Correction" url="financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=YearEndGeneralErrorCorrectionDocument" /></li>
-		<li><portal:portalLink displayTitle="true" title="Year End Transfer of Funds" url="financialYearEndTransferOfFunds.do?methodToCall=docHandler&command=initiate&docTypeName=YearEndTransferOfFundsDocument" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End Budget Adjustment" url="financialYearEndBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=YEBA" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End Distribution of Income and Expense" url="financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler&command=initiate&docTypeName=YEDI" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End General Error Correction" url="financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=YEGE" /></li>
+		<li><portal:portalLink displayTitle="true" title="Year End Transfer of Funds" url="financialYearEndTransferOfFunds.do?methodToCall=docHandler&command=initiate&docTypeName=YETF" /></li>
     </ul>
     <strong>Labor Distribution</strong><br />
     <ul class="chan">
 	  	<li>
 			<portal:portalLink displayTitle="true"
 				title="Year End Benefit Expense Transfer"
-				url="laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YearEndBenefitExpenseTransferDocument" />
+				url="laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEBT" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Year End Salary Expense Transfer"
-				url="laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YearEndSalaryExpenseTransferDocument" />
+				url="laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEST" />
 		</li>
     </ul>
 </div>

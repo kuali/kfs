@@ -37,7 +37,7 @@
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="CFDA Close"
-				url="cgClose.do?methodToCall=docHandler&command=initiate&docTypeName=CFDACloseDocument" />
+				url="cgClose.do?methodToCall=docHandler&command=initiate&docTypeName=CLOS" />
 		</li>		
 		<li>
 			<portal:portalLink displayTitle="true" title="CFDA Reference"

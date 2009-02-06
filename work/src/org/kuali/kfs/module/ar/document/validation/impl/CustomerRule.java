@@ -55,6 +55,10 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             if (isValid) {
                 isValid &= checkTaxNumber(newCustomer);
             }
+            
+            if (isValid) {
+                isValid &= checkNameIsValidLength(newCustomer);
+            }
 
             //TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation, 
             //     unless there's some reason not clear why it needs to happen here.
@@ -130,6 +134,21 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     }
 
+    /**
+     * 
+     * This method checks if the customer name entered is greater than or equal to three (3) characters long.
+     * @param customerName The name of the customer.
+     * @return True if the name is greater than or equal to 3 characters long.
+     */
+    public boolean checkNameIsValidLength(Customer customer) {
+        boolean success = true;
+        if (customer.getCustomerName().length() < 3) {
+            success = false;
+            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
+        }
+        return success;
+    }
+    
     /**
      * This method checks if the address is valid
      * 

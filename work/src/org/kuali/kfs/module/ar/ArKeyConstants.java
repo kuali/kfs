@@ -107,6 +107,7 @@ public class ArKeyConstants {
         public static final String GENERATE_CUSTOMER_QUESTION_ID = "GenerateCustomerQuestionID";
         public static final String ERROR_AT_LEAST_ONE_ADDRESS = "error.document.customer.addressRequired";
         public static final String ERROR_ONLY_ONE_PRIMARY_ADDRESS = "error.document.customer.oneAndOnlyOnePrimaryAddressRequired";
+        public static final String ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS = "error.document.customer.customerNameLessThanThreeCharacters";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY = "P";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE = "A";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE_US = "US";

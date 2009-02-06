@@ -102,10 +102,12 @@ public class ArPropertyConstants {
     
     // Customer
     public static class CustomerFields {
+        public static final String CUSTOMER_TAB_GENERAL_INFORMATION = "customerGeneralInformation";
         public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE = "customerAddressTypeCode";
         public static final String CUSTOMER_ADDRESS_IDENTIFIER = "customerAddressIdentifier";
         public static final String CUSTOMER_NUMBER = "customerNumber";
+        public static final String CUSTOMER_NAME = "customerName";
         public static final String CUSTOMER_ADDRESS_STATE_CODE = "customerStateCode";
         public static final String CUSTOMER_ADDRESS_ZIP_CODE = "customerZipCode";
         public static final String CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME = "customerAddressInternationalProvinceName";

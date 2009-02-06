@@ -81,20 +81,22 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         roleQualifier.put(KfsKimAttributes.ACCOUNT_NUMBER, accountNumber);
         
         if(KFSConstants.SysKimConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)){
-            if (StringUtils.isNotBlank(accountSupervisorPrincipalID)) {
-                members.add( new RoleMembershipInfo( null, null, accountSupervisorPrincipalID, KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
-            }
             Account account = getAccount(chartOfAccountsCode, accountNumber);
             if(account!=null) {
                 members.add( new RoleMembershipInfo( null, null, account.getAccountsSupervisorySystemsIdentifier(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
             }
-        } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)){
-            if (StringUtils.isNotBlank(fiscalOfficerPrincipalID)) {
-                members.add( new RoleMembershipInfo( null, null, fiscalOfficerPrincipalID, KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+            // only add the additional approver if they are different
+            if (StringUtils.isNotBlank(accountSupervisorPrincipalID) && !StringUtils.equals(accountSupervisorPrincipalID, account.getAccountsSupervisorySystemsIdentifier())) {
+                members.add( new RoleMembershipInfo( null, null, accountSupervisorPrincipalID, KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
             }
+        } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)){
             Account account = getAccount(chartOfAccountsCode, accountNumber);
             if(account!=null) {
                 members.add( new RoleMembershipInfo( null, null, account.getAccountFiscalOfficerSystemIdentifier(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
+            }
+            // only add the additional approver if they are different
+            if (StringUtils.isNotBlank(fiscalOfficerPrincipalID) && !StringUtils.equals(fiscalOfficerPrincipalID, account.getAccountFiscalOfficerSystemIdentifier())) {
+                members.add( new RoleMembershipInfo( null, null, fiscalOfficerPrincipalID, KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
             }
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){
             AccountDelegate delegate = getPrimaryDelegate(chartOfAccountsCode, accountNumber, financialSystemDocumentTypeCodeCode, totalDollarAmount);

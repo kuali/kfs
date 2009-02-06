@@ -459,7 +459,6 @@
 							lookup="true" inquiry="true" boClassSimpleName="DocumentType"
 							boPackageName="org.kuali.rice.kns.bo"
 							conversionField="documentTypeCode"
-							detailFunction="loadDocumentTypeInfo"
 							detailField="referenceType.documentName"
 							accountingLine="${accountingLine}"
 							baselineAccountingLine="${baselineAccountingLine}"

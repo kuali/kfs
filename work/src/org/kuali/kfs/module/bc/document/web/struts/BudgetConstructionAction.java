@@ -136,9 +136,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
 
             budgetConstructionForm.setSecurityNoAccess(true);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Due to one of the problems listed below: "+e.getMessage());
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
             budgetConstructionForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_CLOSE, Boolean.TRUE);
 
         }

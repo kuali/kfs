@@ -127,7 +127,7 @@
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-emplid" parent="LedgerBalanceForSalaryExpenseTransfer-emplid-parentBean" />
 
-  <bean id="LedgerBalanceForSalaryExpenseTransfer-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="LedgerBalanceForSalaryExpenseTransfer-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-ledgerPerson.principalId" parent="LedgerBalanceForSalaryExpenseTransfer-ledgerPerson.principalId-parentBean" />

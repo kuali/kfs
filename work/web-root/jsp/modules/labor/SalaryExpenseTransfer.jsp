@@ -65,15 +65,15 @@
 
              <tr>
                <kul:htmlAttributeHeaderCell
-                   attributeEntry="${DataDictionary.PersonImpl.attributes.principalId}"
+                   attributeEntry="${DataDictionary.PersonImpl.attributes.employeeId}"
                    horizontal="true"
                    forceRequired="true" labelFor="emplid"
                    />
                <td>
                      <kfs:employee userIdFieldName="emplid"
                                  userNameFieldName="user.name" 
-                                 fieldConversions="principalId:emplid"
-                                 lookupParameters="emplid:principalId,universityFiscalYear:universityFiscalYear"
+                                 fieldConversions="employeeId:emplid"
+                                 lookupParameters="emplid:employeeId,universityFiscalYear:universityFiscalYear"
                                  hasErrors="${hasErrors}"
                                  onblur="${onblur}"
                                  highlight="${addHighlighting}" readOnly="${disabled}" >

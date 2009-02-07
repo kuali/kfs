@@ -4273,5 +4273,9 @@
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />
+	<reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="campusCode" />
+        <foreignkey field-ref="buildingCode" />
+    </reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

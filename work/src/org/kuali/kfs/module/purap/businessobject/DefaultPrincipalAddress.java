@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class DefaultPrincipalAddress extends PersistableBusinessObjectBase {
@@ -26,6 +27,7 @@ public class DefaultPrincipalAddress extends PersistableBusinessObjectBase {
     private  String buildingCode;
     private  String buildingRoomNumber;
     
+    private Building building;
     
     public String getBuildingCode() {
         return buildingCode;
@@ -72,4 +74,14 @@ public class DefaultPrincipalAddress extends PersistableBusinessObjectBase {
             m.put("principalId", this.principalId);
             return m;
         }
+
+
+    public Building getBuilding() {
+        return building;
+    }
+
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
 }

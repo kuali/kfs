@@ -4265,4 +4265,13 @@
         <foreignkey field-ref="postingPeriodCode" />
     </reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.DefaultPrincipalAddress" table="PUR_DFLT_PRNCPL_ADDR_T" >
+	<field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />
+</class-descriptor>
 </descriptor-repository>

@@ -1,0 +1,141 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="DefaultPrincipalAddress"
+		parent="DefaultPrincipalAddress-parentBean" />
+
+	<bean id="DefaultPrincipalAddress-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.purap.businessobject.DefaultPrincipalAddress" />
+		<property name="inquiryDefinition">
+			<ref bean="DefaultPrincipalAddress-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="DefaultPrincipalAddress-lookupDefinition" />
+		</property>
+		<property name="titleAttribute"
+			value="DefaultPrincipalAddressCode" />
+		<property name="objectLabel"
+			value="Delivery Required Date Reason" />
+		<property name="attributes">
+			<list>
+				<ref bean="DefaultPrincipalAddress-principalId" />
+				<ref bean="DefaultPrincipalAddress-campusCode" />
+				<ref bean="DefaultPrincipalAddress-buildingCode" />
+				<ref bean="DefaultPrincipalAddress-buildingRoomNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DefaultPrincipalAddress-principalId"
+		parent="DefaultPrincipalAddress-principalId-parentBean" />
+
+	<bean id="DefaultPrincipalAddress-principalId-parentBean"
+		abstract="true" parent="PersonImpl-principalId" />
+
+
+	<bean id="DefaultPrincipalAddress-campusCode"
+		parent="DefaultPrincipalAddress-campusCode-parentBean" />
+
+	<bean id="DefaultPrincipalAddress-campusCode-parentBean"
+		abstract="true" parent="Room-campusCode" />
+
+
+	<bean id="DefaultPrincipalAddress-buildingCode"
+		parent="DefaultPrincipalAddress-buildingCode-parentBean" />
+
+	<bean id="DefaultPrincipalAddress-buildingCode-parentBean"
+		abstract="true" parent="Room-buildingCode" />
+
+
+	<bean id="DefaultPrincipalAddress-buildingRoomNumber"
+		parent="DefaultPrincipalAddress-buildingRoomNumber-parentBean" />
+
+	<bean id="DefaultPrincipalAddress-buildingRoomNumber-parentBean"
+		abstract="true" parent="Room-buildingRoomNumber" />
+
+
+	<bean id="DefaultPrincipalAddress-inquiryDefinition"
+		parent="DefaultPrincipalAddress-inquiryDefinition-parentBean" />
+
+	<bean id="DefaultPrincipalAddress-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Credit Memo Status Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+
+							<bean parent="FieldDefinition"
+								p:attributeName="principalId" />
+
+							<bean parent="FieldDefinition"
+								p:attributeName="campusCode" />
+
+							<bean parent="FieldDefinition"
+								p:attributeName="buildingCode" />
+
+							<bean parent="FieldDefinition"
+								p:attributeName="buildingRoomNumber" />
+
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DefaultPrincipalAddress-lookupDefinition"
+		parent="DefaultPrincipalAddress-lookupDefinition-parentBean" />
+
+	<bean id="DefaultPrincipalAddress-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Credit Memo Status Lookup" />
+		<property name="instructions"
+			value="Lookup a Credit Memo Status" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition"></bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+
+				<bean parent="FieldDefinition"
+					p:attributeName="principalId" />
+
+				<bean parent="FieldDefinition"
+					p:attributeName="campusCode" />
+
+				<bean parent="FieldDefinition"
+					p:attributeName="buildingCode" />
+
+				<bean parent="FieldDefinition"
+					p:attributeName="buildingRoomNumber" />
+
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+
+				<bean parent="FieldDefinition"
+					p:attributeName="principalId" />
+
+				<bean parent="FieldDefinition"
+					p:attributeName="campusCode" />
+
+				<bean parent="FieldDefinition"
+					p:attributeName="buildingCode" />
+
+				<bean parent="FieldDefinition"
+					p:attributeName="buildingRoomNumber" />
+
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1249,3 +1249,16 @@ insert into krew_doc_typ_t (DOC_TYP_ID, PARNT_ID, DOC_TYP_NM, DOC_TYP_VER_NBR, A
 insert into krew_doc_typ_t (DOC_TYP_ID, PARNT_ID, DOC_TYP_NM, DOC_TYP_VER_NBR, ACTV_IND, CUR_IND, LBL, VER_NBR, RTE_VER_NBR, OBJ_ID)
     values (KREW_DOC_HDR_S.NEXTVAL, 320830, 'DVCA', 0, 1, 1, 'Disbursement Voucher - Check/ACH', 1, 2, sys_guid())
 /
+insert into krns_parm_t 
+(SELECT 'KFS-AR', 'CustomerInvoiceWriteoff',
+'ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND', sys_guid(),1,
+'CONFG', 'Y',
+'Controls the tax entries for accounts receivable write-off. The options include: Y: If your state allows an adjustment to sales tax liability for accounts receivable written off as bad debt, or N: If your state disallows an adjustment to sales tax liability. NOTE: parameter value N must be used with GLPE_WRITEOFF_GENERATION_METHOD=2.',
+'A'
+FROM dual)
+/
+delete from krns_parm_t
+where nmspc_cd = 'KFS-AR'
+and parm_dtl_typ_cd = 'CustomerInvoiceWriteoff'
+and parm_nm = 'GLPE_WRITEOFF_TAX_GENERATION_METHOD'
+/

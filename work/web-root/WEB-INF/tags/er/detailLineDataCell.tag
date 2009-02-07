@@ -66,7 +66,6 @@
 	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/ProjectCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/OriginationCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/FinancialSystemDocumentTypeCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/LaborModuleService.js"></script>
 	<script type='text/javascript' src="dwr/interface/PayrollAmountUtil.js"></script>
 	<script type='text/javascript' src="dwr/interface/EffortCertificationForm.js"></script>

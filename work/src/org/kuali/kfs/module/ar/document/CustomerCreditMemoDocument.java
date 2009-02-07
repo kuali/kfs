@@ -519,7 +519,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Returns the general ledger input type code for the given document, using the FinancialSystemDocumentTypeCodeService
+     * Returns the general ledger input type code for the given document, using the DataDictionaryService
      * @return the general ledger input type code for the given document
      */
     public String getFinancialDocumentTypeCode() {

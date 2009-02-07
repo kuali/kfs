@@ -133,7 +133,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
     }
     
     /**
-     * Returns the financial document type code for the given document, using the FinancialSystemDocumentTypeCodeService
+     * Returns the financial document type code for the given document, using the DataDictionaryService
      * @return the financial document type code for the given document
      */
     public String getFinancialDocumentTypeCode() {

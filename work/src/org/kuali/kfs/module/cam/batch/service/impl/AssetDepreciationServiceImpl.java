@@ -618,8 +618,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         return dataDictionaryService;
     }
 
-    public void setDataDictionaryService(DataDictionaryService financialSystemDocumentTypeCodeService) {
-        this.dataDictionaryService = financialSystemDocumentTypeCodeService;
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 }

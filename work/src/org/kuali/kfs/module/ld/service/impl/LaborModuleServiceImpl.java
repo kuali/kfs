@@ -287,9 +287,9 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCodeService attribute.
+     * Gets the dataDictionaryService attribute.
      * 
-     * @return an implementation of the financialSystemDocumentTypeCodeService.
+     * @return an implementation of the dataDictionaryService.
      */
     public DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);

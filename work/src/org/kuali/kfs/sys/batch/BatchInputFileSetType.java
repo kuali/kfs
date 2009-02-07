@@ -60,7 +60,7 @@ public interface BatchInputFileSetType extends BatchInputType {
      * @param user - user who is uploading the file
      * @param fileUserIdentifer - file identifier given by user through the batch upload UI
      */
-    public String getFileName(String fileType, String principalId, String fileUserIdentifer);
+    public String getFileName(String fileType, String principalName, String fileUserIdentifer);
 
     /**
      * Returns whether the file must be uploaded

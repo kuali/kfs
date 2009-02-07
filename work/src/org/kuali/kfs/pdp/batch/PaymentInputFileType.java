@@ -42,7 +42,7 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
      *      java.lang.String)
      */
-    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
         StringBuffer buf = new StringBuffer();
@@ -50,7 +50,7 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
         formatter.setLenient(false);
         formatter.format(currentTimestamp, buf, new FieldPosition(0));
 
-        String fileName = PdpConstants.PDP_FILE_UPLOAD_FILE_PREFIX  + "_" + principalId;
+        String fileName = PdpConstants.PDP_FILE_UPLOAD_FILE_PREFIX  + "_" + principalName;
         if (StringUtils.isNotBlank(fileUserIdentifer)) {
             fileName += "_" + StringUtils.remove(fileUserIdentifer, " ");
         }
@@ -59,7 +59,7 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
         return fileName;
     }
     
-    public String getAuthorPrincipalId(File file) {
+    public String getAuthorPrincipalName(File file) {
         String[] fileNameParts = StringUtils.split(file.getName(), "_");
         if (fileNameParts.length > 3) {
             return fileNameParts[2];

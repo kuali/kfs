@@ -36,7 +36,7 @@ public abstract class B2BFileTypeBase  extends BatchInputFileTypeBase{
         return null;
     }
 
-    public String getAuthorPrincipalId(File file) {
+    public String getAuthorPrincipalName(File file) {
         // TODO Auto-generated method stub
         return null;
     }

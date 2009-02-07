@@ -42,20 +42,13 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
      * 
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object, java.lang.String)
      */
-    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
         
         //  start with the batch-job-prefix
         StringBuilder fileName = new StringBuilder(FILE_NAME_PREFIX);
         
         //  add the logged-in user name if there is one, otherwise use a sensible default
-        String userName = null;
-        if (StringUtils.isBlank(principalId)) {
-            userName = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId();
-        }
-        else {
-            userName = principalId;
-        }
-        fileName.append(FILE_NAME_DELIM + userName);
+        fileName.append(FILE_NAME_DELIM + principalName);
         
         //  if the user specified an identifying lable, then use it
         if (StringUtils.isNotBlank(fileUserIdentifer)) {
@@ -120,7 +113,7 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
         this.customerLoadService = customerLoadService;
     }
 
-    public String getAuthorPrincipalId(File file) {
+    public String getAuthorPrincipalName(File file) {
         String[] fileNameParts = StringUtils.split(file.getName(), FILE_NAME_DELIM);
         if (fileNameParts.length > 3) {
             return fileNameParts[2];

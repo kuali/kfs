@@ -35,7 +35,7 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
         return PurapConstants.ELECTRONIC_INVOICE_FILE_TYPE_INDENTIFIER;
     }
 
-    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
         return null;
     }
 
@@ -47,7 +47,7 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
         return PurapKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_EINVOICE;
     }
 
-    public String getAuthorPrincipalId(File file) {
+    public String getAuthorPrincipalName(File file) {
         return null;
     }
 }

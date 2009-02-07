@@ -59,7 +59,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
      *      java.lang.String)
      */
-    public String getFileName(String principalId, Object parsedFileContents, String userIdentifier) {
+    public String getFileName(String principalName, Object parsedFileContents, String userIdentifier) {
         CollectorBatch collectorBatch = (CollectorBatch) parsedFileContents;
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
@@ -69,7 +69,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
         formatter.format(currentTimestamp, buf, new FieldPosition(0));
 
         String fileName = "gl_idbilltrans_" + collectorBatch.getChartOfAccountsCode() + collectorBatch.getOrganizationCode();
-        fileName += "_" + principalId;
+        fileName += "_" + principalName;
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;
         }
@@ -121,7 +121,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
         this.collectorHelperService = collectorHelperService;
     }
 
-    public String getAuthorPrincipalId(File file) {
+    public String getAuthorPrincipalName(File file) {
         String[] fileNameParts = StringUtils.split(file.getName(), "_");
         if (fileNameParts.length > 4) {
             return fileNameParts[3];

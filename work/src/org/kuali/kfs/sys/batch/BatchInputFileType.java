@@ -37,11 +37,11 @@ public interface BatchInputFileType extends BatchInputType {
      * Constructs a file name using the name given by the user and file contents if necessary. Returned name should not contain file
      * extension.
      * 
-     * @param principalId - principal id of the user who is uploading the file
+     * @param principalName - principal name of the user who is uploading the file
      * @param parsedFileContents - object populated with the uploaded file contents
      * @param fileUserIdentifer - file identifier given by user through the batch upload UI
      */
-    public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer);
+    public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer);
 
     /**
      * Returns file extension for the batch input type.

@@ -45,10 +45,10 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
      *      java.lang.String)
      */
-    public String getFileName(String principalId, Object parsedFileContents, String userIdentifier) {
+    public String getFileName(String principalName, Object parsedFileContents, String userIdentifier) {
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
-        String fileName = "pcdo_" + principalId;
+        String fileName = "pcdo_" + principalName;
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;
         }
@@ -60,7 +60,7 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
         return fileName;
     }
     
-    public String getAuthorPrincipalId(File file) {
+    public String getAuthorPrincipalName(File file) {
         String[] fileNameParts = StringUtils.split(file.getName(), "_");
         if (fileNameParts.length > 3) {
             return fileNameParts[2];

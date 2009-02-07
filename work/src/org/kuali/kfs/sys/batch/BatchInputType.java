@@ -25,7 +25,7 @@ public interface BatchInputType {
     /**
      * Obtain the principal id of the user who created the file
      */
-    public String getAuthorPrincipalId(File file);
+    public String getAuthorPrincipalName(File file);
     
     /**
      * Returns the key for the application constants message to display as the title for the upload screen.

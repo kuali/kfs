@@ -72,8 +72,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
         String saveFileName = pcdoBatchInputFileType.getFileName(createUser.getPrincipalId(), parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
 
-        assertTrue("user who created batch file does not have file authorization", createUser.getPrincipalId().equals(pcdoBatchInputFileType.getAuthorPrincipalId(batchFile)));
-        assertTrue("other user does not have file authorization", nonCreateUser.getPrincipalId().equals(pcdoBatchInputFileType.getAuthorPrincipalId(batchFile)));
+        assertTrue("user who created batch file does not have file authorization", createUser.getPrincipalName().equals(pcdoBatchInputFileType.getAuthorPrincipalName(batchFile)));
+        assertTrue("other user does not have file authorization", nonCreateUser.getPrincipalName().equals(pcdoBatchInputFileType.getAuthorPrincipalName(batchFile)));
     }
 
     /**
@@ -87,8 +87,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
         String saveFileName = collectorBatchInputFileType.getFileName(createUser.getPrincipalId(), parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
 
-        assertTrue("user who created batch file does not have file authorization", createUser.getPrincipalId().equals(collectorBatchInputFileType.getAuthorPrincipalId(batchFile)));
-        assertFalse("user who did not create batch file has authorization", nonCreateUser.getPrincipalId().equals(collectorBatchInputFileType.getAuthorPrincipalId(batchFile)));
+        assertTrue("user who created batch file does not have file authorization", createUser.getPrincipalName().equals(collectorBatchInputFileType.getAuthorPrincipalName(batchFile)));
+        assertFalse("user who did not create batch file has authorization", nonCreateUser.getPrincipalName().equals(collectorBatchInputFileType.getAuthorPrincipalName(batchFile)));
     }
 
 }

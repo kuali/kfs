@@ -106,15 +106,15 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * 
      * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.rice.kim.bo.Person, java.lang.String)
      */
-    public String getFileName(String fileType, String principalId, String fileUserIdentifer) {
+    public String getFileName(String fileType, String principalName, String fileUserIdentifer) {
         StringBuilder buf = new StringBuilder();
         fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
         fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(principalId).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getFileExtension());
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(principalName).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getFileExtension());
         return buf.toString();
     }
 
-    public String getAuthorPrincipalId(File file) {
+    public String getAuthorPrincipalName(File file) {
         String[] fileNameParts = StringUtils.split(file.getName(), "_");
         if (fileNameParts.length > 2) {
             return fileNameParts[2];

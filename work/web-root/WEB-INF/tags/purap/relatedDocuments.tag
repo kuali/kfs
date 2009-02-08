@@ -20,7 +20,7 @@
               
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:choose>
-    <c:when test="${documentType == 'PO'}">
+    <c:when test="${fn:startsWith(documentType,'PO')}">
         <c:set var="limitByPoId" value="${KualiForm.document.purapDocumentIdentifier}" />
     </c:when>
     <c:when test="${documentType == 'REQS'}">

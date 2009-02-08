@@ -167,7 +167,9 @@ public class PurapServiceImpl implements PurapService {
         if (ObjectUtils.isNotNull(document) || ObjectUtils.isNotNull(newStatus)) {
             String oldStatus = document.getStatusCode();
             document.setStatusCode(newStatus);
-            LOG.debug("Status of document #" + document.getDocumentNumber() + " has been changed from " + oldStatus + " to " + newStatus);
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("Status of document #" + document.getDocumentNumber() + " has been changed from " + oldStatus + " to " + newStatus);
+            }
             return true;
         }
         else {
@@ -624,7 +626,7 @@ public class PurapServiceImpl implements PurapService {
     private String assemblePurchaseOrderNote(AccountsPayableDocumentBase apDocument, String docType, String action) {
         LOG.debug("assemblePurchaseOrderNote() started");
 
-        String documentLabel = dataDictionaryService.getDocumentLabelByClass(getClass());
+        String documentLabel = dataDictionaryService.getDocumentLabelByClass(apDocument.getClass());
         StringBuffer closeReopenNote = new StringBuffer("");
         String userName = GlobalVariables.getUserSession().getPerson().getName();
         closeReopenNote.append(dataDictionaryService.getDocumentLabelByClass(PurchaseOrderDocument.class));
@@ -635,7 +637,7 @@ public class PurapServiceImpl implements PurapService {
         closeReopenNote.append(" when approving ");
         closeReopenNote.append(documentLabel);
         closeReopenNote.append(" with ");
-        closeReopenNote.append(dataDictionaryService.getAttributeLabel(getClass(), PurapPropertyConstants.PURAP_DOC_ID));
+        closeReopenNote.append(dataDictionaryService.getAttributeLabel(apDocument.getClass(), PurapPropertyConstants.PURAP_DOC_ID));
         closeReopenNote.append(" ");
         closeReopenNote.append(apDocument.getPurapDocumentIdentifier());
 
@@ -705,7 +707,9 @@ public class PurapServiceImpl implements PurapService {
         int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
 
         if (ObjectUtils.isNotNull(closingDate) && ObjectUtils.isNotNull(today) && ObjectUtils.isNotNull(allowEncumberNext)) {
-            LOG.debug("allowEncumberNextFiscalYear() today = " + dateTimeService.toDateString(today) + "; encumber next FY range = " + allowEncumberNext + " - " + dateTimeService.toDateTimeString(today));
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("allowEncumberNextFiscalYear() today = " + dateTimeService.toDateString(today) + "; encumber next FY range = " + allowEncumberNext + " - " + dateTimeService.toDateTimeString(today));
+            }
 
             if (allowEncumberNext >= diffTodayClosing && diffTodayClosing >= KualiDecimal.ZERO.intValue()) {
                 LOG.debug("allowEncumberNextFiscalYear() encumber next FY allowed; return true.");

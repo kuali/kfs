@@ -294,19 +294,19 @@ public class PurapConstants extends JSTLConstants {
     public static final int PREQ_DESC_LENGTH = 500;
     public static final String PREQ_DISCOUNT_MULT = "-0.01";
     
-    public static final String REQUISITION_DOCUMENT_TYPE = "RequisitionDocument";
+    public static final String REQUISITION_DOCUMENT_TYPE = "REQS";
 
     public static class PurchaseOrderDocTypes {
-        public static final String PURCHASE_ORDER_REOPEN_DOCUMENT = "PurchaseOrderReopenDocument";
-        public static final String PURCHASE_ORDER_CLOSE_DOCUMENT = "PurchaseOrderCloseDocument";
-        public static final String PURCHASE_ORDER_DOCUMENT = "PurchaseOrderDocument";
-        public static final String PURCHASE_ORDER_RETRANSMIT_DOCUMENT = "PurchaseOrderRetransmitDocument";
+        public static final String PURCHASE_ORDER_REOPEN_DOCUMENT = "POR";
+        public static final String PURCHASE_ORDER_CLOSE_DOCUMENT = "POC";
+        public static final String PURCHASE_ORDER_DOCUMENT = "PO";
+        public static final String PURCHASE_ORDER_RETRANSMIT_DOCUMENT = "PORT";
         public static final String PURCHASE_ORDER_PRINT_DOCUMENT = "PurchaseOrderPrintDocument";
-        public static final String PURCHASE_ORDER_VOID_DOCUMENT = "PurchaseOrderVoidDocument";
-        public static final String PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT = "PurchaseOrderPaymentHoldDocument";
-        public static final String PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT = "PurchaseOrderRemoveHoldDocument";
-        public static final String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "PurchaseOrderAmendmentDocument";
-        public static final String PURCHASE_ORDER_SPLIT_DOCUMENT = "PurchaseOrderSplitDocument";
+        public static final String PURCHASE_ORDER_VOID_DOCUMENT = "POV";
+        public static final String PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT = "POPH";
+        public static final String PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT = "PORH";
+        public static final String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "POA";
+        public static final String PURCHASE_ORDER_SPLIT_DOCUMENT = "POSP";
     }
 
     public static class PODocumentsStrings {

@@ -20,12 +20,14 @@
               
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:choose>
-    <c:when test="${fn:contains(documentType, 'PurchaseOrder')}">
+    <c:when test="${documentType == 'PO'}">
         <c:set var="limitByPoId" value="${KualiForm.document.purapDocumentIdentifier}" />
     </c:when>
-    <c:when test="${not fn:contains(documentType, 'Requisition')}">
+    <c:when test="${documentType == 'REQS'}">
+    </c:when>   
+    <c:otherwise>
         <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
-    </c:when>
+	</c:otherwise>
 </c:choose>
 
 <kul:tab tabTitle="View Payment History" defaultOpen="false" tabErrorKey="${PurapConstants.PAYMENT_HISTORY_TAB_ERRORS}">

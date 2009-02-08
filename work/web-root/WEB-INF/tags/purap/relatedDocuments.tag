@@ -20,13 +20,13 @@
               
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:choose>
-    <c:when test="${fn:contains(documentType, 'PurchaseOrder')}">
+    <c:when test="${documentType == 'PO'}">
         <c:set var="limitByPoId" value="${KualiForm.document.purapDocumentIdentifier}" />
     </c:when>
+    <c:when test="${documentType == 'REQS'}">
+    </c:when>   
     <c:otherwise>
-	    <c:if test="${not fn:contains(documentType, 'Requisition')}">
-	        <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
-	    </c:if>
+        <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
 	</c:otherwise>
 </c:choose>
 

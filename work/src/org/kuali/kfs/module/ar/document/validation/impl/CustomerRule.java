@@ -57,13 +57,13 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             }
             
             if (isValid) {
-                isValid &= checkNameIsValidLength(newCustomer);
+                isValid &= checkNameIsValidLength(newCustomer.getCustomerName());
             }
 
             //TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation, 
             //     unless there's some reason not clear why it needs to happen here.
             if (isValid && document.isNew() && StringUtils.isBlank(newCustomer.getCustomerNumber())) {
-                setCustomerNumber();
+                isValid &= setCustomerNumber();
             }
         }
 
@@ -72,15 +72,24 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method sets the new customer number
+     * @return Returns true if the customer number is set successfully, false otherwise.
      */
-    private void setCustomerNumber() {
+    private boolean setCustomerNumber() {
         //TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation, 
         //     unless there's some reason not clear why it needs to happen here.
-        String customerNumber = SpringContext.getBean(CustomerService.class).getNextCustomerNumber(newCustomer);
-        newCustomer.setCustomerNumber(customerNumber);
-        if (oldCustomer != null) {
-            oldCustomer.setCustomerNumber(customerNumber);
+        boolean success = true;
+        try {
+            String customerNumber = SpringContext.getBean(CustomerService.class).getNextCustomerNumber(newCustomer);
+            newCustomer.setCustomerNumber(customerNumber);
+            if (oldCustomer != null) {
+                oldCustomer.setCustomerNumber(customerNumber);
+            }
+        } catch(StringIndexOutOfBoundsException sibe) {
+            // It is expected that if a StringIndexOutOfBoundsException occurs, it is due to the customer name being less than three characters
+            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
+            success = false;
         }
+        return success;
     }
 
     /**
@@ -140,9 +149,9 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
      * @param customerName The name of the customer.
      * @return True if the name is greater than or equal to 3 characters long.
      */
-    public boolean checkNameIsValidLength(Customer customer) {
+    public boolean checkNameIsValidLength(String customerName) {
         boolean success = true;
-        if (customer.getCustomerName().length() < 3) {
+        if (customerName.length() < 3) {
             success = false;
             GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
         }

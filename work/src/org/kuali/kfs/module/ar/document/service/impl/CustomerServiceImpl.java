@@ -61,11 +61,16 @@ public class CustomerServiceImpl implements CustomerService {
      * @see org.kuali.kfs.module.ar.document.service.CustomerService#getNextCustomerNumber(org.kuali.kfs.module.ar.businessobject.Customer)
      */
     public String getNextCustomerNumber(Customer newCustomer) {
-        Long customerNumberSuffix = sequenceAccessorService.getNextAvailableSequenceNumber(CUSTOMER_NUMBER_SEQUENCE);
-        String customerNumberPrefix = newCustomer.getCustomerName().substring(0, 3);
-        String customerNumber = customerNumberPrefix + String.valueOf(customerNumberSuffix);
-
-        return customerNumber;
+        try {
+            Long customerNumberSuffix = sequenceAccessorService.getNextAvailableSequenceNumber(CUSTOMER_NUMBER_SEQUENCE);
+            String customerNumberPrefix = newCustomer.getCustomerName().substring(0, 3);
+            String customerNumber = customerNumberPrefix + String.valueOf(customerNumberSuffix);
+    
+            return customerNumber;
+        } catch(StringIndexOutOfBoundsException sibe) {
+            // The customer number generation expects all customer names to be at least three characters long.
+            throw new StringIndexOutOfBoundsException("Customer name is less than three characters in length.");
+        }
     }
 
     /**

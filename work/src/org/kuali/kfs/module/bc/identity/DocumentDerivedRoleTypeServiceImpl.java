@@ -40,6 +40,7 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
         String orgChartOfAccountsCode = qualification.get(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         String organizationCode = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
+        String accountReportExists = qualification.get(BCPropertyConstants.ACCOUNT_REPORTS_EXIST);
         
         Integer organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
         if (BC_PROCESSOR_ROLE_NAME.equals(memberRoleName)) {
@@ -66,6 +67,7 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         newQualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, orgChartOfAccountsCode);
         newQualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
         newQualification.put(KfsKimAttributes.DESCEND_HIERARCHY, descendHierarchy);
+        newQualification.put(BCPropertyConstants.ACCOUNT_REPORTS_EXIST, accountReportExists);
 
         return newQualification;
     }

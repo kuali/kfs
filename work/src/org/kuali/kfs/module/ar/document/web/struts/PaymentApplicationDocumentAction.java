@@ -17,7 +17,10 @@ package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -60,7 +64,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 public class PaymentApplicationDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentAction.class);
-
+    
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private WorkflowDocumentService workflowDocumentService;
@@ -94,9 +98,45 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return super.route(mapping, form, request, response);
     }
 
-//    private InvoicePaidApplied applyToCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount, String fieldName) throws WorkflowException {
-//        applyToCustomerInvoiceDetail(customerInvoiceDetail, paymentApplicationDocument, amount, fieldName, true);
-//    }
+    public ActionForward deleteNonArLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
+        PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
+        Map<String,Object> parameters = request.getParameterMap();
+        //Set<Integer> indices = new HashSet<Integer>();
+        String _indexToRemove = null;
+        Integer indexToRemove = null;
+        
+        // Figure out which line to remove.
+        for(String k : parameters.keySet()) {
+            if(k.startsWith(ArPropertyConstants.PaymentApplicationDocumentFields.DELETE_NON_INVOICED_LINE_PREFIX) && k.endsWith(".x")) {
+                if(null != parameters.get(k)) {
+                    int beginIndex = ArPropertyConstants.PaymentApplicationDocumentFields.DELETE_NON_INVOICED_LINE_PREFIX.length();
+                    int endIndex   = k.lastIndexOf(".");
+                    if(beginIndex >= 0 && endIndex > beginIndex) {
+                        _indexToRemove = k.substring(beginIndex,endIndex);
+                    }
+                    break;
+                }
+            }
+        }
+        
+        // If we know which line to remove, remove it.
+        if(null != _indexToRemove) {
+            indexToRemove = new Integer(_indexToRemove);
+            NonInvoiced toRemove = null;
+            for(NonInvoiced nonInvoiced : paymentApplicationDocument.getNonInvoiceds()) {
+                if(indexToRemove.equals(nonInvoiced.getFinancialDocumentLineNumber())) {
+                    toRemove = nonInvoiced;
+                    break;
+                }
+            }
+            if(null != toRemove) {
+                paymentApplicationDocument.getNonInvoiceds().remove(toRemove);
+            }
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
     
     /**
      * Create an InvoicePaidApplied for a CustomerInvoiceDetail and validate it.
@@ -124,6 +164,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return null;
     }
     
+    // Logic is handled in doApplicationOfFunds which is 
     public ActionForward applyAllAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

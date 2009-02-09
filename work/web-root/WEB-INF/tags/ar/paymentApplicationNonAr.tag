@@ -130,54 +130,60 @@
 	                            attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
 	                            property="nonInvoicedAddLine.financialDocumentLineAmount"/>
 	                    </td>
-	                    <td><html:image property="methodToCall.applyAllAmounts"
-	                        src="${ConfigProperties.externalizable.images.url}tinybutton-add1.gif"
-	                        alt="Add" title="Add" styleClass="tinybutton" /></td>
+	                    <td>
+	                    	<html:image property="methodToCall.applyAllAmounts"
+		                        src="${ConfigProperties.externalizable.images.url}tinybutton-add1.gif"
+		                        alt="Add" title="Add" styleClass="tinybutton" />
+		                </td>
 	                </tr>
                 </c:if>
                 <logic:iterate id="nonInvoiced" name="KualiForm"
 	                   property="paymentApplicationDocument.nonInvoiceds" indexId="ctr">
                     <tr>
                         <td>
-                            ${nonInvoicedPayment.financialDocumentLineNumber}
+                            <c:out value="${nonInvoiced.financialDocumentLineNumber}" />
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.chartOfAccountsCode}"
-                                property="document.nonInvoiced[${ctr }].chartOfAccountsCode"/>
+                                property="document.nonInvoiced[${ctr}].chartOfAccountsCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.accountNumber}"
-                                property="paymentApplicationDocument.nonInvoiced[${ctr }].accountNumber"/>
+                                property="paymentApplicationDocument.nonInvoiced[${ctr}].accountNumber"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.subAccountNumber}"
-                                property="paymentApplicationDocument.nonInvoiced[${ctr }].subAccountNumber"/>
+                                property="paymentApplicationDocument.nonInvoiced[${ctr}].subAccountNumber"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.financialObjectCode}"
-                                property="paymentApplicationDocument.nonInvoiced[${ctr }].financialObjectCode"/>
+                                property="paymentApplicationDocument.nonInvoiced[${ctr}].financialObjectCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.financialSubObjectCode}"
-                                property="paymentApplicationDocument.nonInvoiced[${ctr }].financialSubObjectCode"/>
+                                property="paymentApplicationDocument.nonInvoiced[${ctr}].financialSubObjectCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.projectCode}"
-                                property="paymentApplicationDocument.nonInvoiced[${ctr }].projectCode"/>
+                                property="paymentApplicationDocument.nonInvoiced[${ctr}].projectCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                             	styleClass="amount"
                                 attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
-                                property="paymentApplicationDocument.nonInvoiced[${ctr }].financialDocumentLineAmount"/>
+                                property="paymentApplicationDocument.nonInvoiced[${ctr}].financialDocumentLineAmount"/>
                         </td>
-                        <td>&nbsp;</td>
+                        <td>
+	                    	<html:image property="methodToCall.deleteNonArLine.line${nonInvoiced.financialDocumentLineNumber}"
+		                        src="${ConfigProperties.externalizable.images.url}tinybutton-delete1.gif"
+		                        alt="Delete" title="Delete" styleClass="tinybutton" />
+                        </td>
                     </tr>
                 </logic:iterate>
                 <tr>
@@ -187,9 +193,5 @@
                     <td>&nbsp;</td>
                 </tr>
             </table>
-<%--
-            </c:otherwise>
-            </c:choose>
---%>
         </div>
     </kul:tab>

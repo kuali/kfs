@@ -127,7 +127,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
              * is going to be depreciated If blank then the system will take the system date to determine the fiscal period
              * 
              */
-
             if (parameterService.parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER)) {
                 depreciationDateParameter = ((List<String>) parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER)).get(0).trim();
             }
@@ -213,27 +212,16 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         Map<Long, KualiDecimal> assetsBaseAmount = new HashMap<Long, KualiDecimal>();
         Long assetNumber = new Long(0);
         KualiDecimal baseAmount = new KualiDecimal(0);
-
+        Long lastAssetNumber;
         try {
-            int i = 0;
-            for (AssetPayment depreciableAssets : depreciableAssetsCollection) {
-                i++;
-                
-                if (ObjectUtils.isNull(depreciableAssets.getPrimaryDepreciationBaseAmount()))
-                    depreciableAssets.setPrimaryDepreciationBaseAmount(new KualiDecimal(0));
-                
-                if (assetNumber.compareTo(new Long(0)) == 0)
-                    assetNumber = depreciableAssets.getCapitalAssetNumber();
-
-                if (depreciableAssets.getCapitalAssetNumber().compareTo(assetNumber) == 0) {
-                    baseAmount = baseAmount.add(depreciableAssets.getPrimaryDepreciationBaseAmount());
+            for (AssetPayment depreciableAsset : depreciableAssetsCollection) {
+                assetNumber=depreciableAsset.getCapitalAssetNumber();                    
+                if (assetsBaseAmount.containsKey(assetNumber)) {
+                    baseAmount = assetsBaseAmount.get(assetNumber).add(depreciableAsset.getPrimaryDepreciationBaseAmount()) ;
+                } else {
+                    baseAmount = depreciableAsset.getPrimaryDepreciationBaseAmount();                        
                 }
-
-                if ((depreciableAssets.getCapitalAssetNumber().compareTo(assetNumber) < 0) || (i == depreciableAssetsCollection.size())) {
-                    assetsBaseAmount.put(assetNumber, baseAmount);
-                    baseAmount = new KualiDecimal(0);
-                }
-                assetNumber = depreciableAssets.getCapitalAssetNumber();
+                assetsBaseAmount.put(assetNumber, baseAmount);
             }
         }
         catch (Exception e) {
@@ -254,7 +242,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      */
     private SortedMap<String, AssetDepreciationTransaction> calculateDepreciation(Collection<AssetPayment> depreciableAssetsCollection, Calendar depreciationDate) {
         LOG.debug("calculateDepreciation() - start");
-        
+
         List<String> organizationPlantFundObjectSubType = new ArrayList<String>();
         List<String> campusPlantFundObjectSubType = new ArrayList<String>();
         AssetDepreciationTransaction depreciationTransaction = new AssetDepreciationTransaction();
@@ -282,7 +270,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             if (parameterService.parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES)) {
                 campusPlantFundObjectSubType = parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES);
             }
-            
+
             // Initializing the asset payment table.
             depreciableAssetsDao.initializeAssetPayment(fiscalMonth);
 
@@ -297,19 +285,19 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Reading collection with eligible asset payments.");                        
             for (AssetPayment assetPayment : depreciableAssetsCollection) {
                 LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Processing asset#:"+assetPayment.getCapitalAssetNumber()+" - Seq#:"+assetPayment.getPaymentSequenceNumber());
-                
+
                 // Getting the asset
                 Asset asset = assetPayment.getAsset();
 
                 // Getting asset type
                 AssetType assetType = asset.getCapitalAssetType();
-                
+
                 // Getting the account the asset payment is associated with.
                 Account account = assetPayment.getAccount();
-                
+
                 // Organization code the asset payment account is associated with.
                 Organization org = account.getOrganization();
-                
+
                 // Object code the asset payment is associated with
                 ObjectCode financialObject = assetPayment.getFinancialObject();
 
@@ -335,7 +323,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 }
 
                 LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Getting the accumulated object code and expense object code of each asset payment.");                                        
-                
+
                 monthsElapsed = new Double(0);
                 String transactionType = KFSConstants.GL_DEBIT_CODE;
 
@@ -344,7 +332,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
                 // Getting the asset base amount.
                 baseAmount = assetBaseAmounts.get(assetPayment.getCapitalAssetNumber());
-                
+
                 // Calculating the life of the asset in months.
                 assetLifeInMonths = new Double(assetType.getDepreciableLifeLimit() * 12);
 
@@ -353,16 +341,16 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
                 // Calculating depreciation accumulated depreciation amount.
                 LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Calculating depreciation - Asset:"+assetPayment.getCapitalAssetNumber());
-                
+
                 // **************************************************************************************************************
                 // CALCULATING ACCUMULATED DEPRECIATION BASED ON FORMULA FOR SINGLE LINE AND SALVAGE VALUE DEPRECIATION METHODS.
                 // **************************************************************************************************************                                
                 if (ObjectUtils.isNull(assetPayment.getPrimaryDepreciationBaseAmount()))
                     assetPayment.setPrimaryDepreciationBaseAmount(new KualiDecimal(0));
-                 
-                 if (ObjectUtils.isNull(assetPayment.getAccumulatedPrimaryDepreciationAmount()))
-                     assetPayment.setAccumulatedPrimaryDepreciationAmount(new KualiDecimal(0));
-                    
+
+                if (ObjectUtils.isNull(assetPayment.getAccumulatedPrimaryDepreciationAmount()))
+                    assetPayment.setAccumulatedPrimaryDepreciationAmount(new KualiDecimal(0));
+
                 // If the month elapse >= to the life of the asset (in months) then, the accumulated depreciation should be:
                 if (monthsElapsed.compareTo(assetLifeInMonths) >= 0) {
                     if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE))
@@ -383,21 +371,22 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");                
                 LOG.info("Asset#: "+assetPayment.getCapitalAssetNumber()+
-                        " Payment sequence#:"+assetPayment.getPaymentSequenceNumber()+
-                        " Depreciation date:"+dateFormat.format(assetDepreciationDate.getTime())+
-                        " Life:"+assetLifeInMonths + 
-                        " Depreciation base amt:"+assetPayment.getPrimaryDepreciationBaseAmount()+
-                        " Accumulated depreciation:"+assetPayment.getAccumulatedPrimaryDepreciationAmount()+
-                        " Month Elapsed:"+monthsElapsed+ 
-                        " Calculated accum depreciation:"+accumulatedDepreciationAmount+
-                        " Depreciation amount:"+transactionAmount.toString());
+                        " - Payment sequence#:"+assetPayment.getPaymentSequenceNumber()+
+                        " - Asset Depreciation date:"+dateFormat.format(assetDepreciationDate.getTime())+
+                        " - Life:"+assetLifeInMonths + 
+                        " - Depreciation base amt:"+assetPayment.getPrimaryDepreciationBaseAmount()+
+                        " - Accumulated depreciation:"+assetPayment.getAccumulatedPrimaryDepreciationAmount()+
+                        " - Month Elapsed:"+monthsElapsed+ 
+                        " - Calculated accum depreciation:"+accumulatedDepreciationAmount+
+                        " - Depreciation amount:"+transactionAmount.toString()+
+                        " - Depreciation Method:"+asset.getPrimaryDepreciationMethodCode());
 
                 if (transactionAmount.compareTo(new KualiDecimal(0)) == -1)
                     transactionType = KFSConstants.GL_CREDIT_CODE;
 
                 String plantAccount = "";
                 String plantCOA = "";
-                
+
                 // getting the right Plant Fund Chart code & Plant Fund Account
                 if (organizationPlantFundObjectSubType.contains(financialObject.getFinancialObjectSubTypeCode())) {
                     plantAccount = org.getOrganizationPlantAccountNumber();
@@ -409,16 +398,16 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 }
 
                 // Saving depreciation amount in the asset payment table
-                 depreciableAssetsDao.updateAssetPayments(assetPayment.getCapitalAssetNumber().toString(),
-                                                          assetPayment.getPaymentSequenceNumber().toString(), transactionAmount, accumulatedDepreciationAmount,
-                                                          fiscalMonth);
+                depreciableAssetsDao.updateAssetPayments(assetPayment.getCapitalAssetNumber().toString(),
+                        assetPayment.getPaymentSequenceNumber().toString(), transactionAmount, accumulatedDepreciationAmount,
+                        fiscalMonth);
 
-                 // if the asset has a depreciation amount > than 0 then, create its debits and credits.
+                // if the asset has a depreciation amount > than 0 then, create its debits and credits.
                 if (!transactionAmount.isZero()) {
                     this.populateDepreciationTransaction(depreciationTransaction, assetPayment, transactionType, transactionAmount, plantCOA, plantAccount, accumulatedDepreciationFinancialObjectCode, depreciationExpenseFinancialObjectCode, financialObject, depreciationTransactionSummary);
-                    
+
                     transactionType = (transactionType.equals(KFSConstants.GL_CREDIT_CODE) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-                    
+
                     this.populateDepreciationTransaction(depreciationTransaction, assetPayment, transactionType, transactionAmount, plantCOA, plantAccount, accumulatedDepreciationFinancialObjectCode, depreciationExpenseFinancialObjectCode, financialObject, depreciationTransactionSummary);
                 }
             } // end for
@@ -573,7 +562,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
     }
 
-
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -621,6 +609,5 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-
 }
 

@@ -19,7 +19,9 @@ import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -44,6 +46,13 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
         attributes.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, document.getOrganizationLevelCode().toString());
         attributes.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, document.getOrganizationLevelChartOfAccountsCode());
         attributes.put(KfsKimAttributes.ORGANIZATION_CODE, document.getOrganizationLevelOrganizationCode());
+        
+        if (SpringContext.getBean(BudgetDocumentService.class).isAccountReportsExist(document.getChartOfAccountsCode(), document.getAccountNumber())) {
+            attributes.put(BCPropertyConstants.ACCOUNT_REPORTS_EXIST, Boolean.TRUE.toString());          
+        }
+        else {
+            attributes.put(BCPropertyConstants.ACCOUNT_REPORTS_EXIST, Boolean.FALSE.toString());
+        }
     }
 
 }

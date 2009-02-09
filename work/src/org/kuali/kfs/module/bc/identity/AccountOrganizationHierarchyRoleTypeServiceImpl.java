@@ -73,9 +73,10 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
             String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
             Integer organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
+            String accountReportExists = qualification.get(BCPropertyConstants.ACCOUNT_REPORTS_EXIST);
             
             // if account report mapping does not exist, want to give special view access
-            if (!budgetDocumentService.isAccountReportsExist(chartOfAccountsCode, accountNumber)) {
+            if (Boolean.FALSE.toString().equals(accountReportExists)) {
                 return true;
             }
             

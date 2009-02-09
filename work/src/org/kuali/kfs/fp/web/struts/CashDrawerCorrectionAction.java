@@ -134,7 +134,7 @@ public class CashDrawerCorrectionAction extends KualiAction {
         Properties params = new Properties();
         params.setProperty("methodToCall", "docHandler");
         params.setProperty("command", "initiate");
-        params.setProperty("docTypeName", "CashManagementDocument");
+        params.setProperty("docTypeName", "CMD");
 
         String cmActionUrl = UrlFactory.parameterizeUrl(KFSConstants.CASH_MANAGEMENT_DOCUMENT_ACTION, params);
 

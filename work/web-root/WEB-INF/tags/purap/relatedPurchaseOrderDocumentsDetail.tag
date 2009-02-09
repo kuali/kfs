@@ -22,7 +22,7 @@
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:choose>
-    <c:when test= "${fn:contains(documentType, 'PurchaseOrder')}">
+    <c:when test= "${fn:contains(documentType, 'PO')}">
         <c:set var="isATypeOfPODoc" value="true" />
     </c:when>
     <c:otherwise>

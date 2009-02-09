@@ -1089,7 +1089,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                     newInvoiceRecurrence.setActive(this.getCustomerInvoiceRecurrenceDetails().isActive());
 
                     // create a new InvoiceRecurrenceMaintenanceDocument
-                    MaintenanceDocument invoiceRecurrenceMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("InvoiceRecurrenceMaintenanceDocument");
+                    MaintenanceDocument invoiceRecurrenceMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(getInvoiceRecurrenceMaintenanceDocumentTypeName());
                     invoiceRecurrenceMaintDoc.getDocumentHeader().setDocumentDescription("Automatically created from Invoice");
                     invoiceRecurrenceMaintDoc.getNewMaintainableObject().setBusinessObject(newInvoiceRecurrence);
 
@@ -1102,6 +1102,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                 }
             }
         }
+    }
+    
+    private String getInvoiceRecurrenceMaintenanceDocumentTypeName() {
+        return "INVR";
     }
 
     /**

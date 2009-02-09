@@ -497,7 +497,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
         String financialSystemDocumentTypeCodeCode;
         try {
-            KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("AssetDepreciationDocument", GlobalVariables.getUserSession().getPerson());
+            KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("DEPR", GlobalVariables.getUserSession().getPerson());
 
             // **************************************************************************************************
             // Create a new document header object

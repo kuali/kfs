@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceDocumentTestUtil {
     
-    public static final String CUSTOMER_MAINT_DOC_NAME = "CustomerMaintenanceDocument";
+    public static final String CUSTOMER_MAINT_DOC_NAME = "CUS";
     
     public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentTestUtil.class);
     

@@ -51,9 +51,9 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     private static final Log LOG = LogFactory.getLog(GlobalDocumentTest.class);
 
-    private static final String KNOWN_DOCUMENT_TYPENAME = "AccountDelegateGlobalMaintenanceDocument";
-    private static final String GLOBAL_DELEGATE_TYPENAME = "AccountDelegateGlobalMaintenanceDocument";
-    private static final String GLOBAL_ACCOUNT_TYPENAME = "AccountGlobalMaintenanceDocument";
+    private static final String KNOWN_DOCUMENT_TYPENAME = "GDLG";
+    private static final String GLOBAL_DELEGATE_TYPENAME = "GDLG";
+    private static final String GLOBAL_ACCOUNT_TYPENAME = "GACC";
 
 
     public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {

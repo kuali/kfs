@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
@@ -232,7 +233,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
     }
 
     public DocumentHeader getDocumentHeader() throws Exception {
-        KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("AssetPaymentDocument", GlobalVariables.getUserSession().getPerson());
+        KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(AssetPaymentDocument.class), GlobalVariables.getUserSession().getPerson());
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         documentHeader.setWorkflowDocument(workflowDocument);
         documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());

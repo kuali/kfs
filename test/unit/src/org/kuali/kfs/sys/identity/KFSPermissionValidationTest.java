@@ -33,7 +33,7 @@ public class KFSPermissionValidationTest extends KualiTestBase {
     public void testChartPermission_1() throws Exception {
         DocumentAuthorizer auth = new MaintenanceDocumentAuthorizerBase();
         Person user = GlobalVariables.getUserSession().getPerson();
-        String documentTypeName = "VendorMaintenanceDocument"; 
+        String documentTypeName = "PVEN"; 
         assertTrue( 
                 GlobalVariables.getUserSession().getPrincipalName() + " should be able to initiate " + documentTypeName, 
                 auth.canInitiate( documentTypeName, user)
@@ -44,7 +44,7 @@ public class KFSPermissionValidationTest extends KualiTestBase {
                 auth.canOpen(doc, user)
                 );       
         
-        documentTypeName = "ObjectCodeGlobalMaintenanceDocument";
+        documentTypeName = "GOBJ";
         
         assertFalse( 
                 GlobalVariables.getUserSession().getPrincipalName() + " should not be able to initiate " + documentTypeName, 

@@ -60,7 +60,7 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
     private MaintenanceDocumentBase getMaintenanceDocument(SensitiveDataFixture oldSDFixture, SensitiveDataFixture newSDFixture){
         MaintenanceDocumentBase doc = null;
         try {
-            doc = (MaintenanceDocumentBase) SpringContext.getBean(DocumentService.class).getNewDocument("SensitiveDataMaintenanceDocument");
+            doc = (MaintenanceDocumentBase) SpringContext.getBean(DocumentService.class).getNewDocument("PMSN");
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Document creation failed.");

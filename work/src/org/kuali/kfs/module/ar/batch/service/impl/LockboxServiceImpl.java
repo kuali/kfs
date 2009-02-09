@@ -37,6 +37,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -62,6 +63,7 @@ public class LockboxServiceImpl implements LockboxService {
     private CashControlDocumentService cashControlDocumentService;
     private PaymentApplicationDocumentService paymentApplicationDocumentService;
     private PersonService<PersonImpl> personService;
+    private DataDictionaryService dataDictionaryService;
     
     public CashControlDocumentService getCashControlDocumentService() {
         return cashControlDocumentService;
@@ -101,7 +103,7 @@ public class LockboxServiceImpl implements LockboxService {
                 // to the current cashcontroldocument as cashcontroldetails.
                 LOG.info("New Lockbox batch");
 
-                cashControlDocument = (CashControlDocument)documentService.getNewDocument("CashControlDocument");
+                cashControlDocument = (CashControlDocument)documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(CashControlDocument.class));
                 cashControlDocument.setCustomerPaymentMediumCode(lockbox.getCustomerPaymentMediumCode());
                 
                 if(ObjectUtils.isNotNull(lockbox.getBankCode())) {
@@ -220,6 +222,14 @@ public class LockboxServiceImpl implements LockboxService {
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    /**
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 }

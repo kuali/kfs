@@ -125,6 +125,7 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 	
 	<bean id="customerInvoiceDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">

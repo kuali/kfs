@@ -34,38 +34,38 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
         
         AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "REQS" );
         
         List<KimPermissionInfo> permissions = 
-            buildPermissionlist( new String[] {"RequisitionDocument"} );
+            buildPermissionlist( new String[] {"REQS"} );
         
         List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
         assertEquals( "Wrong number of matches", 1, results.size() );
-        assertDocInList( results, "RequisitionDocument" );
+        assertDocInList( results, "REQS" );
     }
 
     public void testPerformMatches_fulllist() {
         DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
         
         AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "REQS" );
         
         List<KimPermissionInfo> permissions = 
-            buildPermissionlist( new String[] {"RequisitionDocument","PurchasingTransactionalDocument","FinancialProcessingTransactionalDocument","KualiDocument","*"} );
+            buildPermissionlist( new String[] {"REQS","PurchasingTransactionalDocument","FinancialProcessingTransactionalDocument","KualiDocument","*"} );
         
         List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
         for ( KimPermissionInfo info : results ) {
             System.out.println( info );
         }
         assertEquals( "Wrong number of matches", 1, results.size() );
-        assertDocInList( results, "RequisitionDocument" );
+        assertDocInList( results, "REQS" );
     }
 
     public void testPerformMatches_parentlist() {
         DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
         
         AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "REQS" );
         
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"PurchasingTransactionalDocument","FinancialProcessingTransactionalDocument","KualiDocument","*"} );
@@ -82,7 +82,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
         
         AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "REQS" );
         
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"KualiDocument","*"} );
@@ -99,7 +99,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
         
         AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "REQS" );
         
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"FinancialProcessingTransactionalDocument","*"} );
@@ -116,7 +116,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         DocumentTypePermissionTypeServiceImpl srv = new DocumentTypePermissionTypeServiceImpl();
         
         AttributeSet requestedDetails = new AttributeSet();
-        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "RequisitionDocument" );
+        requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "REQS" );
         
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"FinancialProcessingTransactionalDocument"} );

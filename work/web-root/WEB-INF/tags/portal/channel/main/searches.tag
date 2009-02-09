@@ -24,7 +24,7 @@
 	</ul>
 	<strong>Financial Processing</strong><br/>
     <ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Disbursement Vouchers" url="${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=DisbursementVoucherDocument" /></li>
+		<li><portal:portalLink displayTitle="true" title="Disbursement Vouchers" url="${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=DV" /></li>
 	</ul>
 	<strong>Purchasing/Accounts Payable</strong><br/>
     <ul class="chan">
@@ -37,15 +37,15 @@
      </ul>
  	<strong>Accounts Receivable</strong><br/>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CustomerInvoiceDocument'/></li>
-        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CustomerCreditMemoDocument'/></li>
-        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CustomerInvoiceWriteoffDocument'/></li>
-        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CashControlDocument'/></li>
-        <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=PaymentApplicationDocument'/></li>
+        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=INV'/></li>
+        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CRM'/></li>
+        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=INVW'/></li>
+        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CTRL'/></li>
+        <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=APP'/></li>
     </ul>
  	<strong>Effort Certification</strong><br/>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title='Effort Certification' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=EffortCertificationDocument'/></li>
+        <li><portal:portalLink displayTitle="true" title='Effort Certification' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=ECD'/></li>
     </ul>    
     </div>
 <channel:portalChannelBottom />

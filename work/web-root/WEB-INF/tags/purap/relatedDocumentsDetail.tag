@@ -22,7 +22,7 @@
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:choose>
-    <c:when test= "${fn:contains(documentType, 'Requisition')}">
+    <c:when test= "${fn:contains(documentType, 'REQS')}">
         <c:set var="isRequisition" value="true" />
     </c:when>
     <c:otherwise>

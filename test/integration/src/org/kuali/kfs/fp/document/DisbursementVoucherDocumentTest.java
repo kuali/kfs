@@ -67,9 +67,9 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     public static final Class<DisbursementVoucherDocument> DOCUMENT_CLASS = DisbursementVoucherDocument.class;
     // The set of Route Nodes that the test document will progress through
 
-    private static final String ACCOUNT_REVIEW = "Account Review";
-    private static final String ORG_REVIEW = "Org Review";
-    private static final String CAMPUS_CODE = "Campus Code";
+    private static final String ACCOUNT_REVIEW = "Account";
+    private static final String ORG_REVIEW = "OrganizationHierarchy";
+    private static final String CAMPUS_CODE = "Campus";
 
 
     public final void testConvertIntoCopy_clear_additionalCodeInvalidVendor() throws Exception {

@@ -20,8 +20,8 @@ import org.kuali.rice.core.util.JSTLConstants;
 public class CabConstants extends JSTLConstants {
     public static final String DATE_FORMAT_TS = "MM/dd/yyyy HH:mm:ss";
     public static final String DATE_FORMAT_DT = "MM/dd/yyyy";
-    public static final String ASSET_PAYMENT_DOCUMENT = "AssetPaymentDocument";
-    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AssetGlobalMaintenanceDocument";
+    public static final String ASSET_PAYMENT_DOCUMENT = "MPAY";
+    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AA";
 
     public static class Parameters {
         public static final String LAST_EXTRACT_TIME = "LAST_EXTRACT_TIME";

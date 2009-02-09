@@ -62,7 +62,6 @@ import com.lowagie.text.pdf.PdfWriter;
 public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceWriteoffBatchService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceWriteoffBatchServiceImpl.class);
 
-    private static final String DOC_TYPE_NAME = "CustomerInvoiceWriteoffDocument";
     private static final String XML_ROOT_ELEMENT_NAME = "invoiceWriteoffBatch";
     private static final String XML_BATCH_NAMESPACE = "http://www.kuali.org/kfs/ar/customerInvoiceWriteoffBatch";
     private static final String BATCH_FILE_KEY = "BATCH-FILE";

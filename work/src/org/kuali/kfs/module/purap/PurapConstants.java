@@ -745,18 +745,18 @@ public class PurapConstants extends JSTLConstants {
     private static HashMap<String, String> getPurapParameterDetailTypeCodes() {
         HashMap<String, String> map;
         map = new HashMap<String, String>();
-        map.put("RequisitionDocument", RequisitionDocument.class.getName());
-        map.put("PurchaseOrderDocument", PurchaseOrderDocument.class.getName());
-        map.put("PurchaseOrderCloseDocument", PurchaseOrderDocument.class.getName());
-        map.put("PurchaseOrderReopenDocument", PurchaseOrderDocument.class.getName());
-        map.put("PurchaseOrderAmendmentDocument", PurchaseOrderDocument.class.getName());
-        map.put("PurchaseOrderPaymentHoldDocument", PurchaseOrderDocument.class.getName());
-        map.put("PurchaseOrderRemoveHoldDocument", PurchaseOrderDocument.class.getName());
-        map.put("PurchaseOrderRetransmitDocument", PurchaseOrderDocument.class.getName());
-        map.put("PurchaseOrderVoidDocument", PurchaseOrderDocument.class.getName());
-        map.put("PurchaseOrderSplitDocument", PurchaseOrderDocument.class.getName());
-        map.put("PaymentRequestDocument", PaymentRequestDocument.class.getName());
-        map.put("VendorCreditMemoDocument", VendorCreditMemoDocument.class.getName());
+        map.put("REQS", RequisitionDocument.class.getName());
+        map.put("PO", PurchaseOrderDocument.class.getName());
+        map.put("POC", PurchaseOrderDocument.class.getName());
+        map.put("POR", PurchaseOrderDocument.class.getName());
+        map.put("POA", PurchaseOrderDocument.class.getName());
+        map.put("POPH", PurchaseOrderDocument.class.getName());
+        map.put("PORH", PurchaseOrderDocument.class.getName());
+        map.put("PORT", PurchaseOrderDocument.class.getName());
+        map.put("POV", PurchaseOrderDocument.class.getName());
+        map.put("POSP", PurchaseOrderDocument.class.getName());
+        map.put("PREQ", PaymentRequestDocument.class.getName());
+        map.put("CM", VendorCreditMemoDocument.class.getName());
         return map;
     }
 

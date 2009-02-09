@@ -42,6 +42,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -74,7 +75,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
             query = query + "from krew_rte_node_t nd, krew_doc_typ_t doc ";
             query = query + "where nd.rte_mthd_nm is not null ";
             query = query + "and doc.doc_typ_id = nd.doc_typ_id ";
-            query = query + "and doc.doc_typ_nm = 'EffortCertificationDocument' ";
+            query = query + "and doc.doc_typ_nm = '"+SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(EffortCertificationDocument.class)+"' ";
             query = query + "and doc.cur_ind = 1 ";
             query = query + "and exists (select * from krew_rte_node_lnk_t ";
             query = query + "where to_rte_node_id=nd.rte_node_id) ";

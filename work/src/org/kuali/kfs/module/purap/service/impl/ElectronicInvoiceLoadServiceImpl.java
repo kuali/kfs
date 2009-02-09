@@ -537,7 +537,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         // perform reject scenario
         // peform reject scenario
         try {
-            ElectronicInvoiceRejectDocument eirDoc = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
+            ElectronicInvoiceRejectDocument eirDoc = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("EIRT");
             eirDoc.setInvoiceLoadSummary(eils);
             // then populate EI and EIO
             eirDoc.setInvoiceOrderLevelData(ei, eio);
@@ -587,7 +587,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         for (Iterator itemIter = eInvoice.getInvoiceDetailOrders().iterator(); itemIter.hasNext();) {
             try {
                 ElectronicInvoiceOrder eInvoiceOrder = (ElectronicInvoiceOrder) itemIter.next();
-                ElectronicInvoiceRejectDocument eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
+                ElectronicInvoiceRejectDocument eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("EIRT");
                 eInvoiceRejectDocument.setInvoiceLoadSummary(eInvoiceLoadSummary);
                 // then populate EI and EIO
                 eInvoiceRejectDocument.setFileLevelData(eInvoice);

@@ -102,7 +102,7 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
         parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingCorrection);
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "CorrectionReceivingDocument");        
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "RCVC");        
         parameters.put("receivingLineDocId", document.getDocumentHeader().getDocumentNumber() );
         
         //create url

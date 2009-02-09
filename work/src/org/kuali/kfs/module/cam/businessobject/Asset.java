@@ -1953,7 +1953,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         params.put("capitalAssetNumber", this.getCapitalAssetNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put("criteria.docTypeFullName", "AssetMaintenanceDocument");
+        params.put("criteria.docTypeFullName", "CASM");
 
         String url = UrlFactory.parameterizeUrl("/en/DocumentSearch.do", params);
         return "http://localhost:8080/kuali-dev/portal.do?channelTitle=asset docs&channelUrl=http://localhost:8080/kuali-dev" + url;

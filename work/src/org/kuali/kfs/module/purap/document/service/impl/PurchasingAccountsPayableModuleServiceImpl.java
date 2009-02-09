@@ -47,8 +47,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableModuleServiceImpl.class);
 
-    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AssetGlobalMaintenanceDocument";
-    public static final String ASSET_PAYMENT_DOCUMENT = "AssetPaymentDocument";
+    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AA";
+    public static final String ASSET_PAYMENT_DOCUMENT = "MPAY";
 
     private PurchaseOrderService purchaseOrderService;
     private PurapService purapService;

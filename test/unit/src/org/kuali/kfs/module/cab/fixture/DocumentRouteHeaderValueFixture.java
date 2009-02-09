@@ -36,7 +36,7 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             obj.setRouteHeaderId(11L);
-            obj.setDocumentTypeId(docTypeId("RequisitionDocument"));
+            obj.setDocumentTypeId(docTypeId("REQS"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -60,7 +60,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(12L);
-            obj.setDocumentTypeId(docTypeId("RequisitionDocument"));
+            obj.setDocumentTypeId(docTypeId("REQS"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -84,7 +84,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(13L);
-            obj.setDocumentTypeId(docTypeId("RequisitionDocument"));
+            obj.setDocumentTypeId(docTypeId("REQS"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(0);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -108,7 +108,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(21L);
-            obj.setDocumentTypeId(docTypeId("PurchaseOrderDocument"));
+            obj.setDocumentTypeId(docTypeId("PO"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -132,7 +132,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(22L);
-            obj.setDocumentTypeId(docTypeId("PurchaseOrderDocument"));
+            obj.setDocumentTypeId(docTypeId("PO"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -156,7 +156,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(23L);
-            obj.setDocumentTypeId(docTypeId("PurchaseOrderDocument"));
+            obj.setDocumentTypeId(docTypeId("PO"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -180,7 +180,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(31L);
-            obj.setDocumentTypeId(docTypeId("PaymentRequestDocument"));
+            obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -204,7 +204,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(32L);
-            obj.setDocumentTypeId(docTypeId("PaymentRequestDocument"));
+            obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -228,7 +228,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(33L);
-            obj.setDocumentTypeId(docTypeId("PaymentRequestDocument"));
+            obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -252,7 +252,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(34L);
-            obj.setDocumentTypeId(docTypeId("PaymentRequestDocument"));
+            obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -276,7 +276,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(35L);
-            obj.setDocumentTypeId(docTypeId("PaymentRequestDocument"));
+            obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -300,7 +300,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(36L);
-            obj.setDocumentTypeId(docTypeId("PaymentRequestDocument"));
+            obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -324,7 +324,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(41L);
-            obj.setDocumentTypeId(docTypeId("VendorCreditMemoDocument"));
+            obj.setDocumentTypeId(docTypeId("CM"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(2);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -348,7 +348,7 @@ public enum DocumentRouteHeaderValueFixture {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
 
             obj.setRouteHeaderId(51L);
-            obj.setDocumentTypeId(docTypeId("CustomerInvoiceDocument"));
+            obj.setDocumentTypeId(docTypeId("INV"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(0);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
@@ -371,7 +371,7 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             obj.setRouteHeaderId(52L);
-            obj.setDocumentTypeId(docTypeId("CustomerInvoiceDocument"));
+            obj.setDocumentTypeId(docTypeId("INV"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(0);
             obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));

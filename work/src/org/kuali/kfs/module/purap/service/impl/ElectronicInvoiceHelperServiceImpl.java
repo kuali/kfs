@@ -656,7 +656,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         ElectronicInvoiceRejectDocument eInvoiceRejectDocument = null;
         try {
-            eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
+            eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("EIRT");
             
             eInvoiceRejectDocument.setInvoiceProcessTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             eInvoiceRejectDocument.setVendorDunsNumber(fileDunsNumber);
@@ -747,7 +747,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         try {
 
-            eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
+            eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("EIRT");
 
             eInvoiceRejectDocument.setInvoiceProcessTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             String rejectdocDesc = generateRejectDocumentDescription(eInvoice,electronicInvoiceOrder);

@@ -78,11 +78,11 @@ public class CamsConstants extends JSTLConstants {
     }
 
     public static class DocumentTypeName {
-        public static final String TRANSFER = "AssetTransferDocument";
-        public static final String EQUIPMENT_LOAN_OR_RETURN = "EquipmentLoanOrReturnDocument";
-        public static final String PAYMENT = "AssetPaymentDocument";
-        public static final String RETIREMENT = "AssetRetirementGlobalMaintenanceDocument";
-        public static final String CREATE = "AssetGlobalMaintenanceDocument";
+        public static final String TRANSFER = "AT";
+        public static final String EQUIPMENT_LOAN_OR_RETURN = "ELR";
+        public static final String PAYMENT = "MPAY";
+        public static final String RETIREMENT = "AR";
+        public static final String CREATE = "AA";
     }
 
     public static class PaymentDocumentTypeCodes {

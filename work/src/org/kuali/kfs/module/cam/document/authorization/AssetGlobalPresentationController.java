@@ -44,7 +44,7 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
-        MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetPaymentDetails");
+        MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AA", "assetPaymentDetails");
         if (assetGlobal.isCapitalAssetBuilderOriginIndicator() || SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
             // do not include payment add section within the payment details collection
             maintCollDef.setIncludeAddLine(false);

@@ -117,13 +117,13 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             String documentNumber = documentHeader.getDocumentNumber();
             detail.setDocumentNumber(documentNumber);
 
-            if (documentType.equals("CustomerInvoiceDocument"))
+            if (documentType.equals("INV"))
                 invoiceIds.add(documentNumber);
             else {
                 // Approved Date -> for invoices Due Date, for all other documents Approved Date
                 detail.setDueApprovedDate(approvedDate);
 
-                if (documentType.equals("PaymentApplicationDocument"))
+                if (documentType.equals("APP"))
                     paymentApplicationIds.add(documentNumber);
                 else
                     finSysDocHeaderIds.add(documentNumber);

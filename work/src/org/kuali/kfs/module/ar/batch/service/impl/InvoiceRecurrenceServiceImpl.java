@@ -173,7 +173,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 String initiator = invoiceRecurrence.getDocumentInitiatorUserPersonUserIdentifier();
                 GlobalVariables.setUserSession(new UserSession(initiator));
 
-                MaintenanceDocument newMaintDoc = (MaintenanceDocument) getDocumentService().getNewDocument("InvoiceRecurrenceMaintenanceDocument");
+                MaintenanceDocument newMaintDoc = (MaintenanceDocument) getDocumentService().getNewDocument(getInvoiceRecurrenceMaintenanceDocumentTypeName());
                 newMaintDoc.getOldMaintainableObject().setBusinessObject(invoiceRecurrence);
                 InvoiceRecurrence newInvoiceRecurrence = invoiceRecurrence;
                 newInvoiceRecurrence.setActive(false);
@@ -189,6 +189,10 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
         }
         return true;
 
+    }
+    
+    private String getInvoiceRecurrenceMaintenanceDocumentTypeName() {
+        return "INVR";
     }
 
     /**

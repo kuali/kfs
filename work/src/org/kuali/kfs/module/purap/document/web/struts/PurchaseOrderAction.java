@@ -1899,7 +1899,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
         parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingLine);
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "LineItemReceivingDocument");        
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "RCVL");        
         parameters.put("purchaseOrderId", document.getPurapDocumentIdentifier().toString() );
         
         //create url

@@ -55,7 +55,7 @@
 </c:choose>
 
 <c:choose>
-    <c:when test= "${fn:contains(documentType, 'PurchaseOrder')}">
+    <c:when test= "${fn:contains(documentType, 'PO')}">
         <c:set var="isATypeOfPODoc" value="true" />
         <c:set var="acctExtraHiddenFields" value=",accountIdentifier,itemIdentifier,amount,itemAccountOutstandingEncumbranceAmount" />
     </c:when>
@@ -66,7 +66,7 @@
 </c:choose>
 
 <c:choose>
-	<c:when test= "${fn:contains(documentType, 'PurchaseOrder') or fn:contains(documentType, 'Requisition')}">
+	<c:when test= "${fn:contains(documentType, 'PO') or fn:contains(documentType, 'REQS')}">
         <c:set var="isATypeofPurDoc" value="true" />
     </c:when>
     <c:otherwise>
@@ -261,7 +261,7 @@
 				<!-- TODO: PHASE 2B -->
 				<c:if test="${isATypeOfPODoc}">
 				    <c:choose>
-                        <c:when test="${((documentType != 'PurchaseOrderDocument') && !(fullEntryMode or amendmentEntry))}">
+                        <c:when test="${((documentType != 'PO') && !(fullEntryMode or amendmentEntry))}">
                             <kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
                         </c:when>
                         <c:otherwise>

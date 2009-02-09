@@ -52,7 +52,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     private CashControlDocumentService cashControlDocumentService;
     private KualiConfigurationService kualiConfigurationService;
 
-    private final static String CC_WORKFLOW_DOCUMENT_TYPE = "CashControlDocument";
+    private final static String CC_WORKFLOW_DOCUMENT_TYPE = "CTRL";
     private final static String URL_PREFIX = "ar";
     private final static String URL_MIDDLE = "Document.do?methodToCall=docHandler&command=";
     private final static String URL_SUFFIX = "&docId=";

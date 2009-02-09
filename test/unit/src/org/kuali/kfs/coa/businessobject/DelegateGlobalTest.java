@@ -31,6 +31,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.exception.BusinessObjectNotFoundException;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -38,7 +39,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 @ConfigureContext(session = khuntley)
 public class DelegateGlobalTest extends KualiTestBase {
 
-    private static final String GLOBAL_DELEGATE_TYPENAME = "AccountDelegateGlobalMaintenanceDocument";
+    private static final String GLOBAL_DELEGATE_TYPENAME = "GDLG";
 
     private static final Log LOG = LogFactory.getLog(DelegateGlobalTest.class);
 

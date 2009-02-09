@@ -80,7 +80,6 @@ import com.lowagie.text.pdf.PdfWriter;
 public class CustomerLoadServiceImpl implements CustomerLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadServiceImpl.class);
 
-    private static final String DOC_TYPE_NAME = "CustomerMaintenanceDocument";
     private static final String MAX_RECORDS_PARM_NAME = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
     private static final String NA = "-- N/A --";
     private static final String WORKFLOW_DOC_ID_PREFIX = " - WITH WORKFLOW DOCID: ";
@@ -250,7 +249,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         //  create a real workflow document
         MaintenanceDocument realMaintDoc;
         try {
-            realMaintDoc = (MaintenanceDocument) docService.getNewDocument(DOC_TYPE_NAME);
+            realMaintDoc = (MaintenanceDocument) docService.getNewDocument(getCustomerMaintenanceDocumentTypeName());
         }
         catch (WorkflowException e) {
             LOG.error("WorkflowException occurred while trying to create a new MaintenanceDocument.", e);
@@ -284,6 +283,10 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             failedDocumentNumbers.add(realMaintDoc.getDocumentNumber());
         }
         return result;
+    }
+    
+    private String getCustomerMaintenanceDocumentTypeName() {
+        return "CUS";
     }
     
     private void addError(CustomerLoadBatchErrors batchErrors, String customerName, String propertyName, Class<?> propertyClass, String origValue, String description) {
@@ -778,14 +781,14 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     }
     
     private MaintenanceDocument createTransientMaintDoc() {
-        MaintenanceDocument maintDoc = new MaintenanceDocumentBase(DOC_TYPE_NAME);
+        MaintenanceDocument maintDoc = new MaintenanceDocumentBase(getCustomerMaintenanceDocumentTypeName());
         return maintDoc;
     }
     
     private MaintenanceDocument createRealMaintDoc(MaintenanceDocument document) {
         if (document == null) {
             try {
-                document = (MaintenanceDocument) docService.getNewDocument(DOC_TYPE_NAME);
+                document = (MaintenanceDocument) docService.getNewDocument(getCustomerMaintenanceDocumentTypeName());
             }
             catch (WorkflowException e) {
                 throw new RuntimeException("WorkflowException thrown when trying to create new MaintenanceDocument.", e);

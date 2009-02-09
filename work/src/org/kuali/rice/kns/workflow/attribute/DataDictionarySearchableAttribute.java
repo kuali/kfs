@@ -165,8 +165,8 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
       for (SearchingTypeDefinition definition: searchingTypeDefinitions) {
           SearchingAttribute attr = definition.getSearchingAttribute();
           if (attr.isShowAttributeInSearchCriteria()) {
-              String attributeName = attr.getAttributeName();
-              String businessObjectClassName = attr.getBusinessObjectClassName();
+              final String attributeName = attr.getAttributeName();
+              final String businessObjectClassName = attr.getBusinessObjectClassName();
               final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(businessObjectClassName);
               DocumentSearchField searchField = buildSearchField(attributeName, boEntry);
 

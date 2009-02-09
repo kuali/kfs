@@ -50,7 +50,7 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
         assetNumbers.add(new Long("12345"));
         assetNumbers.add(new Long("12346"));
         String authorId = "khuntley";
-        String documentType = "AssetGlobalMaintenanceDocument";
+        String documentType = "AA";
         SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(purchaseOrderNumber, assetNumbers, authorId, documentType);
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
         assertNotNull("PO should not have been null",po);

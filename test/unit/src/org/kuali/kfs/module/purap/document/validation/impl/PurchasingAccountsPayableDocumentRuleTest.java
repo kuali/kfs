@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +27,7 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=true)
 public class PurchasingAccountsPayableDocumentRuleTest extends
@@ -96,84 +97,84 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
     }
     
     public void testValidateBelowTheLineValues_Req_Freight_Positive() {
-        String documentType = "RequisitionDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(RequisitionDocument.class);
         PurApItem item = PurApItemFixture.VALID_FREIGHT_ITEM.createPurApItem(RequisitionItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_POSITIVE;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_Req_Freight_Negative() {
-        String documentType = "RequisitionDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(RequisitionDocument.class);
         PurApItem item = PurApItemFixture.NEGATIVE_FREIGHT_ITEM.createPurApItem(RequisitionItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_NEGATIVE;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_Req_Freight_Zero() {
-        String documentType = "RequisitionDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(RequisitionDocument.class);
         PurApItem item = PurApItemFixture.ZERO_FREIGHT_ITEM.createPurApItem(RequisitionItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_ZERO;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_Req_ShippingHandling_Positive() {
-        String documentType = "RequisitionDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(RequisitionDocument.class);
         PurApItem item = PurApItemFixture.VALID_SHIPPING_AND_HANDLING_ITEM.createPurApItem(RequisitionItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_POSITIVE;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_Req_ShippingHandling_Negative() {
-        String documentType = "RequisitionDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(RequisitionDocument.class);
         PurApItem item = PurApItemFixture.NEGATIVE_SHIPPING_AND_HANDLING_ITEM.createPurApItem(RequisitionItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_NEGATIVE;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_Req_ShippingHandling_Zero() {
-        String documentType = "RequisitionDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(RequisitionDocument.class);
         PurApItem item = PurApItemFixture.ZERO_SHIPPING_AND_HANDLING_ITEM.createPurApItem(RequisitionItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_ZERO;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_PREQ_Freight_Positive() {
-        String documentType = "PaymentRequestDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PaymentRequestDocument.class);
         PurApItem item = PurApItemFixture.VALID_FREIGHT_ITEM.createPurApItem(PaymentRequestItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_POSITIVE;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_PREQ_Freight_Negative() {
-        String documentType = "PaymentRequestDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PaymentRequestDocument.class);
         PurApItem item = PurApItemFixture.NEGATIVE_FREIGHT_ITEM.createPurApItem(PaymentRequestItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_NEGATIVE;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_PREQ_Freight_Zero() {
-        String documentType = "PaymentRequestDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PaymentRequestDocument.class);
         PurApItem item = PurApItemFixture.ZERO_FREIGHT_ITEM.createPurApItem(PaymentRequestItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_ZERO;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_PREQ_ShippingHandling_Positive() {
-        String documentType = "PaymentRequestDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PaymentRequestDocument.class);
         PurApItem item = PurApItemFixture.VALID_SHIPPING_AND_HANDLING_ITEM.createPurApItem(PaymentRequestItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_POSITIVE;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_PREQ_ShippingHandling_Negative() {
-        String documentType = "PaymentRequestDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PaymentRequestDocument.class);
         PurApItem item = PurApItemFixture.NEGATIVE_SHIPPING_AND_HANDLING_ITEM.createPurApItem(PaymentRequestItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_NEGATIVE;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);
     }
     
     public void testValidateBelowTheLineValues_PREQ_ShippingHandling_Zero() {
-        String documentType = "PaymentRequestDocument";
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PaymentRequestDocument.class);
         PurApItem item = PurApItemFixture.ZERO_SHIPPING_AND_HANDLING_ITEM.createPurApItem(PaymentRequestItem.class);
         String parameterString = PurapConstants.ITEM_ALLOWS_ZERO;
         validateBelowTheLineValues_TestHelper(documentType, item, parameterString);

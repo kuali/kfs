@@ -15,18 +15,19 @@
  */
 package org.kuali.kfs.fp.batch.service.impl;
 
+import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
+
 /**
  * An implementation of ElectronicPaymentClaimingHelper for YearEndDisbursementOfIncomeAndExpense documents. Most of the behaviors
  * have been inherited from DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.
  */
 public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl extends DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl {
-    private final static String YEDI_WORKFLOW_DOC_TYPE = "YearEndDistributionOfIncomeAndExpenseDocument";
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentWorkflowDocumentType()
      * @return the name YearEndDistributionOfIncomeAndExpenseDocument workflow document type
      */
     public String getClaimingDocumentWorkflowDocumentType() {
-        return YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.YEDI_WORKFLOW_DOC_TYPE;
+        return "YEDI";
     }
 }

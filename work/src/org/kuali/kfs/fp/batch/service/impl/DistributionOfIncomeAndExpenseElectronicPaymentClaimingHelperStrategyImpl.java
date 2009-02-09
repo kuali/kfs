@@ -48,7 +48,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      * we don't save the document, there's a chance that electronic payment claims will go to limbo
      */
     private final static String DOCUMENT_DESCRIPTION_PARAM_NAME = "ELECTRONIC_FUNDS_DOCUMENT_DESCRIPTION";
-    private final static String DI_WORKFLOW_DOCUMENT_TYPE = "DistributionOfIncomeAndExpenseDocument";
+    //private final static String DI_WORKFLOW_DOCUMENT_TYPE = "DistributionOfIncomeAndExpenseDocument";
     private final static String URL_PREFIX = "financial";
     private final static String URL_MIDDLE = ".do?methodToCall=docHandler&command=";
     private final static String URL_SUFFIX = "&docId=";
@@ -181,7 +181,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      * @return the name DistributionOfIncomeAndExpenseDocument workflow document type
      */
     public String getClaimingDocumentWorkflowDocumentType() {
-        return DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.DI_WORKFLOW_DOCUMENT_TYPE;
+        return "DI";
     }
 
     /**
@@ -239,6 +239,14 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Gets the dataDictionaryService attribute. 
+     * @return Returns the dataDictionaryService.
+     */
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
     }
 
     /**

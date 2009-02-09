@@ -15,9 +15,12 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -104,9 +107,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             ccDoc.setCashControlTotalAmount(calculateCashControlTotal(ccDoc));
         }
 
-        ActionForward forward = super.execute(mapping, form, request, response);
-
-        return forward;
+        return super.execute(mapping, form, request, response);
     }
 
     /**
@@ -127,6 +128,35 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
     }
 
     /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
+        CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
+
+        List<CashControlDetail> details = cashControlDocument.getCashControlDetails();
+        
+        for(CashControlDetail cashControlDetail : details) {
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
+    
+            PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
+            if(KFSConstants.DocumentStatusCodes.CANCELLED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+                // Ignore this case, as it should not impact the ability to cancel a cash control doc.
+            } else if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+                documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
+            } else {
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath("CashControlDocument", ArKeyConstants.ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
+        
+        return super.cancel(mapping, form, request, response);
+    }
+    
+    /**
      * This method adds a new cash control detail
      * 
      * @param mapping action mapping
@@ -145,8 +175,12 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
         newCashControlDetail.setDocumentNumber(cashControlDocument.getDocumentNumber());
         
-        //  force customer numbers to upper case, since its a primary key
-        newCashControlDetail.setCustomerNumber(newCashControlDetail.getCustomerNumber().toUpperCase());
+        String customerNumber = newCashControlDetail.getCustomerNumber();
+        if(StringUtils.isNotEmpty(customerNumber)) {
+            //  force customer numbers to upper case, since its a primary key
+            customerNumber = customerNumber.toUpperCase();
+        }
+        newCashControlDetail.setCustomerNumber(customerNumber);
         
         //  save the document, which will run business rules and make sure the doc is ready for lines
         KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);

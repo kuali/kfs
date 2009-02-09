@@ -18,8 +18,10 @@ package org.kuali.kfs.vnd.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class VendorDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
@@ -27,10 +29,49 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
     public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
         Set<String> conditionallyReadOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
         VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+
         if (!vendor.isVendorParentIndicator()) {
             // make some sections read only, e.g. supplier diversity cause they're on the header
-            conditionallyReadOnlySectionIds.add("Supplier Diversity");
+            conditionallyReadOnlySectionIds.add(VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES);
         }
+
         return conditionallyReadOnlySectionIds;
     }
+
+    @Override
+    public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
+        Set<String> conditionallyReadonlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
+        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+
+        if (vendor.isVendorParentIndicator()) {
+            // Vendor Parent Indicator should be readOnly if the vendor is a parent.
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_PARENT_INDICATOR);
+
+            // For existing vendors, don't allow vendor type code to be changed if maint table indicates it shouldn't be changed 
+            if (ObjectUtils.isNotNull(vendor.getVendorHeaderGeneratedIdentifier()) && 
+                    !vendor.getVendorHeader().getVendorType().isVendorTypeChangeAllowedIndicator()) {
+                conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_TYPE_CODE);
+            }
+        }
+
+        // If the vendor is not a parent, there are certain fields that should be readOnly
+        else {
+            // All the fields in VendorHeader should be readOnly if the vendor is not a parent.
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_TYPE_CODE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_TAX_NUMBER);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_TAX_TYPE_CODE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_OWNERSHIP_CODE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_OWNERSHIP_CATEGORY_CODE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_BEGINNING_DATE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_END_DATE);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_W9_RECEIVED_INDICATOR);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_W8_BEN_RECEIVED_INDICATOR);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_DEBARRED_INDICATOR);
+            conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_FOREIGN_INDICATOR);
+        }
+
+        return conditionallyReadonlyPropertyNames;
+    }
+    
+    
 }

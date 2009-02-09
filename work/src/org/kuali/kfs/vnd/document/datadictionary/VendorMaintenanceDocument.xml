@@ -389,7 +389,7 @@
   <bean id="VendorMaintenanceDocument-SupplierDiversity" parent="VendorMaintenanceDocument-SupplierDiversity-parentBean" />
 
   <bean id="VendorMaintenanceDocument-SupplierDiversity-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Supplier Diversity" />
+    <property name="id" value="vendorSupplierDiversities" />
     <property name="title" value="Supplier Diversity" />
     <property name="maintainableItems" >
       <list>
@@ -425,7 +425,7 @@
   <bean id="VendorMaintenanceDocument-ShippingSpecialConditions" parent="VendorMaintenanceDocument-ShippingSpecialConditions-parentBean" />
 
   <bean id="VendorMaintenanceDocument-ShippingSpecialConditions-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Shipping Special Conditions" />
+    <property name="id" value="vendorShippingSpecialConditions" />
     <property name="title" value="Shipping Special Conditions" />
     <property name="maintainableItems" >
       <list>
@@ -508,7 +508,7 @@
   <bean id="VendorMaintenanceDocument-SearchAlias" parent="VendorMaintenanceDocument-SearchAlias-parentBean" />
 
   <bean id="VendorMaintenanceDocument-SearchAlias-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Search Alias" />
+    <property name="id" value="vendorAliases" />
     <property name="title" value="Search Alias" />
     <property name="maintainableItems" >
       <list>
@@ -540,7 +540,7 @@
   <bean id="VendorMaintenanceDocument-VendorPhoneNumber" parent="VendorMaintenanceDocument-VendorPhoneNumber-parentBean" />
 
   <bean id="VendorMaintenanceDocument-VendorPhoneNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Vendor Phone Number" />
+    <property name="id" value="vendorPhoneNumbers" />
     <property name="title" value="Vendor Phone Number" />
     <property name="maintainableItems" >
       <list>
@@ -588,7 +588,7 @@
   <bean id="VendorMaintenanceDocument-CustomerNumber" parent="VendorMaintenanceDocument-CustomerNumber-parentBean" />
 
   <bean id="VendorMaintenanceDocument-CustomerNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Customer Number" />
+    <property name="id" value="vendorCustomerNumbers" />
     <property name="title" value="Customer Number" />
     <property name="maintainableItems" >
       <list>

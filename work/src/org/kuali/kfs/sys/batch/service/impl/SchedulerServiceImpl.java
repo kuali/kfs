@@ -100,7 +100,9 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
         JobDescriptor jobDescriptor;
         for (ModuleService moduleService : kualiModuleService.getInstalledModuleServices()) {
-            LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
+            }
             for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
                 try {
                     if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).isExternalJob(jobName)) {
@@ -288,13 +290,17 @@ public class SchedulerServiceImpl implements SchedulerService {
     public boolean shouldNotRun(JobDetail jobDetail) {
         if (SCHEDULED_GROUP.equals(jobDetail.getGroup())) {
             if (isCancelled(jobDetail)) {
-                LOG.info("Telling listener not to run job, because it has been cancelled: " + jobDetail.getName());
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info("Telling listener not to run job, because it has been cancelled: " + jobDetail.getName());
+                }
                 return true;
             }
             else {
                 for (String dependencyJobName : getJobDependencies(jobDetail.getName()).keySet()) {
                     if (!isDependencySatisfiedPositively(jobDetail, getScheduledJobDetail(dependencyJobName))) {
-                        LOG.info(new StringBuffer("Telling listener not to run job, because a dependency has not been satisfied positively: ").append(jobDetail.getName()).append(" (dependency job = ").append(dependencyJobName).append(")"));
+                        if ( LOG.isInfoEnabled() ) {
+                            LOG.info("Telling listener not to run job, because a dependency has not been satisfied positively: "+jobDetail.getName()+" (dependency job = "+dependencyJobName+")");
+                        }
                         return true;
                     }
                 }
@@ -307,7 +313,9 @@ public class SchedulerServiceImpl implements SchedulerService {
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#updateStatus(org.quartz.JobDetail,java.lang.String jobStatus)
      */
     public void updateStatus(JobDetail jobDetail, String jobStatus) {
-        LOG.info(new StringBuffer("Updating status of job: ").append(jobDetail.getName()).append("=").append(jobStatus));
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Updating status of job: "+jobDetail.getName()+"="+jobStatus);
+        }
         jobDetail.getJobDataMap().put(JOB_STATUS_PARAMETER, jobStatus);
     }
 
@@ -320,7 +328,9 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     public void runJob(String groupName, String jobName, int startStep, int stopStep, Date jobStartTime, String requestorEmailAddress) {
-        LOG.info("Executing user initiated job: " + groupName + "." + jobName + " (startStep=" + startStep + " / stopStep=" + stopStep + " / startTime=" + jobStartTime + " / requestorEmailAddress=" + requestorEmailAddress + ")");
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Executing user initiated job: " + groupName + "." + jobName + " (startStep=" + startStep + " / stopStep=" + stopStep + " / startTime=" + jobStartTime + " / requestorEmailAddress=" + requestorEmailAddress + ")");
+        }
 
         try {
             JobDetail jobDetail = scheduler.getJobDetail(jobName, groupName);
@@ -332,7 +342,9 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     public void runStep(String groupName, String jobName, String stepName, Date startTime, String requestorEmailAddress) {
-        LOG.info("Executing user initiated step: " + stepName + " / requestorEmailAddress=" + requestorEmailAddress);
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Executing user initiated step: " + stepName + " / requestorEmailAddress=" + requestorEmailAddress);
+        }
 
         // abort if the step is already running
         if (isJobRunning(jobName)) {
@@ -369,7 +381,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     private void addJob(JobDetail jobDetail) {
         try {
-            LOG.info("Adding job: " + jobDetail.getFullName());
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info("Adding job: " + jobDetail.getFullName());
+            }
             scheduler.addJob(jobDetail, true);
         }
         catch (SchedulerException e) {
@@ -550,7 +564,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                     }
                     catch (NoSuchBeanDefinitionException ex) {
                         // do nothing, ignore jobs not defined in spring
-                        LOG.info("Attempt to find bean " + jobGroup + "." + jobName + " failed - not in Spring context");
+                        LOG.warn("Attempt to find bean " + jobGroup + "." + jobName + " failed - not in Spring context");
                     }
                 }
             }
@@ -581,7 +595,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                 }
                 catch (NoSuchBeanDefinitionException ex) {
                     // do nothing, ignore jobs not defined in spring
-                    LOG.info("Attempt to find bean " + groupName + "." + jobName + " failed - not in Spring context");
+                    LOG.warn("Attempt to find bean " + groupName + "." + jobName + " failed - not in Spring context");
                 }
             }
         }

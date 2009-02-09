@@ -56,7 +56,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
     private static SchedulerService schedulerService;
     private static ParameterService parameterService;
     private static IdentityManagementService identityManagementService;
-    private Boolean canModifyJob = false;
+    private static DateTimeService dateTimeService;
     
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
@@ -79,13 +79,10 @@ public class KualiBatchJobModifyAction extends KualiAction {
      * @throws AuthorizationException
      */
     protected boolean canModifyJob(KualiBatchJobModifyForm form, String actionType) {
-        if (canModifyJob == null) {
-            AttributeSet permissionDetails = new AttributeSet();
-            permissionDetails.put(KfsKimAttributes.NAMESPACE_CODE, form.getJob().getNamespaceCode());
-            permissionDetails.put(KfsKimAttributes.BEAN_NAME, form.getJob().getName());
-            canModifyJob = new Boolean(getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.MODIFY_BATCH_JOB, permissionDetails, new AttributeSet(getRoleQualification(form, actionType))));
-        }
-        return canModifyJob.booleanValue();
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(KfsKimAttributes.NAMESPACE_CODE, form.getJob().getNamespaceCode());
+        permissionDetails.put(KfsKimAttributes.BEAN_NAME, form.getJob().getName());
+        return getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.MODIFY_BATCH_JOB, permissionDetails, new AttributeSet(getRoleQualification(form, actionType)));
     }
     
     protected void checkJobAuthorization(KualiBatchJobModifyForm form, String actionType) throws AuthorizationException {
@@ -103,7 +100,6 @@ public class KualiBatchJobModifyAction extends KualiAction {
             ((KualiBatchJobModifyForm)form).setJob(getSchedulerService().getJob(jobGroup, jobName));
         }
         ActionForward forward = super.execute(mapping, form, request, response);
-        canModifyJob = null;
         return forward;
     }
 
@@ -153,9 +149,11 @@ public class KualiBatchJobModifyAction extends KualiAction {
 
         int startStep = Integer.parseInt(startStepStr);
         int endStep = Integer.parseInt(endStepStr);
-        Date startTime = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        Date startTime;
         if (!StringUtils.isBlank(startTimeStr)) {
-            startTime = SpringContext.getBean(DateTimeService.class).convertToDateTime(startTimeStr);
+            startTime = getDateTimeService().convertToDateTime(startTimeStr);
+        } else {
+            startTime = getDateTimeService().getCurrentDate();
         }
 
         batchModifyForm.getJob().runJob(startStep, endStep, startTime, emailAddress);
@@ -200,6 +198,13 @@ public class KualiBatchJobModifyAction extends KualiAction {
 
     private ActionForward getForward(BatchJobStatus job) {
         return new ActionForward(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode(job.getName()) + "&group=" + UrlFactory.encode(job.getGroup()), true);
+    }
+
+    public static DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
     }
 }
 

@@ -78,6 +78,9 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
             return performBuildPointOfView(mapping, form, request, response);
         }
+        if (pointOfViewOrgs.isEmpty()) {
+            GlobalVariables.getErrorMap().putError("pointOfViewOrg", BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

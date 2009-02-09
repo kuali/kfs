@@ -639,11 +639,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         List<SensitiveData> sds = poForm.getSensitiveDatasAssigned();
         SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
         
+        //FIXME this is broken KULPURAP-3297
         // check business rules
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAssignSensitiveDataEvent("", po, sds));
-        if (!rulePassed) {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
+//        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAssignSensitiveDataEvent("", po, sds));
+//        if (!rulePassed) {
+//            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+//        }
 
         // update table SensitiveDataAssignment
         Person currentUser = GlobalVariables.getUserSession().getPerson();

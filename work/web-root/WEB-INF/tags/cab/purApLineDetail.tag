@@ -146,6 +146,9 @@
 			<kul:htmlControlAttribute property="${assetItemStr}.capitalAssetManagementDocumentNumber" attributeEntry="${purApItemAssetAttributes.capitalAssetManagementDocumentNumber}" readOnly="true">
 			</kul:htmlControlAttribute>
 		</a>&nbsp;
+		<c:forEach items="${itemLine.approvedAssetNumbers }" var="assetNumber" >
+			${assetNumber }
+		</c:forEach>
 	</c:otherwise>
 	</c:choose>
 	</td>

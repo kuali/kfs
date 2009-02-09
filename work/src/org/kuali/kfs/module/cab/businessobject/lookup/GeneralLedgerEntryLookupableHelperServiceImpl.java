@@ -26,6 +26,10 @@ import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -33,6 +37,8 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class overrides the base getActionUrls method
@@ -47,6 +53,14 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(KimAttributes.NAMESPACE_CODE, "KFS-CAB");
+        permissionDetails.put(KimAttributes.ACTION_CLASS, "PurApLineAction");
+
+        if (!KIMServiceLocator.getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.USE_SCREEN, permissionDetails, null)) {
+            return super.getEmptyActionUrls();
+        }
+
         GeneralLedgerEntry entry = (GeneralLedgerEntry) bo;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         if (entry.isActive()) {

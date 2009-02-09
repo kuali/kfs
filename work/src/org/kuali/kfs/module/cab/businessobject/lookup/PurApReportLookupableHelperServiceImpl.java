@@ -33,13 +33,23 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableProcessingReport;
 import org.kuali.kfs.module.cab.service.PurchasingAccountsPayableReportService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
 
@@ -59,6 +69,14 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(KimAttributes.NAMESPACE_CODE, "KFS-CAB");
+        permissionDetails.put(KimAttributes.ACTION_CLASS, "PurApLineAction");
+
+        if (!KIMServiceLocator.getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.USE_SCREEN, permissionDetails, null)) {
+            return super.getEmptyActionUrls();
+        }
+
         GeneralLedgerEntry glEntry = (GeneralLedgerEntry) bo;
 
         Properties parameters = new Properties();

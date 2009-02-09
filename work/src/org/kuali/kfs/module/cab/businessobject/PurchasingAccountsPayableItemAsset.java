@@ -1,21 +1,37 @@
 package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -48,6 +64,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private String capitalAssetTransactionTypeCode;
     private List<ItemCapitalAsset> purApItemAssets;
     private Integer capitalAssetSystemIdentifier;
+    private List<Long> approvedAssetNumbers;
 
     private Integer purchaseOrderItemIdentifier;
     // used to control "create asset" and "apply payment" button display
@@ -592,4 +609,56 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         return 0;
     }
 
+    /**
+     * Gets the approvedAssetNumbers attribute. 
+     * @return Returns the approvedAssetNumbers.
+     */
+    public List<Long> getApprovedAssetNumbers() {
+        if (!StringUtils.isEmpty(this.getCapitalAssetManagementDocumentNumber())) {
+            
+            try {
+                MaintenanceDocument doc= (MaintenanceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getCapitalAssetManagementDocumentNumber());
+                KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
+                List<Long> assetNumbers = new ArrayList<Long>();
+                Map<String, String> fieldValues = new HashMap<String, String>();
+                if (workflowDocument.stateIsFinal()) {
+                    if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(workflowDocument.getDocumentType())) {
+                        fieldValues.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, this.getCapitalAssetManagementDocumentNumber());
+                        Collection<AssetGlobalDetail> assetGlobalDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetGlobalDetail.class, fieldValues);
+                        for (AssetGlobalDetail detail : assetGlobalDetails) {
+                            assetNumbers.add(detail.getCapitalAssetNumber());
+                        }
+                        return assetNumbers;
+                    }
+                    else if (this.getDataDictionaryService().getDocumentTypeNameByClass(AssetPaymentDocument.class).equalsIgnoreCase(workflowDocument.getDocumentType())) {
+                        fieldValues.put(CamsPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+                        Collection<AssetPaymentAssetDetail> paymentAssetDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetPaymentAssetDetail.class, fieldValues);
+                        for (AssetPaymentAssetDetail detail : paymentAssetDetails) {
+                            if (ObjectUtils.isNotNull(detail.getAsset())) {
+                                assetNumbers.add(detail.getCapitalAssetNumber());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WorkflowException we) {
+                we.printStackTrace();
+            }
+            
+        }
+        return approvedAssetNumbers;
+    }
+
+    /**
+     * Sets the approvedAssetNumbers attribute value.
+     * @param approvedAssetNumbers The approvedAssetNumbers to set.
+     */
+    public void setApprovedAssetNumbers(List<Long> approvedAssetNumbers) {
+        this.approvedAssetNumbers = approvedAssetNumbers;
+    }
+
+    private DataDictionaryService getDataDictionaryService() {
+        return SpringContext.getBean(DataDictionaryService.class);
+    }
+    
 }

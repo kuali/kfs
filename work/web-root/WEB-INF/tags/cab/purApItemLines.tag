@@ -18,8 +18,8 @@
 <%@ attribute name="title" required="true" description="tab title"%>
 <%@ attribute name="defaultOpen" required="false" description="tab title"%>
 <%@ attribute name="tabErrorKey" required="false" description="tab error keys"%>
+<%@ attribute name="readOnly" required="false" description="read only attribute"%>
 <script language="JavaScript" type="text/javascript" src="scripts/cab/selectCheckBox.js"></script>
-
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />
 <kul:tab tabTitle="${title}" defaultOpen="${defaultOpen}" tabErrorKey="${tabErrorKey }">
@@ -45,7 +45,14 @@
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}"/>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}"/>
 	    <th class="grid" align="center">TI</th>
-	    <th class="grid" align="center">Action</th>
+	    <c:choose >
+		    <c:when test="${activeIndicator=='true'}">
+		    	<th class="grid" align="center">Action</th>
+		    </c:when>
+		    <c:otherwise>
+		    	<th class="grid" align="center">Document&Asset</th>
+		    </c:otherwise>
+	    </c:choose>
 	</tr>
    	<c:set var="chkcount" value="0" />
     <c:forEach items="${KualiForm.purApDocs}" var="purApDoc" >
@@ -62,13 +69,13 @@
 	    	<c:if test="${(assetLine.active && activeIndicator=='true') || (!assetLine.active && activeIndicator == 'false')}">
 	    		<cab:purApLineDetail chkcount="${chkcount}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}" >
 	    		</cab:purApLineDetail>
-	    	<c:if test="${!assetLine.additionalChargeNonTradeInIndicator}">
-				<c:set var="chkcount" value="${chkcount+1}" />
-			</c:if>
+		    	<c:if test="${!assetLine.additionalChargeNonTradeInIndicator}">
+					<c:set var="chkcount" value="${chkcount+1}" />
+				</c:if>
 	    	</c:if>
 		</c:forEach>
 	</c:forEach>
-	<c:if test="${activeIndicator=='true'}">
+	<c:if test="${activeIndicator == 'true' && !readOnly}">
 	<tr>
 		<th class="grid" align="right" colspan="6">Merge Qty</th>
 		<td class="infoline" colspan="2"><kul:htmlControlAttribute property="mergeQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>

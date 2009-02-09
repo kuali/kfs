@@ -48,11 +48,21 @@
     		</table>
 		</div>
 	</kul:tabTop>
-
-	<cab:purApItemLines activeIndicator="true" title="Active Line Items" defaultOpen="true" tabErrorKey="purApDocs*,merge*"/>
-	<cab:purApItemLines activeIndicator="false" title="Submitted Line Items" defaultOpen="false"/>
 	
+	<c:set var="readOnly" value="true" />
+	<c:forEach items="${KualiForm.purApDocs}" var="purApDoc" >
+		<c:forEach items="${purApDoc.purchasingAccountsPayableItemAssets}" var="assetLine" >
+		<c:if test="${assetLine.active}" >
+			<c:set var="readOnly" value="false" />
+		</c:if>
+		</c:forEach>
+	</c:forEach>
+	
+	<cab:purApItemLines activeIndicator="true" title="Active Line Items" defaultOpen="true" tabErrorKey="purApDocs*,merge*" readOnly="${readOnly}"/>
+	<cab:purApItemLines activeIndicator="false" title="Submitted Line Items" defaultOpen="false"/>
 	<kul:panelFooter />
+	
+	
 	<div id="globalbuttons" class="globalbuttons">
         <c:if test="${not readOnly}">
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" 
@@ -61,6 +71,7 @@
 	        	property="methodToCall.reload" title="reload" alt="reload"/>
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" 
 	        	property="methodToCall.close" title="close" alt="close"/>
-        </c:if>		
+        </c:if>
+        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancel" title="Cancel" alt="Cancel"/>		
     </div>
 </kul:page>

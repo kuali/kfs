@@ -141,6 +141,20 @@ public class PurApLineAction extends CabActionBase {
     }
 
     /**
+     * Cancels the action and returns to portal main page
+     * 
+     * @param mapping {@link ActionMapping}
+     * @param form {@link ActionForm}
+     * @param request {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     * @return {@link ActionForward}
+     * @throws Exception
+     */
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+    }
+    
+    /**
      * save the information in the current form into underlying data store
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

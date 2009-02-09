@@ -178,7 +178,6 @@ public class PurapPropertyConstants {
     public static final String SHIPMENT_BILL_OF_LADING_NUMBER = "shipmentBillOfLadingNumber";
     
     // Sensitive Data
-    public static final String WORKGROUP_NAME = "sensitiveDataWorkgroupName";
     public static final String SENSITIVE_DATA_CODE = "sensitiveDataCode";
     
     //Assign Contract Manager

@@ -1569,7 +1569,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 KualiDecimal poItemReceivedQty = poItem.getItemReceivedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemReceivedTotalQuantity();                                
                 KualiDecimal poItemInvoicedQty = poItem.getItemInvoicedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemInvoicedTotalQuantity();
         
-                if(KualiDecimal.ZERO.isLessEqual((poItemReceivedQty.subtract(poItemInvoicedQty)).subtract(preqItemQuantity))){
+                if(KualiDecimal.ZERO.isLessEqual(poItemReceivedQty.subtract(poItemInvoicedQty.subtract(preqItemQuantity)))){
                     changeStatus = true;
                 }else{
                     changeStatus = false;

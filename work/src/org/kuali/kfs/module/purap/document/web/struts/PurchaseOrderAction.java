@@ -402,14 +402,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String operation = "Remove Payment Hold ";
         ActionForward forward = askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.REMOVE_HOLD_QUESTION, PODocumentsStrings.REMOVE_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT, PODocumentsStrings.REMOVE_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_REMOVE_HOLD, operation);
 
-        // Also need to send an FYI to the AP workgroup.
-        // KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        // PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        // WorkgroupDTO workgroupDTO =
-        // SpringContext.getBean(WorkflowGroupService.class).getWorkgroupByGroupName(PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        // SpringContext.getBean(PurchaseOrderService.class).sendFYItoWorkgroup(po, kualiDocumentFormBase.getAnnotation(),
-        // workgroupDTO.getWorkgroupId() );
-
         return forward;
     }
 

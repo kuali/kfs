@@ -74,6 +74,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.Timer;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -985,6 +986,10 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.BALANCE_INQUIRY_REPORT_MENU_ACTION, parameters);
 
+        // register that we're going to come back w/ to this form w/ a refresh methodToCall
+        ((KualiAccountingDocumentFormBase) form).registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        ((KualiAccountingDocumentFormBase) form).registerNextMethodToCallIsRefresh(true);
+        
         return new ActionForward(lookupUrl, true);
     }
 

@@ -28,12 +28,12 @@
 	</ul>
 	<strong>Purchasing/Accounts Payable</strong><br/>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title='Electronic Invoice Rejects' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=ElectronicInvoiceRejectDocument'/></li>
-        <li><portal:portalLink displayTitle="true" title='Payment Requests' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=PaymentRequestDocument'/></li>
-        <li><portal:portalLink displayTitle="true" title='Purchase Orders' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=PurchaseOrderDocument'/></li>
-        <li><portal:portalLink displayTitle="true" title='Receiving' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=LineItemReceivingDocument'/></li>
-        <li><portal:portalLink displayTitle="true" title='Requisitions' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=RequisitionDocument'/></li>
-        <li><portal:portalLink displayTitle="true" title='Vendor Credit Memos' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=VendorCreditMemoDocument'/></li>
+        <li><portal:portalLink displayTitle="true" title='Electronic Invoice Rejects' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=EIRT'/></li>
+        <li><portal:portalLink displayTitle="true" title='Payment Requests' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=PREQ'/></li>
+        <li><portal:portalLink displayTitle="true" title='Purchase Orders' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=PO'/></li>
+        <li><portal:portalLink displayTitle="true" title='Receiving' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=RCVL'/></li>
+        <li><portal:portalLink displayTitle="true" title='Requisitions' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=REQS'/></li>
+        <li><portal:portalLink displayTitle="true" title='Vendor Credit Memos' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CM'/></li>
      </ul>
  	<strong>Accounts Receivable</strong><br/>
     <ul class="chan">

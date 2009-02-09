@@ -48,10 +48,13 @@ public class JobListener implements org.quartz.JobListener {
      */
     public void jobWasExecuted(JobExecutionContext jobExecutionContext, JobExecutionException jobExecutionException) {
         if (jobExecutionContext.getJobInstance() instanceof Job) {
-            if (!((Job) jobExecutionContext.getJobInstance()).isNotRunnable()) {
-                notify(jobExecutionContext, schedulerService.getStatus(jobExecutionContext.getJobDetail()));
+            try {
+                if (!((Job) jobExecutionContext.getJobInstance()).isNotRunnable()) {
+                    notify(jobExecutionContext, schedulerService.getStatus(jobExecutionContext.getJobDetail()));
+                }
+            } finally {
+                completeLogging(jobExecutionContext);
             }
-            completeLogging(jobExecutionContext);
         }
     }
 

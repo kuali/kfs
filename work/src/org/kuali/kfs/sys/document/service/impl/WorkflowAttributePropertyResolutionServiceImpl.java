@@ -161,7 +161,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         if (ObjectUtils.isNotNull(paths)) {
             for (String path : paths) {
                 // get the values for the paths of each element of the collection
-                final Object value = ObjectUtils.getPropertyValue(businessObject, path);
+                final Object value = getPropertyByPath(businessObject, path);
                 if (value != null) {
                     qualifier.put(routingAttributes.getCurrentRoutingAttribute().getAttributeName(), value.toString());
                 }

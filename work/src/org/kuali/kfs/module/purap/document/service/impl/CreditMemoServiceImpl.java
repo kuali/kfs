@@ -266,7 +266,10 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             }
         }
 
-        purapService.calculateTax(cmDocument);
+        //calculate tax if cm not based on vendor
+        if (cmDocument.isSourceVendor() == false) {
+            purapService.calculateTax(cmDocument);
+        }
         
         // proration
         if (cmDocument.isSourceVendor()) {

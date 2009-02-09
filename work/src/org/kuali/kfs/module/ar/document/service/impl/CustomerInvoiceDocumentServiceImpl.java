@@ -142,9 +142,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
-        
-        //  trim and force-caps the customer number
-        customerNumber = customerNumber.trim().toUpperCase();
+
+        // customer number is not required to be populated, so we need to check that it's not null first
+        if(StringUtils.isNotEmpty(customerNumber)) {
+            //  trim and force-caps the customer number
+            customerNumber = customerNumber.trim().toUpperCase();
+        }
         
         invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerNumber(customerNumber));
         return invoices;

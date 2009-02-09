@@ -326,7 +326,7 @@
   <bean id="PaymentRequestDocument-statusCode" parent="PaymentRequestDocument-statusCode-parentBean" />
 
   <bean id="PaymentRequestDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-paymentRequestStatus">
-    <property name="name" value="statusCode" />
+    <property name="name" value="statusCode" />    
   </bean>
   <bean id="PaymentRequestDocument-invoiceDate" parent="PaymentRequestDocument-invoiceDate-parentBean" />
 
@@ -1072,8 +1072,9 @@
     				</property>
     			</bean>
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+    			<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>
      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-  				<property name="searchingAttribute">
+  					<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
     						<property name="attributeName" value="processingCampusCode" />

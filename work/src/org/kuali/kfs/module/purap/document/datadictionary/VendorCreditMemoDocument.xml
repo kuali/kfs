@@ -21,7 +21,7 @@
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentPreRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.VendorCreditMemoDocumentPresentationController" />
-    <property name="sessionDocument" value="true" />
+     <property name="sessionDocument" value="true" />
     <property name="workflowAttributes">
     	<ref bean="VendorCreditMemoDocument-workflowAttributes" />
     </property>
@@ -278,7 +278,7 @@
   <bean id="VendorCreditMemoDocument-statusCode" parent="VendorCreditMemoDocument-statusCode-parentBean" />
 
   <bean id="VendorCreditMemoDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-creditMemoStatus">
-    <property name="name" value="statusCode" />
+    <property name="name" value="statusCode" />    
   </bean>
   <bean id="VendorCreditMemoDocument-creditMemoDate" parent="VendorCreditMemoDocument-creditMemoDate-parentBean" />
 
@@ -455,7 +455,7 @@
   <bean id="VendorCreditMemoDocument-bankCode" parent="VendorCreditMemoDocument-bankCode-parentBean" />
   
   <bean id="VendorCreditMemoDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
-  
+    
   <!-- Credit Memo accountingInformation -->
     <bean id="creditMemoAccountingInformation" parent="creditMemoAccountingInformation-parent" />
 
@@ -685,17 +685,17 @@
    					<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
-    						<property name="attributeName" value="vendorHeaderGeneratedIdentifier" />
+    						<property name="attributeName" value="vendorNumber" />
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>vendorHeaderGeneratedIdentifier</value>
-    						<value>vendorDetailAssignedIdentifier</value>
+    						<value>vendorNumber</value>
     					</list>
     				</property>
     			</bean>
 				<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+				<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
    					<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -709,8 +709,85 @@
     					</list>
     				</property>
     			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="vendorCustomerNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>vendorCustomerNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">			
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="creditMemoDate" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>creditMemoDate</value>
+    					</list>
+    				</property>
+    			</bean>
+       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="accountsPayableApprovalTimestamp" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>accountsPayableApprovalTimestamp</value>
+    					</list>
+    				</property>
+    			</bean>
+       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="extractedTimestamp" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>extractedTimestamp</value>
+    					</list>
+    				</property>
+    			</bean>
+         		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">	
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="holdIndicator" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>holdIndicator</value>
+    					</list>
+    				</property>
+    			</bean>   			
+        		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" />
+    						<property name="attributeName" value="statusCode" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>statusCode</value>
+    					</list>
+    				</property>
+    			</bean>
     		</list>
     	</property>
-    </bean>
-            
+    </bean>           
 </beans>

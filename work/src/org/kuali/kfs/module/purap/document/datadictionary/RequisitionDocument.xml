@@ -1115,33 +1115,8 @@
     					</list>
     				</property>
     			</bean>
-     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<!-- Could this be organizationCode? -->
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
-    						<property name="attributeName" value="chartOfAccountsCode" />
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>chartOfAccountsCode</value>
-    					</list>
-    				</property>
-    			</bean>   
-     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
-    						<property name="attributeName" value="organizationCode" />
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>organizationCode</value>
-    					</list>
-    				</property>
-    			</bean>        			
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+    			<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>        			
     		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute"
     					ref="SearchingAttribute-requestorPersonName" />
@@ -1216,6 +1191,46 @@
     					</list>
     				</property>
     			</bean>
+        		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+     				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader" />
+    						<property name="attributeName" value="documentDescription" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>documentHeader.documentDescription</value>
+    					</list>
+    				</property>
+    			</bean>
+         		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader" />
+    						<property name="attributeName" value="organizationDocumentNumber" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>documentHeader.organizationDocumentNumber</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<ref bean="SearchingType-PurchasingAccountsPayableDocument-financialDocumentTotalAmount"/>
+          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
+    						<property name="attributeName" value="statusCode" />
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>statusCode</value>
+    					</list>
+    				</property>
+    			</bean>   			
     		</list>
     	</property>
     
@@ -1229,6 +1244,5 @@
                 <!-- no qualifiers for separation of duties -->
     		</map>
     	</property>
-	</bean>
-    	  	
+	</bean>    	  	
 </beans>

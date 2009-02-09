@@ -35,9 +35,8 @@ public class CustomerCreditMemoDetailReportDataHolder {
        creditMemoItemQuantity = cmDetail.getCreditMemoItemQuantity();
        creditMemoItemUnitOfMeasureCode = iDetail.getInvoiceItemUnitOfMeasureCode();
        creditMemoItemDescription = iDetail.getInvoiceItemDescription();
-      // System.out.println(creditMemoItemDescription);
        creditMemoItemCode = iDetail.getInvoiceItemCode();
-       creditMemoItemUnitPrice = iDetail.getAmount();
+       creditMemoItemUnitPrice = new KualiDecimal(iDetail.getInvoiceItemUnitPrice());
        creditMemoItemTaxAmount = cmDetail.getCreditMemoItemTaxAmount();
        creditMemoItemTotalAmount = cmDetail.getCreditMemoLineTotalAmount();
     }

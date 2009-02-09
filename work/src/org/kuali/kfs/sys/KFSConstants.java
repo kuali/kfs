@@ -708,14 +708,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CLEAR_FOREIGN_DRAFT_TAB_QUESTION_ID = "ClearForeignDraftTabQuestion";
     }
 
-    public static class CoreApcParms {
-
-        // Kuali User params
-        public static final String UNIVERSAL_USER_EDIT_WORKGROUP_PARM = "UNIVERSAL_USER_EDIT_GROUP";
-        public static final String FINANCIAL_SYSTEM_USER_EDIT_WORKGROUP_PARM = "FINANCIAL_SYSTEM_USER_EDIT_GROUP";
-        public static final String SERVICE_BUS_ACCESS_GROUP_PARM = "SERVICE_BUS_ACCESS_GROUP";
-    }
-
     public static final String ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ACCOUNTING_LINE_IMPORT";
     public static final String ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ORIGIN_ENTRY_IMPORT";
 
@@ -745,13 +737,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public static class FinancialApcParms {
-        // public static final String GROUP_DV_DOCUMENT = "Kuali.FinancialTransactionProcessing.DisbursementVoucherDocument";
-
-        public static final String DV_TAX_WORKGROUP = "TAX_GROUP";
-        public static final String DV_ADMIN_WORKGROUP = "ADMIN_GROUP";
-        public static final String DV_FOREIGNDRAFT_WORKGROUP = "FOREIGN_DRAFT_GROUP";
-        public static final String DV_WIRETRANSFER_WORKGROUP = "WIRE_TRANSFER_GROUP";
-        public static final String DV_TRAVEL_WORKGROUP = "TRAVEL_GROUP";
         public static final String ACCOUNTING_LINE_IMPORT_HELP = "ACCOUNTING_LINE_IMPORT";
         
         public static final String DV_CAMPUS_BY_PAYMENT_REASON_PARAM = "CAMPUS_BY_PAYMENT_REASON";
@@ -1263,21 +1248,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     
     public class RouteLevelNames {
         public static final String ACCOUNT_REVIEW = "Account Review";
-        public static final String SUB_ACCOUNT_REVIEW = "Sub Account Review";
         public static final String ORG_REVIEW = "Org Review";
-        public static final String EMPLOYEE_INDICATOR = "Employee Indicator";
-        public static final String TAX_CONTROL_CODE = "Tax Control Code";
-        public static final String ALIEN_INDICATOR = "Alien Indicator";
-        public static final String PAYMENT_REASON = "Payment Reason";
-        public static final String PAYMENT_REASON_CAMPUS = "Payment Reason+Campus Code";
-        public static final String CAMPUS_CODE = "Campus Code";
-        public static final String ALIEN_INDICATOR_PAYMENT_REASON = "Alien Indicator+Payment Reason";
-        public static final String PAYMENT_METHOD = "Payment Method";
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
-
         public static final String PROJECT_DIRECTOR = "Project Director";
-        public static final String CG_WORKGROUP = "Award Workgroup";
-        public static final String RECREATE_WORKGROUP = "Recreate Workgroup";
     }
 }
 

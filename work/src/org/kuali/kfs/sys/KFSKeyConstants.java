@@ -38,7 +38,6 @@ public class KFSKeyConstants {
     public static final String AUTHORIZATION_ERROR_DOCUMENT = "error.authorization.document";
     public static final String AUTHORIZATION_ERROR_MAINTENANCE_NEWCOPY = "error.authorization.maintenance.newCopy";
     public static final String AUTHORIZATION_ERROR_MODULE = "error.authorization.module";
-    public static final String AUTHORIZATION_ERROR_DOCUMENT_WORKGROUP = "error.authorization.workgroupInitiation";
 
     // Document-specific errors
     public static final String ERROR_DOCUMENT_ACCOUNT_CLOSED = "error.document.accountClosed";

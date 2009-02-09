@@ -83,7 +83,6 @@
         <value>../dwr/interface/AccountService.js</value>
         <value>../dwr/interface/AgencyService.js</value>
         <value>../dwr/interface/OrganizationService.js</value>
-        <value>../dwr/interface/ProjectDirectorService.js</value>
         <value>../dwr/interface/SubcontractorService.js</value>
         <value>../scripts/cg/proposalDocument.js</value>
       </list>

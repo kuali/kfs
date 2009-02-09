@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -99,6 +100,9 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
     private transient Person lookupPerson;
+    
+    private final String userLookupRoleNamespaceCode = CGConstants.CG_NAMESPACE_CODE;
+    private final String userLookupRoleName = CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME;
 
     /**
      * Default no-args constructor.
@@ -1173,6 +1177,20 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      */
     public void setLookupPersonUniversalIdentifier(String lookupPersonId) {
         this.lookupPersonUniversalIdentifier = lookupPersonId;
+    }
+    
+    public String getUserLookupRoleNamespaceCode() {
+        return userLookupRoleNamespaceCode;
+    }
+
+    public void setUserLookupRoleNamespaceCode(String userLookupRoleNamespaceCode) {
+    }
+
+    public String getUserLookupRoleName() {
+        return userLookupRoleName;
+    }
+
+    public void setUserLookupRoleName(String userLookupRoleName) {
     }
 
 }

@@ -29,36 +29,9 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
- * This class validates the SensitiveData maintenance document.
+ * Validates the SensitiveData maintenance document.
  */
 public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
-
-    /**
-     * This method creates a new ServiceBillingControl instance and returns it.
-     * 
-     * @return The new business object that this maintenance doc is creating.
-     */
-    private SensitiveData getNewBusinessObject() {
-        return (SensitiveData)getNewBo();
-    }
-
-    /**
-     * This method performs custom business rule checks on the document being saved.  The rules include confirming the 
-     * validity of the work group.  This method always returns true, because saves should always succeed, regardless 
-     * of business rule failures.
-     * 
-     * @param document The document being saved.
-     * @return This method always returns true.  Saves should always succeed, regardless of business rule errors encountered 
-     * or reported in the data.
-     * 
-     * @see MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        //isValidWorkgroup(document.getDocumentBusinessObject().getClass());
-        // Save always succeeds, even if there are business rule failures
-        return true;
-    }
 
     /**
      * This method performs custom route business rule checks on the document being routed.  The rules include confirming the 
@@ -73,7 +46,6 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = true;
         valid &= validateInactivationBlocking();
-        //valid &= isValidWorkgroup(document.getDocumentBusinessObject().getClass());
         return valid;
     }
 
@@ -82,40 +54,7 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
         valid &= validateInactivationBlocking();
         return valid;
     }
-    /**
-     * Adds a global error for the sensitiveDataWorkgroupName field if it doesn't exist or is inactive.
-     * 
-     * @return Whether it exists and is active
-     *
-    private boolean isValidWorkgroup(Class businessObjectClass) {
-        String name = getNewBusinessObject().getSensitiveDataWorkgroupName();
-        if (StringUtils.isNotBlank(name)) {
-            if (!workgroupExistsAndIsActive(name)) {
-                putFieldErrorWithShortLabel(PurapPropertyConstants.WORKGROUP_NAME, KFSKeyConstants.ERROR_EXISTENCE);
-                return false;
-            }
-        }
-        return true;
-    }
-    */
 
-    /**
-     * Checks whether the given workgroup exists and is active.
-     * 
-     * @param name The name of the workgroup to check.
-     * @return Whether the given workgroup exists and is active.
-     *
-    private static boolean workgroupExistsAndIsActive(String name) {
-        try {
-            WorkgroupDTO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdDTO(name));
-            return workgroupVo != null && workgroupVo.isActiveInd();
-        }
-        catch (WorkflowException e) {
-            return false;
-        }
-    }
-    */
-    
     private boolean validateInactivationBlocking() {
         SensitiveData oldSensitiveData = (SensitiveData)getOldBo();
         SensitiveData newSensitiveData = (SensitiveData)getNewBo();
@@ -132,6 +71,7 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
     private boolean hasABlockingRecord(String sensitiveDataCode) {
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("sensitiveDataCode", sensitiveDataCode);
+
         //Check whether there are any PurchaseOrderSensitiveData whose sensitiveDataCode match with this SensitiveData's code
         boolean hasPurchaseOrderSensitiveDataBlockingRecord = SpringContext.getBean(BusinessObjectService.class).countMatching(PurchaseOrderSensitiveData.class, queryMap) > 0;
         
@@ -142,21 +82,4 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
         return hasPurchaseOrderSensitiveDataBlockingRecord || hasCommodityCodeBlockingRecord;
     }
 
-    /**
-     * Checks whether the given workgroup exists and is active.
-     * 
-     * @param name The name of the workgroup to check.
-     * @return Whether the given workgroup exists and is active.
-     *
-    private static boolean workgroupExistsAndIsActive(String name) {
-        try {
-            WorkgroupDTO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdDTO(name));
-            return workgroupVo != null && workgroupVo.isActiveInd();
-        }
-        catch (WorkflowException e) {
-            return false;
-        }
-    }
-    */
-    
 }

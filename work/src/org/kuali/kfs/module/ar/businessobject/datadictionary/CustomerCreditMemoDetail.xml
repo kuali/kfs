@@ -29,7 +29,7 @@
   </bean>
   <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceInvoiceItemNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Line Number" />
     <property name="shortLabel" value="Line Number" />
     <property name="maxLength" value="3" />

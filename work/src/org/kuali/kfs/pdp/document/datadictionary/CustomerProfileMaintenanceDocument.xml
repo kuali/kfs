@@ -134,7 +134,8 @@
 	              p:required="false" />
           <bean parent="MaintainableFieldDefinition"
               p:name="active"
-              p:required="false" />
+              p:required="false"  
+              p:defaultValue="true" />
         </list>
 	</property>
    </bean>

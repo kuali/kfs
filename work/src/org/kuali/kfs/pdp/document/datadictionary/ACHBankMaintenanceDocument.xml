@@ -112,7 +112,8 @@
               p:name="bankDataViewCode" 
               p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.defaultvalue.AchBankDefaultDataViewCodeFinder" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="active" />
+              p:name="active" 
+              p:defaultValue="true" />
       </list>
     </property>
   </bean>

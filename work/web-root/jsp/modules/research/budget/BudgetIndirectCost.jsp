@@ -23,19 +23,7 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
-		includeTaskPeriodLists="true" />
-
 	<kra-b:budgetIndirectCost />
-
-  <logic:iterate id="budgetIndirectCostLookup" name="KualiForm" property="document.budget.budgetIndirectCostLookups" indexId="i">
-      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].documentNumber" />
-      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].budgetOnCampusIndicator" />
-      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].budgetPurposeCode" />
-      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].budgetIndirectCostRate" />
-      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].objectId" />
-      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].versionNumber" />
-  </logic:iterate>
 
 	<div align="center"><kfs:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 	</div>

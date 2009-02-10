@@ -35,12 +35,6 @@
               		</td>
               		<td class="nobord">
               			${routingFormQuestion.question.questionTypeDescription}
-              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].documentNumber" />
-              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].questionTypeCode" />
-              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].versionNumber" />
-              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].objectId" />
-              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].question.questionTypeCode" />
-              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].question.questionTypeDescription" />
               		</td>
               	</tr>
 			</c:forEach>

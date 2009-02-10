@@ -168,26 +168,15 @@
 		                    			  fieldConversions="principalName:person.user.principalName,name:person.user.name" 
 		                    			  lookupParameters="person.user.principalName:principalName" />
 	                    	</div>
-	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.principalId" />
-	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.principalName" />
-	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personFirstName" />
-	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personLastName" />
 	                    </td>
 	                    <td>
 	                    	<div align=center>
-	                    		${person.user.campusCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.campusCode" /> / ${person.primaryDepartmentCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.primaryDepartmentCode" />
+	                    		${person.user.campusCode} / ${person.primaryDepartmentCode}
 	                    	</div>
 	                    </td>
 	                    <td>
 	                      <div align="center">
-	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.adhocPersonItem[${status.index}].permissionCode" /></c:if>
 	                    	<kul:htmlControlAttribute property="document.adhocPersonItem[${status.index}].permissionCode" attributeEntry="${adhocPersonAttributes.permissionCode}" readOnly="${displayReadOnly}"/>
-							<html:hidden property="document.adhocPersonItem[${status.index}].principalId" />
-							<html:hidden property="document.adhocPersonItem[${status.index}].adhocTypeCode" />
-							<html:hidden property="document.adhocPersonItem[${status.index}].addedByPerson" />
-							<html:hidden property="document.adhocPersonItem[${status.index}].personAddedTimestamp" />
-							<html:hidden property="document.adhocPersonItem[${status.index}].objectId" />
-							<html:hidden property="document.adhocPersonItem[${status.index}].versionNumber" />
 						  </div>
 						</td>
 						<c:if test="${not displayReadOnly}">
@@ -197,16 +186,6 @@
 	                    </c:if>
 	                  </tr>
 	                </c:when>
-	                <c:otherwise>
-	                	<html:hidden property="document.adhocPersonItem[${status.index}].actionRequested" />
-	                	<html:hidden property="document.adhocPersonItem[${status.index}].principalId" />
-	                	<html:hidden property="document.adhocPersonItem[${status.index}].permissionCode" />
-	                	<html:hidden property="document.adhocPersonItem[${status.index}].addedByPerson" />
-	                    <html:hidden property="document.adhocPersonItem[${status.index}].adhocTypeCode" />
-						<html:hidden property="document.adhocPersonItem[${status.index}].personAddedTimestamp" />
-						<html:hidden property="document.adhocPersonItem[${status.index}].objectId" />
-						<html:hidden property="document.adhocPersonItem[${status.index}].versionNumber" />
-	                </c:otherwise>
 	               </c:choose>
 				</c:forEach>
 				<%-- next do the orgs --%>
@@ -260,8 +239,6 @@
 							<c:when test="${empty KualiForm.newAdHocOrg.fiscalCampusCode}">&nbsp;</c:when>
 							<c:otherwise>
 								${KualiForm.newAdHocOrg.fiscalCampusCode}/${KualiForm.newAdHocOrg.primaryDepartmentCode}
-								<html:hidden property="newAdHocOrg.fiscalCampusCode"/>
-								<html:hidden property="newAdHocOrg.primaryDepartmentCode"/>
 							</c:otherwise>
 						</c:choose>
 						&nbsp;&nbsp;
@@ -301,15 +278,7 @@
 						<td colspan="3">${org.fiscalCampusCode}/${org.primaryDepartmentCode}</td>
 						<td>
 						  <div align="center">
-							<c:if test="${displayReadOnly}"><html:hidden property="document.adhocOrgItem[${status.index}].permissionCode" /></c:if>
 							<kul:htmlControlAttribute property="document.adhocOrgItem[${status.index}].permissionCode" attributeEntry="${adhocOrgAttributes.permissionCode}" readOnly="${displayReadOnly}"/>
-							<html:hidden property="document.adhocOrgItem[${status.index}].fiscalCampusCode" />
-							<html:hidden property="document.adhocOrgItem[${status.index}].primaryDepartmentCode" />
-							<html:hidden property="document.adhocOrgItem[${status.index}].adhocTypeCode" />
-							<html:hidden property="document.adhocOrgItem[${status.index}].addedByPerson" />
-							<html:hidden property="document.adhocOrgItem[${status.index}].personAddedTimestamp" />
-							<html:hidden property="document.adhocOrgItem[${status.index}].objectId" />
-							<html:hidden property="document.adhocOrgItem[${status.index}].versionNumber" />
 						  </div>
 						</td>
 						<c:if test="${not displayReadOnly}">
@@ -321,17 +290,6 @@
 						</c:if>
 					  </tr>
 					</c:when>
-					<c:otherwise>
-	                	<html:hidden property="document.adhocOrgItem[${status.index}].actionRequested" />
-	                	<html:hidden property="document.adhocOrgItem[${status.index}].fiscalCampusCode" />
-	                	<html:hidden property="document.adhocOrgItem[${status.index}].primaryDepartmentCode" />
-	                	<html:hidden property="document.adhocOrgItem[${status.index}].permissionCode" />
-	                	<html:hidden property="document.adhocOrgItem[${status.index}].addedByPerson" />
-	                    <html:hidden property="document.adhocOrgItem[${status.index}].adhocTypeCode" />
-						<html:hidden property="document.adhocOrgItem[${status.index}].personAddedTimestamp" />
-						<html:hidden property="document.adhocOrgItem[${status.index}].objectId" />
-						<html:hidden property="document.adhocOrgItem[${status.index}].versionNumber" />
-	                </c:otherwise>
 				   </c:choose>
 				</c:forEach>
 	        </table>

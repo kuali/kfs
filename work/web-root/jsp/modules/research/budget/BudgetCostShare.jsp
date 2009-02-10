@@ -23,31 +23,6 @@
 	auditCount="${AuditErrors['costShareAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
-
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
-		includeTaskPeriodLists="true" />
-
-	<!-- Hidden variables for field level validation. -->
-	<logic:iterate id="person" name="KualiForm" property="document.budget.personnel" indexId="personListIndex">
-		<html:hidden property="document.budget.personFromList[${personListIndex}].fiscalCampusCode" />
-		<html:hidden property="document.budget.personFromList[${personListIndex}].primaryDepartmentCode" />
-		<logic:iterate id="userAppointmentTask" name="KualiForm" property="document.budget.personFromList[${personListIndex}].userAppointmentTasks" indexId="userAppointmentTaskIndex">
-			<logic:iterate id="userAppointmentTaskPeriod" name="KualiForm" property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriods" indexId="userAppointmentTaskPeriodIndex">
-				<html:hidden property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].budgetPeriodSequenceNumber" />
-				<html:hidden property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionCostShareFringeBenefitTotalAmount" />
-				<html:hidden property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionCostShareRequestTotalAmount" />
-			</logic:iterate>
-		</logic:iterate>
-	</logic:iterate>
-	
-	<logic:iterate id="nonpersonnelItem" name="KualiForm" property="document.budget.nonpersonnelItems" indexId="ctr">
-		<html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetPeriodSequenceNumber" />
-		<html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelCategoryCode" />
-		<html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareAmount" />
-		<html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginSequenceNumber" />
-		<html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSequenceNumber" />
-		<html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" />
-	</logic:iterate>
 	
 	<div align="right">
 		<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.COST_SHARE_HEADER_TAB}" altText="page help"/>

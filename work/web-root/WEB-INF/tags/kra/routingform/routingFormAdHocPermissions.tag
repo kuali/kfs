@@ -100,18 +100,12 @@
 				<tr>
                     <td class="datacell center">
                     	<div align=left>${person.user.principalName}</div>
-                    	<html:hidden property="document.routingFormAdHocPerson[${status.index}].user.principalName" />
+
                     </td>
-                    <td>${person.user.campusCode}<html:hidden property="document.routingFormAdHocPerson[${status.index}].user.campusCode" /></td>
+                    <td>${person.user.campusCode}</td>
                     <td>${person.primaryDepartmentCode}</td>
                     <td>
-                    	<c:if test="${displayReadOnly}"><html:hidden property="document.routingFormAdHocPerson[${status.index}].permissionCode" /></c:if>
                     	<kul:htmlControlAttribute property="document.routingFormAdHocPerson[${status.index}].permissionCode" attributeEntry="${routingFormAdHocPersonAttributes.permissionCode}" readOnly="${displayReadOnly}"/>
-						<html:hidden property="document.routingFormAdHocPerson[${status.index}].principalId" />
-						<html:hidden property="document.routingFormAdHocPerson[${status.index}].addedByPerson" />
-						<html:hidden property="document.routingFormAdHocPerson[${status.index}].personAddedTimestamp" />
-						<html:hidden property="document.routingFormAdHocPerson[${status.index}].objectId" />
-						<html:hidden property="document.routingFormAdHocPerson[${status.index}].versionNumber" />
 					</td>
 					<c:if test="${not displayReadOnly}">
 	                    <td class="datacell center"><div align=center>
@@ -152,8 +146,6 @@
 						<c:when test="${empty KualiForm.newAdHocOrg.fiscalCampusCode}">(select by org)</c:when>
 						<c:otherwise>
 							${KualiForm.newAdHocOrg.fiscalCampusCode}/${KualiForm.newAdHocOrg.primaryDepartmentCode}
-							<html:hidden property="newAdHocOrg.fiscalCampusCode"/>
-							<html:hidden property="newAdHocOrg.primaryDepartmentCode"/>
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;
@@ -177,7 +169,6 @@
 				<tr>
 					<td colspan="3">${org.fiscalCampusCode}/${org.primaryDepartmentCode}</td>
 					<td>
-						<c:if test="${displayReadOnly}"><html:hidden property="document.routingFormAdHocOrg[${status.index}].permissionCode" /></c:if>
 						<kul:htmlControlAttribute property="document.routingFormAdHocOrg[${status.index}].permissionCode" attributeEntry="${routingFormAdHocOrgAttributes.permissionCode}" readOnly="${displayReadOnly}"/>
 					</td>
 					<c:if test="${not displayReadOnly}">
@@ -185,12 +176,6 @@
 							<div align="center">
 								<html:image property="methodToCall.deleteOrg.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" title="delete organization" alt="delete organization" disabled="${displayReadOnly}"/>
 							</div>
-							<html:hidden property="document.routingFormAdHocOrg[${status.index}].fiscalCampusCode" />
-							<html:hidden property="document.routingFormAdHocOrg[${status.index}].primaryDepartmentCode" />
-							<html:hidden property="document.routingFormAdHocOrg[${status.index}].addedByPerson" />
-							<html:hidden property="document.routingFormAdHocOrg[${status.index}].personAddedTimestamp" />
-							<html:hidden property="document.routingFormAdHocOrg[${status.index}].objectId" />
-							<html:hidden property="document.routingFormAdHocOrg[${status.index}].versionNumber" />
 						</td>
 					</c:if>
 				</tr>

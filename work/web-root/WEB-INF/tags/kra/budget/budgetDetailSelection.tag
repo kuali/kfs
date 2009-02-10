@@ -25,7 +25,7 @@
             </tr>
           </tbody></table>
           <div class="annotate-container"> <kul:htmlAttributeLabel labelFor="currentTaskNumber" attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" readOnly="true" />
-            <html:hidden property="previousTaskNumber" value="${KualiForm.currentTaskNumber}" />
+           
             <html:select styleId="currentTaskNumber" property="currentTaskNumber">
               <c:set var="budgetTasks" value="${KualiForm.budgetDocument.budget.tasks}"/>
               <html:options collection="budgetTasks" property="budgetTaskSequenceNumber" labelProperty="budgetTaskName"/>
@@ -33,7 +33,7 @@
             </html:select>
 
 &nbsp;&nbsp; <label for="currentPeriodNumber">Period</label>:
-            <html:hidden property="previousPeriodNumber" value="${KualiForm.currentPeriodNumber}" />
+            
             <html:select styleId="currentPeriodNumber" property="currentPeriodNumber" >
               <c:set var="budgetPeriods" value="${KualiForm.budgetDocument.budget.periods}"/>
               <html:options collection="budgetPeriods" property="budgetPeriodSequenceNumber" labelProperty="budgetPeriodLabel"/>

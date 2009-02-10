@@ -22,8 +22,6 @@
 	
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 	
-	<kra-rf:routingFormHiddenDocumentFields />
-	
 	<div align="right">
 		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Approvals" altText="page help"/>
 	</div>	
@@ -34,7 +32,6 @@
 	
 	<kul:panelFooter />
 	
-	<html:hidden property="numAuditErrors"/>
 	<c:if test="${KualiForm.numAuditErrors != 0}">
 		<div style="color:orange;font-weight:bold"><center>ATTENTION: You must fix ${KualiForm.numAuditErrors} error(s) before routing this Routing Form. Navigate to the "Audit Mode" tab to view all of the errors.</center></div>
 	</c:if>

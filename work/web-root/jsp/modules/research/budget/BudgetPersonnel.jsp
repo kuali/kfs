@@ -25,11 +25,6 @@
 	auditCount="${AuditErrors['personnelAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
-
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
-		includeTaskPeriodLists="true" />
-
-	<html:hidden property="document.personnelNextSequenceNumber" />
 	
 	<div align="right">
 		<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.PERSONNEL_HEADER_TAB}" altText="page help"/>

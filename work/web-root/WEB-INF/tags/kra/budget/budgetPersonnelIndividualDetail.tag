@@ -54,14 +54,6 @@
                   <tbody>
                   <tr>
                     <td colspan="14" class="subhead">
-			                <html:hidden property="document.budget.personFromList[${listIndex}].documentNumber" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].budgetUserSequenceNumber" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].fiscalCampusCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].primaryDepartmentCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].principalId" />
-                      <html:hidden property="document.budget.personFromList[${listIndex}].personProjectDirectorIndicator" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].versionNumber" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].objectId" />
                       <span class= "subhead-left">
                         ${name}
                       </span>
@@ -152,7 +144,6 @@
                         <c:if test="${! viewOnly }">
                           &nbsp;&nbsp;&nbsp; 
                           <html:hidden property="document.budget.personFromList[${listIndex}].previousAppointmentTypeCode" value="${KualiForm.document.budget.personnel[listIndex].appointmentTypeCode}" />
-                          <html:hidden property="document.budget.personFromList[${listIndex}].secondaryAppointmentTypeCode" />
                           <html:hidden property="document.budget.personFromList[${listIndex}].previousSecondaryAppointmentTypeCode" value="${KualiForm.document.budget.personnel[listIndex].secondaryAppointmentTypeCode}" />
                           <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" title="update view" alt="update view"/>
                         </c:if>
@@ -168,7 +159,6 @@
 	                      <th colspan="5" class="bord-l-b"><div align="right">Base Salary:</div></th>
 	                      <td colspan="4" class="datacell">
 	                        <kul:htmlControlAttribute accessibilityHint=" for Base Salary" property="document.budget.personFromList[${listIndex}].baseSalary" attributeEntry="${budgetUserAttributes.baseSalary}" readOnly="${viewOnly}" styleClass="amount"/>
- 				                  <html:hidden property="document.budget.personFromList[${listIndex}].budgetSalaryFiscalYear" />
 	                      </td>
 		                    <th class="bord-l-b"><div align="right">Justification for rate change:</div></th>
 		                    <td colspan="4" class="datacell">
@@ -179,7 +169,6 @@
                     
                     <c:when test="${fn:contains(KualiForm.appointmentTypeGridMappings['hourly'], person.appointmentTypeCode)}">
 				              <tr>
-                        <html:hidden property="document.budget.personFromList[${listIndex}].baseSalary" />
 				                <th colspan="5" class="bord-l-b"><div align="right"># of Hourlies:</div></th>
 				                <td colspan="10" class="datacell">
 				                  <kul:htmlControlAttribute property="document.budget.personFromList[${listIndex}].personHourlyNumber" attributeEntry="${budgetUserAttributes.personHourlyNumber}"  readOnly="${viewOnly}" />
@@ -188,14 +177,9 @@
 				              <tr>
 				                <th colspan="5" class="bord-l-b"><div align="right">Notes:</div></th>
 				                <td colspan="10" class="datacell"><kul:htmlControlAttribute property="document.budget.personFromList[${listIndex}].personSalaryJustificationText" attributeEntry="${budgetUserAttributes.personSalaryJustificationText}"  readOnly="${viewOnly}" />
-				                <html:hidden property="document.budget.personFromList[${listIndex}].personHourlyNumber" /></td>
+				                </td>
 				              </tr>
                     </c:when>
-
-                    <c:when test="${fn:contains(KualiForm.appointmentTypeGridMappings['gradResAssistant'], person.appointmentTypeCode)}">
-		                      <html:hidden property="document.budget.personFromList[${listIndex}].baseSalary" />
-                          <html:hidden property="document.budget.personFromList[${listIndex}].personSalaryJustificationText" />
-		                </c:when>
                   </c:choose>
 
 		              <tr bgcolor="#ffffff">

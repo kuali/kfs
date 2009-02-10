@@ -24,8 +24,6 @@
 <kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="true" tabErrorKey="newRoutingFormProjectDirector*,newRoutingFormOtherPerson*,document.routingFormPersonnel*,newRoutingFormOrganizationCreditPercent*,document.routingFormOrganizationCreditPercent*,document.routingFormFellowFullName" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*">
 	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="mainPageAuditErrors" keyMatch="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*" isLink="false" includesTitle="true"/></div></div>
 
-  <html:hidden property="document.personnelNextSequenceNumber" />
-
           <div class="tab-container" align="center">
               <h3>Personnel and Units/Orgs</h3>
             <table cellpadding=0 cellspacing="0"  summary="">
@@ -48,15 +46,8 @@
               <c:if test="${!viewOnly}">
               <tr>
                 <th scope="row">add:
-                  <!-- Following fields are to keep track of personnel page data -->
-                  <html:hidden property="newRoutingFormProjectDirector.personLine1Address" />
-                  <html:hidden property="newRoutingFormProjectDirector.personPhoneNumber" />
-                  <html:hidden property="newRoutingFormProjectDirector.emailAddress" />
                 </th>
                 <td class="infoline">
-                  <html:hidden property="newRoutingFormProjectDirector.personToBeNamedIndicator" />
-                  <html:hidden property="newRoutingFormProjectDirector.principalId" />
-                  <html:hidden property="newRoutingFormProjectDirector.user.name"/>
                   <html:text title="* Name" property="newRoutingFormProjectDirector.user.principalName" onblur="personIDLookup('newRoutingFormProjectDirector.user.principalName')"/>                  
                   <!-- <c:if test="${empty KualiForm.newRoutingFormProjectDirector.principalId && !KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">&nbsp;</c:if> -->
 		    	  <c:if test="${KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">TO BE NAMED</c:if>
@@ -78,12 +69,6 @@
                   
                 </td>
                 <td class="infoline">
-                  <c:forEach items="${KualiForm.document.routingFormPersonRoles}" var="routingFormPersonRole" varStatus="status"> 
-                    <html:hidden property="document.routingFormPersonRoles[${status.index}].documentNumber" /> 
-                    <html:hidden property="document.routingFormPersonRoles[${status.index}].personRoleCode" /> 
-                    <html:hidden property="document.routingFormPersonRoles[${status.index}].versionNumber" /> 
-                    <html:hidden property="document.routingFormPersonRoles[${status.index}].personRole.personRoleDescription" /> 
-                  </c:forEach>
                   <kul:checkErrors keyMatch="newRoutingFormProjectDirector.personRoleCode" auditMatch="newRoutingFormProjectDirector.personRoleCode"/>
 				  <c:if test="${hasErrors==true}">
 				    <c:set var="newPersonRoleCodeTextStyle" value="background-color: red"/>
@@ -95,8 +80,6 @@
                 </td>
                 <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormProjectDirector.personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
                 <td class="infoline">
-                  <html:hidden property="newRoutingFormProjectDirector.chartOfAccountsCode"/>
-                  <html:hidden property="newRoutingFormProjectDirector.organizationCode"/>
 
                 <div id="newRoutingFormProjectDirector.user.primaryDepartmentCode.div" style="float: left; text-align: left;">
              
@@ -126,33 +109,8 @@
                 <c:if test="${isProjectDirector or person.personRoleCode eq KualiForm.systemParametersMap[CGConstants.CO_PROJECT_DIRECTOR_PARAM]}">
                 <c:set var="personIndex" value="${personIndex + 1}"/>
                 <tr>
-   	              <html:hidden property="document.routingFormPersonnel[${status.index}].principalId" />
-   	              <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
-   	              <html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
-   	              <html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />
-   	              <html:hidden property="document.routingFormPersonnel[${status.index}].personToBeNamedIndicator" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].versionNumber" />
-                  <!-- Following fields are to keep track of personnel page data -->
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personLine1Address" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personLine2Address" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personCityName" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personCountyName" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personPrefixText" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personStateCode" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personSuffixText" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personCountryCode" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personPositionTitle" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personZipCode" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personPhoneNumber" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personFaxNumber" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personDivisionText" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].emailAddress" />
                   <th scope="row"><div align="center">${personIndex}</div></th>
                   <td>
-                    <html:hidden property="document.routingFormPersonnel[${status.index}].user.name" />
-                    <c:if test="${viewOnly}">
-                    <html:hidden property="document.routingFormPersonnel[${status.index}].user.principalName" />                  
-                    </c:if>
                     <!-- <c:if test="${empty person.principalId && !person.personToBeNamedIndicator}">&nbsp;</c:if> -->
 		    	    <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
                     <c:if test="${!viewOnly}">
@@ -192,8 +150,6 @@
      	                </html:select>
 	                  </c:when>
   		              <c:otherwise>
-                        <html:hidden property="document.routingFormPersonnel[${status.index}].personRoleCode" />
-                        <html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
                         ${person.personRole.personRoleDescription}
   		              </c:otherwise>
   		            </c:choose>
@@ -246,15 +202,8 @@
               <c:if test="${!viewOnly}">
               <tr>
                 <th scope="row">add:
-                  <!-- Following fields are to keep track of personnel page data -->
-                  <html:hidden property="newRoutingFormOtherPerson.personLine1Address" />
-                  <html:hidden property="newRoutingFormOtherPerson.personPhoneNumber" />
-                  <html:hidden property="newRoutingFormOtherPerson.emailAddress" />
                 </th>
                 <td class="infoline">
-                  <html:hidden property="newRoutingFormOtherPerson.personToBeNamedIndicator" />
-                  <html:hidden property="newRoutingFormOtherPerson.principalId" />
-                  <html:hidden  property="newRoutingFormOtherPerson.user.name"/>
                   <html:text title="* Name" property="newRoutingFormOtherPerson.user.principalName" onblur="personIDLookup('newRoutingFormOtherPerson.user.principalName')"/>                  
                   <!--  <c:if test="${empty KualiForm.newRoutingFormOtherPerson.principalId && !KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">&nbsp;</c:if> -->
             <c:if test="${KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
@@ -276,12 +225,6 @@
                   
                 </td>
                 <td class="infoline">
-                  <c:forEach items="${KualiForm.document.routingFormPersonRoles}" var="routingFormPersonRole" varStatus="status"> 
-                    <html:hidden property="document.routingFormPersonRoles[${status.index}].documentNumber" /> 
-                    <html:hidden property="document.routingFormPersonRoles[${status.index}].personRoleCode" /> 
-                    <html:hidden property="document.routingFormPersonRoles[${status.index}].versionNumber" /> 
-                    <html:hidden property="document.routingFormPersonRoles[${status.index}].personRole.personRoleDescription" /> 
-                  </c:forEach>
                   <kul:checkErrors keyMatch="newRoutingFormOtherPerson.personRoleCode" auditMatch="newRoutingFormOtherPerson.personRoleCode"/>
           <c:if test="${hasErrors==true}">
             <c:set var="newPersonRoleCodeTextStyle" value="background-color: red"/>
@@ -293,8 +236,6 @@
                 </td>
                 <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormOtherPerson.personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
                 <td class="infoline">
-                  <html:hidden property="newRoutingFormOtherPerson.chartOfAccountsCode"/>
-                  <html:hidden property="newRoutingFormOtherPerson.organizationCode"/>
                  <div id="newRoutingFormOtherPerson.user.primaryDepartmentCode.div" style="float: left; text-align: left;">
                     <c:if test="${KualiForm.newRoutingFormOtherPerson.chartOfAccountsCode ne null and KualiForm.newRoutingFormOtherPerson.organizationCode ne null}">
                       ${KualiForm.newRoutingFormOtherPerson.chartOfAccountsCode} / ${KualiForm.newRoutingFormOtherPerson.organizationCode}
@@ -322,33 +263,8 @@
                 <c:if test="${person.personRoleCode eq KualiForm.systemParametersMap[CGConstants.OTHER_PERSON_PARAM] or person.personRoleCode eq KualiForm.systemParametersMap[CGConstants.CONTACT_PERSON_PARAM]}">
                 <c:set var="otherPersonIndex" value="${otherPersonIndex + 1}"/>
                 <tr>
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].principalId" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personToBeNamedIndicator" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].versionNumber" />
-                  <!-- Following fields are to keep track of personnel page data -->
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personLine1Address" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personLine2Address" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personCityName" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personCountyName" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personPrefixText" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personStateCode" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personSuffixText" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personCountryCode" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personPositionTitle" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personZipCode" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personPhoneNumber" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personFaxNumber" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].personDivisionText" />
-                  <html:hidden property="document.routingFormPersonnel[${status.index}].emailAddress" />
                   <th scope="row"><div align="center">${otherPersonIndex}</div></th>
                   <td>
-                    <html:hidden property="document.routingFormPersonnel[${status.index}].user.name" />
-                    <c:if test="${viewOnly}">
-                        <html:hidden property="document.routingFormPersonnel[${status.index}].user.principalName"/>                  
-                    </c:if>
                     <!-- <c:if test="${empty person.principalId && !person.personToBeNamedIndicator}">&nbsp;</c:if> -->
               <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
                     <c:if test="${!viewOnly}">
@@ -388,8 +304,6 @@
                         </html:select>
                     </c:when>
                     <c:otherwise>
-                        <html:hidden property="document.routingFormPersonnel[${status.index}].personRoleCode" />
-                        <html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
                         ${person.personRole.personRoleDescription}
                     </c:otherwise>
                   </c:choose>
@@ -439,8 +353,6 @@
               <tr>
                 <th scope="row">add:</th>
                 <td class="infoline">
-                  <html:hidden property="newRoutingFormOrganizationCreditPercent.chartOfAccountsCode" />
-                  <html:hidden property="newRoutingFormOrganizationCreditPercent.organizationCode" />
                   <c:choose>
                     <c:when test="${KualiForm.newRoutingFormOrganizationCreditPercent.chartOfAccountsCode ne null and KualiForm.newRoutingFormOrganizationCreditPercent.organizationCode ne null}">
                       ${KualiForm.newRoutingFormOrganizationCreditPercent.chartOfAccountsCode} / ${KualiForm.newRoutingFormOrganizationCreditPercent.organizationCode}
@@ -468,9 +380,6 @@
               <!--  Individual Orgs -->
               <c:forEach items = "${KualiForm.document.routingFormOrganizationCreditPercents}" var="org" varStatus="status"  >
                 <tr>
-   	              <html:hidden property="document.routingFormOrganizationCreditPercents[${status.index}].chartOfAccountsCode" />
-   	              <html:hidden property="document.routingFormOrganizationCreditPercents[${status.index}].organizationCode" />
-                  <html:hidden property="document.routingFormOrganizationCreditPercents[${status.index}].versionNumber" />
                   <th scope="row"><div align="center">${status.index+1}</div></th>
                   <td>
                     <c:choose>

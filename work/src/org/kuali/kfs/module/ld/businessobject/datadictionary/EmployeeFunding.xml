@@ -71,7 +71,7 @@
 
   <bean id="EmployeeFunding-emplid" parent="EmployeeFunding-emplid-parentBean" />
 
-  <bean id="EmployeeFunding-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="EmployeeFunding-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="EmployeeFunding-name" parent="EmployeeFunding-name-parentBean" />

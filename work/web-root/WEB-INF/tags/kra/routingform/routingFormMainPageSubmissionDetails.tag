@@ -37,12 +37,6 @@
               <tr>
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle >
-                  <c:forEach items="${KualiForm.document.routingFormProjectTypes}" varStatus="status">
-                    <html:hidden property="document.routingFormProjectTypes[${status.index}].projectTypeCode" />
-                    <html:hidden property="document.routingFormProjectTypes[${status.index}].documentNumber" />
-                    <html:hidden property="document.routingFormProjectTypes[${status.index}].versionNumber" />
-                    <html:hidden property="document.routingFormProjectTypes[${status.index}].projectType.projectTypeDescription" />
-                  </c:forEach>
                   <table width="100%" cellspacing="0" cellpadding="0" class="nobord">
                     <tr>
                       <c:if test="${fn:length(KualiForm.document.routingFormProjectTypes) != 0}">
@@ -103,16 +97,11 @@
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <c:forEach items="${KualiForm.document.routingFormPurposes}" var="routingFormPurpose" varStatus="status"> 
-		            <html:hidden property="document.routingFormPurposes[${status.index}].documentNumber" /> 
-		            <html:hidden property="document.routingFormPurposes[${status.index}].purposeCode" /> 
-		            <html:hidden property="document.routingFormPurposes[${status.index}].versionNumber" /> 
-		            <html:hidden property="document.routingFormPurposes[${status.index}].purpose.purposeDescription" /> 
                                           <c:choose>
                         <c:when test="${!viewOnly and !budgetLinked}">
                           <html:radio title="Project Purpose - ${routingFormPurpose.purpose.purposeDescription}" property="document.routingFormPurposeCode" value="${routingFormPurpose.purposeCode}" disabled="${viewOnly}"/>
                         </c:when>
                         <c:when test="${KualiForm.document.routingFormPurposeCode eq routingFormPurpose.purposeCode}">
-                          <html:hidden property="document.routingFormPurposeCode" />
                           Yes
                         </c:when>
     				    <c:otherwise> No </c:otherwise>
@@ -120,12 +109,6 @@
 		              ${routingFormPurpose.purpose.purposeDescription}
 		            <c:choose>
 		              <c:when test="${routingFormPurpose.purposeCode eq KualiForm.systemParametersMap[CGConstants.PURPOSE_RESEARCH]}">
-		                <c:forEach items="${KualiForm.document.routingFormResearchTypeCodes}" var="routingFormResearchTypeCode" varStatus="status"> 
-		                  <html:hidden property="document.routingFormResearchTypeCodes[${status.index}].documentNumber" /> 
-		                  <html:hidden property="document.routingFormResearchTypeCodes[${status.index}].researchTypeCode" /> 
-		                  <html:hidden property="document.routingFormResearchTypeCodes[${status.index}].versionNumber" /> 
-		                  <html:hidden property="document.routingFormResearchTypeCodes[${status.index}].researchType.researchTypeDescription" /> 
-		                </c:forEach>
 		                <kul:checkErrors keyMatch="document.researchTypeCode" auditMatch="document.researchTypeCode"/>
 						<c:if test="${hasErrors==true}">
 						  <c:set var="researchTypeCodeTextStyle" value="background-color: red"/>
@@ -139,8 +122,6 @@
       		                </html:select>
 		                  </c:when>
       		              <c:otherwise>
-                            <html:hidden property="document.researchTypeCode" />
-                            <html:hidden property="document.researchType.researchTypeDescription" />
                             ${KualiForm.document.researchType.researchTypeDescription}
       		              </c:otherwise>
       		            </c:choose>
@@ -191,9 +172,6 @@
 		              <c:forEach items = "${KualiForm.document.routingFormKeywords}" var="routingFormKeyword" varStatus="status"  >
 					  <tr>
 		                <td class="nobord"> <div align="left">
-				    		<html:hidden property="document.routingFormKeywords[${status.index}].documentNumber" />
-				    		<html:hidden write="true" property="document.routingFormKeywords[${status.index}].routingFormKeywordDescription" />
-				    		<html:hidden property="document.routingFormKeywords[${status.index}].versionNumber" />
 		                </div></td>
 		                <td class="nobord"><div align="center">
 		                  <c:if test="${!viewOnly}">

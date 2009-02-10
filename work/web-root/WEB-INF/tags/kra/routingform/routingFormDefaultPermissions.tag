@@ -39,11 +39,6 @@
             			<td>${person.personRole.personRoleDescription}&nbsp;</td>
             			<td>
             				Read
-            				<html:hidden property="document.routingFormPersonnel[${status.index}].personRoleCode" />
-            				<html:hidden property="document.routingFormPersonnel[${status.index}].user.name" />
-            				<html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
-            				<html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />
-            				<html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
             			</td>
             		</tr>
             	</c:if>

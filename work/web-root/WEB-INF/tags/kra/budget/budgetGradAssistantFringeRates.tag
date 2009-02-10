@@ -20,9 +20,6 @@
 <c:set var="businessObjectClass" value="${DataDictionary.GraduateAssistantRate.businessObjectClass}" />
 <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
-<html:hidden property="numberOfAcademicYearSubdivisions" />
-<html:hidden property="academicYearSubdivisionNamesString"/>
-
   <a name="GradAsst"></a><h3>Research &amp; Grad Assistant Fringe Benefit Rates</h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
@@ -39,16 +36,6 @@
 
   <!-- begin inner loop -->
   <logic:iterate id="graduateAssistantRatesLine" name="KualiForm" property="document.budget.graduateAssistantRates" indexId="ctr"> 
-  <c:if test="${i eq 1}"> <html:hidden property="document.budget.graduateAssistantRate[${ctr}].documentNumber" /> 
-  <html:hidden property="document.budget.graduateAssistantRate[${ctr}].campusCode" /> 
-  <html:hidden property="document.budget.graduateAssistantRate[${ctr}].graduateAssistantRate.campusCode" />
-  <html:hidden property="document.budget.graduateAssistantRate[${ctr}].graduateAssistantRate.campus.campusName" /> 
-  <html:hidden property="document.budget.graduateAssistantRate[${ctr}].objectId"/> 
-  <html:hidden property="document.budget.graduateAssistantRate[${ctr}].versionNumber" /> 
-  <html:hidden property="document.budget.graduateAssistantRate[${ctr}].lastUpdateTimestamp" /> 
-  </c:if>  
-
-  <html:hidden property="document.budget.graduateAssistantRate[${ctr}].graduateAssistantRate.campusMaximumPeriodRate[${i}]"/>
   <tr>
     <td>${graduateAssistantRatesLine.graduateAssistantRate.campus.campusName} ( ${graduateAssistantRatesLine.graduateAssistantRate.campusCode} )</td>
     <td><div align="center"> $<bean:write name="graduateAssistantRatesLine" property="graduateAssistantRate.campusMaximumPeriodRate[${i}]" /> </div></td>

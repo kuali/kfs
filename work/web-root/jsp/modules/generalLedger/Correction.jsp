@@ -143,7 +143,6 @@
                 <html:select property="editMethod" styleId="editMethod" title="Edit Method">
                   <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionEditMethodValuesFinder" label="label" value="key"/>
                 </html:select>
-                <!--html:hidden property="previousEditMethod"/-->
                 <html:image property="methodToCall.selectSystemEditMethod.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" styleClass="tinybutton" alt="Select System and Edit Method" title="Select System and Edit Method"/>
               </center>
             </td>

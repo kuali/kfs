@@ -21,8 +21,6 @@
 	headerDispatch="save" headerTabActive="personnel" showTabButtons="true">
 	
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
-
-	<kra-rf:routingFormHiddenDocumentFields/>
 	
 	<div align="right">
 		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Personnel" altText="page help"/>

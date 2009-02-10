@@ -130,14 +130,3 @@
 		</div>
 	</c:if>
 </kul:tab>
-
-<!-- Hidden variables for field level validation. -->
-<html:hidden property="document.budget.indirectCost.budgetIndirectCostCostShareIndicator" />
-
-<html:hidden property="budgetIndirectCostFormHelper.periodSubTotal.costShareCalculatedIndirectCost" />
-<html:hidden property="budgetIndirectCostFormHelper.periodSubTotal.costShareUnrecoveredIndirectCost" />
-
-<logic:iterate id="period" name="KualiForm" property="document.budget.periods" indexId="ctr">
-	<html:hidden property="budgetIndirectCostFormHelper.periodTotal[${ctr}].costShareCalculatedIndirectCost" />
-	<html:hidden property="budgetIndirectCostFormHelper.periodTotal[${ctr}].costShareUnrecoveredIndirectCost" />
-</logic:iterate>

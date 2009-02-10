@@ -17,34 +17,6 @@
 <%@ attribute name="includeDocumenHeaderIdFields" required="false" %>
 <%@ attribute name="includeRoutingFormMainPage" required="false" %>
 
-<c:set var="includeRoutingFormMainPage" value="${not empty includeRoutingFormMainPage ? includeRoutingFormMainPage : 'false'}"/>
-
-   <html:hidden property="document.documentNumber" />
-   <html:hidden property="document.routingFormCreateDate" />
-
-   <html:hidden property="document.documentHeader.versionNumber" />
-   <html:hidden property="document.objectId" />
-   <html:hidden property="document.documentHeader.documentNumber" />
-   <html:hidden property="document.documentHeader.financialDocumentStatusCode" />
-   <html:hidden property="document.documentHeader.objectId" />
-
-    <html:hidden property="auditActivated" />
-    
-    <c:choose>
-      <c:when test="${includeRoutingFormMainPage}">
-        <html:hidden property="document.routingFormBudgetNumber" />
-        <html:hidden property="document.institutionCostShareNextSequenceNumber" />
-        <html:hidden property="document.otherCostShareNextSequenceNumber" />
-        <html:hidden property="document.subcontractorNextSequenceNumber" />
-      </c:when>
-      <c:otherwise>
-        <html:hidden property="document.documentHeader.documentDescription" />
-      </c:otherwise>
-    </c:choose>
-
-    <html:hidden property="document.routingFormAgency.versionNumber" />
-    <html:hidden property="document.routingFormBudget.versionNumber" />
-    <html:hidden property="document.contractGrantProposal.versionNumber" />
-    
+<c:set var="includeRoutingFormMainPage" value="${not empty includeRoutingFormMainPage ? includeRoutingFormMainPage : 'false'}"/>    
     <kfs:hiddenDocumentFields isFinancialDocument="false" isTransactionalDocument="false"/>
     

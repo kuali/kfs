@@ -32,10 +32,6 @@
               <tr>
                 <th width="20%" align=right valign=middle>${routingFormAttributes.routingFormAgency.label}:</th>
                 <td width="30%">
-                  	<html:hidden property="document.routingFormAgencyToBeNamedIndicator" />
-				   <c:if test="${viewOnly || budgetLinked}"> 
-				    	<html:hidden property="document.routingFormAgency.agencyNumber" /> 
-	              </c:if> 
 			    	<html:hidden property="document.routingFormAgency.agency.fullName" styleId="document.routingFormAgency.agency.fullName" /> 
     				<html:hidden property="document.routingFormAgency.agency.agencyTypeCode" styleId="document.routingFormAgency.agency.agencyTypeCode"/>
 			    	<c:if test="${empty KualiForm.document.routingFormAgency.agencyNumber && !KualiForm.document.routingFormAgencyToBeNamedIndicator}"></c:if>
@@ -65,12 +61,7 @@
               </tr>
               <tr>
                 <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.agencyFederalPassThroughNumber}" skipHelpUrl="true" /></th>
-                <td width="30%" align=left valign=middle >
-				   <c:if test="${viewOnly || budgetLinked}"> 
-				    	<html:hidden property="document.agencyFederalPassThroughNumber" /> 
-	              </c:if> 
-                    <html:hidden property="document.agencyFederalPassThroughNotAvailableIndicator" />
-                    <html:hidden property="document.federalPassThroughAgency.fullName" /> 
+                <td width="30%" align=left valign=middle > 
 			    	<c:choose>
 			    		<c:when test="${!viewOnly && KualiForm.document.routingFormAgency.agency.agencyTypeCode != KFSConstants.AGENCY_TYPE_CODE_FEDERAL}">
 			    			<c:if test="${empty KualiForm.document.agencyFederalPassThroughNumber && !KualiForm.document.agencyFederalPassThroughNotAvailableIndicator and !viewOnly and !budgetLinked}"></c:if>
@@ -116,12 +107,6 @@
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}" skipHelpUrl="true" /></th>
                 <td colspan="2" align=left valign=middle >
-                  <c:forEach items="${KualiForm.document.routingFormAgency.routingFormDueDateTypes}" var="routingFormDueDateType" varStatus="status">
-                    <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].documentNumber" />
-                    <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].dueDateTypeCode" />
-                    <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].versionNumber" />
-                    <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].dueDateType.dueDateDescription" />
-	              </c:forEach>
                   <kul:checkErrors keyMatch="document.routingFormAgency.routingFormDueDateTypeCode" auditMatch="document.routingFormAgency.routingFormDueDateTypeCode"/>
 				  <c:if test="${hasErrors==true}">
 				    <c:set var="routingFormDueDateTypeCodeTextStyle" value="background-color: red"/>
@@ -135,8 +120,6 @@
                       </html:select>
 		            </c:when>
 		            <c:otherwise>
-                      <html:hidden property="document.routingFormAgency.routingFormDueDateTypeCode" />
-                      <html:hidden property="document.routingFormAgency.dueDateType.dueDateDescription" />
                       ${KualiForm.document.routingFormAgency.dueDateType.dueDateDescription}&nbsp
 		            </c:otherwise>
 		          </c:choose>
@@ -164,11 +147,6 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel labelFor="document.cfda.cfdaNumber" attributeEntry="${cfdaAttributes.cfdaNumber}" skipHelpUrl="true" /></th>
 
                 <td align=left valign=middle >
-			    	<html:hidden property="document.routingFormCatalogOfFederalDomesticAssistanceNumber" />
-			    	<html:hidden property="document.cfda.cfdaProgramTitleName" />
-			    	<c:if test="${viewOnly}">
-			    	    <html:hidden property="document.cfda.cfdaNumber"/>
-			    	</c:if>
 			    	<c:if test="${!viewOnly}">
 			    	    <!--  <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">&nbsp;</c:if> -->
 			    	     <html:text styleId="document.cfda.cfdaNumber" property="document.cfda.cfdaNumber" onblur="cfdaLookup('document.cfda.cfdaNumber')"/>

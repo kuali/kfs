@@ -21,14 +21,6 @@
 
 <div id="workarea">
   <c:forEach items="${KualiForm.routingFormDocument.routingFormResearchRisks}" var="researchRisk" varStatus="researchRiskStatus">
-	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].documentNumber"/>
-	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskTypeCode"/>
-	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].objectId"/>
-	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].versionNumber"/>
-	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeCode"/>
-	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeDescription"/>
-	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeNotificationGroupText"/>
-	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.controlAttributeTypeCode"/>
 	
 	<c:choose>
 	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == CGConstants.RESEARCH_RISK_TYPE_ALL_COLUMNS}">
@@ -149,11 +141,6 @@
                 			</td>
                 			<td class="infoline">
                 				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete research risk" title="delete research risk"/></div>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].documentNumber"/>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].objectId"/>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].versionNumber"/>
                 			</td>
               			</tr>
               		</c:forEach>
@@ -250,11 +237,6 @@
                 			</td>
                 			<td class="infoline">
                 				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="delete research risk" alt="delete research risk"/></div>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].documentNumber"/>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].objectId"/>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].versionNumber"/>
                 			</td>
               			</tr>
               		</c:forEach>

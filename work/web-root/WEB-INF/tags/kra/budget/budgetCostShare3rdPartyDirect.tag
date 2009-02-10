@@ -362,22 +362,5 @@
 				</logic:iterate>
 			</table>
 		</div>
-
-		<html:hidden property="document.thirdPartyCostShareNextSequenceNumber" />
-		<html:hidden property="document.budget.budgetThirdPartyCostShareIndicator" />
-
-		<!-- Hiddens for added cost share indirect items, including for it's budgetPeriodCostShareItem objects -->
-		<logic:iterate id="sources" name="KualiForm" property="document.budget.thirdPartyCostShareItems" indexId="rowctr">
-			<html:hidden property="document.budget.thirdPartyCostShareItem[${rowctr}].documentNumber" />
-			<html:hidden property="document.budget.thirdPartyCostShareItem[${rowctr}].budgetCostShareSequenceNumber" />
-			<html:hidden property="document.budget.thirdPartyCostShareItem[${rowctr}].versionNumber" />
-
-			<logic:iterate id="period" name="KualiForm" property="document.budget.periods" indexId="colctr">
-				<html:hidden property="document.budget.thirdPartyCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].documentNumber" />
-				<html:hidden property="document.budget.thirdPartyCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetCostShareSequenceNumber" />
-				<html:hidden property="document.budget.thirdPartyCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetPeriodSequenceNumber" />
-				<html:hidden property="document.budget.thirdPartyCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].versionNumber" />
-			</logic:iterate>
-		</logic:iterate>
 	</c:if>
 </kul:tab>

@@ -23,7 +23,6 @@
 <kul:htmlControlAttribute property="document.budget.indirectCost.documentNumber" attributeEntry="${budgetIndirectCostAttributes.documentNumber}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.objectId" attributeEntry="${budgetIndirectCostAttributes.objectId}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.versionNumber" attributeEntry="${budgetIndirectCostAttributes.versionNumber}"/>
-<html:hidden property="document.budget.institutionCostShareIndicator"/>
 
 <div align="right">
 	<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.INDIRECT_COST_HEADER_TAB}" altText="page help"/>
@@ -133,17 +132,6 @@
 <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].budgetPeriodSequenceNumber" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.budgetPeriodSequenceNumber}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].budgetTaskSequenceNumber" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.budgetTaskSequenceNumber}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].budgetPeriodSequenceNumber" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.budgetPeriodSequenceNumber}"/>
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].indirectCostRate" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].totalDirectCost" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].calculatedIndirectCost" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].baseCost" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].costShareBaseCost" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].costShareIndirectCostRate" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].costShareCalculatedIndirectCost" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].costShareUnrecoveredIndirectCost" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].task.budgetTaskName" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].period.budgetPeriodBeginDate" />
-<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].period.budgetPeriodEndDate" />
 
  
  <c:if test="${empty taskName or taskName ne taskPeriodLine.task.budgetTaskName}">
@@ -174,7 +162,6 @@
 				</c:when>
 				<c:otherwise>
 					<fmt:formatNumber value="${taskPeriodLine.baseCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
-					<html:hidden property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].budgetManualMtdcAmount" />
 				</c:otherwise>
 			</c:choose>
   	</div>
@@ -235,14 +222,12 @@
 
 
 <!-- Display subtotal for each task after last period line. -->
-<html:hidden name="KualiForm" property="budgetIndirectCostFormHelper.numPeriods"/>
 <c:if test="${ctr % KualiForm.budgetIndirectCostFormHelper.numPeriods eq (KualiForm.budgetIndirectCostFormHelper.numPeriods - 1)}">
 
 		<tr>
           <th ><div align="right">&nbsp;Subtotal: </div></th>
           <td align="right" class="infoline"><div align="right"><b>
           	<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.taskTotals[totalsIter].totalDirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
-          	<html:hidden property="budgetIndirectCostFormHelper.taskTotals[${totalsIter}].totalDirectCost"/>
           </b></div></td>
           <td align="right" class="infoline"><div align="right"><b>
           	<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.taskTotals[totalsIter].baseCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />

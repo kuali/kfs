@@ -52,10 +52,6 @@
   <tr>
     <th scope="row" ><div align="right"><label for="document.budget.projectDirector.principalName">* ${budgetAttributes.budgetProjectDirectorUniversalIdentifier.label}</label>:</div></th>
     <td>
-    	<html:hidden property="document.budget.projectDirectorToBeNamedIndicator"/>
-    	<html:hidden property="document.budget.budgetProjectDirectorUniversalIdentifier" /> 
-    	<html:hidden property="document.budget.projectDirector.name"/>
-      <html:hidden property="document.budget.projectDirector.principalId"/>
       <c:if test="${!viewOnly}">
         <html:text styleId="document.budget.projectDirector.principalName" property="document.budget.projectDirector.principalName" onblur="personIDLookup('document.budget.projectDirector.principalName')"/>
       	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
@@ -91,9 +87,6 @@
     <td><kul:htmlControlAttribute property="document.budget.budgetProgramAnnouncementName" attributeEntry="${budgetAttributes.budgetProgramAnnouncementName}" readOnly="${viewOnly}" tabindexOverride="5020" /></td>
     <th scope="row" ><div align="right"><label for="document.budget.budgetAgencyNumber">* ${budgetAttributes.budgetAgency.label}</;label>:</div></th>
     <td>
-    	<html:hidden property="document.budget.agencyToBeNamedIndicator" />
-    	<!-- <html:hidden property="document.budget.budgetAgencyNumber" /> --> 
-    	<html:hidden property="document.budget.budgetAgency.fullName"/>
     	<html:hidden property="document.budget.budgetAgency.agencyTypeCode" styleId="document.budget.budgetAgency.agencyTypeCode"/>
         <kul:htmlControlAttribute property="document.budget.budgetAgencyNumber" attributeEntry="${routingFormAttributes.routingFormAgency}" readOnly="${viewOnly}" onblur="onblur_agencyNumber('document.budget.budgetAgencyNumber','budgetAgency');"/>
     	<c:if test="${KualiForm.document.budget.agencyToBeNamedIndicator}">TO BE NAMED</c:if>
@@ -121,8 +114,6 @@
     <td><kul:htmlControlAttribute property="document.budget.budgetProgramAnnouncementNumber" attributeEntry="${budgetAttributes.budgetProgramAnnouncementNumber}" readOnly="${viewOnly}" tabindexOverride="5030" /></td>
     <th scope="row" ><div align="right"><label for="document.budget.federalPassThroughAgencyNumber">${budgetAttributes.federalPassThroughAgency.label}</label>:</div></th>
     <td>
-    	<!-- <html:hidden property="document.budget.federalPassThroughAgencyNumber" /> -->
-    	<html:hidden  property="document.budget.federalPassThroughAgency.fullName"/>
     	<c:choose>
     		<c:when test="${!viewOnly && KualiForm.document.budget.budgetAgency.agencyTypeCode != KFSConstants.AGENCY_TYPE_CODE_FEDERAL}">
     			<!-- <c:if test="${empty KualiForm.document.budget.federalPassThroughAgencyNumber}">&nbsp;</c:if> -->
@@ -177,8 +168,6 @@
     <td>
     	<%-- Grants.gov %>
     	<logic:iterate id="budgetType" name="KualiForm" property="budgetTypeCodes" indexId="i"> 
-    		<html:hidden property="budgetTypeCode[${i}].budgetTypeCode" /> 
-    		<html:hidden property="budgetTypeCode[${i}].budgetTypeDescription" />
     		<c:choose>
     			<c:when test="${not viewOnly}">
 		    		<html:multibox styleId="selectedBudgetTypesMultiboxFix(${budgetType.budgetTypeCode})" property="selectedBudgetTypesMultiboxFix(${budgetType.budgetTypeCode})" value="${budgetType.budgetTypeCode}"/>
@@ -196,7 +185,6 @@
       	--%>
       	
       <kul:htmlControlAttribute property="document.budget.agencyModularIndicator" attributeEntry="${budgetAttributes.agencyModularIndicator}" readOnly="${viewOnly}" onclick="modularVarianceToggle(); " disabled="${!supportsModular}" tabindexOverride="5070"/><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.agencyModularIndicator}" labelFor="document.budget.agencyModularIndicator" useShortLabel="true" skipHelpUrl="true" noColon="true" />
-      <html:hidden property="supportsModular" />
     </td>
     <th scope="row" ><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.budgetThirdPartyCostShareIndicator}" labelFor="document.budget.budgetThirdPartyCostShareIndicator" skipHelpUrl="true" /></div></th>
     <td><kul:htmlControlAttribute property="document.budget.budgetThirdPartyCostShareIndicator" attributeEntry="${budgetAttributes.budgetThirdPartyCostShareIndicator}" readOnly="${viewOnly}" tabindexOverride="5130"/>

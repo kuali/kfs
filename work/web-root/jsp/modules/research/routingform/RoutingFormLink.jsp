@@ -23,8 +23,6 @@
 	documentTypeName="RoutingFormDocument"
 	htmlFormAction="researchRoutingFormLink"
 	headerDispatch="save" headerTabActive="link" showTabButtons="true">
-  
-  <kra-rf:routingFormHiddenDocumentFields />
 
 	<div id="workarea" >
 
@@ -41,10 +39,7 @@
                 <td colspan="3" align=left valign=middle nowrap >
                   <kul:htmlControlAttribute property="document.routingFormBudgetNumber" attributeEntry="${routingFormDocumentAttributes.routingFormBudgetNumber}" onblur="budgetNameLookup('document.routingFormBudgetNumber')" />
 	    		  <kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Budget" lookupParameters="document.routingFormBudgetNumber:documentNumber" fieldConversions="documentNumber:document.routingFormBudgetNumber,projectDirector.name:document.budget.projectDirector.name,budgetAgency.fullName:document.budget.budgetAgency.fullName" anchor="${currentTabIndex}" />
-                  <html:hidden property="document.budget.documentNumber" />
-                  <html:hidden property="document.budget.budgetName" />
-                  <html:hidden property="document.budget.projectDirector.name" />
-                  <html:hidden property="document.budget.budgetAgency.fullName" />
+	    		  
 		           <div id="budgetNameDiv">
     			    <div id="document.budget.projectDirector.person.name.div" style="float: left; text-align: left;">
 <!-- 
@@ -108,34 +103,23 @@
                           <br />
                           <span class="fineprint"><label for="periodBudgetOverviewFormHelper[${status.index}].selected">${KualiForm.periodBudgetOverviewFormHelpers[status.index].budgetPeriod.budgetPeriodLabel}</label></span>
                         </div>
-                        <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].budgetPeriod.budgetPeriodBeginDate"/>
-                        <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].budgetPeriod.budgetPeriodEndDate"/>
-                        <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].budgetPeriod.budgetPeriodSequenceNumber"/>
+
                       </td>
                       
                       <td class="datacell">
                         <div align="right">
-                          <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].overviewShowModular"/>
-                          <c:choose>
-                            <c:when test="${periodBudgetOverviewFormHelper.overviewShowModular}">
-                              <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].adjustedDirectCostsAgencyRequest" write="true" />
-                            </c:when>
-                            <c:otherwise>
-                              <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].totalDirectCostsAgencyRequest" write="true" /> 
-                            </c:otherwise>
-                          </c:choose>
                         </div>
                       </td>
                       
                       <td class="datacell">
                         <div align="right">
-                          <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].indirectCostItem.calculatedIndirectCost" write="true" />
+
                         </div>
                       </td>
                       
                       <td class="datacell">
                         <div align="right">
-                          <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].totalCostsAgencyRequest" write="true" />
+
                         </div>
                       </td>
                       

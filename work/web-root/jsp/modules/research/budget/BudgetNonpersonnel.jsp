@@ -24,9 +24,6 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"	includeTaskPeriodLists="true" />
-  <html:hidden property="budgetDocument.budget.budgetProjectDirectorUniversalIdentifier" />
-
 	<kra-b:budgetNonpersonnel />
 
 	<div align="center"><kfs:documentControls transactionalDocument="false"

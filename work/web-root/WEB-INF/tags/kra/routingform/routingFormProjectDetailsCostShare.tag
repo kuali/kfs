@@ -57,8 +57,6 @@
 						<c:when test="${empty KualiForm.newRoutingFormInstitutionCostShare.chartOfAccountsCode}">(select by org)</c:when>
 						<c:otherwise>
 							${KualiForm.newRoutingFormInstitutionCostShare.chartOfAccountsCode}/${KualiForm.newRoutingFormInstitutionCostShare.organizationCode}
-							<html:hidden property="newRoutingFormInstitutionCostShare.chartOfAccountsCode"/>
-							<html:hidden property="newRoutingFormInstitutionCostShare.organizationCode"/>
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;
@@ -74,7 +72,6 @@
           </div>
         </td>
         <td class="infoline">
-            <html:hidden property="newRoutingFormInstitutionCostShare.account.accountName" />
           <div align="center">
             <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.accountNumber" attributeEntry="${institutionCostShareAttributes.accountNumber}" readOnly="${viewOnly or budgetLinked}" onblur="accountNameLookup('newRoutingFormInstitutionCostShare.accountNumber')"/>
             <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" lookupParameters="newRoutingFormInstitutionCostShare.accountNumber:accountNumber,newRoutingFormInstitutionCostShare.chartOfAccountsCode:chartOfAccountsCode,newRoutingFormInstitutionCostShare.organizationCode:organizationCode" fieldConversions="accountNumber:newRoutingFormInstitutionCostShare.accountNumber,chartOfAccountsCode:newRoutingFormInstitutionCostShare.chartOfAccountsCode,organizationCode:newRoutingFormInstitutionCostShare.organizationCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
@@ -119,8 +116,6 @@
 						<c:when test="${empty routingFormInstitutionCostShare.chartOfAccountsCode}">(select by org)</c:when>
 						<c:otherwise>
 							${routingFormInstitutionCostShare.chartOfAccountsCode}/${routingFormInstitutionCostShare.organizationCode}
-							<html:hidden property="document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode"/>
-							<html:hidden property="document.routingFormInstitutionCostShare[${status.index}].organizationCode"/>
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;
@@ -139,7 +134,6 @@
         </td>
         <td class="neutral">
           <div align="center">
-            <html:hidden property="document.routingFormInstitutionCostShare[${status.index}].account.accountName" />
             <kul:htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].accountNumber" attributeEntry="${institutionCostShareAttributes.accountNumber}" readOnly="${viewOnly or budgetLinked}" onblur="accountNameLookup('document.routingFormInstitutionCostShare[${status.index}].accountNumber')"/>
             <c:if test="${not viewOnly and not budgetLinked}"><kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" lookupParameters="document.routingFormInstitutionCostShare[${status.index}].accountNumber:accountNumber,document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode:chartOfAccountsCode,document.routingFormInstitutionCostShare[${status.index}].organizationCode:organizationCode" fieldConversions="accountNumber:document.routingFormInstitutionCostShare[${status.index}].accountNumber,chartOfAccountsCode:document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormInstitutionCostShare[${status.index}].organizationCode" tabindexOverride="5100" anchor="${currentTabIndex}" /></c:if>
           </div>

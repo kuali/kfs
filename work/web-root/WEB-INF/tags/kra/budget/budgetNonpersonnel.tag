@@ -29,19 +29,10 @@
 </div>
 
   <kra-b:budgetDetailSelection includeSummary="false" />
-  <html:hidden property="document.budget.institutionCostShareIndicator" />
-  <html:hidden property="document.budget.budgetThirdPartyCostShareIndicator" />
-  <html:hidden property="document.nonpersonnelNextSequenceNumber" />
   
  <div id="workarea">
 
   <logic:iterate id="nonpersonnelCategory" name="KualiForm" property="nonpersonnelCategories" indexId="i">
-    <html:hidden property="nonpersonnelCategory[${i}].name" />
-    <html:hidden property="nonpersonnelCategory[${i}].code" />
-    <logic:iterate id="nonpersonnelObjectCode" name="nonpersonnelCategory" property="nonpersonnelObjectCodes" indexId="j">
-      <html:hidden property="nonpersonnelCategory[${i}].nonpersonnelObjectCode[${j}].nonpersonnelSubCategory.code" />
-      <html:hidden property="nonpersonnelCategory[${i}].nonpersonnelObjectCode[${j}].nonpersonnelSubCategory.name" />
-    </logic:iterate>
     
     <c:set var="categoryItemErrors" value="newNonpersonnel[${i}].*"/>
     <c:forEach items="${KualiForm.budgetNonpersonnelFormHelper.nonpersonnelCategoryHelperMap[nonpersonnelCategory.code].itemIndexes}" var="categoryItemIndex" varStatus="status">
@@ -114,9 +105,6 @@
                           <kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetNonpersonnelDescription" attributeEntry="${budgetNonpersonnel.budgetNonpersonnelDescription}" readOnly="${viewOnly}" />
                         </c:when>
                         <c:otherwise>
-                          <!-- <c:if test="${empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">&nbsp;</c:if> -->
-                          <!-- <html:hidden property="newNonpersonnel[${i}].subcontractorNumber" /> -->
-                         <html:hidden property="newNonpersonnel[${i}].budgetNonpersonnelDescription" />
             <kul:htmlControlAttribute property="newNonpersonnel[${i}].subcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber_nonPersonnel('newNonpersonnel[${i}].subcontractorNumber','', 'budgetNonpersonnelDescription')"/>
                           <kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="NonPersonnel"/>
           
@@ -161,33 +149,11 @@
 
                   <!-- Used to detect if this items has been copied over (and thus disable a few fields). -->
                   <c:set var="copiedOver" value="${nonpersonnelItem.copiedOverItem}"/>
-	                <c:if test="${copiedOver}"> <!-- if fields are disabled, we need them as hidden variables -->
-	                  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSubCategoryCode" />
-	                  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" />
-	                  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" />
-	                  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].copyToFuturePeriods" />
-	                </c:if>
 
 	                <c:if test="${nonpersonnelItem.budgetNonpersonnelCategoryCode eq nonpersonnelCategory.code and nonpersonnelItem.budgetPeriodSequenceNumber eq KualiForm.currentPeriodNumber and nonpersonnelItem.budgetTaskSequenceNumber eq KualiForm.currentTaskNumber}">
 		                <tr>
 		                  <td class="datacell">
-						            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].documentNumber" />
-						            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetTaskSequenceNumber" />
-						            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetPeriodSequenceNumber" />
-						            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelCategoryCode" />
-                        <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSequenceNumber" />
-									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginSequenceNumber" />
-									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyCopyIndicator" />
-									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareCopyIndicator" />
-									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareCopyIndicator" />
-									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginAgencyAmount" />
-									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginInstitutionCostShareAmount" />
-									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginThirdPartyCostShareAmount" />
-  					            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyRequestAmountBackup" />
-                        <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareAmountBackup" />
-                        <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareAmountBackup" />
-                        <html:hidden property="document.budget.nonpersonnelItem[${ctr}].versionNumber" />
-                        <html:hidden property="document.budget.nonpersonnelItem[${ctr}].objectId" />
+						            
 
                         <c:choose>
                         <c:when test="${! viewOnly }">
@@ -199,8 +165,6 @@
 		                    </html:select>
 		                    </c:when>
 		                    <c:otherwise>
-		                      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSubCategoryCode" />
-		                      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].nonpersonnelObjectCode.nonpersonnelSubCategory.name" />
 		                      ${KualiForm.document.budget.nonpersonnelItems[ctr].nonpersonnelObjectCode.nonpersonnelSubCategory.name}
 		                    </c:otherwise>
 		                    </c:choose>
@@ -212,9 +176,7 @@
 						                  <kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" attributeEntry="${budgetNonpersonnel.budgetNonpersonnelDescription}" disabled="${copiedOver}" readOnly="${viewOnly}" />
                             </c:when>
                             <c:otherwise>
-                              <!-- <html:hidden property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" />  -->
             <kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber_nonPersonnel('document.budget.nonpersonnelItem[${ctr}].subcontractorNumber','', 'budgetNonpersonnelDescription')"/>
-                              <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription"  />
                               <!-- logic for disabling copied over items -->
 			                        <c:choose>
 				                        <c:when test="${nonpersonnelItem.copiedOverItem || viewOnly}">
@@ -288,33 +250,5 @@
             <td align="right" class="footer-right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
           </tr>
         </table>
-  
-  
-  <logic:iterate id="nonpersonnelItem" name="KualiForm" property="document.budget.nonpersonnelItems" indexId="ctr">
-    <c:if test="${nonpersonnelItem.budgetPeriodSequenceNumber ne KualiForm.currentPeriodNumber or nonpersonnelItem.budgetTaskSequenceNumber ne KualiForm.currentTaskNumber}">
-	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].documentNumber" />
-	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" />
-	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetTaskSequenceNumber" />
-	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetPeriodSequenceNumber" />
-	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelCategoryCode" />
-	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSequenceNumber" />
-	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSubCategoryCode" />
-	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyRequestAmount" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareAmount" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareAmount" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginSequenceNumber" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyCopyIndicator" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareCopyIndicator" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareCopyIndicator" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginAgencyAmount" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginInstitutionCostShareAmount" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginThirdPartyCostShareAmount" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].versionNumber" />
-      <c:if test="${viewOnly}">
-	      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSubCategoryCode" />
-        <html:hidden property="document.budget.nonpersonnelItem[${ctr}].nonpersonnelObjectCode.nonpersonnelSubCategory.name" />
-      </c:if>
-    </c:if>
-  </logic:iterate>
+
 </div>

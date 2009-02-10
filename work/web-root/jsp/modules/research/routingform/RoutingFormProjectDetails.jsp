@@ -19,12 +19,6 @@
 	documentTypeName="RoutingFormDocument"
 	htmlFormAction="researchRoutingFormProjectDetails"
 	headerDispatch="save" headerTabActive="projectdetails" showTabButtons="true">
-	
-<kra-rf:routingFormHiddenDocumentFields />
-
-  <html:hidden property="document.institutionCostShareNextSequenceNumber" />
-  <html:hidden property="document.otherCostShareNextSequenceNumber" />
-  <html:hidden property="document.subcontractorNextSequenceNumber" />
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 	

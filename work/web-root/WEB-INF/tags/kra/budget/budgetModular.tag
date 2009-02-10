@@ -15,20 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<html:hidden property="document.budget.modularBudget.documentNumber" /> 
-<html:hidden property="document.budget.modularBudget.budgetModularIncrementAmount" /> 
-<html:hidden property="document.budget.modularBudget.budgetModularTaskNumber" /> 
-<html:hidden property="document.budget.modularBudget.budgetModularDirectCostAmount" /> 
-<html:hidden property="document.budget.modularBudget.totalActualDirectCostAmount" /> 
-<html:hidden property="document.budget.modularBudget.totalModularDirectCostAmount" /> 
-<html:hidden property="document.budget.modularBudget.totalAdjustedModularDirectCostAmount" /> 
-<html:hidden property="document.budget.modularBudget.totalConsortiumAmount" /> 
-<html:hidden property="document.budget.modularBudget.totalDirectCostAmount" /> 
-<html:hidden property="document.budget.modularBudget.versionNumber" /> 
-<html:hidden property="document.budget.modularBudget.objectId" /> 
-<html:hidden property="document.budget.modularBudget.incrementsString" /> 
-<html:hidden property="document.budget.modularBudget.invalidMode" />
-
 <c:set var="budgetModularAttributes" value="${DataDictionary.BudgetModular.attributes}" /> 
 <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 <c:set var="totalActualDirectCostAmount"> 
@@ -77,13 +63,6 @@
 				<logic:iterate id="modularPeriod" indexId="i" name="KualiForm" property="document.budget.modularBudget.budgetModularPeriods">
 					<th class="bord-l-b">
 						<div align=center><strong>Period <%= i.intValue() + 1%></strong></div>
-						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].documentNumber" /> 
-						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].budgetPeriodSequenceNumber" /> 
-						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].actualDirectCostAmount" /> 
-						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].consortiumAmount" /> 
-						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].totalPeriodDirectCostAmount" /> 
-						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].versionNumber" /> 
-						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].objectId" /> 
 					</th>
 				</logic:iterate>
 				<th class="bord-l-b"><div align=center><strong>Total</strong></div></th>
@@ -95,7 +74,6 @@
 				<logic:iterate id="modularPeriod" name="KualiForm" property="document.budget.modularBudget.budgetModularPeriods">
 					<td class="datacell">
 						<div align="right"><fmt:formatNumber value="${modularPeriod.actualDirectCostAmount}" type="currency" currencySymbol="" maxFractionDigits="0" /> <br/></div>
-						<html:hidden name="modularPeriod" property="documentNumber"/>
 					</td>
 				</logic:iterate>
 				<td class="datacell"><div align="right"><strong>${totalActualDirectCostAmount}</strong> <br/></div></td>
@@ -124,7 +102,6 @@
 									</html:select> 
 								</c:when>
 								<c:otherwise>
-								    <html:hidden property="document.budget.modularBudget.budgetModularPeriods[${i}].budgetAdjustedModularDirectCostAmount"/>
 								    <fmt:formatNumber value="${modularPeriod.budgetAdjustedModularDirectCostAmount}" type="currency" currencySymbol="" maxFractionDigits="0" /> <br/>
 								</c:otherwise>
 							</c:choose>

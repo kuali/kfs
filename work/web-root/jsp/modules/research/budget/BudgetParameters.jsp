@@ -24,16 +24,6 @@
 	auditCount="${AuditErrors['parametersAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS_LESS_DOCUMENT}" />
-
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="false"
-		excludeBudgetParameteres="true" />
-
-	<html:hidden property="document.budgetTaskNextSequenceNumber" />
-	<html:hidden property="document.budgetPeriodNextSequenceNumber" />
-	<html:hidden property="document.personnelNextSequenceNumber" />
-	<html:hidden property="document.nonpersonnelNextSequenceNumber" />
-	<html:hidden property="document.institutionCostShareNextSequenceNumber" />
-	<html:hidden property="document.thirdPartyCostShareNextSequenceNumber" />
 	
 	<kra-b:budgetParameters />
 

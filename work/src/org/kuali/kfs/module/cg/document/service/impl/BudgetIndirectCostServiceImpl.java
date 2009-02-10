@@ -66,7 +66,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
 
         // Get our idc object from the budget as well.
         BudgetIndirectCost idc = budgetDocument.getBudget().getIndirectCost();
-        if (idc == null) {
+        if (ObjectUtils.isNull(idc)) {
             idc = new BudgetIndirectCost(budgetDocument.getBudget().getDocumentNumber());
             budgetDocument.getBudget().setIndirectCost(idc);
         }
@@ -447,9 +447,10 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
      */
     public void reconcileIndirectCost(BudgetDocument budgetDocument) {
         this.cleanseIndirectCost(budgetDocument);
-        if (!budgetDocument.getBudget().isInstitutionCostShareIndicator() && !budgetDocument.getBudget().isBudgetThirdPartyCostShareIndicator() && budgetDocument.getBudget().getIndirectCost() != null) {
-            budgetDocument.getBudget().getIndirectCost().setBudgetIndirectCostCostShareIndicator(false);
-            budgetDocument.getBudget().getIndirectCost().setBudgetUnrecoveredIndirectCostIndicator(false);
+        Budget budget = budgetDocument.getBudget();
+        if (!budget.isInstitutionCostShareIndicator() && !budget.isBudgetThirdPartyCostShareIndicator() && ObjectUtils.isNotNull(budget.getIndirectCost())) {
+            budget.getIndirectCost().setBudgetIndirectCostCostShareIndicator(false);
+            budget.getIndirectCost().setBudgetUnrecoveredIndirectCostIndicator(false);
         }
         this.createTaskPeriodIdcList(budgetDocument);
     }

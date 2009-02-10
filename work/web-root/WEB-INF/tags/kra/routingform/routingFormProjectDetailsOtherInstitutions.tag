@@ -51,8 +51,6 @@
 						<c:when test="${empty KualiForm.newRoutingFormOrganization.chartOfAccountsCode}">(select by org)</c:when>
 						<c:otherwise>
 							${KualiForm.newRoutingFormOrganization.chartOfAccountsCode}/${KualiForm.newRoutingFormOrganization.organizationCode}
-							<html:hidden property="newRoutingFormOrganization.chartOfAccountsCode"/>
-							<html:hidden property="newRoutingFormOrganization.organizationCode"/>
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;
@@ -71,7 +69,6 @@
                     <div align="center">${status.index+1}</div>
                   </th> 
                 <td nowrap class="neutral" colspan="2">
-                    <html:hidden property="document.routingFormOrganization[${status.index}].documentNumber" />
                     <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].objectId" attributeEntry="${routingFormOrganizationAttributes.objectId}" />
                     <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].versionNumber" attributeEntry="${routingFormOrganizationAttributes.versionNumber}" />
                   <div align="center">
@@ -79,8 +76,6 @@
 						<c:when test="${empty routingFormOrganization.chartOfAccountsCode}">(select by org)</c:when>
 						<c:otherwise>
 							${routingFormOrganization.chartOfAccountsCode}/${routingFormOrganization.organizationCode}
-							<html:hidden property="document.routingFormOrganization[${status.index}].chartOfAccountsCode"/>
-							<html:hidden property="document.routingFormOrganization[${status.index}].organizationCode"/>
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;

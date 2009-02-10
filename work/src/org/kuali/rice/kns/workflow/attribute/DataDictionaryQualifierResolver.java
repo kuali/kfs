@@ -198,8 +198,12 @@ public class DataDictionaryQualifierResolver implements QualifierResolver {
      * @param routeLevel the document's current route level
      */
     protected void addCommonQualifiersToAttributeSet(AttributeSet qualifier, Document document, DocumentEntry documentEntry, String routeLevel) {
-        qualifier.put(DataDictionaryQualifierResolver.KIM_ATTRIBUTE_DOCUMENT_NUMBER, document.getDocumentNumber());
-        qualifier.put(DataDictionaryQualifierResolver.KIM_ATTRIBUTE_DOCUMENT_TYPE_NAME, documentEntry.getDocumentTypeName());
+        if ( document != null ) {
+            qualifier.put(DataDictionaryQualifierResolver.KIM_ATTRIBUTE_DOCUMENT_NUMBER, document.getDocumentNumber());
+        }
+        if ( documentEntry != null ) {
+            qualifier.put(DataDictionaryQualifierResolver.KIM_ATTRIBUTE_DOCUMENT_TYPE_NAME, documentEntry.getDocumentTypeName());
+        }
         qualifier.put(DataDictionaryQualifierResolver.KIM_ATTRIBUTE_ROUTE_LEVEL_NAME, routeLevel);
     }
 }

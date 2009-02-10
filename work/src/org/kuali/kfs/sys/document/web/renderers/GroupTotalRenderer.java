@@ -112,7 +112,7 @@ public class GroupTotalRenderer extends TotalRendererBase {
             
             writeTag.setPageContext(pageContext);
             writeTag.setParent(parentTag);
-            writeTag.setProperty(totalProperty);
+            writeTag.setProperty(getTotalProperty());
             writeTag.doStartTag();
             writeTag.doEndTag();
             

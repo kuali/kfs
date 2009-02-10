@@ -75,7 +75,7 @@ public class AccountingLineGroupTotalDefinition extends TotalDefinition{
         renderer.setTotalLabelProperty(totalLabelProperty);
         renderer.setRepresentedCellPropertyName(representedProperty);
         
-        String actualTotalProperty = this.getActualPropertyName(containingPropertyName, totalProperty);
+        final String actualTotalProperty = this.getActualPropertyName(containingPropertyName, totalProperty);
         renderer.setTotalProperty(actualTotalProperty);
         
         return renderer;

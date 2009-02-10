@@ -77,7 +77,7 @@
   <bean id="ProcurementCardDocument-targetAccountingLineGroup" parent="ProcurementCardDocument-targetAccountingLineGroup-parentBean" />	
   <bean id="ProcurementCardDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="ProcurementCard-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine" />
 	  <property name="groupLabel" value="Accounting Lines" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="target" />
@@ -110,8 +110,8 @@
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
-				<bean parent="AccountingLineView-groupTotal"
-					p:totalProperty="targetTotal" p:representedProperty="amount" p:nestedProperty="true"/>
+				<bean class="org.kuali.kfs.fp.document.web.ProcurementCardGroupTotalDefinition"
+					p:totalProperty="targetTotal" p:representedProperty="amount"/>
 			</list>
 		</property>
 	</bean>

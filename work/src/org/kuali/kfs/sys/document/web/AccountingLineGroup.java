@@ -18,7 +18,6 @@ package org.kuali.kfs.sys.document.web;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -29,6 +28,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.TotalDefinition;
 import org.kuali.kfs.sys.document.web.renderers.CellCountCurious;
+import org.kuali.kfs.sys.document.web.renderers.CollectionPropertiesCurious;
 import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.GroupTitleLineRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
@@ -49,6 +49,7 @@ public class AccountingLineGroup {
     private List errors;
     private Map displayedErrors;
     private boolean canEdit;
+    private String collectionItemPropertyName;
 
     /**
      * Constructs a AccountingLineGroup
@@ -61,11 +62,12 @@ public class AccountingLineGroup {
      * @param displayedErrors a Map of errors that have already been displayed
      * @param canEdit determines if the page can be edited or not
      */
-    public AccountingLineGroup(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, List errors, Map displayedErrors, boolean canEdit) {
+    public AccountingLineGroup(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, String collectionItemPropertyName, List errors, Map displayedErrors, boolean canEdit) {
         this.groupDefinition = groupDefinition;
         this.accountingDocument = accountingDocument;
         this.containers = containers;
         this.collectionPropertyName = collectionPropertyName;
+        this.collectionItemPropertyName = collectionItemPropertyName;
         this.errors = errors;
         this.displayedErrors = displayedErrors;
         this.canEdit = canEdit;
@@ -208,6 +210,11 @@ public class AccountingLineGroup {
                 int columnNumberOfRepresentedCell = this.getRepresentedColumnNumber(representedCellCurious.getRepresentedCellPropertyName());
                 representedCellCurious.setColumnNumberOfRepresentedCell(columnNumberOfRepresentedCell);
             }
+            
+            if (renderer instanceof CollectionPropertiesCurious) {
+                ((CollectionPropertiesCurious)renderer).setCollectionProperty(this.collectionPropertyName);
+                ((CollectionPropertiesCurious)renderer).setCollectionItemProperty(this.collectionItemPropertyName);
+            }
 
             renderer.render(pageContext, parentTag);
             renderer.clear();
@@ -325,5 +332,13 @@ public class AccountingLineGroup {
             if (editableLineCount == 2) return true; // we know we're good...skip out early
         }
         return false;
+    }
+
+    /**
+     * Gets the collectionItemPropertyName attribute. 
+     * @return Returns the collectionItemPropertyName.
+     */
+    public String getCollectionItemPropertyName() {
+        return collectionItemPropertyName;
     }
 }

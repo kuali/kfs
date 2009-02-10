@@ -41,6 +41,9 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         List<DocumentSearchRow> docSearchRows = super.getSearchingRows(documentSearchContext);
         
         DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
+        if (entry == null) {
+            return null;
+        }
         Class<? extends Document> docClass = entry.getDocumentClass();
         Document doc = null;
         try {

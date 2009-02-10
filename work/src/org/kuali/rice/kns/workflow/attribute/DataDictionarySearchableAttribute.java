@@ -34,7 +34,6 @@ import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
-import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -122,7 +121,8 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
        List<DocumentSearchRow> docSearchRows = new ArrayList<DocumentSearchRow>();
         
        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
-      
+       if (entry  == null)
+           return null;
        if (entry instanceof FinancialSystemMaintenanceDocumentEntry) {
            Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
            Class<? extends Maintainable> maintainableClass = getMaintainableClass(documentSearchContext.getDocumentTypeName());

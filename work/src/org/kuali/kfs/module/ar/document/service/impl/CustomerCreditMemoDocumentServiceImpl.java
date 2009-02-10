@@ -52,15 +52,16 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
                 continue;
             }
             
-            // if item quantity was entered
-            if (ObjectUtils.isNotNull(itemQuantity)) {
+            // if item amount was entered, it takes precedence, if not, use the item quantity to re-calc amount
+            if (ObjectUtils.isNotNull(customerCreditMemoDetailItemAmount)) {
+                customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(customerCreditMemoDocument);
+            } // if item quantity was entered
+            else {
                 customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(customerCreditMemoDocument);
                 if (!blanketApproveDocumentEventFlag)
                     customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
-            } // if item amount was entered
-            else {
-                customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(customerCreditMemoDocument);
             }
+            
             if (!blanketApproveDocumentEventFlag) {
                 customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(customerCreditMemoDetailItemAmount);
                 boolean isCustomerInvoiceDetailTaxable = SpringContext.getBean(AccountsReceivableTaxService.class).isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail());

@@ -38,11 +38,10 @@ public interface PurchasingAccountsPayableModuleService {
      * Adds asset numbers that were created to a Purchase Order that caused the creation.
      * 
      * @param purchaseOrderNumber
-     * @param assetNumbers
      * @param authorId
-     * @param documentType
+     * @param noteText
      */
-    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId, String documentType);
+    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, String authorId, String noteText);
 
     /**
      * Returns a sensitive data record associated with the given code

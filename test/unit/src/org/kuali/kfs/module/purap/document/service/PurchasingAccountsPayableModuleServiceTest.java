@@ -50,8 +50,14 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
         assetNumbers.add(new Long("12345"));
         assetNumbers.add(new Long("12346"));
         String authorId = "khuntley";
-        String documentType = "AA";
-        SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(purchaseOrderNumber, assetNumbers, authorId, documentType);
+        StringBuffer noteText = new StringBuffer("Asset Numbers have been created for this document: ");
+        for (int i = 0; i<assetNumbers.size(); i++) {
+            noteText.append(assetNumbers.get(i).toString());
+            if (i < assetNumbers.size() -1) {
+                noteText.append(", ");
+            }
+        }
+        SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(purchaseOrderNumber, authorId, noteText.toString());
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
         assertNotNull("PO should not have been null",po);
         List<Note> boNotes = po.getBoNotes();

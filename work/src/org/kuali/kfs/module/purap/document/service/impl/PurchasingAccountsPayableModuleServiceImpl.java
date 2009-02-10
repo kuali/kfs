@@ -27,28 +27,24 @@ import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableModuleServiceImpl.class);
-
-    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AA";
-    public static final String ASSET_PAYMENT_DOCUMENT = "MPAY";
 
     private PurchaseOrderService purchaseOrderService;
     private PurapService purapService;
@@ -58,24 +54,9 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer,
      *      java.util.List)
      */
-    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId, String documentType) {
+    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, String authorId, String noteText) {
         PurchaseOrderDocument document = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);
-        String noteText = null;
-
-        // Create and add the note.
-        if (ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
-            noteText = "Asset Numbers have been created for this document: ";
-        }
-        else if (ASSET_PAYMENT_DOCUMENT.equalsIgnoreCase(documentType)) {
-            noteText = "Existing Asset Numbers have been applied for this document: ";
-        }
-
-        for (int i = 0; i < assetNumbers.size(); i++) {
-            noteText += assetNumbers.get(i).toString();
-            if (i < assetNumbers.size() - 1) {
-                noteText += ", ";
-            }
-        }
+        
         try {
             Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
             // set the initiator user info to the new note

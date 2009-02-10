@@ -182,13 +182,7 @@
    	</bean>
    	            
 <!-- All of the Search Type Attributes -->
-   
-    <bean id="WorkflowAttributeMetaData-requestorPersonName" abstract="true">
-        <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
-        <property name="attributeName" value="requestorPersonName" />
-    </bean>
-    <bean id="SearchingAttribute-requestorPersonName" parent="WorkflowAttributeMetaData-requestorPersonName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
-    
+        
 	<bean id="SearchingType-PurchasingAccountsPayableDocument-organizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
         <property name="documentValues">
@@ -202,7 +196,7 @@
         <property name="searchingAttribute" ref="SearchingAttribute-financialDocumentTotalAmount" />
         <property name="documentValues">
         	<list>
-        		<value>documentHeader.financialDocumentTotalAmount.value</value>
+        		<value>documentHeader.financialDocumentTotalAmount</value>
         	</list>
         </property>
     </bean>

@@ -144,7 +144,8 @@
         <ref bean="RequisitionDocument-alternate5VendorName" />
         <ref bean="RequisitionDocument-capitalAssetSystemStateCode" />
         <ref bean="RequisitionDocument-capitalAssetSystemTypeCode" />  
-        <ref bean="RequisitionDocument-useTaxIndicator" />      
+        <ref bean="RequisitionDocument-useTaxIndicator" />
+        <ref bean="RequisitionDocument-statusCodeForMultiboxSearching"/>      
       </list>
     </property>
     <property name="validationMap" ref="RequisitionDocument-validations" />
@@ -920,6 +921,24 @@
   	<property name="shortLabel" value="Use Tax" />
   </bean>
   
+  <bean id="RequisitionDocument-statusCodeForMultiboxSearching" parent="RequisitionDocument-statusCodeForMultiboxSearching-parentBean" />
+
+  <bean id="RequisitionDocument-statusCodeForMultiboxSearching-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="statusCodeForMultiboxSearching" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Requisition Status" />
+    <property name="shortLabel" value="Status" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  
   <!-- Requisition accountingInformation -->
     <bean id="requisitionAccountingInformation" parent="requisitionAccountingInformation-parent" />
 
@@ -1118,8 +1137,12 @@
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
     			<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>        			
     		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute"
-    					ref="SearchingAttribute-requestorPersonName" />
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
+    						<property name="attributeName" value="requestorPersonName" />
+    					</bean>
+    				</property>
     				<property name="documentValues">
     					<list>
     						<value>requestorPersonName</value>
@@ -1222,7 +1245,7 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />
-    						<property name="attributeName" value="statusCode" />
+    						<property name="attributeName" value="statusCodeForMultiboxSearching" />
     					</bean>
     				</property>
     				<property name="documentValues">

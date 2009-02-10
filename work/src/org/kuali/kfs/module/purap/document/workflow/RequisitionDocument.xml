@@ -11,12 +11,12 @@
           <requests name="Organization" nextNode="HasAccountingLines"/>
           <split name="HasAccountingLines" nextNode="SubAccount">
             <branch name="True">
-              <simple name="NoOp" nextNode="Join"/>
+              <simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines"/>
             </branch>
             <branch name="False">
-              <requests name="Initiator" nextNode="Join"/>
+              <requests name="Initiator" nextNode="JoinHasAccountingLines"/>
             </branch>
-            <join name="Join"/>
+            <join name="JoinHasAccountingLines"/>
           </split>
           <requests name="SubAccount" nextNode="Account"/>
           <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
@@ -64,6 +64,13 @@
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <join name="Join"/>
+        <role name="Initiator">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <simple name="NoOpHasAccountingLines">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinHasAccountingLines"/>
       </routeNodes>
     </documentType>
   </documentTypes>

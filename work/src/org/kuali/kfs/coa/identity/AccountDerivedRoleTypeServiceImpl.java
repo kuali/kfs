@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.role.KimRole;
-import org.kuali.rice.kim.bo.role.dto.KimDelegationMemberInfo;
+import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimDelegationTypeService;
@@ -181,11 +181,11 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
     }
     
-    public List<KimDelegationMemberInfo> doDelegationQualifiersMatchQualification(
-            AttributeSet qualification, List<KimDelegationMemberInfo> delegationMemberList){
+    public List<DelegateInfo> doDelegationQualifiersMatchQualification(
+            AttributeSet qualification, List<DelegateInfo> delegationMemberList){
         AttributeSet translatedQualification = translateInputAttributeSet(qualification);
-        List<KimDelegationMemberInfo> matchingMemberships = new ArrayList<KimDelegationMemberInfo>();
-        for ( KimDelegationMemberInfo dmi : delegationMemberList ) {
+        List<DelegateInfo> matchingMemberships = new ArrayList<DelegateInfo>();
+        for ( DelegateInfo dmi : delegationMemberList ) {
             if ( performMatch( translatedQualification, dmi.getQualifier() ) ) {
                 matchingMemberships.add( dmi );
             }

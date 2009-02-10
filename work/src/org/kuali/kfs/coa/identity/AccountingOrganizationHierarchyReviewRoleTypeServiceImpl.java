@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.role.dto.KimDelegationMemberInfo;
+import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimDelegationTypeService;
 
@@ -85,11 +85,11 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl
         return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
     }
     
-    public List<KimDelegationMemberInfo> doDelegationQualifiersMatchQualification(
-            AttributeSet qualification, List<KimDelegationMemberInfo> delegationMemberList){
+    public List<DelegateInfo> doDelegationQualifiersMatchQualification(
+            AttributeSet qualification, List<DelegateInfo> delegationMemberList){
         AttributeSet translatedQualification = translateInputAttributeSet(qualification);
-        List<KimDelegationMemberInfo> matchingMemberships = new ArrayList<KimDelegationMemberInfo>();
-        for ( KimDelegationMemberInfo dmi : delegationMemberList ) {
+        List<DelegateInfo> matchingMemberships = new ArrayList<DelegateInfo>();
+        for ( DelegateInfo dmi : delegationMemberList ) {
             if ( performMatch( translatedQualification, dmi.getQualifier() ) ) {
                 matchingMemberships.add( dmi );
             }

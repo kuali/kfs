@@ -36,8 +36,8 @@ import org.kuali.kfs.module.cg.document.service.BudgetService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.exception.IllegalObjectStateException;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * Budget

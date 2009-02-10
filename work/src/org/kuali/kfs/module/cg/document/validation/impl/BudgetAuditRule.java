@@ -30,9 +30,9 @@ import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetCostShareFormHelper;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -115,7 +115,7 @@ public class BudgetAuditRule {
 
     private boolean runNonpersonnelAuditErrors(List<BudgetNonpersonnel> nonpersonnelItems) {
         List<AuditError> nonpersonnelAuditErrors = new ArrayList<AuditError>();
-        List<String> first25kSubcategoryCodes = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.FIRST25K_SUBCATEGORY_CODES);
+        List<String> first25kSubcategoryCodes = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.FIRST25K_SUBCATEGORY_CODES);
 
         HashMap<String, BudgetNonpersonnel> hashMap = new HashMap();
 

@@ -229,7 +229,7 @@
 	
 	<bean id="financialSystemUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl" />
 	
-	<bean id="parameterService" class="org.kuali.kfs.sys.service.impl.ParameterServiceImpl">
+	<bean id="parameterService" class="org.kuali.kfs.sys.service.impl.KfsParameterServiceImpl">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
 		<property name="businessObjectService" ref="businessObjectService" />

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.service.impl;
+package org.kuali.rice.kns.service.impl;
 
-import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterEvaluator;
 
 /**
  * This implementation of ParameterEvaluator is returned by ParameterServiceImpl when evaluation involves a constraining value and

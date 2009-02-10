@@ -33,11 +33,11 @@ import org.kuali.kfs.module.cg.businessobject.RoutingFormQuestion;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -188,7 +188,7 @@ public class RoutingFormAuditRule {
                     auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].principalId", CGKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
                 }
 
-                String INVALID_STATUSES = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PERSONNEL_STATUSES);
+                String INVALID_STATUSES = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PERSONNEL_STATUSES);
                 if (ObjectUtils.isNotNull(person.getUser()) && person.getUser().getEmployeeStatusCode() != null && StringUtils.contains(INVALID_STATUSES, person.getUser().getEmployeeStatusCode())) {
                     valid = false;
                     auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].user.principalName", CGKeyConstants.AUDIT_PERSONNEL_STATUS, "mainpage.anchor2", new String[] { person.getUser().getName(), person.getUser().getEmployeeStatusCode() }));

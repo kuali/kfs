@@ -42,14 +42,14 @@ import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuotePdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuoteRequestsPdf;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -134,8 +134,8 @@ public class PrintServiceImpl implements PrintService {
         String imageTempLocation = "";
         String logoImage = "";
         boolean useImage = true;
-        if (parameterService.parameterExists(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
-            useImage = parameterService.getIndicatorParameter(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
+        if (parameterService.parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
+            useImage = parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
         }
         // We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the
         // images as blank space
@@ -161,7 +161,7 @@ public class PrintServiceImpl implements PrintService {
             contractManagerCampusCode = contractManagerUser.getCampusCode();
         }
 
-        String pdfFileLocation = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+        String pdfFileLocation = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
             LOG.debug("savePurchaseOrderPdf() ended");
             throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
@@ -190,8 +190,8 @@ public class PrintServiceImpl implements PrintService {
         String imageTempLocation = "";
         String logoImage = "";
         boolean useImage = true;
-        if (parameterService.parameterExists(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
-            useImage = parameterService.getIndicatorParameter(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
+        if (parameterService.parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
+            useImage = parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
         }
         // We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the
         // images as blank space
@@ -217,7 +217,7 @@ public class PrintServiceImpl implements PrintService {
             contractManagerCampusCode = contractManagerUser.getCampusCode();
         }
 
-        String pdfFileLocation = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+        String pdfFileLocation = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
             LOG.debug("savePurchaseOrderPdf() ended");
             throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
@@ -325,8 +325,8 @@ public class PrintServiceImpl implements PrintService {
         String directorSignatureImage = "";
         String contractManagerSignatureImage = "";
         boolean useImage = true;
-        if (parameterService.parameterExists(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
-            useImage = parameterService.getIndicatorParameter(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
+        if (parameterService.parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
+            useImage = parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
         }
         // We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the
         // images as blank space
@@ -353,7 +353,7 @@ public class PrintServiceImpl implements PrintService {
         criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
         CampusParameter campusParameter = (CampusParameter) ((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
 
-        String statusInquiryUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
+        String statusInquiryUrl = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
         if (statusInquiryUrl == null) {
             LOG.debug("generatePurchaseOrderPdf() ended");
             throw new PurapConfigurationException("Application Setting INVOICE_STATUS_INQUIRY_URL is missing.");
@@ -372,7 +372,7 @@ public class PrintServiceImpl implements PrintService {
             }
         }
 
-        String pdfFileLocation = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+        String pdfFileLocation = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
             LOG.debug("savePurchaseOrderPdf() ended");
             throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
@@ -527,8 +527,8 @@ public class PrintServiceImpl implements PrintService {
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         
         boolean useImage = true;
-        if (parameterService.parameterExists(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
-            useImage = parameterService.getIndicatorParameter(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
+        if (parameterService.parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
+            useImage = parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
         }
 
         if (useImage) {

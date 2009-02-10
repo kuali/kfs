@@ -39,8 +39,8 @@ import org.kuali.kfs.module.cg.document.service.PurposeService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageService {
 

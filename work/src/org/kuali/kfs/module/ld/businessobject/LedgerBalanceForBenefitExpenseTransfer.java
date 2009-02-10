@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.kuali.kfs.integration.ld.SegmentedBusinessObject;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants.AccountingPeriodProperties;
-import org.kuali.kfs.sys.KFSUtils;
+import org.kuali.rice.kns.util.KNSUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -61,6 +61,6 @@ public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance implem
         String periodCode = LaborConstants.periodCodeMapping.get(segmentedPropertyName);
         KualiDecimal periodAmount = getAmount(periodCode);  
 
-        return KFSUtils.convertDecimalIntoInteger(periodAmount);
+        return KNSUtils.convertDecimalIntoInteger(periodAmount);
     }
 }

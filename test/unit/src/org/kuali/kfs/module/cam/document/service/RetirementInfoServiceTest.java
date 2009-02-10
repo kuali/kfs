@@ -26,7 +26,8 @@ import org.kuali.kfs.module.cam.document.service.impl.AssetServiceImpl;
 import org.kuali.kfs.module.cam.document.service.impl.RetirementInfoServiceImpl;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.service.impl.ParameterServiceImpl;
+import org.kuali.kfs.sys.service.impl.KfsParameterServiceImpl;
+import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
 import org.kuali.rice.kns.util.DateUtils;
 
 public class RetirementInfoServiceTest extends KualiTestBase {
@@ -47,7 +48,7 @@ public class RetirementInfoServiceTest extends KualiTestBase {
     }
 
     private ParameterServiceImpl createParameterService() {
-        return new ParameterServiceImpl() {
+        return new KfsParameterServiceImpl() {
             @Override
             public List<String> getParameterValues(Class componentClass, String parameterName) {
                 List<String> values = new ArrayList<String>();

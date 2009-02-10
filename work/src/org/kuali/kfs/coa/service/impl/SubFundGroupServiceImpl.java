@@ -21,8 +21,8 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.dataaccess.SubFundGroupDao;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**

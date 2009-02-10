@@ -28,9 +28,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.dao.LookupDao;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class provides a set of utilities that can handle common tasks related to business objects.
@@ -149,7 +149,7 @@ public class OJBUtility {
      */
     public static Integer getResultLimit() {
         // get the result limit number from configuration
-        String limitConfig = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.NERVOUS_SYSTEM_LOOKUP.class, KFSConstants.LOOKUP_RESULTS_LIMIT_URL_KEY);
+        String limitConfig = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.NERVOUS_SYSTEM_LOOKUP.class, KFSConstants.LOOKUP_RESULTS_LIMIT_URL_KEY);
 
         Integer limit = Integer.MAX_VALUE;
         if (limitConfig != null) {

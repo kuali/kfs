@@ -17,7 +17,7 @@
 package org.kuali.kfs.dictionary;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class HelpDefinition extends org.kuali.rice.kns.datadictionary.HelpDefinition {
     private Class parameterClass;

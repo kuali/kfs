@@ -22,8 +22,8 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants.PURCHASING_BATCH;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants.PURCHASING_BATCH;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class PurapRunDateServiceImpl implements PurapRunDateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapRunDateServiceImpl.class);

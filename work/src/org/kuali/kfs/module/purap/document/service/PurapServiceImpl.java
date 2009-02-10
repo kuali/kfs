@@ -61,11 +61,9 @@ import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
@@ -78,6 +76,8 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
@@ -894,7 +894,7 @@ public class PurapServiceImpl implements PurapService {
         
         boolean isDeliveryStateTaxable = false;
         
-        ParameterEvaluator parmEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES", deliveryState);
+        ParameterEvaluator parmEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES", deliveryState);
         
         //if parm is Allow and delivery state in list, or parm is Denied and delivery state is not in list
         // then state is taxable
@@ -951,8 +951,8 @@ public class PurapServiceImpl implements PurapService {
         ParameterEvaluator fundParamEval = null;
         ParameterEvaluator subFundParamEval = null;
         
-        fundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, fundParam, acctLine.getAccount().getSubFundGroup().getFundGroupCode());
-        subFundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, subFundParam, acctLine.getAccount().getSubFundGroupCode());
+        fundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, fundParam, acctLine.getAccount().getSubFundGroup().getFundGroupCode());
+        subFundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, subFundParam, acctLine.getAccount().getSubFundGroupCode());
 
         if( (isAllowedFound(fundParamEval) && (isAllowedFound(subFundParamEval) || isAllowedNotFound(subFundParamEval) || isDeniedNotFound(subFundParamEval))) ||
             (isAllowedNotFound(fundParamEval) && isAllowedFound(subFundParamEval)) ||
@@ -981,8 +981,8 @@ public class PurapServiceImpl implements PurapService {
         ParameterEvaluator levelParamEval = null;
         ParameterEvaluator consolidationParamEval = null;
 
-        levelParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, levelParam, acctLine.getObjectCode().getFinancialObjectLevelCode());
-        consolidationParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, consolidationParam, acctLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode());
+        levelParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, levelParam, acctLine.getObjectCode().getFinancialObjectLevelCode());
+        consolidationParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, consolidationParam, acctLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode());
 
         if( (isAllowedFound(levelParamEval) && (isAllowedFound(consolidationParamEval) || isAllowedNotFound(consolidationParamEval) || isDeniedNotFound(consolidationParamEval))) ||
             (isAllowedNotFound(levelParamEval) && isAllowedFound(consolidationParamEval)) ||

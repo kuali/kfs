@@ -40,8 +40,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -52,6 +51,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -380,9 +380,9 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
 
-        String humanSubjectsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
+        String humanSubjectsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
 
-        String animalsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
+        String animalsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
 
         // Setup dates.
         Date createDate = routingFormDocument.getRoutingFormCreateDate();

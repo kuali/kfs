@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.batch;
 
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.beans.factory.BeanNameAware;
 
 public abstract class AbstractStep implements Step, BeanNameAware {

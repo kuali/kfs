@@ -49,13 +49,13 @@ import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
@@ -643,7 +643,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     protected String getToBeNamedLabel() {
         if (StringUtils.isBlank(TO_BE_NAMED_LABEL)) {
-            TO_BE_NAMED_LABEL = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.TO_BE_NAMED_LABEL);
+            TO_BE_NAMED_LABEL = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.TO_BE_NAMED_LABEL);
         }
         return TO_BE_NAMED_LABEL;
     }

@@ -22,8 +22,8 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.kns.service.ParameterService;
 
 
 /**

@@ -28,9 +28,9 @@ import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class IndirectCostAdjustmentDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
 

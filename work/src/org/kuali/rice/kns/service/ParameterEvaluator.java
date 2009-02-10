@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.service;
+package org.kuali.rice.kns.service;
 
 import java.io.Serializable;
 

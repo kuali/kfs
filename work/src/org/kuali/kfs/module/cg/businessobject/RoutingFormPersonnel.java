@@ -30,7 +30,7 @@ import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;

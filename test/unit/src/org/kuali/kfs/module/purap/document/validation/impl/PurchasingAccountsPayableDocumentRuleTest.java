@@ -40,8 +40,8 @@ import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterService;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=true)
 public class PurchasingAccountsPayableDocumentRuleTest extends

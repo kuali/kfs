@@ -33,11 +33,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -210,7 +210,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
         String objCd = accountingLine.getFinancialObjectCode();
         String account = accountingLine.getAccountNumber();
         if (!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
-            String[] params = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES).toArray(new String[] {});
+            String[] params = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES).toArray(new String[] {});
             boolean acctsMatched = false;
             for (int i = 0; i < params.length; i++) {
                 String paramAcct = params[i].split(":")[0];
@@ -220,7 +220,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
             }
             if (acctsMatched) {
                 String compare = account + ":" + objCd;
-                ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
+                ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
                 if (!evaluator.evaluationSucceeds()) {
                     isValid = false;
                 }

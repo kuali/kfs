@@ -21,7 +21,7 @@ import java.util.Date;
 
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.SessionDocumentService;
 
 public class PurgeSessionDocumentsStep extends AbstractStep {

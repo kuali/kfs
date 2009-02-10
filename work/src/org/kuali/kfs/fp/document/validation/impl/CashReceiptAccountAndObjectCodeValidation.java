@@ -22,9 +22,9 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -45,7 +45,7 @@ public class CashReceiptAccountAndObjectCodeValidation extends GenericValidation
         String objCd = getAccountingLineForValidation().getFinancialObjectCode();
         String account = getAccountingLineForValidation().getAccountNumber();
         if (!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
-            String[] params = getParameterService().getParameterValues(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES).toArray(new String[] {});
+            String[] params = getParameterService().getParameterValues(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES).toArray(new String[] {});
             boolean acctsMatched = false;
             for (int i = 0; i < params.length; i++) {
                 String paramAcct = params[i].split(":")[0];
@@ -55,7 +55,7 @@ public class CashReceiptAccountAndObjectCodeValidation extends GenericValidation
             }
             if (acctsMatched) {
                 String compare = account + ":" + objCd;
-                ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
+                ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
                 if (!evaluator.evaluationSucceeds()) {
                     isValid = false;
                 }

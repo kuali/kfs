@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.Date;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.service.BatchSortService;
-import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.springframework.util.StopWatch;
 
@@ -28,7 +27,7 @@ import org.springframework.util.StopWatch;
  * A step to run the scrubber process.
  */
 public class ScrubberSortStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberSortStep.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberSortStep.class);
     private String batchFileDirectoryName;
     /**
      * Runs the scrubber process.
@@ -43,8 +42,11 @@ public class ScrubberSortStep extends AbstractStep {
         stopWatch.start(jobName);
         String inputFile = batchFileDirectoryName+GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE;
         String outputFile = batchFileDirectoryName+GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE;
-        BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new ScrubberSortComparator());
-
+        if ( new File( inputFile ).exists() ) {
+            BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new ScrubberSortComparator());
+        } else {
+            LOG.warn( "Unable to find " + inputFile + ", sorting skipped.  No output file created." );
+        }
         stopWatch.stop();
         if (LOG.isDebugEnabled()) {
             LOG.debug("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");

@@ -19,7 +19,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * A generic implementation of OrganizationReversionCategoryLogic; it is completely based off of parameters

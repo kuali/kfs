@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
-import org.kuali.kfs.sys.service.impl.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 
 /**
  * Business Object for the Effort Certification Document Build Table.

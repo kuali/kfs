@@ -20,24 +20,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.util.KNSConstants;
 
 
-public class ParameterConstants {
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target( { ElementType.TYPE })
-    public @interface NAMESPACE {
-        String namespace();
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target( { ElementType.TYPE })
-    public @interface COMPONENT {
-        String component();
-    }
+public class KfsParameterConstants extends ParameterConstants {
 
     protected static final String FINANCIAL_NAMESPACE_PREFIX = "KFS-";
-    protected static final String NERVOUS_SYSTEM_NAMESPACE = KNSConstants.KNS_NAMESPACE;
     protected static final String FINANCIAL_SYSTEM_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "SYS";
     private static final String ACCOUNTS_RECEIVABLE_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "AR";
     private static final String BUDGET_CONSTRUCTION_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "BC";
@@ -52,30 +41,6 @@ public class ParameterConstants {
     private static final String PRE_DISBURSEMENT_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PDP";
     private static final String PURCHASING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PURAP";
     private static final String VENDOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "VND";
-    private static final String ALL_COMPONENT = "All";
-    private static final String DOCUMENT_COMPONENT = "Document";
-    private static final String LOOKUP_COMPONENT = "Lookup";
-    private static final String BATCH_COMPONENT = "Batch";
-
-    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
-    @COMPONENT(component = ALL_COMPONENT)
-    public final class NERVOUS_SYSTEM_ALL {
-    }
-
-    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
-    @COMPONENT(component = DOCUMENT_COMPONENT)
-    public final class NERVOUS_SYSTEM_DOCUMENT {
-    }
-
-    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
-    @COMPONENT(component = LOOKUP_COMPONENT)
-    public final class NERVOUS_SYSTEM_LOOKUP {
-    }
-
-    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
-    @COMPONENT(component = BATCH_COMPONENT)
-    public final class NERVOUS_SYSTEM_BATCH {
-    }
 
     @NAMESPACE(namespace = FINANCIAL_SYSTEM_NAMESPACE)
     @COMPONENT(component = ALL_COMPONENT)

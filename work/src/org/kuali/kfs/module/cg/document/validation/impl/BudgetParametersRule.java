@@ -32,11 +32,11 @@ import org.kuali.kfs.module.cg.document.service.BudgetFringeRateService;
 import org.kuali.kfs.module.cg.document.service.BudgetGraduateAssistantRateService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -57,7 +57,7 @@ public class BudgetParametersRule {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
         MAXIMUM_PERIOD_LENGTH = parameterService.getParameterValue(BudgetDocument.class, CGConstants.MAXIMUM_PERIOD_LENGTH);
-        PERIOD_IDENTIFIER = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PERIOD_IDENTIFIER);
+        PERIOD_IDENTIFIER = parameterService.getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PERIOD_IDENTIFIER);
         NEW_PERIOD_IDENTIFIER = parameterService.getParameterValue(BudgetDocument.class, CGConstants.NEW_PERIOD_IDENTIFIER);
 
         dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);

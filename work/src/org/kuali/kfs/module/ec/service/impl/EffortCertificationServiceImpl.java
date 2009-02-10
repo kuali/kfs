@@ -29,7 +29,7 @@ import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao
 import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
 import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

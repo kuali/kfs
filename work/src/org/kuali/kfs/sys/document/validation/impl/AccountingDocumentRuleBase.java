@@ -70,9 +70,7 @@ import org.kuali.kfs.sys.document.validation.ReviewAccountingLineRule;
 import org.kuali.kfs.sys.document.validation.SufficientFundsCheckingPreparationRule;
 import org.kuali.kfs.sys.document.validation.UpdateAccountingLineRule;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -84,6 +82,8 @@ import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.ExceptionUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -946,8 +946,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         String exceptionMessage = "Invalue property name provided to AccountingDocumentRuleBase isAccountingLineValueAllowed method: " + propertyName;
         try {
             String propertyValue = (String) PropertyUtils.getProperty(accountingLine, propertyName);
-            if (getParameterService().parameterExists(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName)) {
-                isAllowed = getParameterService().getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
+            if (getParameterService().parameterExists(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName)) {
+                isAllowed = getParameterService().getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
             }
             if (getParameterService().parameterExists(documentClass, parameterName)) {
                 isAllowed = getParameterService().getParameterEvaluator(documentClass, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
@@ -1186,7 +1186,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         if (objectSubTypeCode == null) {
             throw new IllegalArgumentException(EXCEPTIONS.NULL_OBJECT_SUBTYPE_MESSAGE);
         }
-        ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, objectSubTypeCode);
+        ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, objectSubTypeCode);
         boolean returnboolean = evaluator.evaluationSucceeds();
         LOG.debug("checkMandatoryTransfersSubType(String, String) - end");
         return returnboolean;

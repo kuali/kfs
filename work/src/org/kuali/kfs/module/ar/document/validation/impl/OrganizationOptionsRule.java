@@ -28,12 +28,12 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -146,7 +146,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         // check if sales tax is enabled && if org postal code is empty
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) && StringUtils.isEmpty(organizationOptions.getOrganizationPostalZipCode())) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) && StringUtils.isEmpty(organizationOptions.getOrganizationPostalZipCode())) {
             putFieldError(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE, ArKeyConstants.OrganizationOptionsErrors.ERROR_ORG_OPTIONS_ZIP_CODE_REQUIRED);
             success = false;
         }

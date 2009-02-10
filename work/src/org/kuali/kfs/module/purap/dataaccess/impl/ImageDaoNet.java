@@ -36,10 +36,10 @@ import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * OJB Implementation of ImageDao.
@@ -64,8 +64,8 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     public String getPurchasingDirectorImage(String key, String campusCode, String location) {
         LOG.debug("getPurchasingDirectorImage() started");
 
-        String prefix = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURCHASING_DIRECTOR_IMAGE_PREFIX);
-        String extension = "." + parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURCHASING_DIRECTOR_IMAGE_EXTENSION);
+        String prefix = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURCHASING_DIRECTOR_IMAGE_PREFIX);
+        String extension = "." + parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURCHASING_DIRECTOR_IMAGE_EXTENSION);
         return getFile(prefix, campusCode, key, extension, location);
     }
 
@@ -89,8 +89,8 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     public String getLogo(String key, String campusCode, String location) {
         LOG.debug("getLogo() started. key is " + key + ". campusCode is " + campusCode);
 
-        String prefix = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_PREFIX);
-        String extension = "." + parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_EXTENSION);
+        String prefix = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_PREFIX);
+        String extension = "." + parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_EXTENSION);
         return getFile(prefix, campusCode, key, extension, location);
     }
 

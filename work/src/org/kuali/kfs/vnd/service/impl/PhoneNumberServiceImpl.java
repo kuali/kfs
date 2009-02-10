@@ -17,10 +17,10 @@ package org.kuali.kfs.vnd.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PhoneNumberServiceImpl implements PhoneNumberService {

@@ -27,10 +27,10 @@ import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * The base implementation of EnterpriseFeederNotificationService; performs email-based notifications

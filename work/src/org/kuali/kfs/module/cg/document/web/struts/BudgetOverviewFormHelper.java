@@ -38,8 +38,8 @@ import org.kuali.kfs.module.cg.document.service.BudgetModularService;
 import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -98,16 +98,16 @@ public class BudgetOverviewFormHelper {
      */
     public BudgetOverviewFormHelper() {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        this.TO_BE_NAMED = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.TO_BE_NAMED_LABEL);
+        this.TO_BE_NAMED = parameterService.getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.TO_BE_NAMED_LABEL);
         this.HOURLY_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_HOURLY_APPOINTMENT_TYPES);
         this.GRADUATE_RA_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
         this.FULL_YEAR_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_FULL_YEAR_APPOINTMENT_TYPES);
         this.SUMMER_GRID_APPOINTMENT = parameterService.getParameterValue(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE);
         this.SUMMER_GRID_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPES);
 
-        this.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
-        this.GRADUATE_ASSISTANT_NONPERSONNEL_SUBCATEGORY_CODE = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
-        this.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION);
+        this.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE = parameterService.getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
+        this.GRADUATE_ASSISTANT_NONPERSONNEL_SUBCATEGORY_CODE = parameterService.getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
+        this.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION = parameterService.getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION);
     }
 
     /**

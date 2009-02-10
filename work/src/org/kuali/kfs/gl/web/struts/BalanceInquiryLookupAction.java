@@ -37,7 +37,6 @@ import org.kuali.kfs.integration.ld.SegmentedBusinessObject;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -46,6 +45,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSUtils;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -400,7 +400,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
                     KualiDecimal amount = new KualiDecimal(propertyValue);
 
                     if (amount.isNonZero()) {
-                        String objectId = row.getObjectId() + "." + propertyName + "." + KFSUtils.convertDecimalIntoInteger(amount);
+                        String objectId = row.getObjectId() + "." + propertyName + "." + KNSUtils.convertDecimalIntoInteger(amount);
                         selectedObjectIds.put(objectId, objectId);
                     }
                 }

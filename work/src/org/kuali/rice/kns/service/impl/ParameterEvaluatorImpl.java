@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.service.impl;
+package org.kuali.rice.kns.service.impl;
 
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ParameterEvaluatorImpl implements ParameterEvaluator {

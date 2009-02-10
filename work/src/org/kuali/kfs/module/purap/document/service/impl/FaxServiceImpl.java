@@ -34,8 +34,7 @@ import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdfParameters;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Campus;
@@ -43,6 +42,7 @@ import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +67,7 @@ public class FaxServiceImpl implements FaxService {
      */
     public void faxPurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit) {
         LOG.debug("faxPurchaseOrderPdf(po,reTransmit) started");
-        String pdfFileLocation = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+        String pdfFileLocation = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
             throw new RuntimeException("Application Setting PDF_DIRECTORY is missing.");
         }
@@ -128,7 +128,7 @@ public class FaxServiceImpl implements FaxService {
             LOG.debug("faxPurchaseOrderPdf() ended");
             throw new RuntimeException("Campus Information is missing - campusName: " + campusName);
         }
-        String statusInquiryUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
+        String statusInquiryUrl = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
         if (statusInquiryUrl == null) {
             LOG.debug("faxPurchaseOrderPdf() ended");
             throw new RuntimeException("Application Setting STATUS_INQUIRY_URL is missing.");
@@ -245,8 +245,8 @@ public class FaxServiceImpl implements FaxService {
         String directorSignatureImage = "";
         String contractManagerSignatureImage = "";
         boolean useImage = true;
-        if (parameterService.parameterExists(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
-            useImage = parameterService.getIndicatorParameter(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
+        if (parameterService.parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
+            useImage = parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
         }
         // We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the
         // images as blank space
@@ -273,7 +273,7 @@ public class FaxServiceImpl implements FaxService {
         criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
         CampusParameter campusParameter = (CampusParameter) ((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
 
-        String statusInquiryUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
+        String statusInquiryUrl = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
         if (statusInquiryUrl == null) {
             LOG.debug("generatePurchaseOrderPdf() ended");
             throw new PurapConfigurationException("Application Setting INVOICE_STATUS_INQUIRY_URL is missing.");
@@ -292,7 +292,7 @@ public class FaxServiceImpl implements FaxService {
             }
         }
 
-        String pdfFileLocation = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
+        String pdfFileLocation = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
             LOG.debug("savePurchaseOrderPdf() ended");
             throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");

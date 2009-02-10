@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.service.impl;
+package org.kuali.rice.kns.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,13 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSUtils;
-import org.kuali.kfs.sys.batch.Step;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants.COMPONENT;
-import org.kuali.kfs.sys.service.impl.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.bo.ParameterDetailType;
@@ -39,8 +32,15 @@ import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ModuleService;
+import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kns.util.KNSUtils;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -49,7 +49,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * the Class is associated with by parsing the package) and detail type (for ParameterServiceImpl, document Class --> use simple
  * class name minus the word Document / business object Class --> use simple class name, batch step class --> use the simple class
  * name). In cases where the parameter is applicable to all documents, all lookups, all batch steps, or all components in a
- * particular module, you should pass in the appropriate constant class in ParameterConstants for the component Class (e.g. all
+ * particular module, you should pass in the appropriate constant class in KfsParameterConstants for the component Class (e.g. all
  * purchasing documents = PURCHASING_DOCUMENT.class, all purchasing lookups = PURCHASING_LOOKUP.class, all purchasing batch steps =
  * PURCHASING_BATCH.class, and all purchasing components = PURCHASING_ALL.class). In addition, certain methods take
  * constrainingValue and constrainedValue Strings. The constrainedValue is the value that you want to compare to the Parameter
@@ -59,9 +59,9 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class ParameterServiceImpl implements ParameterService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ParameterServiceImpl.class);
     private static List<ParameterDetailType> components = new ArrayList<ParameterDetailType>();
-    private DataDictionaryService dataDictionaryService;
-    private KualiModuleService kualiModuleService;
-    private BusinessObjectService businessObjectService;
+    protected DataDictionaryService dataDictionaryService;
+    protected KualiModuleService kualiModuleService;
+    protected BusinessObjectService businessObjectService;
     private ThreadLocal<Map<String,Parameter>> parameterCache = new ThreadLocal<Map<String,Parameter>>();
 
     /**
@@ -234,15 +234,6 @@ public class ParameterServiceImpl implements ParameterService {
                     }
                 }
             }
-            for (Step step : SpringContext.getBeansOfType(Step.class).values()) {
-                try {
-                    ParameterDetailType parameterDetailType = getParameterDetailType(step.getClass());
-                    uniqueParameterDetailTypeMap.put(parameterDetailType.getParameterDetailTypeCode(), parameterDetailType);
-                }
-                catch (Exception e) {
-                    LOG.error("The getDataDictionaryAndSpringComponents method of ParameterUtils encountered an exception while trying to create the detail type for step class: " + step.getClass(), e);
-                }
-            }
             components.addAll(uniqueParameterDetailTypeMap.values());
         }
         return Collections.unmodifiableList(components);
@@ -255,7 +246,7 @@ public class ParameterServiceImpl implements ParameterService {
     public void setParameterForTesting(Class componentClass, String parameterName, String parameterText) {
         Parameter parameter = (Parameter) getParameter(componentClass, parameterName);
         parameter.setParameterValue(parameterText);
-        SpringContext.getBean(BusinessObjectService.class).save(parameter);
+        KNSServiceLocator.getBusinessObjectService().save(parameter);
     }
     
     /**
@@ -297,13 +288,13 @@ public class ParameterServiceImpl implements ParameterService {
         if (TransactionalDocument.class.isAssignableFrom(documentOrStepClass)) {
             return documentOrStepClass.getSimpleName().replace("Document", "");
         }
-        else if (BusinessObject.class.isAssignableFrom(documentOrStepClass) || Step.class.isAssignableFrom(documentOrStepClass)) {
+        else if (BusinessObject.class.isAssignableFrom(documentOrStepClass) ) {
             return documentOrStepClass.getSimpleName();
         }
-        throw new IllegalArgumentException("The getDetailType method of ParameterServiceImpl requires TransactionalDocument, BusinessObject, or Step class");
+        throw new IllegalArgumentException("The getDetailType method of ParameterServiceImpl requires a TransactionalDocument or BusinessObject class.");
     }
 
-    private String getDetailTypeName(Class documentOrStepClass) {
+    protected String getDetailTypeName(Class documentOrStepClass) {
         if (documentOrStepClass.isAnnotationPresent(COMPONENT.class)) {
             BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
             if (boe != null) {
@@ -316,19 +307,19 @@ public class ParameterServiceImpl implements ParameterService {
         if (TransactionalDocument.class.isAssignableFrom(documentOrStepClass)) {
             return dataDictionaryService.getDocumentLabelByClass(documentOrStepClass);
         }
-        else if (BusinessObject.class.isAssignableFrom(documentOrStepClass) || Step.class.isAssignableFrom(documentOrStepClass)) {
+        else if (BusinessObject.class.isAssignableFrom(documentOrStepClass) ) {
             BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
             if (boe != null) {
                 return boe.getObjectLabel();
             }
             else {
-                return KFSUtils.getBusinessTitleForClass(documentOrStepClass);
+                return KNSUtils.getBusinessTitleForClass(documentOrStepClass);
             }
         }
         throw new IllegalArgumentException("The getDetailTypeName method of ParameterServiceImpl requires TransactionalDocument, BusinessObject, or Step class");
     }
 
-    private ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter) {
+    protected ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter) {
         ParameterEvaluatorImpl parameterEvaluator = new ParameterEvaluatorImpl();
         parameterEvaluator.setParameter(parameter);
         parameterEvaluator.setConstraintIsAllow(constraintIsAllow(parameter));
@@ -336,19 +327,19 @@ public class ParameterServiceImpl implements ParameterService {
         return parameterEvaluator;
     }
 
-    private ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter, String constrainedValue) {
+    protected ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter, String constrainedValue) {
         ParameterEvaluatorImpl parameterEvaluator = getParameterEvaluator(parameter);
         parameterEvaluator.setConstrainedValue(constrainedValue);
         return parameterEvaluator;
     }
 
-    private ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter, String constrainingValue, String constrainedValue) {
+    protected ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter, String constrainingValue, String constrainedValue) {
         ParameterEvaluatorImpl parameterEvaluator = getParameterEvaluator(parameter, constrainedValue);
         parameterEvaluator.setValues(getParameterValues(parameter, constrainingValue));
         return parameterEvaluator;
     }
 
-    private ParameterDetailType getParameterDetailType(Class documentOrStepClass) {
+    protected ParameterDetailType getParameterDetailType(Class documentOrStepClass) {
         String detailTypeString = getDetailType(documentOrStepClass);
         String detailTypeName = getDetailTypeName(documentOrStepClass);
         ParameterDetailType detailType = new ParameterDetailType(getNamespace(documentOrStepClass), detailTypeString, (detailTypeName == null) ? detailTypeString : detailTypeName);
@@ -356,7 +347,7 @@ public class ParameterServiceImpl implements ParameterService {
         return detailType;
     }
 
-    private Parameter getParameter(Class componentClass, String parameterName) {
+    protected Parameter getParameter(Class componentClass, String parameterName) {
         String key = componentClass.toString() + ":" + parameterName;
         Parameter parameter = null;
         if (parameterCache.get() == null) {
@@ -376,7 +367,7 @@ public class ParameterServiceImpl implements ParameterService {
         return parameter;
     }
 
-    private List<String> getParameterValues(Parameter parameter, String constrainingValue) {
+    protected List<String> getParameterValues(Parameter parameter, String constrainingValue) {
         List<String> constraintValuePairs = getParameterValues(parameter);
         for (String pair : constraintValuePairs) {
             if (StringUtils.equals(constrainingValue, StringUtils.substringBefore(pair, "="))) {

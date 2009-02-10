@@ -30,9 +30,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class helps generate the entries for the nominal activity closing year end job.
@@ -75,8 +75,8 @@ public class NominalActivityClosingHelper {
 
         varNetExpenseObjectCode = parameterService.getParameterValue(NominalActivityClosingStep.class, "NET_EXPENSE_OBJECT_CODE");
         varNetRevenueObjectCode = parameterService.getParameterValue(NominalActivityClosingStep.class, "NET_REVENUE_OBJECT_CODE");
-        varFundBalanceObjectCode = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM);
-        varFundBalanceObjectTypeCode = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE_PARM);
+        varFundBalanceObjectCode = parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM);
+        varFundBalanceObjectTypeCode = parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE_PARM);
 
     }
     
@@ -157,12 +157,12 @@ public class NominalActivityClosingHelper {
         // 915 005960 MOVE 'ACLO'
         // 916 005970 TO FDOC-TYP-CD OF GLEN-RECORD.
 
-        activityEntry.setFinancialDocumentTypeCode(parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
+        activityEntry.setFinancialDocumentTypeCode(parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
 
         // 917 005980 MOVE 'MF'
         // 918 005990 TO FS-ORIGIN-CD OF GLEN-RECORD.
 
-        activityEntry.setFinancialSystemOriginationCode(parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+        activityEntry.setFinancialSystemOriginationCode(parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
 
         // 919 006000 STRING 'AC'
         // 920 006010 GLGLBL-ACCOUNT-NBR
@@ -574,12 +574,12 @@ public class NominalActivityClosingHelper {
         // 1088 007630 MOVE 'ACLO'
         // 1089 007640 TO FDOC-TYP-CD OF GLEN-RECORD.
 
-        offsetEntry.setFinancialDocumentTypeCode(parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
+        offsetEntry.setFinancialDocumentTypeCode(parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
 
         // 1090 007650 MOVE 'MF'
         // 1091 007660 TO FS-ORIGIN-CD OF GLEN-RECORD.
 
-        offsetEntry.setFinancialSystemOriginationCode(parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+        offsetEntry.setFinancialSystemOriginationCode(parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
 
         // 1092 007670 STRING 'AC'
         // 1093 007680 GLGLBL-ACCOUNT-NBR

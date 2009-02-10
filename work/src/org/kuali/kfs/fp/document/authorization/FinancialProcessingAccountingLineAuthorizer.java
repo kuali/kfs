@@ -24,11 +24,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
@@ -58,11 +58,11 @@ public class FinancialProcessingAccountingLineAuthorizer extends AccountingLineA
     protected boolean salesTaxUnviewable(AccountingDocument document, AccountingLine line) {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String docTypeCode = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(document.getClass());
-        ParameterEvaluator docTypeEvaluator = parameterService.getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, FinancialProcessingAccountingLineAuthorizer.SALES_TAX_DOCUMENT_TYPES_PARAMETER_NAME, docTypeCode);
+        ParameterEvaluator docTypeEvaluator = parameterService.getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, FinancialProcessingAccountingLineAuthorizer.SALES_TAX_DOCUMENT_TYPES_PARAMETER_NAME, docTypeCode);
         if (!docTypeEvaluator.evaluationSucceeds()) return true;
         if (!StringUtils.isEmpty(line.getFinancialObjectCode()) && !StringUtils.isEmpty(line.getAccountNumber())) {
             String compare = line.getAccountNumber() + ":" + line.getFinancialObjectCode();
-            ParameterEvaluator salesTaxApplicableAccountAndObjectEvaluator = parameterService.getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
+            ParameterEvaluator salesTaxApplicableAccountAndObjectEvaluator = parameterService.getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
             if (!salesTaxApplicableAccountAndObjectEvaluator.evaluationSucceeds()) return true;
             return false;
         }

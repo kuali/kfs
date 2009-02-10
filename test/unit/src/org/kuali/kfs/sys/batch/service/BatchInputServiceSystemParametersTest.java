@@ -24,9 +24,9 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * Tests system parameters are setup and methods on the batch input types are correctly using them.
@@ -106,7 +106,7 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
      * Changes the text for the batch input active system parameter, stores and clears cache.
      */
     private final void setActiveSystemParameter(String parameterText, boolean multiValue) throws Exception {
-        TestUtils.setSystemParameter(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME, parameterText);
+        TestUtils.setSystemParameter(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME, parameterText);
     }
 
 }

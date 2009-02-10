@@ -20,7 +20,7 @@ import java.util.Date;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.service.AchBankService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 
 public class LoadFederalReserveBankDataStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LoadFederalReserveBankDataStep.class);
@@ -34,7 +34,7 @@ public class LoadFederalReserveBankDataStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");
 
-        String filename = getParameterService().getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.ACH_BANK_INPUT_FILE);
+        String filename = getParameterService().getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.ACH_BANK_INPUT_FILE);
 
         return achBankService.reloadTable(directoryName + filename);
     }

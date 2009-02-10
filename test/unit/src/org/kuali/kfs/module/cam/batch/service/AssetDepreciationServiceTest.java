@@ -42,10 +42,10 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -147,7 +147,7 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         //Validating the parameter exists
-        assertTrue("Paramater "+CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER+" doesn't exist!",parameterService.parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER));
+        assertTrue("Paramater "+CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER+" doesn't exist!",parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER));
 
         // This validates the system parameter depreciation_date has a valid format of YYYY-MM-DD.
         if (depreciationDateParameter != null && !depreciationDateParameter.trim().equals("")) {
@@ -158,7 +158,7 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
                 throw new IllegalArgumentException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.INVALID_DEPRECIATION_DATE_FORMAT));
             }
         }        
-        parameterService.setParameterForTesting(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER, depreciationDateParameter);
+        parameterService.setParameterForTesting(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER, depreciationDateParameter);
     }
 
     /**

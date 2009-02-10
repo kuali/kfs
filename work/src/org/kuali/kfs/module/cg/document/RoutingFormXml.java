@@ -46,7 +46,6 @@ import org.kuali.kfs.module.cg.businessobject.options.RoutingFormStudyReviewCode
 import org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.ActionTakenDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
@@ -57,6 +56,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.service.ParameterService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

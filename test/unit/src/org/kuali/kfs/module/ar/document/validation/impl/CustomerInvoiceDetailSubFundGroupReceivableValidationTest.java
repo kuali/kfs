@@ -21,7 +21,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.ParameterService;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceDetailSubFundGroupReceivableValidationTest extends KualiTestBase {

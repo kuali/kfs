@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 
 public class PurgeOldLookupResultsStep extends AbstractStep {
@@ -35,7 +35,7 @@ public class PurgeOldLookupResultsStep extends AbstractStep {
         try {
             LOG.info("executing PurgeOldLookupResultsStep");
 
-            String maxAgeInSecondsStr = getParameterService().getParameterValue(ParameterConstants.NERVOUS_SYSTEM_LOOKUP.class, KFSConstants.SystemGroupParameterNames.MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE);
+            String maxAgeInSecondsStr = getParameterService().getParameterValue(KfsParameterConstants.NERVOUS_SYSTEM_LOOKUP.class, KFSConstants.SystemGroupParameterNames.MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE);
             int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);
 
             Calendar expirationCal = getDateTimeService().getCurrentCalendar();

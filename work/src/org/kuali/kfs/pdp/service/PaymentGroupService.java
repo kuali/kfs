@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public interface PaymentGroupService {
     /**

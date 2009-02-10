@@ -18,10 +18,10 @@ package org.kuali.kfs.sys.context;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Job;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.suite.TestSuiteBuilder;
 
 /**

@@ -21,8 +21,8 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**

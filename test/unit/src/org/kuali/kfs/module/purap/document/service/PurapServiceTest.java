@@ -28,10 +28,10 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
@@ -162,7 +162,7 @@ public class PurapServiceTest extends KualiTestBase {
         TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);
         businessObjectService.save(taxRegionPostalCode);
         
-        boolean isExists = SpringContext.getBean(ParameterService.class).parameterExists(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES");
+        boolean isExists = SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES");
         
         RequisitionDocument reqDoc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocumentForTax(TaxFixture.TaxTestCaseFixture.SalesTaxDeliveryStateExemptTest);
         SpringContext.getBean(PurapService.class).calculateTax(reqDoc);
@@ -175,7 +175,7 @@ public class PurapServiceTest extends KualiTestBase {
         TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);
         businessObjectService.save(taxRegionPostalCode);
         
-        boolean isExists = SpringContext.getBean(ParameterService.class).parameterExists(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES");
+        boolean isExists = SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES");
         
         RequisitionDocument reqDoc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocumentForTax(TaxFixture.TaxTestCaseFixture.SalesTaxDeliveryStateExemptWithNonTaxableFundTest);
         SpringContext.getBean(PurapService.class).calculateTax(reqDoc);

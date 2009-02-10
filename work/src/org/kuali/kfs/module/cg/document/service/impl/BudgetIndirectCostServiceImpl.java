@@ -39,9 +39,9 @@ import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
 import org.kuali.kfs.module.cg.document.service.BudgetModularService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -247,8 +247,8 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
 
         List<String> graduateAssistantAppointmentTypes = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
 
-        String graduateAssistentNonpersonnelCategoryCode = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
-        String graduateAssistantNonpesonnelSubcategoryCode = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
+        String graduateAssistentNonpersonnelCategoryCode = parameterService.getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
+        String graduateAssistantNonpesonnelSubcategoryCode = parameterService.getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
 
         // Loop over user appointments to get the total amount requested for this taskPeriod.
         for (Iterator userAppointmentTaskPeriodIterator = userAppointmentTaskPeriods.iterator(); userAppointmentTaskPeriodIterator.hasNext();) {
@@ -322,8 +322,8 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
 
         if (budgetDocument.getBudget().getIndirectCost().getBudgetIndirectCostCostShareIndicator()) {
             List<String> graduateAssistantAppointmentTypes = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
-            String graduateAssistentNonpersonnelCategoryCode = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
-            String graduateAssistantNonpersonnelSubcategoryCode = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
+            String graduateAssistentNonpersonnelCategoryCode = parameterService.getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
+            String graduateAssistantNonpersonnelSubcategoryCode = parameterService.getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
 
             List<BudgetNonpersonnel> temporaryNonpersonnelItems = new ArrayList<BudgetNonpersonnel>();
 

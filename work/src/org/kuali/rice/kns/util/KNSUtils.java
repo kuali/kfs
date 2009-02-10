@@ -13,23 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys;
+package org.kuali.rice.kns.util;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.CurrencyTypeAmounts;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Miscalenious Utility Methods.
  */
-public class KFSUtils {
+public class KNSUtils {
     
     public final static String getBusinessTitleForClass(Class clazz) {
         if (clazz == null) {
-            throw new IllegalArgumentException("The getBusinessTitleForClass method of KFSUtils requires a non-null class");
+            throw new IllegalArgumentException("The getBusinessTitleForClass method of KNSUtils requires a non-null class");
         }
         String className = clazz.getSimpleName();
     

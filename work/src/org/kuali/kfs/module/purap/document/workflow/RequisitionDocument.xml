@@ -8,7 +8,16 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Organization"/>
-          <requests name="Organization" nextNode="SubAccount"/>
+          <requests name="Organization" nextNode="HasAccountingLines"/>
+          <split name="HasAccountingLines" nextNode="SubAccount">
+            <branch name="True">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <requests name="Initiator" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
           <requests name="SubAccount" nextNode="Account"/>
           <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
           <requests name="AccountingOrganizationHierarchy" nextNode="Commodity"/>
@@ -29,6 +38,9 @@
         <role name="Organization">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
+        <split name="HasAccountingLines">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
         <role name="SubAccount">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>

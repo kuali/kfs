@@ -44,10 +44,7 @@
               p:attributeToHighlightOnFail="buildingRoomNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="capitalAssetType"
-              p:attributeToHighlightOnFail="capitalAssetTypeCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organizationOwnerAccount"
-              p:attributeToHighlightOnFail="organizationOwnerAccountNumber" />
+              p:attributeToHighlightOnFail="capitalAssetTypeCode" />        
         <bean parent="ReferenceDefinition"
               p:attributeName="organizationOwnerChartOfAccounts"
               p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />

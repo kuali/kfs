@@ -165,8 +165,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     private boolean validateAccount() {
         boolean valid = true;
-        Account organizationOwnerAccount = newAsset.getOrganizationOwnerAccount();
-        if (ObjectUtils.isNotNull(organizationOwnerAccount) && (organizationOwnerAccount.isExpired() || !organizationOwnerAccount.isActive())) {
+        Account currentOwnerAccount = newAsset.getOrganizationOwnerAccount();
+        Account previoudOwnerAccount = oldAsset.getOrganizationOwnerAccount();
+        // check if values changed, if not return
+        if (ObjectUtils.isNotNull(previoudOwnerAccount) && ObjectUtils.isNotNull(currentOwnerAccount) && previoudOwnerAccount.getChartOfAccountsCode().equals(currentOwnerAccount.getChartOfAccountsCode()) && previoudOwnerAccount.getAccountNumber().equals(currentOwnerAccount.getAccountNumber())) {
+            return valid;
+
+        }
+        else if (ObjectUtils.isNotNull(currentOwnerAccount) && (currentOwnerAccount.isExpired() || !currentOwnerAccount.isActive())) {
             // Account is not active
             putFieldError(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.ORGANIZATION_OWNER_ACCOUNT_INACTIVE);
             valid &= false;

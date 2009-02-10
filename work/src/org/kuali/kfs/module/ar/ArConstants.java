@@ -19,6 +19,9 @@ package org.kuali.kfs.module.ar;
 public class ArConstants {
 
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
+
+    public static final String INVOICE_DOC_TYPE = "Invoice";
+    public static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
     
     //System Parameters
     public static final String INSTITUTION_NAME = "INSTITUTION_NAME";

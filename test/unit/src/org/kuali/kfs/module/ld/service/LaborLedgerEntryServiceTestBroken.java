@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 @ConfigureContext
-public class LaborLedgerEntryServiceTest extends KualiTestBase {
+public class LaborLedgerEntryServiceTestBroken extends KualiTestBase {
 
     private Properties properties;
     private String fieldNames;

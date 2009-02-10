@@ -506,34 +506,42 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
         String extraDescription = "Invoice Item Line Number:" + itemHolder.getInvoiceItemLineNumber();
         
-        if (costSource.getItemUnitPriceLowerVariancePercent() == null && costSource.getItemUnitPriceUpperVariancePercent() == null){
-            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_COST_SOURCE_EMPTY,extraDescription,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason);
-            return;
-        }
-        
         BigDecimal actualVariance = itemHolder.getInvoiceItemUnitPrice().subtract(poItem.getItemUnitPrice());
         
+        BigDecimal lowerPercentage = null;
         if (costSource.getItemUnitPriceLowerVariancePercent() != null){
             //Checking for lower variance
-            BigDecimal percentage = costSource.getItemUnitPriceLowerVariancePercent();
-            BigDecimal lowerAcceptableVariance = (percentage.divide(new BigDecimal(100))).multiply(poItem.getItemUnitPrice()).negate();
-            
-            if (lowerAcceptableVariance.compareTo(actualVariance) > 0){
-                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_AMT_LESSER_THAN_LOWER_VARIANCE,extraDescription,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UNIT_PRICE,PurapKeyConstants.ERROR_REJECT_UNITPRICE_LOWERVARIANCE);
-            }
+            lowerPercentage = costSource.getItemUnitPriceLowerVariancePercent();
         }
+        else {
+            //If the cost source itemUnitPriceLowerVariancePercent is null then
+            //we'll use the exact match (100%).
+            lowerPercentage = new BigDecimal(100);
+        }
+        
+        BigDecimal lowerAcceptableVariance = (lowerPercentage.divide(new BigDecimal(100))).multiply(poItem.getItemUnitPrice()).negate();
+
+        if (lowerAcceptableVariance.compareTo(actualVariance) > 0) {
+            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_AMT_LESSER_THAN_LOWER_VARIANCE, extraDescription, orderHolder.getFileName());
+            orderHolder.addInvoiceOrderRejectReason(rejectReason, PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_REJECT_UNITPRICE_LOWERVARIANCE);
+        }
+        
+        BigDecimal upperPercentage = null;
         
         if (costSource.getItemUnitPriceUpperVariancePercent() != null){
             //Checking for upper variance
-            BigDecimal percentage = costSource.getItemUnitPriceUpperVariancePercent();
-            BigDecimal upperAcceptableVariance = (percentage.divide(new BigDecimal(100))).multiply(poItem.getItemUnitPrice());
+            upperPercentage = costSource.getItemUnitPriceUpperVariancePercent();
+        }
+        else {
+            //If the cost source itemUnitPriceLowerVariancePercent is null then
+            //we'll use the exact match (100%).
+            upperPercentage = new BigDecimal(100);
+        }
+        BigDecimal upperAcceptableVariance = (upperPercentage.divide(new BigDecimal(100))).multiply(poItem.getItemUnitPrice());
 
-            if (upperAcceptableVariance.compareTo(actualVariance) < 0){
-                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_AMT_GREATER_THAN_UPPER_VARIANCE,extraDescription,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UNIT_PRICE,PurapKeyConstants.ERROR_REJECT_UNITPRICE_UPPERVARIANCE);
-            }
+        if (upperAcceptableVariance.compareTo(actualVariance) < 0) {
+            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_AMT_GREATER_THAN_UPPER_VARIANCE, extraDescription, orderHolder.getFileName());
+            orderHolder.addInvoiceOrderRejectReason(rejectReason, PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_REJECT_UNITPRICE_UPPERVARIANCE);
         }
         
     }

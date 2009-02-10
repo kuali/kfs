@@ -177,22 +177,22 @@
 		    				<tr>
                 <td rowspan="4">&nbsp;</td>
 			  				<td colspan="4" class="infoline">Currency</td>
-			  				<td style="text-align: right" colspan="2">$<html:hidden property="cashDrawerSummary.cashDrawerCurrencyTotal" write="true" /></td>
+			  				<td style="text-align: right" colspan="2"></td>
 		    				</tr>
 
 		    				<tr>
 			  				<td colspan="4" class="infoline">Coin</td>
-			  				<td style="text-align: right" colspan="2">$<html:hidden property="cashDrawerSummary.cashDrawerCoinTotal" write="true" /></td>
+			  				<td style="text-align: right" colspan="2"></td>
 		    				</tr>
 
 		    				<tr>
 			  				<td colspan="4" class="infoline">Items in Process</td>
-			  				<td style="text-align: right" colspan="2">$<html:hidden property="cashDrawerSummary.openItemsTotal" write="true" /></td>
+			  				<td style="text-align: right" colspan="2"></td>
 		    				</tr>
 
 		    				<tr>
 			  				<td colspan="4" class="infoline"><strong>Cash Drawer Total</strong></td>
-			  				<td style="text-align: right" colspan="2">$<html:hidden property="cashDrawerSummary.cashDrawerTotal" write="true" /></td>
+			  				<td style="text-align: right" colspan="2"></td>
 		    				</tr>
           </c:when>
           <c:otherwise>

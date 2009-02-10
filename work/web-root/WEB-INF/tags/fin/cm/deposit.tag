@@ -50,10 +50,6 @@
     <%-- deposit --%>
     <tr>
         <td colspan="4">
-            <html:hidden property="${depositPropertyBase}.documentNumber" />
-            <html:hidden property="${depositPropertyBase}.financialDocumentDepositLineNumber" />
-            <html:hidden property="${depositPropertyBase}.objectId" />
-            <html:hidden property="${depositPropertyBase}.versionNumber" />
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
                 <tr>
                     <kfs:bankLabel align="left"/>

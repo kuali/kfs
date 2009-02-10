@@ -77,10 +77,18 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
         }
         */
         
-        //check if postal code of shipping address isn't the same as billing address. If not, the item is not taxable.
+        //check if the shipping address has Postal Code in the same state as the Billing Org. If not, the item is not taxable.
         if (ObjectUtils.isNotNull(customerInvoiceDocument.getShippingZipCode())){ 
-            if (!StringUtils.equals(customerInvoiceDocument.getShippingStateCode(), customerInvoiceDocument.getBillingStateCode())){
-                return false;
+
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("chartOfAccountsCode", customerInvoiceDocument.getBillByChartOfAccountCode());
+            criteria.put("organizationCode", customerInvoiceDocument.getBilledByOrganizationCode());
+            OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
+
+            if (ObjectUtils.isNotNull(organizationOptions)) {
+                if (!StringUtils.equals(customerInvoiceDocument.getShippingStateCode(), organizationOptions.getOrganizationRemitToStateCode())){
+                    return false;
+                }
             }
         }
 

@@ -117,4 +117,11 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
     public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, String> paramMap, DocumentSearchContext searchContext) {
         return searchableAttribute.validateUserSearchInputs(paramMap, searchContext);
     }
+    
+    @Override
+    public DocSearchCriteriaDTO clearSearch(DocSearchCriteriaDTO searchCriteria) {
+        DocSearchCriteriaDTO dscdto = new DocSearchCriteriaDTO();
+        dscdto.setDocTypeFullName(searchCriteria.getDocTypeFullName());
+        return dscdto;
+    }
 }

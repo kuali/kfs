@@ -53,8 +53,8 @@
   <bean id="DisbursementNumberRangeMaintenanceDocument-EditDisbursementNumberRange" parent="DisbursementNumberRangeMaintenanceDocument-EditDisbursementNumberRange-parentBean" />
 
   <bean id="DisbursementNumberRangeMaintenanceDocument-EditDisbursementNumberRange-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Report Definition" />
-    <property name="title" value="Edit Report Definition" />
+    <property name="id" value="Edit Disbursement Number Range" />
+    <property name="title" value="Edit Disbursement Number Range" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"

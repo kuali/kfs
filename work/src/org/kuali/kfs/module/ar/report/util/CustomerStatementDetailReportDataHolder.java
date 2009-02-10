@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,12 +42,12 @@ public class CustomerStatementDetailReportDataHolder {
     private String docType;
     
     
-    public CustomerStatementDetailReportDataHolder(FinancialSystemDocumentHeader docHeader, Organization processingOrg, String docType) {
+    public CustomerStatementDetailReportDataHolder(FinancialSystemDocumentHeader docHeader, Organization processingOrg, String docType, KualiDecimal totalAmount) {
        documentDescription = docHeader.getDocumentDescription();
-       if (docType.equals("Credit Memo")) {
-           financialDocumentTotalAmountCredit = docHeader.getFinancialDocumentTotalAmount();
-       } else if (docType.equals("Invoice")) {
-           financialDocumentTotalAmountCharge = docHeader.getFinancialDocumentTotalAmount();
+       if (docType.equals(ArConstants.CREDIT_MEMO_DOC_TYPE)) {
+           financialDocumentTotalAmountCredit = totalAmount;
+       } else if (docType.equals(ArConstants.INVOICE_DOC_TYPE)) {
+           financialDocumentTotalAmountCharge = totalAmount;
        }
        documentNumber = docHeader.getDocumentNumber();
        this.setDocumentFinalDate(docHeader.getDocumentFinalDate());

@@ -75,9 +75,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountsReceivableReportServiceImpl implements AccountsReceivableReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableReportServiceImpl.class);
 
-    private static final String INVOICE_DOC_TYPE = "Invoice";
-    private static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
-    
     private DateTimeService dateTimeService;
     private PersonService personService;
 
@@ -631,10 +628,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                     Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
                     for (CustomerCreditMemoDocument doc : creditMemos) {
                         doc.populateCustomerCreditMemoDetailsAfterLoad();
-                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), CREDIT_MEMO_DOC_TYPE);
+                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.CREDIT_MEMO_DOC_TYPE, doc.getTotalDollarAmount());
                         statementDetailsByCustomer.add(detail);
                     }
-                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), INVOICE_DOC_TYPE);
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.INVOICE_DOC_TYPE, invoice.getTotalDollarAmount());
                     statementDetailsByCustomer.add(detail);
                     
                     statementDetailsForGivenBillingOrg.put(customerNumber, statementDetailsByCustomer);
@@ -680,7 +677,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_31_TO_60, agingData.getTotal31to60(), invoiceMap);
             addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_61_TO_90, agingData.getTotal61to90(), invoiceMap);
             addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_91_TO_SYSPR, agingData.getTotal91toSYSPR(), invoiceMap);
-            addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_SYSPR_PLUS_1_OR_MORE, agingData.getTotalSYSPRplus1orMore(), invoiceMap);
+            // it's not necessary to display an extra bucket on the statement, so I'm rolling up the amounts over 90 days into a single bucket for display
+            addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_91_TO_SYSPR, agingData.getTotalSYSPRplus1orMore(), invoiceMap);
             addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_AMOUNT_DUE, agingData.getTotalAmountDue(), invoiceMap);
         }
     }
@@ -697,7 +695,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String currentAmount = invoiceMap.get(mapKey);
         if(StringUtils.isNotEmpty(currentAmount)) {
             try {
-                amount = new KualiDecimal(currentAmount);
+                amount = new KualiDecimal(StringUtils.remove(currentAmount, ','));
             } catch(NumberFormatException nfe) {
                 LOG.error(currentAmount+" is an invalid amount.", nfe);
             }

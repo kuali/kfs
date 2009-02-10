@@ -46,13 +46,8 @@ public class DisbursementNumberRangeRule extends MaintenanceDocumentRuleBase {
         KualiInteger beginNumber = disbursementNumberRange.getBeginDisbursementNbr();
         KualiInteger lastAssigned = disbursementNumberRange.getLastAssignedDisbNbr();
         KualiInteger end = disbursementNumberRange.getEndDisbursementNbr();
-        if ( lastAssigned.isLessThan(beginNumber) ) {
-            putFieldError(PdpPropertyConstants.LAST_ASSIGNED_DISBURSEMENT_NUMBER, PdpKeyConstants.DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_SMALL);
-            isValid = false;
-        }
-        
-        if (lastAssigned.isGreaterThan(end) ) {
-            putFieldError(PdpPropertyConstants.LAST_ASSIGNED_DISBURSEMENT_NUMBER, PdpKeyConstants.DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_LARGE);
+        if ( lastAssigned.isLessThan(beginNumber) || lastAssigned.isGreaterThan(end)) {
+            putFieldError(PdpPropertyConstants.LAST_ASSIGNED_DISBURSEMENT_NUMBER, PdpKeyConstants.DISBURSEMENT_NUMBER_OUT_OF_RANGE);
             isValid = false;
         }
         

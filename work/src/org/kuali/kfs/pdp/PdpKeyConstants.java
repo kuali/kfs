@@ -21,6 +21,7 @@ package org.kuali.kfs.pdp;
 public class PdpKeyConstants {
     public static final String DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_SMALL = "DisbursementNumberMaintenanceForm.endAssignedDisburseNbr.smaller";
     public static final String DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_LARGE = "DisbursementNumberMaintenanceForm.lastAssignedDisburseNbr.outofrange";
+    public static final String DISBURSEMENT_NUMBER_OUT_OF_RANGE = "DisbursementNumberMaintenanceForm.lastAssignedDisburseNbr.outofrange";
     
     public static final String ERROR_PAYMENT_LOAD_INVALID_CUSTOMER = "error.pdp.paymentLoad.invalidCustomer";
     public static final String ERROR_PAYMENT_LOAD_INACTIVE_CUSTOMER = "error.pdp.paymentLoad.inactiveCustomer";

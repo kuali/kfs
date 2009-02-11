@@ -23,9 +23,6 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
-		includeTaskPeriodLists="true" />
-
 	<kra-b:budgetOverview />
 
         <div id="globalbuttons" class="globalbuttons">

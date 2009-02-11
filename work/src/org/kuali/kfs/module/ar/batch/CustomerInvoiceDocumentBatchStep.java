@@ -85,7 +85,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
 
             customernames = Arrays.asList(jobName);
         } else {
-            customernames = Arrays.asList("ABB2","3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272");
+            customernames = Arrays.asList("ABB2", "3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272");
         }
 
         // create non-random data
@@ -111,7 +111,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
 
         // create lockboxes for the non-random invoices
-        int seqNbr = 2100;
+        int seqNbr = 2300;
         int scenarioNbr =1;
         for (String createdInvoice : createdInvoices){
           createLockboxesForFunctionalTesting(createdInvoice, String.valueOf(seqNbr), scenarioNbr);
@@ -122,21 +122,21 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
 
         // create random data
-        if (customernames.size() > 1) {
-        for (String customername : customernames) {
-
-            billingDate = getDateTimeService().getCurrentDate();
-
-            for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
-
-                billingDate = DateUtils.addDays(billingDate, -30);
-
-                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, 0, null, null, "1031400", "BL");
-                Thread.sleep(500);
-
-            }
-        }
-        }
+//        if (customernames.size() > 1) {
+//        for (String customername : customernames) {
+//
+//            billingDate = getDateTimeService().getCurrentDate();
+//
+//            for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
+//
+//                billingDate = DateUtils.addDays(billingDate, -30);
+//
+//                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, 0, null, null, "1031400", "BL");
+//                Thread.sleep(500);
+//
+//            }
+//        }
+//        }
 
 
 
@@ -206,7 +206,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
             newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
-            newLockbox.setLockboxNumber("66248");
+            newLockbox.setLockboxNumber("66249");
         }
 
         // 2) Payment matches customer and invoice, but the invoice has no outstanding balance (due to a previous payment, a credit memo, or a write-off)
@@ -220,7 +220,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
             newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
-            newLockbox.setLockboxNumber("66248");
+            newLockbox.setLockboxNumber("66249");
         }
 
         // 3) Payment matches customer and invoice, but the amount of the payment exceeds the outstanding balance on the invoice.
@@ -234,7 +234,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
             newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
-            newLockbox.setLockboxNumber("66248");
+            newLockbox.setLockboxNumber("66249");
         }
 
         // 4) The payment matches customer and invoice, but the amount is short-paid (less than the invoice outstanding balance)
@@ -248,7 +248,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
             newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
-            newLockbox.setLockboxNumber("66248");
+            newLockbox.setLockboxNumber("66249");
         }
 
         // 5) The payment matches a customer number, but the invoice number is missing
@@ -262,7 +262,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
             newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
-            newLockbox.setLockboxNumber("66248");
+            newLockbox.setLockboxNumber("66249");
         }
 
         // 6) The payment matches a customer number, but the invoice number is invalid
@@ -276,7 +276,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
             newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
-            newLockbox.setLockboxNumber("66248");
+            newLockbox.setLockboxNumber("66249");
         }
 
         // 7) The payment matches nothing (not even the customer number)
@@ -290,7 +290,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
             newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
-            newLockbox.setLockboxNumber("66248");
+            newLockbox.setLockboxNumber("66249");
         }
 
 

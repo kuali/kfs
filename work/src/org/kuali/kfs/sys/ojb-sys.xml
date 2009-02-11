@@ -597,7 +597,7 @@
 
     <class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegionRate" table="FS_TAX_REGION_RATE_T">
 	    <field-descriptor name="taxRegionCode" column="TAX_REGION_CD" jdbc-type="VARCHAR" primarykey="true" />
-	    <field-descriptor name="effectiveDate" column="TAX_RATE_EFFECTIVE_DT" jdbc-type="DATE" />
+	    <field-descriptor name="effectiveDate" column="TAX_RATE_EFFECTIVE_DT" jdbc-type="DATE" primarykey="true" />
 	    <field-descriptor name="taxRate" column="TAX_RATE" jdbc-type="DECIMAL" />
 	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

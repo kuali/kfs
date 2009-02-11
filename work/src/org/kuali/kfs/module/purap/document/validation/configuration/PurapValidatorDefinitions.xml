@@ -89,7 +89,7 @@
 	</bean>
 
 	<bean id="Purchasing-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewIndividualItemValidation" abstract="true">
-		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />		
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>

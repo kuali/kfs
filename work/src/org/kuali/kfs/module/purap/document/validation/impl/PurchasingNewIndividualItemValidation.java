@@ -39,7 +39,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPayableNewIndividualItemValidation {
 
-    private DataDictionaryService dataDictionaryService;
     private BusinessObjectService businessObjectService;
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
     
@@ -83,7 +82,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
             String uomCode = purItem.getItemUnitOfMeasureCode();
             if (StringUtils.isEmpty(uomCode)) {
                 valid = false;
-                String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                         getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).
                                         getLabel();
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
@@ -147,7 +146,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         boolean valid = true;      
         if (StringUtils.isEmpty(item.getItemDescription())) {
             valid = false;
-            String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+            String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_DESCRIPTION).getLabel();
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
         }
@@ -166,7 +165,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         if (item.getItemType().isLineItemIndicator()) {
             if (ObjectUtils.isNull(item.getItemUnitPrice())) {
                 valid = false;
-                String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                         getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_PRICE).getLabel();
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
             }
@@ -200,13 +199,13 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()))) {
             valid = false;
-            String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+            String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel();            
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
         }
         else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
             valid = false;
-            String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+            String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel(); 
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, attributeLabel + " in " + item.getItemIdentifierString());
         }
@@ -231,7 +230,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         if (commodityCodeRequired && StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
             //This is the case where the commodity code is required but the item does not currently contain the commodity code.
             valid = false;
-            String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(CommodityCode.class.getName()).
+            String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CommodityCode.class.getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_COMMODITY_CODE).getLabel();
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
         }
@@ -260,14 +259,6 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
             return false;
         }
         return true;
-    }
-
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 
     public BusinessObjectService getBusinessObjectService() {

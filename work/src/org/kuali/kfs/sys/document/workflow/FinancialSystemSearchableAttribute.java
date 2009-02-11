@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.DocumentSearchField;
 import org.kuali.rice.kew.docsearch.DocumentSearchRow;
-import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
+import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
@@ -31,7 +31,6 @@ import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute;
 
@@ -75,9 +74,9 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         }
         
         if (doc instanceof AmountTotaling) {
-            SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
+            SearchableAttributeFloatValue searchableAttributeValue = new SearchableAttributeFloatValue();
             searchableAttributeValue.setSearchableAttributeKey("financialDocumentTotalAmount");
-            searchableAttributeValue.setSearchableAttributeValue(((AmountTotaling)doc).getTotalDollarAmount().toString());
+            searchableAttributeValue.setSearchableAttributeValue(((AmountTotaling)doc).getTotalDollarAmount().bigDecimalValue());
             searchAttrValues.add(searchableAttributeValue);
         }
         

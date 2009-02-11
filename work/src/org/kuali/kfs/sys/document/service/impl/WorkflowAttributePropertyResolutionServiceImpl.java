@@ -309,7 +309,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         if (value instanceof BigDecimal) {
             attribute.setSearchableAttributeValue((BigDecimal)value);
         } else if (value instanceof KualiDecimal) {
-            attribute.setSearchableAttributeValue(new BigDecimal(((KualiDecimal)value).doubleValue()));
+            attribute.setSearchableAttributeValue(((KualiDecimal)value).bigDecimalValue());
         } else {
             attribute.setSearchableAttributeValue(new BigDecimal(((Number)value).doubleValue()));
         }

@@ -63,7 +63,7 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {        
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        final String groupName = (accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.SOURCE_ACCOUNTING_LINES_GROUP_NAME : KFSConstants.TARGET_ACCOUNTING_LINES_GROUP_NAME);
+        final String groupName = getGroupName();
         AccountingLineAuthorizer accountingLineAuthorizer = ((FinancialSystemTransactionalDocumentEntry)dataDictionaryService.getDataDictionary().getDictionaryObjectEntry(accountingDocumentForValidation.getClass().getName())).getAccountingLineGroups().get(groupName).getAccountingLineAuthorizer();
         
         boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
@@ -80,6 +80,14 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         }
 
         return isAccessible;
+    }
+    
+    /**
+     * Returns the name of the accounting line group which holds the proper authorizer to do the KIM check
+     * @return the name of the accouting line group to get the authorizer from
+     */
+    protected String getGroupName() {
+        return (accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.SOURCE_ACCOUNTING_LINES_GROUP_NAME : KFSConstants.TARGET_ACCOUNTING_LINES_GROUP_NAME);
     }
     
     /**

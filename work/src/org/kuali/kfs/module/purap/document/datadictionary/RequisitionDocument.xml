@@ -1098,6 +1098,10 @@
 				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingCapitalAssetLocationEvent</value></key>
 				<value>Requisition-addPurchasingCapitalAssetLocationValidation</value>				
 			</entry>						
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedPurchasingAccountsPayableAccountValidationEvent</value></key>
+				<value>Requisition-purchasingAccountsPayableAccountValidation</value>				
+			</entry>												
     	</map>
     </property>
   </bean>  

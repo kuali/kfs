@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -39,21 +40,19 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingAccountsPayableNewIndividualItemValidation extends GenericValidation {
 
+    private DataDictionaryService dataDictionaryService;
     private ParameterService parameterService;
     private PurApItem itemForValidation;
     
     public boolean validate(AttributedDocumentEvent event) {
-        boolean success = true;
-        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) event.getDocument();
-        String documentTypeClassName = purapDocument.getClass().getName();
-        String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
-        String documentType = documentTypeArray[documentTypeArray.length - 1];
         boolean valid = true;
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) event.getDocument();
+        String documentType = dataDictionaryService.getDocumentTypeNameByClass(purapDocument.getClass());        
+        
         if (itemForValidation.getItemType().isAdditionalChargeIndicator()) {
-            valid &= validateBelowTheLineValues(documentType, itemForValidation);
-            return valid;
+            valid &= validateBelowTheLineValues(documentType, itemForValidation);            
         }
-        return success;
+        return valid;
     }
 
     protected String getDocumentTypeLabel(String documentTypeName) {
@@ -224,6 +223,14 @@ public class PurchasingAccountsPayableNewIndividualItemValidation extends Generi
 
     public void setItemForValidation(PurApItem itemForValidation) {
         this.itemForValidation = itemForValidation;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }    
 
 

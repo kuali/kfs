@@ -21,11 +21,19 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 <!-- PURAP Definitions -->
+	<bean id="PurchasingAccountsPayable-objectCodeOverrideBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableObjectCodeOverrideBranchingValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+		<property name="responsibleProperty" value="financialObjectCode" />
+		<property name="propertyPath" value="financialObjectCode" />
+		<property name="parameterToCheckAgainst" value="OBJECT_CODES_OVERRIDING_RESTRICTIONS" />		
+	</bean>
+
 	<bean id="PurchasingAccountsPayable-newProcessItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableNewProcessItemValidation" abstract="true">
 		<property name="purapService" ref="purapService" />
 	</bean>
 
 	<bean id="PurchasingAccountsPayable-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableNewIndividualItemValidation" abstract="true">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
@@ -81,7 +89,7 @@
 	</bean>
 
 	<bean id="Purchasing-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewIndividualItemValidation" abstract="true">
-		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
@@ -622,4 +630,47 @@
         </property>
     </bean>    	
 
+    <bean id="PurchasingAccountsPayable-accountingLineValuesAllowedValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true"> 								
+       <property name="validations">
+           <list>    	
+			   <bean parent="PurchasingAccountsPayable-objectCodeOverrideBranchingValidation" scope="prototype">
+					<property name="branchMap">
+			        <map>
+			        	<entry>
+			            	<key><value>ObjectCodeOverriden</value></key>
+							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+								<property name="accountingDocumentParameterPropertyName" value="document" />
+								<property name="accountingLineParameterPropertyName" value="accountingLine" />
+								<property name="objectCodeAllowedValidation"><null /></property>
+								<property name="objectTypeAllowedValidation"><null /></property>
+								<property name="objectSubTypeAllowedValidation"><null /></property>
+								<property name="objectLevelAllowedValidation"><null /></property>
+								<property name="objectConsolidationAllowedValidation"><null /></property>												
+							</bean>                                                                                        
+						</entry>
+			            <entry>
+			            	<key><value>ObjectCodeNotOverriden</value></key>
+							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+								<property name="accountingDocumentParameterPropertyName" value="document" />
+								<property name="accountingLineParameterPropertyName" value="accountingLine" />
+							</bean>                                            
+			            </entry>					                    
+					</map>
+			        </property>
+			        <property name="parameterProperties">
+			            <list>
+					        <bean parent="validationFieldConversion">
+					            <property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+					        </bean>
+					        <bean parent="validationFieldConversion">
+					            <property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+					        </bean>
+						</list>
+				</property>
+			</bean>														
+		</list>
+	  </property>
+	</bean>
 </beans>

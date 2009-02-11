@@ -184,6 +184,8 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
     }
 
     /**
+     * DON'T CALL THIS IF THE DOC HAS NOT BEEN SAVED
+     * 
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#willDocumentStopAtGivenFutureRouteNode(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,
      *      org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails)
      */

@@ -27,6 +27,18 @@ public class PurchaseOrderSensitiveData extends PersistableBusinessObjectBase {
         
     private SensitiveData sensitiveData;
 
+    public PurchaseOrderSensitiveData() {
+        super();
+    }
+    
+    public PurchaseOrderSensitiveData(Integer poId, Integer reqId, String newSensitiveDataCode) {
+        super();
+        purapDocumentIdentifier = poId;
+        requisitionIdentifier = reqId;
+        sensitiveDataCode = newSensitiveDataCode;
+    }
+
+    
     public Integer getPurapDocumentIdentifier() {
         return purapDocumentIdentifier;
     }

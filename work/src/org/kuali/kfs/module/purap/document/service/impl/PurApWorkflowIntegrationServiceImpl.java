@@ -189,7 +189,6 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#willDocumentStopAtGivenFutureRouteNode(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,
      *      org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails)
      */
-    // TODO cannot use the simulation engine without saving the document, given how new kim routing works.
     public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail) {
         if (givenNodeDetail == null) {
             throw new InvalidParameterException("Given Node Detail object was null");

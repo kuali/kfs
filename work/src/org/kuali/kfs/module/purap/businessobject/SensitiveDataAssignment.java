@@ -15,10 +15,14 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class SensitiveDataAssignment extends PersistableBusinessObjectBase {
 
@@ -28,7 +32,26 @@ public class SensitiveDataAssignment extends PersistableBusinessObjectBase {
     private  String sensitiveDataAssignmentPersonIdentifier;
     private  Date sensitiveDataAssignmentChangeDate;
     
+    private List<SensitiveDataAssignmentDetail> sensitiveDataAssignmentDetails;
     
+    public SensitiveDataAssignment() {
+        super();
+    }
+    
+    public SensitiveDataAssignment(Integer poId, String sensitiveDataAssignmentReasonText, String sensitiveDataAssignmentPersonIdentifier, List<SensitiveData> sensitiveDataToAssign) {
+        super();
+        setPurapDocumentIdentifier(poId);
+        setSensitiveDataAssignmentReasonText(sensitiveDataAssignmentReasonText);
+        setSensitiveDataAssignmentPersonIdentifier(sensitiveDataAssignmentPersonIdentifier);
+        setSensitiveDataAssignmentChangeDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        
+        sensitiveDataAssignmentDetails = new ArrayList<SensitiveDataAssignmentDetail>();
+        for (SensitiveData sd : sensitiveDataToAssign) {
+            sensitiveDataAssignmentDetails.add(new SensitiveDataAssignmentDetail(sd.getSensitiveDataCode(), this));
+        }
+    }
+    
+
     public Integer getPurapDocumentIdentifier() {
         return purapDocumentIdentifier;
     }
@@ -74,5 +97,13 @@ public class SensitiveDataAssignment extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("sensitiveDataAssignmentIdentifier", this.sensitiveDataAssignmentIdentifier);
         return m;
+    }
+
+    public List<SensitiveDataAssignmentDetail> getSensitiveDataAssignmentDetails() {
+        return sensitiveDataAssignmentDetails;
+    }
+
+    public void setSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail> sensitiveDataAssignmentDetails) {
+        this.sensitiveDataAssignmentDetails = sensitiveDataAssignmentDetails;
     }   
 }

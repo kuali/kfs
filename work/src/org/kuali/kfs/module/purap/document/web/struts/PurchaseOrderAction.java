@@ -639,55 +639,23 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 //        }
 
         // update table SensitiveDataAssignment
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        SensitiveDataAssignment sda = new SensitiveDataAssignment();
-        /*
-        //TODO remove the following 2 lines after sequence for assignment ID is added
-        int sdaId = poForm.getLastSensitiveDataAssignment() == null ? 0 : poForm.getLastSensitiveDataAssignment().getSensitiveDataAssignmentIdentifier() + 1;
-        sda.setSensitiveDataAssignmentIdentifier(poId*10000+sdaId);
-        */
-        sda.setPurapDocumentIdentifier(poId);
-        sda.setSensitiveDataAssignmentReasonText(poForm.getSensitiveDataAssignmentReason());
-        sda.setSensitiveDataAssignmentChangeDate(currentDate);
-        sda.setSensitiveDataAssignmentPersonIdentifier(currentUser.getPrincipalId());
-        sdService.saveSensitiveDataAssignment(sda);        
+        SensitiveDataAssignment sda = new SensitiveDataAssignment(poId, poForm.getSensitiveDataAssignmentReason(), GlobalVariables.getUserSession().getPerson().getPrincipalId(), poForm.getSensitiveDatasAssigned());
+        SpringContext.getBean(BusinessObjectService.class).save(sda);
 
-        // update table SensitiveDataAssignmentDetail
-        Integer sdaId = sdService.getLastSensitiveDataAssignmentId(poId);
-        List<SensitiveDataAssignmentDetail> sdads = new ArrayList<SensitiveDataAssignmentDetail>();
-        for (SensitiveData sd : sds) {
-            SensitiveDataAssignmentDetail sdad = new SensitiveDataAssignmentDetail();
-            sdad.setSensitiveDataAssignmentIdentifier(sdaId);
-            sdad.setSensitiveDataCode(sd.getSensitiveDataCode());
-            sdads.add(sdad);
-        }
-        sdService.saveSensitiveDataAssignmentDetails(sdads);        
-        
         // update table PurchaseOrderSensitiveData
         sdService.deletePurchaseOrderSensitiveDatas(poId);
         List<PurchaseOrderSensitiveData> posds = new ArrayList();
         for (SensitiveData sd : sds) {
-            PurchaseOrderSensitiveData posd = new PurchaseOrderSensitiveData();
-            posd.setPurapDocumentIdentifier(poId);
-            posd.setRequisitionIdentifier(po.getRequisitionIdentifier());
-            posd.setSensitiveDataCode(sd.getSensitiveDataCode());
-            posds.add(posd);
+            posds.add(new PurchaseOrderSensitiveData(poId, po.getRequisitionIdentifier(), sd.getSensitiveDataCode()));
         }
-        sdService.savePurchaseOrderSensitiveDatas(posds);
+        SpringContext.getBean(BusinessObjectService.class).save(posds);
+
+        // need this to update workflow doc for searching restrictions on sensitive data
+        po.getDocumentHeader().getWorkflowDocument().saveRoutingData();
                 
-        /*
-        // even though at this point, the sensitive data entries should be up-to-date in the form already, 
-        // we still load them again; otherwise the PO screen won't be refreshed when display returns to it
-        List<SensitiveData> newsds = sdService.getSensitiveDatasAssignedByPoId(poId);
-        poForm.setSensitiveDatasAssigned(newsds);    
-        */
-        
         // reset the sensitive data related fields in the po form
         poForm.setAssigningSensitiveData(false);
         
-        //TODO hjs test this
-        loadDocument(poForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }          
 

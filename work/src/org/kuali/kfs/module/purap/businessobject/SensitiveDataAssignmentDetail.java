@@ -27,6 +27,16 @@ public class SensitiveDataAssignmentDetail extends PersistableBusinessObjectBase
     private SensitiveDataAssignment sensitiveDataAssignment;
     private SensitiveData sensitiveData;
     
+    public SensitiveDataAssignmentDetail() {
+        super();
+    }
+
+    public SensitiveDataAssignmentDetail(String sensitiveDataCode, SensitiveDataAssignment parent) {
+        super();
+        setSensitiveDataCode(sensitiveDataCode);
+        setSensitiveDataAssignment(parent);
+    }
+    
     public Integer getSensitiveDataAssignmentIdentifier() {
         return sensitiveDataAssignmentIdentifier;
     }

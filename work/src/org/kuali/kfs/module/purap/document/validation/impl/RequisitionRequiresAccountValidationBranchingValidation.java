@@ -17,8 +17,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -28,13 +27,20 @@ public class RequisitionRequiresAccountValidationBranchingValidation extends Bra
     public static final String NEEDS_ACCOUNT_VALIDATION = "needsAccountValidation";
     
     private PurApItem itemForValidation;
-    private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
     
+    /**
+     * Requisition should only force complete accounting strings under the following cases: any accounts have been entered, document
+     * is in "hasAccountingLines" route level, or if document is in "account review" route level.
+     * 
+     * @see org.kuali.kfs.sys.document.validation.BranchingValidation#determineBranch(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     */
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
-        //FIXME hjs put this back in once simulation engine is working again KFSMI-2239
-        if (!(false) || //purapWorkflowIntegrationService.willDocumentStopAtGivenFutureRouteNode((PurchasingAccountsPayableDocument)event.getDocument(), NodeDetailEnum.CONTENT_REVIEW) ||
-            (!itemForValidation.getSourceAccountingLines().isEmpty())) {
+        RequisitionDocument req = (RequisitionDocument)event.getDocument();
+
+        if (req.isDocumentStoppedInRouteNode(NodeDetailEnum.HAS_ACCOUNTING_LINES) ||
+                req.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW) ||
+                !itemForValidation.getSourceAccountingLines().isEmpty()) {
             return NEEDS_ACCOUNT_VALIDATION;
         } else {
             return KFSConstants.EMPTY_STRING;
@@ -47,14 +53,6 @@ public class RequisitionRequiresAccountValidationBranchingValidation extends Bra
 
     public void setItemForValidation(PurApItem itemForValidation) {
         this.itemForValidation = itemForValidation;
-    }
-
-    public PurApWorkflowIntegrationService getPurapWorkflowIntegrationService() {
-        return purapWorkflowIntegrationService;
-    }
-
-    public void setPurapWorkflowIntegrationService(PurApWorkflowIntegrationService purapWorkflowIntegrationService) {
-        this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
     }
 
 }

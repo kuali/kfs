@@ -2995,6 +2995,9 @@
 	<field-descriptor name="sensitiveDataAssignmentReasonText" column="SNSTV_DTA_ASGN_REAS_TXT" jdbc-type="VARCHAR" />
 	<field-descriptor name="sensitiveDataAssignmentPersonIdentifier" column="SNSTV_DTA_ASGN_CHG_PRSN_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="sensitiveDataAssignmentChangeDate" column="SNSTV_DTA_ASGN_CHG_DT" jdbc-type="DATE" />
+    <collection-descriptor name="sensitiveDataAssignmentDetails" element-class-ref="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="sensitiveDataAssignmentIdentifier" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail" table="PUR_SNSTV_DTA_ASGN_DTL_T">

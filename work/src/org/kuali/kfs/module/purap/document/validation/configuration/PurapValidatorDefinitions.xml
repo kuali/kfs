@@ -269,9 +269,7 @@
 	    <property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 
-    <bean id="Requisition-requiresAccountValidationBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionRequiresAccountValidationBranchingValidation" abstract="true" >
-        <property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
-    </bean>
+    <bean id="Requisition-requiresAccountValidationBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionRequiresAccountValidationBranchingValidation" abstract="true" />
 
 	<bean id="Requisition-accountClosedValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountClosedValidation" abstract="true"/>
 	

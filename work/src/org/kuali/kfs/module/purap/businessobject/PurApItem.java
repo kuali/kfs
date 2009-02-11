@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Purap Item Business Object.
  */
-public interface PurApItem extends ExternalizableBusinessObject, PersistableBusinessObject, PersistenceBrokerAware, PurapEnterableItem, ExternalPurApItem {
+public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerAware, PurapEnterableItem, ExternalPurApItem {
 
     public abstract Integer getItemIdentifier();
 

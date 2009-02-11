@@ -120,12 +120,14 @@ public class PurapConstants extends JSTLConstants {
         public static final String CANCELLED = "CANC";
         public static final String CLOSED = "CLOS";
         public static final String AWAIT_CONTENT_REVIEW = "ACNT";
+        public static final String AWAIT_HAS_ACCOUNTING_LINES = "AHAL";
         public static final String AWAIT_SUB_ACCT_REVIEW = "ASUB";
         public static final String AWAIT_FISCAL_REVIEW = "AFIS";
         public static final String AWAIT_CHART_REVIEW = "ACHA";
         public static final String AWAIT_COMMODITY_CODE_REVIEW = "WCOM";
         public static final String AWAIT_SEP_OF_DUTY_REVIEW = "ASOD";
         public static final String DAPRVD_CONTENT = "DCNT";
+        public static final String DAPRVD_HAS_ACCOUNTING_LINES = "DHAL";
         public static final String DAPRVD_SUB_ACCT = "DSUB";
         public static final String DAPRVD_FISCAL = "DFIS";
         public static final String DAPRVD_CHART = "DCHA";

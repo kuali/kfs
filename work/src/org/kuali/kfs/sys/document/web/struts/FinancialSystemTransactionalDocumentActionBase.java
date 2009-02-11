@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.sys.document.web.struts;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +28,7 @@ import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
  * This class...
@@ -48,6 +51,7 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
         Document document = tmpForm.getDocument();
 
         ((Correctable) tmpForm.getTransactionalDocument()).toErrorCorrection();
+        tmpForm.setExtraButtons(new ArrayList<ExtraButton>());
 
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }

@@ -61,7 +61,13 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
             return false;
         }
 
+        if (document.getDocumentHeader().getFinancialDocumentInErrorNumber() != null) {
+            return false;
+        }
+
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        
+        
         return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
     }
 

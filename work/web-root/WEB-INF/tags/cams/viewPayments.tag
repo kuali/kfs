@@ -19,7 +19,7 @@
 <%@ attribute name="assetValueObj" type="java.lang.String" required="false" description="Asset object name" %>
 <%@ attribute name="assetValue" type="org.kuali.kfs.module.cam.businessobject.Asset" required="false" description="Asset object value" %>
 
-<c:if test="${fn:length(assetPayments) <= CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY}">
+<c:if test="${fn:length(assetPayments) <= CamsConstants.Asset.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY}">
 	<c:if test="${assetValueObj==null}">
 		<c:set var="assetValueObj" value="document.asset" />
 		<c:set var="assetValue" value="${KualiForm.document.asset}" />

@@ -54,14 +54,13 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer,
      *      java.util.List)
      */
-    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, String authorId, String noteText) {
+    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, String principalId, String noteText) {
         PurchaseOrderDocument document = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);
         
         try {
             Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
             // set the initiator user info to the new note
-            Person initiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(authorId);
-            assetNote.setAuthorUniversalIdentifier(initiator.getPrincipalId());
+            assetNote.setAuthorUniversalIdentifier(principalId);
             document.addNote(assetNote);
             KNSServiceLocator.getNoteService().save(assetNote);
         }

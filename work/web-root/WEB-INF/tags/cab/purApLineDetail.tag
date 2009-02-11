@@ -120,9 +120,9 @@
 		<td class="infoline">N
 	</c:otherwise>
 	</c:choose>
-	<td class="infoline" align="center">
 	<c:choose>
 	<c:when test="${itemLine.active }">
+		<td class="infoline" align="center">
 		<c:if test="${!itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}">
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-split.gif" styleClass="tinybutton" property="methodToCall.split.doc${docPos-1}.line${linePos-1}" title="Split" alt="Split" />
 			<br></br>
@@ -140,18 +140,24 @@
 		<c:if test="${itemLine.applyPaymentIndicator}">
 		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-applypayment.gif" styleClass="tinybutton" property="methodToCall.applyPayment.doc${docPos-1}.line${linePos-1}" title="applyPayment" alt="applyPayment"/>
 		</c:if>
+		</td>
 	</c:when>
 	<c:otherwise>
+	    <td class="infoline" align="center">
 		<a href="${ConfigProperties.application.url}/en/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
 			<kul:htmlControlAttribute property="${assetItemStr}.capitalAssetManagementDocumentNumber" attributeEntry="${purApItemAssetAttributes.capitalAssetManagementDocumentNumber}" readOnly="true">
 			</kul:htmlControlAttribute>
 		</a>&nbsp;
+		</td>
+		<td class="infoline" align="center">
 		<c:forEach items="${itemLine.approvedAssetNumbers }" var="assetNumber" >
+		<a href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.integration.cam.CapitalAssetManagementAsset&capitalAssetNumber=${assetNumber}&methodToCall=start" target="_blank">
 			${assetNumber }
+		</a>&nbsp;
 		</c:forEach>
+		</td>
 	</c:otherwise>
 	</c:choose>
-	</td>
 </tr>
 <tr>
 	<c:set var="tabKey" value="payment-${docPos}-${linePos}"/>

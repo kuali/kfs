@@ -14,7 +14,6 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
@@ -23,7 +22,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -617,11 +616,11 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         if (!StringUtils.isEmpty(this.getCapitalAssetManagementDocumentNumber())) {
             
             try {
-                MaintenanceDocument doc= (MaintenanceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getCapitalAssetManagementDocumentNumber());
+                Document doc= (Document)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getCapitalAssetManagementDocumentNumber());
                 KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
                 List<Long> assetNumbers = new ArrayList<Long>();
                 Map<String, String> fieldValues = new HashMap<String, String>();
-                if (workflowDocument.stateIsFinal()) {
+                if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal()) {
                     if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(workflowDocument.getDocumentType())) {
                         fieldValues.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, this.getCapitalAssetManagementDocumentNumber());
                         Collection<AssetGlobalDetail> assetGlobalDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetGlobalDetail.class, fieldValues);

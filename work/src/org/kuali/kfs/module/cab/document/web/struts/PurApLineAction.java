@@ -776,7 +776,7 @@ public class PurApLineAction extends CabActionBase {
         KualiDecimal quantity = selectedLine.getAccountsPayableItemQuantity();
         // check if item quantity is a fractional value greater than 1.
         if (quantity.isGreaterThan(integerOne) && quantity.mod(integerOne).isNonZero()) {
-            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
+            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_FRACTIONAL_QUANTITY);
         }
         // if quantity is between (0,1) , set it to 1.
         else if (quantity.isGreaterThan(KualiDecimal.ZERO) && quantity.isLessThan(integerOne)) {

@@ -1375,7 +1375,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             activateCabPOLines(documentNumber);
             activateCabGlLines(documentNumber);
         }
-        if (workflowDocument.stateIsProcessed() && workflowDocument.stateIsApproved()) {
+        if (workflowDocument.stateIsProcessed()) {
             // report asset numbers to PO
             Integer poId = getPurchaseOrderIdentifier(documentNumber);
             if (poId != null) {

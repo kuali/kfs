@@ -305,6 +305,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
             if (success &= checkReferenceExists(assetGlobal, assetPaymentDetail)) {
                 success &= validatePaymentLine(document, assetGlobal, assetPaymentDetail);
+                success &= checkNegativePayment(document, assetPaymentDetail);
             }
         }
 
@@ -408,15 +409,26 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateDocumentTypeForNonNew(assetGlobal.getAcquisitionTypeCode(), assetPaymentDetail);
         }
 
+        success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
+        return success;
+    }
+
+    /**
+     * "Add Negative Payment" permission check.
+     * 
+     * @param maintenanceDocument
+     * @param assetPaymentDetail
+     * @return
+     */
+    private boolean checkNegativePayment(MaintenanceDocument maintenanceDocument, AssetPaymentDetail assetPaymentDetail) {
+        boolean success = true;
         AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.ADD_NEGATIVE_PAYMENTS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (!isAuthorized && assetPaymentDetail.getAmount() != null && assetPaymentDetail.getAmount().isNegative()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
-            success &= false;
+            success = false;
         }
-
-        success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
         return success;
     }
 

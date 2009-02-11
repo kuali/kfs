@@ -50,7 +50,8 @@
 		    	<th class="grid" align="center">Action</th>
 		    </c:when>
 		    <c:otherwise>
-		    	<th class="grid" align="center">Document&Asset</th>
+		    	<th class="grid" align="center">Document</th>
+		    	<th class="grid" align="center">Asset</th>
 		    </c:otherwise>
 	    </c:choose>
 	</tr>

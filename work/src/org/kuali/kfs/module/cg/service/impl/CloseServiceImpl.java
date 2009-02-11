@@ -18,6 +18,8 @@ package org.kuali.kfs.module.cg.service.impl;
 import java.sql.Date;
 import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
@@ -25,8 +27,11 @@ import org.kuali.kfs.module.cg.dataaccess.AwardDao;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.kuali.kfs.module.cg.dataaccess.ProposalDao;
 import org.kuali.kfs.module.cg.service.CloseService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,27 +76,30 @@ public class CloseServiceImpl implements CloseService {
             return;
         }
 
-        Collection<Proposal> proposals = proposalDao.getProposalsToClose(max);
-        Long proposalCloseCount = new Long(proposals.size());
-        for (Proposal p : proposals) {
-            p.setProposalClosingDate(today);
-            proposalDao.save(p);
+        if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), 
+                CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)){
+
+            Collection<Proposal> proposals = proposalDao.getProposalsToClose(max);
+            Long proposalCloseCount = new Long(proposals.size());
+            for (Proposal p : proposals) {
+                p.setProposalClosingDate(today);
+                proposalDao.save(p);
+            }
+
+            Collection<Award> awards = awardDao.getAwardsToClose(max);
+            Long awardCloseCount = new Long(awards.size());
+            for (Award a : awards) {
+                a.setAwardClosingDate(today);
+                awardDao.save(a);
+            }
+
+            max.setAwardClosedCount(awardCloseCount);
+            max.setProposalClosedCount(proposalCloseCount);
+
+            closeDao.save(max);
         }
-
-        Collection<Award> awards = awardDao.getAwardsToClose(max);
-        Long awardCloseCount = new Long(awards.size());
-        for (Award a : awards) {
-            a.setAwardClosingDate(today);
-            awardDao.save(a);
-        }
-
-        max.setAwardClosedCount(awardCloseCount);
-        max.setProposalClosedCount(proposalCloseCount);
-
-        closeDao.save(max);
-
     }
-    
+
     /**
      * @see org.kuali.kfs.module.cg.service.CloseService#addDocumentNoteAfterClosing(String)
      */
@@ -99,11 +107,20 @@ public class CloseServiceImpl implements CloseService {
         Note note = new Note();
         note.setNoteText(noteText);
         note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        
+
         CFDAClose mostRecentCloseDocument = this.getMostRecentClose();
-        mostRecentCloseDocument.addNote(note);      
         
-        closeDao.save(mostRecentCloseDocument);
+        if (StringUtils.equals(mostRecentCloseDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), 
+                CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)){
+
+            DocumentService service = SpringContext.getBean(DocumentService.class);
+            try {
+                service.addNoteToDocument(mostRecentCloseDocument, note);
+                service.approveDocument(mostRecentCloseDocument, note.getNoteText(), null);
+            } catch (WorkflowException we) {
+                we.printStackTrace();
+            }
+        }
     }
 
     /**

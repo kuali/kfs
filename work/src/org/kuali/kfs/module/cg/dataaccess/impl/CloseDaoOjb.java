@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.cg.dataaccess.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -23,7 +25,11 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
@@ -36,25 +42,48 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#getMaxApprovedClose()
      */
     public CFDAClose getMaxApprovedClose() {
+        CFDAClose returnVal = null;
+
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.ENROUTE);
         QueryByCriteria query = QueryFactory.newQuery(CFDAClose.class, criteria);
         query.addOrderByDescending("documentNumber");
-        PersistenceBrokerTemplate template = getPersistenceBrokerTemplate();
-        Iterator i = template.getIteratorByQuery(query);
-        if (null != i) {
-            if (i.hasNext()) {
-                CFDAClose close = (CFDAClose) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(i);
-                if (null == close.getAwardClosedCount()) {
-                    close.setAwardClosedCount(0L);
-                }
-                if (null == close.getProposalClosedCount()) {
-                    close.setProposalClosedCount(0L);
-                }
-                return close;
-            }
+
+        Iterator<CFDAClose> documents = (Iterator<CFDAClose>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        ArrayList<String> documentHeaderIds = new ArrayList<String>();
+        while (documents.hasNext()) {
+            CFDAClose document = (CFDAClose) documents.next();
+            documentHeaderIds.add(document.getDocumentNumber());
         }
-        return null;
+
+        if (documentHeaderIds.size() > 0) {
+
+            List<CFDAClose> docs  = null;
+
+            try {
+                docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(CFDAClose.class, documentHeaderIds);
+
+                if (docs.size() >= 1) {
+                    returnVal = docs.get(0);
+                    if (null == returnVal.getAwardClosedCount()) {
+                        returnVal.setAwardClosedCount(0L);
+                    }
+                    if (null == returnVal.getProposalClosedCount()) {
+                        returnVal.setProposalClosedCount(0L);
+                    }
+                }
+//                for (CFDAClose close : docs) {
+//
+//                    close.getDocumentHeader().getWorkflowDocument().disapprove("Was not most recent Close doc.");
+//                }
+            }catch (WorkflowException e) {
+                throw new InfrastructureException("unable to process CFDAClose", e);
+            }
+
+        }
+        
+        return returnVal;
+      
     }
 
     /**

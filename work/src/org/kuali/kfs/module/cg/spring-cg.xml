@@ -176,11 +176,11 @@
         <property name="cfdaService">
             <ref bean="cfdaService" />
         </property>
-        <property name="personService">
-            <ref bean="personService" />
-        </property>
         <property name="mailService">
             <ref bean="mailService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
         </property>
     </bean>
 
@@ -200,12 +200,6 @@
     <bean id="closeBatchStep" class="org.kuali.kfs.module.cg.batch.CloseBatchStep" parent="step">
         <property name="closeService">
             <ref bean="closeService" />
-        </property>
-        <property name="personService">
-            <ref bean="personService" />
-        </property>
-        <property name="mailService">
-            <ref bean="mailService" />
         </property>
     </bean>
 

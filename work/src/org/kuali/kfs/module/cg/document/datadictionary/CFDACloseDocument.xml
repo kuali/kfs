@@ -68,5 +68,9 @@
   <bean id="CFDACloseDocument-workflowProperties" parent="CFDACloseDocument-workflowProperties-parentBean" />
 
   <bean id="CFDACloseDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+ 	     		    <!-- no qualifiers for unprocessed -->
+ 	     		    <!-- no qualifiers for management -->
+ 	 
   </bean>
+  
 </beans>

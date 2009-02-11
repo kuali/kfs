@@ -90,6 +90,7 @@ public class CGConstants extends JSTLConstants {
     public static final String BUDGET_COST_SHARE_PERMISSION_CODE = "COST_SHARE_PERMISSION_CODE";
     public static final String DEFAULT_BUDGET_TASK_NAME = "DEFAULT_BUDGET_TASK_NAME";
     public static final String INDIRECT_COST_MAX_MANUAL_RATE = "INDIRECT_COST_MAX_MANUAL_RATE";
+    public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
 
     public static final String DEFAULT_APPOINTMENT_TYPE = "DEFAULT_APPOINTMENT_TYPE";
     public static final String DEFAULT_PERSONNEL_INFLATION_RATE = "DEFAULT_PERSONNEL_INFLATION_RATE";
@@ -246,6 +247,9 @@ public class CGConstants extends JSTLConstants {
         public static final String ROUTING_FORM_ADHOC_ACKNOWLEDGER_KIM_ROLE_NAME = "Routing Form Ad Hoc Acknowledger";
         public static final String PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME = "Pre-Award Project Director";
         public static final String AWARD_ROUTING_NODE_NAME = "Award";
+        public static final String MANAGEMENT_ROUTING_NODE_NAME = "Management";
+        public static final String UNPROCESSED_ROUTING_NODE_NAME = "Unprocessed";
+        
     }
     
     public static class SectionId{

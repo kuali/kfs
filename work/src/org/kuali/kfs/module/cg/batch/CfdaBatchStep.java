@@ -17,17 +17,16 @@ package org.kuali.kfs.module.cg.batch;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in
@@ -40,8 +39,7 @@ public class CfdaBatchStep extends AbstractStep {
 
     private CfdaService cfdaService;
     private MailService mailService;
-    private org.kuali.rice.kim.service.PersonService personService;
-
+    private ParameterService parameterService;
     /**
      * See the class description.
      * 
@@ -53,24 +51,15 @@ public class CfdaBatchStep extends AbstractStep {
         try {
             CfdaUpdateResults results = cfdaService.update();
 
-// TODO fix for kim
-            //            KimGroup workgroup = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName(org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, MAIL_RECIPIENTS_GROUP_NAME);
-//            if (workgroup == null) {
-//                LOG.fatal("Couldn't find workgroup to send notification to.");
-//                return true;
-//            }
-//            List<String> principalIds = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupMemberPrincipalIds(workgroup.getGroupId());
-//            for (String id : principalIds) {
-//                Person user = personService.getPerson(id);
-//                if (user != null) {
-//                    String address = user.getEmailAddress();
-//                    if (!StringUtils.isEmpty(address)) {
-//                        message.addToAddress(address);
-//                    }
-//                } else {
-//                    LOG.info("User " + id + " doesn't exist.");
-//                }
-//            }
+            String listserv = parameterService.getParameterValue(CfdaBatchStep.class, CGConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES);
+            if (listserv == null) {
+                LOG.fatal("Couldn't find address to send notification to.");
+                return true;
+            }
+            
+            
+            System.out.println(listserv);
+            message.addToAddress(listserv);
 
             // TODO this message should come from some config file.
             StringBuilder builder = new StringBuilder();
@@ -111,8 +100,8 @@ public class CfdaBatchStep extends AbstractStep {
             return false;
         }
         catch (InvalidAddressException iae) {
-// TODO: fix for KIM
-//            LOG.warn("The email address for one or more of the members of the " + MAIL_RECIPIENTS_GROUP_NAME + " workgroup is invalid.", iae);
+
+           LOG.warn("The email address for "+CfdaBatchStep.class+":"+CGConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES+" is invalid.", iae);
             return true;
         }
         return true;
@@ -135,14 +124,14 @@ public class CfdaBatchStep extends AbstractStep {
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
-
+    
     /**
-     * Sets the {@link org.kuali.rice.kim.service.PersonService}. For use by Spring.
+     * Sets the {@link ParameterService}. For use by Spring.
      * 
-     * @param personService The service to be assigned.
+     * @param parameterService The service to be assigned.
      */
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
 }

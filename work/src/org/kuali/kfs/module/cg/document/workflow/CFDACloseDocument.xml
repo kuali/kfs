@@ -1,10 +1,35 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType"
+    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>CLOS</name>
       <parent>ContractsAndGrantsTransactionalDocument</parent>
-      <docHandler>${application.url}/contractsAndGrantsClose.do?methodToCall=docHandler</docHandler>
+      <docHandler>
+        ${application.url}/cgClose.do?methodToCall=docHandler
+      </docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Unprocessed" />
+          <requests name="Unprocessed" nextNode="Management" />
+          <requests name="Management"  />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Management">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="Unprocessed">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
     </documentType>
   </documentTypes>
 </data>

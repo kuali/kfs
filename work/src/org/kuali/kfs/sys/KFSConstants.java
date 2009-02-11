@@ -217,6 +217,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String COMMA = ",";
     public static final String PERFORMANCE_BALANCE_INQUIRY_FOR_METHOD = "performBalanceInquiryFor";
     public static final String INSERT_METHOD = "insert";
+    public static final String SOURCE_ACCOUNTING_LINES_GROUP_NAME = "source";
+    public static final String TARGET_ACCOUNTING_LINES_GROUP_NAME = "target";
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field

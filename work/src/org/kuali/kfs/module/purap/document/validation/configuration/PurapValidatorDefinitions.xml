@@ -266,7 +266,7 @@
 	<bean id="Requisition-processAdditionalValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionProcessAdditionalValidation" abstract="true"/>
 
 	<bean id="Requisition-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountingLineAccessibleValidation" abstract="true">
-	    <property name="accountService" ref="accountService" />
+	    <property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 
     <bean id="Requisition-requiresAccountValidationBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionRequiresAccountValidationBranchingValidation" abstract="true" >
@@ -290,7 +290,7 @@
     </bean>
 
 	<bean id="PurchaseOrder-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAccountingLineAccessibleValidation" abstract="true">
-	    <property name="accountService" ref="accountService" />
+	    <property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 	
 	<bean id="PurchaseOrder-processVendorStipulationValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderProcessVendorStipulationValidation" abstract="true"/>
@@ -427,7 +427,7 @@
 	</bean>
 		
     <bean id="PurchaseOrderAmendment-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentAccountingLineAccessibleValidation" abstract="true">
-	    <property name="accountService" ref="accountService" />
+	    <property name="dataDictionaryService" ref="dataDictionaryService" />
 	    <property name="purapService" ref="purapService" />
 	</bean>
 

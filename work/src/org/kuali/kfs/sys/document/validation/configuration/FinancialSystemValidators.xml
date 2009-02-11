@@ -23,7 +23,7 @@
 	<bean id="validationFieldConversion" abstract="true" class="org.kuali.kfs.sys.document.validation.impl.ValidationFieldConversion" />
 	
 	<bean id="AccountingDocument-accountingLineAccessibleValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation" abstract="true">
-		<property name="accountService"><ref bean="accountService" /></property>
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 	
 	<bean id="AccountingDocument-accountingLineAmountPositiveValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineAmountPositiveValidation" abstract="true" />

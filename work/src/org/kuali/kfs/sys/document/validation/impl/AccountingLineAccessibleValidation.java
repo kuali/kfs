@@ -15,14 +15,16 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
-import org.kuali.kfs.coa.service.AccountService;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
-import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
@@ -30,13 +32,14 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not
  */
 public class AccountingLineAccessibleValidation extends GenericValidation {
-    private AccountService accountService;
+    private DataDictionaryService dataDictionaryService;
     private AccountingDocument accountingDocumentForValidation;
     private AccountingLine accountingLineForValidation;
     
@@ -60,9 +63,10 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {        
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        AccountingLineAuthorizer accountingLineAuthorizer = new AccountingLineAuthorizerBase();
+        final String groupName = (accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.SOURCE_ACCOUNTING_LINES_GROUP_NAME : KFSConstants.TARGET_ACCOUNTING_LINES_GROUP_NAME);
+        AccountingLineAuthorizer accountingLineAuthorizer = ((FinancialSystemTransactionalDocumentEntry)dataDictionaryService.getDataDictionary().getDictionaryObjectEntry(accountingDocumentForValidation.getClass().getName())).getAccountingLineGroups().get(groupName).getAccountingLineAuthorizer();
         
-        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, (accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value), KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
+        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
 
         // report errors
         if (!isAccessible) {
@@ -76,6 +80,17 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         }
 
         return isAccessible;
+    }
+    
+    /**
+     * Determines the property of the accounting line collection from the error prefixes
+     * @return the accounting line collection property
+     */
+    protected String getAccountingLineCollectionProperty() {
+        final String propertyName = ((String)GlobalVariables.getErrorMap().getErrorPath().get(0)).replaceFirst(".*?document\\.", "");
+        if (propertyName.equals("newSourceLine")) return KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value;
+        if (propertyName.equals("newTargetLine")) return KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
+        return propertyName;
     }
     
     /**
@@ -93,22 +108,6 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         } else {
             return "";
         }
-    }
-
-    /**
-     * Gets the accountService attribute. 
-     * @return Returns the accountService.
-     */
-    public AccountService getAccountService() {
-        return accountService;
-    }
-
-    /**
-     * Sets the accountService attribute value.
-     * @param accountService The accountService to set.
-     */
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
     }
 
     /**
@@ -142,5 +141,22 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
     public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
         this.accountingLineForValidation = accountingLineForValidation;
     }
+
+    /**
+     * Gets the dataDictionaryService attribute. 
+     * @return Returns the dataDictionaryService.
+     */
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    /**
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+    
 }
 

@@ -491,9 +491,10 @@
 		<property name="cronExpression" value="00 00 11,15 ? * *" />
 	</bean>
 	
-	<bean id="purapMassRequisitionJobTrigger" parent="cronTrigger">
+	<bean id="purapMassRequisitionJobTrigger" parent="simpleTrigger">
 		<property name="jobName" value="purapMassRequisitionJob" />
-		<property name="cronExpression" value="00 00 11,15 ? * *" />
+        <property name="startDelay" value="300000" />
+        <property name="repeatCount" value="0" />
 	</bean>
 	
 	<bean id="purchasingPreDisbursementExtractJob" parent="scheduledJobDescriptor">

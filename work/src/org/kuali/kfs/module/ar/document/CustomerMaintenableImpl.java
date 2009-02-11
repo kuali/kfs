@@ -16,9 +16,11 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -38,9 +40,11 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerMaintenableImpl.class);
 
     private static final String REQUIRES_APPROVAL_NODE = "RequiresApproval";
-
+    private static final String BO_NOTES = "boNotes";
+    
     private transient DateTimeService dateTimeService;
     
     @Override
@@ -149,13 +153,112 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         // to get the initiator
         FinancialSystemMaintenanceDocument maintDoc = getParentMaintDoc();
         
-        // editing a customer always requires approval
+        // editing a customer always requires approval, unless only Notes have changed
         if (maintDoc.isEdit()) {
-            return true;
+            return !oldAndNewAreEqual(maintDoc);
         }
         
         // while creating a new customer, route when created by web application
         return (maintDoc.isNew() && createdByWebApp(maintDoc));
+    }
+    
+    private boolean oldAndNewAreEqual(FinancialSystemMaintenanceDocument maintDoc) {
+        Customer oldBo, newBo;
+        CustomerAddress oldAddress, newAddress;
+        
+        oldBo = (Customer) maintDoc.getOldMaintainableObject().getBusinessObject();
+        newBo = (Customer) maintDoc.getNewMaintainableObject().getBusinessObject();
+        
+        return oldAndNewObjectIsEqual("Customer", oldBo, newBo);
+    }
+    
+    private boolean oldAndNewObjectIsEqual(String objectName, Object oldObject, Object newObject) {
+        
+        //  if both are null, then they're the same
+        if (oldObject == null && newObject == null) {
+            return true;
+        }
+        
+        //  if only one is null, then they're different
+        if (oldObject == null || newObject == null) {
+            return false;
+        }
+        
+        //  if they're different classes, then they're different
+        if (!oldObject.getClass().getName().equals(newObject.getClass().getName())) {
+            return false;
+        }
+        
+        //  get the list of properties and unconverted values for readable props
+        Map<String,Object> oldProps;
+        Map<String,Object> newProps;
+        try {
+            oldProps = PropertyUtils.describe(oldObject);
+            newProps = PropertyUtils.describe(newObject);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Exception raised while trying to get a list of properties on OldCustomer.", e);
+        }
+        
+        //  compare old to new on all readable properties
+        Object oldValue, newValue;
+        for (String propName : oldProps.keySet()) {
+            oldValue = oldProps.get(propName);
+            newValue = newProps.get(propName);
+            
+            if (!oldAndNewPropertyIsEqual(propName, oldValue, newValue)) {
+                return false;
+            }
+        }
+
+        //  if we didnt find any differences, then they are the same
+        return true;
+    }
+    
+    private boolean oldAndNewPropertyIsEqual(String propName, Object oldValue, Object newValue) {
+        
+        //  ignore anything named boNotes
+        if (BO_NOTES.equalsIgnoreCase(propName)) {
+            return true;
+        }
+        
+        //  if both are null, then they're the same
+        if (oldValue == null && newValue == null) {
+            return true;
+        }
+        
+        //  if only one is null, then they're different
+        if (oldValue == null || newValue == null) {
+            return false;
+        }
+        
+        //  if they're different classes, then they're different
+        if (!oldValue.getClass().getName().equals(newValue.getClass().getName())) {
+            return false;
+        }
+        
+        //  if they're a collection, then special handling
+        if (Collection.class.isAssignableFrom(oldValue.getClass())) {
+            Object[] oldCollection = ((Collection<Object>) oldValue).toArray();
+            Object[] newCollection = ((Collection<Object>) newValue).toArray();
+            
+            //  if they have different numbers of addresses
+            if (oldCollection.length != newCollection.length) {
+                return false;
+            }
+            
+            
+            for (int i = 0; i < oldCollection.length; i++) {
+                if (!oldAndNewObjectIsEqual("COLLECTION: " + propName, oldCollection[i], newCollection[i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else {
+            boolean result = oldValue.toString().equals(newValue.toString());
+            return result;
+        }
     }
     
     private FinancialSystemMaintenanceDocument getParentMaintDoc() {

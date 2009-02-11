@@ -286,6 +286,11 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="true" />
+       </bean>
+    </property>    
   </bean>
   
   <bean id="Asset-buildingSubRoomNumber" parent="Asset-buildingSubRoomNumber-parentBean" />

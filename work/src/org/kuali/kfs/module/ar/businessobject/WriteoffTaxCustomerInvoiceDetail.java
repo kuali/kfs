@@ -30,16 +30,16 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
     
     private CustomerInvoiceDetail postable;
     private CustomerInvoiceWriteoffDocument poster;
-    private boolean isUsingTaxGenerationMethodDisallow;
+    private boolean isUsingTaxLiabilityAdjustmentIndNo;
     
     public WriteoffTaxCustomerInvoiceDetail(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster){
         this.postable = postable;
         this.poster = poster;
         
-        String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD);
-        isUsingTaxGenerationMethodDisallow = ArConstants.GLPE_WRITEOFF_TAX_GENERATION_METHOD_DISALLOW.equals( writeoffTaxGenerationOption );
+        String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
+        isUsingTaxLiabilityAdjustmentIndNo = ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals( writeoffTaxGenerationOption );
 
-        if( isUsingTaxGenerationMethodDisallow ){
+        if( isUsingTaxLiabilityAdjustmentIndNo ){
             //if is using org account default, I already set the writeoff FAU on
             //the document, so that is needed to do is refresh the FAU objects
             this.poster.refreshReferenceObject("account");
@@ -55,7 +55,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
     
     @Override
     public Account getAccount() {
-        if ( isUsingTaxGenerationMethodDisallow ){
+        if ( isUsingTaxLiabilityAdjustmentIndNo ){
             return poster.getAccount();
         } else {
             return postable.getAccount();
@@ -64,7 +64,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
    
    @Override
     public String getAccountNumber() {
-        if ( isUsingTaxGenerationMethodDisallow ){
+        if ( isUsingTaxLiabilityAdjustmentIndNo ){
             return poster.getAccountNumber();
         } else {
             return postable.getAccountNumber();
@@ -78,7 +78,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
    @Override
     public String getChartOfAccountsCode() {
-        if ( isUsingTaxGenerationMethodDisallow ){
+        if ( isUsingTaxLiabilityAdjustmentIndNo ){
             return poster.getChartOfAccountsCode();
         } else {
             return postable.getChartOfAccountsCode();
@@ -97,7 +97,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
    @Override
    public String getFinancialObjectCode() {
-       if ( isUsingTaxGenerationMethodDisallow ){
+       if ( isUsingTaxLiabilityAdjustmentIndNo ){
            return poster.getFinancialObjectCode();
        } else {
            return postable.getAccountsReceivableObjectCode();
@@ -106,7 +106,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
   @Override
    public ObjectCode getObjectCode() {
-      if ( isUsingTaxGenerationMethodDisallow ){
+      if ( isUsingTaxLiabilityAdjustmentIndNo ){
           return poster.getFinancialObject();
       } else {
           return postable.getAccountsReceivableObject();
@@ -120,7 +120,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
    @Override
     public String getOrganizationReferenceId() {
-        if ( isUsingTaxGenerationMethodDisallow ){
+        if ( isUsingTaxLiabilityAdjustmentIndNo ){
             return poster.getOrganizationReferenceIdentifier();
         } else {
             return postable.getOrganizationReferenceId();
@@ -129,7 +129,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
    @Override
     public String getProjectCode() {
-        if ( isUsingTaxGenerationMethodDisallow ){
+        if ( isUsingTaxLiabilityAdjustmentIndNo ){
             return poster.getProjectCode();
         } else {
             return postable.getProjectCode();
@@ -138,7 +138,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
    @Override
     public String getSubAccountNumber() {
-        if ( isUsingTaxGenerationMethodDisallow ){
+        if ( isUsingTaxLiabilityAdjustmentIndNo ){
             return poster.getSubAccountNumber();
         } else {
             return postable.getSubAccountNumber();

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -56,7 +57,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         AccountingLine accountingLineForValidation = this.getAccountingLineForValidation();
 
         AccountingLineAuthorizer accountingLineAuthorizer = new AccountingLineAuthorizerBase();
-        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocument, accountingLineForValidation, KFSPropertyConstants.ACCOUNT_NUMBER, financialSystemUser);
+        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocument, accountingLineForValidation, (accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value), KFSPropertyConstants.ACCOUNT_NUMBER, financialSystemUser);
 
         // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
         // but only if the document is enroute

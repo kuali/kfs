@@ -82,19 +82,6 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#isFieldModifyable(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.web.AccountingLineViewField,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public final boolean isFieldEditable(AccountingDocument accountingDocument, AccountingLine accountingLine, AccountingLineViewField field, Person currentUser) {
-        // determine whether the current user has permission to edit the given field
-        String fieldName = getKimHappyPropertyNameForField(this.getFieldName(field));
-        boolean kimsAnswer = this.hasEditPermissionOnField(accountingDocument, accountingLine, fieldName, currentUser);
-
-        return kimsAnswer && determineFieldEditability(accountingDocument, accountingLine, field);
-    }
-
-    /**
      * Returns a new empty HashSet
      * 
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument,
@@ -127,22 +114,6 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
 
         return false;
-    }
-    
-    
-
-    /**
-     * determine whether the given accounting line is a new line or not. If it is not in the given document, it is a new line
-     * 
-     * @param accountingDocument the given accounting document
-     * @param accountingLine the given accounting line
-     * @return true if the given accounting line is a new line; otherwise, false
-     */
-    protected boolean isNewLine(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        boolean isSourceLine = accountingDocument.getSourceAccountingLines().contains(accountingLine);
-        boolean isTargetLine = accountingDocument.getTargetAccountingLines().contains(accountingLine);
-
-        return !isSourceLine && !isTargetLine;
     }
 
     /**
@@ -183,20 +154,43 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */
-    public boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {
+    public final boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, Person currentUser) {
+        if (!determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName)) {
+            return false;
+        }
         // the fields in a new line should be always editable
-        if (this.isNewLine(accountingDocument, accountingLine)) {
+        if (accountingLine.getSequenceNumber() == null) {
             return true;
         }
 
         // examine whether the whole line can be editable
-        String lineFieldName = accountingLine.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
+        final String lineFieldName = getKimHappyPropertyNameForField(accountingLineCollectionProperty);
         boolean hasEditPermissionOnField = this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
 
         // examine whether the given field can be editable
-        hasEditPermissionOnField |= this.determineEditPermissionByFieldName(accountingDocument, accountingLine, fieldName, currentUser);
+        hasEditPermissionOnField |= this.determineEditPermissionByFieldName(accountingDocument, accountingLine, getKimHappyPropertyNameForField(accountingLineCollectionProperty+"."+fieldName), currentUser);
 
         return hasEditPermissionOnField;
+    }
+ 
+    /**
+     * Allows the overriding of whether a field on an accounting line is editable or not
+     * @param accountingDocument the accounting document the line to test is on
+     * @param accountingLine the accounting line to test
+     * @param accountingLineCollectionProperty the property that the accounting line lives in
+     * @param fieldName the name of the field we are testing
+     * @return true if the field can be edited (subject to subsequence KIM check); false otherwise
+     */
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName) {
+        final FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) accountingDocument.getDocumentHeader();
+        final KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
+
+        // if a document is cancelled or in error, all of its fields cannot be editable
+        if (workflowDocument.stateIsCanceled() || ObjectUtils.isNotNull(documentHeader.getFinancialDocumentInErrorNumber())) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -207,9 +201,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
-    public boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {        
+    public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser) {        
         // the fields in a new line should be always editable
-        if (this.isNewLine(accountingDocument, accountingLine)) {
+        if (accountingLine.getSequenceNumber() == null) {
             return true;
         }
 
@@ -221,10 +215,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
 
         // examine whether the whole line can be editable
-        String lineFieldName = accountingLine.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
+        final String lineFieldName = getKimHappyPropertyNameForField(accountingLineCollectionProperty);
         return this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
     }
-
 
     /**
      * determine whether the current user has permission to edit the given field in the given accounting line
@@ -236,10 +229,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */    
     private boolean determineEditPermissionByFieldName(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {        
-        AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
-        
-        String documentTypeName = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        AttributeSet permissionDetail = this.getPermissionDetails(documentTypeName, fieldName);
+        final AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
+        final String documentTypeName = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        final AttributeSet permissionDetail = this.getPermissionDetails(documentTypeName, fieldName);
 
         return this.hasEditPermission(accountingDocument, currentUser, permissionDetail, roleQualifiers);       
     }
@@ -258,27 +250,6 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         AccountingDocumentAuthorizer accountingDocumentAuthorizer = this.getAccountingDocumentAuthorizer(accountingDocument);
         
         return accountingDocumentAuthorizer.isAuthorizedByTemplate(accountingDocument, KFSConstants.ParameterNamespaces.KFS, KFSConstants.PermissionTemplate.MODIFY_ACCOUNTING_LINES.name, pricipalId, permissionDetails, roleQualifiers);
-    }
-
-    /**
-     * A hook to let implementers add logic to determine whether an accounting line field is editable or not. Do you want to modify
-     * isFieldeditable?? Here is your hook, young programmer!
-     * 
-     * @param accountingDocument the accounting document the accounting line is on or eventually will be on
-     * @param accountingLine the accounting line the field is a member of
-     * @param field the field we're testing the modifyability of
-     * @return true if field can be modified, false otherwise
-     */
-    protected boolean determineFieldEditability(AccountingDocument accountingDocument, AccountingLine accountingLine, AccountingLineViewField field) {
-        FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) accountingDocument.getDocumentHeader();
-        KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
-
-        // if a document is cancelled or in error, all of its fields cannot be editable
-        if (workflowDocument.stateIsCanceled() || ObjectUtils.isNotNull(documentHeader.getFinancialDocumentInErrorNumber())) {
-            return false;
-        }
-
-        return true;
     }
 
     /**

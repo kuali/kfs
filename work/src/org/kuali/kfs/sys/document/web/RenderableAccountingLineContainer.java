@@ -280,13 +280,10 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * @param boDDEntry the data dictionary entry for the accounting line
      */
     protected void setShouldShowSecure(Field field, BusinessObjectEntry boDDEntry) {
-        /*if (field.isSecure()) {
-            String workgroupName = boDDEntry.getAttributeDefinition(field.getPropertyName()).getDisplayWorkgroup();
+        // TODO: FIX
         
-            if (KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(GlobalVariables.getUserSession().getPerson().getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, workgroupName)) {
-                field.setDisplayMaskValue(field.getPropertyValue());
-            }
-        }*/
+        // from Warren:  k... org.kuali.rice.kns.service.BusinessObjectAuthorizationService.getMaintenanceDocumentRestrictions(MaintenanceDocument, Person) has the determination of what restrictions there should be
+        // org.kuali.rice.kns.util.FieldUtils.applyAuthorization(Field, String, MaintenanceDocumentRestrictions) applies those restrictions
     }
     /**
      * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getAccountingDocument()
@@ -354,7 +351,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     public boolean isFieldModifyable(AccountingLineViewField field) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        return accountingLineAuthorizer.isFieldEditable(getAccountingDocument(), accountingLine, field, currentUser) || isLineInError();
+        return accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, field.getName(), currentUser) || isLineInError();
     }
     
     /**

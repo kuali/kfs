@@ -37,10 +37,10 @@ public class BudgetAdjustmentAccountingLineAuthorizer extends AccountingLineAuth
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.web.AccountingLineViewField, java.util.Map)
      */
     @Override
-    protected boolean determineFieldEditability(AccountingDocument accountingDocument, AccountingLine accountingLine, AccountingLineViewField field) {
-        final boolean canModify = super.determineFieldEditability(accountingDocument, accountingLine, field);
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName) {
+        final boolean canModify = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName);
         
-        if (StringUtils.equals(field.getField().getPropertyName(), getBaseAmountPropertyName())) {
+        if (StringUtils.equals(fieldName, getBaseAmountPropertyName())) {
             return SpringContext.getBean(FiscalYearFunctionControlService.class).isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) accountingDocument).getPostingYear());
         }
         

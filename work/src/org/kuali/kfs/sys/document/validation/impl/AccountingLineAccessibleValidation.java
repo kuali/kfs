@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -61,7 +62,7 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         AccountingLineAuthorizer accountingLineAuthorizer = new AccountingLineAuthorizerBase();
         
-        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
+        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, (accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value), KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
 
         // report errors
         if (!isAccessible) {

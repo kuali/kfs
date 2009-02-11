@@ -74,34 +74,25 @@ public interface AccountingLineAuthorizer {
     public abstract boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser);
 
     /**
-     * Determines whether the given field can be modified or not
-     * 
-     * @param accountingDocument the accounting document the accounting line is on or eventually will be on
-     * @param accountingLine the accounting line the field is a member of
-     * @param field the field we're testing the modifyability of
-     * @param currentUser the user requesting this permission
-     * @return true if field can be modified, false otherwise
-     */
-    public abstract boolean isFieldEditable(AccountingDocument accountingDocument, AccountingLine accountingLine, AccountingLineViewField field, Person currentUser);
-
-    /**
      * determine whether the current user has permission to edit the given field in the given accounting line
      * 
      * @param accountingDocument the given accounting document
      * @param accountingLine the given accounting line in the document
+     * @param accountingLineCollectionProperty the property of the collection the given accounting line is in
      * @param fieldName the name of a field in the given accounting line
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */
-    public abstract boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser);
+    public abstract boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, Person currentUser);
     
     /**
      * determine whether the current user has permission to edit the given accounting line as a whole
      * 
      * @param accountingDocument the given accounting document
      * @param accountingLine the given accounting line in the document
+     * @param accountingLineCollectionProperty the property of the group that holds these accounting lines
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
-    public boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser);
+    public abstract boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser);
 }

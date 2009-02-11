@@ -277,7 +277,7 @@ public class AccountingLineGroupTag extends TagSupport {
         }
         
         // add the new line
-        if (StringUtils.isNotBlank(newLinePropertyName) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, currentUser) && (getDocument().getDocumentHeader().getWorkflowDocument().stateIsInitiated() || getDocument().getDocumentHeader().getWorkflowDocument().stateIsSaved() || anyEditableLines)) {
+        if (StringUtils.isNotBlank(newLinePropertyName) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, currentUser) && (((getDocument().getDocumentHeader().getWorkflowDocument().stateIsInitiated() || getDocument().getDocumentHeader().getWorkflowDocument().stateIsSaved()) && getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) || anyEditableLines)) {
             containers.add(0, buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null, true));
             addedTopLine = true;
         }
@@ -311,7 +311,7 @@ public class AccountingLineGroupTag extends TagSupport {
         final boolean newLine = (count == null);
         final List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine, topLine, accountingLinePropertyName);
 
-        return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, count, groupDefinition.getGroupLabel(), getErrors(), groupDefinition.getAccountingLineAuthorizer(), groupDefinition.getAccountingLineAuthorizer().hasEditPermissionOnAccountingLine(getDocument(), accountingLine, currentUser));
+        return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, count, groupDefinition.getGroupLabel(), getErrors(), groupDefinition.getAccountingLineAuthorizer(), groupDefinition.getAccountingLineAuthorizer().hasEditPermissionOnAccountingLine(getDocument(), accountingLine, collectionPropertyName, currentUser));
     }
 
     /**

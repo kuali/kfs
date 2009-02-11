@@ -27,17 +27,16 @@ import org.kuali.rice.kim.bo.Person;
 public class AssetPaymentAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#hasEditPermission(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnField(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.String)
      */
     @Override
-    public boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) accountingDocument;
         if (assetPaymentDocument.isCapitalAssetBuilderOriginIndicator()) {
             return false;
         }
 
-        return super.hasEditPermissionOnField(accountingDocument, accountingLine, fieldName, currentUser);
+        return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName);
     }
 
     /**

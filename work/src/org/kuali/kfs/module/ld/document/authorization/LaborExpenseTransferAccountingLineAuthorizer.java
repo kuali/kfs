@@ -38,16 +38,16 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class LaborExpenseTransferAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
    
     @Override
-    protected boolean determineFieldEditability(AccountingDocument accountingDocument, AccountingLine accountingLine, AccountingLineViewField field) {
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName) {
         
-        if (field.getName().equals(KFSPropertyConstants.AMOUNT)) {
+        if (fieldName.equals(KFSPropertyConstants.AMOUNT)) {
             return true;
         }
         
-        if (field.getName().equals(LaborPropertyConstants.PAYROLL_TOTAL_HOURS)) {
+        if (fieldName.equals(LaborPropertyConstants.PAYROLL_TOTAL_HOURS)) {
             return true;
         }
-        return super.determineFieldEditability(accountingDocument, accountingLine, field);
+        return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName);
     }
     
     /**

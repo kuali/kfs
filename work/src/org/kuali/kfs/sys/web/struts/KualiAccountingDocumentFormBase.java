@@ -108,6 +108,17 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         final String methodToCall = this.getMethodToCall();
         final Map parameterMap = request.getParameterMap();
 
+        populateAccountingLinesForResponse(methodToCall, parameterMap);
+
+        setDocTypeName(discoverDocumentTypeName());
+    }
+    
+    /**
+     * Populates the accounting lines which need to be updated to successfully complete a response to the request
+     * @param methodToCall the method to call in the action to complete this request transaction
+     * @param parameterMap the map of parameters which came in with the transaction
+     */
+    protected void populateAccountingLinesForResponse(String methodToCall, Map parameterMap) {
         populateSourceAccountingLine(getNewSourceLine(), KFSPropertyConstants.NEW_SOURCE_LINE, parameterMap);
         populateTargetAccountingLine(getNewTargetLine(), KFSPropertyConstants.NEW_TARGET_LINE, parameterMap);
 
@@ -116,8 +127,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         if (!StringUtils.equals(methodToCall, KFSConstants.COPY_METHOD) && !StringUtils.equals(methodToCall, KFSConstants.ERRORCORRECT_METHOD)) {
             populateAccountingLines(parameterMap);
         }
-
-        setDocTypeName(discoverDocumentTypeName());
     }
 
     /**
@@ -221,9 +230,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * @param parameterMap the map of parameters that were sent in with the request
      */
     protected void repopulateOverrides(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(StringUtils.join(parameterMap.keySet(), "\n"));
-        }
         AccountingLineOverride.determineNeededOverrides(line);
         if (line.getAccountExpiredOverrideNeeded()) {
             if (parameterMap.containsKey(accountingLinePropertyName+".accountingExpiredOverride.present")) {

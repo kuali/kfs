@@ -3166,7 +3166,66 @@ commit
 
 drop table KRIM_PRSN_CACHE_T_bak
 /
+-- Start of DDL Script for Table KULDEV.PDP_CUST_BNK_T
+-- Generated 2/11/2009 12:47:10 PM from KULDEV@
+create table PDP_CUST_BNK_T_bak as select * from PDP_CUST_BNK_T
+/
 
+drop table PDP_CUST_BNK_T cascade constraints purge
+/
+
+CREATE TABLE pdp_cust_bnk_t
+    (cust_id                        NUMBER(8,0),
+    disb_typ_cd                    VARCHAR2(4),
+    obj_id                         VARCHAR2(36) NOT NULL,
+    ver_nbr                        NUMBER(8,0) DEFAULT 1 NOT NULL,
+    bnk_cd                         VARCHAR2(4) NOT NULL,
+    actv_ind                       VARCHAR2(1) DEFAULT 'Y' NOT NULL)
+/
+
+ALTER TABLE pdp_cust_bnk_t
+add constraint pdp_cust_bnk_tc0
+unique (obj_id)
+/
+
+ALTER TABLE pdp_cust_bnk_t
+ADD CONSTRAINT pdp_cust_bnk_tp1 PRIMARY KEY (cust_id, disb_typ_cd)
+/
+
+
+ALTER TABLE pdp_cust_bnk_t
+ADD CONSTRAINT pdp_cust_bnk_t_tr2 FOREIGN KEY (bnk_cd)
+REFERENCES fp_bank_t (bnk_cd)
+/
+ALTER TABLE pdp_cust_bnk_t
+ADD CONSTRAINT pdp_cust_bnk_tr3 FOREIGN KEY (disb_typ_cd)
+REFERENCES pdp_disb_typ_cd_t (disb_typ_cd) ON DELETE SET NULL
+/
+ALTER TABLE pdp_cust_bnk_t
+ADD CONSTRAINT pdp_cust_bnk_tr1 FOREIGN KEY (cust_id)
+REFERENCES pdp_cust_prfl_t (cust_id) ON DELETE CASCADE
+/
+
+-- End of DDL Script for Table KULDEV.PDP_CUST_BNK_T
+
+insert into PDP_CUST_BNK_T 
+select cust_id, disb_typ_cd, nvl(obj_id, sys_guid()), ver_nbr, bnk_cd, actv_ind
+from PDP_CUST_BNK_T_bak
+/
+commit
+/
+
+drop table PDP_CUST_BNK_T_bak
+/
+insert into pur_reqs_stat_t values ('AHAL', sys_guid(), 1, 'Awaiting Accounting Lines');
+insert into pur_reqs_stat_t values ('DHAL', sys_guid(), 1, 'Disapproved - Accounting Lines'); 
+
+update KRNS_PARM_T
+set txt = translate(txt,',',';')
+where parm_nm = 'OBJECT_CODES_OVERRIDING_RESTRICTIONS'
+and nmspc_cd = 'KFS-PURAP'
+/
+ 
 INSERT INTO KRIM_ROLE_MBR_T VALUES ('1641', 1, sys_guid(), '81', '3608607904', 'P', NULL, NULL, sysdate)
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3026', sys_guid(), 1, '1641', '6', '22', 'IU')

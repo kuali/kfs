@@ -376,33 +376,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     protected boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine) {
         LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - start");
 
-        boolean isAccessible = false;
-
-        KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            isAccessible = true;
-        }
-        else {
-            if (workflowDocument.stateIsEnroute()) {
-                // if a document is enroute, user can only refer to for accounts for which they are responsible
-                isAccessible = SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(currentUser, accountingLine.getAccount());
-            }
-            else {
-                if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal() || workflowDocument.stateIsDisapproved()) {
-                    isAccessible = false;
-                }
-                else {
-                    if (workflowDocument.stateIsException() && KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(currentUser.getPrincipalId(), org.kuali.kfs.sys.KFSConstants.KFS_GROUP_NAMESPACE, org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
-                        isAccessible = true;
-                    }
-                }
-            }
-        }
-
-        LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - end");
-        return isAccessible;
+        return true;
     }
 
     /**

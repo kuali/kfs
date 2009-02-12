@@ -1317,7 +1317,7 @@
                     </property>
                     <property name="documentValues">
                         <list>
-                            <value>purchaseOrderSensitiveData</value>
+                            <value>purchaseOrderSensitiveData.sensitiveDataCode</value>
                         </list>
                     </property>
                 </bean>

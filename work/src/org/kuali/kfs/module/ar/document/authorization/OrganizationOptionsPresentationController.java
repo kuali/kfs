@@ -101,9 +101,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
         ParameterService service = SpringContext.getBean(ParameterService.class);
         String addressEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_ADDRESS_EDITABLE_IND);
         if ("N".equalsIgnoreCase(addressEditable)) {
-            //readOnlySectionIds.add("Edit Organization Remit To Address");
-            readOnlySectionIds.add("OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress");
-            //readOnlySectionIds.add("OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress-parentBean");
+            readOnlySectionIds.add("Edit Organization Remit To Address");
         }
     }
     

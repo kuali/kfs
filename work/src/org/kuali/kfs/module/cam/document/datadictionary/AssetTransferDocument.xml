@@ -2,10 +2,10 @@
 
   <bean id="AssetTransferDocument" parent="AssetTransferDocument-parentBean"/>
   <bean id="AssetTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">  
-    <property name="label" value="Asset Transfer"/>
-    <property name="shortLabel" value="Asset Transfer"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Asset Transfer Document"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="AT"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetTransferDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetTransferDocumentRule"/>

@@ -16,10 +16,10 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Payment Type"/>
-    <property name="shortLabel" value="Payment Type"/>
-    <property name="summary" value="Payment Type Maintenance Document"/>
-    <property name="description" value="Document used to create or update Payment Type Descriptions"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="PMTP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="allowsNewOrCopy" value="false"/>

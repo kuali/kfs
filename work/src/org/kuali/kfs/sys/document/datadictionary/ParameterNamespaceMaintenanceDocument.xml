@@ -16,10 +16,10 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Parameter Module"/>
-    <property name="shortLabel" value="Parameter Module"/>
-    <property name="summary" value="Module Maintenance Document"/>
-    <property name="description" value="This document can be used to create or update modules."/>
+    
+    
+    
+    
     <property name="documentTypeName" value="ParameterNamespaceMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

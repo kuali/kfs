@@ -3,8 +3,8 @@
   <bean id="CashControlDocument" parent="CashControlDocument-parentBean"/>
 
   <bean id="CashControlDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Cash Control"/>
-    <property name="shortLabel" value="Cash Control"/>
+    
+    
     <property name="documentTypeName" value="CTRL"/>
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CashControlDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentRule"/>

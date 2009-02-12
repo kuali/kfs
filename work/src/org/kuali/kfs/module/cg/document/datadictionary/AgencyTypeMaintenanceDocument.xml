@@ -15,13 +15,11 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Agency Type"/>
-    <property name="shortLabel" value="Agency Type"/>
-    <property name="summary" value="Agency Type maintenance document"/>
-    <property name="description" value="Document used to create or update Agency Type objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.AgencyType" p:parameterName="AGENCY_TYPE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="AGTY"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

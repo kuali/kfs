@@ -28,11 +28,9 @@
       </list>
     </property>
 
-    <property name="label" value="Customer"/>
-    <property name="shortLabel" value="Customer"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.businessobject.Customer" p:parameterName="CUSTOMER"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="CUS"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerRule"/>
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerPreRules"/>

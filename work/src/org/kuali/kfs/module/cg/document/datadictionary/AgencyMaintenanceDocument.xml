@@ -20,13 +20,11 @@
         <value>agencyNumber</value>
       </list>
     </property>
-    <property name="label" value="Agency"/>
-    <property name="shortLabel" value="Agency"/>
-    <property name="summary" value="Agency Maintenance Document"/>
-    <property name="description" value="Document used to create or update Agency objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Agency" p:parameterName="AGENCY"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="AGCY"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AgencyRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

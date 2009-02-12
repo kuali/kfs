@@ -3,11 +3,9 @@
   <bean id="PurchaseOrderRemoveHoldDocument" parent="PurchaseOrderRemoveHoldDocument-parentBean"/>
 
   <bean id="PurchaseOrderRemoveHoldDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Remove Payment Hold"/>
-    <property name="shortLabel" value="Purchase Order Remove Payment Hold"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PORH"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRemoveHoldDocument"/>

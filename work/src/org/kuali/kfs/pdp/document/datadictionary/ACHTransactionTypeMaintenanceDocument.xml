@@ -16,10 +16,10 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="ACH Transaction Type"/>
-    <property name="shortLabel" value="Trans Type"/>
-    <property name="summary" value="ACH Transaction Type Maintenance Document"/>
-    <property name="description" value="Document used to create or update ACH Transaction Type Descriptions"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="ACHT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

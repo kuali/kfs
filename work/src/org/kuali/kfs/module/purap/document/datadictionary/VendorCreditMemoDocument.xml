@@ -3,11 +3,9 @@
   <bean id="VendorCreditMemoDocument" parent="VendorCreditMemoDocument-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Vendor Credit Memo"/>
-    <property name="shortLabel" value="Credit Memo"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument" p:parameterName="CREDIT_MEMO"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="CM"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

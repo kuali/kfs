@@ -15,10 +15,10 @@
         <value>taxRegionTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Tax Region Type"/>
-    <property name="shortLabel" value="Tax Regio nType"/>
-    <property name="summary" value="Tax Region Type maintenance document"/>
-    <property name="description" value="Document used to create or update TaxRegionType objects"/>
+    
+    
+    
+    
   <!--   <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.TaxRegionType" p:parameterName="TaxRegionType" />
     </property> -->

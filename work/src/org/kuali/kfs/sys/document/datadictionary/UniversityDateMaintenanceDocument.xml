@@ -20,13 +20,11 @@
         <value>universityDate</value>
       </list>
     </property>
-    <property name="label" value="University Date"/>
-    <property name="shortLabel" value="University Date"/>
-    <property name="summary" value="University Date maintenance document"/>
-    <property name="description" value="Document used to create or update University Date objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.UniversityDate" p:parameterName="UNIVERSITY_DATE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="UDAT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="authorizations">

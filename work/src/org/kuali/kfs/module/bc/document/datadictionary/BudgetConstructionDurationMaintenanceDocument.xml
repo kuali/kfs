@@ -15,10 +15,10 @@
         <value>appointmentDurationCode</value>
       </list>
     </property>
-    <property name="label" value="Appointment Funding Duration"/>
-    <property name="shortLabel" value="BC - BC Duration Code Maint Doc"/>
-    <property name="summary" value="Budget Construction Duration Maintenance Document"/>
-    <property name="description" value="Document used to create or update Budget Construction Duration Maintenance Document objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="DURA"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     </bean>

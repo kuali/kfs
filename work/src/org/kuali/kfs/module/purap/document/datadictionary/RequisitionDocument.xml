@@ -3,11 +3,9 @@
   <bean id="RequisitionDocument" parent="RequisitionDocument-parentBean"/>
 
   <bean id="RequisitionDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Requisition"/>
-    <property name="shortLabel" value="Requisition"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.RequisitionDocument" p:parameterName="REQUISITION"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="REQS"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

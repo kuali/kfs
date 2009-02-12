@@ -3,11 +3,9 @@
   <bean id="CorrectionReceivingDocument" parent="CorrectionReceivingDocument-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Correction Receiving"/>
-    <property name="shortLabel" value="Correction Receiving"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument" p:parameterName="RECEIVING_CORRECTION"/>
-    </property>        
+    
+    
+            
     <property name="documentTypeName" value="RCVC"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CorrectionReceivingDocumentRule"/>

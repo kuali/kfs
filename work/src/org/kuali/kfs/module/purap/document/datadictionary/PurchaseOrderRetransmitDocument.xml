@@ -3,11 +3,9 @@
   <bean id="PurchaseOrderRetransmitDocument" parent="PurchaseOrderRetransmitDocument-parentBean"/>
 
   <bean id="PurchaseOrderRetransmitDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Retransmit"/>
-    <property name="shortLabel" value="Purchase Order Retransmit"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PORT"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument"/>

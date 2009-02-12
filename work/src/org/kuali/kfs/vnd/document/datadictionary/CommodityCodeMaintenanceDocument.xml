@@ -16,11 +16,9 @@
         <value>purchasingCommodityCode</value>
       </list>
     </property>
-    <property name="label" value="Commodity Code"/>
-    <property name="shortLabel" value="Commodity Code"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-VND" p:parameterName="COMMODITY_CODE" p:parameterDetailType="CommodityCode"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMCC"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

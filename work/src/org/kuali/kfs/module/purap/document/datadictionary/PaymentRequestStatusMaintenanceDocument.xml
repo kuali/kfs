@@ -16,11 +16,9 @@
         <value>statusCode</value>
       </list>
     </property>
-    <property name="label" value="Payment Request Status"/>
-    <property name="shortLabel" value="Payment Request Status"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus" p:parameterName="PAYMENT_REQUEST_STATUS"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMPR"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

@@ -4,13 +4,11 @@
 
   <bean id="LaborJournalVoucherDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Labor Journal Voucher"/>
-    <property name="shortLabel" value="Labor Journal Voucher"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The Journal Voucher (JV) document is used to perform accounting tasks that cannot be done by any of the specialized financial documents. The JV document is a very open ended financial transactions document, with few checks of business rules. The main purpose of the Journal Voucher is to record accruals and allocations, and to adjust entries. The JV document can also be used to fix errors that may occur in the system which inadvertently put the General Ledger out of balance."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-FP" p:parameterName="JOURNAL_VOUCHER" p:parameterDetailType="JournalVoucher"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="LLJV"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.LaborJournalVoucherDocumentRule"/>

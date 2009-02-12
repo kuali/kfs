@@ -4,10 +4,10 @@
 
   <bean id="YearEndBenefitExpenseTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Year End Benefit Expense Transfer"/>
-    <property name="shortLabel" value="Year End Benefit Expense Transfer"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Year End Benefit Expense Transfer Document"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="YEBT"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.YearEndBenefitExpenseTransferDocumentRule"/>

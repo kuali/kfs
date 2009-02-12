@@ -20,13 +20,11 @@
         <value>subFundGroupCode</value>
       </list>
     </property>
-    <property name="label" value="Sub-Fund Group"/>
-    <property name="shortLabel" value="Sub-Fund Group"/>
-    <property name="summary" value="Sub-Fund Group maintenance document"/>
-    <property name="description" value="Document used to create or update Sub-Fund Group objects."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubFundGroup" p:parameterName="SUB_FUND_GROUP"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="SFGR"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

@@ -4,10 +4,10 @@
 
   <bean id="BenefitExpenseTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Benefit Expense Transfer"/>
-    <property name="shortLabel" value="Benefit Expense Transfer"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Benefit Expense Transfer Document"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="BT"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.BenefitExpenseTransferDocumentRule"/>

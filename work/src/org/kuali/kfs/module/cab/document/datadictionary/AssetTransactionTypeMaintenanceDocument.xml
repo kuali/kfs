@@ -15,11 +15,9 @@
         <value>capitalAssetTransactionTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Asset Transaction Type"/>
-    <property name="shortLabel" value="Asset Transaction Type"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" p:parameterName="ASSET_TRANSACTION_TYPE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMTT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="authorizations">

@@ -3,11 +3,9 @@
   <bean id="PurchaseOrderCloseDocument" parent="PurchaseOrderCloseDocument-parentBean"/>
 
   <bean id="PurchaseOrderCloseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Close"/>
-    <property name="shortLabel" value="Purchase Order Close"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="POC"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderCloseDocument"/>

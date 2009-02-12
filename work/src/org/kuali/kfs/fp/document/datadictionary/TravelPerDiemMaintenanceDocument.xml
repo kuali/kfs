@@ -16,13 +16,11 @@
         <value>perDiemCountryName</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Travel Per Diem"/>
-    <property name="shortLabel" value="Disbursement Voucher Travel Per Diem"/>
-    <property name="summary" value="Travel Per Diem Maintenance Document"/>
-    <property name="description" value="Document used to create or update Travel Per Diem objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelPerDiem" p:parameterName="TRAVEL_PER_DIEM"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVPD"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

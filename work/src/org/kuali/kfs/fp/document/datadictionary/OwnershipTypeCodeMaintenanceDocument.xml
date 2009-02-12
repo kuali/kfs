@@ -15,13 +15,11 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Ownership Type"/>
-    <property name="shortLabel" value="Disbursement Voucher Ownership Type"/>
-    <property name="summary" value="Ownership Type Code Maintenance Document"/>
-    <property name="description" value="Document used to create or update Ownership Type objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-VND" p:parameterName="OWNERSHIP_TYPE" p:parameterDetailType="OwnershipType"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVOT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

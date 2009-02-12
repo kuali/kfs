@@ -3,10 +3,10 @@
   <bean id="AssetDepreciationDocument" parent="AssetDepreciationDocument-parentBean"/>
 
   <bean id="AssetDepreciationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Asset Depreciation"/>
-    <property name="shortLabel" value="Asset Depreciation"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Asset Depreciation Document - Batch."/>
+    
+    
+    
+    
     <property name="documentTypeName" value="DEPR"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetDepreciationDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetDepreciationDocumentRule"/>

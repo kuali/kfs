@@ -24,13 +24,11 @@
         <value>financialObjectCode</value>
       </list>
     </property>
-    <property name="label" value="Labor Object Code"/>
-    <property name="shortLabel" value="Labor Object Code"/>
-    <property name="summary" value="Labor Object Code Maintenance Document"/>
-    <property name="description" value="Document used to create or update Labor objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.LaborObject" p:parameterName="LABOR_OBJECT_BENEFITS"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="LOBJ"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

@@ -15,11 +15,9 @@
         <value>vendorOwnershipCategoryCode</value>
       </list>
     </property>
-    <property name="label" value="Ownership Type Category"/>
-    <property name="shortLabel" value="Ownership Type Category"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.OwnershipCategory" p:parameterName="OWNERSHIP_CATEGORY"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMOC"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

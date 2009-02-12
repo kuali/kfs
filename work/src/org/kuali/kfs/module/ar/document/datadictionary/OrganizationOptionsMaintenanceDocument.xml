@@ -29,8 +29,8 @@
         <value>organizationCode</value>
       </list>
     </property>
-    <property name="label" value="Organization Options"/>
-    <property name="shortLabel" value="OrgOptionsMaintDoc"/>
+    
+    
     <property name="documentTypeName" value="OOPT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsRule"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.OrganizationOptionsPresentationController"/>

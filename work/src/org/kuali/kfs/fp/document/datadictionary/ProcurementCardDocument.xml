@@ -3,10 +3,10 @@
   <bean id="ProcurementCardDocument" parent="ProcurementCardDocument-parentBean"/>
 
   <bean id="ProcurementCardDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="label" value="Procurement Card"/>
-    <property name="shortLabel" value="Procurement Card"/>
-    <property name="summary" value="Procurement Card Document"/>
-    <property name="description" value="Document for the distribution of procurement card expenses."/>
+    
+    
+    
+    
     <property name="documentTypeName" value="PCDO"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.ProcurementCardDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

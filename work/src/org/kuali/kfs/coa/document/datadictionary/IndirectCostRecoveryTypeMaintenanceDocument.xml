@@ -15,13 +15,11 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Indirect Cost Recovery Type"/>
-    <property name="shortLabel" value="Indirect Cost Recovery Type"/>
-    <property name="summary" value="ICR Type Code Maintenance Document"/>
-    <property name="description" value="Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType" p:parameterName="INDIRECT_COST_RECOVERY_TYPE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="ITYP"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryTypeRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>

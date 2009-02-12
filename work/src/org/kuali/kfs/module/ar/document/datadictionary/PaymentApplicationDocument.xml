@@ -3,8 +3,8 @@
 	<bean id="PaymentApplicationDocument" parent="PaymentApplicationDocument-parentBean"/>
 
 	<bean id="PaymentApplicationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-		<property name="label" value="Application"/>
-		<property name="shortLabel" value="Application"/>
+		
+		
 		<property name="documentTypeName" value="APP"/>
 		<property name="documentClass" value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument"/>
 		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRule"/>

@@ -4,13 +4,11 @@
 
   <bean id="BudgetAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Budget Adjustment"/>
-    <property name="shortLabel" value="Budget Adjustment"/>
-    <property name="summary" value="Document used for adjusting budgets."/>
-    <property name="description" value="The Budget Adjustment document is a financial planning tool that allows an organization to adjust the current          and/or base budget figures for a given account as circumstances may change throughout the fiscal year. It may be used to          create a budget for a new account established after the beginning of a new fiscal year, and it may also be used to transfer funds between         general fund accounts belonging to the same chart of accounts."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.BudgetAdjustmentDocument" p:parameterName="BUDGET_ADJUSTMENT"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="BA"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.BudgetAdjustmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

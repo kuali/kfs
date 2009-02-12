@@ -34,13 +34,11 @@
         <value>proposalNumber</value>
       </list>
     </property>
-    <property name="label" value="Award"/>
-    <property name="shortLabel" value="Award"/>
-    <property name="summary" value="Award maintenance document"/>
-    <property name="description" value="Document used to create or update Award objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Award" p:parameterName="AWARD"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="AWRD"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

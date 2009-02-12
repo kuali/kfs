@@ -20,13 +20,11 @@
         <value>campusCode</value>
       </list>
     </property>
-    <property name="label" value="Graduate Assistant Rate"/>
-    <property name="shortLabel" value="Graduate Assistant Rate"/>
-    <property name="summary" value="Graduate Assistant Rate maintenance document"/>
-    <property name="description" value="Document used to create or update Graduate Assistant Rate objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate" p:parameterName="GRADUATE_ASSISTANT_RATE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="GAR"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

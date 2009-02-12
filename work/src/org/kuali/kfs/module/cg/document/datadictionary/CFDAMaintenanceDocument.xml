@@ -15,13 +15,11 @@
         <value>cfdaNumber</value>
       </list>
     </property>
-    <property name="label" value="CFDA"/>
-    <property name="shortLabel" value="CFDA"/>
-    <property name="summary" value="Catalog of Federal Domestic Assistance Reference Maintenance Document"/>
-    <property name="description" value="Document used to create or update Catalog of Federal Domestic Assistance Reference objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.CFDA" p:parameterName="CATALOG_OF_FEDERAL_DOMESTIC_ASSISTANCE_REFERENCE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="CFDM"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

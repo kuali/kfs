@@ -15,13 +15,11 @@
         <value>proposalStatusCode</value>
       </list>
     </property>
-    <property name="label" value="Proposal Status"/>
-    <property name="shortLabel" value="Proposal Status"/>
-    <property name="summary" value="Proposal Status Maintenance Document"/>
-    <property name="description" value="Document used to create or update Proposal Status objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProposalStatus" p:parameterName="PROPOSAL_STATUS"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="PRST"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

@@ -17,10 +17,10 @@
         <value>campusCode</value>
       </list>
     </property>
-    <property name="label" value="Cash Drawer"/>
-    <property name="shortLabel" value="Cash Drawer"/>
-    <property name="summary" value="Cash Drawer Maintenance Document"/>
-    <property name="description" value="Document used to create a cash drawer."/>
+    
+    
+    
+    
     <property name="documentTypeName" value="CDS"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="authorizations">

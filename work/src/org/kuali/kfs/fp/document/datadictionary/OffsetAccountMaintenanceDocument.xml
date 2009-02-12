@@ -26,13 +26,11 @@
         <value>financialOffsetObjectCode</value>
       </list>
     </property>
-    <property name="label" value="Offset Account"/>
-    <property name="shortLabel" value="Offset Account"/>
-    <property name="summary" value="OffsetAccountMaintenanceDocument"/>
-    <property name="description" value="Document used to create or update Offset Accounts"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.OffsetAccount" p:parameterName="OFFSET_ACCOUNT"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="OFAC"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

@@ -15,13 +15,11 @@
         <value>grantDescriptionCode</value>
       </list>
     </property>
-    <property name="label" value="Grant Description"/>
-    <property name="shortLabel" value="Grant Description"/>
-    <property name="summary" value="Grant Description Maintenance Document"/>
-    <property name="description" value="Document used to create or update Grant Description objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.GrantDescription" p:parameterName="GRANT_DESCRIPTION"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="GDES"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

@@ -34,10 +34,10 @@
         <value>subUnitCode</value>
       </list>
     </property>
-    <property name="label" value="Customer Profile"/>
-    <property name="shortLabel" value="Customer Profile"/>
-    <property name="summary" value="Customer Profile Maintenance Document"/>
-    <property name="description" value="Document used to create or update Customer Profile Maintenance Document"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="CSPR"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

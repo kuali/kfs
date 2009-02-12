@@ -7,8 +7,6 @@
   <bean name="AssetFabricationMaintenanceDocument" parent="AssetMaintenanceDocument">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetFabrication" />
     <property name="allowsNewOrCopy" value="true" />
-    <property name="label" value="Asset Fabrication" />
-    <property name="shortLabel" value="Asset Fabrication" />
     <property name="documentTypeName" value="FR" />
     <property name="workflowAttributes" >
       <ref bean="AssetFabricationMaintenanceDocument-workflowAttributes" />

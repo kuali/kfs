@@ -3,13 +3,11 @@
   <bean id="RoutingFormDocument" parent="RoutingFormDocument-parentBean"/>
 
   <bean id="RoutingFormDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Routing Form"/>
-    <property name="shortLabel" value="Routing Form"/>
-    <property name="summary" value="Routing Form document"/>
-    <property name="description" value="Filling out routing forms is a delight which all persons should be so lucky as to be able to do dailly twice"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="KRFD"/>
     <property name="documentClass" value="org.kuali.kfs.module.cg.document.RoutingFormDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.RoutingFormDocumentRule"/>

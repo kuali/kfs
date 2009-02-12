@@ -15,11 +15,9 @@
         <value>vendorShippingSpecialConditionCode</value>
       </list>
     </property>
-    <property name="label" value="Shipping Special Conditions"/>
-    <property name="shortLabel" value="Shipping Special Conditions"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition" p:parameterName="SHIPPING_SPECIAL_CONDITION"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMSS"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

@@ -3,11 +3,9 @@
   <bean id="PurchaseOrderReopenDocument" parent="PurchaseOrderReopenDocument-parentBean"/>
 
   <bean id="PurchaseOrderReopenDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Reopen"/>
-    <property name="shortLabel" value="Purchase Order Reopen"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="POR"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument"/>

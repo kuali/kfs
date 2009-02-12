@@ -15,11 +15,9 @@
         <value>billingCampusCode</value>
       </list>
     </property>
-    <property name="label" value="Billing Address"/>
-    <property name="shortLabel" value="Billing Address"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.BillingAddress" p:parameterName="BILLING_ADDRESS"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMBA"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

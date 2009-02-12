@@ -15,10 +15,10 @@
         <value>inventoryStatusCode</value>
       </list>
     </property>
-    <property name="label" value="Asset Status"/>
-    <property name="shortLabel" value="Asset Status"/>
-    <property name="summary" value="Asset status maintenance document"/>
-    <property name="description" value="Document used to create or update Asset status objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="ASTA"/>
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

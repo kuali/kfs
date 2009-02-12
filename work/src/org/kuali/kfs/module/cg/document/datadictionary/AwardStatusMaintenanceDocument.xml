@@ -15,13 +15,11 @@
         <value>awardStatusCode</value>
       </list>
     </property>
-    <property name="label" value="Award Status"/>
-    <property name="shortLabel" value="Award Status"/>
-    <property name="summary" value="Award Maintenance Document"/>
-    <property name="description" value="Document used to create or update Award Status objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.AwardStatus" p:parameterName="AWARD_STATUS"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="AWDS"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

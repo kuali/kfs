@@ -15,11 +15,9 @@
         <value>vendorPaymentTermsCode</value>
       </list>
     </property>
-    <property name="label" value="Payment Terms Type"/>
-    <property name="shortLabel" value="Payment Terms Type"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PaymentTermType" p:parameterName="PAYMENT_TERM_TYPE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMPA"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

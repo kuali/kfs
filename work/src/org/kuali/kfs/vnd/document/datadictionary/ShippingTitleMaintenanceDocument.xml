@@ -15,11 +15,9 @@
         <value>vendorShippingTitleCode</value>
       </list>
     </property>
-    <property name="label" value="Shipping Title"/>
-    <property name="shortLabel" value="Shipping Title"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ShippingTitle" p:parameterName="SHIPPING_TITLE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMST"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

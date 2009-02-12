@@ -15,11 +15,9 @@
         <value>vendorInactiveReasonCode</value>
       </list>
     </property>
-    <property name="label" value="Vendor Inactive Reason"/>
-    <property name="shortLabel" value="Vendor Inactive Reason"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.VendorInactiveReason" p:parameterName="VENDOR_INACTIVE_REASON"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMIR"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

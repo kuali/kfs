@@ -15,13 +15,11 @@
         <value>letterOfCreditFundGroupCode</value>
       </list>
     </property>
-    <property name="label" value="Letter Of Credit Fund Group"/>
-    <property name="shortLabel" value="Letter Of Credit Fund Group"/>
-    <property name="summary" value="Letter of Credit Fund Group Maintenance Document"/>
-    <property name="description" value="Document used to create or update Letter of Credit Fund Group objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" p:parameterName="LETTER_OF_CREDIT_FUND_GROUP"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="LFGR"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

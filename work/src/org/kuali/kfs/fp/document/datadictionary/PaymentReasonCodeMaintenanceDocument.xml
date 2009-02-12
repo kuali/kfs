@@ -15,13 +15,11 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Payment Reason"/>
-    <property name="shortLabel" value="Disbursement Voucher Payment Reason"/>
-    <property name="summary" value="Payment Reason Code Maintenance Document"/>
-    <property name="description" value="Document used to create or update Payment Reason objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.PaymentReasonCode" p:parameterName="PAYMENT_REASON"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVPR"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

@@ -35,13 +35,11 @@
         <value>universityFiscalYear</value>
       </list>
     </property>
-    <property name="label" value="System Options"/>
-    <property name="shortLabel" value="System Options"/>
-    <property name="summary" value="SystemOptionsMaintenanceDocument"/>
-    <property name="description" value="Document used to create or update Options"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.SystemOptions" p:parameterName="OPTIONS"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="SOPT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="authorizations">

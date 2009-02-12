@@ -16,13 +16,11 @@
         <value>mileageLimitAmount</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Travel Mileage Rate"/>
-    <property name="shortLabel" value="Disbursement Voucher Travel Mileage Rate"/>
-    <property name="summary" value="Travel Mileage Rate Maintenance Document"/>
-    <property name="description" value="Document used to create or update Travel Mileage Rate objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelMileageRate" p:parameterName="TRAVEL_MILEAGE_RATE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVML"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

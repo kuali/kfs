@@ -26,10 +26,10 @@
         <value>documentNumber</value>
       </list>
     </property>
-    <property name="label" value="Asset Retirement Global"/>
-    <property name="shortLabel" value="Asset Retirement Global"/>
-    <property name="summary" value="Retirement Global Asset Maintenance Document"/>
-    <property name="description" value="Document used to create or update global retirement asset document."/>
+    
+    
+    
+    
     <property name="documentTypeName" value="AR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRetirementGlobalRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer"/>

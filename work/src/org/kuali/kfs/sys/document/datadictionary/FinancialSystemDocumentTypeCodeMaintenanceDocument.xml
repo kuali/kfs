@@ -16,7 +16,7 @@
         <value>financialSystemDocumentTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Financial System Document Type Code"/>
+    
     <property name="documentTypeName" value="FSDT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     </bean>

@@ -3,11 +3,9 @@
   <bean id="PurchaseOrderSplitDocument" parent="PurchaseOrderSplitDocument-parentBean"/>
 
   <bean id="PurchaseOrderSplitDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Split"/>
-    <property name="shortLabel" value="Purchase Order Split"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="POSP"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument"/>

@@ -17,10 +17,10 @@
         <value>retirementReasonRestrictionIndicator</value>
       </list>
     </property>
-    <property name="label" value="Asset Retirement Reason"/>
-    <property name="shortLabel" value="Asset Retirement Reason"/>
-    <property name="summary" value="Asset Retirement Reason maintenance document"/>
-    <property name="description" value="Document used to create or update Asset Retirement Reason objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="RRSN"/>
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

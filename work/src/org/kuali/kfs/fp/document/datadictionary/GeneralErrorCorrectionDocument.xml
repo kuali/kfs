@@ -4,13 +4,11 @@
 
   <bean id="GeneralErrorCorrectionDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="General Error Correction"/>
-    <property name="shortLabel" value="General Error Correction"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The General Error Correction document is used to correct inappropriate or incorrect account numbers or sub-account numbers, and/or object codes or sub-object codes, on general ledger entries generated from other financial transactions."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument" p:parameterName="GENERAL_ERROR_CORRECTION"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="GEC"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

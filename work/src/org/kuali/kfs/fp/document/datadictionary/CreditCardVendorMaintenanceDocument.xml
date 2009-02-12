@@ -30,13 +30,11 @@
         <value>financialDocumentCreditCardVendorNumber</value>
       </list>
     </property>
-    <property name="label" value="Credit Card Vendor"/>
-    <property name="shortLabel" value="Credit Card Vendor"/>
-    <property name="summary" value="Credit Card Vendor Maintenance Document"/>
-    <property name="description" value="Document used to create or update a credit card vendor."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.CreditCardVendor" p:parameterName="CREDIT_CARD_VENDOR"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="CCVN"/>
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardVendorRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

@@ -16,10 +16,10 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Accounting Change Code"/>
-    <property name="shortLabel" value="Accounting Change Code"/>
-    <property name="summary" value="Accounting Change Code Maintenance Document"/>
-    <property name="description" value="Document used to create or update Disbursement Type Descriptions"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="ACTC"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="allowsNewOrCopy" value="false"/>

@@ -15,10 +15,10 @@
         <value>positionObjectGroupCode</value>
       </list>
     </property>
-    <property name="label" value="Labor Position Object Group Code Maintenance Document"/>
-    <property name="shortLabel" value="Position Object Group Code Document"/>
-    <property name="summary" value="Position Object Group Code Document"/>
-    <property name="description" value="Document used to create or update Position Object Group Objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="POGR"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

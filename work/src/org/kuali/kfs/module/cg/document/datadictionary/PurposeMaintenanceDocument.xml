@@ -15,13 +15,11 @@
         <value>purposeCode</value>
       </list>
     </property>
-    <property name="label" value="Purpose"/>
-    <property name="shortLabel" value="Purpose"/>
-    <property name="summary" value="Purpose maintenance document"/>
-    <property name="description" value="Document used to create or update Purpose objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Purpose" p:parameterName="PURPOSE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="PRPS"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

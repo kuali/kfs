@@ -3,10 +3,10 @@
   <bean id="EquipmentLoanOrReturnDocument" parent="EquipmentLoanOrReturnDocument-parentBean"/>
 
   <bean id="EquipmentLoanOrReturnDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Equipment Loan/Return"/>
-    <property name="shortLabel" value="Equipment Loan/Return"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Equipment Loan/Return Document"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="ELR"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.EquipmentLoanOrReturnDocumentRule"/>

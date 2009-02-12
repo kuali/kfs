@@ -22,13 +22,11 @@
         <value>budgetNonpersonnelSubCategoryCode</value>
       </list>
     </property>
-    <property name="label" value="Non-Personnel Object Code"/>
-    <property name="shortLabel" value="Non-Personnel Object Code"/>
-    <property name="summary" value="Object Code maintenance document"/>
-    <property name="description" value="Document used to create or update Object Code objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.NonPersonnelObjectCode" p:parameterName="NONPERSONNEL_OBJECT_CODE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="NPOC"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

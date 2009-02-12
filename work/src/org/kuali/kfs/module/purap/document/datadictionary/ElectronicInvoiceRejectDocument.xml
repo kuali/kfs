@@ -3,11 +3,9 @@
   <bean id="ElectronicInvoiceRejectDocument" parent="ElectronicInvoiceRejectDocument-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Electronic Invoice Reject Document"/>
-    <property name="shortLabel" value="EI Reject Document"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" p:parameterName="ELECTRONIC_INVOICE_REJECT"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="EIRT"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceRejectDocumentRule"/>

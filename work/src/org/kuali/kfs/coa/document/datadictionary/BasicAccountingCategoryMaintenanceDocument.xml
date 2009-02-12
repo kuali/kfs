@@ -15,13 +15,11 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Basic Accounting Category"/>
-    <property name="shortLabel" value="Basic Accounting Category"/>
-    <property name="summary" value="Basic Accounting Category maintenance document"/>
-    <property name="description" value="Document used to create or update Basic Accounting Category objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.BasicAccountingCategory" p:parameterName="BASIC_ACCOUNTING_CATEGORY"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="ACTY"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

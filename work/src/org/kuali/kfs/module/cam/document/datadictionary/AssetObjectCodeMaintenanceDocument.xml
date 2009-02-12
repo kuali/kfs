@@ -26,10 +26,10 @@
         <value>financialObjectSubTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Asset Object Code"/>
-    <property name="shortLabel" value="Asset Object Code"/>
-    <property name="summary" value="Asset Object Code maintenance document"/>
-    <property name="description" value="Document used to create or update Asset Object Code objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="COBJ"/>
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

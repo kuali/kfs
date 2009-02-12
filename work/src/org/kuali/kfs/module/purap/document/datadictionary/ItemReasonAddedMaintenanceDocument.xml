@@ -15,11 +15,9 @@
         <value>itemReasonAddedCode</value>
       </list>
     </property>
-    <property name="label" value="Item Reason Added"/>
-    <property name="shortLabel" value="Item Reason"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="ITEM_REASON_ADDED" p:parameterDetailType="ItemReasonAdded"/>
-    </property>   
+    
+    
+       
     <property name="documentTypeName" value="IRAD"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

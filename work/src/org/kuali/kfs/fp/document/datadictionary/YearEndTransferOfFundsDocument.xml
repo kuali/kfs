@@ -4,13 +4,11 @@
 
   <bean id="YearEndTransferOfFundsDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Year End Transfer Of Funds"/>
-    <property name="shortLabel" value="Year End Transfer Of Funds"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The year end version of the Transfer of Funds (TOF) document. See FIS documentation here: &lt;a target=&quot;_blank&quot; href=&quot;http://www.fms.indiana.edu/fis/documentation/tf6.pdf&quot;&gt; http://www.fms.indiana.edu/fis/documentation/tf6.pdf &lt;/a&gt;"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument" p:parameterName="YEAR_END_TRANSFER_OF_FUNDS"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="YETF"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

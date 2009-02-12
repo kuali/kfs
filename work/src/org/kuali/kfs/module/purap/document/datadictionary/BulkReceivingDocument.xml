@@ -3,11 +3,9 @@
   <bean id="BulkReceivingDocument" parent="BulkReceivingDocument-parentBean"/>
 
   <bean id="BulkReceivingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Bulk Receiving"/>
-    <property name="shortLabel" value="Bulk Receiving"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.BulkReceivingDocument" p:parameterName="BULK_RECEIVING"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="RCVB"/>
      <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>

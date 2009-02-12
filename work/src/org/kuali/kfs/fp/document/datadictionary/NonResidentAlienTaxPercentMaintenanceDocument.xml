@@ -16,13 +16,11 @@
         <value>incomeTaxTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Non-Resident Alien Tax Percent"/>
-    <property name="shortLabel" value="Non-Resident Alien Tax Percent"/>
-    <property name="summary" value="Non resident alien tax percent"/>
-    <property name="description" value="Document used to create or update Tax Percent objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" p:parameterName="NON_RESIDENT_ALIEN_TAX_PERCENT"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVTX"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

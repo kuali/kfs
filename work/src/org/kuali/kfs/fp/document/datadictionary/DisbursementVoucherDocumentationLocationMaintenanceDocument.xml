@@ -15,13 +15,11 @@
         <value>disbursementVoucherDocumentationLocationCode</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Documentation Location"/>
-    <property name="shortLabel" value="Disbursement Voucher Documentation Location"/>
-    <property name="summary" value="Documentation Location Maintenance Document"/>
-    <property name="description" value="Document used to create or update Documentation Location objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-FP" p:parameterName="DOCUMENTATION_LOCATION" p:parameterDetailType="DisbursementVoucher"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVDL"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

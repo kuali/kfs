@@ -25,7 +25,7 @@
 				<ref bean="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields"/>
 			</list>
 		</property>
-		<property name="label" value="Functional Field Description"/>
+		
 
 		<property name="lockingKeys">
 			<list>
@@ -34,9 +34,7 @@
 				<value>propertyName</value>
 			</list>
 		</property>
-		<property name="helpDefinition">
-			<bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" p:parameterName="FUNCTIONAL_FIELD_DESCRIPTION"/>
-		</property>
+		
 		<property name="documentTypeName" value="FFD"/>
 		<property name="workflowAttributes">
 	    	<ref bean="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes"/>

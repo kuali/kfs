@@ -3,11 +3,6 @@
   <bean id="PurchaseOrderDocument" parent="PurchaseOrderDocument-parentBean"/>
 
   <bean id="PurchaseOrderDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order"/>
-    <property name="shortLabel" value="PO"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" p:parameterName="PURCHASE_ORDER"/>
-    </property>
     <property name="documentTypeName" value="PO"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>

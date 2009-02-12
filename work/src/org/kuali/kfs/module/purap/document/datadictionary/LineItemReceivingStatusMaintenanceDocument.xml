@@ -16,8 +16,8 @@
         <value>lineItemReceivingStatusCode</value>
       </list>
     </property>
-    <property name="label" value="Line Item Receiving Status"/>
-    <property name="shortLabel" value="Line Item Receiving Status"/>
+    
+    
     <!-- <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus" p:parameterName="LINE_ITEM_STATUS" />
     </property> -->

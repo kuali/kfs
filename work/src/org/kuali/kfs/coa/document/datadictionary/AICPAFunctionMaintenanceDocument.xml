@@ -15,13 +15,11 @@
         <value>financialAicpaFunctionCode</value>
       </list>
     </property>
-    <property name="label" value="AICPA Function"/>
-    <property name="shortLabel" value="AICPA Function"/>
-    <property name="summary" value="AICPA Function Maintenance Document"/>
-    <property name="description" value="Document used to create or update AICPA Function Maintenance Document objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AICPAFunction" p:parameterName="AICPA_FUNCTION"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="AFUN"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowProperties">

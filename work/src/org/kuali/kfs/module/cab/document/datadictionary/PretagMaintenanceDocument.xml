@@ -28,10 +28,10 @@
         <value>itemLineNumber</value>
       </list>
     </property>
-    <property name="label" value="Pre-Asset Tagging"/>
-    <property name="shortLabel" value="Pre-Asset Tagging"/>
-    <property name="summary" value="Pre-Asset Tagging maintenance document"/>
-    <property name="description" value="Document used to create or update Pre-Asset Tagging"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="PTAG"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cab.document.validation.impl.PretagRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cab.document.authorization.PretagAuthorizer"/>

@@ -15,8 +15,8 @@
         <value>invoiceNumber</value>
       </list>
     </property>
-    <property name="label" value="Invoice Recurrence"/>
-    <property name="shortLabel" value="InvRcurrnc"/>
+    
+    
     <property name="documentTypeName" value="INVR"/>
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrencePreRules"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrenceRule"/>

@@ -4,13 +4,11 @@
 
   <bean id="IndirectCostAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Indirect Cost Adjustment"/>
-    <property name="shortLabel" value="Indirect Cost Adjustment"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="&amp;nbsp;"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument" p:parameterName="INDIRECT_COST_ADJUSTMENT"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="ICA"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

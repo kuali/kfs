@@ -15,11 +15,9 @@
         <value>sensitiveDataCode</value>
       </list>
     </property>
-    <property name="label" value="Sensitive Data"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="SENSITIVE_DATA" p:parameterDetailType="SensitiveData"/>
-    </property>
-    <property name="shortLabel" value="Sensitive Data"/>
+    
+    
+    
     <property name="documentTypeName" value="PMSN"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.SensitiveDataRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

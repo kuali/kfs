@@ -15,13 +15,11 @@
         <value>projectTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Project Type"/>
-    <property name="shortLabel" value="Project Type"/>
-    <property name="summary" value="Project Type maintenance document"/>
-    <property name="description" value="Document used to create or update Project Type objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProjectType" p:parameterName="PROJECT_TYPE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="PRJT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

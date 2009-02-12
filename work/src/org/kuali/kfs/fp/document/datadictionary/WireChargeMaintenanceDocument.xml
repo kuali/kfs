@@ -15,13 +15,11 @@
         <value>universityFiscalYear</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Wire Charge"/>
-    <property name="shortLabel" value="Disbursement Voucher Wire Charge"/>
-    <property name="summary" value="Wire Charge Maintenance Document"/>
-    <property name="description" value="Document used to create or update wire charges."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.WireCharge" p:parameterName="WIRE_CHARGE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVWT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

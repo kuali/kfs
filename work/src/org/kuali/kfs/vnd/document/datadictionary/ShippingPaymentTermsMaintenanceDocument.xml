@@ -15,11 +15,9 @@
         <value>vendorShippingPaymentTermsCode</value>
       </list>
     </property>
-    <property name="label" value="Shipping Payment Terms"/>
-    <property name="shortLabel" value="Shipping Payment Terms"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms" p:parameterName="SHIPPING_PAYMENT_TERMS"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMSP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

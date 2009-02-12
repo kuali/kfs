@@ -21,10 +21,10 @@
         <value>achAccountGeneratedIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Payee ACH Account Maintenance Document"/>
-    <property name="shortLabel" value="PayeeACHAccountMaintenanceDocument"/>
-    <property name="summary" value="Payee ACH account maintenance document"/>
-    <property name="description" value="Document used to create or update Payee ACH Account objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="PAAT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.PayeeAchAccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

@@ -3,11 +3,9 @@
   <bean id="CustomerCreditMemoDocument" parent="CustomerCreditMemoDocument-parentBean"/>
 
   <bean id="CustomerCreditMemoDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Customer Credit Memo"/>
-    <property name="shortLabel" value="Customer Credit Memo"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" p:parameterName="CRM"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="CRM"/>
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentRule"/>

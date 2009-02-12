@@ -17,13 +17,11 @@
         <value>documentNumber</value>
       </list>
     </property>
-    <property name="label" value="Account Delegate Global"/>
-    <property name="shortLabel" value="Account Delegate Global"/>
-    <property name="summary" value="Global Account Delegate Maintenance Document"/>
-    <property name="description" value="Document used to create or update global account delegate document."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountDelegateGlobal" p:parameterName="DELEGATE_GLOBAL"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="GDLG"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.DelegateGlobalRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

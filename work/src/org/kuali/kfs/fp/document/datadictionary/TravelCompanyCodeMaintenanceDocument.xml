@@ -20,13 +20,11 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Travel Company"/>
-    <property name="shortLabel" value="Disbursement Voucher Travel Company"/>
-    <property name="summary" value="Travel Company Code Maintenance Document"/>
-    <property name="description" value="Document used to create or update Travel company code objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelCompanyCode" p:parameterName="TRAVEL_COMPANY"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVTC"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

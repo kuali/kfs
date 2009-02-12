@@ -15,11 +15,9 @@
         <value>statusCode</value>
       </list>
     </property>
-    <property name="label" value="Purchase Order Quote Status"/>
-    <property name="shortLabel" value="Purchase Order Quote Status"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus" p:parameterName="PURCHASE_ORDER_QUOTE_STATUS"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMQS"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

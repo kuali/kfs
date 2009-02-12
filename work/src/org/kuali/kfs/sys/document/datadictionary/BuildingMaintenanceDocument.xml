@@ -24,13 +24,11 @@
         <value>buildingCode</value>
       </list>
     </property>
-    <property name="label" value="Building"/>
-    <property name="shortLabel" value="Building"/>
-    <property name="summary" value="Building maintenance document"/>
-    <property name="description" value="Document used to create or update Building objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.Building" p:parameterName="BUILDING"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="BLDG"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="authorizations">

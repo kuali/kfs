@@ -22,13 +22,11 @@
         <value>financialHigherEdFunctionCd</value>
       </list>
     </property>
-    <property name="label" value="Higher Education Function"/>
-    <property name="shortLabel" value="Higher Education Function"/>
-    <property name="summary" value="Higher Education Function maintenance document"/>
-    <property name="description" value="Document used to create or update Higher Education Function objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.HigherEducationFunction" p:parameterName="HIGHER_EDUCATION_FUNCTION"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="HEFN"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

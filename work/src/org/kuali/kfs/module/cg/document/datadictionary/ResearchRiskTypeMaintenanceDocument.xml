@@ -15,13 +15,11 @@
         <value>researchRiskTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Research Risk Type"/>
-    <property name="shortLabel" value="Research Risk Type"/>
-    <property name="summary" value="Research Risk Type Maintenance Document"/>
-    <property name="description" value="Document used to create or update Research Risk Type objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" p:parameterName="RESEARCH_RISK_TYPE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="RRT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentPresentationController"/>        	

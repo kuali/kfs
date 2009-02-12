@@ -15,11 +15,9 @@
         <value>contractManagerCode</value>
       </list>
     </property>
-    <property name="label" value="Contract Manager"/>
-    <property name="shortLabel" value="Contract Manager"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ContractManager" p:parameterName="CONTRACT_MANAGER"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMCO"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

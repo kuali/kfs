@@ -14,10 +14,10 @@
         <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionPostalCodes"/>
       </list>
     </property>
-    <property name="label" value="Tax Region"/>
-    <property name="shortLabel" value="Tax Region"/>
-    <property name="summary" value="Tax region maintenance document"/>
-    <property name="description" value="Document used to create Tax Region objects"/>
+    
+    
+    
+    
     
     <property name="defaultExistenceChecks">
       <list>
@@ -49,9 +49,7 @@
         <value>taxRegionCode</value>
       </list>
     </property>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.TaxRegion" p:parameterName="TAX_REGION"/>
-    </property>
+    
     <property name="documentTypeName" value="TAXR"/>
     <property name="workflowAttributes">
     	<ref bean="TaxRegionMaintenanceDocument-workflowAttributes"/>

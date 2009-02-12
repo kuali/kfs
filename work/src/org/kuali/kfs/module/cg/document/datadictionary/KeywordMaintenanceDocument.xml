@@ -15,13 +15,11 @@
         <value>routingFormKeywordDescription</value>
       </list>
     </property>
-    <property name="label" value="Keyword"/>
-    <property name="shortLabel" value="Keyword"/>
-    <property name="summary" value="Keyword maintenance document"/>
-    <property name="description" value="Document used to create or update Keyword objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Keyword" p:parameterName="KEYWORD"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="KEYW"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

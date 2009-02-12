@@ -16,11 +16,9 @@
         <value>statusCode</value>
       </list>
     </property>
-    <property name="label" value="Credit Memo Status"/>
-    <property name="shortLabel" value="Credit Memo Status"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" p:parameterName="CREDIT_MEMO_STATUS"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMCM"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

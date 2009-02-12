@@ -15,11 +15,9 @@
         <value>vendorSupplierDiversityCode</value>
       </list>
     </property>
-    <property name="label" value="Supplier Diversity"/>
-    <property name="shortLabel" value="Supplier Diversity"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.SupplierDiversity" p:parameterName="SUPPLIER_DIVERSITY"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMSD"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

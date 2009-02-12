@@ -4,13 +4,11 @@
 
   <bean id="YearEndBudgetAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Year End Budget Adjustment"/>
-    <property name="shortLabel" value="Year End Budget Adjustment"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The Year End version of the Budget Adjustment document."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndBudgetAdjustmentDocument" p:parameterName="YEAR_END_BUDGET_ADJUSTMENT"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="YEBA"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndBudgetAdjustmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

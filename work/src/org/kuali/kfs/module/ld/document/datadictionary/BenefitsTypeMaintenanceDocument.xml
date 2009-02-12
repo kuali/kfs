@@ -15,13 +15,11 @@
         <value>positionBenefitTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Labor Benefits Type"/>
-    <property name="shortLabel" value="Labor Benefits Type"/>
-    <property name="summary" value="Benefits Type Maintenance Document"/>
-    <property name="description" value="Document used to create or update Benefit type codes."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.BenefitsType" p:parameterName="LABOR_BENEFITS_TYPE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="BENT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

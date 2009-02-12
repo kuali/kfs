@@ -45,8 +45,8 @@
         <value>universityFiscalYear</value>
       </list>
     </property>
-    <property name="label" value="Organization Accounting Default"/>
-    <property name="shortLabel" value="OrgAcctgDefaultMaintDoc"/>
+    
+    
     <property name="documentTypeName" value="OADF"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDefaultRule"/>
     <property name="workflowAttributes">

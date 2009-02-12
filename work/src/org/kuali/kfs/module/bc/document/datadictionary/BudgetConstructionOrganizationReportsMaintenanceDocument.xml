@@ -25,10 +25,10 @@
         <value>organizationCode</value>
       </list>
     </property>
-    <property name="label" value="Organization Reports"/>
-    <property name="shortLabel" value="BC - Org Rpts Maint Doc"/>
-    <property name="summary" value="Budget Construction Organization Reports Maintenance Document"/>
-    <property name="description" value="Document used to create or update Budget Construction Organization Reports Maintenance Document objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="BCOR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionOrganizationReportsRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

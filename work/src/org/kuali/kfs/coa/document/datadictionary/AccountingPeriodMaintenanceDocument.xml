@@ -16,13 +16,11 @@
         <value>universityFiscalPeriodCode</value>
       </list>
     </property>
-    <property name="label" value="Accounting Period"/>
-    <property name="shortLabel" value="Accounting Period"/>
-    <property name="summary" value="Accounting Period maintenance document"/>
-    <property name="description" value="Document used to create or update Accounting Period objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountingPeriod" p:parameterName="ACCOUNTING_PERIOD"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="APRD"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountingPeriodRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

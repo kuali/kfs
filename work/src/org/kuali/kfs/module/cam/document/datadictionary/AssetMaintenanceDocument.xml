@@ -42,10 +42,10 @@
         <value>capitalAssetNumber</value>
       </list>
     </property>
-    <property name="label" value="Asset"/>
-    <property name="shortLabel" value="Asset"/>
-    <property name="summary" value="Asset maintenance document"/>
-    <property name="description" value="Document used to create or update Asset objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="CASM"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer"/>

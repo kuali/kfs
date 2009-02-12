@@ -3,13 +3,11 @@
   <bean id="GeneralLedgerCorrectionProcessDocument" parent="GeneralLedgerCorrectionProcessDocument-parentBean"/>
 
   <bean id="GeneralLedgerCorrectionProcessDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="General Ledger Correction Process"/>
-    <property name="shortLabel" value="GLCPDoc"/>
-    <property name="summary" value="General Ledger Correction Process Document"/>
-    <property name="description" value="General Ledger Correction Process Document"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="GLCP"/>
     <property name="documentClass" value="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer"/>

@@ -16,10 +16,10 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Payee Type"/>
-    <property name="shortLabel" value="Payee Type"/>
-    <property name="summary" value="Payee Type Maintenance Document"/>
-    <property name="description" value="Document used to create or update Payee Type Descriptions"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="PYTP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="allowsNewOrCopy" value="false"/>

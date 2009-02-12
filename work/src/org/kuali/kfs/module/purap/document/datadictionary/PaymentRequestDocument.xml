@@ -3,11 +3,9 @@
   <bean id="PaymentRequestDocument" parent="PaymentRequestDocument-parentBean"/>
 
   <bean id="PaymentRequestDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Payment Request"/>
-    <property name="shortLabel" value="Payment Request"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.PaymentRequestDocument" p:parameterName="PAYMENT_REQUEST"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PREQ"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

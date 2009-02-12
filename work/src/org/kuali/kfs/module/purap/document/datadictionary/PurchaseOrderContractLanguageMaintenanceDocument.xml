@@ -15,11 +15,9 @@
         <value>purchaseOrderContractLanguageIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Purchase Order Contract Language"/>
-    <property name="shortLabel" value="Purchase Order Contract Language"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage" p:parameterName="PURCHASE_ORDER_CONTRACT_LANGUAGE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMCL"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderContractLanguageRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

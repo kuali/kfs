@@ -3,13 +3,11 @@
   <bean id="BudgetDocument" parent="BudgetDocument-parentBean"/>
 
   <bean id="BudgetDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Budget"/>
-    <property name="shortLabel" value="Budget"/>
-    <property name="summary" value="Budget document"/>
-    <property name="description" value="Filling out budgets is a delight which all persons should be so lucky as to be able to do dailly twice"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="KBD"/>
     <property name="documentClass" value="org.kuali.kfs.module.cg.document.BudgetDocument"/>
     

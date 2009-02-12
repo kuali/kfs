@@ -15,13 +15,11 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Travel Expense Type"/>
-    <property name="shortLabel" value="Disbursement Voucher Travel Expense Type"/>
-    <property name="summary" value="Travel Expense Type Code Maintenance Document"/>
-    <property name="description" value="Document used to create or update Travel Expense Type objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode" p:parameterName="TRAVEL_EXPENSE_TYPE_CODE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVET"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

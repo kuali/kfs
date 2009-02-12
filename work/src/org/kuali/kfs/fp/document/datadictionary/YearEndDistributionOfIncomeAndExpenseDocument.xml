@@ -4,13 +4,11 @@
 
   <bean id="YearEndDistributionOfIncomeAndExpenseDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Year End Distribution Of Income And Expense"/>
-    <property name="shortLabel" value="Year End Distribution Of Income And Expense"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The Year End version of the Distribution of Income and Expense (DI) document. &lt;br&gt; &lt;br&gt; See FIS documentation here: &lt;a target=&quot;_blank&quot; href=&quot;http://www.fms.indiana.edu/fis/documentation/di.pdf&quot;&gt; http://www.fms.indiana.edu/fis/documentation/di.pdf &lt;/a&gt;"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument" p:parameterName="YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="YEDI"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

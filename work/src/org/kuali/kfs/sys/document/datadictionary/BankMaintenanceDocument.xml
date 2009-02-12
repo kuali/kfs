@@ -25,10 +25,10 @@
         <value>bankCode</value>
       </list>
     </property>
-    <property name="label" value="Bank"/>
-    <property name="shortLabel" value="Bank"/>
-    <property name="summary" value="Bank maintenance document"/>
-    <property name="description" value="Document used to create or update Bank objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="BANK"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.BankRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

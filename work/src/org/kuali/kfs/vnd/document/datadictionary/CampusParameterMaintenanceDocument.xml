@@ -15,11 +15,9 @@
         <value>campusCode</value>
       </list>
     </property>
-    <property name="label" value="Campus Parameter"/>
-    <property name="shortLabel" value="Campus Parameter"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.CampusParameter" p:parameterName="CAMPUS_PARAMETER"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMCP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

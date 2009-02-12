@@ -15,10 +15,10 @@
         <value>assetLocationTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Asset Location Type"/>
-    <property name="shortLabel" value="Asset Location Type"/>
-    <property name="summary" value="Asset Location Type maintenance document"/>
-    <property name="description" value="Document used to create or update Asset Location Type objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="ASLT"/>
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

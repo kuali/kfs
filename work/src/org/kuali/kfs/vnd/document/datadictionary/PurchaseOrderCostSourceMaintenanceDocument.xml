@@ -15,11 +15,9 @@
         <value>purchaseOrderCostSourceCode</value>
       </list>
     </property>
-    <property name="label" value="Cost Source"/>
-    <property name="shortLabel" value="Cost Source"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource" p:parameterName="PURCHASE_ORDER_COST_SOURCE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMCS"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

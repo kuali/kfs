@@ -21,10 +21,10 @@
         <value>parameterDetailTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Parameter Component"/>
-    <property name="shortLabel" value="Parameter Component"/>
-    <property name="summary" value="Parameter Component Maintenance Document"/>
-    <property name="description" value="This document can be used to create or update parameter components."/>
+    
+    
+    
+    
     <property name="documentTypeName" value="ParameterDetailTypeMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

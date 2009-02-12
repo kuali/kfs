@@ -3,11 +3,9 @@
   <bean id="PurchaseOrderVoidDocument" parent="PurchaseOrderVoidDocument-parentBean"/>
 
   <bean id="PurchaseOrderVoidDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Void"/>
-    <property name="shortLabel" value="Purchase Order Void"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="POV"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument"/>

@@ -3,11 +3,9 @@
   <bean id="ContractManagerAssignmentDocument" parent="ContractManagerAssignmentDocument-parentBean"/>
 
   <bean id="ContractManagerAssignmentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Contract Manager Assignment"/>
-    <property name="shortLabel" value="Contract Manager Assignment"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument" p:parameterName="CONTRACT_MANAGER_ASSIGNMENT"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="ACM"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ContractManagerAssignmentDocumentRule"/>

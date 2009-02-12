@@ -15,11 +15,9 @@
         <value>thresholdIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Receiving Threshold"/>
-    <property name="shortLabel" value="Threshold"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="RECEIVING_THRESHOLD" p:parameterDetailType="ReceivingThreshold"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="THLD"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ThresholdRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

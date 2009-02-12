@@ -15,13 +15,11 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Non-Personnel Category"/>
-    <property name="shortLabel" value="Non-Personnel Category"/>
-    <property name="summary" value="Nonpersonnel Category maintenance document"/>
-    <property name="description" value="Document used to create or update Nonpersonnel Category objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.NonPersonnelCategory" p:parameterName="NONPERSONNEL_CATEGORY"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="NPC"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

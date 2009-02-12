@@ -15,13 +15,11 @@
         <value>dueDateTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Due Date Type"/>
-    <property name="shortLabel" value="Due Date Type"/>
-    <property name="summary" value="Due Date Type maintenance document"/>
-    <property name="description" value="Document used to create or update Due Date Type objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.DueDateType" p:parameterName="DUE_DATE_TYPE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DDT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

@@ -16,13 +16,11 @@
         <value>financialIcrSeriesIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Indirect Cost Recovery Rate"/>
-    <property name="shortLabel" value="Indirect Cost Recovery Rate"/>
-    <property name="summary" value="Indirect Cost Recovery Rate Maintenance Document"/>
-    <property name="description" value="Maintenance document which allows you to create new ICR Rates, or modify existing ICR Rates."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRate" p:parameterName="INDIRECT_COST_RECOVERY_RATE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="ICRE"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryRateRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>

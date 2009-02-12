@@ -24,10 +24,10 @@
         <value>accountNumber</value>
       </list>
     </property>
-    <property name="label" value="Account Reports"/>
-    <property name="shortLabel" value="BC - Account Rpts Maint Doc"/>
-    <property name="summary" value="Budget Construction Account Reports Maintenance Document"/>
-    <property name="description" value="Document used to create or update Budget Construction Account Reports Maintenance Document objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="BCAR"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     </bean>

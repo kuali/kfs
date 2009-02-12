@@ -3,11 +3,9 @@
   <bean id="PurchaseOrderAmendmentDocument" parent="PurchaseOrderAmendmentDocument-parentBean"/>
 
   <bean id="PurchaseOrderAmendmentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Amendment"/>
-    <property name="shortLabel" value="Purchase Order Amendment"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="POA"/>
     <property name="sessionDocument" value="true"/>    
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument"/>

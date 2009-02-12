@@ -15,11 +15,9 @@
         <value>vendorContactTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Contact Type"/>
-    <property name="shortLabel" value="Contact Type"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ContactType" p:parameterName="CONTACT_TYPE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMCT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

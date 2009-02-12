@@ -15,13 +15,11 @@
         <value>proposalAwardTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Proposal Type"/>
-    <property name="shortLabel" value="Proposal Type"/>
-    <property name="summary" value="Proposal Award Type Maintenance Document"/>
-    <property name="description" value="Document used to create or update Proposal Award Type objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" p:parameterName="PROPOSAL_AWARD_TYPE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="PATY"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

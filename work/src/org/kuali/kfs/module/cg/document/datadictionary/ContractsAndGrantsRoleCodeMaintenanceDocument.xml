@@ -15,13 +15,11 @@
         <value>personRoleCode</value>
       </list>
     </property>
-    <property name="label" value="Contracts And Grants Role Code"/>
-    <property name="shortLabel" value="C G Role"/>
-    <property name="summary" value="Person Role maintenance document"/>
-    <property name="description" value="Document used to create or update Person Role objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode" p:parameterName="CONTRACTS_AND_GRANTS_ROLE_CODE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="PRSN"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

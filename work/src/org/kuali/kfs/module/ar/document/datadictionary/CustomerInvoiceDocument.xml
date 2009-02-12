@@ -4,8 +4,8 @@
 
   <bean id="CustomerInvoiceDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Customer Invoice"/>
-    <property name="shortLabel" value="Customer Invoice"/>
+    
+    
     <property name="documentTypeName" value="INV"/>
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

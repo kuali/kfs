@@ -3,10 +3,10 @@
   <bean id="AssetPaymentDocument" parent="AssetPaymentDocument-parentBean"/>
 
   <bean id="AssetPaymentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="label" value="Asset Payments"/>
-    <property name="shortLabel" value="Asset Payments"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Asset Payment Document"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="MPAY"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetPaymentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

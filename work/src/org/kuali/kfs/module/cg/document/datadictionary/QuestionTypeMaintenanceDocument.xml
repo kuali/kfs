@@ -15,13 +15,11 @@
         <value>questionTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Question Type"/>
-    <property name="shortLabel" value="Question Type"/>
-    <property name="summary" value="Question Type Maintenance Document"/>
-    <property name="description" value="Document used to create or update Question Type objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.QuestionType" p:parameterName="QUESTION_TYPE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="QNT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentPresentationController"/>

@@ -31,8 +31,8 @@
         <value>invoiceItemCode</value>
       </list>
     </property>
-    <property name="label" value="Customer Invoice Item Code"/>
-    <property name="shortLabel" value="InvoiceItemCodeMaintDoc"/>
+    
+    
     <property name="documentTypeName" value="IICO"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceItemCodeRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceItemCodeAuthorizer"/>

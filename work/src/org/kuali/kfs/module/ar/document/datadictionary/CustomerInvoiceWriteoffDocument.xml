@@ -3,8 +3,8 @@
   <bean id="CustomerInvoiceWriteoffDocument" parent="CustomerInvoiceWriteoffDocument-parentBean"/>
 
   <bean id="CustomerInvoiceWriteoffDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Customer Invoice Writeoff"/>
-    <property name="shortLabel" value="Customer Invoice Writeoff"/>
+    
+    
     <property name="documentTypeName" value="INVW"/>
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffDocumentRule"/>

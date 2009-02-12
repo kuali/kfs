@@ -15,11 +15,9 @@
         <value>vendorAddressTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Address Type"/>
-    <property name="shortLabel" value="Address Type"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.AddressType" p:parameterName="ADDRESS_TYPE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMAT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

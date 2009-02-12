@@ -21,11 +21,9 @@
         <value>accountNumber</value>
       </list>
     </property>
-    <property name="label" value="Payment Request Auto Approve Exclusions"/>
-    <property name="shortLabel" value="Payment Request Auto Approve Exclusions"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude" p:parameterName="AUTO_APPROVE_EXCLUDE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMAA"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

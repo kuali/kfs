@@ -25,11 +25,9 @@
         <value>vendorDetailAssignedIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Vendor"/>
-    <property name="shortLabel" value="Vendor"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.VendorDetail" p:parameterName="VENDOR"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PVEN"/>
     <property name="businessRulesClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentAuthorizer"/>

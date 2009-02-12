@@ -4,13 +4,11 @@
 
   <bean id="AuxiliaryVoucherDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Auxiliary Voucher"/>
-    <property name="shortLabel" value="Auxiliary Voucher"/>
-    <property name="summary" value="Auxiliary Voucher document"/>
-    <property name="description" value="blah blah Document blah Auxiliary Voucher blah blah"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" p:parameterName="AUXILIARY_VOUCHER"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="AV"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

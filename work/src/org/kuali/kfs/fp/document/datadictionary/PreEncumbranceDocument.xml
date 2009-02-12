@@ -4,13 +4,11 @@
 
   <bean id="PreEncumbranceDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Pre-Encumbrance"/>
-    <property name="shortLabel" value="Pre-Encumbrance"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The Pre-Encumbrance (PE) document provides the capability to record encumbrances independently of purchase orders, travel, or Physical Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments have already been made."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.PreEncumbranceDocument" p:parameterName="PRE_ENCUMBRANCE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="PE"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.PreEncumbranceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

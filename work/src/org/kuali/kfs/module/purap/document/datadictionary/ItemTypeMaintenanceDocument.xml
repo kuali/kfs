@@ -16,11 +16,9 @@
         <value>itemTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Item Type"/>
-    <property name="shortLabel" value="Item Type"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.ItemType" p:parameterName="ITEM_TYPE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMIT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

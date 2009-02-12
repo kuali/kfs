@@ -15,10 +15,10 @@
         <value>capitalAssetTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Asset Type"/>
-    <property name="shortLabel" value="Asset Type"/>
-    <property name="summary" value="Asset type maintenance document"/>
-    <property name="description" value="Document used to create or update asset type code objects"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="ASST"/>
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

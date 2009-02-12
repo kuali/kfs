@@ -3,10 +3,10 @@
   <bean id="BudgetConstructionDocument" parent="BudgetConstructionDocument-parentBean"/>
 
   <bean id="BudgetConstructionDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Budget Construction Document"/>
-    <property name="shortLabel" value="BCDoc"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Budget Construction Document"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="BC"/>
     <property name="documentClass" value="org.kuali.kfs.module.bc.document.BudgetConstructionDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionRules"/>

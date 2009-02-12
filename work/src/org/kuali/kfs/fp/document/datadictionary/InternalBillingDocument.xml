@@ -4,13 +4,11 @@
 
   <bean id="InternalBillingDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    <property name="label" value="Internal Billing"/>
-    <property name="shortLabel" value="Internal Billing"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The Internal Billing (IB) document is used for the billing of goods or services provided by a university department to another university department, reflecting income to the provider and expense to the customer."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.InternalBillingDocument" p:parameterName="INTERNAL_BILLING"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="IB"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.InternalBillingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

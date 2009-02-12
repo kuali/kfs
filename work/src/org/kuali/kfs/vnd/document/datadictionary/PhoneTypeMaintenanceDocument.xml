@@ -15,11 +15,9 @@
         <value>vendorPhoneTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Phone Type"/>
-    <property name="shortLabel" value="Phone Type"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PhoneType" p:parameterName="PHONE_TYPE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMPT"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

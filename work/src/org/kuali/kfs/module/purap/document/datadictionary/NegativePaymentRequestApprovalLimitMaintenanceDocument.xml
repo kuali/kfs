@@ -22,11 +22,9 @@
         <value>chartOfAccountsCode</value>
       </list>
     </property>
-    <property name="label" value="Negative Payment Request Approval Limit"/>
-    <property name="shortLabel" value="Negative Payment Request Approval Limit"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit" p:parameterName="NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="PMNP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

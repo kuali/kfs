@@ -54,8 +54,8 @@
         <value>processingOrganizationCode</value>
       </list>
     </property>
-    <property name="label" value="System Information"/>
-    <property name="shortLabel" value="SystemInformationMaintDoc"/>
+    
+    
     <property name="documentTypeName" value="ARSI"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.SystemInformationRule"/>
     <property name="workflowAttributes">

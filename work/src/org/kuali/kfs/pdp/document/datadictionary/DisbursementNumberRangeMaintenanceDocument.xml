@@ -24,10 +24,10 @@
         <value>disbNbrRangeStartDt</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Number Range"/>
-    <property name="shortLabel" value="Disbursement Number Range"/>
-    <property name="summary" value="Disbursement Number Range Maintenance Document"/>
-    <property name="description" value="Document used to create or update Disbursement Number Range Maintenance Document"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="DBRG"/>
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.DisbursementNumberRangeRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

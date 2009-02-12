@@ -15,8 +15,8 @@
         <value>customerAddressTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Customer Address Type"/>
-    <property name="shortLabel" value="CustAddrTyp"/>
+    
+    
     <property name="documentTypeName" value="CATY"/>
     <property name="workflowAttributes">
     	<ref bean="CustomerAddressTypeMaintenanceDocument-workflowAttributes"/>

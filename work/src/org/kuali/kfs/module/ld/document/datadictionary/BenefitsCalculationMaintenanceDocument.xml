@@ -25,13 +25,11 @@
         <value>positionBenefitTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Labor Benefits Calculation"/>
-    <property name="shortLabel" value="Labor Benefits Calculation"/>
-    <property name="summary" value="Labor Calculation Maintenance Document"/>
-    <property name="description" value="Document used to create or update Labor calculations."/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" p:parameterName="LABOR_BENEFITS_CALCULATION"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="BCAL"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.BenefitsCalculationDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

@@ -15,13 +15,11 @@
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Tax Income Class"/>
-    <property name="shortLabel" value="Disbursement Voucher Tax Income Class"/>
-    <property name="summary" value="Tax Income Class Code Maintenance Document"/>
-    <property name="description" value="Document used to create or update Tax Income Class objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" p:parameterName="TAX_INCOME_CLASS_CODE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="DVIC"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

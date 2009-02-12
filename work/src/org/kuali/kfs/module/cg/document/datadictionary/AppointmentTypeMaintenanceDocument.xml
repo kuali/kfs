@@ -15,13 +15,11 @@
         <value>appointmentTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Appointment Type"/>
-    <property name="shortLabel" value="Appointment Type"/>
-    <property name="summary" value="Appointment Type maintenance document"/>
-    <property name="description" value="Document used to create or update AppointmentType objects"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.AppointmentType" p:parameterName="APPOINTMENT_TYPE"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="APPT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AppointmentTypeMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

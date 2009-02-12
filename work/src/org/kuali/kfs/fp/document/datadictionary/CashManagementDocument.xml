@@ -3,13 +3,11 @@
   <bean id="CashManagementDocument" parent="CashManagementDocument-parentBean"/>
 
   <bean id="CashManagementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="label" value="Cash Management"/>
-    <property name="shortLabel" value="Cash Management"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="blah blah Document blah Cash Management blah blah"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CashManagementDocument" p:parameterName="CASH_MANAGEMENT"/>
-    </property>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="CMD"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashManagementDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentRule"/>

@@ -3,11 +3,9 @@
   <bean id="CFDACloseDocument" parent="CFDACloseDocument-parentBean"/>
 
   <bean id="CFDACloseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="CFDA Close"/>
-    <property name="shortLabel" value="CFDA Close"/>
-    <property name="helpDefinition">
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.CFDAClose" p:parameterName="CFDACLOSE"/>
-    </property>
+    
+    
+    
     <property name="documentTypeName" value="CLOS"/>
     <property name="documentClass" value="org.kuali.kfs.module.cg.businessobject.CFDAClose"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.CloseDocumentRule"/>

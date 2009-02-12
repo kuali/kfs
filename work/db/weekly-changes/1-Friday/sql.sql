@@ -1262,3 +1262,46 @@ where nmspc_cd = 'KFS-AR'
 and parm_dtl_typ_cd = 'CustomerInvoiceWriteoff'
 and parm_nm = 'GLPE_WRITEOFF_TAX_GENERATION_METHOD'
 /
+
+INSERT INTO KRIM_ROLE_MBR_T VALUES ('1633', 1, sys_guid(), '81', '4431400488', 'P', NULL, NULL, sysdate)
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3012', sys_guid(), 1, '1633', '6', '22', 'IU')
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3013', sys_guid(), 1, '1633', '6', '24', 'UNIV')
+/
+INSERT INTO KRIM_ROLE_MBR_T VALUES ('1634', 1, sys_guid(), '81', '1309104027', 'P', NULL, NULL, sysdate)
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3014', sys_guid(), 1, '1634', '6', '22', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3015', sys_guid(), 1, '1634', '6', '24', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_T VALUES ('1635', 1, sys_guid(), '81', '5412209968', 'P', NULL, NULL, sysdate)
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3016', sys_guid(), 1, '1635', '6', '22', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3017', sys_guid(), 1, '1635', '6', '24', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_T VALUES ('1636', 1, sys_guid(), '81', '4333007056', 'P', NULL, NULL, sysdate)
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3018', sys_guid(), 1, '1636', '6', '22', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3019', sys_guid(), 1, '1636', '6', '24', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_T VALUES ('1637', 1, sys_guid(), '81', '2168808105', 'P', NULL, NULL, sysdate)
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3020', sys_guid(), 1, '1637', '6', '22', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3021', sys_guid(), 1, '1637', '6', '24', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_T VALUES ('1638', 1, sys_guid(), '81', '3949401795', 'P', NULL, NULL, sysdate)
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3022', sys_guid(), 1, '1638', '6', '22', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3023', sys_guid(), 1, '1638', '6', '24', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_T VALUES ('1639', 1, sys_guid(), '54', '4431400488', 'P', NULL, NULL, sysdate)
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3024', sys_guid(), 1, '1639', '36', '22', 'BL')
+/
+INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T VALUES ('3025', sys_guid(), 1, '1639', '36', '24', 'BL')
+/

@@ -90,6 +90,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private Boolean overrideWorkflowButtons = null;
     private transient PurApRelatedViews relatedViews;
     private String statusCodeForMultiboxSearching;
+    private String deliveryCampusCodeForSearching;  
     
     // COLLECTIONS
     private List<PurApItem> items;
@@ -946,6 +947,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public void setStatusCodeForMultiboxSearching(String statusCodeForMultiboxSearching) {
         this.statusCodeForMultiboxSearching = statusCodeForMultiboxSearching;
+    }
+    
+    public String getDeliveryCampusCodeForSearching() {
+        return deliveryCampusCodeForSearching;
+    }
+
+    public void setDeliveryCampusCodeForSearching(String deliveryCampusCodeForSearching) {
+        this.deliveryCampusCodeForSearching = deliveryCampusCodeForSearching;
     }
 
     @Override

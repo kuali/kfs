@@ -16,6 +16,9 @@
 package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.runtime.parser.node.MathUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -691,16 +695,20 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param invoiceMap
      */
     private void addAgingAmountToInvoiceMap(String mapKey, KualiDecimal amountToAdd, Map<String, String> invoiceMap) {
-        KualiDecimal amount = KualiDecimal.ZERO;
+        BigDecimal amount = BigDecimal.ZERO;
         String currentAmount = invoiceMap.get(mapKey);
         if(StringUtils.isNotEmpty(currentAmount)) {
             try {
-                amount = new KualiDecimal(StringUtils.remove(currentAmount, ','));
+                amount = new BigDecimal(StringUtils.remove(currentAmount, ','));
             } catch(NumberFormatException nfe) {
                 LOG.error(currentAmount+" is an invalid amount.", nfe);
             }
         }
-        invoiceMap.put(mapKey, currencyFormatter.format(amount.add(amountToAdd)).toString());
+        if(ObjectUtils.isNull(amountToAdd)) {
+            amountToAdd = KualiDecimal.ZERO;
+        }
+        KualiDecimal newAmount = new KualiDecimal(amount.add(amountToAdd.bigDecimalValue()));
+        invoiceMap.put(mapKey, currencyFormatter.format(newAmount).toString());
     }
     
     /**

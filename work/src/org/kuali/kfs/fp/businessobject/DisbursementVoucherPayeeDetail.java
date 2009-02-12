@@ -558,21 +558,17 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the disbVchrAlienPaymentCode
      */
     public boolean isDisbVchrAlienPaymentCode() {
-        if (ObjectUtils.isNull(disbVchrAlienPaymentCode)) {
-            if (this.isEmployee()) {
-                disbVchrAlienPaymentCode = false; // TODO how do you figure out if an employee is an alien???
+        if (StringUtils.isNotBlank(this.getDisbVchrEmployeeIdNumber()) && this.isVendor()) {
+            try {
+                disbVchrAlienPaymentCode = SpringContext.getBean(VendorService.class).isVendorForeign(getDisbVchrVendorHeaderIdNumberAsInteger());
             }
-            else if (this.isVendor()) {
-                try {
-                    disbVchrAlienPaymentCode = SpringContext.getBean(VendorService.class).isVendorForeign(getDisbVchrVendorHeaderIdNumberAsInteger());
-                }
-                catch (Exception ex) {
-                    disbVchrAlienPaymentCode = false;
-                    ex.printStackTrace();
-                }
+            catch (Exception ex) {
+                disbVchrAlienPaymentCode = false;
+                ex.printStackTrace();
             }
         }
-        return disbVchrAlienPaymentCode;
+
+        return ObjectUtils.isNull(disbVchrAlienPaymentCode) ? false : disbVchrAlienPaymentCode;
     }
 
 

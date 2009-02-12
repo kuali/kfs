@@ -29,7 +29,10 @@ import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.ModuleService;
+import org.kuali.rice.kns.util.ExternalizableBusinessObjectUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.format.FormatException;
@@ -171,7 +174,7 @@ public class PurApObjectUtils {
         for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {
             BusinessObject sourceCollectionObject = (BusinessObject) iterator.next();
             LOG.debug("attempting to copy collection member with class '" + sourceCollectionObject.getClass() + "'");
-            BusinessObject targetCollectionObject = (BusinessObject) ObjectUtils.createNewObjectFromClass(sourceCollectionObject.getClass());
+            BusinessObject targetCollectionObject = (BusinessObject) createNewObjectFromClass(sourceCollectionObject.getClass());
             populateFromBaseWithSuper(sourceCollectionObject, targetCollectionObject, supplementalUncopyable, new HashSet<Class>());
             // BusinessObject targetCollectionObject = (BusinessObject)ObjectUtils.deepCopy((Serializable)sourceCollectionObject);
             Map pkMap = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(targetCollectionObject);
@@ -184,6 +187,34 @@ public class PurApObjectUtils {
         ObjectUtils.setObjectProperty(targetObject, fieldName, listToSet);
     }
 
+    /**
+     * This method safely creates a object from a class
+     * Convenience method to create new object and throw a runtime exception if it cannot
+     * If the class is an {@link ExternalizableBusinessObject}, this method will determine the interface for the EBO and query the
+     * appropriate module service to create a new instance.
+     * 
+     * @param boClass
+     * 
+     * @return a newInstance() of clazz
+     */
+    private static Object createNewObjectFromClass(Class clazz) {
+        if (clazz == null) {
+            throw new RuntimeException("BO class was passed in as null");
+        }
+        try {
+            if (clazz.getSuperclass().equals(ExternalizableBusinessObject.class)) {
+                Class eboInterface = ExternalizableBusinessObjectUtils.determineExternalizableBusinessObjectSubInterface(clazz);
+                ModuleService moduleService = KNSServiceLocator.getKualiModuleService().getResponsibleModuleService(eboInterface);
+                return moduleService.createNewObjectFromExternalizableClass(eboInterface);
+            }
+            else {
+                return clazz.newInstance();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error occured while trying to create a new instance for class " + clazz);
+        }
+    }
+    
     /**
      * Copies based on a class template it does not copy fields in Known Uncopyable Fields
      * 

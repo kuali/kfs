@@ -247,6 +247,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                     p:attributeName="asset.vendorName" 
                     p:noInquiry="true" />
               <bean parent="FieldDefinition"
+                    p:attributeName="asset.manufacturerModelNumber" 
+                    p:noInquiry="true" />
+              <bean parent="FieldDefinition"
                     p:attributeName="asset.serialNumber" 
                     p:noInquiry="true" />
               <bean parent="FieldDefinition"

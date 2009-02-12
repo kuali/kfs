@@ -44,7 +44,12 @@ public class PurchasingAccountsPayableAccountingLineAccessibleValidation extends
 
     @Override
     protected String getGroupName() {
-        return "items.sourceAccountingLines";
+        return "source";
+    }
+
+    @Override
+    protected String getAccountingLineCollectionProperty() {
+        return "items.sourceAccountingLines"; 
     }
     
     

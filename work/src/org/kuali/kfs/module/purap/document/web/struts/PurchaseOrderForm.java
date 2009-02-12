@@ -621,17 +621,19 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         can = can && PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
         
-        // check user authorization: same as retransmit init, since whoever can init retransmit PO shall be able to print
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-        if (getPurchaseOrderDocument().getPurchaseOrderAutomaticIndicator()) {
-            // for APO use authorization for PurchaseOrderRetransmitDocument, which is anybody
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRetransmitDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
-        }
-        else {
-            // for NON_APO use authorization for PurchaseOrderDocument, which is purchasing user
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());            
+        if (can) {
+            // check user authorization: same as retransmit init, since whoever can init retransmit PO shall be able to print
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
+            if (getPurchaseOrderDocument().getPurchaseOrderAutomaticIndicator()) {
+                // for APO use authorization for PurchaseOrderRetransmitDocument, which is anybody
+                String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRetransmitDocument.class);
+                can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            }
+            else {
+                // for NON_APO use authorization for PurchaseOrderDocument, which is purchasing user
+                String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderDocument.class);
+                can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());            
+            }
         }
       
         return can;

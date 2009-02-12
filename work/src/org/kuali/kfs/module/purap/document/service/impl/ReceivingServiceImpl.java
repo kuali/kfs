@@ -183,19 +183,21 @@ public class ReceivingServiceImpl implements ReceivingService {
         return canCreateLineItemReceivingDocument(po, null);
     }
     
-    private boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po, String receivingDocumentNumber){
-
+    private boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po, String receivingDocumentNumber) {
         boolean canCreate = false;
-       
-        if(  po != null &&
-             ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) &&
-             !isLineItemReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), receivingDocumentNumber) &&
-             !isCorrectionReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), null) &&
-             po.isPurchaseOrderCurrentIndicator()){
-            
+
+        if (po != null && 
+                ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) && 
+                !isLineItemReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), receivingDocumentNumber) && 
+                !isCorrectionReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), null) && 
+                po.isPurchaseOrderCurrentIndicator() && 
+                (PurchaseOrderStatuses.OPEN.equals(po.getStatusCode()) || 
+                        PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode()) || 
+                        PurchaseOrderStatuses.PAYMENT_HOLD.equals(po.getStatusCode()))) {
+
             canCreate = true;
         }
-        
+
         return canCreate;
     }
 

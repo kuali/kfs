@@ -19,6 +19,8 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="deliveryReadOnly" required="false"
               description="Boolean to indicate if delivery tab fields are read only" %>              
+<%@ attribute name="showDefaultBuildingOption" required="false"
+              description="Boolean to indicate if user should be allowed to set their default building" %>              
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="notOtherDeliveryBuilding" value="${not KualiForm.document.deliveryBuildingOtherIndicator}" />
@@ -77,7 +79,10 @@
                         <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
                             lookupParameters="document.deliveryCampusCode:campusCode"
                             fieldConversions="buildingCode:document.deliveryBuildingCode,buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode,buildingAddressCountryCode:document.deliveryCountryCode"/>&nbsp;&nbsp;
-                        <html:image property="methodToCall.useOtherDeliveryBuilding" src="${ConfigProperties.externalizable.images.url}tinybutton-buildingnotfound.gif" alt="building not found" styleClass="tinybutton"/>
+                        <html:image property="methodToCall.useOtherDeliveryBuilding" src="${ConfigProperties.externalizable.images.url}tinybutton-buildingnotfound.gif" alt="building not found" styleClass="tinybutton"/>&nbsp;
+                        <c:if test="${showDefaultBuildingOption}" >
+                            <html:image property="methodToCall.setAsDefaultBuilding" src="${ConfigProperties.externalizable.images.url}tinybutton-setAsDefaultBuilding.gif" alt="set as default building" styleClass="tinybutton"/>
+                        </c:if>
                     </c:if>
                 </td>           
                 <th align=right valign=middle class="bord-l-b">

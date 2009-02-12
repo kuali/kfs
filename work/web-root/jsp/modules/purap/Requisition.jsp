@@ -34,7 +34,8 @@
     </kfs:documentOverview>
 
     <purap:delivery
-        documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />
+        documentAttributes="${DataDictionary.RequisitionDocument.attributes}" 
+        showDefaultBuildingOption="true" />
 
     <purap:vendor
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}"

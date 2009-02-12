@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
+import org.kuali.kfs.module.purap.businessobject.DefaultPrincipalAddress;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseRequisitionItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
@@ -42,7 +43,9 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedPurchasingAccountsPayableAccountValidationEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -63,6 +66,7 @@ import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -120,8 +124,14 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     private boolean hasAccountingLines() {
-//        return SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPurchasingAccountsPayableAccountValidationEvent());
-        //FIXME hjs-finish logic
+        //FIXME hjs- don't have responsibilites yet so this isnt' workign
+        for (Iterator iterator = getItems().iterator(); iterator.hasNext();) {
+            RequisitionItem item = (RequisitionItem) iterator.next();
+            if (!SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPurchasingAccountsPayableAccountValidationEvent("", "", this, item))) {
+                return false;
+            }
+        }
+        
         return true;
     }
     
@@ -179,6 +189,22 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setRequestorPersonEmailAddress(currentUser.getEmailAddress());
         this.setRequestorPersonPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(currentUser.getPhoneNumber()));
 
+        DefaultPrincipalAddress defaultPrincipalAddress = new DefaultPrincipalAddress();
+        defaultPrincipalAddress.setPrincipalId(currentUser.getPrincipalId());
+        Map addressKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(defaultPrincipalAddress);
+        defaultPrincipalAddress = (DefaultPrincipalAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DefaultPrincipalAddress.class, addressKeys);
+        if (ObjectUtils.isNotNull(defaultPrincipalAddress) && ObjectUtils.isNotNull(defaultPrincipalAddress.getBuilding())) {
+            if (defaultPrincipalAddress.getBuilding().isActive()) {
+                this.setDeliveryCampusCode(defaultPrincipalAddress.getCampusCode());
+                this.templateBuildingToDeliveryAddress(defaultPrincipalAddress.getBuilding());
+                this.setDeliveryBuildingRoomNumber(defaultPrincipalAddress.getBuildingRoomNumber());
+            }
+            else {
+                //since building is now inactive, delete default building record
+                SpringContext.getBean(BusinessObjectService.class).delete(defaultPrincipalAddress);
+            }
+        }
+        
         // set the APO limit
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
 
@@ -194,6 +220,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.refreshNonUpdateableReferences();
+    }
+
+    public void templateBuildingToDeliveryAddress(Building building) {
+        if (ObjectUtils.isNotNull(building)) {
+            setDeliveryBuildingCode(building.getBuildingCode());
+            setDeliveryBuildingName(building.getBuildingName());
+            setDeliveryBuildingLine1Address(building.getBuildingStreetAddress());
+            setDeliveryCityName(building.getBuildingAddressCityName());
+            setDeliveryStateCode(building.getBuildingAddressStateCode());
+            setDeliveryPostalCode(building.getBuildingAddressZipCode());
+            setDeliveryCountryCode(building.getBuildingAddressCountryCode());
+        }
     }
 
     /**

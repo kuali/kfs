@@ -29,6 +29,19 @@ public class DefaultPrincipalAddress extends PersistableBusinessObjectBase {
     
     private Building building;
     
+    public DefaultPrincipalAddress() {
+        super();
+    }
+    
+    public DefaultPrincipalAddress(String principalId, String campusCode, String buildingCode, String buildingRoomNumber) {
+        super();
+        setPrincipalId(principalId);
+        setCampusCode(campusCode);
+        setBuildingCode(buildingCode);
+        setBuildingRoomNumber(buildingRoomNumber);
+    }
+    
+    
     public String getBuildingCode() {
         return buildingCode;
     }

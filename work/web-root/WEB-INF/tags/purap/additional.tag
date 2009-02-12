@@ -108,8 +108,8 @@
 		                    Sensitive Data
 		                </th>
 		                <td align=left valign=middle class="datacell" rowspan=3>
-		                	<logic:iterate indexId="ctr" name="KualiForm" property="sensitiveDatasAssigned" id="sd">
-		                		${sd.sensitiveDataDescription}<br>
+		                	<logic:iterate indexId="ctr" name="KualiForm" property="document.purchaseOrderSensitiveData" id="sd">
+		                		${sd.sensitiveData.sensitiveDataDescription}<br>
 		                	</logic:iterate>	
 		                </td>
 	                </c:otherwise>

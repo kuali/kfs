@@ -95,7 +95,8 @@
 	    	 		 
 		<c:if test="${not retransmitMode}" >
             <purap:delivery
-                documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
+                documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
+                showDefaultBuildingOption="false" />
         
 		    <purap:vendor
 		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 

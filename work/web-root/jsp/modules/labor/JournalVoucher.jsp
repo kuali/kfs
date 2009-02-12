@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="journalVoucherAttributes" value="${DataDictionary.LaborJournalVoucherDocument.attributes}" />	
-<c:set var="readOnly" value="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="readOnly" value="${empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="LaborJournalVoucherDocument"

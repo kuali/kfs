@@ -23,11 +23,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -75,7 +73,8 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.EntityExternalIdentifier;
-import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -87,7 +86,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.
@@ -105,6 +103,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private static final String PAYMENT_REASON_MOVING_REASON = "M";
     private static final String TAX_CONTROL_BACKUP_HOLDING = "B";
     private static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
+    
+    private static transient IdentityManagementService identityManagementService;
+    private static transient PersonService<Person> personService;
+    private static transient ParameterService parameterService;
+    private static transient VendorService vendorService;
+    private static transient BusinessObjectService businessObjectService;
+    private static transient DateTimeService dateTimeService;
 
     private Integer finDocNextRegistrantLineNbr;
     private String disbVchrContactPersonName;
@@ -899,7 +904,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(vendor.getVendorHeader().getVendorForeignIndicator());
         this.getDvPayeeDetail().setDvPayeeSubjectPaymentCode(VendorConstants.VendorTypes.SUBJECT_PAYMENT.equals(vendor.getVendorHeader().getVendorTypeCode()));
-        this.getDvPayeeDetail().setDisbVchrEmployeePaidOutsidePayrollCode(SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(vendor.getVendorHeaderGeneratedIdentifier()));
+        this.getDvPayeeDetail().setDisbVchrEmployeePaidOutsidePayrollCode(getVendorService().isVendorInstitutionEmployee(vendor.getVendorHeaderGeneratedIdentifier()));
 
         this.getDvPayeeDetail().setHasMultipleVendorAddresses(1 < vendor.getVendorAddresses().size());
 
@@ -907,7 +912,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         Date vendorFederalWithholdingTaxBeginDate = vendor.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate();
         Date vendorFederalWithholdingTaxEndDate = vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate();
-        if ((vendorFederalWithholdingTaxBeginDate != null && vendorFederalWithholdingTaxBeginDate.before(SpringContext.getBean(DateTimeService.class).getCurrentDate())) && (vendorFederalWithholdingTaxEndDate == null || vendorFederalWithholdingTaxEndDate.after(SpringContext.getBean(DateTimeService.class).getCurrentDate()))) {
+        java.util.Date today = getDateTimeService().getCurrentDate();
+        if ((vendorFederalWithholdingTaxBeginDate != null && vendorFederalWithholdingTaxBeginDate.before(today)) && (vendorFederalWithholdingTaxEndDate == null || vendorFederalWithholdingTaxEndDate.after(today))) {
             this.disbVchrPayeeTaxControlCode = DisbursementVoucherConstants.TAX_CONTROL_CODE_BEGIN_WITHHOLDING;
         }
     }
@@ -935,17 +941,16 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'S' is present ('S'=SSN), then the employee must be foreign
-        for (EntityExternalIdentifier id : SpringContext.getBean(IdentityService.class).getEntity(employee.getEntityId()).getExternalIdentifiers()) {
+        for (EntityExternalIdentifier id : getIdentityManagementService().getEntityDefaultInfo(employee.getEntityId()).getExternalIdentifiers()) {
             if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(id.getExternalIdentifierTypeCode())) {
                 this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
             }
         }
         // Determine if employee is a research subject
-        ParameterService paramService = SpringContext.getBean(ParameterService.class);
-        ParameterEvaluator researchPaymentReasonCodeEvaluator = paramService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, this.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+        ParameterEvaluator researchPaymentReasonCodeEvaluator = getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, this.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
         if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
-            if (paramService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM)) {
-                String researchPayLimit = paramService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
+            if (getParameterService().parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM)) {
+                String researchPayLimit = getParameterService().getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
                 if (StringUtils.isNotBlank(researchPayLimit)) {
                     KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
@@ -1002,16 +1007,16 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         DisbursementVoucherPayeeDetail payeeDetail = getDvPayeeDetail();
 
         if (payeeDetail.isVendor()) {
-            payeeDetail.setDisbVchrAlienPaymentCode(SpringContext.getBean(VendorService.class).isVendorForeign(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
-            payeeDetail.setDisbVchrPayeeEmployeeCode(SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
-            payeeDetail.setDvPayeeSubjectPaymentCode(SpringContext.getBean(VendorService.class).isSubjectPaymentVendor(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
+            payeeDetail.setDisbVchrAlienPaymentCode(getVendorService().isVendorForeign(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
+            payeeDetail.setDisbVchrPayeeEmployeeCode(getVendorService().isVendorInstitutionEmployee(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
+            payeeDetail.setDvPayeeSubjectPaymentCode(getVendorService().isSubjectPaymentVendor(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
         }
         else if (payeeDetail.isEmployee()) {
             // Determine if employee is a non-resident alien
-            Person uu = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(payeeDetail.getDisbVchrEmployeeIdNumber());
+            Person uu = getPersonService().getPerson(payeeDetail.getDisbVchrEmployeeIdNumber());
             if (uu != null) {
                 payeeDetail.setDisbVchrAlienPaymentCode(true);
-                for (EntityExternalIdentifier id : SpringContext.getBean(IdentityService.class).getEntity(uu.getEntityId()).getExternalIdentifiers()) {
+                for (EntityExternalIdentifier id : getIdentityManagementService().getEntityDefaultInfo(uu.getEntityId()).getExternalIdentifiers()) {
                     if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(id.getExternalIdentifierTypeCode())) {
                         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
                     }
@@ -1026,11 +1031,10 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             payeeDetail.setDisbVchrPayeeEmployeeCode(true);
 
             // Determine if employee is a research subject
-            ParameterService paramService = SpringContext.getBean(ParameterService.class);
-            ParameterEvaluator researchPaymentReasonCodeEvaluator = paramService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
+            ParameterEvaluator researchPaymentReasonCodeEvaluator = getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
             if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
-                if (paramService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM)) {
-                    String researchPayLimit = paramService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
+                if (getParameterService().parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM)) {
+                    String researchPayLimit = getParameterService().getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
                     if (StringUtils.isNotBlank(researchPayLimit)) {
                         KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
@@ -1052,24 +1056,24 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private void cleanDocumentData() {
         // TODO: warren: this method ain't called!!! maybe this should be called by prepare for save above
         if (!DisbursementVoucherConstants.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode()) && !DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
-            SpringContext.getBean(BusinessObjectService.class).delete(dvWireTransfer);
+            getBusinessObjectService().delete(dvWireTransfer);
             dvWireTransfer = null;
         }
 
         if (!dvPayeeDetail.isDisbVchrAlienPaymentCode()) {
-            SpringContext.getBean(BusinessObjectService.class).delete(dvNonResidentAlienTax);
+            getBusinessObjectService().delete(dvNonResidentAlienTax);
             dvNonResidentAlienTax = null;
         }
 
         DisbursementVoucherPaymentReasonService paymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
         String paymentReasonCode = this.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
         if (!paymentReasonService.isNonEmployeeTravelPaymentReason(paymentReasonCode)) {
-            SpringContext.getBean(BusinessObjectService.class).delete(dvNonEmployeeTravel);
+            getBusinessObjectService().delete(dvNonEmployeeTravel);
             dvNonEmployeeTravel = null;
         }
 
         if (!paymentReasonService.isPrepaidTravelPaymentReason(paymentReasonCode)) {
-            SpringContext.getBean(BusinessObjectService.class).delete(dvPreConferenceDetail);
+            getBusinessObjectService().delete(dvPreConferenceDetail);
             dvPreConferenceDetail = null;
         }
     }
@@ -1105,10 +1109,10 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         // check vendor id number to see if still valid, if so retrieve their last information and set in the detail inform.
         if (!StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
-            VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger(), dvPayeeDetail.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
+            VendorDetail vendorDetail = getVendorService().getVendorDetail(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger(), dvPayeeDetail.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
             VendorAddress vendorAddress = new VendorAddress();
             vendorAddress.setVendorAddressGeneratedIdentifier(dvPayeeDetail.getDisbVchrVendorAddressIdNumberAsInteger());
-            vendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorAddress);
+            vendorAddress = (VendorAddress) getBusinessObjectService().retrieve(vendorAddress);
 
             if (vendorDetail == null) {
                 getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
@@ -1127,19 +1131,19 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         setDisbVchrContactPersonName(currentUser.getName());
         setDisbVchrContactPhoneNumber(currentUser.getPhoneNumber());
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.FINANCIAL);
+        ChartOrgHolder chartOrg = SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.FINANCIAL);
         if (chartOrg != null && chartOrg.getOrganization() != null) {
             setCampusCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
         }
 
         // due date
-        Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
+        Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         setDisbursementVoucherDueDate(new Date(calendar.getTimeInMillis()));
 
         // default doc location
         if (StringUtils.isBlank(getDisbursementVoucherDocumentationLocationCode())) {
-            setDisbursementVoucherDocumentationLocationCode(SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DEFAULT_DOC_LOCATION_PARM_NM));
+            setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DEFAULT_DOC_LOCATION_PARM_NM));
         }
 
         // default bank code
@@ -1153,6 +1157,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
      */
+    @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -1344,7 +1349,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         objectCode.setUniversityFiscalYear(explicitEntry.getUniversityFiscalYear());
         objectCode.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
         objectCode.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
-        objectCode = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).retrieve(objectCode);
+        objectCode = (ObjectCode) getBusinessObjectService().retrieve(objectCode);
 
         explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
@@ -1411,7 +1416,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         WireCharge wireCharge = new WireCharge();
         wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
-        wireCharge = (WireCharge) SpringContext.getBean(BusinessObjectService.class).retrieve(wireCharge);
+        wireCharge = (WireCharge) getBusinessObjectService().retrieve(wireCharge);
         if (wireCharge == null) {
             LOG.error("Wire charge information not found for current fiscal year.");
             throw new RuntimeException("Wire charge information not found for current fiscal year.");
@@ -1528,7 +1533,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     protected boolean isPayeePurchaseOrderVendor() {
         if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) return false;
-        final VendorDetail vendor = SpringContext.getBean(VendorService.class).getByVendorNumber(this.getDvPayeeDetail().getDisbVchrPayeeIdNumber());
+        final VendorDetail vendor = getVendorService().getByVendorNumber(this.getDvPayeeDetail().getDisbVchrPayeeIdNumber());
         if (vendor == null) return false;
         return vendor.getVendorHeader().getVendorTypeCode().equals(DisbursementVoucherDocument.PURCHASE_ORDER_VENDOR_TYPE);
     }
@@ -1566,5 +1571,45 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     protected boolean isTravelReviewRequired() {
         return (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_PREPAID_TRAVEL) || this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_NONEMPLOYEE_TRAVEL));
-    }   
+    }
+
+
+    protected IdentityManagementService getIdentityManagementService() {
+        if ( identityManagementService == null ) {
+            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        }
+        return identityManagementService;
+    }
+
+
+    protected PersonService<Person> getPersonService() {
+        if ( personService == null ) {
+            personService = SpringContext.getBean(PersonService.class);
+        }
+        return personService;
+    }
+
+
+    protected ParameterService getParameterService() {
+        if ( parameterService == null ) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
+    }
+
+
+    protected VendorService getVendorService() {
+        if ( vendorService == null ) {
+            vendorService = SpringContext.getBean(VendorService.class);
+        }
+        return vendorService;
+    }
+
+
+    protected BusinessObjectService getBusinessObjectService() {
+        if ( businessObjectService == null ) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
 }

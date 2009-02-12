@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
@@ -123,6 +124,21 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         AssetOrganization assetOrganization = (AssetOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetOrganization.class, map);
         return assetOrganization;
     }
+    
+    
+    /**
+     * Get organizationOwnerAccount from Asset
+     * 
+     * @param asset
+     * @return organizationOwnerAccount
+     */
+    private Account getOrganizationOwnerAccount(Asset asset) {
+        HashMap map = new HashMap();
+        map.put(CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE, asset.getOrganizationOwnerChartOfAccountsCode());
+        map.put(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, asset.getOrganizationOwnerAccountNumber());
+        Account organizationOwnerAccount = (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, map);
+        return organizationOwnerAccount;
+    }
 
     /**
      * Populate Asset Details for Asset Separate document
@@ -134,6 +150,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     private void populateAssetSeparateAssetDetails(AssetGlobal assetGlobal, Asset asset, AssetOrganization assetOrganization) {
         assetGlobal.setOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
         assetGlobal.setOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
+        assetGlobal.setOrganizationOwnerAccount(getOrganizationOwnerAccount(asset));
         assetGlobal.setAgencyNumber(asset.getAgencyNumber());
         assetGlobal.setAcquisitionTypeCode(asset.getAcquisitionTypeCode());
         assetGlobal.setInventoryStatusCode(asset.getInventoryStatusCode());
@@ -161,7 +178,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     }
 
     /**
-     * Populate Asset Payment Details for Asset Separate document. It will do this whether we are seperating by asset or payment. If
+     * Populate Asset Payment Details for Asset Separate document. It will do this whether we are separating by asset or payment. If
      * it is by asset it picks up all the payments and sets the total amount on the document of that per the asset. If it is by
      * payment it picks only the payment out we are interested in and set the document total amount to that payment only.
      * 

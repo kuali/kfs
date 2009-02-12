@@ -1,73 +1,56 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="BalanceTypeMaintenanceDocument" parent="BalanceTypeMaintenanceDocument-parentBean" />
+  <bean id="BalanceTypeMaintenanceDocument" parent="BalanceTypeMaintenanceDocument-parentBean"/>
 
   <bean id="BalanceTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.BalanceType" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.BalanceType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="BalanceTypeMaintenanceDocument-EditBalanceType" />
+        <ref bean="BalanceTypeMaintenanceDocument-EditBalanceType"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Balance Type" />
-    <property name="shortLabel" value="Balance Type" />
-    <property name="summary" value="Balance Type Maintenance Document" />
-    <property name="description" value="Maintenance document which allows you to create new Balance Types, or modify existing Balance Types." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.BalanceType" p:parameterName="BALANCE_TYPE" />
+    <property name="label" value="Balance Type"/>
+    <property name="shortLabel" value="Balance Type"/>
+    <property name="summary" value="Balance Type Maintenance Document"/>
+    <property name="description" value="Maintenance document which allows you to create new Balance Types, or modify existing Balance Types."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.BalanceType" p:parameterName="BALANCE_TYPE"/>
     </property>
-    <property name="documentTypeName" value="BTYP" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="BTYP"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="BalanceTypeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="BalanceTypeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="BalanceTypeMaintenanceDocument-EditBalanceType" parent="BalanceTypeMaintenanceDocument-EditBalanceType-parentBean" />
+  <bean id="BalanceTypeMaintenanceDocument-EditBalanceType" parent="BalanceTypeMaintenanceDocument-EditBalanceType-parentBean"/>
 
   <bean id="BalanceTypeMaintenanceDocument-EditBalanceType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Balance Type" />
-    <property name="title" value="Edit Balance Type" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Balance Type"/>
+    <property name="title" value="Edit Balance Type"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="name"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialBalanceTypeShortNm"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialOffsetGenerationIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="finBalanceTypeEncumIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:defaultValue="true"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialBalanceTypeShortNm" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialOffsetGenerationIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="finBalanceTypeEncumIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="BalanceTypeMaintenanceDocument-workflowAttributes" parent="BalanceTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="BalanceTypeMaintenanceDocument-workflowAttributes" parent="BalanceTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
   <bean id="BalanceTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>

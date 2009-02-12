@@ -1,704 +1,394 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetMaintenanceDocument" parent="AssetMaintenanceDocument-parentBean" />
+  <bean id="AssetMaintenanceDocument" parent="AssetMaintenanceDocument-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-    <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetMaintainableImpl" />
-    <property name="allowsNewOrCopy" value="false" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
+    <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetMaintainableImpl"/>
+    <property name="allowsNewOrCopy" value="false"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="AssetMaintenanceDocument-AssetDetailInformation" />
-        <ref bean="AssetMaintenanceDocument-AssetLocation" />
-        <ref bean="AssetMaintenanceDocument-OrganizationInformation" />
-        <ref bean="AssetMaintenanceDocument-PaymentInformation" />
-		<ref bean="AssetMaintenanceDocument-AssetPaymentLink" />
-		<ref bean="AssetMaintenanceDocument-ViewRelatedDocumentLink" />        
-        <ref bean="AssetMaintenanceDocument-FabricationInformation" />
-        <ref bean="AssetMaintenanceDocument-LandInformation" />
-        <ref bean="AssetMaintenanceDocument-AssetDepreciationInformation" />
-        <ref bean="AssetMaintenanceDocument-ViewAssetSeparateHistory" />
-        <ref bean="AssetMaintenanceDocument-ViewEquipmentLoanInformation" />
-        <ref bean="AssetMaintenanceDocument-Warranty" />
-        <ref bean="AssetMaintenanceDocument-RepairHistory" />
-        <ref bean="AssetMaintenanceDocument-Components" />
+        <ref bean="AssetMaintenanceDocument-AssetDetailInformation"/>
+        <ref bean="AssetMaintenanceDocument-AssetLocation"/>
+        <ref bean="AssetMaintenanceDocument-OrganizationInformation"/>
+        <ref bean="AssetMaintenanceDocument-PaymentInformation"/>
+		<ref bean="AssetMaintenanceDocument-AssetPaymentLink"/>
+		<ref bean="AssetMaintenanceDocument-ViewRelatedDocumentLink"/>        
+        <ref bean="AssetMaintenanceDocument-FabricationInformation"/>
+        <ref bean="AssetMaintenanceDocument-LandInformation"/>
+        <ref bean="AssetMaintenanceDocument-AssetDepreciationInformation"/>
+        <ref bean="AssetMaintenanceDocument-ViewAssetSeparateHistory"/>
+        <ref bean="AssetMaintenanceDocument-ViewEquipmentLoanInformation"/>
+        <ref bean="AssetMaintenanceDocument-Warranty"/>
+        <ref bean="AssetMaintenanceDocument-RepairHistory"/>
+        <ref bean="AssetMaintenanceDocument-Components"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="agency"
-              p:attributeToHighlightOnFail="agencyNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="campus"
-              p:attributeToHighlightOnFail="campusCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="building"
-              p:attributeToHighlightOnFail="buildingCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="buildingRoom"
-              p:attributeToHighlightOnFail="buildingRoomNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="capitalAssetType"
-              p:attributeToHighlightOnFail="capitalAssetTypeCode" />        
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organizationOwnerChartOfAccounts"
-              p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="condition"
-              p:attributeToHighlightOnFail="conditionCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="inventoryStatus"
-              p:attributeToHighlightOnFail="inventoryStatusCode" />     
-        <bean parent="ReferenceDefinition"
-              p:attributeName="acquisitionType"
-              p:attributeToHighlightOnFail="acquisitionTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="agency" p:attributeToHighlightOnFail="agencyNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="campus" p:attributeToHighlightOnFail="campusCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="building" p:attributeToHighlightOnFail="buildingCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="buildingRoom" p:attributeToHighlightOnFail="buildingRoomNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="capitalAssetType" p:attributeToHighlightOnFail="capitalAssetTypeCode"/>        
+        <bean parent="ReferenceDefinition" p:attributeName="organizationOwnerChartOfAccounts" p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="condition" p:attributeToHighlightOnFail="conditionCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="inventoryStatus" p:attributeToHighlightOnFail="inventoryStatusCode"/>     
+        <bean parent="ReferenceDefinition" p:attributeName="acquisitionType" p:attributeToHighlightOnFail="acquisitionTypeCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>capitalAssetNumber</value>
       </list>
     </property>
-    <property name="label" value="Asset" />
-    <property name="shortLabel" value="Asset" />
-    <property name="summary" value="Asset maintenance document" />
-    <property name="description" value="Document used to create or update Asset objects" />
-    <property name="documentTypeName" value="CASM" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPresentationController" />
-    <property name="workflowAttributes" >
-      <ref bean="AssetMaintenanceDocument-workflowAttributes" />
+    <property name="label" value="Asset"/>
+    <property name="shortLabel" value="Asset"/>
+    <property name="summary" value="Asset maintenance document"/>
+    <property name="description" value="Document used to create or update Asset objects"/>
+    <property name="documentTypeName" value="CASM"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPresentationController"/>
+    <property name="workflowAttributes">
+      <ref bean="AssetMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
-  <bean id="AssetMaintenanceDocument-AssetPaymentLink" parent="AssetMaintenanceDocument-AssetPaymentLink-parentBean" />
+  <bean id="AssetMaintenanceDocument-AssetPaymentLink" parent="AssetMaintenanceDocument-AssetPaymentLink-parentBean"/>
   <bean id="AssetMaintenanceDocument-AssetPaymentLink-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-	<property name="id" value="paymentLookup" />  
-    <property name="title" value="Payments Lookup" />
-    <property name="maintainableItems" >
+	<property name="id" value="paymentLookup"/>  
+    <property name="title" value="Payments Lookup"/>
+    <property name="maintainableItems">
       <list>
      	<bean parent="MaintainableFieldDefinition" p:name="lookup"/>	                        
       </list>
 	</property>
   </bean>
 
-  <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink" parent="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean" />
+  <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink" parent="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean"/>
   <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-	<property name="id" value="documentLookup" />  
-    <property name="title" value="Related Document Lookup" />
-    <property name="maintainableItems" >
+	<property name="id" value="documentLookup"/>  
+    <property name="title" value="Related Document Lookup"/>
+    <property name="maintainableItems">
       <list>
      	<bean parent="MaintainableFieldDefinition" p:name="documentLookup"/>	                        
       </list>
 	</property>
   </bean>
   
-  <bean id="AssetMaintenanceDocument-AssetDetailInformation" parent="AssetMaintenanceDocument-AssetDetailInformation-parentBean" />
+  <bean id="AssetMaintenanceDocument-AssetDetailInformation" parent="AssetMaintenanceDocument-AssetDetailInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Asset Detail Information" />
-    <property name="title" value="Asset Detail Information" />
-    <property name="maintainableItems" >
+    <property name="id" value="Asset Detail Information"/>
+    <property name="title" value="Asset Detail Information"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="Asset Detail Info" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationOwnerChartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationOwnerAccountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationOwnerAccount.organizationCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="agencyNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="acquisitionTypeCode"
-              p:unconditionallyReadOnly="false"
-              p:defaultValue="C" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="inventoryStatusCode"
-              p:required="true" p:defaultValue="U" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="conditionCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition" 
-        	  p:name="vendorName"
-        	  p:required="false" 
-        	  p:defaultValue="CONSTRUCTED" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="manufacturerName"
-              p:required="false" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="manufacturerModelNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="serialNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusTagNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="oldTagNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="governmentTagNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="nationalStockNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="lastInventoryDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="createDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentPostingYear"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentPostingPeriodCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectSubTypeCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetInServiceDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="depreciationDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="totalCostAmount"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="federalContribution"
-              p:unconditionallyReadOnly="true" />
+        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Asset Detail Info"/>
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerChartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="agencyNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="acquisitionTypeCode" p:unconditionallyReadOnly="false" p:defaultValue="C"/>
+        <bean parent="MaintainableFieldDefinition" p:name="inventoryStatusCode" p:required="true" p:defaultValue="U"/>
+        <bean parent="MaintainableFieldDefinition" p:name="conditionCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorName" p:required="false" p:defaultValue="CONSTRUCTED"/>
+        <bean parent="MaintainableFieldDefinition" p:name="manufacturerName" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="manufacturerModelNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="serialNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusTagNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="oldTagNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="governmentTagNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nationalStockNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="lastInventoryDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="createDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentPostingYear" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentPostingPeriodCode" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectSubTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetInServiceDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="depreciationDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="totalCostAmount" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="federalContribution" p:unconditionallyReadOnly="true"/>
       </list>
     </property>
   </bean>
-  <bean id="AssetMaintenanceDocument-AssetLocation" parent="AssetMaintenanceDocument-AssetLocation-parentBean" />
+  <bean id="AssetMaintenanceDocument-AssetLocation" parent="AssetMaintenanceDocument-AssetLocation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-AssetLocation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Asset Location" />
-    <property name="title" value="Asset Location" />
-    <property name="maintainableItems" >
+    <property name="id" value="Asset Location"/>
+    <property name="title" value="Asset Location"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="On Campus" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="hiddenFieldForError" />             
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingRoomNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingSubRoomNumber" />
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="Off Campus" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="offCampusLocation.assetLocationContactName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="offCampusLocation.assetLocationStreetAddress" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="offCampusLocation.assetLocationCityName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="offCampusLocation.assetLocationStateCode" 
-              />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="offCampusLocation.assetLocationZipCode" 
-              />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="offCampusLocation.assetLocationCountryCode" />
+        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="On Campus"/>
+        <bean parent="MaintainableFieldDefinition" p:name="hiddenFieldForError"/>             
+        <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingRoomNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingSubRoomNumber"/>
+        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Off Campus"/>
+        <bean parent="MaintainableFieldDefinition" p:name="offCampusLocation.assetLocationContactName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="offCampusLocation.assetLocationStreetAddress"/>
+        <bean parent="MaintainableFieldDefinition" p:name="offCampusLocation.assetLocationCityName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="offCampusLocation.assetLocationStateCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="offCampusLocation.assetLocationZipCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="offCampusLocation.assetLocationCountryCode"/>
       </list>
     </property>
   </bean>
-  <bean id="AssetMaintenanceDocument-OrganizationInformation" parent="AssetMaintenanceDocument-OrganizationInformation-parentBean" />
+  <bean id="AssetMaintenanceDocument-OrganizationInformation" parent="AssetMaintenanceDocument-OrganizationInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-OrganizationInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Organization Information" />
-    <property name="title" value="Organization Information" />
-    <property name="maintainableItems" >
+    <property name="id" value="Organization Information"/>
+    <property name="title" value="Organization Information"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationInventoryName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="representativeUniversalIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetRepresentative.principalName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetRepresentative.name" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetOrganization.organizationText" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetOrganization.organizationTagNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetOrganization.organizationAssetTypeIdentifier" 
-              p:noLookup="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="receiveDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="replacementAmount" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="estimatedSellingPrice" />
+        <bean parent="MaintainableFieldDefinition" p:name="organizationInventoryName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="representativeUniversalIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetRepresentative.principalName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetRepresentative.name"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetOrganization.organizationText"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetOrganization.organizationTagNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetOrganization.organizationAssetTypeIdentifier" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="receiveDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="replacementAmount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="estimatedSellingPrice"/>
       </list>
     </property>
   </bean>
-  <bean id="AssetMaintenanceDocument-FabricationInformation" parent="AssetMaintenanceDocument-FabricationInformation-parentBean" />
+  <bean id="AssetMaintenanceDocument-FabricationInformation" parent="AssetMaintenanceDocument-FabricationInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-FabricationInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="fabricationInformation" />
-    <property name="title" value="Fabrication Information" />
-    <property name="maintainableItems" >
+    <property name="id" value="fabricationInformation"/>
+    <property name="title" value="Fabrication Information"/>
+    <property name="maintainableItems">
       <list>
       <!-- Please read this comment, you should not make these fields required, 
       in that case asset edit will not work. Right now there is no fix to make conditional asterisk to work -->
-        <bean parent="MaintainableFieldDefinition"
-              p:name="estimatedFabricationCompletionDate"
-              p:required="false" />              
-        <bean parent="MaintainableFieldDefinition"
-              p:name="fabricationEstimatedTotalAmount" 
-              p:required="false" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="fabricationEstimatedRetentionYears" 
-              p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="estimatedFabricationCompletionDate" p:required="false"/>              
+        <bean parent="MaintainableFieldDefinition" p:name="fabricationEstimatedTotalAmount" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fabricationEstimatedRetentionYears" p:required="false"/>
       </list>
     </property>
   </bean>
-  <bean id="AssetMaintenanceDocument-LandInformation" parent="AssetMaintenanceDocument-LandInformation-parentBean" />
+  <bean id="AssetMaintenanceDocument-LandInformation" parent="AssetMaintenanceDocument-LandInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-LandInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="landInformation" />
-    <property name="title" value="Land Information" />
-    <property name="maintainableItems" >
+    <property name="id" value="landInformation"/>
+    <property name="title" value="Land Information"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="landCountyName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="landAcreageSize" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="landParcelNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="landCountyName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="landAcreageSize"/>
+        <bean parent="MaintainableFieldDefinition" p:name="landParcelNumber"/>
       </list>
     </property>
   </bean>
 
-  <bean id="AssetMaintenanceDocument-PaymentInformation" parent="AssetMaintenanceDocument-PaymentInformation-parentBean" />
+  <bean id="AssetMaintenanceDocument-PaymentInformation" parent="AssetMaintenanceDocument-PaymentInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-PaymentInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="paymentInformation" />
-    <property name="title" value="Payments" />
-    <property name="maintainableItems" >
+    <property name="id" value="paymentInformation"/>
+    <property name="title" value="Payments"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="assetPayments" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPayment" />
-          <property name="includeAddLine" value="false" />
-          <property name="summaryTitle" value="Payments" />
-          <property name="summaryFields" >
+          <property name="name" value="assetPayments"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPayment"/>
+          <property name="includeAddLine" value="false"/>
+          <property name="summaryTitle" value="Payments"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="capitalAssetNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="paymentSequenceNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentPostingDate" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountChargeAmount" />
+              <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="paymentSequenceNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="financialDocumentPostingDate"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountChargeAmount"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="chartOfAccountsCode"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountNumber"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="subAccountNumber"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="financialObjectCode"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="financialSubObjectCode"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="projectCode"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organizationReferenceId"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="documentNumber"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentTypeCode"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="purchaseOrderNumber"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="requisitionNumber"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentPostingDate"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentPostingYear"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentPostingPeriodCode"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="transferPaymentCode"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountChargeAmount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accumulatedPrimaryDepreciationAmount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="yearToDate"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="previousYearPrimaryDepreciationAmount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period1Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period2Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period3Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period4Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period5Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period6Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period7Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period8Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period9Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period10Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period11Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="period12Depreciation1Amount"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="paymentSequenceNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="capitalAssetNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="projectCode" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationReferenceId" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="documentNumber" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderNumber" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="requisitionNumber" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="financialDocumentPostingDate" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="financialDocumentPostingYear" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="financialDocumentPostingPeriodCode" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="transferPaymentCode" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountChargeAmount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accumulatedPrimaryDepreciationAmount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="yearToDate" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="previousYearPrimaryDepreciationAmount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period1Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period2Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period3Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period4Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period5Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period6Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period7Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period8Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period9Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period10Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period11Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="period12Depreciation1Amount" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="paymentSequenceNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber"/>
             </list>
           </property>
         </bean>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="paymentTotalCost"
-              p:unconditionallyReadOnly="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="paymentTotalCost" p:unconditionallyReadOnly="true"/>
       </list>
     </property>
   </bean>
-  <bean id="AssetMaintenanceDocument-AssetDepreciationInformation" parent="AssetMaintenanceDocument-AssetDepreciationInformation-parentBean" />
+  <bean id="AssetMaintenanceDocument-AssetDepreciationInformation" parent="AssetMaintenanceDocument-AssetDepreciationInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-AssetDepreciationInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="depreciationInformation" />
-    <property name="title" value="Asset Depreciation Information" />
-    <property name="maintainableItems" >
+    <property name="id" value="depreciationInformation"/>
+    <property name="title" value="Asset Depreciation Information"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="primaryDepreciationMethodCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetType.depreciableLifeLimit"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="depreciationDateCopy"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="baseAmount"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="salvageAmount" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="accumulatedDepreciation"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="bookValue"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="yearToDateDepreciation"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="currentMonthDepreciation"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="prevYearDepreciation"
-              p:unconditionallyReadOnly="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="primaryDepreciationMethodCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetType.depreciableLifeLimit" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="depreciationDateCopy" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="baseAmount" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="salvageAmount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accumulatedDepreciation" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bookValue" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="yearToDateDepreciation" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="currentMonthDepreciation" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="prevYearDepreciation" p:unconditionallyReadOnly="true"/>
       </list>
     </property>
   </bean> 
-  <bean id="AssetMaintenanceDocument-ViewAssetSeparateHistory" parent="AssetMaintenanceDocument-ViewAssetSeparateHistory-parentBean" />
+  <bean id="AssetMaintenanceDocument-ViewAssetSeparateHistory" parent="AssetMaintenanceDocument-ViewAssetSeparateHistory-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-ViewAssetSeparateHistory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="history" />
-    <property name="title" value="View Asset Separate History" />
-    <property name="maintainableItems" >
+    <property name="id" value="history"/>
+    <property name="title" value="View Asset Separate History"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="separateHistory.separateSourceCapitalAssetNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="separateHistory.separateDocumentHeaderFinalDate"
-              p:unconditionallyReadOnly="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="separateHistory.separateSourceCapitalAssetNumber" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="separateHistory.separateDocumentHeaderFinalDate" p:unconditionallyReadOnly="true"/>
       </list>
     </property>
   </bean>
   
-  <bean id="AssetMaintenanceDocument-ViewEquipmentLoanInformation" parent="AssetMaintenanceDocument-ViewEquipmentLoanInformation-parentBean" />
+  <bean id="AssetMaintenanceDocument-ViewEquipmentLoanInformation" parent="AssetMaintenanceDocument-ViewEquipmentLoanInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-ViewEquipmentLoanInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="equipmentLoanInformation" />
-    <property name="title" value="View Equipment Loan Information" />
-    <property name="maintainableItems" >
+    <property name="id" value="equipmentLoanInformation"/>
+    <property name="title" value="View Equipment Loan Information"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="loanDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="expectedReturnDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="loanReturnDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="Borrower Address" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerLocation.assetLocationContactName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerLocation.assetLocationStreetAddress"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerLocation.assetLocationCityName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerLocation.assetLocationStateCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerLocation.assetLocationZipCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerLocation.assetLocationCountryCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerLocation.assetLocationPhoneNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="Stored at Address" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerStorageLocation.assetLocationStreetAddress"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerStorageLocation.assetLocationCityName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerStorageLocation.assetLocationStateCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerStorageLocation.assetLocationZipCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerStorageLocation.assetLocationCountryCode"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="borrowerStorageLocation.assetLocationPhoneNumber"
-              p:unconditionallyReadOnly="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="loanDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expectedReturnDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="loanReturnDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Borrower Address"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerLocation.assetLocationContactName" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerLocation.assetLocationStreetAddress" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerLocation.assetLocationCityName" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerLocation.assetLocationStateCode" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerLocation.assetLocationZipCode" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerLocation.assetLocationCountryCode" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerLocation.assetLocationPhoneNumber" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Stored at Address"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerStorageLocation.assetLocationStreetAddress" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerStorageLocation.assetLocationCityName" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerStorageLocation.assetLocationStateCode" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerStorageLocation.assetLocationZipCode" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerStorageLocation.assetLocationCountryCode" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="borrowerStorageLocation.assetLocationPhoneNumber" p:unconditionallyReadOnly="true"/>
       </list>
     </property>
   </bean>
-  <bean id="AssetMaintenanceDocument-Warranty" parent="AssetMaintenanceDocument-Warranty-parentBean" />
+  <bean id="AssetMaintenanceDocument-Warranty" parent="AssetMaintenanceDocument-Warranty-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-Warranty-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="warrenty" />
-    <property name="title" value="Warranty" />
-    <property name="maintainableItems" >
+    <property name="id" value="warrenty"/>
+    <property name="title" value="Warranty"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyNumber" 
-              p:noLookup="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyContactName" 
-              p:noLookup="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyPhoneNumber" 
-              p:noLookup="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyPurchaseOrderNumber" 
-              p:noLookup="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyBeginningDate" 
-              p:noLookup="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyEndingDate" 
-              p:noLookup="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyText" 
-              p:noLookup="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyNumber" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyContactName" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyPhoneNumber" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyPurchaseOrderNumber" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyBeginningDate" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyEndingDate" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyText" p:noLookup="true"/>
       </list>
     </property>
   </bean>
-  <bean id="AssetMaintenanceDocument-RepairHistory" parent="AssetMaintenanceDocument-RepairHistory-parentBean" />
+  <bean id="AssetMaintenanceDocument-RepairHistory" parent="AssetMaintenanceDocument-RepairHistory-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-RepairHistory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="repairHistory" />
-    <property name="title" value="Repair History" />
-    <property name="maintainableItems" >
+    <property name="id" value="repairHistory"/>
+    <property name="title" value="Repair History"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="assetRepairHistory" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRepairHistory" />
-          <property name="maintainableFields" >
+          <property name="name" value="assetRepairHistory"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRepairHistory"/>
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="incidentDate"
-                    p:required="true"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="problemDescription"
-                    p:required="true"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="repairContactName"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="estimatedRepairDate"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="repairDate"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="repairAmount"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="repairSolutionDescription"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="repairNoteText"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition" p:name="incidentDate" p:required="true" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="problemDescription" p:required="true" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairContactName" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="estimatedRepairDate" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairDate" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairAmount" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairSolutionDescription" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairNoteText" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="AssetMaintenanceDocument-Components" parent="AssetMaintenanceDocument-Components-parentBean" />
+  <bean id="AssetMaintenanceDocument-Components" parent="AssetMaintenanceDocument-Components-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-Components-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="components" />
-    <property name="title" value="Components" />
-    <property name="maintainableItems" >
+    <property name="id" value="components"/>
+    <property name="title" value="Components"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="assetComponents" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetComponent" />
-          <property name="maintainableFields" >
+          <property name="name" value="assetComponents"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetComponent"/>
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentNumber"
-                    p:unconditionallyReadOnly="true"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentDescription"
-                    p:required="true"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentConditionCode"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentVendorName"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentManufacturerName"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentManufacturerModelNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentSerialNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentOrganizationTagNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentContactPhoneNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentOrganizationText"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentEstimatedLifetimeLimit"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentReplacementAmount"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="governmentTagNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="nationalStockNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentWarrantyNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentWarrantyContactName"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentWarrantyPhoneNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentWarrantyPurchaseOrderNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentWarrantyBeginningDate"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentWarrantyEndingDate"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="componentWarrantyText"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentNumber" p:unconditionallyReadOnly="true" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentDescription" p:required="true" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentConditionCode" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentVendorName" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentManufacturerName" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentManufacturerModelNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentSerialNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentOrganizationTagNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentContactPhoneNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentOrganizationText" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentEstimatedLifetimeLimit" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentReplacementAmount" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="governmentTagNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="nationalStockNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyContactName" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyPhoneNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyPurchaseOrderNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyBeginningDate" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyEndingDate" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyText" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
         </bean>
@@ -708,7 +398,7 @@
 
 
   
-  <bean id="AssetMaintenanceDocument-workflowAttributes" parent="AssetMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="AssetMaintenanceDocument-workflowAttributes" parent="AssetMaintenanceDocument-workflowAttributes-parentBean"/>
 	
   <bean id="AssetMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
@@ -721,7 +411,7 @@
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-CapitalAssetManagementComplexMaintenanceDocument-OrganizationHierarchy" />
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-CapitalAssetManagementComplexMaintenanceDocument-OrganizationHierarchy"/>
     		</map>
     	</property>
   </bean>

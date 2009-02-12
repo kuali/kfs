@@ -1,185 +1,141 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SubAccountMaintenanceDocument" parent="SubAccountMaintenanceDocument-parentBean" />
+  <bean id="SubAccountMaintenanceDocument" parent="SubAccountMaintenanceDocument-parentBean"/>
 
   <bean id="SubAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubAccount" />
-    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubAccount"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="SubAccountMaintenanceDocument-EditSub-AccountCode" />
-        <ref bean="SubAccountMaintenanceDocument-EditFinancialReportingCode" />
-        <ref bean="SubAccountMaintenanceDocument-EditCGCostSharing" />
-        <ref bean="SubAccountMaintenanceDocument-EditCGICR" />
+        <ref bean="SubAccountMaintenanceDocument-EditSub-AccountCode"/>
+        <ref bean="SubAccountMaintenanceDocument-EditFinancialReportingCode"/>
+        <ref bean="SubAccountMaintenanceDocument-EditCGCostSharing"/>
+        <ref bean="SubAccountMaintenanceDocument-EditCGICR"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chart"
-              p:attributeToHighlightOnFail="chartOfAccountsCode"
-              p:displayFieldName="Chart Code" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="account"
-              p:attributeToHighlightOnFail="accountNumber"
-              p:displayFieldName="Account Number" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialReportChart"
-              p:attributeToHighlightOnFail="financialReportChartCode"
-              p:displayFieldName="Financial Reporting Chart Code" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="reportingCode"
-              p:attributeToHighlightOnFail="financialReportingCode"
-              p:displayFieldName="Financial Reporting Code for this Financial Reporting Chart Code and Financial Reporting Org Code combination" />
+        <bean parent="ReferenceDefinition" p:attributeName="chart" p:attributeToHighlightOnFail="chartOfAccountsCode" p:displayFieldName="Chart Code"/>
+        <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber" p:displayFieldName="Account Number"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialReportChart" p:attributeToHighlightOnFail="financialReportChartCode" p:displayFieldName="Financial Reporting Chart Code"/>
+        <bean parent="ReferenceDefinition" p:attributeName="reportingCode" p:attributeToHighlightOnFail="financialReportingCode" p:displayFieldName="Financial Reporting Code for this Financial Reporting Chart Code and Financial Reporting Org Code combination"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>chartOfAccountsCode</value>
         <value>accountNumber</value>
         <value>subAccountNumber</value>
       </list>
     </property>
-    <property name="label" value="Sub-Account" />
-    <property name="shortLabel" value="Sub-Account" />
-    <property name="summary" value="Sub-Account maintenance document" />
-    <property name="description" value="Document used to create or update Sub-Account objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubAccount" p:parameterName="SUB_ACCOUNT" />
+    <property name="label" value="Sub-Account"/>
+    <property name="shortLabel" value="Sub-Account"/>
+    <property name="summary" value="Sub-Account maintenance document"/>
+    <property name="description" value="Document used to create or update Sub-Account objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubAccount" p:parameterName="SUB_ACCOUNT"/>
     </property>
-    <property name="documentTypeName" value="SACC" />
-    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountPreRules" />
-    <property name="webScriptFiles" >
+    <property name="documentTypeName" value="SACC"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountPreRules"/>
+    <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/chart/subAccountDocument.js</value>
       </list>
     </property>
-    <property name="workflowAttributes" >
-      <ref bean="SubAccountMaintenanceDocument-workflowAttributes" />
+    <property name="workflowAttributes">
+      <ref bean="SubAccountMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="SubAccountMaintenanceDocument-EditSub-AccountCode" parent="SubAccountMaintenanceDocument-EditSub-AccountCode-parentBean" />
+  <bean id="SubAccountMaintenanceDocument-EditSub-AccountCode" parent="SubAccountMaintenanceDocument-EditSub-AccountCode-parentBean"/>
 
   <bean id="SubAccountMaintenanceDocument-EditSub-AccountCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Sub-Account Code" />
-    <property name="title" value="Edit Sub-Account Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Sub-Account Code"/>
+    <property name="title" value="Edit Sub-Account Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="accountNumber"
-              p:required="true"
-              p:webUILeaveFieldCallbackFunction="updateICR_Callback"
-              p:webUILeaveFieldFunction="updateICR" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subAccountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subAccountName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.subAccountTypeCode"
-              p:defaultValue="EX"
-              p:required="true"
-              p:webUILeaveFieldFunction="clearICR" />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldCallbackFunction="updateICR_Callback" p:webUILeaveFieldFunction="updateICR"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAccountName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.subAccountTypeCode" p:defaultValue="EX" p:required="true" p:webUILeaveFieldFunction="clearICR"/>
       </list>
     </property>
   </bean>
-  <bean id="SubAccountMaintenanceDocument-EditFinancialReportingCode" parent="SubAccountMaintenanceDocument-EditFinancialReportingCode-parentBean" />
+  <bean id="SubAccountMaintenanceDocument-EditFinancialReportingCode" parent="SubAccountMaintenanceDocument-EditFinancialReportingCode-parentBean"/>
 
   <bean id="SubAccountMaintenanceDocument-EditFinancialReportingCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Financial Reporting Code" />
-    <property name="title" value="Edit Financial Reporting Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Financial Reporting Code"/>
+    <property name="title" value="Edit Financial Reporting Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialReportChartCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="finReportOrganizationCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialReportingCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialReportChartCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="finReportOrganizationCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialReportingCode"/>
       </list>
     </property>
   </bean>
-  <bean id="SubAccountMaintenanceDocument-EditCGCostSharing" parent="SubAccountMaintenanceDocument-EditCGCostSharing-parentBean" />
+  <bean id="SubAccountMaintenanceDocument-EditCGCostSharing" parent="SubAccountMaintenanceDocument-EditCGCostSharing-parentBean"/>
 
   <bean id="SubAccountMaintenanceDocument-EditCGCostSharing-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit CG Cost Sharing" />
-    <property name="title" value="Edit CG Cost Sharing" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit CG Cost Sharing"/>
+    <property name="title" value="Edit CG Cost Sharing"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.costShareChartOfAccountCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.costShareSourceAccountNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.costShareSourceSubAccountNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareChartOfAccountCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceSubAccountNumber"/>
       </list>
     </property>
   </bean>
-  <bean id="SubAccountMaintenanceDocument-EditCGICR" parent="SubAccountMaintenanceDocument-EditCGICR-parentBean" />
+  <bean id="SubAccountMaintenanceDocument-EditCGICR" parent="SubAccountMaintenanceDocument-EditCGICR-parentBean"/>
 
   <bean id="SubAccountMaintenanceDocument-EditCGICR-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit CG ICR" />
-    <property name="title" value="Edit CG ICR" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit CG ICR"/>
+    <property name="title" value="Edit CG ICR"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.financialIcrSeriesIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.indirectCostRecoveryAccountNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.indirectCostRecoveryTypeCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.offCampusCode"
-              p:defaultValue="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.financialIcrSeriesIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.offCampusCode" p:defaultValue="false"/>
       </list>
     </property>
   </bean>
 
 <!-- workflow attributes -->
-  	<bean id="SubAccountMaintenanceDocument-workflowAttributes" parent="SubAccountMaintenanceDocument-workflowAttributes-parentBean" />
+  	<bean id="SubAccountMaintenanceDocument-workflowAttributes" parent="SubAccountMaintenanceDocument-workflowAttributes-parentBean"/>
   
 	<bean id="SubAccountMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 		<property name="routingTypeDefinitions">
     		<map>
-	    		<entry key="Account" value-ref="SubAccountMaintenanceDocument-RoutingType-Account" />
-    			<entry key="OrganizationHierarchy" value-ref="SubAccountMaintenanceDocument-RoutingType-OrganizationHierarchy" />
+	    		<entry key="Account" value-ref="SubAccountMaintenanceDocument-RoutingType-Account"/>
+    			<entry key="OrganizationHierarchy" value-ref="SubAccountMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
     		</map>
 		</property>
 	</bean>
 	
 	<bean id="SubAccountMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
-    	<property name="attributeName" value="chartOfAccountsCode" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart"/>
+    	<property name="attributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
 	<bean id="SubAccountMaintenanceDocument-RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account" />
-    	<property name="attributeName" value="accountNumber" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
+    	<property name="attributeName" value="accountNumber"/>
 	</bean>
 	
 	<bean id="SubAccountMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
-    	<property name="attributeName" value="organizationCode" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    	<property name="attributeName" value="organizationCode"/>
 	</bean>
 	
 	<bean id="SubAccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
@@ -203,13 +159,13 @@
    	<bean id="SubAccountMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="SubAccountMaintenanceDocument-RoutingAttribute-Chart" />
-    			<ref bean="SubAccountMaintenanceDocument-RoutingAttribute-Organization" />
+		        <ref bean="SubAccountMaintenanceDocument-RoutingAttribute-Chart"/>
+    			<ref bean="SubAccountMaintenanceDocument-RoutingAttribute-Organization"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="SubAccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" />
+    			<ref bean="SubAccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
     		</list>
     	</property>
     </bean>
@@ -217,13 +173,13 @@
 	<bean id="SubAccountMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="SubAccountMaintenanceDocument-RoutingAttribute-Chart" />
+		        <ref bean="SubAccountMaintenanceDocument-RoutingAttribute-Chart"/>
 		        <ref bean="SubAccountMaintenanceDocument-RoutingAttribute-Account"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="SubAccountMaintenanceDocument-DocumentValuePathGroup-ChartAccount" />
+    			<ref bean="SubAccountMaintenanceDocument-DocumentValuePathGroup-ChartAccount"/>
     		</list>
     	</property>
     </bean>

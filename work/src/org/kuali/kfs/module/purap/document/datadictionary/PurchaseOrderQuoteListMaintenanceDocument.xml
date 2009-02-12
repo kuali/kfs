@@ -1,108 +1,80 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderQuoteListMaintenanceDocument" parent="PurchaseOrderQuoteListMaintenanceDocument-parentBean" />
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument" parent="PurchaseOrderQuoteListMaintenanceDocument-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList" />
-    <property name="maintainableClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderQuoteListMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList"/>
+    <property name="maintainableClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderQuoteListMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList" />
-        <ref bean="PurchaseOrderQuoteListMaintenanceDocument-Vendors" />
+        <ref bean="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList"/>
+        <ref bean="PurchaseOrderQuoteListMaintenanceDocument-Vendors"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>purchaseOrderQuoteListIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Purchase Order Quote List" />
-    <property name="shortLabel" value="Purchase Order Quote List" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList" p:parameterName="PURCHASE_ORDER_QUOTE_LIST" />
+    <property name="label" value="Purchase Order Quote List"/>
+    <property name="shortLabel" value="Purchase Order Quote List"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList" p:parameterName="PURCHASE_ORDER_QUOTE_LIST"/>
     </property>
-    <property name="documentTypeName" value="PMQT" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderQuoteListRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="PMQT"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderQuoteListRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes" />
+    	<ref bean="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList" parent="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList-parentBean" />
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList" parent="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Quote List" />
-    <property name="title" value="Edit Quote List" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Quote List"/>
+    <property name="title" value="Edit Quote List"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderQuoteListIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderQuoteListName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="contractManagerCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="activeIndicator"
-              p:required="true" 
-              p:defaultValue="true" />              
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderQuoteListIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderQuoteListName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="contractManagerCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="activeIndicator" p:required="true" p:defaultValue="true"/>              
       </list>
     </property>
   </bean>
-  <bean id="PurchaseOrderQuoteListMaintenanceDocument-Vendors" parent="PurchaseOrderQuoteListMaintenanceDocument-Vendors-parentBean" />
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-Vendors" parent="PurchaseOrderQuoteListMaintenanceDocument-Vendors-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListMaintenanceDocument-Vendors-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Vendors" />
-    <property name="title" value="Vendors" />
-    <property name="maintainableItems" >
+    <property name="id" value="Vendors"/>
+    <property name="title" value="Vendors"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="quoteListVendors" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor" />
-          <property name="summaryTitle" value="Vendor" />
-          <property name="summaryFields" >
+          <property name="name" value="quoteListVendors"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor"/>
+          <property name="summaryTitle" value="Vendor"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetailAssignedIdentifier" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetail.vendorNumber"
-                    p:readOnlyAfterAdd="true"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />                    
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier"
-                    p:template="vendorHeaderGeneratedIdentifier" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetailAssignedIdentifier"
-                    p:template="vendorDetailAssignedIdentifier" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetail.vendorName"
-                    p:template="vendorDetail.vendorName" 
-                    p:unconditionallyReadOnly="true"/>                    
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetail.vendorNumber" p:readOnlyAfterAdd="true" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>                    
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:template="vendorHeaderGeneratedIdentifier"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:template="vendorDetailAssignedIdentifier"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetail.vendorName" p:template="vendorDetail.vendorName" p:unconditionallyReadOnly="true"/>                    
             </list>
           </property>
           <property name="duplicateIdentificationFields">
             <list>
-                <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" />
-                <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" />
+                <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier"/>
+                <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier"/>
             </list>
           </property>
         </bean>
@@ -111,7 +83,7 @@
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes" parent="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes" parent="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

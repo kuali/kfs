@@ -1,63 +1,50 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ShippingSpecialConditionMaintenanceDocument" parent="ShippingSpecialConditionMaintenanceDocument-parentBean" />
+  <bean id="ShippingSpecialConditionMaintenanceDocument" parent="ShippingSpecialConditionMaintenanceDocument-parentBean"/>
 
   <bean id="ShippingSpecialConditionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ShippingSpecialConditionMaintenanceDocument-EditShippingSpecialCondition" />
+        <ref bean="ShippingSpecialConditionMaintenanceDocument-EditShippingSpecialCondition"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>vendorShippingSpecialConditionCode</value>
       </list>
     </property>
-    <property name="label" value="Shipping Special Conditions" />
-    <property name="shortLabel" value="Shipping Special Conditions" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition" p:parameterName="SHIPPING_SPECIAL_CONDITION" />
+    <property name="label" value="Shipping Special Conditions"/>
+    <property name="shortLabel" value="Shipping Special Conditions"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition" p:parameterName="SHIPPING_SPECIAL_CONDITION"/>
     </property>
-    <property name="documentTypeName" value="PMSS" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="PMSS"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="ShippingSpecialConditionMaintenanceDocument-workflowAttributes" />
+    	<ref bean="ShippingSpecialConditionMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="ShippingSpecialConditionMaintenanceDocument-EditShippingSpecialCondition" parent="ShippingSpecialConditionMaintenanceDocument-EditShippingSpecialCondition-parentBean" />
+  <bean id="ShippingSpecialConditionMaintenanceDocument-EditShippingSpecialCondition" parent="ShippingSpecialConditionMaintenanceDocument-EditShippingSpecialCondition-parentBean"/>
 
   <bean id="ShippingSpecialConditionMaintenanceDocument-EditShippingSpecialCondition-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Shipping Special Condition" />
-    <property name="title" value="Edit Shipping Special Condition" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Shipping Special Condition"/>
+    <property name="title" value="Edit Shipping Special Condition"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorShippingSpecialConditionCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorShippingSpecialConditionDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" 
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="vendorShippingSpecialConditionCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorShippingSpecialConditionDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="ShippingSpecialConditionMaintenanceDocument-workflowAttributes" parent="ShippingSpecialConditionMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="ShippingSpecialConditionMaintenanceDocument-workflowAttributes" parent="ShippingSpecialConditionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="ShippingSpecialConditionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="ShippingSpecialConditionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

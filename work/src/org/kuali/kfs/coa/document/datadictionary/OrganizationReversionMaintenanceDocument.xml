@@ -1,67 +1,46 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="OrganizationReversionMaintenanceDocument" parent="OrganizationReversionMaintenanceDocument-parentBean" />
+  <bean id="OrganizationReversionMaintenanceDocument" parent="OrganizationReversionMaintenanceDocument-parentBean"/>
 
   <bean id="OrganizationReversionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversion" />
-    <property name="maintainableClass" value="org.kuali.kfs.coa.document.OrganizationReversionMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversion"/>
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.OrganizationReversionMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="OrganizationReversionMaintenanceDocument-EditOrganizationReversion" />
-        <ref bean="OrganizationReversionMaintenanceDocument-EditOrganizationReversionDetails" />
+        <ref bean="OrganizationReversionMaintenanceDocument-EditOrganizationReversion"/>
+        <ref bean="OrganizationReversionMaintenanceDocument-EditOrganizationReversionDetails"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chartOfAccounts"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="universityFiscal"
-              p:attributeToHighlightOnFail="universityFiscalYear" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organization"
-              p:attributeToHighlightOnFail="organizationCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="budgetReversionChartOfAccounts"
-              p:attributeToHighlightOnFail="budgetReversionChartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="budgetReversionAccount"
-              p:attributeToHighlightOnFail="budgetReversionAccountNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="cashReversionFinancialChartOfAccounts"
-              p:attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="cashReversionAccount"
-              p:attributeToHighlightOnFail="cashReversionAccountNumber" />
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="universityFiscal" p:attributeToHighlightOnFail="universityFiscalYear"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="budgetReversionChartOfAccounts" p:attributeToHighlightOnFail="budgetReversionChartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="budgetReversionAccount" p:attributeToHighlightOnFail="budgetReversionAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="cashReversionFinancialChartOfAccounts" p:attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="cashReversionAccount" p:attributeToHighlightOnFail="cashReversionAccountNumber"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>universityFiscalYear</value>
         <value>chartOfAccountsCode</value>
         <value>organizationCode</value>
       </list>
     </property>
-    <property name="label" value="Organization Reversion" />
-    <property name="shortLabel" value="Organization Reversion" />
-    <property name="summary" value="Organization Reversion Maintenance Document" />
-    <property name="description" value="Maintenance document which allows you to create new Organization Reversions, remove exsiting Organization Reversions, or modify existing Organization Reversions." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.OrganizationReversion" p:parameterName="ORGANIZATION_REVERSION" />
+    <property name="label" value="Organization Reversion"/>
+    <property name="shortLabel" value="Organization Reversion"/>
+    <property name="summary" value="Organization Reversion Maintenance Document"/>
+    <property name="description" value="Maintenance document which allows you to create new Organization Reversions, remove exsiting Organization Reversions, or modify existing Organization Reversions."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.OrganizationReversion" p:parameterName="ORGANIZATION_REVERSION"/>
     </property>
-    <property name="documentTypeName" value="ORGR" />
-    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionPreRules" />
-    <property name="webScriptFiles" >
+    <property name="documentTypeName" value="ORGR"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionPreRules"/>
+    <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/ObjectCodeService.js</value>
         <value>../scripts/chart/orgReversionDocument.js</value>
@@ -69,78 +48,49 @@
     </property>
 
     <property name="workflowAttributes">
-    	<ref bean="OrganizationReversionMaintenanceDocument-workflowAttributes" />
+    	<ref bean="OrganizationReversionMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="OrganizationReversionMaintenanceDocument-EditOrganizationReversion" parent="OrganizationReversionMaintenanceDocument-EditOrganizationReversion-parentBean" />
+  <bean id="OrganizationReversionMaintenanceDocument-EditOrganizationReversion" parent="OrganizationReversionMaintenanceDocument-EditOrganizationReversion-parentBean"/>
 
   <bean id="OrganizationReversionMaintenanceDocument-EditOrganizationReversion-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Organization Reversion" />
-    <property name="title" value="Edit Organization Reversion" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Organization Reversion"/>
+    <property name="title" value="Edit Organization Reversion"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="budgetReversionChartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="budgetReversionAccountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="cashReversionFinancialChartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="cashReversionAccountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="carryForwardByObjectCodeIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:defaultValue="true"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="budgetReversionChartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="budgetReversionAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cashReversionFinancialChartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cashReversionAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="carryForwardByObjectCodeIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
   </bean>
-  <bean id="OrganizationReversionMaintenanceDocument-EditOrganizationReversionDetails" parent="OrganizationReversionMaintenanceDocument-EditOrganizationReversionDetails-parentBean" />
+  <bean id="OrganizationReversionMaintenanceDocument-EditOrganizationReversionDetails" parent="OrganizationReversionMaintenanceDocument-EditOrganizationReversionDetails-parentBean"/>
 
   <bean id="OrganizationReversionMaintenanceDocument-EditOrganizationReversionDetails-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Organization Reversion Details" />
-    <property name="title" value="Edit Organization Reversion Details" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Organization Reversion Details"/>
+    <property name="title" value="Edit Organization Reversion Details"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="organizationReversionDetail" />
-          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversionDetail" />
-          <property name="includeAddLine" value="false" />
-          <property name="maintainableFields" >
+          <property name="name" value="organizationReversionDetail"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversionDetail"/>
+          <property name="includeAddLine" value="false"/>
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organizationReversionCategoryCode"
-                    p:unconditionallyReadOnly="true"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organizationReversionObjectCode"
-                    p:required="true"
-                    p:webUILeaveFieldFunction="updateObjectName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organizationReversionObject.financialObjectCodeName"
-                    p:unconditionallyReadOnly="true"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organizationReversionCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition" p:name="organizationReversionCategoryCode" p:unconditionallyReadOnly="true" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationReversionObjectCode" p:required="true" p:webUILeaveFieldFunction="updateObjectName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationReversionObject.financialObjectCodeName" p:unconditionallyReadOnly="true" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationReversionCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
         </bean>
@@ -149,7 +99,7 @@
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="OrganizationReversionMaintenanceDocument-workflowAttributes" parent="OrganizationReversionMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="OrganizationReversionMaintenanceDocument-workflowAttributes" parent="OrganizationReversionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="OrganizationReversionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="OrganizationReversionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

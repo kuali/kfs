@@ -1,36 +1,32 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="YearEndBenefitExpenseTransferDocument" parent="YearEndBenefitExpenseTransferDocument-parentBean" />
+  <bean id="YearEndBenefitExpenseTransferDocument" parent="YearEndBenefitExpenseTransferDocument-parentBean"/>
 
   <bean id="YearEndBenefitExpenseTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Year End Benefit Expense Transfer" />
-    <property name="shortLabel" value="Year End Benefit Expense Transfer" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Year End Benefit Expense Transfer Document" />
-    <property name="documentTypeName" value="YEBT" />
-    <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.YearEndBenefitExpenseTransferDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase" />
-    <property name="sessionDocument" value="true" />    
-    <property name="allowsCopy" value="true" />
-    <property name="workflowAttributes" >
-      <ref bean="YearEndBenefitExpenseTransferDocument-workflowAttributes" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Year End Benefit Expense Transfer"/>
+    <property name="shortLabel" value="Year End Benefit Expense Transfer"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="Year End Benefit Expense Transfer Document"/>
+    <property name="documentTypeName" value="YEBT"/>
+    <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.YearEndBenefitExpenseTransferDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase"/>
+    <property name="sessionDocument" value="true"/>    
+    <property name="allowsCopy" value="true"/>
+    <property name="workflowAttributes">
+      <ref bean="YearEndBenefitExpenseTransferDocument-workflowAttributes"/>
     </property>
-    <property name="validationMap" ref="YearEndBenefitExpenseTransferDocument-validations" />
+    <property name="validationMap" ref="YearEndBenefitExpenseTransferDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-    			<ref bean="YearEndBenefitExpenseTransferDocument-sourceAccountingLineGroup"  />
+    			<ref bean="YearEndBenefitExpenseTransferDocument-sourceAccountingLineGroup"/>
     		</entry>
     		<entry>
     			<key><value>target</value></key>
-    			<ref bean="YearEndBenefitExpenseTransferDocument-targetAccountingLineGroup"  />
+    			<ref bean="YearEndBenefitExpenseTransferDocument-targetAccountingLineGroup"/>
     		</entry>    		
     	</map>
     </property> 
@@ -38,21 +34,21 @@
   </bean>
 
 <!-- Exported Workflow Attributes -->
- <bean id="YearEndBenefitExpenseTransferDocument-workflowAttributes" parent="YearEndBenefitExpenseTransferDocument-workflowAttributes-parentBean" />
+ <bean id="YearEndBenefitExpenseTransferDocument-workflowAttributes" parent="YearEndBenefitExpenseTransferDocument-workflowAttributes-parentBean"/>
   
- <bean id="YearEndBenefitExpenseTransferDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" >
+ <bean id="YearEndBenefitExpenseTransferDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
    <property name="routingTypeDefinitions">
  	  	<map>
-    		<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    		<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-    		<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    		<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    		<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    		<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
     	</map>
    </property>
  </bean>
 
   <!-- Validations -->
   
-  <bean id="YearEndBenefitExpenseTransferDocument-validations" parent="YearEndBenefitExpenseTransferDocument-validations-parentBean" />
+  <bean id="YearEndBenefitExpenseTransferDocument-validations" parent="YearEndBenefitExpenseTransferDocument-validations-parentBean"/>
   
   <bean id="YearEndBenefitExpenseTransferDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -71,8 +67,7 @@
   </bean>  
 
   <!-- accounting line groups -->
-  <bean id="YearEndBenefitExpenseTransferDocument-sourceAccountingLineGroup" parent="BenefitExpenseTransferDocument-sourceAccountingLineGroup-parentBean" />
-  <bean id="YearEndBenefitExpenseTransferDocument-targetAccountingLineGroup" parent="BenefitExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
+  <bean id="YearEndBenefitExpenseTransferDocument-sourceAccountingLineGroup" parent="BenefitExpenseTransferDocument-sourceAccountingLineGroup-parentBean"/>
+  <bean id="YearEndBenefitExpenseTransferDocument-targetAccountingLineGroup" parent="BenefitExpenseTransferDocument-targetAccountingLineGroup-parentBean"/>
   
 </beans>
-

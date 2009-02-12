@@ -1,51 +1,44 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="YearEndTransferOfFundsDocument" parent="YearEndTransferOfFundsDocument-parentBean" />
+  <bean id="YearEndTransferOfFundsDocument" parent="YearEndTransferOfFundsDocument-parentBean"/>
 
   <bean id="YearEndTransferOfFundsDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Year End Transfer Of Funds" />
-    <property name="shortLabel" value="Year End Transfer Of Funds" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The year end version of the Transfer of Funds (TOF) document. See FIS documentation here: &lt;a target=&quot;_blank&quot; href=&quot;http://www.fms.indiana.edu/fis/documentation/tf6.pdf&quot;&gt; http://www.fms.indiana.edu/fis/documentation/tf6.pdf &lt;/a&gt;" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument" p:parameterName="YEAR_END_TRANSFER_OF_FUNDS" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Year End Transfer Of Funds"/>
+    <property name="shortLabel" value="Year End Transfer Of Funds"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The year end version of the Transfer of Funds (TOF) document. See FIS documentation here: &lt;a target=&quot;_blank&quot; href=&quot;http://www.fms.indiana.edu/fis/documentation/tf6.pdf&quot;&gt; http://www.fms.indiana.edu/fis/documentation/tf6.pdf &lt;/a&gt;"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument" p:parameterName="YEAR_END_TRANSFER_OF_FUNDS"/>
     </property>
-    <property name="documentTypeName" value="YETF" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    <property name="documentTypeName" value="YETF"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
 
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="YearEndTransferOfFundsDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="YearEndTransferOfFundsDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
 	    		<key><value>target</value></key>
-	    		<ref bean="YearEndTransferOfFundsDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="YearEndTransferOfFundsDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>  
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
-    <property name="workflowAttributes" >
-      <ref bean="YearEndTransferOfFundsDocument-workflowAttributes" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
+    <property name="workflowAttributes">
+      <ref bean="YearEndTransferOfFundsDocument-workflowAttributes"/>
     </property>
   </bean>
   
   <!-- Validations -->
   
-  <bean id="YearEndTransferOfFundsDocument-validations" parent="YearEndTransferOfFundsDocument-validations-parentBean" />
+  <bean id="YearEndTransferOfFundsDocument-validations" parent="YearEndTransferOfFundsDocument-validations-parentBean"/>
   
   <bean id="YearEndTransferOfFundsDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -83,24 +76,24 @@
   </bean>
   
   <!-- accounting line groups -->
-  <bean id="YearEndTransferOfFundsDocument-sourceAccountingLineGroup" parent="TransferOfFundsDocument-sourceAccountingLineGroup-parentBean" />  	
-  <bean id="YearEndTransferOfFundsDocument-targetAccountingLineGroup" parent="TransferOfFundsDocument-targetAccountingLineGroup-parentBean" />
+  <bean id="YearEndTransferOfFundsDocument-sourceAccountingLineGroup" parent="TransferOfFundsDocument-sourceAccountingLineGroup-parentBean"/>  	
+  <bean id="YearEndTransferOfFundsDocument-targetAccountingLineGroup" parent="TransferOfFundsDocument-targetAccountingLineGroup-parentBean"/>
   
   	<!-- workflow attributes for routing -->
-	<bean id="YearEndTransferOfFundsDocument-workflowAttributes" parent="YearEndTransferOfFundsDocument-workflowAttributes-parentBean" />
+	<bean id="YearEndTransferOfFundsDocument-workflowAttributes" parent="YearEndTransferOfFundsDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="YearEndTransferOfFundsDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 		<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
     		</list>
     	</property>
 	    <property name="routingTypeDefinitions">
     		<map>
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
     		</map>
     	</property>
 	</bean>

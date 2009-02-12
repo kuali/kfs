@@ -1,88 +1,63 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="HigherEducationFunctionMaintenanceDocument" parent="HigherEducationFunctionMaintenanceDocument-parentBean" />
+  <bean id="HigherEducationFunctionMaintenanceDocument" parent="HigherEducationFunctionMaintenanceDocument-parentBean"/>
 
   <bean id="HigherEducationFunctionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.HigherEducationFunction" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.HigherEducationFunction"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="HigherEducationFunctionMaintenanceDocument-EditHigherEducationFunction" />
+        <ref bean="HigherEducationFunctionMaintenanceDocument-EditHigherEducationFunction"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="universityBudgetOfficeFunction"
-              p:attributeToHighlightOnFail="finUnivBdgtOfficeFunctionCd" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="aicpaFunction"
-              p:attributeToHighlightOnFail="finAicpaFunctionCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="federalFunction"
-              p:attributeToHighlightOnFail="financialFederalFunctionCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="universityBudgetOfficeFunction" p:attributeToHighlightOnFail="finUnivBdgtOfficeFunctionCd"/>
+        <bean parent="ReferenceDefinition" p:attributeName="aicpaFunction" p:attributeToHighlightOnFail="finAicpaFunctionCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="federalFunction" p:attributeToHighlightOnFail="financialFederalFunctionCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>financialHigherEdFunctionCd</value>
       </list>
     </property>
-    <property name="label" value="Higher Education Function" />
-    <property name="shortLabel" value="Higher Education Function" />
-    <property name="summary" value="Higher Education Function maintenance document" />
-    <property name="description" value="Document used to create or update Higher Education Function objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.HigherEducationFunction" p:parameterName="HIGHER_EDUCATION_FUNCTION" />
+    <property name="label" value="Higher Education Function"/>
+    <property name="shortLabel" value="Higher Education Function"/>
+    <property name="summary" value="Higher Education Function maintenance document"/>
+    <property name="description" value="Document used to create or update Higher Education Function objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.HigherEducationFunction" p:parameterName="HIGHER_EDUCATION_FUNCTION"/>
     </property>
-    <property name="documentTypeName" value="HEFN" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="HEFN"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="HigherEducationFunctionMaintenanceDocument-workflowAttributes" />
+    	<ref bean="HigherEducationFunctionMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="HigherEducationFunctionMaintenanceDocument-EditHigherEducationFunction" parent="HigherEducationFunctionMaintenanceDocument-EditHigherEducationFunction-parentBean" />
+  <bean id="HigherEducationFunctionMaintenanceDocument-EditHigherEducationFunction" parent="HigherEducationFunctionMaintenanceDocument-EditHigherEducationFunction-parentBean"/>
 
   <bean id="HigherEducationFunctionMaintenanceDocument-EditHigherEducationFunction-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Higher Education Function" />
-    <property name="title" value="Edit Higher Education Function" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Higher Education Function"/>
+    <property name="title" value="Edit Higher Education Function"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialHigherEdFunctionCd"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialHigherEdFunctionNm"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="finUnivBdgtOfficeFunctionCd"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="finAicpaFunctionCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialFederalFunctionCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:defaultValue="true"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialHigherEdFunctionCd" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialHigherEdFunctionNm" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="finUnivBdgtOfficeFunctionCd" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="finAicpaFunctionCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialFederalFunctionCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="HigherEducationFunctionMaintenanceDocument-workflowAttributes" parent="HigherEducationFunctionMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="HigherEducationFunctionMaintenanceDocument-workflowAttributes" parent="HigherEducationFunctionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="HigherEducationFunctionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="HigherEducationFunctionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
   
 </beans>

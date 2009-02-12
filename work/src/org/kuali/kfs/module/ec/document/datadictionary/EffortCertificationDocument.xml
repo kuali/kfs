@@ -1,110 +1,105 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="EffortCertificationDocument" parent="EffortCertificationDocument-parentBean" />
+  <bean id="EffortCertificationDocument" parent="EffortCertificationDocument-parentBean"/>
 
   <bean id="EffortCertificationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Effort Certification" />
-    <property name="shortLabel" value="Effort Certification" />
-    <property name="summary" value="Effort Certification Document" />
-    <property name="description" value="Document for the efffort certification creation." />
-    <property name="documentTypeName" value="ECD" />
-    <property name="documentClass" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRules" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ec.document.authorization.EffortCertificationDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ec.document.authorization.EffortDocumentPresentationController" />
-    <property name="allowsCopy" value="true" />    
-    <property name="sessionDocument" value="true" />
-    <property name="allowsErrorCorrection" value="false" />
-    <property name="attributes" >
+    <property name="label" value="Effort Certification"/>
+    <property name="shortLabel" value="Effort Certification"/>
+    <property name="summary" value="Effort Certification Document"/>
+    <property name="description" value="Document for the efffort certification creation."/>
+    <property name="documentTypeName" value="ECD"/>
+    <property name="documentClass" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRules"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ec.document.authorization.EffortCertificationDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ec.document.authorization.EffortDocumentPresentationController"/>
+    <property name="allowsCopy" value="true"/>    
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsErrorCorrection" value="false"/>
+    <property name="attributes">
       <list>
-        <ref bean="EffortCertificationDocument-effortCertificationDocumentCode" />
-        <ref bean="EffortCertificationDocument-emplid" />
-        <ref bean="EffortCertificationDocument-documentNumber" />
-        <ref bean="EffortCertificationDocument-universityFiscalYear" />
-        <ref bean="EffortCertificationDocument-employee.name" />
-        <ref bean="EffortCertificationDocument-employee.principalName" />
-        <ref bean="EffortCertificationDocument-effortCertificationReportNumber" />
-        <ref bean="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" />
-        <ref bean="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" />
-        <ref bean="EffortCertificationDocument-versionNumber" />
+        <ref bean="EffortCertificationDocument-effortCertificationDocumentCode"/>
+        <ref bean="EffortCertificationDocument-emplid"/>
+        <ref bean="EffortCertificationDocument-documentNumber"/>
+        <ref bean="EffortCertificationDocument-universityFiscalYear"/>
+        <ref bean="EffortCertificationDocument-employee.name"/>
+        <ref bean="EffortCertificationDocument-employee.principalName"/>
+        <ref bean="EffortCertificationDocument-effortCertificationReportNumber"/>
+        <ref bean="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear"/>
+        <ref bean="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear"/>
+        <ref bean="EffortCertificationDocument-versionNumber"/>
       </list>
     </property>
     <property name="workflowAttributes">
-    	<ref bean="EffortCertificationDocument-workflowAttributes" />
+    	<ref bean="EffortCertificationDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
 
-  <bean id="EffortCertificationDocument-effortCertificationDocumentCode" parent="EffortCertificationDocument-effortCertificationDocumentCode-parentBean" />
+  <bean id="EffortCertificationDocument-effortCertificationDocumentCode" parent="EffortCertificationDocument-effortCertificationDocumentCode-parentBean"/>
 
   <bean id="EffortCertificationDocument-effortCertificationDocumentCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="effortCertificationDocumentCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Effort Certification Document Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="effortCertificationDocumentCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Effort Certification Document Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
-    <property name="summary" value="Effort Certification DocumentCode" />
-    <property name="description" value="Effort Certification LaborDocumentCode description..." />
+    <property name="summary" value="Effort Certification DocumentCode"/>
+    <property name="description" value="Effort Certification LaborDocumentCode description..."/>
   </bean>
-  <bean id="EffortCertificationDocument-emplid" parent="EffortCertificationDocument-emplid-parentBean" />
+  <bean id="EffortCertificationDocument-emplid" parent="EffortCertificationDocument-emplid-parentBean"/>
 
   <bean id="EffortCertificationDocument-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="emplid" />
-    <property name="required" value="true" />
+    <property name="name" value="emplid"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="EffortCertificationDocument-documentNumber" parent="EffortCertificationDocument-documentNumber-parentBean" />
+  <bean id="EffortCertificationDocument-documentNumber" parent="EffortCertificationDocument-documentNumber-parentBean"/>
 
   <bean id="EffortCertificationDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
   </bean>
-  <bean id="EffortCertificationDocument-universityFiscalYear" parent="EffortCertificationDocument-universityFiscalYear-parentBean" />
+  <bean id="EffortCertificationDocument-universityFiscalYear" parent="EffortCertificationDocument-universityFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationDocument-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Fiscal Year" />
-    <property name="required" value="true" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="EffortCertificationDocument-employee.name" parent="EffortCertificationDocument-employee.name-parentBean" />
+  <bean id="EffortCertificationDocument-employee.name" parent="EffortCertificationDocument-employee.name-parentBean"/>
 
   <bean id="EffortCertificationDocument-employee.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="employee.name" />
-    <property name="label" value="Employee Name" />
+    <property name="name" value="employee.name"/>
+    <property name="label" value="Employee Name"/>
   </bean>
-  <bean id="EffortCertificationDocument-employee.principalName" parent="EffortCertificationDocument-employee.principalName-parentBean" />
+  <bean id="EffortCertificationDocument-employee.principalName" parent="EffortCertificationDocument-employee.principalName-parentBean"/>
 
   <bean id="EffortCertificationDocument-employee.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="employee.principalName" />
+    <property name="name" value="employee.principalName"/>
   </bean>
-  <bean id="EffortCertificationDocument-effortCertificationReportNumber" parent="EffortCertificationDocument-effortCertificationReportNumber-parentBean" />
+  <bean id="EffortCertificationDocument-effortCertificationReportNumber" parent="EffortCertificationDocument-effortCertificationReportNumber-parentBean"/>
 
   <bean id="EffortCertificationDocument-effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportNumber">
-    <property name="required" value="true" />
+    <property name="required" value="true"/>
   </bean>
-  <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" parent="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear-parentBean" />
+  <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" parent="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear">
-    <property name="name" value="effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" />
-    <property name="label" value="Report Start Date" />
+    <property name="name" value="effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear"/>
+    <property name="label" value="Report Start Date"/>
   </bean>
-  <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" parent="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear-parentBean" />
+  <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" parent="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear">
-    <property name="name" value="effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" />
-    <property name="label" value="Report End Date" />
+    <property name="name" value="effortCertificationReportDefinition.effortCertificationReportEndFiscalYear"/>
+    <property name="label" value="Report End Date"/>
   </bean>
-  <bean id="EffortCertificationDocument-versionNumber" parent="EffortCertificationDocument-versionNumber-parentBean" />
+  <bean id="EffortCertificationDocument-versionNumber" parent="EffortCertificationDocument-versionNumber-parentBean"/>
 
   <bean id="EffortCertificationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
@@ -112,10 +107,10 @@
   
   <!-- Exported Workflow Attributes -->
 
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" />
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean"/>
   
   <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
 	  <property name="documentValues">
 	  	<list>
 	  		<value>effortCertificationDetailLines.account.chartOfAccountsCode</value>
@@ -123,10 +118,10 @@
 	</property>
   </bean>
 
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode" parent="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean" />
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode" parent="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean"/>
   
   <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
+	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode"/>
 	  <property name="documentValues">
 	  	<list>
 	  		<value>effortCertificationDetailLines.account.organizationCode</value>
@@ -134,30 +129,30 @@
 	</property>
   </bean>   
     
-  <bean id="RoutingType-EffortCertificationDocument-ProjectManagement" parent="RoutingType-EffortCertificationDocument-parentBean" />
+  <bean id="RoutingType-EffortCertificationDocument-ProjectManagement" parent="RoutingType-EffortCertificationDocument-parentBean"/>
   
   <bean id="RoutingType-EffortCertificationDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-accountNumber" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-accountNumber"/>
     		</list>
     	</property>
   </bean>
  
-  <bean id="EffortCertificationDocument-workflowAttributes" parent="EffortCertificationDocument-workflowAttributes-parentBean" />
+  <bean id="EffortCertificationDocument-workflowAttributes" parent="EffortCertificationDocument-workflowAttributes-parentBean"/>
 
-  <bean id="EffortCertificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" >
+  <bean id="EffortCertificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 	  <property name="searchingTypeDefinitions">
 	  		<list>
-    			<ref bean="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode" />
-    			<ref bean="EffortCertificationDocument-SearchingTypeDefinition-organizationCode" />	  		
+    			<ref bean="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode"/>
+    			<ref bean="EffortCertificationDocument-SearchingTypeDefinition-organizationCode"/>	  		
 
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument" />
-    						<property name="attributeName" value="emplid" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
+    						<property name="attributeName" value="emplid"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -169,8 +164,8 @@
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument" />
-    						<property name="attributeName" value="universityFiscalYear" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
+    						<property name="attributeName" value="universityFiscalYear"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -182,8 +177,8 @@
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument" />
-    						<property name="attributeName" value="effortCertificationReportNumber" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
+    						<property name="attributeName" value="effortCertificationReportNumber"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -196,9 +191,9 @@
   	  </property>
   	  <property name="routingTypeDefinitions">
   	  		<map>
-  	  			<entry key="ProjectManagement" value-ref="RoutingType-EffortCertificationDocument-ProjectManagement" />
-  	  			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
-  	  			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
+  	  			<entry key="ProjectManagement" value-ref="RoutingType-EffortCertificationDocument-ProjectManagement"/>
+  	  			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+  	  			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
   	  			
   	  		</map>
   	  </property>	

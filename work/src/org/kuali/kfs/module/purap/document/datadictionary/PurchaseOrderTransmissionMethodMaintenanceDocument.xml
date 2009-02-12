@@ -1,64 +1,51 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument" parent="PurchaseOrderTransmissionMethodMaintenanceDocument-parentBean" />
+  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument" parent="PurchaseOrderTransmissionMethodMaintenanceDocument-parentBean"/>
 
   <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderTransmissionMethodRule" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderTransmissionMethodRule"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PurchaseOrderTransmissionMethodMaintenanceDocument-EditMethodofPOTransmission" />
+        <ref bean="PurchaseOrderTransmissionMethodMaintenanceDocument-EditMethodofPOTransmission"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>purchaseOrderTransmissionMethodCode</value>
       </list>
     </property>
-    <property name="label" value="Method of PO Transmission" />
-    <property name="shortLabel" value="Method of PO Transmission" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod" p:parameterName="PURCHASE_ORDER_TRANSMISSION_METHOD" />
+    <property name="label" value="Method of PO Transmission"/>
+    <property name="shortLabel" value="Method of PO Transmission"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod" p:parameterName="PURCHASE_ORDER_TRANSMISSION_METHOD"/>
     </property>
-    <property name="documentTypeName" value="PMTM" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="PMTM"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes" />
+    	<ref bean="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-EditMethodofPOTransmission" parent="PurchaseOrderTransmissionMethodMaintenanceDocument-EditMethodofPOTransmission-parentBean" />
+  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-EditMethodofPOTransmission" parent="PurchaseOrderTransmissionMethodMaintenanceDocument-EditMethodofPOTransmission-parentBean"/>
 
   <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-EditMethodofPOTransmission-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Method of PO Transmission" />
-    <property name="title" value="Edit Method of PO Transmission" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Method of PO Transmission"/>
+    <property name="title" value="Edit Method of PO Transmission"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderTransmissionMethodCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderTransmissionMethodDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" 
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderTransmissionMethodCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderTransmissionMethodDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes" parent="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes" parent="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

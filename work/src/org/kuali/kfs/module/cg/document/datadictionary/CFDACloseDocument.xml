@@ -1,71 +1,67 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CFDACloseDocument" parent="CFDACloseDocument-parentBean" />
+  <bean id="CFDACloseDocument" parent="CFDACloseDocument-parentBean"/>
 
   <bean id="CFDACloseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="CFDA Close" />
-    <property name="shortLabel" value="CFDA Close" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.CFDAClose" p:parameterName="CFDACLOSE" />
+    <property name="label" value="CFDA Close"/>
+    <property name="shortLabel" value="CFDA Close"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.CFDAClose" p:parameterName="CFDACLOSE"/>
     </property>
-    <property name="documentTypeName" value="CLOS" />
-    <property name="documentClass" value="org.kuali.kfs.module.cg.businessobject.CFDAClose" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.CloseDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.CloseDocumentAuthorizer" />
-    <property name="workflowProperties" >
-      <ref bean="CFDACloseDocument-workflowProperties" />
+    <property name="documentTypeName" value="CLOS"/>
+    <property name="documentClass" value="org.kuali.kfs.module.cg.businessobject.CFDAClose"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.CloseDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.CloseDocumentAuthorizer"/>
+    <property name="workflowProperties">
+      <ref bean="CFDACloseDocument-workflowProperties"/>
     </property>
 
     <property name="attributes">
       <list>
-        <ref bean="CFDACloseDocument-userInitiatedCloseDate" />
-        <ref bean="CFDACloseDocument-closeOnOrBeforeDate" />
+        <ref bean="CFDACloseDocument-userInitiatedCloseDate"/>
+        <ref bean="CFDACloseDocument-closeOnOrBeforeDate"/>
       </list>
     </property>
   </bean> 
   
-  <bean id="CFDACloseDocument-closeOnOrBeforeDate" parent="CFDACloseDocument-closeOnOrBeforeDate-parentBean" />
+  <bean id="CFDACloseDocument-closeOnOrBeforeDate" parent="CFDACloseDocument-closeOnOrBeforeDate-parentBean"/>
 
   <bean id="CFDACloseDocument-closeOnOrBeforeDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="closeOnOrBeforeDate" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Close On Or Before Date" />
-    <property name="shortLabel" value="Close on or before" />
-    <property name="maxLength" value="10" />
+    <property name="name" value="closeOnOrBeforeDate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Close On Or Before Date"/>
+    <property name="shortLabel" value="Close on or before"/>
+    <property name="maxLength" value="10"/>
     <!-- Required checking will be handled within the CFDACloseDocumentRule class -->
-    <property name="required" value="true" />
+    <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="&amp;nbsp;" />
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="&amp;nbsp;"/>
   </bean>
   
-  <bean id="CFDACloseDocument-userInitiatedCloseDate" parent="CFDACloseDocument-userInitiatedCloseDate-parentBean" />
+  <bean id="CFDACloseDocument-userInitiatedCloseDate" parent="CFDACloseDocument-userInitiatedCloseDate-parentBean"/>
 
   <bean id="CFDACloseDocument-userInitiatedCloseDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="userInitiatedCloseDate" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Close Date" />
-    <property name="shortLabel" value="Date closed" />
-    <property name="maxLength" value="10" />
+    <property name="name" value="userInitiatedCloseDate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Close Date"/>
+    <property name="shortLabel" value="Date closed"/>
+    <property name="maxLength" value="10"/>
     <!-- Required checking will be handled within the CFDACloseDocumentRule class -->
-    <property name="required" value="true" />
+    <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="&amp;nbsp;" />
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="&amp;nbsp;"/>
   </bean>
 
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="CFDACloseDocument-workflowProperties" parent="CFDACloseDocument-workflowProperties-parentBean" />
+  <bean id="CFDACloseDocument-workflowProperties" parent="CFDACloseDocument-workflowProperties-parentBean"/>
 
   <bean id="CFDACloseDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
  	     		    <!-- no qualifiers for unprocessed -->

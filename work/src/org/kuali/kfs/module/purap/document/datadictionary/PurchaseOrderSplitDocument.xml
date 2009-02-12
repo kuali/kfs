@@ -1,169 +1,159 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
         
-  <bean id="PurchaseOrderSplitDocument" parent="PurchaseOrderSplitDocument-parentBean" />
+  <bean id="PurchaseOrderSplitDocument" parent="PurchaseOrderSplitDocument-parentBean"/>
 
   <bean id="PurchaseOrderSplitDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Split" />
-    <property name="shortLabel" value="Purchase Order Split" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="PURCHASE_ORDER"
-            p:parameterDetailType="PurchaseOrder" />
+    <property name="label" value="Purchase Order Split"/>
+    <property name="shortLabel" value="Purchase Order Split"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
     </property>
-    <property name="documentTypeName" value="POSP" />
-    <property name="sessionDocument" value="true" />
-    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument" />
+    <property name="documentTypeName" value="POSP"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument"/>
     <!-- property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" /-->
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController"/>
     <property name="workflowAttributes">
-    	<ref bean="PurchaseOrderSplitDocument-workflowAttributes" />
+    	<ref bean="PurchaseOrderSplitDocument-workflowAttributes"/>
     </property>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>    
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderDocument-statusDescription" />
-        <ref bean="PurchaseOrderDocument-contractManagerName" />
-        <ref bean="PurchaseOrderDocument-versionNumber" />
-        <ref bean="PurchaseOrderDocument-postingYear" />
-        <ref bean="PurchaseOrderDocument-vendorNumber" />
-        <ref bean="PurchaseOrderDocument-vendorDetailAssignedIdentifier" />
-        <ref bean="PurchaseOrderDocument-vendorCustomerNumber" />
-        <ref bean="PurchaseOrderDocument-vendorLine2Address" />
-        <ref bean="PurchaseOrderDocument-vendorStateCode" />
-        <ref bean="PurchaseOrderDocument-vendorAddressInternationalProvinceName" />
-        <ref bean="PurchaseOrderDocument-vendorPostalCode" />
-        <ref bean="PurchaseOrderDocument-totalDollarAmount" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode" />
-        <ref bean="PurchaseOrderDocument-retransmitHeader" />
-        <ref bean="PurchaseOrderDocument-receivingDocumentRequiredIndicator" />
-        <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator" />
-        <ref bean="PurchaseOrderDocument-contractManagerCode" />
-        <ref bean="PurchaseOrderDocument-contractManager" />
-        <ref bean="PurchaseOrderDocument-purapDocumentIdentifier" />
-        <ref bean="PurchaseOrderDocument-statusCode" />
-        <ref bean="PurchaseOrderDocument-chartOfAccountsCode" />
-        <ref bean="PurchaseOrderDocument-organizationCode" />
-        <ref bean="PurchaseOrderDocument-vendorAddressGeneratedIdentifier" />
-        <ref bean="PurchaseOrderDocument-vendorContractName" />
-        <ref bean="PurchaseOrderDocument-supplierDiversityLabel" />
-        <ref bean="PurchaseOrderDocument-vendorContactsLabel" />
-        <ref bean="PurchaseOrderDocument-billingName" />
-        <ref bean="PurchaseOrderDocument-billingLine1Address" />
-        <ref bean="PurchaseOrderDocument-billingLine2Address" />
-        <ref bean="PurchaseOrderDocument-billingCityName" />
-        <ref bean="PurchaseOrderDocument-billingStateCode" />
-        <ref bean="PurchaseOrderDocument-billingPostalCode" />
-        <ref bean="PurchaseOrderDocument-billingCountryCode" />
-        <ref bean="PurchaseOrderDocument-billingPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-receivingName" />
-        <ref bean="PurchaseOrderDocument-receivingLine1Address" />
-        <ref bean="PurchaseOrderDocument-receivingLine2Address" />
-        <ref bean="PurchaseOrderDocument-receivingCityName" />
-        <ref bean="PurchaseOrderDocument-receivingStateCode" />
-        <ref bean="PurchaseOrderDocument-receivingPostalCode" />
-        <ref bean="PurchaseOrderDocument-receivingCountryCode" />
-        <ref bean="PurchaseOrderDocument-addressToVendorIndicator" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingName" />
-        <ref bean="PurchaseOrderDocument-deliveryCampusCode" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingOtherIndicator" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingLine1Address" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingLine2Address" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingRoomNumber" />
-        <ref bean="PurchaseOrderDocument-deliveryCityName" />
-        <ref bean="PurchaseOrderDocument-deliveryStateCode" />
-        <ref bean="PurchaseOrderDocument-deliveryPostalCode" />
-        <ref bean="PurchaseOrderDocument-deliveryCountryCode" />
-        <ref bean="PurchaseOrderDocument-deliveryInstructionText" />
-        <ref bean="PurchaseOrderDocument-deliveryRequiredDate" />
-        <ref bean="PurchaseOrderDocument-deliveryRequiredDateReasonCode" />
-        <ref bean="PurchaseOrderDocument-deliveryToEmailAddress" />
-        <ref bean="PurchaseOrderDocument-deliveryToName" />
-        <ref bean="PurchaseOrderDocument-deliveryToPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier" />
-        <ref bean="PurchaseOrderDocument-fundingSourceCode" />
-        <ref bean="PurchaseOrderDocument-institutionContactEmailAddress" />
-        <ref bean="PurchaseOrderDocument-institutionContactName" />
-        <ref bean="PurchaseOrderDocument-institutionContactPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-nonInstitutionFundAccountNumber" />
-        <ref bean="PurchaseOrderDocument-nonInstitutionFundChartOfAccountsCode" />
-        <ref bean="PurchaseOrderDocument-nonInstitutionFundOrgChartOfAccountsCode" />
-        <ref bean="PurchaseOrderDocument-nonInstitutionFundOrganizationCode" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderAutomaticIndicator" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderCostSourceCode" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderBeginDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderEndDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderTotalLimit" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderTransmissionMethodCode" />
-        <ref bean="PurchaseOrderDocument-recurringPaymentTypeCode" />
-        <ref bean="PurchaseOrderDocument-requestorPersonEmailAddress" />
-        <ref bean="PurchaseOrderDocument-requestorPersonName" />
-        <ref bean="PurchaseOrderDocument-requestorPersonPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-requisitionSourceCode" />
-        <ref bean="PurchaseOrderDocument-vendorContractGeneratedIdentifier" />
-        <ref bean="PurchaseOrderDocument-vendorFaxNumber" />
-        <ref bean="PurchaseOrderDocument-vendorNoteText" />
-        <ref bean="PurchaseOrderDocument-vendorPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-vendorRestrictedIndicator" />
-        <ref bean="PurchaseOrderDocument-vendorPaymentTermsCode" />
-        <ref bean="PurchaseOrderDocument-vendorShippingTitleCode" />
-        <ref bean="PurchaseOrderDocument-vendorShippingPaymentTermsCode" />
-        <ref bean="PurchaseOrderDocument-requisitionIdentifier" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderVendorChoiceCode" />
-        <ref bean="PurchaseOrderDocument-alternateVendorHeaderGeneratedIdentifier" />
-        <ref bean="PurchaseOrderDocument-alternateVendorDetailAssignedIdentifier" />
-        <ref bean="PurchaseOrderDocument-alternateVendorNumber" />
-        <ref bean="PurchaseOrderDocument-alternateVendorName" />
-        <ref bean="PurchaseOrderDocument-finalPaymentAmount" />
-        <ref bean="PurchaseOrderDocument-finalPaymentDate" />
-        <ref bean="PurchaseOrderDocument-initialPaymentAmount" />
-        <ref bean="PurchaseOrderDocument-initialPaymentDate" />
-        <ref bean="PurchaseOrderDocument-recurringPaymentAmount" />
-        <ref bean="PurchaseOrderDocument-recurringPaymentDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderCommodityDescription" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderConfirmedIndicator" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteDueDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteTypeCode" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText" />
-        <ref bean="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier" />
-        <ref bean="PurchaseOrderDocument-vendorName" />
-        <ref bean="PurchaseOrderDocument-vendorLine1Address" />
-        <ref bean="PurchaseOrderDocument-vendorCityName" />
-        <ref bean="PurchaseOrderDocument-vendorCountryCode" />
-        <ref bean="PurchaseOrderDocument-recurringPaymentFrequencyCode" />
-        <ref bean="PurchaseOrderDocument-requisitionSource" />
-        <ref bean="PurchaseOrderDocument-statusChange" />
-        <ref bean="PurchaseOrderDocument-internalPurchasingLimit" />
+        <ref bean="PurchaseOrderDocument-statusDescription"/>
+        <ref bean="PurchaseOrderDocument-contractManagerName"/>
+        <ref bean="PurchaseOrderDocument-versionNumber"/>
+        <ref bean="PurchaseOrderDocument-postingYear"/>
+        <ref bean="PurchaseOrderDocument-vendorNumber"/>
+        <ref bean="PurchaseOrderDocument-vendorDetailAssignedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-vendorCustomerNumber"/>
+        <ref bean="PurchaseOrderDocument-vendorLine2Address"/>
+        <ref bean="PurchaseOrderDocument-vendorStateCode"/>
+        <ref bean="PurchaseOrderDocument-vendorAddressInternationalProvinceName"/>
+        <ref bean="PurchaseOrderDocument-vendorPostalCode"/>
+        <ref bean="PurchaseOrderDocument-totalDollarAmount"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode"/>
+        <ref bean="PurchaseOrderDocument-retransmitHeader"/>
+        <ref bean="PurchaseOrderDocument-receivingDocumentRequiredIndicator"/>
+        <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator"/>
+        <ref bean="PurchaseOrderDocument-contractManagerCode"/>
+        <ref bean="PurchaseOrderDocument-contractManager"/>
+        <ref bean="PurchaseOrderDocument-purapDocumentIdentifier"/>
+        <ref bean="PurchaseOrderDocument-statusCode"/>
+        <ref bean="PurchaseOrderDocument-chartOfAccountsCode"/>
+        <ref bean="PurchaseOrderDocument-organizationCode"/>
+        <ref bean="PurchaseOrderDocument-vendorAddressGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-vendorContractName"/>
+        <ref bean="PurchaseOrderDocument-supplierDiversityLabel"/>
+        <ref bean="PurchaseOrderDocument-vendorContactsLabel"/>
+        <ref bean="PurchaseOrderDocument-billingName"/>
+        <ref bean="PurchaseOrderDocument-billingLine1Address"/>
+        <ref bean="PurchaseOrderDocument-billingLine2Address"/>
+        <ref bean="PurchaseOrderDocument-billingCityName"/>
+        <ref bean="PurchaseOrderDocument-billingStateCode"/>
+        <ref bean="PurchaseOrderDocument-billingPostalCode"/>
+        <ref bean="PurchaseOrderDocument-billingCountryCode"/>
+        <ref bean="PurchaseOrderDocument-billingPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-receivingName"/>
+        <ref bean="PurchaseOrderDocument-receivingLine1Address"/>
+        <ref bean="PurchaseOrderDocument-receivingLine2Address"/>
+        <ref bean="PurchaseOrderDocument-receivingCityName"/>
+        <ref bean="PurchaseOrderDocument-receivingStateCode"/>
+        <ref bean="PurchaseOrderDocument-receivingPostalCode"/>
+        <ref bean="PurchaseOrderDocument-receivingCountryCode"/>
+        <ref bean="PurchaseOrderDocument-addressToVendorIndicator"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingName"/>
+        <ref bean="PurchaseOrderDocument-deliveryCampusCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingOtherIndicator"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingLine1Address"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingLine2Address"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingRoomNumber"/>
+        <ref bean="PurchaseOrderDocument-deliveryCityName"/>
+        <ref bean="PurchaseOrderDocument-deliveryStateCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryPostalCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryCountryCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryInstructionText"/>
+        <ref bean="PurchaseOrderDocument-deliveryRequiredDate"/>
+        <ref bean="PurchaseOrderDocument-deliveryRequiredDateReasonCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryToEmailAddress"/>
+        <ref bean="PurchaseOrderDocument-deliveryToName"/>
+        <ref bean="PurchaseOrderDocument-deliveryToPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier"/>
+        <ref bean="PurchaseOrderDocument-fundingSourceCode"/>
+        <ref bean="PurchaseOrderDocument-institutionContactEmailAddress"/>
+        <ref bean="PurchaseOrderDocument-institutionContactName"/>
+        <ref bean="PurchaseOrderDocument-institutionContactPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-nonInstitutionFundAccountNumber"/>
+        <ref bean="PurchaseOrderDocument-nonInstitutionFundChartOfAccountsCode"/>
+        <ref bean="PurchaseOrderDocument-nonInstitutionFundOrgChartOfAccountsCode"/>
+        <ref bean="PurchaseOrderDocument-nonInstitutionFundOrganizationCode"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderAutomaticIndicator"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderCostSourceCode"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderBeginDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderEndDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderTotalLimit"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderTransmissionMethodCode"/>
+        <ref bean="PurchaseOrderDocument-recurringPaymentTypeCode"/>
+        <ref bean="PurchaseOrderDocument-requestorPersonEmailAddress"/>
+        <ref bean="PurchaseOrderDocument-requestorPersonName"/>
+        <ref bean="PurchaseOrderDocument-requestorPersonPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-requisitionSourceCode"/>
+        <ref bean="PurchaseOrderDocument-vendorContractGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-vendorFaxNumber"/>
+        <ref bean="PurchaseOrderDocument-vendorNoteText"/>
+        <ref bean="PurchaseOrderDocument-vendorPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-vendorRestrictedIndicator"/>
+        <ref bean="PurchaseOrderDocument-vendorPaymentTermsCode"/>
+        <ref bean="PurchaseOrderDocument-vendorShippingTitleCode"/>
+        <ref bean="PurchaseOrderDocument-vendorShippingPaymentTermsCode"/>
+        <ref bean="PurchaseOrderDocument-requisitionIdentifier"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderVendorChoiceCode"/>
+        <ref bean="PurchaseOrderDocument-alternateVendorHeaderGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-alternateVendorDetailAssignedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-alternateVendorNumber"/>
+        <ref bean="PurchaseOrderDocument-alternateVendorName"/>
+        <ref bean="PurchaseOrderDocument-finalPaymentAmount"/>
+        <ref bean="PurchaseOrderDocument-finalPaymentDate"/>
+        <ref bean="PurchaseOrderDocument-initialPaymentAmount"/>
+        <ref bean="PurchaseOrderDocument-initialPaymentDate"/>
+        <ref bean="PurchaseOrderDocument-recurringPaymentAmount"/>
+        <ref bean="PurchaseOrderDocument-recurringPaymentDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderCommodityDescription"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderConfirmedIndicator"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderPreviousIdentifier"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteDueDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteTypeCode"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText"/>
+        <ref bean="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-vendorName"/>
+        <ref bean="PurchaseOrderDocument-vendorLine1Address"/>
+        <ref bean="PurchaseOrderDocument-vendorCityName"/>
+        <ref bean="PurchaseOrderDocument-vendorCountryCode"/>
+        <ref bean="PurchaseOrderDocument-recurringPaymentFrequencyCode"/>
+        <ref bean="PurchaseOrderDocument-requisitionSource"/>
+        <ref bean="PurchaseOrderDocument-statusChange"/>
+        <ref bean="PurchaseOrderDocument-internalPurchasingLimit"/>
         <ref bean="PurchaseOrderDocument-copyingNotesWhenSplitting"/>
         <ref bean="PurchaseOrderDocument-capitalAssetSystemTypeCode"/>
         <ref bean="PurchaseOrderDocument-capitalAssetSystemStateCode"/>
       </list>
   	</property>
-  	<property name="validationMap" ref="PurchaseOrderDocument-validations" />
+  	<property name="validationMap" ref="PurchaseOrderDocument-validations"/>
   </bean>
 
     <!-- workflow attributes -->
-    <bean id="PurchaseOrderSplitDocument-workflowAttributes" parent="PurchaseOrderSplitDocument-workflowAttributes-parentBean" />
+    <bean id="PurchaseOrderSplitDocument-workflowAttributes" parent="PurchaseOrderSplitDocument-workflowAttributes-parentBean"/>
   
     <bean id="PurchaseOrderSplitDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
     </bean>

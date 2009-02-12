@@ -1,39 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-parentBean"/>
 
   <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="IndirectCostRecoveryExclusionAccountMaintenanceDocument-EditICRExclusionAccount" />
+        <ref bean="IndirectCostRecoveryExclusionAccountMaintenanceDocument-EditICRExclusionAccount"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chart"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="account"
-              p:attributeToHighlightOnFail="accountNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialObjectChartOfAccount"
-              p:attributeToHighlightOnFail="financialObjectChartOfAccountCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="objectCodeCurrent"
-              p:attributeToHighlightOnFail="financialObjectCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="chart" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialObjectChartOfAccount" p:attributeToHighlightOnFail="financialObjectChartOfAccountCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="objectCodeCurrent" p:attributeToHighlightOnFail="financialObjectCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>chartOfAccountsCode</value>
         <value>accountNumber</value>
@@ -41,48 +26,40 @@
         <value>financialObjectCode</value>
       </list>
     </property>
-    <property name="label" value="Indirect Cost Recovery Exclusion By Account" />
-    <property name="shortLabel" value="Indirect Cost Recovery Exclusion By Account" />
-    <property name="summary" value="Indirect Cost Recovery Exclusion By Account Maintenance Document" />
-    <property name="description" value="Maintenance document which allows you to create new Indirect Cost Recovery Exclusions By Account, or modify existing Indirect Cost Recovery Exclusions By Account." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount" p:parameterName="INDIRECT_COST_RECOVERY_EXCLUSION_BY_ACCOUNT" />
+    <property name="label" value="Indirect Cost Recovery Exclusion By Account"/>
+    <property name="shortLabel" value="Indirect Cost Recovery Exclusion By Account"/>
+    <property name="summary" value="Indirect Cost Recovery Exclusion By Account Maintenance Document"/>
+    <property name="description" value="Maintenance document which allows you to create new Indirect Cost Recovery Exclusions By Account, or modify existing Indirect Cost Recovery Exclusions By Account."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount" p:parameterName="INDIRECT_COST_RECOVERY_EXCLUSION_BY_ACCOUNT"/>
     </property>
-    <property name="documentTypeName" value="ICRA" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryExclusionAccountPreRules" />
+    <property name="documentTypeName" value="ICRA"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryExclusionAccountPreRules"/>
     <property name="workflowAttributes">
-    	<ref bean="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes" />
+    	<ref bean="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-EditICRExclusionAccount" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-EditICRExclusionAccount-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-EditICRExclusionAccount" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-EditICRExclusionAccount-parentBean"/>
 
   <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-EditICRExclusionAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit ICR Exclusion Account" />
-    <property name="title" value="Edit ICR Exclusion Account" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit ICR Exclusion Account"/>
+    <property name="title" value="Edit ICR Exclusion Account"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="accountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectChartOfAccountCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectCode"
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectChartOfAccountCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
       </list>
     </property>
   </bean>
   
     <!-- workflow attributes -->
-  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes" parent="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

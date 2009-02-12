@@ -1,68 +1,54 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-parentBean" />
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-parentBean"/>
 
   <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole" />
+        <ref bean="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>personRoleCode</value>
       </list>
     </property>
-    <property name="label" value="Contracts And Grants Role Code" />
-    <property name="shortLabel" value="C G Role" />
-    <property name="summary" value="Person Role maintenance document" />
-    <property name="description" value="Document used to create or update Person Role objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode" p:parameterName="CONTRACTS_AND_GRANTS_ROLE_CODE" />
+    <property name="label" value="Contracts And Grants Role Code"/>
+    <property name="shortLabel" value="C G Role"/>
+    <property name="summary" value="Person Role maintenance document"/>
+    <property name="description" value="Document used to create or update Person Role objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ContractsAndGrantsRoleCode" p:parameterName="CONTRACTS_AND_GRANTS_ROLE_CODE"/>
     </property>
-    <property name="documentTypeName" value="PRSN" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="workflowAttributes" >
-      <ref bean="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowAttributes" />
+    <property name="documentTypeName" value="PRSN"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+      <ref bean="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole-parentBean" />
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole-parentBean"/>
 
   <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-EditPersonRole-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Contracts And Grants Role Code" />
-    <property name="title" value="Edit Contracts And Grants Role Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Contracts And Grants Role Code"/>
+    <property name="title" value="Edit Contracts And Grants Role Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personRoleCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personRoleDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personRoleSortNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="personRoleCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personRoleDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personRoleSortNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
 
   <!-- workflow attributes -->
-  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowAttributes" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowAttributes" parent="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="ContractsAndGrantsRoleCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -1,196 +1,140 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CustomerMaintenanceDocument" parent="CustomerMaintenanceDocument-parentBean" />
+  <bean id="CustomerMaintenanceDocument" parent="CustomerMaintenanceDocument-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.Customer" />
-    <property name="maintainableClass" value="org.kuali.kfs.module.ar.document.CustomerMaintenableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.Customer"/>
+    <property name="maintainableClass" value="org.kuali.kfs.module.ar.document.CustomerMaintenableImpl"/>
    
-    <property name="maintainableSections" >
+    <property name="maintainableSections">
       <list>
-        <ref bean="CustomerMaintenanceDocument-GeneralInformation" />
-        <ref bean="CustomerMaintenanceDocument-CorporateInformation" />
-        <ref bean="CustomerMaintenanceDocument-ContactInformation" />
-        <ref bean="CustomerMaintenanceDocument-Addresses" />
+        <ref bean="CustomerMaintenanceDocument-GeneralInformation"/>
+        <ref bean="CustomerMaintenanceDocument-CorporateInformation"/>
+        <ref bean="CustomerMaintenanceDocument-ContactInformation"/>
+        <ref bean="CustomerMaintenanceDocument-Addresses"/>
       </list>
     </property>
 
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="customerType"
-              p:attributeToHighlightOnFail="customerTypeCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="customerParentCompany"
-              p:attributeToHighlightOnFail="customerParentCompanyNumber" />
+        <bean parent="ReferenceDefinition" p:attributeName="customerType" p:attributeToHighlightOnFail="customerTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="customerParentCompany" p:attributeToHighlightOnFail="customerParentCompanyNumber"/>
       </list>
     </property>    
 
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>customerNumber</value>
       </list>
     </property>
 
-    <property name="label" value="Customer" />
-    <property name="shortLabel" value="Customer" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.businessobject.Customer" p:parameterName="CUSTOMER" />
+    <property name="label" value="Customer"/>
+    <property name="shortLabel" value="Customer"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.businessobject.Customer" p:parameterName="CUSTOMER"/>
     </property>
-    <property name="documentTypeName" value="CUS" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerRule" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerPreRules" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerAuthorizer" />
-    <property name="webScriptFiles" >
+    <property name="documentTypeName" value="CUS"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerRule"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerPreRules"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerAuthorizer"/>
+    <property name="webScriptFiles">
       <list>
         <value>../scripts/ar/customerAddress.js</value>
       </list>
     </property>
     <property name="workflowAttributes">
-    	<ref bean="CustomerMaintenanceDocument-workflowAttributes" />
+    	<ref bean="CustomerMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="CustomerMaintenanceDocument-GeneralInformation" parent="CustomerMaintenanceDocument-GeneralInformation-parentBean" />
+  <bean id="CustomerMaintenanceDocument-GeneralInformation" parent="CustomerMaintenanceDocument-GeneralInformation-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-GeneralInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="General Information" />
-    <property name="title" value="General Information" />
-    <property name="maintainableItems" >
+    <property name="id" value="General Information"/>
+    <property name="title" value="General Information"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerName"
-              p:webUILeaveFieldFunction="setCustomerAddressName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerRecordAddDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerLastActivityDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerAddressChangeDate"
-              p:unconditionallyReadOnly="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="customerNumber" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerName" p:webUILeaveFieldFunction="setCustomerAddressName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerRecordAddDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerLastActivityDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerAddressChangeDate" p:unconditionallyReadOnly="true"/>
 
       </list>
     </property>
   </bean>
   
-  <bean id="CustomerMaintenanceDocument-CorporateInformation" parent="CustomerMaintenanceDocument-CorporateInformation-parentBean" />
+  <bean id="CustomerMaintenanceDocument-CorporateInformation" parent="CustomerMaintenanceDocument-CorporateInformation-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-CorporateInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Corporate Information" />
-    <property name="title" value="Corporate Information" />
-    <property name="maintainableItems" >
+    <property name="id" value="Corporate Information"/>
+    <property name="title" value="Corporate Information"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerTaxNbr" />   
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerTaxTypeCode" />       
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerTaxExemptIndicator"
-              p:defaultValue="false" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerCreditApprovedByName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerCreditLimitAmount" />
+        <bean parent="MaintainableFieldDefinition" p:name="customerTaxNbr"/>   
+        <bean parent="MaintainableFieldDefinition" p:name="customerTaxTypeCode"/>       
+        <bean parent="MaintainableFieldDefinition" p:name="customerTaxExemptIndicator" p:defaultValue="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerCreditApprovedByName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerCreditLimitAmount"/>
       </list>
     </property>
   </bean>
   
-  <bean id="CustomerMaintenanceDocument-ContactInformation" parent="CustomerMaintenanceDocument-ContactInformation-parentBean" />
+  <bean id="CustomerMaintenanceDocument-ContactInformation" parent="CustomerMaintenanceDocument-ContactInformation-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-ContactInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Contact Information" />
-    <property name="title" value="Contact Information" />
-    <property name="maintainableItems" >
+    <property name="id" value="Contact Information"/>
+    <property name="title" value="Contact Information"/>
+    <property name="maintainableItems">
       <list>  
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerBirthDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerEmailAddress" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerPhoneNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customer800PhoneNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerFaxNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerContactName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerContactPhoneNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="customerBirthDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerEmailAddress"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerPhoneNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customer800PhoneNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerFaxNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerContactName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerContactPhoneNumber"/>
 
       </list>
     </property>
   </bean>
     
-  <bean id="CustomerMaintenanceDocument-Addresses" parent="CustomerMaintenanceDocument-Addresses-parentBean" />
+  <bean id="CustomerMaintenanceDocument-Addresses" parent="CustomerMaintenanceDocument-Addresses-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-Addresses-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Addresses" />
-    <property name="title" value="Addresses" />
-    <property name="maintainableItems" >
+    <property name="id" value="Addresses"/>
+    <property name="title" value="Addresses"/>
+    <property name="maintainableItems">
       <list>
       <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="customerAddresses" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerAddress" />
-          <property name="summaryFields" >
+          <property name="name" value="customerAddresses"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerAddress"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressTypeCode" />
+              <bean parent="MaintainableFieldDefinition" p:name="customerAddressName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerAddressTypeCode"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressTypeCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressName"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerLine1StreetAddress"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerLine2StreetAddress" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerCityName"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerStateCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerZipCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressInternationalProvinceName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerInternationalMailCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerCountryCode"
-                    p:required="true" /> 
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerEmailAddress" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressEndDate" />     
+              <bean parent="MaintainableFieldDefinition" p:name="customerAddressIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerAddressTypeCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerAddressName" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerLine1StreetAddress" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerLine2StreetAddress"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerCityName" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerStateCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerZipCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerAddressInternationalProvinceName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerInternationalMailCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerCountryCode" p:required="true"/> 
+              <bean parent="MaintainableFieldDefinition" p:name="customerEmailAddress"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerAddressEndDate"/>     
             </list>
           </property>
         </bean>
@@ -198,7 +142,7 @@
         </property>
         </bean>
         
-  <bean id="CustomerMaintenanceDocument-workflowAttributes" parent="CustomerMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="CustomerMaintenanceDocument-workflowAttributes" parent="CustomerMaintenanceDocument-workflowAttributes-parentBean"/>
 	
   <bean id="CustomerMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
   </bean>        

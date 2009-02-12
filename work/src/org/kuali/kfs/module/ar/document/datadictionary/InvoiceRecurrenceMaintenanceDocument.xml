@@ -1,100 +1,73 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="InvoiceRecurrenceMaintenanceDocument" parent="InvoiceRecurrenceMaintenanceDocument-parentBean" />
+  <bean id="InvoiceRecurrenceMaintenanceDocument" parent="InvoiceRecurrenceMaintenanceDocument-parentBean"/>
 
   <bean id="InvoiceRecurrenceMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence" />
-    <property name="maintainableClass" value="org.kuali.kfs.module.ar.document.InvoiceRecurrenceMaintainable" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence"/>
+    <property name="maintainableClass" value="org.kuali.kfs.module.ar.document.InvoiceRecurrenceMaintainable"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="InvoiceRecurrenceMaintenanceDocument-EditInvoiceRecurrence" />
+        <ref bean="InvoiceRecurrenceMaintenanceDocument-EditInvoiceRecurrence"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>invoiceNumber</value>
       </list>
     </property>
-    <property name="label" value="Invoice Recurrence" />
-    <property name="shortLabel" value="InvRcurrnc" />
-    <property name="documentTypeName" value="INVR" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrencePreRules" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrenceRule" />
-    <property name="webScriptFiles" >
+    <property name="label" value="Invoice Recurrence"/>
+    <property name="shortLabel" value="InvRcurrnc"/>
+    <property name="documentTypeName" value="INVR"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrencePreRules"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrenceRule"/>
+    <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/CustomerInvoiceDocumentService.js</value>
         <value>../scripts/ar/customerInvoiceObjectInfo.js</value>
       </list>
     </property>
     <property name="workflowAttributes">
-    	<ref bean="InvoiceRecurrenceMaintenanceDocument-workflowAttributes" />
+    	<ref bean="InvoiceRecurrenceMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="InvoiceRecurrenceMaintenanceDocument-EditInvoiceRecurrence" parent="InvoiceRecurrenceMaintenanceDocument-EditInvoiceRecurrence-parentBean" />
+  <bean id="InvoiceRecurrenceMaintenanceDocument-EditInvoiceRecurrence" parent="InvoiceRecurrenceMaintenanceDocument-EditInvoiceRecurrence-parentBean"/>
 
   <bean id="InvoiceRecurrenceMaintenanceDocument-EditInvoiceRecurrence-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Invoice Recurrence" />
-    <property name="title" value="Edit Invoice Recurrence" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Invoice Recurrence"/>
+    <property name="title" value="Edit Invoice Recurrence"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="invoiceNumber"
-              p:required="true"
-              p:webUILeaveFieldFunction="loadCustomerNumberAndName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerNumber"
-              p:unconditionallyReadOnly="true"
-              p:required="false" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customer.customerName"
-              p:unconditionallyReadOnly="true"
-              p:required="false" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="documentRecurrenceBeginDate"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="documentRecurrenceEndDate"
-              p:required="false" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="documentTotalRecurrenceNumber"
-              p:required="false" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="documentRecurrenceIntervalCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="documentInitiatorUserIdentifier"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="documentInitiatorUser.principalName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="documentInitiatorUser.name" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="invoiceNumber" p:required="true" p:webUILeaveFieldFunction="loadCustomerNumberAndName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerNumber" p:unconditionallyReadOnly="true" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customer.customerName" p:unconditionallyReadOnly="true" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="documentRecurrenceBeginDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="documentRecurrenceEndDate" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="documentTotalRecurrenceNumber" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="documentRecurrenceIntervalCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="documentInitiatorUserIdentifier" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="documentInitiatorUser.principalName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="documentInitiatorUser.name"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
 <!-- Start - Workflow Attribute Beans -->  
-    <bean id="InvoiceRecurrenceMaintenanceDocument-workflowAttributes" parent="InvoiceRecurrenceMaintenanceDocument-workflowAttributes-parentBean" />
+    <bean id="InvoiceRecurrenceMaintenanceDocument-workflowAttributes" parent="InvoiceRecurrenceMaintenanceDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="InvoiceRecurrenceMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-InvoiceRecurrenceMaintenanceDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-InvoiceRecurrenceMaintenanceDocument-accountNumber" />
+    			<ref bean="SearchingType-InvoiceRecurrenceMaintenanceDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-InvoiceRecurrenceMaintenanceDocument-accountNumber"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account-sourceOnly" />
+    			<entry key="Account" value-ref="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account-sourceOnly"/>
     		</map>
     	</property>
 	</bean>  
@@ -102,25 +75,25 @@
 	 <bean id="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account-sourceOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-accountNumber" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-accountNumber"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="DocumentValuePathGroup-InvoiceRecurrenceMaintenanceDocument-Account-sourceAccountingLines" />
+    			<ref bean="DocumentValuePathGroup-InvoiceRecurrenceMaintenanceDocument-Account-sourceAccountingLines"/>
     		</list>
     	</property>
     </bean>
 	<bean id="DocumentValuePathGroup-InvoiceRecurrenceMaintenanceDocument-Account-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 	<property name="documentCollectionPath">
 		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
-			<property name="collectionPath" value="newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines" />
+			<property name="collectionPath" value="newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines"/>
 		</bean>
 	</property>
 	</bean>
 	<bean id="SearchingType-InvoiceRecurrenceMaintenanceDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
         <property name="documentValues">
         	<list>
         		<value>newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines.chartOfAccountsCode</value>
@@ -128,7 +101,7 @@
         </property>
     </bean>
     <bean id="SearchingType-InvoiceRecurrenceMaintenanceDocument-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-accountNumber" />
+        <property name="searchingAttribute" ref="SearchingAttribute-accountNumber"/>
         <property name="documentValues">
         	<list>
         		<value>newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines.accountNumber</value>
@@ -136,4 +109,3 @@
         </property>
     </bean>     
 </beans>
-

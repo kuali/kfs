@@ -1,57 +1,47 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AdvanceDepositDocument" parent="AdvanceDepositDocument-parentBean" />
+  <bean id="AdvanceDepositDocument" parent="AdvanceDepositDocument-parentBean"/>
 
   <bean id="AdvanceDepositDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="label" value="Advance Deposit" />
-    <property name="shortLabel" value="Advance Deposit" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="An Advanced Deposit (AD) document is used to record advance deposits that go straight to the bank from a departmental unit, without being verified through the normal cash receipting process. This document allows for distribution of the monetary amount received, into the appropriate accounts in the financial system. Once submitted, an Advance Deposit document routes straight to FINAL and is applied to the General Ledger." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.AdvanceDepositDocument" p:parameterName="ADVANCE_DEPOSIT" />
+    <property name="label" value="Advance Deposit"/>
+    <property name="shortLabel" value="Advance Deposit"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="An Advanced Deposit (AD) document is used to record advance deposits that go straight to the bank from a departmental unit, without being verified through the normal cash receipting process. This document allows for distribution of the monetary amount received, into the appropriate accounts in the financial system. Once submitted, an Advance Deposit document routes straight to FINAL and is applied to the General Ledger."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.AdvanceDepositDocument" p:parameterName="ADVANCE_DEPOSIT"/>
     </property>
-    <property name="documentTypeName" value="AD" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.AdvanceDepositDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules" />
-    <property name="sessionDocument" value="true" />
+    <property name="documentTypeName" value="AD"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.AdvanceDepositDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositDocumentAuthorizer"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules"/>
+    <property name="sessionDocument" value="true"/>
     
-    <property name="allowsCopy" value="true" />
+    <property name="allowsCopy" value="true"/>
     <property name="allowsErrorCorrection" value="false"/>
     
-    <property name="validationMap" ref="AdvanceDepositDocument-validations" />
+    <property name="validationMap" ref="AdvanceDepositDocument-validations"/>
      <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="AdvanceDepositDocument-sourceAccountingLineGroup" />
+	    		<ref bean="AdvanceDepositDocument-sourceAccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
     <property name="workflowAttributes">
-    	<ref bean="AdvanceDepositDocument-workflowAttributes" />
+    	<ref bean="AdvanceDepositDocument-workflowAttributes"/>
     </property>
     
-    <property name="defaultExistenceChecks" >
-        <bean parent="ReferenceDefinition"
-              p:attributeName="bank"
-              p:collection="advanceDeposits"
-              p:attributeToHighlightOnFail="bank"/>
+    <property name="defaultExistenceChecks">
+        <bean parent="ReferenceDefinition" p:attributeName="bank" p:collection="advanceDeposits" p:attributeToHighlightOnFail="bank"/>
     </property>
     
   </bean>
   
      <!-- Validations -->
   
-  <bean id="AdvanceDepositDocument-validations" parent="AdvanceDepositDocument-validations-parentBean" />
+  <bean id="AdvanceDepositDocument-validations" parent="AdvanceDepositDocument-validations-parentBean"/>
   
   <bean id="AdvanceDepositDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -80,53 +70,50 @@
     </property>
   </bean>
       <!-- accounting line groups -->
-  <bean id="AdvanceDepositDocument-sourceAccountingLineGroup" parent="AdvanceDepositDocument-sourceAccountingLineGroup-parentBean" />
+  <bean id="AdvanceDepositDocument-sourceAccountingLineGroup" parent="AdvanceDepositDocument-sourceAccountingLineGroup-parentBean"/>
   
   <bean id="AdvanceDepositDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="AdvanceDeposit-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	  <property name="accountingLineView" ref="AdvanceDeposit-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value=""/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
 	</bean>
-	<bean id="AdvanceDeposit-accountingLineView" parent="AdvanceDeposit-accountingLineView-parent" />
+	<bean id="AdvanceDeposit-accountingLineView" parent="AdvanceDeposit-accountingLineView-parent"/>
 	<bean id="AdvanceDeposit-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 	<property name="elements">
 		<list>
-			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-sequenceNumber"/>
 			<bean parent="AccountingLineView-lines">
 				<property name="lines">
 					<list>
-						<ref bean="accountingInformation" />
+						<ref bean="accountingInformation"/>
 						<bean parent="AccountingLineView-line">
-							<property name="elementName" value="lineDescription" />
+							<property name="elementName" value="lineDescription"/>
 							<property name="fields">
 								<list>
-									<bean parent="AccountingLineView-field"
-										p:name="financialDocumentLineDescription"
-										p:overrideColSpan="3" />
+									<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="3"/>
 								</list>
 							</property>
 						</bean>
 					</list>
 				</property>
 			</bean>
-			<bean parent="AccountingLineView-field" p:name="amount"
-				p:required="true" />
-			<bean parent="AccountingLineView-actions" />
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-actions"/>
 		</list>
 	</property>
 </bean>
 
-	<bean id="AdvanceDepositDocument-workflowAttributes" parent="AdvanceDepositDocument-workflowAttributes-parentBean" />
+	<bean id="AdvanceDepositDocument-workflowAttributes" parent="AdvanceDepositDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="AdvanceDepositDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
     		</list>
     	</property>
 	</bean>

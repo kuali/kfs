@@ -1,62 +1,51 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AccountingChangeCodeMaintenanceDocument" parent="AccountingChangeCodeMaintenanceDocument-parentBean" />
+  <bean id="AccountingChangeCodeMaintenanceDocument" parent="AccountingChangeCodeMaintenanceDocument-parentBean"/>
 
   <bean id="AccountingChangeCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AccountingChangeCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AccountingChangeCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="AccountingChangeCodeMaintenanceDocument-EditAccountingChangeCode" />
+        <ref bean="AccountingChangeCodeMaintenanceDocument-EditAccountingChangeCode"/>
       </list>
     </property>
     
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Accounting Change Code" />
-    <property name="shortLabel" value="Accounting Change Code" />
-    <property name="summary" value="Accounting Change Code Maintenance Document" />
-    <property name="description" value="Document used to create or update Disbursement Type Descriptions" />
-    <property name="documentTypeName" value="ACTC" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="allowsNewOrCopy" value="false" />
+    <property name="label" value="Accounting Change Code"/>
+    <property name="shortLabel" value="Accounting Change Code"/>
+    <property name="summary" value="Accounting Change Code Maintenance Document"/>
+    <property name="description" value="Document used to create or update Disbursement Type Descriptions"/>
+    <property name="documentTypeName" value="ACTC"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="allowsNewOrCopy" value="false"/>
     <property name="workflowAttributes">
-    	<ref bean="AccountingChangeCodeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="AccountingChangeCodeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="AccountingChangeCodeMaintenanceDocument-EditAccountingChangeCode" parent="AccountingChangeCodeMaintenanceDocument-EditAccountingChangeCode-parentBean" />
+  <bean id="AccountingChangeCodeMaintenanceDocument-EditAccountingChangeCode" parent="AccountingChangeCodeMaintenanceDocument-EditAccountingChangeCode-parentBean"/>
 
   <bean id="AccountingChangeCodeMaintenanceDocument-EditAccountingChangeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Accounting Change Code" />
-    <property name="title" value="Accounting Change Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Accounting Change Code"/>
+    <property name="title" value="Accounting Change Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="name"
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="AccountingChangeCodeMaintenanceDocument-workflowAttributes" parent="AccountingChangeCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="AccountingChangeCodeMaintenanceDocument-workflowAttributes" parent="AccountingChangeCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="AccountingChangeCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="AccountingChangeCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

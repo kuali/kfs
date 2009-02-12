@@ -1,66 +1,53 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="SufficientFundsCodeMaintenanceDocument" parent="SufficientFundsCodeMaintenanceDocument-parentBean" />
+  <bean id="SufficientFundsCodeMaintenanceDocument" parent="SufficientFundsCodeMaintenanceDocument-parentBean"/>
 
   <bean id="SufficientFundsCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SufficientFundsCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SufficientFundsCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="SufficientFundsCodeMaintenanceDocument-EditSufficientFundCode" />
+        <ref bean="SufficientFundsCodeMaintenanceDocument-EditSufficientFundCode"/>
       </list>
     </property>
-    <property name="allowsNewOrCopy" value="false" />
-    <property name="lockingKeys" >
+    <property name="allowsNewOrCopy" value="false"/>
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Sufficient Funds Code Maintenance Document" />
-    <property name="shortLabel" value="SuffFundsCdMaintDoc" />
-    <property name="summary" value="Sufficient Funds Code Maintenance Document" />
-    <property name="description" value="Document used to update Sufficient Fund Code objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SufficientFundsCode" p:parameterName="SUFFICIENT_FUNDS_CODE" />
+    <property name="label" value="Sufficient Funds Code Maintenance Document"/>
+    <property name="shortLabel" value="SuffFundsCdMaintDoc"/>
+    <property name="summary" value="Sufficient Funds Code Maintenance Document"/>
+    <property name="description" value="Document used to update Sufficient Fund Code objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SufficientFundsCode" p:parameterName="SUFFICIENT_FUNDS_CODE"/>
     </property>
-    <property name="documentTypeName" value="SFC" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="SFC"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="SufficientFundsCodeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="SufficientFundsCodeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="SufficientFundsCodeMaintenanceDocument-EditSufficientFundCode" parent="SufficientFundsCodeMaintenanceDocument-EditSufficientFundCode-parentBean" />
+  <bean id="SufficientFundsCodeMaintenanceDocument-EditSufficientFundCode" parent="SufficientFundsCodeMaintenanceDocument-EditSufficientFundCode-parentBean"/>
 
   <bean id="SufficientFundsCodeMaintenanceDocument-EditSufficientFundCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Sufficient Fund Code" />
-    <property name="title" value="Edit Sufficient Fund Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Sufficient Fund Code"/>
+    <property name="title" value="Edit Sufficient Fund Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="name"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="SufficientFundsCodeMaintenanceDocument-workflowAttributes" parent="SufficientFundsCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="SufficientFundsCodeMaintenanceDocument-workflowAttributes" parent="SufficientFundsCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="SufficientFundsCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="SufficientFundsCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

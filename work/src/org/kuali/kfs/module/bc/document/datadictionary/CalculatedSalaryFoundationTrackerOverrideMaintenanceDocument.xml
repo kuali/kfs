@@ -1,41 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument" parent="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-parentBean" />
+  <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument" parent="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-parentBean"/>
 
   <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTrackerOverride" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTrackerOverride"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-EditCalculatedSalaryFoundationTrackerOverride" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-EditCalculatedSalaryFoundationTrackerOverride"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chartOfAccounts"
-              p:attributeToHighlightOnFail="chartOfAccountsCode"
-              p:displayFieldName="Chart Of Accounts Code" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="account"
-              p:attributeToHighlightOnFail="accountNumber"
-              p:displayFieldName="Account Number" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialObject"
-              p:attributeToHighlightOnFail="financialObjectCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="universityFiscal"
-              p:attributeToHighlightOnFail="universityFiscalYear" />
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode" p:displayFieldName="Chart Of Accounts Code"/>
+        <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber" p:displayFieldName="Account Number"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialObject" p:attributeToHighlightOnFail="financialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="universityFiscal" p:attributeToHighlightOnFail="universityFiscalYear"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>universityFiscalYear</value>
         <value>chartOfAccountsCode</value>
@@ -47,75 +30,48 @@
         <value>emplid</value>
       </list>
     </property>
-    <property name="label" value="Calculated Salary Foundation Tracker Override" />
-    <property name="shortLabel" value="CSF Tracker Maint Override Doc" />
-    <property name="summary" value="Calculated Salary Foundation Tracker Override Maintenance Document" />
-    <property name="description" value="Document used to create or update Calculated Salary Foundation Tracker Override Maintenance Document objects" />
-    <property name="documentTypeName" value="CSFO" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.CalculatedSalaryFoundationTrackerOverrideRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="label" value="Calculated Salary Foundation Tracker Override"/>
+    <property name="shortLabel" value="CSF Tracker Maint Override Doc"/>
+    <property name="summary" value="Calculated Salary Foundation Tracker Override Maintenance Document"/>
+    <property name="description" value="Document used to create or update Calculated Salary Foundation Tracker Override Maintenance Document objects"/>
+    <property name="documentTypeName" value="CSFO"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.CalculatedSalaryFoundationTrackerOverrideRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes" />
+    	<ref bean="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-EditCalculatedSalaryFoundationTrackerOverride" parent="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-EditCalculatedSalaryFoundationTrackerOverride-parentBean" />
+  <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-EditCalculatedSalaryFoundationTrackerOverride" parent="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-EditCalculatedSalaryFoundationTrackerOverride-parentBean"/>
 
   <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-EditCalculatedSalaryFoundationTrackerOverride-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Calculated Salary Foundation Tracker Override" />
-    <property name="title" value="Edit Calculated Salary Foundation Tracker Override" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Calculated Salary Foundation Tracker Override"/>
+    <property name="title" value="Edit Calculated Salary Foundation Tracker Override"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="accountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subAccountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialSubObjectCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="positionNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="emplid"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="csfAmount"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="csfFullTimeEmploymentQuantity"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="csfTimePercent"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="csfFundingStatusCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="csfDeleteCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="emplid" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="csfAmount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="csfFullTimeEmploymentQuantity" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="csfTimePercent" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="csfFundingStatusCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="csfDeleteCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes" parent="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes" parent="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes-parentBean"/>
   
   <bean id="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>

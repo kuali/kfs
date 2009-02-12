@@ -1,84 +1,76 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CashControlDocument" parent="CashControlDocument-parentBean" />
+  <bean id="CashControlDocument" parent="CashControlDocument-parentBean"/>
 
   <bean id="CashControlDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Cash Control" />
-    <property name="shortLabel" value="Cash Control" />
-    <property name="documentTypeName" value="CTRL" />
-    <property name="documentClass" value="org.kuali.kfs.module.ar.document.CashControlDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentRule" />
+    <property name="label" value="Cash Control"/>
+    <property name="shortLabel" value="Cash Control"/>
+    <property name="documentTypeName" value="CTRL"/>
+    <property name="documentClass" value="org.kuali.kfs.module.ar.document.CashControlDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentRule"/>
 <!-- the following businessRuleClass should be used for granular validations, if implemented
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
 -->
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentPresentationController" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentPresentationController"/>
     <property name="allowsErrorCorrection" value="false"/>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="customerPaymentMedium"
-              p:attributeToHighlightOnFail="customerPaymentMediumCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="customerPaymentMedium" p:attributeToHighlightOnFail="customerPaymentMediumCode"/>
       </list>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="CashControlDocument-referenceFinancialDocumentNumber" />
-        <ref bean="CashControlDocument-customerPaymentMediumCode" />
-        <ref bean="CashControlDocument-bankCode" />
+        <ref bean="CashControlDocument-referenceFinancialDocumentNumber"/>
+        <ref bean="CashControlDocument-customerPaymentMediumCode"/>
+        <ref bean="CashControlDocument-bankCode"/>
       </list>
     </property>
-    <property name="workflowAttributes" >
-      <ref bean="CashControlDocument-workflowAttributes" />
+    <property name="workflowAttributes">
+      <ref bean="CashControlDocument-workflowAttributes"/>
     </property>
-    <property name="validationMap" ref="CashControlDocument-validations" />
+    <property name="validationMap" ref="CashControlDocument-validations"/>
   </bean>
 
 <!-- Attribute Definitions -->
 
 
-  <bean id="CashControlDocument-referenceFinancialDocumentNumber" parent="CashControlDocument-referenceFinancialDocumentNumber-parentBean" />
+  <bean id="CashControlDocument-referenceFinancialDocumentNumber" parent="CashControlDocument-referenceFinancialDocumentNumber-parentBean"/>
 
   <bean id="CashControlDocument-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="label" value="Reference Document Number" />
-    <property name="shortLabel" value="Reference Document Number" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="referenceFinancialDocumentNumber"/>
+    <property name="label" value="Reference Document Number"/>
+    <property name="shortLabel" value="Reference Document Number"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
   </bean>
-  <bean id="CashControlDocument-customerPaymentMediumCode" parent="CashControlDocument-customerPaymentMediumCode-parentBean" />
+  <bean id="CashControlDocument-customerPaymentMediumCode" parent="CashControlDocument-customerPaymentMediumCode-parentBean"/>
 
   <bean id="CashControlDocument-customerPaymentMediumCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerPaymentMediumCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Payment Medium Code" />
-    <property name="shortLabel" value="Medium Code" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.PaymentMediumValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="customerPaymentMediumCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Payment Medium Code"/>
+    <property name="shortLabel" value="Medium Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.PaymentMediumValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   
-  <bean id="CashControlDocument-bankCode" parent="CashControlDocument-bankCode-parentBean" />
+  <bean id="CashControlDocument-bankCode" parent="CashControlDocument-bankCode-parentBean"/>
 
   <bean id="CashControlDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
-    <property name="name" value="bankCode" />
-    <property name="label" value="Bank Code" />
-    <property name="shortLabel" value="Bank Code" />
-    <property name="required" value="false" />
+    <property name="name" value="bankCode"/>
+    <property name="label" value="Bank Code"/>
+    <property name="shortLabel" value="Bank Code"/>
+    <property name="required" value="false"/>
   </bean>
   
 <!-- Start - Workflow Attribute Beans -->  
 
-  <bean id="CashControlDocument-DocumentValuePathGroup" parent="CashControlDocument-DocumentValuePathGroup-parentBean" />
+  <bean id="CashControlDocument-DocumentValuePathGroup" parent="CashControlDocument-DocumentValuePathGroup-parentBean"/>
   <bean id="CashControlDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 			<list>
@@ -88,44 +80,44 @@
 		</property>
   </bean>
   
-  <bean id="RoutingType-CashControlDocument-Lockbox" parent="RoutingType-CashControlDocument-parentBean" />    			
+  <bean id="RoutingType-CashControlDocument-Lockbox" parent="RoutingType-CashControlDocument-parentBean"/>    			
   <bean id="RoutingType-CashControlDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-organizationCode" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-organizationCode"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="CashControlDocument-DocumentValuePathGroup" />    			
+    			<ref bean="CashControlDocument-DocumentValuePathGroup"/>    			
     		</list>
     	</property>
     </bean>
     
-	<bean id="CashControlDocument-workflowAttributes" parent="CashControlDocument-workflowAttributes-parentBean" />
+	<bean id="CashControlDocument-workflowAttributes" parent="CashControlDocument-workflowAttributes-parentBean"/>
 	<bean id="CashControlDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-	   			<ref bean="SearchingType-CashControlDocument-customerNumber" />
-   				<ref bean="SearchingType-CashControlDocument-customerName" />
-	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode" />
-   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode" />
-    			<ref bean="SearchingType-CashControlDocument-lockboxNumber" />
-    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumCode" />
-    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumIdentifier" />
+	   			<ref bean="SearchingType-CashControlDocument-customerNumber"/>
+   				<ref bean="SearchingType-CashControlDocument-customerName"/>
+	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode"/>
+   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode"/>
+    			<ref bean="SearchingType-CashControlDocument-lockboxNumber"/>
+    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumCode"/>
+    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumIdentifier"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Lockbox" value-ref="RoutingType-CashControlDocument-Lockbox" />
+    			<entry key="Lockbox" value-ref="RoutingType-CashControlDocument-Lockbox"/>
     		</map>
     	</property>
 	</bean>
 
 
     <bean id="SearchingType-CashControlDocument-lockboxNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-lockboxNumber" />
+        <property name="searchingAttribute" ref="SearchingAttribute-lockboxNumber"/>
         <property name="documentValues">
         	<list>
         		<value>lockboxNumber</value>
@@ -133,7 +125,7 @@
         </property>
     </bean>
     <bean id="SearchingType-CashControlDocument-customerPaymentMediumCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-customerPaymentMediumCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-customerPaymentMediumCode"/>
         <property name="documentValues">
         	<list>
         		<value>customerPaymentMediumCode</value>
@@ -141,7 +133,7 @@
         </property>
     </bean>
     <bean id="SearchingType-CashControlDocument-customerPaymentMediumIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-customerPaymentMediumIdentifier" />
+        <property name="searchingAttribute" ref="SearchingAttribute-customerPaymentMediumIdentifier"/>
         <property name="documentValues">
         	<list>
         		<value>cashControlDetails.customerPaymentMediumIdentifier</value>
@@ -152,24 +144,24 @@
 
 
 
-  <bean id="RoutingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode" />
+  <bean id="RoutingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode"/>
 
   <bean id="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode" abstract="true">
-	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
-	<property name="attributeName" value="processingChartOfAccountCode" />
+	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader"/>
+	<property name="attributeName" value="processingChartOfAccountCode"/>
   </bean>
 
-  <bean id="RoutingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingOrganizationCode" />
+  <bean id="RoutingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingOrganizationCode"/>
 
   <bean id="WorkflowAttribute-CashControlDocument-processingOrganizationCode" abstract="true">
-	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
-	<property name="attributeName" value="processingOrganizationCode" />
+	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader"/>
+	<property name="attributeName" value="processingOrganizationCode"/>
   </bean>
 
 
 <!--  Granular Validations -->
 
-  <bean id="CashControlDocument-validations" parent="CashControlDocument-validations-parentBean" />
+  <bean id="CashControlDocument-validations" parent="CashControlDocument-validations-parentBean"/>
   
   <bean id="CashControlDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">

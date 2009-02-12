@@ -1,55 +1,42 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="TaxRegionMaintenanceDocument" parent="TaxRegionMaintenanceDocument-parentBean" />
+  <bean id="TaxRegionMaintenanceDocument" parent="TaxRegionMaintenanceDocument-parentBean"/>
 
   <bean id="TaxRegionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegion" />
-    <property name="maintainableClass" value="org.kuali.kfs.sys.document.TaxRegionMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegion"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.TaxRegionMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionFields" />
-        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionRates" />
-        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionStates" />
-        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionCounties" />
-        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionPostalCodes" />
+        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionFields"/>
+        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionRates"/>
+        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionStates"/>
+        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionCounties"/>
+        <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionPostalCodes"/>
       </list>
     </property>
-    <property name="label" value="Tax Region" />
-    <property name="shortLabel" value="Tax Region" />
-    <property name="summary" value="Tax region maintenance document" />
-    <property name="description" value="Document used to create Tax Region objects" />
+    <property name="label" value="Tax Region"/>
+    <property name="shortLabel" value="Tax Region"/>
+    <property name="summary" value="Tax region maintenance document"/>
+    <property name="description" value="Document used to create Tax Region objects"/>
     
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chartOfAccounts"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="account"
-              p:attributeToHighlightOnFail="accountNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="objectCode"
-              p:attributeToHighlightOnFail="financialObjectCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="objectCode" p:attributeToHighlightOnFail="financialObjectCode"/>
       </list>
     </property>
     
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionMaintenanceDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionMaintenanceDocumentPresentationController" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionMaintenanceDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionMaintenanceDocumentPresentationController"/>
       
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.TaxRegionRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.TaxRegionRule"/>
     
-    <property name="authorizations" >
+    <property name="authorizations">
       <list>
         <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
+          <property name="action" value="initiate"/>
+          <property name="authorizedGroups">
             <set>
               <value>SY_MAINTENANCE_USERS</value>
             </set>
@@ -57,70 +44,64 @@
         </bean>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>taxRegionCode</value>
       </list>
     </property>
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.TaxRegion" p:parameterName="TAX_REGION" />
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.TaxRegion" p:parameterName="TAX_REGION"/>
     </property>
-    <property name="documentTypeName" value="TAXR" />
+    <property name="documentTypeName" value="TAXR"/>
     <property name="workflowAttributes">
-    	<ref bean="TaxRegionMaintenanceDocument-workflowAttributes" />
+    	<ref bean="TaxRegionMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionFields" parent="TaxRegionMaintenanceDocument-CreateTaxRegionFields-parentBean" />
+  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionFields" parent="TaxRegionMaintenanceDocument-CreateTaxRegionFields-parentBean"/>
 
   <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionFields-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="CreateTaxRegion" />
-    <property name="title" value="Create Tax Regions" />
-    <property name="maintainableItems" >
+    <property name="id" value="CreateTaxRegion"/>
+    <property name="title" value="Create Tax Regions"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="taxRegionCode" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="taxRegionName" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="taxRegionCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="taxRegionName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionTypeCode" p:unconditionallyReadOnly="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="taxRegionUseTaxIndicator" />
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="taxRegionUseTaxIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
 
-  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionRates" parent="TaxRegionMaintenanceDocument-CreateTaxRegionRates-parentBean" />
+  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionRates" parent="TaxRegionMaintenanceDocument-CreateTaxRegionRates-parentBean"/>
 
   <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionRates-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="TaxRegionRates" />
-    <property name="title" value="Tax Region Rates" />
-    <property name="maintainableItems" >
+    <property name="id" value="TaxRegionRates"/>
+    <property name="title" value="Tax Region Rates"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableCollectionDefinition"
-        	p:id="TaxRegionRatesSection"
-        	p:name="taxRegionRates"
-        	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionRate"
-        	p:includeMultipleLookupLine="false"
-        	p:summaryTitle="Effective Date/Rate"
-        	p:attributeToHighlightOnDuplicateKey="effectiveDate">
+        <bean parent="MaintainableCollectionDefinition" p:id="TaxRegionRatesSection" p:name="taxRegionRates" p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionRate" p:includeMultipleLookupLine="false" p:summaryTitle="Effective Date/Rate" p:attributeToHighlightOnDuplicateKey="effectiveDate">
         	<property name="duplicateIdentificationFields">
         		<list>
-        			<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
+        			<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"/>
         		</list>
         	</property>        	
         	<property name="summaryFields">
         		<list>
-	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="taxRate" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"/>
+	        		<bean parent="MaintainableFieldDefinition" p:name="taxRate"/>
         		</list>
         	</property>
         	<property name="maintainableFields">
         		<list>
-	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:readOnlyAfterAdd="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="taxRate" p:required="true" p:readOnlyAfterAdd="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:readOnlyAfterAdd="true"/>
+	        		<bean parent="MaintainableFieldDefinition" p:name="taxRate" p:required="true" p:readOnlyAfterAdd="true"/>
         		</list>
         	</property>
         </bean>
@@ -128,36 +109,30 @@
     </property>
   </bean>
   
-  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionStates" parent="TaxRegionMaintenanceDocument-CreateTaxRegionStates-parentBean" />
+  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionStates" parent="TaxRegionMaintenanceDocument-CreateTaxRegionStates-parentBean"/>
 
   <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionStates-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="TaxRegionStates" />
-    <property name="title" value="Tax Region States" />
-    <property name="maintainableItems" >
+    <property name="id" value="TaxRegionStates"/>
+    <property name="title" value="Tax Region States"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableCollectionDefinition"
-        	p:id="TaxRegionStatesSection"
-        	p:name="taxRegionStates"
-        	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionState"
-        	p:summaryTitle="States" 
-        	p:attributeToHighlightOnDuplicateKey="stateCode"
-        	>
+        <bean parent="MaintainableCollectionDefinition" p:id="TaxRegionStatesSection" p:name="taxRegionStates" p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionState" p:summaryTitle="States" p:attributeToHighlightOnDuplicateKey="stateCode">
         	<property name="duplicateIdentificationFields">
         		<list>
-        			<bean parent="MaintainableFieldDefinition" p:name="stateCode" />
+        			<bean parent="MaintainableFieldDefinition" p:name="stateCode"/>
         			<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode"/>
         		</list>
         	</property>        	
         	<property name="summaryFields">
         		<list>
-	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode"/>
         		</list>
         	</property>
         	<property name="maintainableFields">
         		<list>
-	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" p:required="true" />
-					<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true"/>
+	        		<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" p:required="true"/>
+					<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
         		</list>
         	</property>
         </bean>
@@ -165,39 +140,34 @@
     </property>
   </bean> 
   
-  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionCounties" parent="TaxRegionMaintenanceDocument-CreateTaxRegionCounties-parentBean" />
+  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionCounties" parent="TaxRegionMaintenanceDocument-CreateTaxRegionCounties-parentBean"/>
 
   <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionCounties-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="TaxRegionCounties" />
-    <property name="title" value="Tax Region Counties" />
-    <property name="maintainableItems" >
+    <property name="id" value="TaxRegionCounties"/>
+    <property name="title" value="Tax Region Counties"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableCollectionDefinition"
-        	p:id="TaxRegionCountiesSection"
-        	p:name="taxRegionCounties"
-        	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionCounty"
-			p:attributeToHighlightOnDuplicateKey="countyCode"
-        	p:summaryTitle="Counties">
+        <bean parent="MaintainableCollectionDefinition" p:id="TaxRegionCountiesSection" p:name="taxRegionCounties" p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionCounty" p:attributeToHighlightOnDuplicateKey="countyCode" p:summaryTitle="Counties">
         	<property name="duplicateIdentificationFields">
         		<list>
-        			<bean parent="MaintainableFieldDefinition" p:name="stateCode" />
-        			<bean parent="MaintainableFieldDefinition" p:name="countyCode" />
+        			<bean parent="MaintainableFieldDefinition" p:name="stateCode"/>
+        			<bean parent="MaintainableFieldDefinition" p:name="countyCode"/>
         			<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode"/>
         		</list>
         	</property>         	
         	<property name="summaryFields">
         		<list>
-	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="countyCode" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode"/>
+	        		<bean parent="MaintainableFieldDefinition" p:name="countyCode"/>
         		</list>
         	</property>
         	<property name="maintainableFields">
         		<list>
 	        		
-	        		<bean parent="MaintainableFieldDefinition" p:name="countyCode" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="countyCode" p:required="true"/>
+	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true"/>
+	        		<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" p:required="true"/>
+	        		<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
         		</list>
         	</property>
         </bean>
@@ -205,35 +175,30 @@
     </property>
   </bean>   
   
-  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionPostalCodes" parent="TaxRegionMaintenanceDocument-CreateTaxRegionPostalCodes-parentBean" />
+  <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionPostalCodes" parent="TaxRegionMaintenanceDocument-CreateTaxRegionPostalCodes-parentBean"/>
 
   <bean id="TaxRegionMaintenanceDocument-CreateTaxRegionPostalCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="TaxRegionPostalCodes" />
-    <property name="title" value="Tax Region Postal Codes" />
-    <property name="maintainableItems" >
+    <property name="id" value="TaxRegionPostalCodes"/>
+    <property name="title" value="Tax Region Postal Codes"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableCollectionDefinition"
-        	p:id="TaxRegionPostalCodesSection"
-        	p:name="taxRegionPostalCodes"
-        	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode"
-			p:attributeToHighlightOnDuplicateKey="postalCode"
-        	p:summaryTitle="Postal Codes">
+        <bean parent="MaintainableCollectionDefinition" p:id="TaxRegionPostalCodesSection" p:name="taxRegionPostalCodes" p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode" p:attributeToHighlightOnDuplicateKey="postalCode" p:summaryTitle="Postal Codes">
         	<property name="duplicateIdentificationFields">
         		<list>
-        			<bean parent="MaintainableFieldDefinition" p:name="postalCode" />
-        			<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" />
+        			<bean parent="MaintainableFieldDefinition" p:name="postalCode"/>
+        			<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode"/>
         		</list>
         	</property>        	
         	<property name="summaryFields">
         		<list>
-	        		<bean parent="MaintainableFieldDefinition" p:name="postalCode" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="postalCode"/>
         		</list>
         	</property>
         	<property name="maintainableFields">
         		<list>
-	        		<bean parent="MaintainableFieldDefinition" p:name="postalCode" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="postalCode" p:required="true"/>
+	        		<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" p:required="true"/>
+	        		<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
         		</list>
         	</property>
         </bean>
@@ -242,7 +207,7 @@
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="TaxRegionMaintenanceDocument-workflowAttributes" parent="TaxRegionMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="TaxRegionMaintenanceDocument-workflowAttributes" parent="TaxRegionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="TaxRegionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="TaxRegionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

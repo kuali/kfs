@@ -1,71 +1,53 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="OrganizationMaintenanceDocument" parent="OrganizationMaintenanceDocument-parentBean" />
+  <bean id="OrganizationMaintenanceDocument" parent="OrganizationMaintenanceDocument-parentBean"/>
 
   <bean id="OrganizationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Organization" />
-    <property name="maintainableClass" value="org.kuali.kfs.coa.document.KualiOrgMaintainable" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.KualiOrgMaintainable"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="OrganizationMaintenanceDocument-EditOrganizationCode" />
-        <ref bean="OrganizationMaintenanceDocument-EditPlantAccounts" />
-        <ref bean="OrganizationMaintenanceDocument-EditHRMSUnit" />
+        <ref bean="OrganizationMaintenanceDocument-EditOrganizationCode"/>
+        <ref bean="OrganizationMaintenanceDocument-EditPlantAccounts"/>
+        <ref bean="OrganizationMaintenanceDocument-EditHRMSUnit"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chartOfAccounts"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organizationManagerUniversal"
-              p:attributeToHighlightOnFail="organizationManagerUniversal.principalName" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="responsibilityCenter"
-              p:attributeToHighlightOnFail="responsibilityCenterCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organizationPhysicalCampus"
-              p:attributeToHighlightOnFail="organizationPhysicalCampusCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organizationType"
-              p:attributeToHighlightOnFail="organizationTypeCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="postalZip"
-              p:attributeToHighlightOnFail="organizationZipCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organizationCountry"
-              p:attributeToHighlightOnFail="organizationCountryCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationManagerUniversal" p:attributeToHighlightOnFail="organizationManagerUniversal.principalName"/>
+        <bean parent="ReferenceDefinition" p:attributeName="responsibilityCenter" p:attributeToHighlightOnFail="responsibilityCenterCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationPhysicalCampus" p:attributeToHighlightOnFail="organizationPhysicalCampusCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationType" p:attributeToHighlightOnFail="organizationTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="postalZip" p:attributeToHighlightOnFail="organizationZipCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationCountry" p:attributeToHighlightOnFail="organizationCountryCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>chartOfAccountsCode</value>
         <value>organizationCode</value>
       </list>
     </property>
-    <property name="label" value="Organization" />
-    <property name="shortLabel" value="Organization" />
-    <property name="summary" value="Organization maintenance document" />
-    <property name="description" value="Document used to create or update Organization objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.Organization" p:parameterName="ORGANIZATION" />
+    <property name="label" value="Organization"/>
+    <property name="shortLabel" value="Organization"/>
+    <property name="summary" value="Organization maintenance document"/>
+    <property name="description" value="Document used to create or update Organization objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.Organization" p:parameterName="ORGANIZATION"/>
     </property>
-    <property name="documentTypeName" value="ORGN" />
-    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrgPreRules" />
-    <property name="webScriptFiles" >
+    <property name="documentTypeName" value="ORGN"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrgPreRules"/>
+    <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/PostalCodeService.js</value>
         <value>../scripts/chart/organizationDocument.js</value>
       </list>
     </property>
-    <property name="workflowAttributes" >
-      <ref bean="OrganizationMaintenanceDocument-workflowAttributes" />
+    <property name="workflowAttributes">
+      <ref bean="OrganizationMaintenanceDocument-workflowAttributes"/>
     </property>
 
   </bean>
@@ -73,173 +55,102 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="OrganizationMaintenanceDocument-EditOrganizationCode" parent="OrganizationMaintenanceDocument-EditOrganizationCode-parentBean" />
+  <bean id="OrganizationMaintenanceDocument-EditOrganizationCode" parent="OrganizationMaintenanceDocument-EditOrganizationCode-parentBean"/>
 
   <bean id="OrganizationMaintenanceDocument-EditOrganizationCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Organization Code" />
-    <property name="title" value="Edit Organization Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Organization Code"/>
+    <property name="title" value="Edit Organization Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationManagerUniversalId"
-              p:unconditionallyReadOnly="true"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationManagerUniversal.principalName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationManagerUniversal.name"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="responsibilityCenterCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationPhysicalCampusCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationDefaultAccountNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationZipCode"
-              p:required="true"
-              p:webUILeaveFieldCallbackFunction="updateLocation_Callback"
-              p:webUILeaveFieldFunction="updateLocation" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationLine1Address"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationLine2Address" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationCityName"
-              p:unconditionallyReadOnly="true"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationStateCode"
-              p:unconditionallyReadOnly="true"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationCountryCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationBeginDate"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationEndDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="reportsToChartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="reportsToOrganizationCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversalId" p:unconditionallyReadOnly="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversal.principalName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversal.name" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="responsibilityCenterCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationPhysicalCampusCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationDefaultAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationZipCode" p:required="true" p:webUILeaveFieldCallbackFunction="updateLocation_Callback" p:webUILeaveFieldFunction="updateLocation"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationLine1Address" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationLine2Address"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCityName" p:unconditionallyReadOnly="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationStateCode" p:unconditionallyReadOnly="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCountryCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationBeginDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationEndDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToChartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToOrganizationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
-  <bean id="OrganizationMaintenanceDocument-EditPlantAccounts" parent="OrganizationMaintenanceDocument-EditPlantAccounts-parentBean" />
+  <bean id="OrganizationMaintenanceDocument-EditPlantAccounts" parent="OrganizationMaintenanceDocument-EditPlantAccounts-parentBean"/>
 
   <bean id="OrganizationMaintenanceDocument-EditPlantAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Plant Accounts" />
-    <property name="title" value="Edit Plant Accounts" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Plant Accounts"/>
+    <property name="title" value="Edit Plant Accounts"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationPlantChartCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationPlantAccountNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusPlantChartCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusPlantAccountNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="organizationPlantChartCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationPlantAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusPlantChartCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusPlantAccountNumber"/>
       </list>
     </property>
   </bean>
-  <bean id="OrganizationMaintenanceDocument-EditHRMSUnit" parent="OrganizationMaintenanceDocument-EditHRMSUnit-parentBean" />
+  <bean id="OrganizationMaintenanceDocument-EditHRMSUnit" parent="OrganizationMaintenanceDocument-EditHRMSUnit-parentBean"/>
 
   <bean id="OrganizationMaintenanceDocument-EditHRMSUnit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit HRMS Unit" />
-    <property name="title" value="Edit HRMS Unit" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit HRMS Unit"/>
+    <property name="title" value="Edit HRMS Unit"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsCompany" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsIuOrganizationAddress2" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsIuOrganizationAddress3" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsIuCampusCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsIuCampusBuilding" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsIuCampusRoom" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsIuPositionAllowedFlag" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsIuTenureAllowedFlag" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsIuTitleAllowedFlag" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsPersonnelApproverUniversalId"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsPersonnelApproverUniversal.name"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.fiscalApproverUniversalId"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.fiscalApproverUniversal.principalName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.fiscalApproverUniversal.name"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsLastUpdateDate"
-              p:unconditionallyReadOnly="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsCompany"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuOrganizationAddress2"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuOrganizationAddress3"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuCampusCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuCampusBuilding"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuCampusRoom"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuPositionAllowedFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuTenureAllowedFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuTitleAllowedFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuOccupationalUnitAllowedFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsPersonnelApproverUniversalId" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsPersonnelApproverUniversal.principalName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsPersonnelApproverUniversal.name" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.fiscalApproverUniversalId" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.fiscalApproverUniversal.principalName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.fiscalApproverUniversal.name" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsLastUpdateDate" p:unconditionallyReadOnly="true"/>
       </list>
     </property>
   </bean>
 
 	
 	<!-- workflow attributes -->
-  	<bean id="OrganizationMaintenanceDocument-workflowAttributes" parent="OrganizationMaintenanceDocument-workflowAttributes-parentBean" />
+  	<bean id="OrganizationMaintenanceDocument-workflowAttributes" parent="OrganizationMaintenanceDocument-workflowAttributes-parentBean"/>
   
 	<bean id="OrganizationMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 	<property name="routingTypeDefinitions">
     		
     		<map>
-    			<entry key="Chart" value-ref="OrganizationMaintenanceDocument-RoutingType-Chart" />
-    			<entry key="OrganizationHierarchy" value-ref="OrganizationMaintenanceDocument-RoutingType-OrganizationHierarchy" />
+    			<entry key="Chart" value-ref="OrganizationMaintenanceDocument-RoutingType-Chart"/>
+    			<entry key="OrganizationHierarchy" value-ref="OrganizationMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
     		</map>
     	
 		</property>
 	</bean>
 	
 	<bean id="OrganizationMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
-    	<property name="attributeName" value="chartOfAccountsCode" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart"/>
+    	<property name="attributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
 	<bean id="OrganizationMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
-    	<property name="attributeName" value="organizationCode" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    	<property name="attributeName" value="organizationCode"/>
 	</bean>
 	
 	
@@ -263,13 +174,13 @@
    	<bean id="OrganizationMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="OrganizationMaintenanceDocument-RoutingAttribute-Chart" />
-    			<ref bean="OrganizationMaintenanceDocument-RoutingAttribute-Organization" />
+		        <ref bean="OrganizationMaintenanceDocument-RoutingAttribute-Chart"/>
+    			<ref bean="OrganizationMaintenanceDocument-RoutingAttribute-Organization"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="OrganizationMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" />
+    			<ref bean="OrganizationMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
     		</list>
     	</property>
     </bean>
@@ -277,15 +188,14 @@
 	<bean id="OrganizationMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="OrganizationMaintenanceDocument-RoutingAttribute-Chart" />
+		        <ref bean="OrganizationMaintenanceDocument-RoutingAttribute-Chart"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="OrganizationMaintenanceDocument-DocumentValuePathGroup-Chart" />
+    			<ref bean="OrganizationMaintenanceDocument-DocumentValuePathGroup-Chart"/>
     		</list>
     	</property>
     </bean>
 	
 </beans>
-

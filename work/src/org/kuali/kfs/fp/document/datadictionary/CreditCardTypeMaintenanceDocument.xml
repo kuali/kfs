@@ -1,65 +1,52 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CreditCardTypeMaintenanceDocument" parent="CreditCardTypeMaintenanceDocument-parentBean" />
+  <bean id="CreditCardTypeMaintenanceDocument" parent="CreditCardTypeMaintenanceDocument-parentBean"/>
 
   <bean id="CreditCardTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CreditCardType" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CreditCardType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="CreditCardTypeMaintenanceDocument-EditCreditCardType" />
+        <ref bean="CreditCardTypeMaintenanceDocument-EditCreditCardType"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>financialDocumentCreditCardTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Credit Card Type" />
-    <property name="shortLabel" value="Credit Card Type" />
-    <property name="summary" value="Credit Card Type Maintenance Document" />
-    <property name="description" value="Document used to create or update a credit card type." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.CreditCardType" p:parameterName="CREDIT_CARD_TYPE" />
+    <property name="label" value="Credit Card Type"/>
+    <property name="shortLabel" value="Credit Card Type"/>
+    <property name="summary" value="Credit Card Type Maintenance Document"/>
+    <property name="description" value="Document used to create or update a credit card type."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.CreditCardType" p:parameterName="CREDIT_CARD_TYPE"/>
     </property>
-    <property name="documentTypeName" value="CCTY" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="CCTY"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="CreditCardTypeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="CreditCardTypeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="CreditCardTypeMaintenanceDocument-EditCreditCardType" parent="CreditCardTypeMaintenanceDocument-EditCreditCardType-parentBean" />
+  <bean id="CreditCardTypeMaintenanceDocument-EditCreditCardType" parent="CreditCardTypeMaintenanceDocument-EditCreditCardType-parentBean"/>
 
   <bean id="CreditCardTypeMaintenanceDocument-EditCreditCardType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Credit Card Type" />
-    <property name="title" value="Edit Credit Card Type" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Credit Card Type"/>
+    <property name="title" value="Edit Credit Card Type"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentCreditCardTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentCreditCardCompanyName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:defaultValue="true"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardCompanyName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="CreditCardTypeMaintenanceDocument-workflowAttributes" parent="CreditCardTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="CreditCardTypeMaintenanceDocument-workflowAttributes" parent="CreditCardTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="CreditCardTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="CreditCardTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

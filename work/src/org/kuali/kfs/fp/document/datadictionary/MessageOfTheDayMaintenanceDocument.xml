@@ -1,69 +1,57 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="MessageOfTheDayMaintenanceDocument" parent="MessageOfTheDayMaintenanceDocument-parentBean" />
+  <bean id="MessageOfTheDayMaintenanceDocument" parent="MessageOfTheDayMaintenanceDocument-parentBean"/>
 
   <bean id="MessageOfTheDayMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.MessageOfTheDay" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.MessageOfTheDay"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay" />
+        <ref bean="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialSystemOrigination"
-              p:attributeToHighlightOnFail="financialSystemOriginationCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="financialSystemOrigination" p:attributeToHighlightOnFail="financialSystemOriginationCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>financialSystemOriginationCode</value>
       </list>
     </property>
-    <property name="label" value="Message Of The Day" />
-    <property name="shortLabel" value="Message Of The Day" />
-    <property name="summary" value="Message Of The Day maintenance document" />
-    <property name="description" value="Document used to create or update Message Of The Day objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.MessageOfTheDay" p:parameterName="MESSAGE_OF_THE_DAY" />
+    <property name="label" value="Message Of The Day"/>
+    <property name="shortLabel" value="Message Of The Day"/>
+    <property name="summary" value="Message Of The Day maintenance document"/>
+    <property name="description" value="Document used to create or update Message Of The Day objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.MessageOfTheDay" p:parameterName="MESSAGE_OF_THE_DAY"/>
     </property>
-    <property name="documentTypeName" value="MOTD" />
-    <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="MOTD"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="MessageOfTheDayMaintenanceDocument-workflowAttributes" />
+    	<ref bean="MessageOfTheDayMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay" parent="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay-parentBean" />
+  <bean id="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay" parent="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay-parentBean"/>
 
   <bean id="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Message Of The Day" />
-    <property name="title" value="Edit Message Of The Day" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Message Of The Day"/>
+    <property name="title" value="Edit Message Of The Day"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialSystemOriginationCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialSystemMessageOfTheDayText" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialSystemOriginationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialSystemMessageOfTheDayText"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="MessageOfTheDayMaintenanceDocument-workflowAttributes" parent="MessageOfTheDayMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="MessageOfTheDayMaintenanceDocument-workflowAttributes" parent="MessageOfTheDayMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="MessageOfTheDayMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="MessageOfTheDayMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

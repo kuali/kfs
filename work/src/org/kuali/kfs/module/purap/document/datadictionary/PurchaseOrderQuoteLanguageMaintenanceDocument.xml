@@ -1,67 +1,52 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument" parent="PurchaseOrderQuoteLanguageMaintenanceDocument-parentBean" />
+  <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument" parent="PurchaseOrderQuoteLanguageMaintenanceDocument-parentBean"/>
 
   <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage" />
-    <property name="maintainableClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderQuoteLanguageMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage"/>
+    <property name="maintainableClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderQuoteLanguageMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PurchaseOrderQuoteLanguageMaintenanceDocument-EditPurchaseOrderQuoteLanguage" />
+        <ref bean="PurchaseOrderQuoteLanguageMaintenanceDocument-EditPurchaseOrderQuoteLanguage"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>purchaseOrderQuoteLanguageIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Purchase Order Quote Language" />
-    <property name="shortLabel" value="Purchase Order Quote Language" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage" p:parameterName="PURCHASE_ORDER_QUOTE_LANGUAGE" />
+    <property name="label" value="Purchase Order Quote Language"/>
+    <property name="shortLabel" value="Purchase Order Quote Language"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage" p:parameterName="PURCHASE_ORDER_QUOTE_LANGUAGE"/>
     </property>
-    <property name="documentTypeName" value="PMQL" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderQuoteLanguageRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="PMQL"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderQuoteLanguageRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="PurchaseOrderQuoteLanguageMaintenanceDocument-workflowAttributes" />
+    	<ref bean="PurchaseOrderQuoteLanguageMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument-EditPurchaseOrderQuoteLanguage" parent="PurchaseOrderQuoteLanguageMaintenanceDocument-EditPurchaseOrderQuoteLanguage-parentBean" />
+  <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument-EditPurchaseOrderQuoteLanguage" parent="PurchaseOrderQuoteLanguageMaintenanceDocument-EditPurchaseOrderQuoteLanguage-parentBean"/>
 
   <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument-EditPurchaseOrderQuoteLanguage-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Purchase Order Quote Language" />
-    <property name="title" value="Edit Purchase Order Quote Language" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Purchase Order Quote Language"/>
+    <property name="title" value="Edit Purchase Order Quote Language"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderQuoteLanguageIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderQuoteLanguageDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderQuoteLanguageCreateDate"
-              p:unconditionallyReadOnly="true"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderQuoteLanguageIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderQuoteLanguageDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderQuoteLanguageCreateDate" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument-workflowAttributes" parent="PurchaseOrderQuoteLanguageMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument-workflowAttributes" parent="PurchaseOrderQuoteLanguageMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="PurchaseOrderQuoteLanguageMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

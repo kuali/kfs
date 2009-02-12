@@ -1,83 +1,62 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="GraduateAssistantRateMaintenanceDocument" parent="GraduateAssistantRateMaintenanceDocument-parentBean" />
+  <bean id="GraduateAssistantRateMaintenanceDocument" parent="GraduateAssistantRateMaintenanceDocument-parentBean"/>
 
   <bean id="GraduateAssistantRateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="GraduateAssistantRateMaintenanceDocument-EditGraduateAssistantRate" />
+        <ref bean="GraduateAssistantRateMaintenanceDocument-EditGraduateAssistantRate"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="campus"
-              p:attributeToHighlightOnFail="campusCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="campus" p:attributeToHighlightOnFail="campusCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>campusCode</value>
       </list>
     </property>
-    <property name="label" value="Graduate Assistant Rate" />
-    <property name="shortLabel" value="Graduate Assistant Rate" />
-    <property name="summary" value="Graduate Assistant Rate maintenance document" />
-    <property name="description" value="Document used to create or update Graduate Assistant Rate objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate" p:parameterName="GRADUATE_ASSISTANT_RATE" />
+    <property name="label" value="Graduate Assistant Rate"/>
+    <property name="shortLabel" value="Graduate Assistant Rate"/>
+    <property name="summary" value="Graduate Assistant Rate maintenance document"/>
+    <property name="description" value="Document used to create or update Graduate Assistant Rate objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate" p:parameterName="GRADUATE_ASSISTANT_RATE"/>
     </property>
-    <property name="documentTypeName" value="GAR" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="GAR"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="GraduateAssistantRateMaintenanceDocument-workflowAttributes" />
+    	<ref bean="GraduateAssistantRateMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="GraduateAssistantRateMaintenanceDocument-EditGraduateAssistantRate" parent="GraduateAssistantRateMaintenanceDocument-EditGraduateAssistantRate-parentBean" />
+  <bean id="GraduateAssistantRateMaintenanceDocument-EditGraduateAssistantRate" parent="GraduateAssistantRateMaintenanceDocument-EditGraduateAssistantRate-parentBean"/>
 
   <bean id="GraduateAssistantRateMaintenanceDocument-EditGraduateAssistantRate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Graduate Assistant Rate" />
-    <property name="title" value="Edit Graduate Assistant Rate" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Graduate Assistant Rate"/>
+    <property name="title" value="Edit Graduate Assistant Rate"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusMaximumPeriod1Rate"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusMaximumPeriod2Rate"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusMaximumPeriod3Rate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusMaximumPeriod4Rate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusMaximumPeriod5Rate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusMaximumPeriod6Rate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusMaximumPeriod1Rate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusMaximumPeriod2Rate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusMaximumPeriod3Rate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusMaximumPeriod4Rate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusMaximumPeriod5Rate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusMaximumPeriod6Rate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
     <!-- workflow attributes -->
-  <bean id="GraduateAssistantRateMaintenanceDocument-workflowAttributes" parent="GraduateAssistantRateMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="GraduateAssistantRateMaintenanceDocument-workflowAttributes" parent="GraduateAssistantRateMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="GraduateAssistantRateMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="GraduateAssistantRateMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

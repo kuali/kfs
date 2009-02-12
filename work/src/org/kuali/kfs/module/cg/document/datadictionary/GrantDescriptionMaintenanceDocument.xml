@@ -1,65 +1,52 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="GrantDescriptionMaintenanceDocument" parent="GrantDescriptionMaintenanceDocument-parentBean" />
+  <bean id="GrantDescriptionMaintenanceDocument" parent="GrantDescriptionMaintenanceDocument-parentBean"/>
 
   <bean id="GrantDescriptionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.GrantDescription" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.GrantDescription"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="GrantDescriptionMaintenanceDocument-EditGrantDescription" />
+        <ref bean="GrantDescriptionMaintenanceDocument-EditGrantDescription"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>grantDescriptionCode</value>
       </list>
     </property>
-    <property name="label" value="Grant Description" />
-    <property name="shortLabel" value="Grant Description" />
-    <property name="summary" value="Grant Description Maintenance Document" />
-    <property name="description" value="Document used to create or update Grant Description objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.GrantDescription" p:parameterName="GRANT_DESCRIPTION" />
+    <property name="label" value="Grant Description"/>
+    <property name="shortLabel" value="Grant Description"/>
+    <property name="summary" value="Grant Description Maintenance Document"/>
+    <property name="description" value="Document used to create or update Grant Description objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.GrantDescription" p:parameterName="GRANT_DESCRIPTION"/>
     </property>
-    <property name="documentTypeName" value="GDES" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="GDES"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="GrantDescriptionMaintenanceDocument-workflowAttributes" />
+    	<ref bean="GrantDescriptionMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="GrantDescriptionMaintenanceDocument-EditGrantDescription" parent="GrantDescriptionMaintenanceDocument-EditGrantDescription-parentBean" />
+  <bean id="GrantDescriptionMaintenanceDocument-EditGrantDescription" parent="GrantDescriptionMaintenanceDocument-EditGrantDescription-parentBean"/>
 
   <bean id="GrantDescriptionMaintenanceDocument-EditGrantDescription-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Grant Description" />
-    <property name="title" value="Edit Grant Description" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Grant Description"/>
+    <property name="title" value="Edit Grant Description"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="grantDescriptionCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="grantDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="grantDescriptionCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="grantDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
     <!-- workflow attributes -->
-  <bean id="GrantDescriptionMaintenanceDocument-workflowAttributes" parent="GrantDescriptionMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="GrantDescriptionMaintenanceDocument-workflowAttributes" parent="GrantDescriptionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="GrantDescriptionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="GrantDescriptionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

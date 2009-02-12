@@ -1,47 +1,37 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CashManagementDocument" parent="CashManagementDocument-parentBean" />
+  <bean id="CashManagementDocument" parent="CashManagementDocument-parentBean"/>
 
   <bean id="CashManagementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="label" value="Cash Management" />
-    <property name="shortLabel" value="Cash Management" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="blah blah Document blah Cash Management blah blah" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CashManagementDocument" p:parameterName="CASH_MANAGEMENT" />
+    <property name="label" value="Cash Management"/>
+    <property name="shortLabel" value="Cash Management"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="blah blah Document blah Cash Management blah blah"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CashManagementDocument" p:parameterName="CASH_MANAGEMENT"/>
     </property>
-    <property name="documentTypeName" value="CMD" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.CashManagementDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentRule" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentPreRules" />    
+    <property name="documentTypeName" value="CMD"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.CashManagementDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentRule"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentPreRules"/>    
     
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentPresentationController" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentPresentationController"/>
     
-    <property name="sessionDocument" value="true" />
+    <property name="sessionDocument" value="true"/>
 
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="CashManagementDocument-campusCode" />
-        <ref bean="CashManagementDocument-cashDrawerStatus" />
+        <ref bean="CashManagementDocument-campusCode"/>
+        <ref bean="CashManagementDocument-cashDrawerStatus"/>
       </list>
     </property>
     <property name="workflowAttributes">
-    	<ref bean="CashManagementDocument-workflowAttributes" />
+    	<ref bean="CashManagementDocument-workflowAttributes"/>
     </property>
-     <property name="defaultExistenceChecks" >
+     <property name="defaultExistenceChecks">
      	<list>
-     	   <bean parent="ReferenceDefinition"
-              p:attributeName="bank"
-              p:collection="deposits"
-              p:attributeToHighlightOnFail="bank"/>
+     	   <bean parent="ReferenceDefinition" p:attributeName="bank" p:collection="deposits" p:attributeToHighlightOnFail="bank"/>
         </list>  
               
     </property>
@@ -51,43 +41,41 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CashManagementDocument-campusCode" parent="CashManagementDocument-campusCode-parentBean" />
+  <bean id="CashManagementDocument-campusCode" parent="CashManagementDocument-campusCode-parentBean"/>
 
   <bean id="CashManagementDocument-campusCode-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="campusCode" />
-    <property name="label" value="Verification Unit" />
-    <property name="shortLabel" value="Verification Unit" />
-    <property name="maxLength" value="70" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="72" />
+    <property name="name" value="campusCode"/>
+    <property name="label" value="Verification Unit"/>
+    <property name="shortLabel" value="Verification Unit"/>
+    <property name="maxLength" value="70"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="72"/>
     </property>
-    <property name="summary" value="Verification unit associated with this document" />
-    <property name="description" value="Verification Unit used in selecting cash receipts and making deposits" />
+    <property name="summary" value="Verification unit associated with this document"/>
+    <property name="description" value="Verification Unit used in selecting cash receipts and making deposits"/>
   </bean>
-  <bean id="CashManagementDocument-cashDrawerStatus" parent="CashManagementDocument-cashDrawerStatus-parentBean" />
+  <bean id="CashManagementDocument-cashDrawerStatus" parent="CashManagementDocument-cashDrawerStatus-parentBean"/>
 
   <bean id="CashManagementDocument-cashDrawerStatus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cashDrawerStatus" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Cash Drawer Status" />
-    <property name="shortLabel" value="Cash Drawer Status" />
-    <property name="maxLength" value="10" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="cashDrawerStatus"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Cash Drawer Status"/>
+    <property name="shortLabel" value="Cash Drawer Status"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="summary" value="Current status of cash drawer associated with this document" />
-    <property name="description" value="..." />
+    <property name="summary" value="Current status of cash drawer associated with this document"/>
+    <property name="description" value="..."/>
   </bean>
 
 <!-- workflow attributes for routing -->
-	<bean id="CashManagementDocument-workflowAttributes" parent="CashManagementDocument-workflowAttributes-parentBean" />
+	<bean id="CashManagementDocument-workflowAttributes" parent="CashManagementDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="CashManagementDocument-workflowAttributes-parentBean" parent="WorkflowAttributes" abstract="true">
 		<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Campus" value-ref="CashManagementDocument-RoutingType-InitiatorCampus" />
+    			<entry key="Campus" value-ref="CashManagementDocument-RoutingType-InitiatorCampus"/>
     		</map>
     	</property>
 	</bean>
@@ -103,12 +91,12 @@
    	<bean id="CashManagementDocument-RoutingType-InitiatorCampus" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-campusCode" />
+		        <ref bean="RoutingAttribute-campusCode"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="CashManagementDocument-DocumentValuePathGroup-InitiatorCampus" />
+    			<ref bean="CashManagementDocument-DocumentValuePathGroup-InitiatorCampus"/>
     		</list>
     	</property>
     </bean>

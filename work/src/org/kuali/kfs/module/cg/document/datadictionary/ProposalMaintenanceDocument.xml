@@ -1,75 +1,50 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ProposalMaintenanceDocument" parent="ProposalMaintenanceDocument-parentBean" />
+  <bean id="ProposalMaintenanceDocument" parent="ProposalMaintenanceDocument-parentBean"/>
 
   <bean id="ProposalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
-    <property name="maintainableClass" value="org.kuali.kfs.module.cg.document.ProposalMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Proposal"/>
+    <property name="maintainableClass" value="org.kuali.kfs.module.cg.document.ProposalMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ProposalMaintenanceDocument-ProposalMaintenance" />
-        <ref bean="ProposalMaintenanceDocument-Organizations" />
-        <ref bean="ProposalMaintenanceDocument-ProjectDirectors" />
-        <ref bean="ProposalMaintenanceDocument-Subcontractors" />
-        <ref bean="ProposalMaintenanceDocument-ResearchRisks" />
+        <ref bean="ProposalMaintenanceDocument-ProposalMaintenance"/>
+        <ref bean="ProposalMaintenanceDocument-Organizations"/>
+        <ref bean="ProposalMaintenanceDocument-ProjectDirectors"/>
+        <ref bean="ProposalMaintenanceDocument-Subcontractors"/>
+        <ref bean="ProposalMaintenanceDocument-ResearchRisks"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="proposalStatus"
-              p:attributeToHighlightOnFail="proposalStatusCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="agency"
-              p:attributeToHighlightOnFail="agencyNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="proposalAwardType"
-              p:attributeToHighlightOnFail="proposalAwardTypeCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="proposalPurpose"
-              p:attributeToHighlightOnFail="proposalPurposeCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="federalPassThroughAgency"
-              p:attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="cfda"
-              p:attributeToHighlightOnFail="cfdaNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organization"
-              p:collection="proposalOrganizations"
-              p:attributeToHighlightOnFail="organizationCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="subcontractor"
-              p:collection="proposalSubcontractors"
-              p:attributeToHighlightOnFail="subcontractorNumber" />
+        <bean parent="ReferenceDefinition" p:attributeName="proposalStatus" p:attributeToHighlightOnFail="proposalStatusCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="agency" p:attributeToHighlightOnFail="agencyNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="proposalAwardType" p:attributeToHighlightOnFail="proposalAwardTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="proposalPurpose" p:attributeToHighlightOnFail="proposalPurposeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="federalPassThroughAgency" p:attributeToHighlightOnFail="federalPassThroughAgencyNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="cfda" p:attributeToHighlightOnFail="cfdaNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organization" p:collection="proposalOrganizations" p:attributeToHighlightOnFail="organizationCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="subcontractor" p:collection="proposalSubcontractors" p:attributeToHighlightOnFail="subcontractorNumber"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>proposalNumber</value>
       </list>
     </property>
-    <property name="label" value="Proposal" />
-    <property name="shortLabel" value="Proposal" />
-    <property name="summary" value="Proposal maintenance document" />
-    <property name="description" value="Document used to create or update Proposal objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Proposal" p:parameterName="PROPOSAL" />
+    <property name="label" value="Proposal"/>
+    <property name="shortLabel" value="Proposal"/>
+    <property name="summary" value="Proposal maintenance document"/>
+    <property name="description" value="Document used to create or update Proposal objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Proposal" p:parameterName="PROPOSAL"/>
     </property>
-    <property name="documentTypeName" value="PRPL" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.ProposalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentPresentationController" />        	
+    <property name="documentTypeName" value="PRPL"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.ProposalRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentPresentationController"/>        	
     
-    <property name="displayTopicFieldInNotes" value="true" />
-    <property name="webScriptFiles" >
+    <property name="displayTopicFieldInNotes" value="true"/>
+    <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AgencyService.js</value>
         <value>../dwr/interface/OrganizationService.js</value>
@@ -79,251 +54,160 @@
     </property>
 
     <property name="workflowAttributes">
-    	<ref bean="ProposalMaintenanceDocument-workflowAttributes" />
+    	<ref bean="ProposalMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ProposalMaintenanceDocument-ProposalMaintenance" parent="ProposalMaintenanceDocument-ProposalMaintenance-parentBean" />
+  <bean id="ProposalMaintenanceDocument-ProposalMaintenance" parent="ProposalMaintenanceDocument-ProposalMaintenance-parentBean"/>
 
   <bean id="ProposalMaintenanceDocument-ProposalMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Proposal Maintenance" />
-    <property name="title" value="Proposal Maintenance" />
-    <property name="maintainableItems" >
+    <property name="id" value="Proposal Maintenance"/>
+    <property name="title" value="Proposal Maintenance"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalNumber"
-              p:unconditionallyReadOnly="true"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFinder" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalStatusCode"
-              p:defaultValue="P"
-              p:required="true"
-              p:webUILeaveFieldFunction="onblur_proposalStatusCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="agencyNumber"
-              p:required="true"
-              p:webUILeaveFieldFunction="onblur_agencyNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="agency.fullName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalProjectTitle"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalBeginningDate"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalEndingDate"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalDirectCostAmount"
-              p:required="true"
-              p:webUILeaveFieldFunction="onblur_proposalDirectCostAmount" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalIndirectCostAmount"
-              p:required="true"
-              p:webUILeaveFieldFunction="onblur_proposalIndirectCostAmount" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalTotalAmount"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalSubmissionDate"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalClosingDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalAwardTypeCode"
-              p:defaultValue="N"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalPurposeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="grantNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalFederalPassThroughIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="federalPassThroughAgencyNumber"
-              p:webUILeaveFieldFunction="onblur_federalPassThroughAgencyNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="federalPassThroughAgency.fullName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="cfdaNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalFellowName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalDueDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalRejectedDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="proposalNumber" p:unconditionallyReadOnly="true" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalStatusCode" p:defaultValue="P" p:required="true" p:webUILeaveFieldFunction="onblur_proposalStatusCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="agencyNumber" p:required="true" p:webUILeaveFieldFunction="onblur_agencyNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="agency.fullName" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalProjectTitle" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalBeginningDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalEndingDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalDirectCostAmount" p:required="true" p:webUILeaveFieldFunction="onblur_proposalDirectCostAmount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalIndirectCostAmount" p:required="true" p:webUILeaveFieldFunction="onblur_proposalIndirectCostAmount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalTotalAmount" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalSubmissionDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalClosingDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalAwardTypeCode" p:defaultValue="N" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalPurposeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="grantNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalFederalPassThroughIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="federalPassThroughAgencyNumber" p:webUILeaveFieldFunction="onblur_federalPassThroughAgencyNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="federalPassThroughAgency.fullName" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cfdaNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalFellowName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalDueDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalRejectedDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
-  <bean id="ProposalMaintenanceDocument-Organizations" parent="ProposalMaintenanceDocument-Organizations-parentBean" />
+  <bean id="ProposalMaintenanceDocument-Organizations" parent="ProposalMaintenanceDocument-Organizations-parentBean"/>
 
   <bean id="ProposalMaintenanceDocument-Organizations-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Organizations" />
-    <property name="title" value="Organizations" />
-    <property name="maintainableItems" >
+    <property name="id" value="Organizations"/>
+    <property name="title" value="Organizations"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="proposalOrganizations" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalOrganization" />
-          <property name="summaryFields" >
+          <property name="name" value="proposalOrganizations"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalOrganization"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="chartOfAccountsCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organizationCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalPrimaryOrganizationIndicator" />
+              <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="proposalPrimaryOrganizationIndicator"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="chartOfAccountsCode"
-                    p:required="true"
-                    p:webUILeaveFieldFunction="organizationNameLookup" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organizationCode"
-                    p:required="true"
-                    p:webUILeaveFieldFunction="organizationNameLookup" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organization.organizationName"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalPrimaryOrganizationIndicator" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="organizationNameLookup"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true" p:webUILeaveFieldFunction="organizationNameLookup"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organization.organizationName" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="proposalPrimaryOrganizationIndicator"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
-          <property name="attributeToHighlightOnDuplicateKey" value="organizationCode" />
+          <property name="attributeToHighlightOnDuplicateKey" value="organizationCode"/>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="ProposalMaintenanceDocument-ProjectDirectors" parent="ProposalMaintenanceDocument-ProjectDirectors-parentBean" />
+  <bean id="ProposalMaintenanceDocument-ProjectDirectors" parent="ProposalMaintenanceDocument-ProjectDirectors-parentBean"/>
 
   <bean id="ProposalMaintenanceDocument-ProjectDirectors-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Project Directors" />
-    <property name="title" value="Project Directors" />
-    <property name="maintainableItems" >
+    <property name="id" value="Project Directors"/>
+    <property name="title" value="Project Directors"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="proposalProjectDirectors" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector" />
-          <property name="summaryFields" >
+          <property name="name" value="proposalProjectDirectors"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="projectDirector.name" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalPrimaryProjectDirectorIndicator" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalProjectDirectorProjectTitle" />
+              <bean parent="MaintainableFieldDefinition" p:name="projectDirector.name"/>
+              <bean parent="MaintainableFieldDefinition" p:name="proposalPrimaryProjectDirectorIndicator"/>
+              <bean parent="MaintainableFieldDefinition" p:name="proposalProjectDirectorProjectTitle"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="projectDirector.principalName"
-                    p:required="true"
-                    p:webUILeaveFieldFunction="proposalDirectorIDLookup" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="projectDirector.name"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="principalId" 
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalPrimaryProjectDirectorIndicator" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalProjectDirectorProjectTitle" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition" p:name="projectDirector.principalName" p:required="true" p:webUILeaveFieldFunction="proposalDirectorIDLookup"/>
+              <bean parent="MaintainableFieldDefinition" p:name="projectDirector.name" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="principalId" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="proposalPrimaryProjectDirectorIndicator"/>
+              <bean parent="MaintainableFieldDefinition" p:name="proposalProjectDirectorProjectTitle"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="ProposalMaintenanceDocument-Subcontractors" parent="ProposalMaintenanceDocument-Subcontractors-parentBean" />
+  <bean id="ProposalMaintenanceDocument-Subcontractors" parent="ProposalMaintenanceDocument-Subcontractors-parentBean"/>
 
   <bean id="ProposalMaintenanceDocument-Subcontractors-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Subcontractors" />
-    <property name="title" value="Subcontractors" />
-    <property name="maintainableItems" >
+    <property name="id" value="Subcontractors"/>
+    <property name="title" value="Subcontractors"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="proposalSubcontractors" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor" />
-          <property name="summaryFields" >
+          <property name="name" value="proposalSubcontractors"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="subcontractor.subcontractorName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalSubcontractorAmount" />
+              <bean parent="MaintainableFieldDefinition" p:name="subcontractor.subcontractorName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="proposalSubcontractorAmount"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="subcontractorNumber"
-                    p:webUILeaveFieldFunction="onblur_subcontractorNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="subcontractor.subcontractorName"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalSubcontractorDescription" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalSubcontractorAmount"
-                    p:defaultValue="0.00" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition" p:name="subcontractorNumber" p:webUILeaveFieldFunction="onblur_subcontractorNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="subcontractor.subcontractorName" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="proposalSubcontractorDescription"/>
+              <bean parent="MaintainableFieldDefinition" p:name="proposalSubcontractorAmount" p:defaultValue="0.00"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="ProposalMaintenanceDocument-ResearchRisks" parent="ProposalMaintenanceDocument-ResearchRisks-parentBean" />
+  <bean id="ProposalMaintenanceDocument-ResearchRisks" parent="ProposalMaintenanceDocument-ResearchRisks-parentBean"/>
 
   <bean id="ProposalMaintenanceDocument-ResearchRisks-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="researchRisks" />
-    <property name="title" value="Research Risks" />
-    <property name="maintainableItems" >
+    <property name="id" value="researchRisks"/>
+    <property name="title" value="Research Risks"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="proposalResearchRisks" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" />
-          <property name="includeAddLine" value="false" />
-          <property name="summaryFields" >
+          <property name="name" value="proposalResearchRisks"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk"/>
+          <property name="includeAddLine" value="false"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="researchRiskType.researchRiskTypeDescription" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active" />
+              <bean parent="MaintainableFieldDefinition" p:name="researchRiskType.researchRiskTypeDescription"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="researchRiskType.researchRiskTypeDescription"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="researchRiskTypeCode" />
+              <bean parent="MaintainableFieldDefinition" p:name="researchRiskType.researchRiskTypeDescription" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeCode"/>
             </list>
           </property>
         </bean>
@@ -332,21 +216,21 @@
   </bean>
 
 	<!-- workflow attributes -->
-  	<bean id="ProposalMaintenanceDocument-workflowAttributes" parent="ProposalMaintenanceDocument-workflowAttributes-parentBean" />
+  	<bean id="ProposalMaintenanceDocument-workflowAttributes" parent="ProposalMaintenanceDocument-workflowAttributes-parentBean"/>
   
 	<bean id="ProposalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 		<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="ProposalMaintenanceDocument-SearchingType-proposalStatus" />
-    			<ref bean="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-chartOfAccountsCode" />
-    			<ref bean="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-organizationCode" />
-    			<ref bean="ProposalMaintenanceDocument-SearchingType-agencyReportName" />
+    			<ref bean="ProposalMaintenanceDocument-SearchingType-proposalStatus"/>
+    			<ref bean="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-chartOfAccountsCode"/>
+    			<ref bean="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-organizationCode"/>
+    			<ref bean="ProposalMaintenanceDocument-SearchingType-agencyReportName"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="OrganizationHierarchy" value-ref="ProposalMaintenanceDocument-RoutingType-OrganizationHierarchy" />
-    			<entry key="ResearchRisk" value-ref="ProposalMaintenanceDocument-RoutingType-ResearchRisk" />
+    			<entry key="OrganizationHierarchy" value-ref="ProposalMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    			<entry key="ResearchRisk" value-ref="ProposalMaintenanceDocument-RoutingType-ResearchRisk"/>
     		</map>
     	</property>
 	</bean>
@@ -354,8 +238,8 @@
 	<bean id="ProposalMaintenanceDocument-SearchingType-proposalStatus" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
         	<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-        		<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
-    			<property name="attributeName" value="proposalStatusCode" />
+        		<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.Proposal"/>
+    			<property name="attributeName" value="proposalStatusCode"/>
         	</bean>
         </property>
         <property name="documentValues">
@@ -366,7 +250,7 @@
     </bean>
     
     <bean id="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
         <property name="documentValues">
         	<list>
         		<value>newMaintainableObject.businessObject.primaryProposalOrganization.chartOfAccountsCode</value>
@@ -375,7 +259,7 @@
     </bean>
     
     <bean id="ProposalMaintenanceDocument-SearchingType-primaryAwardOrganization-organizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-organizationCode"/>
         <property name="documentValues">
         	<list>
         		<value>newMaintainableObject.businessObject.primaryProposalOrganization.organizationCode</value>
@@ -386,8 +270,8 @@
     <bean id="ProposalMaintenanceDocument-SearchingType-agencyReportName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
         	<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-        		<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.Agency" />
-    			<property name="attributeName" value="reportingName" />
+        		<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.Agency"/>
+    			<property name="attributeName" value="reportingName"/>
         	</bean>
         </property>
         <property name="documentValues">
@@ -400,8 +284,8 @@
     <bean id="ProposalMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-    			<ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-organizationCode" />
+    			<ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-organizationCode"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
@@ -426,7 +310,7 @@
     <bean id="ProposalMaintenanceDocument-RoutingType-ResearchRisk" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-researchRiskCode" />
+		        <ref bean="RoutingAttribute-researchRiskCode"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
@@ -434,7 +318,7 @@
     			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 			    	<property name="documentCollectionPath">
 			    		<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
-			    			<property name="collectionPath" value="newMaintainableObject.businessObject.proposalResearchRisks" />
+			    			<property name="collectionPath" value="newMaintainableObject.businessObject.proposalResearchRisks"/>
 			    			<property name="documentValues">
 			    				<list>
 			    					<value>researchRiskTypeCode</value>
@@ -447,4 +331,3 @@
     	</property>
     </bean>
 </beans>
-

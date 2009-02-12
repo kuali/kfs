@@ -1,53 +1,44 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="YearEndGeneralErrorCorrectionDocument" parent="YearEndGeneralErrorCorrectionDocument-parentBean" />
+  <bean id="YearEndGeneralErrorCorrectionDocument" parent="YearEndGeneralErrorCorrectionDocument-parentBean"/>
 
   <bean id="YearEndGeneralErrorCorrectionDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Year End General Error Correction" />
-    <property name="shortLabel" value="Year End General Error Correction" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The Year End version of the General Error Correction Document (GEC) document. &lt;br&gt; &lt;br&gt; See FIS documentation here: &lt;a 
-            target=&quot;_blank&quot; href=&quot;http://www.fms.indiana.edu/fis/documentation/gec.pdf&quot;&gt; 
-            http://www.fms.indiana.edu/fis/documentation/gec.pdf &lt;/a&gt;" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument" p:parameterName="YEAR_END_GENERAL_ERROR_CORRECTION" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Year End General Error Correction"/>
+    <property name="shortLabel" value="Year End General Error Correction"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The Year End version of the General Error Correction Document (GEC) document. &lt;br&gt; &lt;br&gt; See FIS documentation here: &lt;a              target=&quot;_blank&quot; href=&quot;http://www.fms.indiana.edu/fis/documentation/gec.pdf&quot;&gt;              http://www.fms.indiana.edu/fis/documentation/gec.pdf &lt;/a&gt;"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument" p:parameterName="YEAR_END_GENERAL_ERROR_CORRECTION"/>
     </property>
-    <property name="documentTypeName" value="YEGE" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    <property name="documentTypeName" value="YEGE"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
 
-    <property name="validationMap" ref="YearEndGeneralErrorCorrectionDocument-validations" />
+    <property name="validationMap" ref="YearEndGeneralErrorCorrectionDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="YearEndGeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="YearEndGeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
 	    		<key><value>target</value></key>
-	    		<ref bean="YearEndGeneralErrorCorrectionDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="YearEndGeneralErrorCorrectionDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property> 
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
     <property name="workflowAttributes">
-    	<ref bean="YearEndGeneralErrorCorrectionDocument-workflowAttributes" />
+    	<ref bean="YearEndGeneralErrorCorrectionDocument-workflowAttributes"/>
     </property>
   </bean>
   
    <!-- Validations -->  
-  <bean id="YearEndGeneralErrorCorrectionDocument-validations" parent="YearEndGeneralErrorCorrectionDocument-validations-parentBean" />
+  <bean id="YearEndGeneralErrorCorrectionDocument-validations" parent="YearEndGeneralErrorCorrectionDocument-validations-parentBean"/>
   
   <bean id="YearEndGeneralErrorCorrectionDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -85,24 +76,24 @@
   </bean>
 
   <!-- accounting line groups -->
-  <bean id="YearEndGeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="GeneralErrorCorrectionDocument-sourceAccountingLineGroup-parentBean" /> 
-  <bean id="YearEndGeneralErrorCorrectionDocument-targetAccountingLineGroup" parent="GeneralErrorCorrectionDocument-targetAccountingLineGroup-parentBean" />
+  <bean id="YearEndGeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="GeneralErrorCorrectionDocument-sourceAccountingLineGroup-parentBean"/> 
+  <bean id="YearEndGeneralErrorCorrectionDocument-targetAccountingLineGroup" parent="GeneralErrorCorrectionDocument-targetAccountingLineGroup-parentBean"/>
   
   <!-- workflow attributes for routing -->
-	<bean id="YearEndGeneralErrorCorrectionDocument-workflowAttributes" parent="YearEndGeneralErrorCorrectionDocument-workflowAttributes-parentBean" />
+	<bean id="YearEndGeneralErrorCorrectionDocument-workflowAttributes" parent="YearEndGeneralErrorCorrectionDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="YearEndGeneralErrorCorrectionDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 		<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
     		</list>
     	</property>
 	    <property name="routingTypeDefinitions">
     		<map>
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
     		</map>
     	</property>
 	</bean>

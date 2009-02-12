@@ -1,70 +1,53 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderContractLanguageMaintenanceDocument" parent="PurchaseOrderContractLanguageMaintenanceDocument-parentBean" />
+  <bean id="PurchaseOrderContractLanguageMaintenanceDocument" parent="PurchaseOrderContractLanguageMaintenanceDocument-parentBean"/>
 
   <bean id="PurchaseOrderContractLanguageMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage" />
-    <property name="maintainableClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderContractLanguageMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage"/>
+    <property name="maintainableClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderContractLanguageMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PurchaseOrderContractLanguageMaintenanceDocument-EditPOContractLanguage" />
+        <ref bean="PurchaseOrderContractLanguageMaintenanceDocument-EditPOContractLanguage"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>purchaseOrderContractLanguageIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Purchase Order Contract Language" />
-    <property name="shortLabel" value="Purchase Order Contract Language" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage" p:parameterName="PURCHASE_ORDER_CONTRACT_LANGUAGE" />
+    <property name="label" value="Purchase Order Contract Language"/>
+    <property name="shortLabel" value="Purchase Order Contract Language"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage" p:parameterName="PURCHASE_ORDER_CONTRACT_LANGUAGE"/>
     </property>
-    <property name="documentTypeName" value="PMCL" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderContractLanguageRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="PMCL"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderContractLanguageRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="PurchaseOrderContractLanguageMaintenanceDocument-workflowAttributes" />
+    	<ref bean="PurchaseOrderContractLanguageMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="PurchaseOrderContractLanguageMaintenanceDocument-EditPOContractLanguage" parent="PurchaseOrderContractLanguageMaintenanceDocument-EditPOContractLanguage-parentBean" />
+  <bean id="PurchaseOrderContractLanguageMaintenanceDocument-EditPOContractLanguage" parent="PurchaseOrderContractLanguageMaintenanceDocument-EditPOContractLanguage-parentBean"/>
 
   <bean id="PurchaseOrderContractLanguageMaintenanceDocument-EditPOContractLanguage-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit PO Contract Language" />
-    <property name="title" value="Edit PO Contract Language" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit PO Contract Language"/>
+    <property name="title" value="Edit PO Contract Language"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderContractLanguageIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderContractLanguageDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="contractLanguageCreateDate"
-              p:unconditionallyReadOnly="true"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" 
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderContractLanguageIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderContractLanguageDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="contractLanguageCreateDate" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="PurchaseOrderContractLanguageMaintenanceDocument-workflowAttributes" parent="PurchaseOrderContractLanguageMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="PurchaseOrderContractLanguageMaintenanceDocument-workflowAttributes" parent="PurchaseOrderContractLanguageMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="PurchaseOrderContractLanguageMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="PurchaseOrderContractLanguageMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

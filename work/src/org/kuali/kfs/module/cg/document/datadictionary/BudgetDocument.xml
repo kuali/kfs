@@ -1,138 +1,131 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="BudgetDocument" parent="BudgetDocument-parentBean" />
+  <bean id="BudgetDocument" parent="BudgetDocument-parentBean"/>
 
   <bean id="BudgetDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Budget" />
-    <property name="shortLabel" value="Budget" />
-    <property name="summary" value="Budget document" />
-    <property name="description" value="Filling out budgets is a delight which all persons should be so lucky as to be able to do dailly twice" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET" />
+    <property name="label" value="Budget"/>
+    <property name="shortLabel" value="Budget"/>
+    <property name="summary" value="Budget document"/>
+    <property name="description" value="Filling out budgets is a delight which all persons should be so lucky as to be able to do dailly twice"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET"/>
     </property>
-    <property name="documentTypeName" value="KBD" />
-    <property name="documentClass" value="org.kuali.kfs.module.cg.document.BudgetDocument" />
+    <property name="documentTypeName" value="KBD"/>
+    <property name="documentClass" value="org.kuali.kfs.module.cg.document.BudgetDocument"/>
     
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentRule" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentRule"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentPreRules"/>
         
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.BudgetDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.BudgetDocumentPresentationController" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.BudgetDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.BudgetDocumentPresentationController"/>
 
-    <property name="allowsNoteDelete" value="true" />
-    <property name="displayTopicFieldInNotes" value="true" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    <property name="allowsNoteDelete" value="true"/>
+    <property name="displayTopicFieldInNotes" value="true"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
     
-    <property name="headerNavigationList" >
+    <property name="headerNavigationList">
       <list>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_PARAMETERS_PAGE" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_PARAMETERS_PAGE"/>
           </property>
-          <property name="headerTabDisplayName" value="Parameters" />
-          <property name="headerTabNavigateTo" value="parameters" />
+          <property name="headerTabDisplayName" value="Parameters"/>
+          <property name="headerTabNavigateTo" value="parameters"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_OVERVIEW_PAGE" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_OVERVIEW_PAGE"/>
           </property>
-          <property name="headerTabDisplayName" value="Overview" />
-          <property name="headerTabNavigateTo" value="overview" />
+          <property name="headerTabDisplayName" value="Overview"/>
+          <property name="headerTabNavigateTo" value="overview"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_PERSONNEL_PAGE" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_PERSONNEL_PAGE"/>
           </property>
-          <property name="headerTabDisplayName" value="Personnel" />
-          <property name="headerTabNavigateTo" value="personnel" />
+          <property name="headerTabDisplayName" value="Personnel"/>
+          <property name="headerTabNavigateTo" value="personnel"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_NONPERSONNEL" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_NONPERSONNEL"/>
           </property>
-          <property name="headerTabDisplayName" value="Nonpersonnel" />
-          <property name="headerTabNavigateTo" value="nonpersonnel" />
+          <property name="headerTabDisplayName" value="Nonpersonnel"/>
+          <property name="headerTabNavigateTo" value="nonpersonnel"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_COST_SHARE_PAGE" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_COST_SHARE_PAGE"/>
           </property>
-          <property name="headerTabDisplayName" value="Cost Share" />
-          <property name="headerTabNavigateTo" value="costshare" />
+          <property name="headerTabDisplayName" value="Cost Share"/>
+          <property name="headerTabNavigateTo" value="costshare"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_MODULAR" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_MODULAR"/>
           </property>
-          <property name="headerTabDisplayName" value="Modular" />
-          <property name="headerTabNavigateTo" value="modular" />
+          <property name="headerTabDisplayName" value="Modular"/>
+          <property name="headerTabNavigateTo" value="modular"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_INDIRECT_COST" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_INDIRECT_COST"/>
           </property>
-          <property name="headerTabDisplayName" value="Indirect Cost" />
-          <property name="headerTabNavigateTo" value="indirectcost" />
+          <property name="headerTabDisplayName" value="Indirect Cost"/>
+          <property name="headerTabNavigateTo" value="indirectcost"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_PERMISSIONS_PAGE" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_PERMISSIONS_PAGE"/>
           </property>
-          <property name="headerTabDisplayName" value="Permissions" />
-          <property name="headerTabNavigateTo" value="permissions" />
+          <property name="headerTabDisplayName" value="Permissions"/>
+          <property name="headerTabNavigateTo" value="permissions"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_OUTPUT_PAGE" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_OUTPUT_PAGE"/>
           </property>
-          <property name="headerTabDisplayName" value="Output" />
-          <property name="headerTabNavigateTo" value="output" />
+          <property name="headerTabDisplayName" value="Output"/>
+          <property name="headerTabNavigateTo" value="output"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_TEMPLATE_PAGE" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_TEMPLATE_PAGE"/>
           </property>
-          <property name="headerTabDisplayName" value="Template" />
-          <property name="headerTabNavigateTo" value="template" />
+          <property name="headerTabDisplayName" value="Template"/>
+          <property name="headerTabNavigateTo" value="template"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_AUDIT_MODE_PAGE" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_AUDIT_MODE_PAGE"/>
           </property>
-          <property name="headerTabDisplayName" value="Audit Mode" />
-          <property name="headerTabNavigateTo" value="auditmode" />
+          <property name="headerTabDisplayName" value="Audit Mode"/>
+          <property name="headerTabNavigateTo" value="auditmode"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_NOTES_PAGE" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_NOTES_PAGE"/>
           </property>
-          <property name="headerTabDisplayName" value="Notes" />
-          <property name="headerTabNavigateTo" value="notes" />
+          <property name="headerTabDisplayName" value="Notes"/>
+          <property name="headerTabNavigateTo" value="notes"/>
         </bean>
       </list>
     </property>
 
-    <property name="workflowAttributes" >
-      <ref bean="BudgetDocument-workflowAttributes" />
+    <property name="workflowAttributes">
+      <ref bean="BudgetDocument-workflowAttributes"/>
     </property>
   </bean>
   
   	<!-- workflow attributes for routing -->
-	<bean id="BudgetDocument-workflowAttributes" parent="BudgetDocument-workflowAttributes-parentBean" />
+	<bean id="BudgetDocument-workflowAttributes" parent="BudgetDocument-workflowAttributes-parentBean"/>
 
 	<bean id="BudgetDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="ProjectDirector" value-ref="BudgetDocument-RoutingType-ProjectDirector" />
-    			<entry key="OrganizationHierarchy" value-ref="BudgetDocument-RoutingType-OrganizationHierarchy" />
+    			<entry key="ProjectDirector" value-ref="BudgetDocument-RoutingType-ProjectDirector"/>
+    			<entry key="OrganizationHierarchy" value-ref="BudgetDocument-RoutingType-OrganizationHierarchy"/>
     		</map>
     	</property>
 	</bean>
@@ -141,14 +134,14 @@
 		<property name="routingAttributes">
     		<list>
     			<bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    				<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.BudgetUser" />
-    				<property name="attributeName" value="principalId" />
+    				<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.BudgetUser"/>
+    				<property name="attributeName" value="principalId"/>
     			</bean>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="DocumentValuePathGroup-ContractsAndGrantsProjectDirector-principalId" />
+    			<ref bean="DocumentValuePathGroup-ContractsAndGrantsProjectDirector-principalId"/>
     		</list>
     	</property>
 	</bean>
@@ -156,8 +149,8 @@
 	<bean id="BudgetDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
 		<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-organizationCode" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-organizationCode"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
@@ -165,21 +158,21 @@
     			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     				<property name="documentCollectionPath">
     					<bean parent="DocumentCollectionPath-SimpleOrganization">
-    						<property name="collectionPath" value="projectDirectorOrganizations" />
+    						<property name="collectionPath" value="projectDirectorOrganizations"/>
     					</bean>
     				</property>
     			</bean>
     			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     				<property name="documentCollectionPath">
     					<bean parent="DocumentCollectionPath-SimpleOrganization">
-    						<property name="collectionPath" value="adHocOrganizations" />
+    						<property name="collectionPath" value="adHocOrganizations"/>
     					</bean>
     				</property>
     			</bean>
     			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     				<property name="documentCollectionPath">
     					<bean parent="DocumentCollectionPath-SimpleOrganization">
-    						<property name="collectionPath" value="costShareOrganizations" />
+    						<property name="collectionPath" value="costShareOrganizations"/>
     					</bean>
     				</property>
     			</bean>

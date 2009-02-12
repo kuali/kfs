@@ -1,40 +1,33 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="YearEndSalaryExpenseTransferDocument" parent="YearEndSalaryExpenseTransferDocument-parentBean" />
+  <bean id="YearEndSalaryExpenseTransferDocument" parent="YearEndSalaryExpenseTransferDocument-parentBean"/>
 
   <bean id="YearEndSalaryExpenseTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Year End Salary Expense Transfer" />
-    <property name="shortLabel" value="Year End Salary Expense Transfer" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The Year End Salary Expense Transfer document is used to move salaries and staff benefit
-        	charges for a given employee for a particular accounting period (or set of periods)
-        	from one or more accounts to another account (or accounts). This document is used in
-        	the case where an employee&apos;s payroll expense was charged to an incorrect account or object code." />
-    <property name="documentTypeName" value="YEST" />
-    <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndSalaryExpenseTransferDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.YearEndSalaryExpenseTransferDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase" />
-    <property name="sessionDocument" value="true" />    
-    <property name="allowsCopy" value="true" />
-    <property name="workflowAttributes" >
-      <ref bean="YearEndSalaryExpenseTransferDocument-workflowAttributes" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Year End Salary Expense Transfer"/>
+    <property name="shortLabel" value="Year End Salary Expense Transfer"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The Year End Salary Expense Transfer document is used to move salaries and staff benefit          charges for a given employee for a particular accounting period (or set of periods)          from one or more accounts to another account (or accounts). This document is used in          the case where an employee's payroll expense was charged to an incorrect account or object code."/>
+    <property name="documentTypeName" value="YEST"/>
+    <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndSalaryExpenseTransferDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.YearEndSalaryExpenseTransferDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase"/>
+    <property name="sessionDocument" value="true"/>    
+    <property name="allowsCopy" value="true"/>
+    <property name="workflowAttributes">
+      <ref bean="YearEndSalaryExpenseTransferDocument-workflowAttributes"/>
     </property>    
        
-    <property name="validationMap" ref="YearEndSalaryExpenseTransferDocument-validations" /> 
+    <property name="validationMap" ref="YearEndSalaryExpenseTransferDocument-validations"/> 
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-    			<ref bean="YearEndSalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+    			<ref bean="YearEndSalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
     		</entry>
     		<entry>
     			<key><value>target</value></key>
-    			<ref bean="YearEndSalaryExpenseTransferDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+    			<ref bean="YearEndSalaryExpenseTransferDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
     		</entry>    		
     	</map>
     </property>  
@@ -42,21 +35,21 @@
   </bean>
 
 <!-- Exported Workflow Attributes -->
-  <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes" parent="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean" />
+  <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes" parent="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean"/>
   
-  <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" >
+  <bean id="YearEndSalaryExpenseTransferDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     <property name="routingTypeDefinitions">
     	<map>
-    		<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    		<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-    		<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    		<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    		<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    		<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
     	</map>
     </property>
   </bean>
   
   <!-- Validations -->
   
-  <bean id="YearEndSalaryExpenseTransferDocument-validations" parent="YearEndSalaryExpenseTransferDocument-validations-parentBean" />
+  <bean id="YearEndSalaryExpenseTransferDocument-validations" parent="YearEndSalaryExpenseTransferDocument-validations-parentBean"/>
   
   <bean id="YearEndSalaryExpenseTransferDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -83,7 +76,7 @@
   </bean>
       
   <!-- accounting line groups -->
-  <bean id="YearEndSalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean" />   
-  <bean id="YearEndSalaryExpenseTransferDocument-targetAccountingLineGroup" parent="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
+  <bean id="YearEndSalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean"/>   
+  <bean id="YearEndSalaryExpenseTransferDocument-targetAccountingLineGroup" parent="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean"/>
     
 </beans>

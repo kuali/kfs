@@ -1,68 +1,53 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AssetTypeMaintenanceDocument" parent="AssetTypeMaintenanceDocument-parentBean" />
+  <bean id="AssetTypeMaintenanceDocument" parent="AssetTypeMaintenanceDocument-parentBean"/>
 
   <bean id="AssetTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetType" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="AssetTypeMaintenanceDocument-EditAssetTypeCode" />
+        <ref bean="AssetTypeMaintenanceDocument-EditAssetTypeCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>capitalAssetTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Asset Type" />
-    <property name="shortLabel" value="Asset Type" />
-    <property name="summary" value="Asset type maintenance document" />
-    <property name="description" value="Document used to create or update asset type code objects" />
-    <property name="documentTypeName" value="ASST" />
-    <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="label" value="Asset Type"/>
+    <property name="shortLabel" value="Asset Type"/>
+    <property name="summary" value="Asset type maintenance document"/>
+    <property name="description" value="Document used to create or update asset type code objects"/>
+    <property name="documentTypeName" value="ASST"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="AssetTypeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="AssetTypeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="AssetTypeMaintenanceDocument-EditAssetTypeCode" parent="AssetTypeMaintenanceDocument-EditAssetTypeCode-parentBean" />
+  <bean id="AssetTypeMaintenanceDocument-EditAssetTypeCode" parent="AssetTypeMaintenanceDocument-EditAssetTypeCode-parentBean"/>
 
   <bean id="AssetTypeMaintenanceDocument-EditAssetTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Asset Type Code" />
-    <property name="title" value="Edit Asset Type" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Asset Type Code"/>
+    <property name="title" value="Edit Asset Type"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetTypeDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="depreciableLifeLimit" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="movingIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="requiredBuildingIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetTypeDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="depreciableLifeLimit"/>
+        <bean parent="MaintainableFieldDefinition" p:name="movingIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="requiredBuildingIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="AssetTypeMaintenanceDocument-workflowAttributes" parent="AssetTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="AssetTypeMaintenanceDocument-workflowAttributes" parent="AssetTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
   <bean id="AssetTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>

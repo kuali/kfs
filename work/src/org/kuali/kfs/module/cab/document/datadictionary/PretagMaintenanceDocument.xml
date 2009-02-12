@@ -1,64 +1,45 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PretagMaintenanceDocument" parent="PretagMaintenanceDocument-parentBean" />
+  <bean id="PretagMaintenanceDocument" parent="PretagMaintenanceDocument-parentBean"/>
 
   <bean id="PretagMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.Pretag" />
-    <property name="maintainableClass" value="org.kuali.kfs.module.cab.document.PreTagMaintainableImpl" />
-    <property name="allowsNewOrCopy" value="false" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.Pretag"/>
+    <property name="maintainableClass" value="org.kuali.kfs.module.cab.document.PreTagMaintainableImpl"/>
+    <property name="allowsNewOrCopy" value="false"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PretagMaintenanceDocument-EditPreAssetTagging" />
-        <ref bean="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails" />
+        <ref bean="PretagMaintenanceDocument-EditPreAssetTagging"/>
+        <ref bean="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="capitalAssetType"
-              p:attributeToHighlightOnFail="capitalAssetTypeCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organization"
-              p:attributeToHighlightOnFail="organizationCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="personUniversal"
-              p:attributeToHighlightOnFail="personUniversal.principalName"
-              p:displayFieldName="Representative Universal Identifier" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chartOfAccounts"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="building"
-              p:collection="pretagDetails"
-              p:attributeToHighlightOnFail="buildingCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="buildingRoom"
-              p:collection="pretagDetails"
-              p:attributeToHighlightOnFail="buildingRoomNumber" />
+        <bean parent="ReferenceDefinition" p:attributeName="capitalAssetType" p:attributeToHighlightOnFail="capitalAssetTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="personUniversal" p:attributeToHighlightOnFail="personUniversal.principalName" p:displayFieldName="Representative Universal Identifier"/>
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="building" p:collection="pretagDetails" p:attributeToHighlightOnFail="buildingCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="buildingRoom" p:collection="pretagDetails" p:attributeToHighlightOnFail="buildingRoomNumber"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>purchaseOrderNumber</value>
         <value>itemLineNumber</value>
       </list>
     </property>
-    <property name="label" value="Pre-Asset Tagging" />
-    <property name="shortLabel" value="Pre-Asset Tagging" />
-    <property name="summary" value="Pre-Asset Tagging maintenance document" />
-    <property name="description" value="Document used to create or update Pre-Asset Tagging" />
-    <property name="documentTypeName" value="PTAG" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cab.document.validation.impl.PretagRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cab.document.authorization.PretagAuthorizer" />
-    <property name="authorizations" >
+    <property name="label" value="Pre-Asset Tagging"/>
+    <property name="shortLabel" value="Pre-Asset Tagging"/>
+    <property name="summary" value="Pre-Asset Tagging maintenance document"/>
+    <property name="description" value="Document used to create or update Pre-Asset Tagging"/>
+    <property name="documentTypeName" value="PTAG"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cab.document.validation.impl.PretagRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cab.document.authorization.PretagAuthorizer"/>
+    <property name="authorizations">
       <list>
         <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
+          <property name="action" value="initiate"/>
+          <property name="authorizedGroups">
             <set>
               <value>CM_ADMINISTRATORS</value>
             </set>
@@ -66,127 +47,73 @@
         </bean>
       </list>
     </property>
-    <property name="workflowAttributes" >
-      <ref bean="PretagMaintenanceDocument-workflowAttributes" />
+    <property name="workflowAttributes">
+      <ref bean="PretagMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="PretagMaintenanceDocument-EditPreAssetTagging" parent="PretagMaintenanceDocument-EditPreAssetTagging-parentBean" />
+  <bean id="PretagMaintenanceDocument-EditPreAssetTagging" parent="PretagMaintenanceDocument-EditPreAssetTagging-parentBean"/>
 
   <bean id="PretagMaintenanceDocument-EditPreAssetTagging-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Pre-Asset Tagging" />
-    <property name="title" value="Edit Pre-Asset Tagging" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Pre-Asset Tagging"/>
+    <property name="title" value="Edit Pre-Asset Tagging"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="purchaseOrderNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="itemLineNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="quantityInvoiced"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="manufacturerName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="manufacturerModelNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationCode" 
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationInventoryName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personUniversal.principalName" 
-              p:required="false" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personUniversal.name"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationText" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetTopsDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="pretagCreateDate"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="itemLineNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="quantityInvoiced" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="manufacturerName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="manufacturerModelNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationInventoryName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personUniversal.principalName" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personUniversal.name" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationText"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetTopsDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="pretagCreateDate" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
-  <bean id="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails" parent="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails-parentBean" />
+  <bean id="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails" parent="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails-parentBean"/>
 
   <bean id="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit List of Pre-Asset Tagging Details" />
-    <property name="title" value="Edit List of Pre-Asset Tagging Details" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit List of Pre-Asset Tagging Details"/>
+    <property name="title" value="Edit List of Pre-Asset Tagging Details"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="pretagDetails" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PretagDetail" />
-          <property name="summaryTitle" value="Detail" />
-          <property name="summaryFields" >
+          <property name="name" value="pretagDetails"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PretagDetail"/>
+          <property name="summaryTitle" value="Detail"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="campusTagNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="serialNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="campusTagNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="serialNumber"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="purchaseOrderNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="itemLineNumber"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="campusTagNumber"
-                    p:required="true"
-                    p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="serialNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organizationTagNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="governmentTagNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="nationalStockNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="campusCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="buildingCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="buildingRoomNumber"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="buildingSubRoomNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="pretagTagCreateDate"
-                    p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="itemLineNumber" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="campusTagNumber" p:required="true" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="serialNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationTagNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="governmentTagNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="nationalStockNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="buildingCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="buildingRoomNumber" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="buildingSubRoomNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="pretagTagCreateDate" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
         </bean>
@@ -197,8 +124,8 @@
   <bean id="RoutingType-PretagMaintenanceDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
    	<property name="routingAttributes">
    		<list>
-	        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-	        <ref bean="RoutingAttribute-organizationCode" />
+	        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+	        <ref bean="RoutingAttribute-organizationCode"/>
    		</list>
    	</property>
    	<property name="documentValuePathGroups">
@@ -215,7 +142,7 @@
    	</property>
  </bean>
     
-  <bean id="PretagMaintenanceDocument-workflowAttributes" parent="PretagMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="PretagMaintenanceDocument-workflowAttributes" parent="PretagMaintenanceDocument-workflowAttributes-parentBean"/>
 	
   <bean id="PretagMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
    	<property name="searchingTypeDefinitions">
@@ -223,8 +150,8 @@
 		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-		    			<property name="attributeName" value="campusTagNumber" />
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
+		    			<property name="attributeName" value="campusTagNumber"/>
 		    		</bean>
 		    	</property>
 		    	<property name="documentValues">
@@ -237,8 +164,8 @@
 		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-		    			<property name="attributeName" value="organizationOwnerChartOfAccountsCode" />
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
+		    			<property name="attributeName" value="organizationOwnerChartOfAccountsCode"/>
 		    		</bean>
 		    	</property>
 		    	<property name="documentValues">
@@ -251,8 +178,8 @@
 		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-		    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
-		    			<property name="attributeName" value="organizationCode" />
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+		    			<property name="attributeName" value="organizationCode"/>
 		    		</bean>
 		    	</property>
 		    	<property name="documentValues">
@@ -265,10 +192,9 @@
    	</property>
    	<property name="routingTypeDefinitions">
    		<map>
-   			<entry key="OrganizationHierarchy" value-ref="RoutingType-PretagMaintenanceDocument-OrganizationHierarchy" />
+   			<entry key="OrganizationHierarchy" value-ref="RoutingType-PretagMaintenanceDocument-OrganizationHierarchy"/>
    		</map>
    	</property>
   </bean>
 
 </beans>
-

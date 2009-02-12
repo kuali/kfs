@@ -1,131 +1,92 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AccountDelegateModelMaintenanceDocument" parent="AccountDelegateModelMaintenanceDocument-parentBean" />
+  <bean id="AccountDelegateModelMaintenanceDocument" parent="AccountDelegateModelMaintenanceDocument-parentBean"/>
 
   <bean id="AccountDelegateModelMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateModel" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateModel"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="AccountDelegateModelMaintenanceDocument-EditAccountDelegateModel" />
-        <ref bean="AccountDelegateModelMaintenanceDocument-EditDelegatesforModel" />
+        <ref bean="AccountDelegateModelMaintenanceDocument-EditAccountDelegateModel"/>
+        <ref bean="AccountDelegateModelMaintenanceDocument-EditDelegatesforModel"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>chartOfAccountsCode</value>
         <value>organizationCode</value>
         <value>organizationRoutingModelName</value>
       </list>
     </property>
-    <property name="label" value="Account Delegate Model" />
-    <property name="shortLabel" value="Account Delegate Model" />
-    <property name="summary" value="Account Delegate Model Maintenance Document" />
-    <property name="description" value="Account Delegate Model Maintenance Document" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountDelegateModel" p:parameterName="DELEGATE_MODEL" />
+    <property name="label" value="Account Delegate Model"/>
+    <property name="shortLabel" value="Account Delegate Model"/>
+    <property name="summary" value="Account Delegate Model Maintenance Document"/>
+    <property name="description" value="Account Delegate Model Maintenance Document"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountDelegateModel" p:parameterName="DELEGATE_MODEL"/>
     </property>
-    <property name="documentTypeName" value="GDLM" />
-    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelPreRules" />
+    <property name="documentTypeName" value="GDLM"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelPreRules"/>
     <property name="workflowAttributes">
-    	<ref bean="AccountDelegateModelMaintenanceDocument-workflowAttributes" />
+    	<ref bean="AccountDelegateModelMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="AccountDelegateModelMaintenanceDocument-EditAccountDelegateModel" parent="AccountDelegateModelMaintenanceDocument-EditAccountDelegateModel-parentBean" />
+  <bean id="AccountDelegateModelMaintenanceDocument-EditAccountDelegateModel" parent="AccountDelegateModelMaintenanceDocument-EditAccountDelegateModel-parentBean"/>
 
   <bean id="AccountDelegateModelMaintenanceDocument-EditAccountDelegateModel-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Account Delegate  Model" />
-    <property name="title" value="Edit Account Delegate  Model" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Account Delegate  Model"/>
+    <property name="title" value="Edit Account Delegate  Model"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationCode"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationRoutingModelName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:defaultValue="true"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationRoutingModelName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
   </bean>
-  <bean id="AccountDelegateModelMaintenanceDocument-EditDelegatesforModel" parent="AccountDelegateModelMaintenanceDocument-EditDelegatesforModel-parentBean" />
+  <bean id="AccountDelegateModelMaintenanceDocument-EditDelegatesforModel" parent="AccountDelegateModelMaintenanceDocument-EditDelegatesforModel-parentBean"/>
 
   <bean id="AccountDelegateModelMaintenanceDocument-EditDelegatesforModel-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Delegates for Model" />
-    <property name="title" value="Edit Delegates for Model" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Delegates for Model"/>
+    <property name="title" value="Edit Delegates for Model"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="organizationRoutingModel" />
-          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail" />
-          <property name="summaryTitle" value="Account Delegate Model Delegate" />
-          <property name="summaryFields" >
+          <property name="name" value="organizationRoutingModel"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail"/>
+          <property name="summaryTitle" value="Account Delegate Model Delegate"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentTypeCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegatePrimaryRoutingIndicator" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegate.principalName" />
+              <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountDelegatePrimaryRoutingIndicator"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentTypeCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegatePrimaryRoutingIndicator" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegateStartDate"
-                    p:required="true"
-                    p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="approvalFromThisAmount" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="approvalToThisAmount" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegate.principalName"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegate.name"
-                    p:unconditionallyReadOnly="true"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegateUniversalId"
-                    p:unconditionallyReadOnly="true"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountDelegatePrimaryRoutingIndicator"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountDelegateStartDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+              <bean parent="MaintainableFieldDefinition" p:name="approvalFromThisAmount"/>
+              <bean parent="MaintainableFieldDefinition" p:name="approvalToThisAmount"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.name" p:unconditionallyReadOnly="true" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountDelegateUniversalId" p:unconditionallyReadOnly="true" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
           <property name="duplicateIdentificationFields">
           	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName" />
-          		<bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode" />
+          		<bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode"/>
           	</list>
           </property>
         </bean>
@@ -134,31 +95,31 @@
   </bean>
 
 	<!-- workflow attributes -->
-  	<bean id="AccountDelegateModelMaintenanceDocument-workflowAttributes" parent="AccountDelegateModelMaintenanceDocument-workflowAttributes-parentBean" />
+  	<bean id="AccountDelegateModelMaintenanceDocument-workflowAttributes" parent="AccountDelegateModelMaintenanceDocument-workflowAttributes-parentBean"/>
   
 	<bean id="AccountDelegateModelMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 		<property name="routingTypeDefinitions">
     		<map>
-	    		<entry key="Chart" value-ref="AccountDelegateModelMaintenanceDocument-RoutingType-Chart" />
-    			<entry key="OrganizationHierarchy" value-ref="AccountDelegateModelMaintenanceDocument-RoutingType-OrganizationHierarchy" />
+	    		<entry key="Chart" value-ref="AccountDelegateModelMaintenanceDocument-RoutingType-Chart"/>
+    			<entry key="OrganizationHierarchy" value-ref="AccountDelegateModelMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
     		</map>
 		</property>
 	</bean>
 	
 	<bean id="AccountDelegateModelMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
-    	<property name="attributeName" value="chartOfAccountsCode" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart"/>
+    	<property name="attributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
 	<bean id="AccountDelegateModelMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
-    	<property name="attributeName" value="organizationCode" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    	<property name="attributeName" value="organizationCode"/>
 	</bean>
 	
 	<bean id="AccountDelegateModelMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="AccountDelegateModelMaintenanceDocument-DocumentCollectionPath-chartAndOrganization">
-    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails" />
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
     		</bean>
     	</property>
    	</bean>
@@ -175,7 +136,7 @@
    	<bean id="AccountDelegateModelMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="AccountDelegateModelMaintenanceDocument-DocumentCollectionPath-chart">
-    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails" />
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
     		</bean>
     	</property>
    	</bean>
@@ -191,13 +152,13 @@
    	<bean id="AccountDelegateModelMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="AccountDelegateModelMaintenanceDocument-RoutingAttribute-Chart" />
-    			<ref bean="AccountDelegateModelMaintenanceDocument-RoutingAttribute-Organization" />
+		        <ref bean="AccountDelegateModelMaintenanceDocument-RoutingAttribute-Chart"/>
+    			<ref bean="AccountDelegateModelMaintenanceDocument-RoutingAttribute-Organization"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="AccountDelegateModelMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" />
+    			<ref bean="AccountDelegateModelMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
     		</list>
     	</property>
     </bean>
@@ -205,14 +166,13 @@
 	<bean id="AccountDelegateModelMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="AccountDelegateModelMaintenanceDocument-RoutingAttribute-Chart" />
+		        <ref bean="AccountDelegateModelMaintenanceDocument-RoutingAttribute-Chart"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="AccountDelegateModelMaintenanceDocument-DocumentValuePathGroup-Chart" />
+    			<ref bean="AccountDelegateModelMaintenanceDocument-DocumentValuePathGroup-Chart"/>
     		</list>
     	</property>
     </bean>
 </beans>
-

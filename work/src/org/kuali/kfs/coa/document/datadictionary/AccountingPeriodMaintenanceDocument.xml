@@ -1,75 +1,57 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AccountingPeriodMaintenanceDocument" parent="AccountingPeriodMaintenanceDocument-parentBean" />
+  <bean id="AccountingPeriodMaintenanceDocument" parent="AccountingPeriodMaintenanceDocument-parentBean"/>
 
   <bean id="AccountingPeriodMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountingPeriod" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountingPeriod"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="AccountingPeriodMaintenanceDocument-EditAccountingPeriod" />
+        <ref bean="AccountingPeriodMaintenanceDocument-EditAccountingPeriod"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>universityFiscalYear</value>
         <value>universityFiscalPeriodCode</value>
       </list>
     </property>
-    <property name="label" value="Accounting Period" />
-    <property name="shortLabel" value="Accounting Period" />
-    <property name="summary" value="Accounting Period maintenance document" />
-    <property name="description" value="Document used to create or update Accounting Period objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountingPeriod" p:parameterName="ACCOUNTING_PERIOD" />
+    <property name="label" value="Accounting Period"/>
+    <property name="shortLabel" value="Accounting Period"/>
+    <property name="summary" value="Accounting Period maintenance document"/>
+    <property name="description" value="Document used to create or update Accounting Period objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountingPeriod" p:parameterName="ACCOUNTING_PERIOD"/>
     </property>
-    <property name="documentTypeName" value="APRD" />
-    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountingPeriodRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="APRD"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountingPeriodRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="AccountingPeriodMaintenanceDocument-workflowAttributes" />
+    	<ref bean="AccountingPeriodMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="AccountingPeriodMaintenanceDocument-EditAccountingPeriod" parent="AccountingPeriodMaintenanceDocument-EditAccountingPeriod-parentBean" />
+  <bean id="AccountingPeriodMaintenanceDocument-EditAccountingPeriod" parent="AccountingPeriodMaintenanceDocument-EditAccountingPeriod-parentBean"/>
 
   <bean id="AccountingPeriodMaintenanceDocument-EditAccountingPeriod-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Accounting Period" />
-    <property name="title" value="Edit Accounting Period" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Accounting Period"/>
+    <property name="title" value="Edit Accounting Period"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalPeriodCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalPeriodName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="budgetRolloverIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalPeriodEndDate"
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalPeriodCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalPeriodName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="budgetRolloverIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalPeriodEndDate" p:required="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="AccountingPeriodMaintenanceDocument-workflowAttributes" parent="AccountingPeriodMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="AccountingPeriodMaintenanceDocument-workflowAttributes" parent="AccountingPeriodMaintenanceDocument-workflowAttributes-parentBean"/>
   
   <bean id="AccountingPeriodMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>

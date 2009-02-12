@@ -1,28 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="GeneralLedgerCorrectionProcessDocument" parent="GeneralLedgerCorrectionProcessDocument-parentBean" />
+  <bean id="GeneralLedgerCorrectionProcessDocument" parent="GeneralLedgerCorrectionProcessDocument-parentBean"/>
 
   <bean id="GeneralLedgerCorrectionProcessDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="General Ledger Correction Process" />
-    <property name="shortLabel" value="GLCPDoc" />
-    <property name="summary" value="General Ledger Correction Process Document" />
-    <property name="description" value="General Ledger Correction Process Document" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS" />
+    <property name="label" value="General Ledger Correction Process"/>
+    <property name="shortLabel" value="GLCPDoc"/>
+    <property name="summary" value="General Ledger Correction Process Document"/>
+    <property name="description" value="General Ledger Correction Process Document"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS"/>
     </property>
-    <property name="documentTypeName" value="GLCP" />
-    <property name="documentClass" value="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer" />
-    <property name="workflowAttributes" >
- 		<ref bean="GeneralLedgerCorrectionProcessDocument-workflowAttributes" />
+    <property name="documentTypeName" value="GLCP"/>
+    <property name="documentClass" value="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer"/>
+    <property name="workflowAttributes">
+ 		<ref bean="GeneralLedgerCorrectionProcessDocument-workflowAttributes"/>
  	</property>
   </bean>
   
-  <bean id="GeneralLedgerCorrectionProcessDocument-workflowAttributes" parent="GeneralLedgerCorrectionProcessDocument-workflowAttributes-parentBean" />
+  <bean id="GeneralLedgerCorrectionProcessDocument-workflowAttributes" parent="GeneralLedgerCorrectionProcessDocument-workflowAttributes-parentBean"/>
 	
   <bean id="GeneralLedgerCorrectionProcessDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes"/>
   

@@ -1,71 +1,57 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="TravelCompanyCodeMaintenanceDocument" parent="TravelCompanyCodeMaintenanceDocument-parentBean" />
+  <bean id="TravelCompanyCodeMaintenanceDocument" parent="TravelCompanyCodeMaintenanceDocument-parentBean"/>
 
   <bean id="TravelCompanyCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TravelCompanyCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TravelCompanyCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="TravelCompanyCodeMaintenanceDocument-EditTravelCompanyCode" />
+        <ref bean="TravelCompanyCodeMaintenanceDocument-EditTravelCompanyCode"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="travelExpenseTypeCode"
-              p:attributeToHighlightOnFail="code" />
+        <bean parent="ReferenceDefinition" p:attributeName="travelExpenseTypeCode" p:attributeToHighlightOnFail="code"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Travel Company" />
-    <property name="shortLabel" value="Disbursement Voucher Travel Company" />
-    <property name="summary" value="Travel Company Code Maintenance Document" />
-    <property name="description" value="Document used to create or update Travel company code objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelCompanyCode" p:parameterName="TRAVEL_COMPANY" />
+    <property name="label" value="Disbursement Voucher Travel Company"/>
+    <property name="shortLabel" value="Disbursement Voucher Travel Company"/>
+    <property name="summary" value="Travel Company Code Maintenance Document"/>
+    <property name="description" value="Document used to create or update Travel company code objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelCompanyCode" p:parameterName="TRAVEL_COMPANY"/>
     </property>
-    <property name="documentTypeName" value="DVTC" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="DVTC"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="TravelCompanyCodeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="TravelCompanyCodeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="TravelCompanyCodeMaintenanceDocument-EditTravelCompanyCode" parent="TravelCompanyCodeMaintenanceDocument-EditTravelCompanyCode-parentBean" />
+  <bean id="TravelCompanyCodeMaintenanceDocument-EditTravelCompanyCode" parent="TravelCompanyCodeMaintenanceDocument-EditTravelCompanyCode-parentBean"/>
 
   <bean id="TravelCompanyCodeMaintenanceDocument-EditTravelCompanyCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Travel Company Code" />
-    <property name="title" value="Edit Travel Company Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Travel Company Code"/>
+    <property name="title" value="Edit Travel Company Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="name"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="TravelCompanyCodeMaintenanceDocument-workflowAttributes" parent="TravelCompanyCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="TravelCompanyCodeMaintenanceDocument-workflowAttributes" parent="TravelCompanyCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="TravelCompanyCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="TravelCompanyCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

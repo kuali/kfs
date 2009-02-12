@@ -1,62 +1,51 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="DisbursementTypeMaintenanceDocument" parent="DisbursementTypeMaintenanceDocument-parentBean" />
+  <bean id="DisbursementTypeMaintenanceDocument" parent="DisbursementTypeMaintenanceDocument-parentBean"/>
 
   <bean id="DisbursementTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.DisbursementType" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.DisbursementType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="DisbursementTypeMaintenanceDocument-EditDisbursementType" />
+        <ref bean="DisbursementTypeMaintenanceDocument-EditDisbursementType"/>
       </list>
     </property>
     
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Type" />
-    <property name="shortLabel" value="Disbursement Type" />
-    <property name="summary" value="Disbursement Type Maintenance Document" />
-    <property name="description" value="Document used to create or update Disbursement Type Descriptions" />
-    <property name="documentTypeName" value="DSTP" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="allowsNewOrCopy" value="false" />
+    <property name="label" value="Disbursement Type"/>
+    <property name="shortLabel" value="Disbursement Type"/>
+    <property name="summary" value="Disbursement Type Maintenance Document"/>
+    <property name="description" value="Document used to create or update Disbursement Type Descriptions"/>
+    <property name="documentTypeName" value="DSTP"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="allowsNewOrCopy" value="false"/>
     <property name="workflowAttributes">
-    	<ref bean="DisbursementTypeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="DisbursementTypeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="DisbursementTypeMaintenanceDocument-EditDisbursementType" parent="DisbursementTypeMaintenanceDocument-EditDisbursementType-parentBean" />
+  <bean id="DisbursementTypeMaintenanceDocument-EditDisbursementType" parent="DisbursementTypeMaintenanceDocument-EditDisbursementType-parentBean"/>
 
   <bean id="DisbursementTypeMaintenanceDocument-EditDisbursementType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Payment Type" />
-    <property name="title" value="Edit Payment Type" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Payment Type"/>
+    <property name="title" value="Edit Payment Type"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="name"
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="DisbursementTypeMaintenanceDocument-workflowAttributes" parent="DisbursementTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="DisbursementTypeMaintenanceDocument-workflowAttributes" parent="DisbursementTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="DisbursementTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="DisbursementTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -1,118 +1,86 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ProjectCodeMaintenanceDocument" parent="ProjectCodeMaintenanceDocument-parentBean" />
+  <bean id="ProjectCodeMaintenanceDocument" parent="ProjectCodeMaintenanceDocument-parentBean"/>
 
   <bean id="ProjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ProjectCode" />
-    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ProjectCode"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ProjectCodeMaintenanceDocument-EditProjectCode" />
+        <ref bean="ProjectCodeMaintenanceDocument-EditProjectCode"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chartOfAccounts"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="projectManagerUniversal"
-              p:attributeToHighlightOnFail="projectManagerUniversal.principalName" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organization"
-              p:attributeToHighlightOnFail="organizationCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="projectManagerUniversal" p:attributeToHighlightOnFail="projectManagerUniversal.principalName"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Project Code" />
-    <property name="shortLabel" value="Project Code" />
-    <property name="summary" value="Project Code maintenance document" />
-    <property name="description" value="Document used to create or update Project Code objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ProjectCode" p:parameterName="PROJECT" />
+    <property name="label" value="Project Code"/>
+    <property name="shortLabel" value="Project Code"/>
+    <property name="summary" value="Project Code maintenance document"/>
+    <property name="description" value="Document used to create or update Project Code objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ProjectCode" p:parameterName="PROJECT"/>
     </property>
-    <property name="documentTypeName" value="PROJ" />
-    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ProjectCodeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="PROJ"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ProjectCodeRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="ProjectCodeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="ProjectCodeMaintenanceDocument-workflowAttributes"/>
     </property> 
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ProjectCodeMaintenanceDocument-EditProjectCode" parent="ProjectCodeMaintenanceDocument-EditProjectCode-parentBean" />
+  <bean id="ProjectCodeMaintenanceDocument-EditProjectCode" parent="ProjectCodeMaintenanceDocument-EditProjectCode-parentBean"/>
 
   <bean id="ProjectCodeMaintenanceDocument-EditProjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Project Code" />
-    <property name="title" value="Edit Project Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Project Code"/>
+    <property name="title" value="Edit Project Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="name"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="projectManagerUniversalId"
-              p:unconditionallyReadOnly="true"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="projectManagerUniversal.principalName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="projectManagerUniversal.name"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organizationCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="projectDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="projectManagerUniversalId" p:unconditionallyReadOnly="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="projectManagerUniversal.principalName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="projectManagerUniversal.name" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="projectDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
 
 	<!-- workflow attributes -->
-  	<bean id="ProjectCodeMaintenanceDocument-workflowAttributes" parent="ProjectCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  	<bean id="ProjectCodeMaintenanceDocument-workflowAttributes" parent="ProjectCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
 	<bean id="ProjectCodeMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 	<property name="routingTypeDefinitions">
     		
     		<map>
-    			<entry key="OrganizationHierarchy" value-ref="ProjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy" />
+    			<entry key="OrganizationHierarchy" value-ref="ProjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
     		</map>
     	
 		</property>
 	</bean>
 	
 	<bean id="ProjectCodeMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
-    	<property name="attributeName" value="chartOfAccountsCode" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart"/>
+    	<property name="attributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
 	<bean id="ProjectCodeMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
-    	<property name="attributeName" value="organizationCode" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    	<property name="attributeName" value="organizationCode"/>
 	</bean>
 	
 	
@@ -128,13 +96,13 @@
    	<bean id="ProjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="ProjectCodeMaintenanceDocument-RoutingAttribute-Chart" />
-    			<ref bean="ProjectCodeMaintenanceDocument-RoutingAttribute-Organization" />
+		        <ref bean="ProjectCodeMaintenanceDocument-RoutingAttribute-Chart"/>
+    			<ref bean="ProjectCodeMaintenanceDocument-RoutingAttribute-Organization"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="ProjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" />
+    			<ref bean="ProjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
     		</list>
     	</property>
     </bean>

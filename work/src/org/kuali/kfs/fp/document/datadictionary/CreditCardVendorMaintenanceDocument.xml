@@ -1,129 +1,78 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CreditCardVendorMaintenanceDocument" parent="CreditCardVendorMaintenanceDocument-parentBean" />
+  <bean id="CreditCardVendorMaintenanceDocument" parent="CreditCardVendorMaintenanceDocument-parentBean"/>
 
   <bean id="CreditCardVendorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CreditCardVendor" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CreditCardVendor"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="CreditCardVendorMaintenanceDocument-EditCreditCardVendor" />
+        <ref bean="CreditCardVendorMaintenanceDocument-EditCreditCardVendor"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialDocumentCreditCardType"
-              p:attributeToHighlightOnFail="financialDocumentCreditCardTypeCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="incomeFinancialChartOfAccounts"
-              p:attributeToHighlightOnFail="incomeFinancialChartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="incomeAccount"
-              p:attributeToHighlightOnFail="incomeAccountNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="incomeFinancialObject"
-              p:attributeToHighlightOnFail="incomeFinancialObjectCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="incomeFinancialSubObject"
-              p:attributeToHighlightOnFail="incomeFinancialSubObjectCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="incomeSubAccount"
-              p:attributeToHighlightOnFail="incomeSubAccountNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="expenseFinancialChartOfAccounts"
-              p:attributeToHighlightOnFail="expenseFinancialChartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="expenseAccount"
-              p:attributeToHighlightOnFail="expenseAccountNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="expenseFinancialObject"
-              p:attributeToHighlightOnFail="expenseFinancialObjectCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="expenseFinancialSubObject"
-              p:attributeToHighlightOnFail="expenseFinancialSubObjectCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="expenseSubAccount"
-              p:attributeToHighlightOnFail="expenseSubAccountNumber" />
+        <bean parent="ReferenceDefinition" p:attributeName="financialDocumentCreditCardType" p:attributeToHighlightOnFail="financialDocumentCreditCardTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeFinancialChartOfAccounts" p:attributeToHighlightOnFail="incomeFinancialChartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeAccount" p:attributeToHighlightOnFail="incomeAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeFinancialObject" p:attributeToHighlightOnFail="incomeFinancialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeFinancialSubObject" p:attributeToHighlightOnFail="incomeFinancialSubObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeSubAccount" p:attributeToHighlightOnFail="incomeSubAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseFinancialChartOfAccounts" p:attributeToHighlightOnFail="expenseFinancialChartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseAccount" p:attributeToHighlightOnFail="expenseAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseFinancialObject" p:attributeToHighlightOnFail="expenseFinancialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseFinancialSubObject" p:attributeToHighlightOnFail="expenseFinancialSubObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseSubAccount" p:attributeToHighlightOnFail="expenseSubAccountNumber"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>financialDocumentCreditCardVendorNumber</value>
       </list>
     </property>
-    <property name="label" value="Credit Card Vendor" />
-    <property name="shortLabel" value="Credit Card Vendor" />
-    <property name="summary" value="Credit Card Vendor Maintenance Document" />
-    <property name="description" value="Document used to create or update a credit card vendor." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.CreditCardVendor" p:parameterName="CREDIT_CARD_VENDOR" />
+    <property name="label" value="Credit Card Vendor"/>
+    <property name="shortLabel" value="Credit Card Vendor"/>
+    <property name="summary" value="Credit Card Vendor Maintenance Document"/>
+    <property name="description" value="Document used to create or update a credit card vendor."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.CreditCardVendor" p:parameterName="CREDIT_CARD_VENDOR"/>
     </property>
-    <property name="documentTypeName" value="CCVN" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardVendorRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="CCVN"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardVendorRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="CreditCardVendorMaintenanceDocument-workflowAttributes" />
+    	<ref bean="CreditCardVendorMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="CreditCardVendorMaintenanceDocument-EditCreditCardVendor" parent="CreditCardVendorMaintenanceDocument-EditCreditCardVendor-parentBean" />
+  <bean id="CreditCardVendorMaintenanceDocument-EditCreditCardVendor" parent="CreditCardVendorMaintenanceDocument-EditCreditCardVendor-parentBean"/>
 
   <bean id="CreditCardVendorMaintenanceDocument-EditCreditCardVendor-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Credit Card Vendor" />
-    <property name="title" value="Edit Credit Card Vendor" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Credit Card Vendor"/>
+    <property name="title" value="Edit Credit Card Vendor"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentCreditCardVendorNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentCreditCardVendorName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentCreditCardTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="incomeFinancialChartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="incomeAccountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="incomeFinancialObjectCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="incomeFinancialSubObjectCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="incomeSubAccountNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="expenseFinancialChartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="expenseAccountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="expenseFinancialObjectCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="expenseFinancialSubObjectCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="expenseSubAccountNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardVendorNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardVendorName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialChartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialSubObjectCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeSubAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialChartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialSubObjectCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseSubAccountNumber"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="CreditCardVendorMaintenanceDocument-workflowAttributes" parent="CreditCardVendorMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="CreditCardVendorMaintenanceDocument-workflowAttributes" parent="CreditCardVendorMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="CreditCardVendorMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="CreditCardVendorMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

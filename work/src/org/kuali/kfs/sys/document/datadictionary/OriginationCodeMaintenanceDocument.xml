@@ -1,41 +1,34 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="OriginationCodeMaintenanceDocument" parent="OriginationCodeMaintenanceDocument-parentBean" />
+  <bean id="OriginationCodeMaintenanceDocument" parent="OriginationCodeMaintenanceDocument-parentBean"/>
 
   <bean id="OriginationCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.OriginationCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.OriginationCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="OriginationCodeMaintenanceDocument-EditOriginationCode" />
+        <ref bean="OriginationCodeMaintenanceDocument-EditOriginationCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>financialSystemOriginationCode</value>
       </list>
     </property>
-    <property name="label" value="Origination Code" />
-    <property name="shortLabel" value="Origination Code" />
-    <property name="summary" value="Origination Code maintenance document" />
-    <property name="description" value="Document used to create or update Origination Code objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.OriginationCode" p:parameterName="ORIGINATION" />
+    <property name="label" value="Origination Code"/>
+    <property name="shortLabel" value="Origination Code"/>
+    <property name="summary" value="Origination Code maintenance document"/>
+    <property name="description" value="Document used to create or update Origination Code objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.OriginationCode" p:parameterName="ORIGINATION"/>
     </property>
-    <property name="documentTypeName" value="ORIG" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="authorizations" >
+    <property name="documentTypeName" value="ORIG"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="authorizations">
       <list>
         <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
+          <property name="action" value="initiate"/>
+          <property name="authorizedGroups">
             <set>
               <value>SY_MAINTENANCE_USERS</value>
             </set>
@@ -44,57 +37,39 @@
       </list>
     </property>
     <property name="workflowAttributes">
-    	<ref bean="OriginationCodeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="OriginationCodeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="OriginationCodeMaintenanceDocument-EditOriginationCode" parent="OriginationCodeMaintenanceDocument-EditOriginationCode-parentBean" />
+  <bean id="OriginationCodeMaintenanceDocument-EditOriginationCode" parent="OriginationCodeMaintenanceDocument-EditOriginationCode-parentBean"/>
 
   <bean id="OriginationCodeMaintenanceDocument-EditOriginationCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Origination Code" />
-    <property name="title" value="Edit Origination Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Origination Code"/>
+    <property name="title" value="Edit Origination Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialSystemOriginationCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialSystemServerName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialSystemDatabaseName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialSystemDatabaseDesc" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="nextCapitalAssetNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="nextNonCapitalAssetNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="nextCgProposalNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="nextContractsAndGrantsAgencyNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="nextContractsAndGrantsSubcontractorNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="nextDisbVchrPayeeIdNbr" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="nextFdocAttachmentIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="acctRcvbNextCustomerNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentNextItemIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:defaultValue="true"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialSystemOriginationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialSystemServerName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialSystemDatabaseName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialSystemDatabaseDesc"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nextCapitalAssetNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nextNonCapitalAssetNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nextCgProposalNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nextContractsAndGrantsAgencyNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nextContractsAndGrantsSubcontractorNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nextDisbVchrPayeeIdNbr"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nextFdocAttachmentIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="acctRcvbNextCustomerNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentNextItemIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="OriginationCodeMaintenanceDocument-workflowAttributes" parent="OriginationCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="OriginationCodeMaintenanceDocument-workflowAttributes" parent="OriginationCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="OriginationCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="OriginationCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

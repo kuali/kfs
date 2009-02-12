@@ -1,51 +1,39 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="FinancialSystemDocumentTypeCodeMaintenanceDocument" parent="FinancialSystemDocumentTypeCodeMaintenanceDocument-parentBean" />
+  <bean id="FinancialSystemDocumentTypeCodeMaintenanceDocument" parent="FinancialSystemDocumentTypeCodeMaintenanceDocument-parentBean"/>
 
   <bean id="FinancialSystemDocumentTypeCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="FinancialSystemDocumentTypeCodeMaintenanceDocument-EditFinancialSystemDocumentTypeCode" />
+        <ref bean="FinancialSystemDocumentTypeCodeMaintenanceDocument-EditFinancialSystemDocumentTypeCode"/>
       </list>
     </property>
-    <property name="allowsNewOrCopy" value="true" />
-    <property name="lockingKeys" >
+    <property name="allowsNewOrCopy" value="true"/>
+    <property name="lockingKeys">
       <list>
         <value>financialSystemDocumentTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Financial System Document Type Code" />
-    <property name="documentTypeName" value="FSDT" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="label" value="Financial System Document Type Code"/>
+    <property name="documentTypeName" value="FSDT"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="FinancialSystemDocumentTypeCodeMaintenanceDocument-EditFinancialSystemDocumentTypeCode" parent="FinancialSystemDocumentTypeCodeMaintenanceDocument-EditFinancialSystemDocumentTypeCode-parentBean" />
+  <bean id="FinancialSystemDocumentTypeCodeMaintenanceDocument-EditFinancialSystemDocumentTypeCode" parent="FinancialSystemDocumentTypeCodeMaintenanceDocument-EditFinancialSystemDocumentTypeCode-parentBean"/>
 
   <bean id="FinancialSystemDocumentTypeCodeMaintenanceDocument-EditFinancialSystemDocumentTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Financial System Document Type Code" />
-    <property name="title" value="Edit Financial System Document Type Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Financial System Document Type Code"/>
+    <property name="title" value="Edit Financial System Document Type Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialSystemDocumentTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="documentTypeName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" 
-              p:defaultValue="true"/>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="transactionScrubberOffsetGenerationIndicator" 
-              p:defaultValue="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialSystemDocumentTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="documentTypeName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="transactionScrubberOffsetGenerationIndicator" p:defaultValue="false"/>
       </list>
     </property>
   </bean>

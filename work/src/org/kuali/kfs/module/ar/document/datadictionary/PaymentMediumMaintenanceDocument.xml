@@ -1,60 +1,47 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PaymentMediumMaintenanceDocument" parent="PaymentMediumMaintenanceDocument-parentBean" />
+  <bean id="PaymentMediumMaintenanceDocument" parent="PaymentMediumMaintenanceDocument-parentBean"/>
 
   <bean id="PaymentMediumMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.PaymentMedium" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.PaymentMedium"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PaymentMediumMaintenanceDocument-EditPaymentMedium" />
+        <ref bean="PaymentMediumMaintenanceDocument-EditPaymentMedium"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>customerPaymentMediumCode</value>
       </list>
     </property>
-    <property name="label" value="Payment Medium" />
-    <property name="shortLabel" value="PayMedium" />
-    <property name="documentTypeName" value="PMED" />
+    <property name="label" value="Payment Medium"/>
+    <property name="shortLabel" value="PayMedium"/>
+    <property name="documentTypeName" value="PMED"/>
     <property name="workflowAttributes">
-    	<ref bean="PaymentMediumMaintenanceDocument-workflowAttributes" />
+    	<ref bean="PaymentMediumMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="PaymentMediumMaintenanceDocument-EditPaymentMedium" parent="PaymentMediumMaintenanceDocument-EditPaymentMedium-parentBean" />
+  <bean id="PaymentMediumMaintenanceDocument-EditPaymentMedium" parent="PaymentMediumMaintenanceDocument-EditPaymentMedium-parentBean"/>
 
   <bean id="PaymentMediumMaintenanceDocument-EditPaymentMedium-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Payment Medium" />
-    <property name="title" value="Edit Payment Medium" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Payment Medium"/>
+    <property name="title" value="Edit Payment Medium"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerPaymentMediumCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerPaymentMediumDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="customerPaymentMediumCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customerPaymentMediumDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="PaymentMediumMaintenanceDocument-workflowAttributes" parent="PaymentMediumMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="PaymentMediumMaintenanceDocument-workflowAttributes" parent="PaymentMediumMaintenanceDocument-workflowAttributes-parentBean"/>
 	
   <bean id="PaymentMediumMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
   </bean>

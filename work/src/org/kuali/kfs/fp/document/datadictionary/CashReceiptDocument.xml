@@ -1,118 +1,109 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CashReceiptDocument" parent="CashReceiptDocument-parentBean" />
+  <bean id="CashReceiptDocument" parent="CashReceiptDocument-parentBean"/>
 
   <bean id="CashReceiptDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="label" value="Cash Receipt" />
-    <property name="shortLabel" value="Cash Receipt" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The Cash Receipts (CR) document is used to record cash and checks received by units, for subsequent deposit into bank accounts. Cash Receipts route for verification and preparation of bank deposits. Each unit that verifies cash receipts and/or prepares bank deposits will use a Cash Management (CM) document to consolidate those Cash Receipts into bank deposits. The actual verification of the Cash Receipt will be done on the Cash Receipt document itself. In essence, the Cash Management document is the means by which a unit manages its cash drawer." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CashReceiptDocument" p:parameterName="CASH_RECEIPT" />
+    <property name="label" value="Cash Receipt"/>
+    <property name="shortLabel" value="Cash Receipt"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The Cash Receipts (CR) document is used to record cash and checks received by units, for subsequent deposit into bank accounts. Cash Receipts route for verification and preparation of bank deposits. Each unit that verifies cash receipts and/or prepares bank deposits will use a Cash Management (CM) document to consolidate those Cash Receipts into bank deposits. The actual verification of the Cash Receipt will be done on the Cash Receipt document itself. In essence, the Cash Management document is the means by which a unit manages its cash drawer."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CashReceiptDocument" p:parameterName="CASH_RECEIPT"/>
     </property>
-    <property name="documentTypeName" value="CR" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.CashReceiptDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <property name="documentTypeName" value="CR"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.CashReceiptDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentPresentationController" />    
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentPresentationController"/>    
     
-    <property name="sessionDocument" value="true" />
+    <property name="sessionDocument" value="true"/>
     
-    <property name="allowsCopy" value="true" />
+    <property name="allowsCopy" value="true"/>
 	<property name="allowsErrorCorrection" value="false"/>
 
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="CashReceiptDocument-totalCheckAmount" />
-        <ref bean="CashReceiptDocument-totalCashAmount" />
-        <ref bean="CashReceiptDocument-totalCoinAmount" />
-        <ref bean="CashReceiptDocument-totalDollarAmount" />
-        <ref bean="CashReceiptDocument-documentNumber" />
-        <ref bean="CashReceiptDocument-checkEntryMode" />
+        <ref bean="CashReceiptDocument-totalCheckAmount"/>
+        <ref bean="CashReceiptDocument-totalCashAmount"/>
+        <ref bean="CashReceiptDocument-totalCoinAmount"/>
+        <ref bean="CashReceiptDocument-totalDollarAmount"/>
+        <ref bean="CashReceiptDocument-documentNumber"/>
+        <ref bean="CashReceiptDocument-checkEntryMode"/>
       </list>
     </property>
-    <property name="validationMap" ref="CashReceiptDocument-validations" />
+    <property name="validationMap" ref="CashReceiptDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="CashReceiptDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="CashReceiptDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
     <property name="workflowAttributes">
-    	<ref bean="CashReceiptDocument-workflowAttributes" />
+    	<ref bean="CashReceiptDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
 
-  <bean id="CashReceiptDocument-totalCheckAmount" parent="CashReceiptDocument-totalCheckAmount-parentBean" />
+  <bean id="CashReceiptDocument-totalCheckAmount" parent="CashReceiptDocument-totalCheckAmount-parentBean"/>
 
   <bean id="CashReceiptDocument-totalCheckAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalCheckAmount" />
-    <property name="label" value="Total Check Amount" />
-    <property name="shortLabel" value="Total Check Amount" />
-    <property name="description" value="The total dollar amount of the check(s) involved. If adjoining pulldown is set to &quot;Individual Checks/Batches&quot;, then the Check Detail tab is displayed below this tab." />
+    <property name="name" value="totalCheckAmount"/>
+    <property name="label" value="Total Check Amount"/>
+    <property name="shortLabel" value="Total Check Amount"/>
+    <property name="description" value="The total dollar amount of the check(s) involved. If adjoining pulldown is set to &quot;Individual Checks/Batches&quot;, then the Check Detail tab is displayed below this tab."/>
   </bean>
 
-  <bean id="CashReceiptDocument-checkEntryMode" parent="CashReceiptDocument-checkEntryMode-parentBean" />
+  <bean id="CashReceiptDocument-checkEntryMode" parent="CashReceiptDocument-checkEntryMode-parentBean"/>
   <bean id="CashReceiptDocument-checkEntryMode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="checkEntryMode" />
-    <property name="label" value="Check Entry Mode" />
-    <property name="shortLabel" value="Check Entry Mode" />
-    <property name="maxLength" value="200" />
-    <property name="description" value="The check Entry Mode." />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.CashReceiptCheckEntryModeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="checkEntryMode"/>
+    <property name="label" value="Check Entry Mode"/>
+    <property name="shortLabel" value="Check Entry Mode"/>
+    <property name="maxLength" value="200"/>
+    <property name="description" value="The check Entry Mode."/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.CashReceiptCheckEntryModeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="summary" value="Check Entry Mode" />
+    <property name="summary" value="Check Entry Mode"/>
   </bean>
     
-  <bean id="CashReceiptDocument-totalCashAmount" parent="CashReceiptDocument-totalCashAmount-parentBean" />
+  <bean id="CashReceiptDocument-totalCashAmount" parent="CashReceiptDocument-totalCashAmount-parentBean"/>
 
   <bean id="CashReceiptDocument-totalCashAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalCashAmount" />
-    <property name="label" value="Total Currency Amount" />
-    <property name="shortLabel" value="Total Currency Amount" />
-    <property name="description" value="The total dollar amount of the currency involved." />
+    <property name="name" value="totalCashAmount"/>
+    <property name="label" value="Total Currency Amount"/>
+    <property name="shortLabel" value="Total Currency Amount"/>
+    <property name="description" value="The total dollar amount of the currency involved."/>
   </bean>
-  <bean id="CashReceiptDocument-totalCoinAmount" parent="CashReceiptDocument-totalCoinAmount-parentBean" />
+  <bean id="CashReceiptDocument-totalCoinAmount" parent="CashReceiptDocument-totalCoinAmount-parentBean"/>
 
   <bean id="CashReceiptDocument-totalCoinAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalCoinAmount" />
-    <property name="label" value="Total Coin Amount" />
-    <property name="shortLabel" value="Total Coin Amount" />
-    <property name="description" value="The total dollar amount of the coins involved." />
+    <property name="name" value="totalCoinAmount"/>
+    <property name="label" value="Total Coin Amount"/>
+    <property name="shortLabel" value="Total Coin Amount"/>
+    <property name="description" value="The total dollar amount of the coins involved."/>
   </bean>
-  <bean id="CashReceiptDocument-totalDollarAmount" parent="CashReceiptDocument-totalDollarAmount-parentBean" />
+  <bean id="CashReceiptDocument-totalDollarAmount" parent="CashReceiptDocument-totalDollarAmount-parentBean"/>
 
   <bean id="CashReceiptDocument-totalDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalDollarAmount" />
-    <property name="label" value="Cash Reconciliation Total" />
-    <property name="shortLabel" value="Cash Reconciliation Total" />
-    <property name="description" value="The sum of Total Check, Currency, and Coin Amounts. Use the &quot;recalculate&quot; button to recalculate the Sum." />
+    <property name="name" value="totalDollarAmount"/>
+    <property name="label" value="Cash Reconciliation Total"/>
+    <property name="shortLabel" value="Cash Reconciliation Total"/>
+    <property name="description" value="The sum of Total Check, Currency, and Coin Amounts. Use the &quot;recalculate&quot; button to recalculate the Sum."/>
   </bean>
-  <bean id="CashReceiptDocument-documentNumber" parent="CashReceiptDocument-documentNumber-parentBean" />
+  <bean id="CashReceiptDocument-documentNumber" parent="CashReceiptDocument-documentNumber-parentBean"/>
 
   <bean id="CashReceiptDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
   </bean>
   
   <!-- validations -->
   
-  <bean id="CashReceiptDocument-validations" parent="CashReceiptDocument-validations-parentBean" />
+  <bean id="CashReceiptDocument-validations" parent="CashReceiptDocument-validations-parentBean"/>
   
   <bean id="CashReceiptDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -162,63 +153,63 @@
   </bean>
   
   <!-- accounting line groups -->
-  <bean id="CashReceiptDocument-sourceAccountingLineGroup" parent="CashReceiptDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="CashReceiptDocument-sourceAccountingLineGroup" parent="CashReceiptDocument-sourceAccountingLineGroup-parentBean"/>  
   <bean id="CashReceiptDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="CashReceiptDocument-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	  <property name="accountingLineView" ref="CashReceiptDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value=""/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
   </bean>
 	
-  <bean id="CashReceiptDocument-accountingLineView" parent="CashReceiptDocument-accountingLineView-parent" />
+  <bean id="CashReceiptDocument-accountingLineView" parent="CashReceiptDocument-accountingLineView-parent"/>
   <bean id="CashReceiptDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 	<property name="elements">
 		<list>
-			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-sequenceNumber"/>
 			<bean parent="AccountingLineView-lines">
 				<property name="lines">
 					<list>
-						<ref bean="accountingInformation" />
+						<ref bean="accountingInformation"/>
 						<bean parent="AccountingLineView-line">
-							<property name="elementName" value="lineDescription" />
+							<property name="elementName" value="lineDescription"/>
 							<property name="fields">
 								<list>
-									<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2" />
+									<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
 								</list>
 							</property>
 						</bean>
 					</list>
 				</property>
 			</bean>
-			<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
-			<bean parent="AccountingLineView-actions" />
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-actions"/>
 		</list>
 	</property>
   </bean>
 	
 	<!-- workflow attributes for routing -->
-	<bean id="CashReceiptDocument-workflowAttributes" parent="CashReceiptDocument-workflowAttributes-parentBean" />
+	<bean id="CashReceiptDocument-workflowAttributes" parent="CashReceiptDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="CashReceiptDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 		<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="CashManagement" value-ref="CashReceiptDocument-RoutingType-CashReceiptCampus" />
+    			<entry key="CashManagement" value-ref="CashReceiptDocument-RoutingType-CashReceiptCampus"/>
     		</map>
     	</property>
 	</bean>
 	
 	<bean id="CashReceiptDocument-RoutingAttribute-CashReceiptCampus" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.fp.businessobject.CashReceiptHeader" />
-    	<property name="attributeName" value="campusCode" />
+		<property name="businessObjectClassName" value="org.kuali.kfs.fp.businessobject.CashReceiptHeader"/>
+    	<property name="attributeName" value="campusCode"/>
 	</bean>
 	
 	<bean id="CashReceiptDocument-DocumentValuePathGroup-CashReceiptCampus" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
@@ -232,12 +223,12 @@
    	<bean id="CashReceiptDocument-RoutingType-CashReceiptCampus" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-campusCode" />
+		        <ref bean="RoutingAttribute-campusCode"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="CashReceiptDocument-DocumentValuePathGroup-CashReceiptCampus" />
+    			<ref bean="CashReceiptDocument-DocumentValuePathGroup-CashReceiptCampus"/>
     		</list>
     	</property>
     </bean>

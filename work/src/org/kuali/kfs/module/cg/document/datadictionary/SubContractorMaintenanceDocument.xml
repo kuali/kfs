@@ -1,77 +1,54 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SubContractorMaintenanceDocument" parent="SubContractorMaintenanceDocument-parentBean" />
+  <bean id="SubContractorMaintenanceDocument" parent="SubContractorMaintenanceDocument-parentBean"/>
 
   <bean id="SubContractorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.SubContractor" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.SubContractor"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="SubContractorMaintenanceDocument-EditSubcontractor" />
+        <ref bean="SubContractorMaintenanceDocument-EditSubcontractor"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>subcontractorNumber</value>
       </list>
     </property>
-    <property name="label" value="Sub-Contractor" />
-    <property name="shortLabel" value="Sub-Contractor" />
-    <property name="summary" value="Subcontractor Maintenance Document" />
-    <property name="description" value="Document used to create or update Subcontractor objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.SubContractor" p:parameterName="SUBCONTRACTOR" />
+    <property name="label" value="Sub-Contractor"/>
+    <property name="shortLabel" value="Sub-Contractor"/>
+    <property name="summary" value="Subcontractor Maintenance Document"/>
+    <property name="description" value="Document used to create or update Subcontractor objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.SubContractor" p:parameterName="SUBCONTRACTOR"/>
     </property>
-    <property name="documentTypeName" value="SUBC" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.SubcontractorRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="workflowAttributes" >
-      <ref bean="SubContractorMaintenanceDocument-workflowAttributes" />
+    <property name="documentTypeName" value="SUBC"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.SubcontractorRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+      <ref bean="SubContractorMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="SubContractorMaintenanceDocument-EditSubcontractor" parent="SubContractorMaintenanceDocument-EditSubcontractor-parentBean" />
+  <bean id="SubContractorMaintenanceDocument-EditSubcontractor" parent="SubContractorMaintenanceDocument-EditSubcontractor-parentBean"/>
 
   <bean id="SubContractorMaintenanceDocument-EditSubcontractor-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Subcontractor" />
-    <property name="title" value="Edit Subcontractor" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Subcontractor"/>
+    <property name="title" value="Edit Subcontractor"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subcontractorNumber"
-              p:unconditionallyReadOnly="true"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.NextSubcontractorNumberFinder" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subcontractorName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subcontractorAddressLine1"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subcontractorAddressLine2" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subcontractorCity"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subcontractorStateCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subcontractorZipCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subcontractorCountryCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="subcontractorNumber" p:unconditionallyReadOnly="true" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.NextSubcontractorNumberFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subcontractorName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subcontractorAddressLine1" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subcontractorAddressLine2"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subcontractorCity" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subcontractorStateCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subcontractorZipCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subcontractorCountryCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
@@ -79,7 +56,7 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="SubContractorMaintenanceDocument-workflowAttributes" parent="SubContractorMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="SubContractorMaintenanceDocument-workflowAttributes" parent="SubContractorMaintenanceDocument-workflowAttributes-parentBean"/>
 
   <bean id="SubContractorMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
   </bean>

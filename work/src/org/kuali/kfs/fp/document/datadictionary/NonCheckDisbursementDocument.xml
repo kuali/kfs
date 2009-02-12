@@ -1,55 +1,46 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="NonCheckDisbursementDocument" parent="NonCheckDisbursementDocument-parentBean" />
+  <bean id="NonCheckDisbursementDocument" parent="NonCheckDisbursementDocument-parentBean"/>
 
   <bean id="NonCheckDisbursementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Non-Check Disbursement" />
-    <property name="shortLabel" value="Non-Check Disbursement" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The &quot;Non-Check Disbursement&quot; document is used to record charges or credits directly assessed to university bank accounts. It is used primarily by the Tax and Treasury Accounting office to record wire transfers, foreign drafts, etc." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.NonCheckDisbursementDocument" p:parameterName="NON_CHECK_DISBURSEMENT" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Non-Check Disbursement"/>
+    <property name="shortLabel" value="Non-Check Disbursement"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The &quot;Non-Check Disbursement&quot; document is used to record charges or credits directly assessed to university bank accounts. It is used primarily by the Tax and Treasury Accounting office to record wire transfers, foreign drafts, etc."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.NonCheckDisbursementDocument" p:parameterName="NON_CHECK_DISBURSEMENT"/>
     </property>
-    <property name="documentTypeName" value="ND" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.NonCheckDisbursementDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementDocumentPreRules" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    <property name="documentTypeName" value="ND"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.NonCheckDisbursementDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementDocumentPreRules"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
 
-    <property name="validationMap" ref="NonCheckDisbursementDocument-validations" />
+    <property name="validationMap" ref="NonCheckDisbursementDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="NonCheckDisbursementDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="NonCheckDisbursementDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
     <property name="workflowAttributes">
-    	<ref bean="NonCheckDisbursementDocument-workflowAttributes" />
+    	<ref bean="NonCheckDisbursementDocument-workflowAttributes"/>
     </property>  
-     <property name="defaultExistenceChecks" >
-        <bean parent="ReferenceDefinition"
-              p:attributeName="bank"
-              p:attributeToHighlightOnFail="bank"/>
+     <property name="defaultExistenceChecks">
+        <bean parent="ReferenceDefinition" p:attributeName="bank" p:attributeToHighlightOnFail="bank"/>
     </property>
        
   </bean>
   
      <!-- Validations -->
   
-  <bean id="NonCheckDisbursementDocument-validations" parent="NonCheckDisbursementDocument-validations-parentBean" />
+  <bean id="NonCheckDisbursementDocument-validations" parent="NonCheckDisbursementDocument-validations-parentBean"/>
   
   <bean id="NonCheckDisbursementDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -79,60 +70,60 @@
   </bean>
 
   <!-- accounting line groups -->
-  <bean id="NonCheckDisbursementDocument-sourceAccountingLineGroup" parent="NonCheckDisbursementDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="NonCheckDisbursementDocument-sourceAccountingLineGroup" parent="NonCheckDisbursementDocument-sourceAccountingLineGroup-parentBean"/>  
   <bean id="NonCheckDisbursementDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="NonCheckDisbursementDocument-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	  <property name="accountingLineView" ref="NonCheckDisbursementDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value=""/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
   </bean>
 	
-  <bean id="NonCheckDisbursementDocument-accountingLineView" parent="NonCheckDisbursementDocument-accountingLineView-parent" />
+  <bean id="NonCheckDisbursementDocument-accountingLineView" parent="NonCheckDisbursementDocument-accountingLineView-parent"/>
   <bean id="NonCheckDisbursementDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 	  <property name="elements">
 		<list>
-			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-sequenceNumber"/>
 			<bean parent="AccountingLineView-lines">
 				<property name="lines">
 					<list>
-						<ref bean="accountingInformation" />
+						<ref bean="accountingInformation"/>
 						<bean parent="AccountingLineView-line">
-							<property name="elementName" value="lineDescription" />
+							<property name="elementName" value="lineDescription"/>
 							<property name="fields">
 								<list>
-									<bean parent="AccountingLineView-field"	p:name="referenceNumber" p:required="true" />
-									<bean parent="AccountingLineView-field"	p:name="financialDocumentLineDescription" p:overrideColSpan="2" />
+									<bean parent="AccountingLineView-field" p:name="referenceNumber" p:required="true"/>
+									<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
 								</list>
 							</property>
 						</bean>
 					</list>
 				</property>
 			</bean>
-			<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
-			<bean parent="AccountingLineView-actions" />
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-actions"/>
 		</list>
 	</property>
   </bean>
   
   <!-- workflow attributes for routing -->
-	<bean id="NonCheckDisbursementDocument-workflowAttributes" parent="NonCheckDisbursementDocument-workflowAttributes-parentBean" />
+	<bean id="NonCheckDisbursementDocument-workflowAttributes" parent="NonCheckDisbursementDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="NonCheckDisbursementDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-sourceOnly" />
-    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award-sourceOnly" />
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-sourceOnly"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award-sourceOnly"/>
     		</map>
     	</property>
 	</bean>

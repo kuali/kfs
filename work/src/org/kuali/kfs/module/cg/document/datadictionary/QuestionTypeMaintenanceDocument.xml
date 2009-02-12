@@ -1,72 +1,56 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="QuestionTypeMaintenanceDocument" parent="QuestionTypeMaintenanceDocument-parentBean" />
+  <bean id="QuestionTypeMaintenanceDocument" parent="QuestionTypeMaintenanceDocument-parentBean"/>
 
   <bean id="QuestionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.QuestionType" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.QuestionType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="QuestionTypeMaintenanceDocument-EditQuestionType" />
+        <ref bean="QuestionTypeMaintenanceDocument-EditQuestionType"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>questionTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Question Type" />
-    <property name="shortLabel" value="Question Type" />
-    <property name="summary" value="Question Type Maintenance Document" />
-    <property name="description" value="Document used to create or update Question Type objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.QuestionType" p:parameterName="QUESTION_TYPE" />
+    <property name="label" value="Question Type"/>
+    <property name="shortLabel" value="Question Type"/>
+    <property name="summary" value="Question Type Maintenance Document"/>
+    <property name="description" value="Document used to create or update Question Type objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.QuestionType" p:parameterName="QUESTION_TYPE"/>
     </property>
-    <property name="documentTypeName" value="QNT" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentPresentationController" />
+    <property name="documentTypeName" value="QNT"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentPresentationController"/>
     
     <property name="workflowAttributes">
-    	<ref bean="QuestionTypeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="QuestionTypeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="QuestionTypeMaintenanceDocument-EditQuestionType" parent="QuestionTypeMaintenanceDocument-EditQuestionType-parentBean" />
+  <bean id="QuestionTypeMaintenanceDocument-EditQuestionType" parent="QuestionTypeMaintenanceDocument-EditQuestionType-parentBean"/>
 
   <bean id="QuestionTypeMaintenanceDocument-EditQuestionType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Question Type" />
-    <property name="title" value="Edit Question Type" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Question Type"/>
+    <property name="title" value="Edit Question Type"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="questionTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="questionTypeDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="questionTypeSortNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="questionTypeNotificationValue" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="questionTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="questionTypeDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="questionTypeSortNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="questionTypeNotificationValue"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
     <!-- workflow attributes -->
-  <bean id="QuestionTypeMaintenanceDocument-workflowAttributes" parent="QuestionTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="QuestionTypeMaintenanceDocument-workflowAttributes" parent="QuestionTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="QuestionTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="QuestionTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

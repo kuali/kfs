@@ -1,52 +1,42 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AppointmentFundingReasonCodeMaintenanceDocument" parent="AppointmentFundingReasonCodeMaintenanceDocument-parentBean" />
+  <bean id="AppointmentFundingReasonCodeMaintenanceDocument" parent="AppointmentFundingReasonCodeMaintenanceDocument-parentBean"/>
 
   <bean id="AppointmentFundingReasonCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="AppointmentFundingReasonCodeMaintenanceDocument-EditBCAppointmentFundingReasonCode" />
+        <ref bean="AppointmentFundingReasonCodeMaintenanceDocument-EditBCAppointmentFundingReasonCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>appointmentFundingReasonCode</value>
       </list>
     </property>
-    <property name="label" value="Appointment Funding Reason Code" />
-    <property name="shortLabel" value="BC - Appt Funding Reason Code Maint Doc" />
-    <property name="summary" value="Budget Construction Appointment Funding Reason Code Maintenance Document" />
-    <property name="description" value="Document used to create or update Budget Construction Appointment Funding Reason Code Maintenance Document objects" />
-    <property name="documentTypeName" value="BCRC" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionAppointmentFundingReasonCodeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="label" value="Appointment Funding Reason Code"/>
+    <property name="shortLabel" value="BC - Appt Funding Reason Code Maint Doc"/>
+    <property name="summary" value="Budget Construction Appointment Funding Reason Code Maintenance Document"/>
+    <property name="description" value="Document used to create or update Budget Construction Appointment Funding Reason Code Maintenance Document objects"/>
+    <property name="documentTypeName" value="BCRC"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionAppointmentFundingReasonCodeRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="AppointmentFundingReasonCodeMaintenanceDocument-EditBCAppointmentFundingReasonCode" parent="AppointmentFundingReasonCodeMaintenanceDocument-EditBCAppointmentFundingReasonCode-parentBean" />
+  <bean id="AppointmentFundingReasonCodeMaintenanceDocument-EditBCAppointmentFundingReasonCode" parent="AppointmentFundingReasonCodeMaintenanceDocument-EditBCAppointmentFundingReasonCode-parentBean"/>
 
   <bean id="AppointmentFundingReasonCodeMaintenanceDocument-EditBCAppointmentFundingReasonCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit BC Appointment Funding Reason Code" />
-    <property name="title" value="Edit BC Appointment Funding Reason Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit BC Appointment Funding Reason Code"/>
+    <property name="title" value="Edit BC Appointment Funding Reason Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="appointmentFundingReasonCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="appointmentFundingReasonDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="appointmentFundingReasonCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="appointmentFundingReasonDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
       </list>
     </property>
   </bean>

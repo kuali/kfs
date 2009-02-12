@@ -1,107 +1,96 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AuxiliaryVoucherDocument" parent="AuxiliaryVoucherDocument-parentBean" />
+  <bean id="AuxiliaryVoucherDocument" parent="AuxiliaryVoucherDocument-parentBean"/>
 
   <bean id="AuxiliaryVoucherDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Auxiliary Voucher" />
-    <property name="shortLabel" value="Auxiliary Voucher" />
-    <property name="summary" value="Auxiliary Voucher document" />
-    <property name="description" value="blah blah Document blah Auxiliary Voucher blah blah" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" p:parameterName="AUXILIARY_VOUCHER" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Auxiliary Voucher"/>
+    <property name="shortLabel" value="Auxiliary Voucher"/>
+    <property name="summary" value="Auxiliary Voucher document"/>
+    <property name="description" value="blah blah Document blah Auxiliary Voucher blah blah"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" p:parameterName="AUXILIARY_VOUCHER"/>
     </property>
-    <property name="documentTypeName" value="AV" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    <property name="documentTypeName" value="AV"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
     
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="AuxiliaryVoucherDocument-accountingPeriod" />
-        <ref bean="AuxiliaryVoucherDocument-typeCode" />
-        <ref bean="AuxiliaryVoucherDocument-reversalDate" />
+        <ref bean="AuxiliaryVoucherDocument-accountingPeriod"/>
+        <ref bean="AuxiliaryVoucherDocument-typeCode"/>
+        <ref bean="AuxiliaryVoucherDocument-reversalDate"/>
       </list>
     </property>
-    <property name="validationMap" ref="AuxiliaryVoucherDocument-validations" />
+    <property name="validationMap" ref="AuxiliaryVoucherDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="AuxiliaryVoucher-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="AuxiliaryVoucher-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.AuxiliaryVoucherAccountingLineParser" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.AuxiliaryVoucherAccountingLineParser"/>
     <property name="workflowAttributes">
-    	<ref bean="AuxiliaryVoucherDocument-workflowAttributes" />
+    	<ref bean="AuxiliaryVoucherDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
 
-  <bean id="AuxiliaryVoucherDocument-accountingPeriod" parent="AuxiliaryVoucherDocument-accountingPeriod-parentBean" />
+  <bean id="AuxiliaryVoucherDocument-accountingPeriod" parent="AuxiliaryVoucherDocument-accountingPeriod-parentBean"/>
 
   <bean id="AuxiliaryVoucherDocument-accountingPeriod-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountingPeriod" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Accounting Period" />
-    <property name="shortLabel" value="Acct. Prd." />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="accountingPeriod"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Accounting Period"/>
+    <property name="shortLabel" value="Acct. Prd."/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The calendar accounting periods during which the Auxiliary Voucher applies.  Select one from the pulldown list." />
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The calendar accounting periods during which the Auxiliary Voucher applies.  Select one from the pulldown list."/>
   </bean>
-  <bean id="AuxiliaryVoucherDocument-typeCode" parent="AuxiliaryVoucherDocument-typeCode-parentBean" />
+  <bean id="AuxiliaryVoucherDocument-typeCode" parent="AuxiliaryVoucherDocument-typeCode-parentBean"/>
 
   <bean id="AuxiliaryVoucherDocument-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="typeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Auxiliary Voucher Type" />
-    <property name="shortLabel" value="AVType" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:exactLength="4" />
+    <property name="name" value="typeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Auxiliary Voucher Type"/>
+    <property name="shortLabel" value="AVType"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:exactLength="4"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.AuxiliaryVoucherTypeCodeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.AuxiliaryVoucherTypeCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Voucher type is a 4 character value that is used to state the type of the Auxiliary Voucher. It is represented as a radio button selection." />
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="Voucher type is a 4 character value that is used to state the type of the Auxiliary Voucher. It is represented as a radio button selection."/>
   </bean>
-  <bean id="AuxiliaryVoucherDocument-reversalDate" parent="AuxiliaryVoucherDocument-reversalDate-parentBean" />
+  <bean id="AuxiliaryVoucherDocument-reversalDate" parent="AuxiliaryVoucherDocument-reversalDate-parentBean"/>
 
   <bean id="AuxiliaryVoucherDocument-reversalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="reversalDate" />
-    <property name="label" value="Reversal Date" />
-    <property name="shortLabel" value="Reversal Date" />
-    <property name="required" value="false" />
-    <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today&apos;s date. Use the calendar icon to select and format the Reversal Date." />
+    <property name="name" value="reversalDate"/>
+    <property name="label" value="Reversal Date"/>
+    <property name="shortLabel" value="Reversal Date"/>
+    <property name="required" value="false"/>
+    <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today's date. Use the calendar icon to select and format the Reversal Date."/>
   </bean>
  
   <!-- validations -->
   
-  <bean id="AuxiliaryVoucherDocument-validations" parent="AuxiliaryVoucherDocument-validations-parentBean" />
+  <bean id="AuxiliaryVoucherDocument-validations" parent="AuxiliaryVoucherDocument-validations-parentBean"/>
   
   <bean id="AuxiliaryVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -138,86 +127,63 @@
     </property>
   </bean>
   
-  <bean id="AuxiliaryVoucher-sourceAccountingLineGroup" parent="AuxiliaryVoucher-sourceAccountingLineGroup-parentBean" />
+  <bean id="AuxiliaryVoucher-sourceAccountingLineGroup" parent="AuxiliaryVoucher-sourceAccountingLineGroup-parentBean"/>
   
   <bean id="AuxiliaryVoucher-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-  	<property name="accountingLineView" ref="AuxiliaryVoucher-accountingLineView" />
-	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase" />
-	<property name="importedLinePropertyPrefix" value="source" />
-	<property name="totals" ref="AccountingDocument-sourceDebitCerditTotals" />
-	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+  	<property name="accountingLineView" ref="AuxiliaryVoucher-accountingLineView"/>
+	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase"/>
+	<property name="importedLinePropertyPrefix" value="source"/>
+	<property name="totals" ref="AccountingDocument-sourceDebitCerditTotals"/>
+	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
   </bean>
   
-  <bean id="AuxiliaryVoucher-accountingLineView" parent="AuxiliaryVoucher-accountingLineView-parent" />
+  <bean id="AuxiliaryVoucher-accountingLineView" parent="AuxiliaryVoucher-accountingLineView-parent"/>
   
   <bean id="AuxiliaryVoucher-accountingLineView-parent" parent="AccountingLineView" abstract="true">
   	<property name="elements">
 		<list>
-			<bean parent="AccountingLineView-sequenceNumber" />
-			<bean parent="AccountingLineView-field"
-				p:name="chartOfAccountsCode" p:required="true"
-				p:webUILeaveFieldFunction="loadChartInfo"
-				p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
-			<bean parent="AccountingLineView-field"
-				p:name="accountNumber" p:required="true"
-				p:webUILeaveFieldFunction="loadAccountInfo"
-				p:dynamicLabelProperty="account.accountName">
+			<bean parent="AccountingLineView-sequenceNumber"/>
+			<bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription"/>
+			<bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
 				<property name="overrideFields">
 					<list>
-						<bean
-							parent="AccountingLineView-overrideField"
-							p:name="accountExpiredOverride" />
-						<bean
-							parent="AccountingLineView-overrideField"
-							p:name="nonFringeAccountOverride" />
+						<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride"/>
+						<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride"/>
 					</list>
 				</property>
 			</bean>
-			<bean parent="AccountingLineView-field"
-				p:name="subAccountNumber"
-				p:webUILeaveFieldFunction="loadSubAccountInfo"
-				p:dynamicLabelProperty="subAccount.subAccountName" />
-			<bean parent="AccountingLineView-field"
-				p:name="financialObjectCode" p:required="true"
-				p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+			<bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName"/>
+			<bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
 				<property name="overrideFields">
 					<list>
-						<bean
-							parent="AccountingLineView-overrideField"
-							p:name="objectBudgetOverride" />
+						<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride"/>
 					</list>
 				</property>
 			</bean>
-			<bean parent="AccountingLineView-field"
-				p:name="financialSubObjectCode"
-				p:webUILeaveFieldFunction="loadSubObjectInfo"
-				p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
-			<bean parent="AccountingLineView-field"
-				p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo"
-				p:dynamicLabelProperty="project.projectDescription" />
-			<bean parent="AccountingLineView-field"
-				p:name="organizationReferenceId" />
-			<bean parent="AccountingLineView-debitCreditAmountField" />
-			<bean parent="AccountingLineView-actions" />
+			<bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName"/>
+			<bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription"/>
+			<bean parent="AccountingLineView-field" p:name="organizationReferenceId"/>
+			<bean parent="AccountingLineView-debitCreditAmountField"/>
+			<bean parent="AccountingLineView-actions"/>
 		</list>
 	</property>
   </bean>
   
   <!-- workflow attributes for routing -->
-	<bean id="AuxiliaryVoucherDocument-workflowAttributes" parent="AuxiliaryVoucherDocument-workflowAttributes-parentBean" />
+	<bean id="AuxiliaryVoucherDocument-workflowAttributes" parent="AuxiliaryVoucherDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="AuxiliaryVoucherDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly"/>
     		</map>
     	</property>
 	</bean>

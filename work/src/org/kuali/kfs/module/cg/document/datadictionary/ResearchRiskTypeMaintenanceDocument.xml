@@ -1,75 +1,57 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
         
-  <bean id="ResearchRiskTypeMaintenanceDocument" parent="ResearchRiskTypeMaintenanceDocument-parentBean" />
+  <bean id="ResearchRiskTypeMaintenanceDocument" parent="ResearchRiskTypeMaintenanceDocument-parentBean"/>
 
   <bean id="ResearchRiskTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ResearchRiskType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode" />
+        <ref bean="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>researchRiskTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Research Risk Type" />
-    <property name="shortLabel" value="Research Risk Type" />
-    <property name="summary" value="Research Risk Type Maintenance Document" />
-    <property name="description" value="Document used to create or update Research Risk Type objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" p:parameterName="RESEARCH_RISK_TYPE" />
+    <property name="label" value="Research Risk Type"/>
+    <property name="shortLabel" value="Research Risk Type"/>
+    <property name="summary" value="Research Risk Type Maintenance Document"/>
+    <property name="description" value="Document used to create or update Research Risk Type objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" p:parameterName="RESEARCH_RISK_TYPE"/>
     </property>
-    <property name="documentTypeName" value="RRT" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentPresentationController" />        	
+    <property name="documentTypeName" value="RRT"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentPresentationController"/>        	
     <property name="workflowAttributes">
-    	<ref bean="ResearchRiskTypeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="ResearchRiskTypeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode" parent="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode-parentBean" />
+  <bean id="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode" parent="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode-parentBean"/>
 
   <bean id="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Risk Type Code" />
-    <property name="title" value="Edit Risk Type Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Risk Type Code"/>
+    <property name="title" value="Edit Risk Type Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="researchRiskTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="researchRiskTypeDescription" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="controlAttributeTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="researchRiskTypeSortNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="researchRiskTypeNotificationGroupText" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="researchRiskTypeNotificationValue" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeDescription"/>
+        <bean parent="MaintainableFieldDefinition" p:name="controlAttributeTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeSortNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeNotificationGroupText"/>
+        <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeNotificationValue"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
     <!-- workflow attributes -->
-  <bean id="ResearchRiskTypeMaintenanceDocument-workflowAttributes" parent="ResearchRiskTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="ResearchRiskTypeMaintenanceDocument-workflowAttributes" parent="ResearchRiskTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="ResearchRiskTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="ResearchRiskTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

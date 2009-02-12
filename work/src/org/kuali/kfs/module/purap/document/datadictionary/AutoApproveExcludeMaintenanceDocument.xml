@@ -1,73 +1,56 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AutoApproveExcludeMaintenanceDocument" parent="AutoApproveExcludeMaintenanceDocument-parentBean" />
+  <bean id="AutoApproveExcludeMaintenanceDocument" parent="AutoApproveExcludeMaintenanceDocument-parentBean"/>
 
   <bean id="AutoApproveExcludeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="AutoApproveExcludeMaintenanceDocument-EditAutoApproveExclude" />
+        <ref bean="AutoApproveExcludeMaintenanceDocument-EditAutoApproveExclude"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chartOfAccounts"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="account"
-              p:attributeToHighlightOnFail="accountNumber" />
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>accountNumber</value>
       </list>
     </property>
-    <property name="label" value="Payment Request Auto Approve Exclusions" />
-    <property name="shortLabel" value="Payment Request Auto Approve Exclusions" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude" p:parameterName="AUTO_APPROVE_EXCLUDE" />
+    <property name="label" value="Payment Request Auto Approve Exclusions"/>
+    <property name="shortLabel" value="Payment Request Auto Approve Exclusions"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude" p:parameterName="AUTO_APPROVE_EXCLUDE"/>
     </property>
-    <property name="documentTypeName" value="PMAA" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="PMAA"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="AutoApproveExcludeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="AutoApproveExcludeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="AutoApproveExcludeMaintenanceDocument-EditAutoApproveExclude" parent="AutoApproveExcludeMaintenanceDocument-EditAutoApproveExclude-parentBean" />
+  <bean id="AutoApproveExcludeMaintenanceDocument-EditAutoApproveExclude" parent="AutoApproveExcludeMaintenanceDocument-EditAutoApproveExclude-parentBean"/>
 
   <bean id="AutoApproveExcludeMaintenanceDocument-EditAutoApproveExclude-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Auto Approve Exclude" />
-    <property name="title" value="Edit Auto Approve Exclude" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Auto Approve Exclude"/>
+    <property name="title" value="Edit Auto Approve Exclude"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="accountNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" 
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="AutoApproveExcludeMaintenanceDocument-workflowAttributes" parent="AutoApproveExcludeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="AutoApproveExcludeMaintenanceDocument-workflowAttributes" parent="AutoApproveExcludeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="AutoApproveExcludeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="AutoApproveExcludeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

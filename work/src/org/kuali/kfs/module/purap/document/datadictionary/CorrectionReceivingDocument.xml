@@ -1,68 +1,62 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CorrectionReceivingDocument" parent="CorrectionReceivingDocument-parentBean" />
+  <bean id="CorrectionReceivingDocument" parent="CorrectionReceivingDocument-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Correction Receiving" />
-    <property name="shortLabel" value="Correction Receiving" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument" p:parameterName="RECEIVING_CORRECTION" />
+    <property name="label" value="Correction Receiving"/>
+    <property name="shortLabel" value="Correction Receiving"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument" p:parameterName="RECEIVING_CORRECTION"/>
     </property>        
-    <property name="documentTypeName" value="RCVC" />
-    <property name="documentClass" value="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CorrectionReceivingDocumentRule" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentPreRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.CorrectionReceivingDocumentPresentationController" />
-    <property name="attributes" >
+    <property name="documentTypeName" value="RCVC"/>
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CorrectionReceivingDocumentRule"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentPreRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.CorrectionReceivingDocumentPresentationController"/>
+    <property name="attributes">
       <list>
-        <ref bean="CorrectionReceivingDocument-documentNumber" />
-        <ref bean="CorrectionReceivingDocument-lineItemReceivingDocumentNumber" />
-        <ref bean="CorrectionReceivingDocument-carrierCode" />
-        <ref bean="CorrectionReceivingDocument-deliveryBuildingCode" />
-        <ref bean="CorrectionReceivingDocument-deliveryBuildingLine1Address" />
-        <ref bean="CorrectionReceivingDocument-deliveryBuildingLine2Address" />
-        <ref bean="CorrectionReceivingDocument-deliveryBuildingName" />
-        <ref bean="CorrectionReceivingDocument-deliveryBuildingOtherIndicator" />
-        <ref bean="CorrectionReceivingDocument-deliveryBuildingRoomNumber" />
-        <ref bean="CorrectionReceivingDocument-deliveryCampusCode" />
-        <ref bean="CorrectionReceivingDocument-deliveryCityName" />
-        <ref bean="CorrectionReceivingDocument-deliveryCountryCode" />
-        <ref bean="CorrectionReceivingDocument-deliveryInstructionText" />
-        <ref bean="CorrectionReceivingDocument-deliveryPostalCode" />
-        <ref bean="CorrectionReceivingDocument-deliveryRequiredDate" />
-        <ref bean="CorrectionReceivingDocument-deliveryRequiredDateReasonCode" />
-        <ref bean="CorrectionReceivingDocument-deliveryStateCode" />
-        <ref bean="CorrectionReceivingDocument-deliveryToEmailAddress" />
-        <ref bean="CorrectionReceivingDocument-deliveryToName" />
-        <ref bean="CorrectionReceivingDocument-deliveryToPhoneNumber" />
-        <ref bean="CorrectionReceivingDocument-shipmentBillOfLadingNumber" />
-        <ref bean="CorrectionReceivingDocument-shipmentPackingSlipNumber" />
-        <ref bean="CorrectionReceivingDocument-shipmentReceivedDate" />
-        <ref bean="CorrectionReceivingDocument-shipmentReferenceNumber" />
-        <ref bean="CorrectionReceivingDocument-vendorHeaderGeneratedIdentifier" />
-        <ref bean="CorrectionReceivingDocument-vendorName" />
-        <ref bean="CorrectionReceivingDocument-vendorNumber" />
-        <ref bean="CorrectionReceivingDocument-vendorDetailAssignedIdentifier" />
-        <ref bean="CorrectionReceivingDocument-vendorCityName" />
-        <ref bean="CorrectionReceivingDocument-vendorCountryCode" />
-        <ref bean="CorrectionReceivingDocument-vendorLine1Address" />
-        <ref bean="CorrectionReceivingDocument-vendorLine2Address" />
-        <ref bean="CorrectionReceivingDocument-vendorStateCode" />
-        <ref bean="CorrectionReceivingDocument-vendorPostalCode" />
-        <ref bean="CorrectionReceivingDocument-versionNumber" />
+        <ref bean="CorrectionReceivingDocument-documentNumber"/>
+        <ref bean="CorrectionReceivingDocument-lineItemReceivingDocumentNumber"/>
+        <ref bean="CorrectionReceivingDocument-carrierCode"/>
+        <ref bean="CorrectionReceivingDocument-deliveryBuildingCode"/>
+        <ref bean="CorrectionReceivingDocument-deliveryBuildingLine1Address"/>
+        <ref bean="CorrectionReceivingDocument-deliveryBuildingLine2Address"/>
+        <ref bean="CorrectionReceivingDocument-deliveryBuildingName"/>
+        <ref bean="CorrectionReceivingDocument-deliveryBuildingOtherIndicator"/>
+        <ref bean="CorrectionReceivingDocument-deliveryBuildingRoomNumber"/>
+        <ref bean="CorrectionReceivingDocument-deliveryCampusCode"/>
+        <ref bean="CorrectionReceivingDocument-deliveryCityName"/>
+        <ref bean="CorrectionReceivingDocument-deliveryCountryCode"/>
+        <ref bean="CorrectionReceivingDocument-deliveryInstructionText"/>
+        <ref bean="CorrectionReceivingDocument-deliveryPostalCode"/>
+        <ref bean="CorrectionReceivingDocument-deliveryRequiredDate"/>
+        <ref bean="CorrectionReceivingDocument-deliveryRequiredDateReasonCode"/>
+        <ref bean="CorrectionReceivingDocument-deliveryStateCode"/>
+        <ref bean="CorrectionReceivingDocument-deliveryToEmailAddress"/>
+        <ref bean="CorrectionReceivingDocument-deliveryToName"/>
+        <ref bean="CorrectionReceivingDocument-deliveryToPhoneNumber"/>
+        <ref bean="CorrectionReceivingDocument-shipmentBillOfLadingNumber"/>
+        <ref bean="CorrectionReceivingDocument-shipmentPackingSlipNumber"/>
+        <ref bean="CorrectionReceivingDocument-shipmentReceivedDate"/>
+        <ref bean="CorrectionReceivingDocument-shipmentReferenceNumber"/>
+        <ref bean="CorrectionReceivingDocument-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="CorrectionReceivingDocument-vendorName"/>
+        <ref bean="CorrectionReceivingDocument-vendorNumber"/>
+        <ref bean="CorrectionReceivingDocument-vendorDetailAssignedIdentifier"/>
+        <ref bean="CorrectionReceivingDocument-vendorCityName"/>
+        <ref bean="CorrectionReceivingDocument-vendorCountryCode"/>
+        <ref bean="CorrectionReceivingDocument-vendorLine1Address"/>
+        <ref bean="CorrectionReceivingDocument-vendorLine2Address"/>
+        <ref bean="CorrectionReceivingDocument-vendorStateCode"/>
+        <ref bean="CorrectionReceivingDocument-vendorPostalCode"/>
+        <ref bean="CorrectionReceivingDocument-versionNumber"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <dd:relationship objectAttribute="vendorCountry">
-            <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode"/>
         </dd:relationship>
       </list>
     </property>    
@@ -71,350 +65,330 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="CorrectionReceivingDocument-documentNumber" parent="CorrectionReceivingDocument-documentNumber-parentBean" />
+  <bean id="CorrectionReceivingDocument-documentNumber" parent="CorrectionReceivingDocument-documentNumber-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-lineItemReceivingDocumentNumber" parent="CorrectionReceivingDocument-lineItemReceivingDocumentNumber-parentBean" />
+  <bean id="CorrectionReceivingDocument-lineItemReceivingDocumentNumber" parent="CorrectionReceivingDocument-lineItemReceivingDocumentNumber-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-lineItemReceivingDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="lineItemReceivingDocumentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Receiving Line Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="lineItemReceivingDocumentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Receiving Line Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-carrierCode" parent="CorrectionReceivingDocument-carrierCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-carrierCode" parent="CorrectionReceivingDocument-carrierCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-carrierCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="carrierCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Carrier" />
-    <property name="shortLabel" value="Carrier" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="carrierCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Carrier"/>
+    <property name="shortLabel" value="Carrier"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryBuildingCode" parent="CorrectionReceivingDocument-deliveryBuildingCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryBuildingCode" parent="CorrectionReceivingDocument-deliveryBuildingCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryBuildingCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Delivery Building Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="deliveryBuildingCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Delivery Building Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryBuildingLine1Address" parent="CorrectionReceivingDocument-deliveryBuildingLine1Address-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryBuildingLine1Address" parent="CorrectionReceivingDocument-deliveryBuildingLine1Address-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
-    <property name="name" value="deliveryBuildingLine1Address" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryBuildingLine1Address"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryBuildingLine2Address" parent="CorrectionReceivingDocument-deliveryBuildingLine2Address-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryBuildingLine2Address" parent="CorrectionReceivingDocument-deliveryBuildingLine2Address-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
-    <property name="name" value="deliveryBuildingLine2Address" />
+    <property name="name" value="deliveryBuildingLine2Address"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryBuildingName" parent="CorrectionReceivingDocument-deliveryBuildingName-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryBuildingName" parent="CorrectionReceivingDocument-deliveryBuildingName-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryBuildingName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Building" />
-    <property name="shortLabel" value="Building" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="deliveryBuildingName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Building"/>
+    <property name="shortLabel" value="Building"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.BuildingValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.BuildingValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryBuildingOtherIndicator" parent="CorrectionReceivingDocument-deliveryBuildingOtherIndicator-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryBuildingOtherIndicator" parent="CorrectionReceivingDocument-deliveryBuildingOtherIndicator-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryBuildingOtherIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingOtherIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Other Building" />
-    <property name="shortLabel" value="Other Bldg." />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="deliveryBuildingOtherIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Other Building"/>
+    <property name="shortLabel" value="Other Bldg."/>
+    <property name="maxLength" value="4"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryBuildingRoomNumber" parent="CorrectionReceivingDocument-deliveryBuildingRoomNumber-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryBuildingRoomNumber" parent="CorrectionReceivingDocument-deliveryBuildingRoomNumber-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryBuildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingRoomNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Room" />
-    <property name="shortLabel" value="Room" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="deliveryBuildingRoomNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Room"/>
+    <property name="shortLabel" value="Room"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryCampusCode" parent="CorrectionReceivingDocument-deliveryCampusCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryCampusCode" parent="CorrectionReceivingDocument-deliveryCampusCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
-    <property name="name" value="deliveryCampusCode" />
-    <property name="label" value="Delivery Campus" />
-    <property name="shortLabel" value="Delivery Campus" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="deliveryCampusCode"/>
+    <property name="label" value="Delivery Campus"/>
+    <property name="shortLabel" value="Delivery Campus"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryCityName" parent="CorrectionReceivingDocument-deliveryCityName-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryCityName" parent="CorrectionReceivingDocument-deliveryCityName-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
-    <property name="name" value="deliveryCityName" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryCityName"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryCountryCode" parent="CorrectionReceivingDocument-deliveryCountryCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryCountryCode" parent="CorrectionReceivingDocument-deliveryCountryCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
-    <property name="name" value="deliveryCountryCode" />
+    <property name="name" value="deliveryCountryCode"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryInstructionText" parent="CorrectionReceivingDocument-deliveryInstructionText-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryInstructionText" parent="CorrectionReceivingDocument-deliveryInstructionText-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryInstructionText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryInstructionText" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Delivery Instructions" />
-    <property name="shortLabel" value="Instructions" />
-    <property name="maxLength" value="125" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="deliveryInstructionText"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Delivery Instructions"/>
+    <property name="shortLabel" value="Instructions"/>
+    <property name="maxLength" value="125"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="50" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="50"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryPostalCode" parent="CorrectionReceivingDocument-deliveryPostalCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryPostalCode" parent="CorrectionReceivingDocument-deliveryPostalCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
-    <property name="name" value="deliveryPostalCode" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryPostalCode"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryRequiredDate" parent="CorrectionReceivingDocument-deliveryRequiredDate-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryRequiredDate" parent="CorrectionReceivingDocument-deliveryRequiredDate-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryRequiredDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="deliveryRequiredDate" />
-    <property name="label" value="Date Required" />
-    <property name="shortLabel" value="Date Required" />
+    <property name="name" value="deliveryRequiredDate"/>
+    <property name="label" value="Date Required"/>
+    <property name="shortLabel" value="Date Required"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryRequiredDateReasonCode" parent="CorrectionReceivingDocument-deliveryRequiredDateReasonCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryRequiredDateReasonCode" parent="CorrectionReceivingDocument-deliveryRequiredDateReasonCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryRequiredDateReasonCode-parentBean" abstract="true" parent="DeliveryRequiredDateReason-deliveryRequiredDateReasonCode">
-    <property name="label" value="Date Required Reason" />
-    <property name="shortLabel" value="Date Reason" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.DateRequiredReasonValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Date Required Reason"/>
+    <property name="shortLabel" value="Date Reason"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.DateRequiredReasonValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryStateCode" parent="CorrectionReceivingDocument-deliveryStateCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryStateCode" parent="CorrectionReceivingDocument-deliveryStateCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
-    <property name="name" value="deliveryStateCode" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryStateCode"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryToEmailAddress" parent="CorrectionReceivingDocument-deliveryToEmailAddress-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryToEmailAddress" parent="CorrectionReceivingDocument-deliveryToEmailAddress-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
-    <property name="name" value="deliveryToEmailAddress" />
-    <property name="required" value="false" />
+    <property name="name" value="deliveryToEmailAddress"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryToName" parent="CorrectionReceivingDocument-deliveryToName-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryToName" parent="CorrectionReceivingDocument-deliveryToName-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryToName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
-    <property name="name" value="deliveryToName" />
-    <property name="label" value="Delivery To" />
-    <property name="shortLabel" value="To" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryToName"/>
+    <property name="label" value="Delivery To"/>
+    <property name="shortLabel" value="To"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-deliveryToPhoneNumber" parent="CorrectionReceivingDocument-deliveryToPhoneNumber-parentBean" />
+  <bean id="CorrectionReceivingDocument-deliveryToPhoneNumber" parent="CorrectionReceivingDocument-deliveryToPhoneNumber-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
-    <property name="name" value="deliveryToPhoneNumber" />
+    <property name="name" value="deliveryToPhoneNumber"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-shipmentBillOfLadingNumber" parent="CorrectionReceivingDocument-shipmentBillOfLadingNumber-parentBean" />
+  <bean id="CorrectionReceivingDocument-shipmentBillOfLadingNumber" parent="CorrectionReceivingDocument-shipmentBillOfLadingNumber-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-shipmentBillOfLadingNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="shipmentBillOfLadingNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Bill Of Lading #" />
-    <property name="shortLabel" value="Bill Of Lading #" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="shipmentBillOfLadingNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Bill Of Lading #"/>
+    <property name="shortLabel" value="Bill Of Lading #"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-shipmentPackingSlipNumber" parent="CorrectionReceivingDocument-shipmentPackingSlipNumber-parentBean" />
+  <bean id="CorrectionReceivingDocument-shipmentPackingSlipNumber" parent="CorrectionReceivingDocument-shipmentPackingSlipNumber-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-shipmentPackingSlipNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="shipmentPackingSlipNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Packing Slip #" />
-    <property name="shortLabel" value="Packing Slip #" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="shipmentPackingSlipNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Packing Slip #"/>
+    <property name="shortLabel" value="Packing Slip #"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-shipmentReceivedDate" parent="CorrectionReceivingDocument-shipmentReceivedDate-parentBean" />
+  <bean id="CorrectionReceivingDocument-shipmentReceivedDate" parent="CorrectionReceivingDocument-shipmentReceivedDate-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-shipmentReceivedDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="shipmentReceivedDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Date" />
-    <property name="shortLabel" value="Vendor Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="shipmentReceivedDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Date"/>
+    <property name="shortLabel" value="Vendor Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-shipmentReferenceNumber" parent="CorrectionReceivingDocument-shipmentReferenceNumber-parentBean" />
+  <bean id="CorrectionReceivingDocument-shipmentReferenceNumber" parent="CorrectionReceivingDocument-shipmentReferenceNumber-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-shipmentReferenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="shipmentReferenceNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reference #" />
-    <property name="shortLabel" value="Reference #" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="shipmentReferenceNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Reference #"/>
+    <property name="shortLabel" value="Reference #"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorHeaderGeneratedIdentifier" parent="CorrectionReceivingDocument-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorHeaderGeneratedIdentifier" parent="CorrectionReceivingDocument-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorHeaderGeneratedIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Header Generated Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorHeaderGeneratedIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Header Generated Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorName" parent="CorrectionReceivingDocument-vendorName-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorName" parent="CorrectionReceivingDocument-vendorName-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
-    <property name="label" value="Vendor" />
-    <property name="shortLabel" value="Vendor" />
-    <property name="required" value="true" />
+    <property name="label" value="Vendor"/>
+    <property name="shortLabel" value="Vendor"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorNumber" parent="CorrectionReceivingDocument-vendorNumber-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorNumber" parent="CorrectionReceivingDocument-vendorNumber-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorDetailAssignedIdentifier" parent="CorrectionReceivingDocument-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorDetailAssignedIdentifier" parent="CorrectionReceivingDocument-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorCityName" parent="CorrectionReceivingDocument-vendorCityName-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorCityName" parent="CorrectionReceivingDocument-vendorCityName-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
-    <property name="name" value="vendorCityName" />
-    <property name="required" value="true" />
+    <property name="name" value="vendorCityName"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorCountryCode" parent="CorrectionReceivingDocument-vendorCountryCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorCountryCode" parent="CorrectionReceivingDocument-vendorCountryCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
-    <property name="name" value="vendorCountryCode" />
-    <property name="required" value="true" />
+    <property name="name" value="vendorCountryCode"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorLine1Address" parent="CorrectionReceivingDocument-vendorLine1Address-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorLine1Address" parent="CorrectionReceivingDocument-vendorLine1Address-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
-    <property name="name" value="vendorLine1Address" />
-    <property name="required" value="true" />
+    <property name="name" value="vendorLine1Address"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorLine2Address" parent="CorrectionReceivingDocument-vendorLine2Address-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorLine2Address" parent="CorrectionReceivingDocument-vendorLine2Address-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
-    <property name="name" value="vendorLine2Address" />
+    <property name="name" value="vendorLine2Address"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorStateCode" parent="CorrectionReceivingDocument-vendorStateCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorStateCode" parent="CorrectionReceivingDocument-vendorStateCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
-    <property name="name" value="vendorStateCode" />
+    <property name="name" value="vendorStateCode"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-vendorPostalCode" parent="CorrectionReceivingDocument-vendorPostalCode-parentBean" />
+  <bean id="CorrectionReceivingDocument-vendorPostalCode" parent="CorrectionReceivingDocument-vendorPostalCode-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
-    <property name="name" value="vendorPostalCode" />
+    <property name="name" value="vendorPostalCode"/>
   </bean>
-  <bean id="CorrectionReceivingDocument-versionNumber" parent="CorrectionReceivingDocument-versionNumber-parentBean" />
+  <bean id="CorrectionReceivingDocument-versionNumber" parent="CorrectionReceivingDocument-versionNumber-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>

@@ -1,53 +1,46 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="GeneralErrorCorrectionDocument" parent="GeneralErrorCorrectionDocument-parentBean" />
+  <bean id="GeneralErrorCorrectionDocument" parent="GeneralErrorCorrectionDocument-parentBean"/>
 
   <bean id="GeneralErrorCorrectionDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="General Error Correction" />
-    <property name="shortLabel" value="General Error Correction" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The General Error Correction document is used to correct inappropriate or incorrect account numbers or sub-account numbers, and/or object codes or sub-object codes, on general ledger entries generated from other financial transactions." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument" p:parameterName="GENERAL_ERROR_CORRECTION" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="General Error Correction"/>
+    <property name="shortLabel" value="General Error Correction"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The General Error Correction document is used to correct inappropriate or incorrect account numbers or sub-account numbers, and/or object codes or sub-object codes, on general ledger entries generated from other financial transactions."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument" p:parameterName="GENERAL_ERROR_CORRECTION"/>
     </property>
-    <property name="documentTypeName" value="GEC" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    <property name="documentTypeName" value="GEC"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
 
-    <property name="validationMap" ref="GeneralErrorCorrectionDocument-validations" />
+    <property name="validationMap" ref="GeneralErrorCorrectionDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="GeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="GeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
 	    		<key><value>target</value></key>
-	    		<ref bean="GeneralErrorCorrectionDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="GeneralErrorCorrectionDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property> 
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
     <property name="workflowAttributes">
-    	<ref bean="GeneralErrorCorrectionDocument-workflowAttributes" />
+    	<ref bean="GeneralErrorCorrectionDocument-workflowAttributes"/>
     </property>
    
   </bean>
   
    <!-- Validations -->
   
-  <bean id="GeneralErrorCorrectionDocument-validations" parent="GeneralErrorCorrectionDocument-validations-parentBean" />
+  <bean id="GeneralErrorCorrectionDocument-validations" parent="GeneralErrorCorrectionDocument-validations-parentBean"/>
   
   <bean id="GeneralErrorCorrectionDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -85,72 +78,72 @@
   </bean>
 
   <!-- accounting line groups -->
-  <bean id="GeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="GeneralErrorCorrectionDocument-sourceAccountingLineGroup-parentBean" /> 
+  <bean id="GeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="GeneralErrorCorrectionDocument-sourceAccountingLineGroup-parentBean"/> 
   <bean id="GeneralErrorCorrectionDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="GeneralErrorCorrectionDocument-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="From" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	  <property name="accountingLineView" ref="GeneralErrorCorrectionDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value="From"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
   </bean>
 	
-  <bean id="GeneralErrorCorrectionDocument-targetAccountingLineGroup" parent="GeneralErrorCorrectionDocument-targetAccountingLineGroup-parentBean" />	
+  <bean id="GeneralErrorCorrectionDocument-targetAccountingLineGroup" parent="GeneralErrorCorrectionDocument-targetAccountingLineGroup-parentBean"/>	
   <bean id="GeneralErrorCorrectionDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="GeneralErrorCorrectionDocument-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
-	  <property name="groupLabel" value="To" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="target" />
-	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
-	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+	  <property name="accountingLineView" ref="GeneralErrorCorrectionDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine"/>
+	  <property name="groupLabel" value="To"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="target"/>
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals"/>
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
   </bean>
 	
-  <bean id="GeneralErrorCorrectionDocument-accountingLineView" parent="GeneralErrorCorrectionDocument-accountingLineView-parent" />
+  <bean id="GeneralErrorCorrectionDocument-accountingLineView" parent="GeneralErrorCorrectionDocument-accountingLineView-parent"/>
   <bean id="GeneralErrorCorrectionDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 	  <property name="elements">
 		<list>
-			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-sequenceNumber"/>
 			<bean parent="AccountingLineView-lines">
 				<property name="lines">
 					<list>
-						<ref bean="accountingInformation" />
+						<ref bean="accountingInformation"/>
 						<bean parent="AccountingLineView-line">
-							<property name="elementName" value="lineDescription" />
+							<property name="elementName" value="lineDescription"/>
 							<property name="fields">
 								<list>
-									<bean parent="AccountingLineView-field"	p:name="referenceOriginCode" p:required="true" />
-									<bean parent="AccountingLineView-field"	p:name="referenceNumber" p:required="true" />
-									<bean parent="AccountingLineView-field"	p:name="financialDocumentLineDescription" p:overrideColSpan="2" />
+									<bean parent="AccountingLineView-field" p:name="referenceOriginCode" p:required="true"/>
+									<bean parent="AccountingLineView-field" p:name="referenceNumber" p:required="true"/>
+									<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
 								</list>
 							</property>
 						</bean>
 					</list>
 				</property>
 			</bean>
-			<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
-			<bean parent="AccountingLineView-actions" />
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-actions"/>
 		</list>
 	</property>
   </bean>
   
   <!-- workflow attributes for routing -->
-	<bean id="GeneralErrorCorrectionDocument-workflowAttributes" parent="GeneralErrorCorrectionDocument-workflowAttributes-parentBean" />
+	<bean id="GeneralErrorCorrectionDocument-workflowAttributes" parent="GeneralErrorCorrectionDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="GeneralErrorCorrectionDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 		<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
     		</map>
     	</property>
 	</bean> 

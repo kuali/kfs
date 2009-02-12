@@ -1,68 +1,54 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AssetDepreciationConventionMaintenanceDocument" parent="AssetDepreciationConventionMaintenanceDocument-parentBean" />
+  <bean id="AssetDepreciationConventionMaintenanceDocument" parent="AssetDepreciationConventionMaintenanceDocument-parentBean"/>
 
   <bean id="AssetDepreciationConventionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention" />
+        <ref bean="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialObjectSubType"
-              p:attributeToHighlightOnFail="financialObjectSubTypeCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="financialObjectSubType" p:attributeToHighlightOnFail="financialObjectSubTypeCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>financialObjectSubTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Asset Depreciation Convention" />
-    <property name="shortLabel" value="Asset Depreciation Convention" />
-    <property name="summary" value="Asset Depreciation Convention maintenance document" />
-    <property name="description" value="Document used to create or update asset depreciation convention objects" />
-    <property name="documentTypeName" value="DPRC" />
-    <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="label" value="Asset Depreciation Convention"/>
+    <property name="shortLabel" value="Asset Depreciation Convention"/>
+    <property name="summary" value="Asset Depreciation Convention maintenance document"/>
+    <property name="description" value="Document used to create or update asset depreciation convention objects"/>
+    <property name="documentTypeName" value="DPRC"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="AssetDepreciationConventionMaintenanceDocument-workflowAttributes" />
+    	<ref bean="AssetDepreciationConventionMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention" parent="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention-parentBean" />
+  <bean id="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention" parent="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention-parentBean"/>
   <bean id="AssetDepreciationConventionMaintenanceDocument-EditAssetDepreciationConvention-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Asset Depreciation Convention" />
-    <property name="title" value="Edit Asset Depreciation Convention" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Asset Depreciation Convention"/>
+    <property name="title" value="Edit Asset Depreciation Convention"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectSubTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="depreciationConventionCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectSubTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="depreciationConventionCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="AssetDepreciationConventionMaintenanceDocument-workflowAttributes" parent="AssetDepreciationConventionMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="AssetDepreciationConventionMaintenanceDocument-workflowAttributes" parent="AssetDepreciationConventionMaintenanceDocument-workflowAttributes-parentBean"/>
   
   <bean id="AssetDepreciationConventionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>

@@ -1,57 +1,46 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="TransferOfFundsDocument" parent="TransferOfFundsDocument-parentBean" />
+  <bean id="TransferOfFundsDocument" parent="TransferOfFundsDocument-parentBean"/>
 
   <bean id="TransferOfFundsDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Transfer Of Funds" />
-    <property name="shortLabel" value="Transfer Of Funds" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The Transfer of Funds (TF) document is used to transfer funds (cash) between accounts. There are two kinds of transfer transactions: mandatory and non-mandatory.
-
-            Mandatory transfers are required to meet contractual agreements. Specific object codes are used to identify these transactoins. An example is moving dedicated student fees and retirement of indebtedness fund group for principal and interest payments on bonds.
-
-            Non-mandatory transfers are allocation of unrestricted cash between fund groups which are not required either by the terms of a loan or by other external agreements. These transfers are the most commonly used through most institutions. See FIS documentation here: &lt;a target=&quot;_blank&quot; href=&quot;http://www.fms.indiana.edu/fis/documentation/tf6.pdf&quot;&gt; http://www.fms.indiana.edu/fis/documentation/tf6.pdf &lt;/a&gt;" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.TransferOfFundsDocument" p:parameterName="TRANSFER_OF_FUNDS" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Transfer Of Funds"/>
+    <property name="shortLabel" value="Transfer Of Funds"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The Transfer of Funds (TF) document is used to transfer funds (cash) between accounts. There are two kinds of transfer transactions: mandatory and non-mandatory.              Mandatory transfers are required to meet contractual agreements. Specific object codes are used to identify these transactoins. An example is moving dedicated student fees and retirement of indebtedness fund group for principal and interest payments on bonds.              Non-mandatory transfers are allocation of unrestricted cash between fund groups which are not required either by the terms of a loan or by other external agreements. These transfers are the most commonly used through most institutions. See FIS documentation here: &lt;a target=&quot;_blank&quot; href=&quot;http://www.fms.indiana.edu/fis/documentation/tf6.pdf&quot;&gt; http://www.fms.indiana.edu/fis/documentation/tf6.pdf &lt;/a&gt;"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.TransferOfFundsDocument" p:parameterName="TRANSFER_OF_FUNDS"/>
     </property>
-    <property name="documentTypeName" value="TF" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.TransferOfFundsDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    <property name="documentTypeName" value="TF"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.TransferOfFundsDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
 
-    <property name="validationMap" ref="TransferOfFundsDocument-validations" />
+    <property name="validationMap" ref="TransferOfFundsDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="TransferOfFundsDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="TransferOfFundsDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
 	    		<key><value>target</value></key>
-	    		<ref bean="TransferOfFundsDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="TransferOfFundsDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>  
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
     <property name="workflowAttributes">
-    	<ref bean="TransferOfFundsDocument-workflowAttributes" />
+    	<ref bean="TransferOfFundsDocument-workflowAttributes"/>
     </property>
     
   </bean>
   
   <!-- Validations -->
   
-  <bean id="TransferOfFundsDocument-validations" parent="TransferOfFundsDocument-validations-parentBean" />
+  <bean id="TransferOfFundsDocument-validations" parent="TransferOfFundsDocument-validations-parentBean"/>
   
   <bean id="TransferOfFundsDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -89,44 +78,44 @@
   </bean>
   
   <!-- accounting line groups -->
-  <bean id="TransferOfFundsDocument-sourceAccountingLineGroup" parent="TransferOfFundsDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="TransferOfFundsDocument-sourceAccountingLineGroup" parent="TransferOfFundsDocument-sourceAccountingLineGroup-parentBean"/>  
   <bean id="TransferOfFundsDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="From" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value="From"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
 	</bean>
 	
-  <bean id="TransferOfFundsDocument-targetAccountingLineGroup" parent="TransferOfFundsDocument-targetAccountingLineGroup-parentBean" />	
+  <bean id="TransferOfFundsDocument-targetAccountingLineGroup" parent="TransferOfFundsDocument-targetAccountingLineGroup-parentBean"/>	
   <bean id="TransferOfFundsDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
-	  <property name="groupLabel" value="To" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="target" />
-	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
-	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine"/>
+	  <property name="groupLabel" value="To"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="target"/>
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals"/>
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
   </bean>
   
   	<!-- workflow attributes for routing -->
-	<bean id="TransferOfFundsDocument-workflowAttributes" parent="TransferOfFundsDocument-workflowAttributes-parentBean" />
+	<bean id="TransferOfFundsDocument-workflowAttributes" parent="TransferOfFundsDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="TransferOfFundsDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
     		</map>
     	</property>
 	</bean>

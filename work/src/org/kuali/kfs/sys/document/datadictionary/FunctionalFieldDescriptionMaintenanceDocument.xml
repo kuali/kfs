@@ -1,29 +1,16 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="FunctionalFieldDescriptionMaintenanceDocument"
-		parent="FunctionalFieldDescriptionMaintenanceDocument-parentBean" />
+	<bean id="FunctionalFieldDescriptionMaintenanceDocument" parent="FunctionalFieldDescriptionMaintenanceDocument-parentBean"/>
 
-	<bean id="FunctionalFieldDescriptionMaintenanceDocument-parentBean"
-		abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" />
-		<property name="maintainableClass"
-			value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-		<property name="documentAuthorizerClass"
-			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-		<property name="documentPresentationControllerClass"
-			value="org.kuali.kfs.sys.document.authorization.FunctionalFieldDescriptionMaintenanceDocumentPresentationController" />
+	<bean id="FunctionalFieldDescriptionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription"/>
+		<property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+		<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+		<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.FunctionalFieldDescriptionMaintenanceDocumentPresentationController"/>
 		<property name="authorizations">
 			<list>
 				<bean parent="AuthorizationDefinition">
-					<property name="action" value="initiate" />
+					<property name="action" value="initiate"/>
 					<property name="authorizedGroups">
 						<set>
 							<value>SY_MAINTENANCE_USERS</value>
@@ -35,11 +22,10 @@
 
 		<property name="maintainableSections">
 			<list>
-				<ref
-					bean="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields" />
+				<ref bean="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields"/>
 			</list>
 		</property>
-		<property name="label" value="Functional Field Description" />
+		<property name="label" value="Functional Field Description"/>
 
 		<property name="lockingKeys">
 			<list>
@@ -49,51 +35,37 @@
 			</list>
 		</property>
 		<property name="helpDefinition">
-			<bean parent="HelpDefinition"
-				p:parameterClass="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription"
-				p:parameterName="FUNCTIONAL_FIELD_DESCRIPTION" />
+			<bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" p:parameterName="FUNCTIONAL_FIELD_DESCRIPTION"/>
 		</property>
-		<property name="documentTypeName"
-			value="FFD" />
+		<property name="documentTypeName" value="FFD"/>
 		<property name="workflowAttributes">
-	    	<ref bean="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes" />
+	    	<ref bean="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes"/>
     	</property>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 
 
-	<bean
-		id="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields"
-		parent="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields-parentBean" />
+	<bean id="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields" parent="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields-parentBean"/>
 
-	<bean
-		id="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="FunctionalFieldDescription" />
-		<property name="title" value="Functional Field Description" />
+	<bean id="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="FunctionalFieldDescription"/>
+		<property name="title" value="Functional Field Description"/>
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition"
-					p:name="componentClass" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="propertyName" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="namespaceCode" p:unconditionallyReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="businessObjectProperty.businessObjectComponent.componentLabel" p:unconditionallyReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="businessObjectProperty.propertyLabel" p:lookupReadOnly="true" p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="description" p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="active" p:defaultValue="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="componentClass"/>
+				<bean parent="MaintainableFieldDefinition" p:name="propertyName"/>
+				<bean parent="MaintainableFieldDefinition" p:name="namespaceCode" p:unconditionallyReadOnly="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="businessObjectProperty.businessObjectComponent.componentLabel" p:unconditionallyReadOnly="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="businessObjectProperty.propertyLabel" p:lookupReadOnly="true" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 			</list>
 		</property>
 	</bean>
 
   <!-- workflow attributes -->
-  <bean id="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes" parent="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes" parent="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

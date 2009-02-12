@@ -1,63 +1,50 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PhoneTypeMaintenanceDocument" parent="PhoneTypeMaintenanceDocument-parentBean" />
+  <bean id="PhoneTypeMaintenanceDocument" parent="PhoneTypeMaintenanceDocument-parentBean"/>
 
   <bean id="PhoneTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PhoneType" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PhoneType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PhoneTypeMaintenanceDocument-EditPhoneType" />
+        <ref bean="PhoneTypeMaintenanceDocument-EditPhoneType"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>vendorPhoneTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Phone Type" />
-    <property name="shortLabel" value="Phone Type" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PhoneType" p:parameterName="PHONE_TYPE" />
+    <property name="label" value="Phone Type"/>
+    <property name="shortLabel" value="Phone Type"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PhoneType" p:parameterName="PHONE_TYPE"/>
     </property>
-    <property name="documentTypeName" value="PMPT" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="PMPT"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="PhoneTypeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="PhoneTypeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="PhoneTypeMaintenanceDocument-EditPhoneType" parent="PhoneTypeMaintenanceDocument-EditPhoneType-parentBean" />
+  <bean id="PhoneTypeMaintenanceDocument-EditPhoneType" parent="PhoneTypeMaintenanceDocument-EditPhoneType-parentBean"/>
 
   <bean id="PhoneTypeMaintenanceDocument-EditPhoneType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Phone Type" />
-    <property name="title" value="Edit Phone Type" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Phone Type"/>
+    <property name="title" value="Edit Phone Type"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorPhoneTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorPhoneTypeDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" 
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneTypeDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="PhoneTypeMaintenanceDocument-workflowAttributes" parent="PhoneTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="PhoneTypeMaintenanceDocument-workflowAttributes" parent="PhoneTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="PhoneTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="PhoneTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

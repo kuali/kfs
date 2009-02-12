@@ -1,65 +1,53 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PaymentReasonCodeMaintenanceDocument" parent="PaymentReasonCodeMaintenanceDocument-parentBean" />
+  <bean id="PaymentReasonCodeMaintenanceDocument" parent="PaymentReasonCodeMaintenanceDocument-parentBean"/>
 
   <bean id="PaymentReasonCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.PaymentReasonCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.PaymentReasonCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PaymentReasonCodeMaintenanceDocument-EditPaymentReason" />
+        <ref bean="PaymentReasonCodeMaintenanceDocument-EditPaymentReason"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Payment Reason" />
-    <property name="shortLabel" value="Disbursement Voucher Payment Reason" />
-    <property name="summary" value="Payment Reason Code Maintenance Document" />
-    <property name="description" value="Document used to create or update Payment Reason objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.PaymentReasonCode" p:parameterName="PAYMENT_REASON" />
+    <property name="label" value="Disbursement Voucher Payment Reason"/>
+    <property name="shortLabel" value="Disbursement Voucher Payment Reason"/>
+    <property name="summary" value="Payment Reason Code Maintenance Document"/>
+    <property name="description" value="Document used to create or update Payment Reason objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.PaymentReasonCode" p:parameterName="PAYMENT_REASON"/>
     </property>
-    <property name="documentTypeName" value="DVPR" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="DVPR"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="PaymentReasonCodeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="PaymentReasonCodeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="PaymentReasonCodeMaintenanceDocument-EditPaymentReason" parent="PaymentReasonCodeMaintenanceDocument-EditPaymentReason-parentBean" />
+  <bean id="PaymentReasonCodeMaintenanceDocument-EditPaymentReason" parent="PaymentReasonCodeMaintenanceDocument-EditPaymentReason-parentBean"/>
 
   <bean id="PaymentReasonCodeMaintenanceDocument-EditPaymentReason-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Payment Reason" />
-    <property name="title" value="Edit Payment Reason" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Payment Reason"/>
+    <property name="title" value="Edit Payment Reason"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="name" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="description" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="PaymentReasonCodeMaintenanceDocument-workflowAttributes" parent="PaymentReasonCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="PaymentReasonCodeMaintenanceDocument-workflowAttributes" parent="PaymentReasonCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="PaymentReasonCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="PaymentReasonCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

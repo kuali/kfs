@@ -1,124 +1,118 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CustomerCreditMemoDocument" parent="CustomerCreditMemoDocument-parentBean" />
+  <bean id="CustomerCreditMemoDocument" parent="CustomerCreditMemoDocument-parentBean"/>
 
   <bean id="CustomerCreditMemoDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Customer Credit Memo" />
-    <property name="shortLabel" value="Customer Credit Memo" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" p:parameterName="CRM" />
+    <property name="label" value="Customer Credit Memo"/>
+    <property name="shortLabel" value="Customer Credit Memo"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" p:parameterName="CRM"/>
     </property>
-    <property name="documentTypeName" value="CRM" />
-    <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentRule" />
+    <property name="documentTypeName" value="CRM"/>
+    <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentRule"/>
 <!-- the following businessRuleClass should be used for granular validations, if implemented
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
 -->
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentPreRules" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerCreditMemoDocumentPresentationController" />
-    <property name="attributes" >
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentPreRules"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerCreditMemoDocumentPresentationController"/>
+    <property name="attributes">
       <list>                                 
-        <ref bean="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber" />
-        <ref bean="CustomerCreditMemoDocument-crmTotalItemAmount" />
-        <ref bean="CustomerCreditMemoDocument-crmTotalTaxAmount" />
-        <ref bean="CustomerCreditMemoDocument-crmTotalAmount" />
-        <ref bean="CustomerCreditMemoDocument-invOutstandingDays" />
+        <ref bean="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber"/>
+        <ref bean="CustomerCreditMemoDocument-crmTotalItemAmount"/>
+        <ref bean="CustomerCreditMemoDocument-crmTotalTaxAmount"/>
+        <ref bean="CustomerCreditMemoDocument-crmTotalAmount"/>
+        <ref bean="CustomerCreditMemoDocument-invOutstandingDays"/>
       </list>
     </property>
     <property name="workflowAttributes">
-    	<ref bean="CustomerCreditMemoDocument-workflowAttributes" />
+    	<ref bean="CustomerCreditMemoDocument-workflowAttributes"/>
     </property>
-    <property name="validationMap" ref="CustomerCreditMemoDocument-validations" />
+    <property name="validationMap" ref="CustomerCreditMemoDocument-validations"/>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber" parent="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber-parentBean" />
+  <bean id="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber" parent="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber-parentBean"/>
 
   <bean id="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentReferenceInvoiceNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Ref. Number" />
-    <property name="shortLabel" value="Invoice Ref. Number" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="financialDocumentReferenceInvoiceNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Ref. Number"/>
+    <property name="shortLabel" value="Invoice Ref. Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
   
-  <bean id="CustomerCreditMemoDocument-crmTotalItemAmount" parent="CustomerCreditMemoDocument-crmTotalItemAmount-parentBean" />
+  <bean id="CustomerCreditMemoDocument-crmTotalItemAmount" parent="CustomerCreditMemoDocument-crmTotalItemAmount-parentBean"/>
 
   <bean id="CustomerCreditMemoDocument-crmTotalItemAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="crmTotalItemAmount" />
-    <property name="label" value="CRM Total Item Amount" />
-    <property name="shortLabel" value="CRM Total Item Amount" />
+    <property name="name" value="crmTotalItemAmount"/>
+    <property name="label" value="CRM Total Item Amount"/>
+    <property name="shortLabel" value="CRM Total Item Amount"/>
   </bean>
   
-  <bean id="CustomerCreditMemoDocument-crmTotalTaxAmount" parent="CustomerCreditMemoDocument-crmTotalTaxAmount-parentBean" />
+  <bean id="CustomerCreditMemoDocument-crmTotalTaxAmount" parent="CustomerCreditMemoDocument-crmTotalTaxAmount-parentBean"/>
 
   <bean id="CustomerCreditMemoDocument-crmTotalTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="crmTotalTaxAmount" />
-    <property name="label" value="CRM Total Tax Amount" />
-    <property name="shortLabel" value="CRM Total Tax Amount" />
+    <property name="name" value="crmTotalTaxAmount"/>
+    <property name="label" value="CRM Total Tax Amount"/>
+    <property name="shortLabel" value="CRM Total Tax Amount"/>
   </bean>
   
-  <bean id="CustomerCreditMemoDocument-crmTotalAmount" parent="CustomerCreditMemoDocument-crmTotalAmount-parentBean" />
+  <bean id="CustomerCreditMemoDocument-crmTotalAmount" parent="CustomerCreditMemoDocument-crmTotalAmount-parentBean"/>
 
   <bean id="CustomerCreditMemoDocument-crmTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="crmTotalAmount" />
-    <property name="label" value="CRM Total Amount" />
-    <property name="shortLabel" value="CRM Total Amount" />
+    <property name="name" value="crmTotalAmount"/>
+    <property name="label" value="CRM Total Amount"/>
+    <property name="shortLabel" value="CRM Total Amount"/>
   </bean>
  
  
-  <bean id="CustomerCreditMemoDocument-invOutstandingDays" parent="CustomerCreditMemoDocument-invOutstandingDays-parentBean" />
+  <bean id="CustomerCreditMemoDocument-invOutstandingDays" parent="CustomerCreditMemoDocument-invOutstandingDays-parentBean"/>
 
   <bean id="CustomerCreditMemoDocument-invOutstandingDays-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invOutstandingDays" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Invoice Outstanding Days" />
-    <property name="shortLabel" value="Inv Outstanding Days" />
-    <property name="maxLength" value="5" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="name" value="invOutstandingDays"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Invoice Outstanding Days"/>
+    <property name="shortLabel" value="Inv Outstanding Days"/>
+    <property name="maxLength" value="5"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean> 
   
 <!-- Start - Workflow Attribute Beans -->  
-    <bean id="CustomerCreditMemoDocument-workflowAttributes" parent="CustomerCreditMemoDocument-workflowAttributes-parentBean" />
+    <bean id="CustomerCreditMemoDocument-workflowAttributes" parent="CustomerCreditMemoDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="CustomerCreditMemoDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber" />
-   				<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
-	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode" />
-   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode" />
-   				<ref bean="SearchingType-CustomerCreditMemoDocument-billingChartOfAccountsCode" />
-   				<ref bean="SearchingType-CustomerCreditMemoDocument-billingOrganizationCode" />
-    			<ref bean="SearchingType-CustomerCreditMemoDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-CustomerCreditMemoDocument-accountNumber" />
-   				<ref bean="SearchingType-CustomerCreditMemoDocument-invoiceItemCode" />
-    			<ref bean="SearchingType-AccountsReceivableDocument-financialDocumentReferenceInvoiceNumber" />
+	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber"/>
+   				<ref bean="SearchingType-AccountsReceivableDocument-customerName"/>
+	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode"/>
+   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode"/>
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-billingChartOfAccountsCode"/>
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-billingOrganizationCode"/>
+    			<ref bean="SearchingType-CustomerCreditMemoDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-CustomerCreditMemoDocument-accountNumber"/>
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-invoiceItemCode"/>
+    			<ref bean="SearchingType-AccountsReceivableDocument-financialDocumentReferenceInvoiceNumber"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-CustomerCreditMemoDocument-Account-sourceOnly" />
+    			<entry key="Account" value-ref="RoutingType-CustomerCreditMemoDocument-Account-sourceOnly"/>
     		</map>
     	</property>
 	</bean>  
 	
     <bean id="SearchingType-CustomerCreditMemoDocument-billingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-billingChartOfAccountsCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-billingChartOfAccountsCode"/>
         <property name="documentValues">
         	<list>
         		<value>invoice.billByChartOfAccountCode</value>
@@ -126,7 +120,7 @@
         </property>
     </bean>
     <bean id="SearchingType-CustomerCreditMemoDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-billingOrganizationCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-billingOrganizationCode"/>
         <property name="documentValues">
         	<list>
         		<value>invoice.billedByOrganizationCode</value>
@@ -134,7 +128,7 @@
         </property>
     </bean>
 	<bean id="SearchingType-CustomerCreditMemoDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
         <property name="documentValues">
         	<list>
         		<value>invoice.sourceAccountingLines.chartOfAccountsCode</value>
@@ -142,7 +136,7 @@
         </property>
     </bean>
     <bean id="SearchingType-CustomerCreditMemoDocument-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-accountNumber" />
+        <property name="searchingAttribute" ref="SearchingAttribute-accountNumber"/>
         <property name="documentValues">
         	<list>
         		<value>invoice.sourceAccountingLines.accountNumber</value>
@@ -150,7 +144,7 @@
         </property>
     </bean>
     <bean id="SearchingType-CustomerCreditMemoDocument-invoiceItemCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-invoiceItemCode" />
+        <property name="searchingAttribute" ref="SearchingAttribute-invoiceItemCode"/>
         <property name="documentValues">
         	<list>
         		<value>invoice.sourceAccountingLines.invoiceItemCode</value>
@@ -162,33 +156,33 @@
 	<bean id="RoutingType-CustomerCreditMemoDocument-Account-sourceOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-accountNumber" />
-		        <ref bean="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-accountNumber"/>
+		        <ref bean="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="DocumentValuePathGroup-CustomerCreditMemoDocument-Account-sourceAccountingLines" />
+    			<ref bean="DocumentValuePathGroup-CustomerCreditMemoDocument-Account-sourceAccountingLines"/>
     		</list>
     	</property>
     </bean>
 	<bean id="DocumentValuePathGroup-CustomerCreditMemoDocument-Account-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 	<property name="documentCollectionPath">
 		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
-			<property name="collectionPath" value="invoice.sourceAccountingLines" />
+			<property name="collectionPath" value="invoice.sourceAccountingLines"/>
 		</bean>
 	</property>
 	</bean>
 
-    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-crmTotalAmount" />
+    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-crmTotalAmount"/>
     <bean id="WorkflowAttribute-CustomerCreditMemoDocument-crmTotalAmount" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />
-    	<property name="attributeName" value="crmTotalAmount" />
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument"/>
+    	<property name="attributeName" value="crmTotalAmount"/>
     </bean>  
 
 <!-- Granular Validations -->
-  <bean id="CustomerCreditMemoDocument-validations" parent="CustomerCreditMemoDocument-validations-parentBean" />  
+  <bean id="CustomerCreditMemoDocument-validations" parent="CustomerCreditMemoDocument-validations-parentBean"/>  
   <bean id="CustomerCreditMemoDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>			

@@ -1,85 +1,69 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AssetTransferDocument" parent="AssetTransferDocument-parentBean" />
+  <bean id="AssetTransferDocument" parent="AssetTransferDocument-parentBean"/>
   <bean id="AssetTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">  
-    <property name="label" value="Asset Transfer" />
-    <property name="shortLabel" value="Asset Transfer" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Asset Transfer Document" />
-    <property name="documentTypeName" value="AT" />
-    <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetTransferDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetTransferDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetTransferDocumentAuthorizer" />
-    <property name="workflowAttributes" >
-      <ref bean="AssetTransferDocument-workflowAttributes" />
+    <property name="label" value="Asset Transfer"/>
+    <property name="shortLabel" value="Asset Transfer"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="Asset Transfer Document"/>
+    <property name="documentTypeName" value="AT"/>
+    <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetTransferDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetTransferDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetTransferDocumentAuthorizer"/>
+    <property name="workflowAttributes">
+      <ref bean="AssetTransferDocument-workflowAttributes"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="AssetTransferDocument-buildingCode" />
-        <ref bean="AssetTransferDocument-buildingRoomNumber" />
-        <ref bean="AssetTransferDocument-buildingSubRoomNumber" />
-        <ref bean="AssetTransferDocument-campusCode" />
-        <ref bean="AssetTransferDocument-interdepartmentalSalesIndicator" />
-        <ref bean="AssetTransferDocument-offCampusName" />
-        <ref bean="AssetTransferDocument-offCampusAddress" />
-        <ref bean="AssetTransferDocument-offCampusCityName" />
-        <ref bean="AssetTransferDocument-offCampusStateCode" />
-        <ref bean="AssetTransferDocument-offCampusZipCode" />
-        <ref bean="AssetTransferDocument-offCampusCountryCode" />
-        <ref bean="AssetTransferDocument-organizationInventoryName" />
-        <ref bean="AssetTransferDocument-organizationOwnerAccountNumber" />
-        <ref bean="AssetTransferDocument-organizationOwnerChartOfAccountsCode" />
-        <ref bean="AssetTransferDocument-organizationTagNumber" />
-        <ref bean="AssetTransferDocument-organizationText" />
-        <ref bean="AssetTransferDocument-transferOfFundsFinancialDocumentNumber" />
-        <ref bean="AssetTransferDocument-representativeUniversalIdentifier" />
-        <ref bean="AssetTransferDocument-assetRepresentative.principalName" />
-        <ref bean="AssetTransferDocument-assetRepresentative.name" />
-        <ref bean="AssetTransferDocument-objectId" />
-        <ref bean="AssetTransferDocument-documentNumber" />
-        <ref bean="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode" />
-        <ref bean="AssetTransferDocument-oldOrganizationOwnerAccountNumber" />
+        <ref bean="AssetTransferDocument-buildingCode"/>
+        <ref bean="AssetTransferDocument-buildingRoomNumber"/>
+        <ref bean="AssetTransferDocument-buildingSubRoomNumber"/>
+        <ref bean="AssetTransferDocument-campusCode"/>
+        <ref bean="AssetTransferDocument-interdepartmentalSalesIndicator"/>
+        <ref bean="AssetTransferDocument-offCampusName"/>
+        <ref bean="AssetTransferDocument-offCampusAddress"/>
+        <ref bean="AssetTransferDocument-offCampusCityName"/>
+        <ref bean="AssetTransferDocument-offCampusStateCode"/>
+        <ref bean="AssetTransferDocument-offCampusZipCode"/>
+        <ref bean="AssetTransferDocument-offCampusCountryCode"/>
+        <ref bean="AssetTransferDocument-organizationInventoryName"/>
+        <ref bean="AssetTransferDocument-organizationOwnerAccountNumber"/>
+        <ref bean="AssetTransferDocument-organizationOwnerChartOfAccountsCode"/>
+        <ref bean="AssetTransferDocument-organizationTagNumber"/>
+        <ref bean="AssetTransferDocument-organizationText"/>
+        <ref bean="AssetTransferDocument-transferOfFundsFinancialDocumentNumber"/>
+        <ref bean="AssetTransferDocument-representativeUniversalIdentifier"/>
+        <ref bean="AssetTransferDocument-assetRepresentative.principalName"/>
+        <ref bean="AssetTransferDocument-assetRepresentative.name"/>
+        <ref bean="AssetTransferDocument-objectId"/>
+        <ref bean="AssetTransferDocument-documentNumber"/>
+        <ref bean="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode"/>
+        <ref bean="AssetTransferDocument-oldOrganizationOwnerAccountNumber"/>
       </list>
     </property>
 
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="campus"
-              p:attributeToHighlightOnFail="campusCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="building"
-              p:attributeToHighlightOnFail="buildingCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="buildingRoom"
-              p:attributeToHighlightOnFail="buildingRoomNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organizationOwnerAccount"
-              p:attributeToHighlightOnFail="organizationOwnerAccountNumber" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="organizationOwnerChartOfAccounts"
-              p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />              
+        <bean parent="ReferenceDefinition" p:attributeName="campus" p:attributeToHighlightOnFail="campusCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="building" p:attributeToHighlightOnFail="buildingCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="buildingRoom" p:attributeToHighlightOnFail="buildingRoomNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationOwnerAccount" p:attributeToHighlightOnFail="organizationOwnerAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationOwnerChartOfAccounts" p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode"/>              
       </list>
     </property>
 
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <dd:relationship objectAttribute="postalZipCode">
-        	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" />
-            <dd:primitiveAttribute source="offCampusZipCode" target="postalCode" />
+        	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="offCampusZipCode" target="postalCode"/>
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusState">
-            <dd:primitiveAttribute source="offCampusStateCode" target="postalStateCode" />
-			<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" />           
+            <dd:primitiveAttribute source="offCampusStateCode" target="postalStateCode"/>
+			<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode"/>           
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusCountry">
-            <dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode"/>
         </dd:relationship>
       </list>
     </property>    
@@ -88,190 +72,185 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="AssetTransferDocument-buildingCode" parent="AssetTransferDocument-buildingCode-parentBean" />
+  <bean id="AssetTransferDocument-buildingCode" parent="AssetTransferDocument-buildingCode-parentBean"/>
 
   <bean id="AssetTransferDocument-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
-    <property name="shortLabel" value="Code" />
-    <property name="required" value="false" />
+    <property name="shortLabel" value="Code"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="AssetTransferDocument-buildingRoomNumber" parent="AssetTransferDocument-buildingRoomNumber-parentBean" />
+  <bean id="AssetTransferDocument-buildingRoomNumber" parent="AssetTransferDocument-buildingRoomNumber-parentBean"/>
 
   <bean id="AssetTransferDocument-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-    <property name="shortLabel" value="Number" />
-    <property name="required" value="false" />
+    <property name="shortLabel" value="Number"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="AssetTransferDocument-buildingSubRoomNumber" parent="AssetTransferDocument-buildingSubRoomNumber-parentBean" />
+  <bean id="AssetTransferDocument-buildingSubRoomNumber" parent="AssetTransferDocument-buildingSubRoomNumber-parentBean"/>
 
   <bean id="AssetTransferDocument-buildingSubRoomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Sub Room Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Building Sub Room Number"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
-  <bean id="AssetTransferDocument-campusCode" parent="AssetTransferDocument-campusCode-parentBean" />
+  <bean id="AssetTransferDocument-campusCode" parent="AssetTransferDocument-campusCode-parentBean"/>
 
   <bean id="AssetTransferDocument-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
-    <property name="label" value="Campus" />
-    <property name="shortLabel" value="Code" />
+    <property name="label" value="Campus"/>
+    <property name="shortLabel" value="Code"/>
   </bean>
-  <bean id="AssetTransferDocument-interdepartmentalSalesIndicator" parent="AssetTransferDocument-interdepartmentalSalesIndicator-parentBean" />
+  <bean id="AssetTransferDocument-interdepartmentalSalesIndicator" parent="AssetTransferDocument-interdepartmentalSalesIndicator-parentBean"/>
 
   <bean id="AssetTransferDocument-interdepartmentalSalesIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="interdepartmentalSalesIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Interdepartmental Sales Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="interdepartmentalSalesIndicator"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Interdepartmental Sales Indicator"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="AssetTransferDocument-offCampusAddress" parent="AssetTransferDocument-offCampusAddress-parentBean" />
+  <bean id="AssetTransferDocument-offCampusAddress" parent="AssetTransferDocument-offCampusAddress-parentBean"/>
 
   <bean id="AssetTransferDocument-offCampusAddress-parentBean" abstract="true" parent="AssetLocation-assetLocationStreetAddress">
-    <property name="name" value="offCampusAddress" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Address" />
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="name" value="offCampusAddress"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Address"/>
+    <property name="maxLength" value="30"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="AssetTransferDocument-offCampusCityName" parent="AssetTransferDocument-offCampusCityName-parentBean" />
+  <bean id="AssetTransferDocument-offCampusCityName" parent="AssetTransferDocument-offCampusCityName-parentBean"/>
 
   <bean id="AssetTransferDocument-offCampusCityName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
-    <property name="name" value="offCampusCityName" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="City" />
-    <property name="maxLength" value="25" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
+    <property name="name" value="offCampusCityName"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="City"/>
+    <property name="maxLength" value="25"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="27"/>
     </property>
   </bean>
-  <bean id="AssetTransferDocument-offCampusStateCode" parent="AssetTransferDocument-offCampusStateCode-parentBean" />
+  <bean id="AssetTransferDocument-offCampusStateCode" parent="AssetTransferDocument-offCampusStateCode-parentBean"/>
 
-  <bean id="AssetTransferDocument-offCampusStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" >
-    <property name="name" value="offCampusStateCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="State" />
-    <property name="shortLabel" value="Code" />
+  <bean id="AssetTransferDocument-offCampusStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode">
+    <property name="name" value="offCampusStateCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="State"/>
+    <property name="shortLabel" value="Code"/>
   </bean>
-  <bean id="AssetTransferDocument-offCampusZipCode" parent="AssetTransferDocument-offCampusZipCode-parentBean" />
+  <bean id="AssetTransferDocument-offCampusZipCode" parent="AssetTransferDocument-offCampusZipCode-parentBean"/>
 
-  <bean id="AssetTransferDocument-offCampusZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode" >
-    <property name="name" value="offCampusZipCode" />
-    <property name="label" value="Postal Code" />
-    <property name="shortLabel" value="Postal Code" />
+  <bean id="AssetTransferDocument-offCampusZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode">
+    <property name="name" value="offCampusZipCode"/>
+    <property name="label" value="Postal Code"/>
+    <property name="shortLabel" value="Postal Code"/>
   </bean>
-  <bean id="AssetTransferDocument-organizationInventoryName" parent="AssetTransferDocument-organizationInventoryName-parentBean" />
+  <bean id="AssetTransferDocument-organizationInventoryName" parent="AssetTransferDocument-organizationInventoryName-parentBean"/>
 
   <bean id="AssetTransferDocument-organizationInventoryName-parentBean" abstract="true" parent="Asset-organizationInventoryName">
   </bean>
-  <bean id="AssetTransferDocument-organizationOwnerAccountNumber" parent="AssetTransferDocument-organizationOwnerAccountNumber-parentBean" />
+  <bean id="AssetTransferDocument-organizationOwnerAccountNumber" parent="AssetTransferDocument-organizationOwnerAccountNumber-parentBean"/>
 
   <bean id="AssetTransferDocument-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="organizationOwnerAccountNumber" />
-    <property name="label" value="Organization Owner Account Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="name" value="organizationOwnerAccountNumber"/>
+    <property name="label" value="Organization Owner Account Number"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
-  <bean id="AssetTransferDocument-organizationOwnerChartOfAccountsCode" parent="AssetTransferDocument-organizationOwnerChartOfAccountsCode-parentBean" />
+  <bean id="AssetTransferDocument-organizationOwnerChartOfAccountsCode" parent="AssetTransferDocument-organizationOwnerChartOfAccountsCode-parentBean"/>
 
   <bean id="AssetTransferDocument-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="organizationOwnerChartOfAccountsCode" />
-    <property name="label" value="Organization Owner Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="name" value="organizationOwnerChartOfAccountsCode"/>
+    <property name="label" value="Organization Owner Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
   </bean>
-  <bean id="AssetTransferDocument-organizationTagNumber" parent="AssetTransferDocument-organizationTagNumber-parentBean" />
+  <bean id="AssetTransferDocument-organizationTagNumber" parent="AssetTransferDocument-organizationTagNumber-parentBean"/>
 
   <bean id="AssetTransferDocument-organizationTagNumber-parentBean" abstract="true" parent="AssetOrganization-organizationTagNumber">
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="AssetTransferDocument-organizationText" parent="AssetTransferDocument-organizationText-parentBean" />
+  <bean id="AssetTransferDocument-organizationText" parent="AssetTransferDocument-organizationText-parentBean"/>
 
   <bean id="AssetTransferDocument-organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText">
   </bean>
-  <bean id="AssetTransferDocument-transferOfFundsFinancialDocumentNumber" parent="AssetTransferDocument-transferOfFundsFinancialDocumentNumber-parentBean" />
+  <bean id="AssetTransferDocument-transferOfFundsFinancialDocumentNumber" parent="AssetTransferDocument-transferOfFundsFinancialDocumentNumber-parentBean"/>
 
   <bean id="AssetTransferDocument-transferOfFundsFinancialDocumentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
-    <property name="name" value="transferOfFundsFinancialDocumentNumber" />
-    <property name="label" value="Transfer Of Funds Financial Document Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="name" value="transferOfFundsFinancialDocumentNumber"/>
+    <property name="label" value="Transfer Of Funds Financial Document Number"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
-  <bean id="AssetTransferDocument-representativeUniversalIdentifier" parent="AssetTransferDocument-representativeUniversalIdentifier-parentBean" />
+  <bean id="AssetTransferDocument-representativeUniversalIdentifier" parent="AssetTransferDocument-representativeUniversalIdentifier-parentBean"/>
 
   <bean id="AssetTransferDocument-representativeUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="representativeUniversalIdentifier" />
-    <property name="label" value="Asset Representative" />
-    <property name="shortLabel" value="Representative" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="representativeUniversalIdentifier"/>
+    <property name="label" value="Asset Representative"/>
+    <property name="shortLabel" value="Representative"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="AssetTransferDocument-assetRepresentative.principalName" parent="AssetTransferDocument-assetRepresentative.principalName-parentBean" />
+  <bean id="AssetTransferDocument-assetRepresentative.principalName" parent="AssetTransferDocument-assetRepresentative.principalName-parentBean"/>
 
   <bean id="AssetTransferDocument-assetRepresentative.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="assetRepresentative.principalName" />
-    <property name="label" value="Asset Representative" />
-    <property name="shortLabel" value="UserID" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="assetRepresentative.name"
-            p:universalIdAttributeName="representativeUniversalIdentifier"
-            p:userIdAttributeName="assetRepresentative.principalName" />
+    <property name="name" value="assetRepresentative.principalName"/>
+    <property name="label" value="Asset Representative"/>
+    <property name="shortLabel" value="UserID"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="assetRepresentative.name" p:universalIdAttributeName="representativeUniversalIdentifier" p:userIdAttributeName="assetRepresentative.principalName"/>
     </property>
   </bean>
-  <bean id="AssetTransferDocument-assetRepresentative.name" parent="AssetTransferDocument-assetRepresentative.name-parentBean" />
+  <bean id="AssetTransferDocument-assetRepresentative.name" parent="AssetTransferDocument-assetRepresentative.name-parentBean"/>
 
   <bean id="AssetTransferDocument-assetRepresentative.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="assetRepresentative.name" />
-    <property name="label" value="Asset Representative Name" />
-    <property name="shortLabel" value="Representative" />
-    <property name="required" value="false" />
+    <property name="name" value="assetRepresentative.name"/>
+    <property name="label" value="Asset Representative Name"/>
+    <property name="shortLabel" value="Representative"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="AssetTransferDocument-objectId" parent="AssetTransferDocument-objectId-parentBean" />
+  <bean id="AssetTransferDocument-objectId" parent="AssetTransferDocument-objectId-parentBean"/>
 
   <bean id="AssetTransferDocument-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
-  <bean id="AssetTransferDocument-documentNumber" parent="AssetTransferDocument-documentNumber-parentBean" />
+  <bean id="AssetTransferDocument-documentNumber" parent="AssetTransferDocument-documentNumber-parentBean"/>
 
   <bean id="AssetTransferDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>
-  <bean id="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode" parent="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode-parentBean" />
+  <bean id="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode" parent="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode-parentBean"/>
 
   <bean id="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="AssetTransferDocument-organizationOwnerChartOfAccountsCode">
-    <property name="name" value="oldOrganizationOwnerChartOfAccountsCode" />
-    <property name="label" value="Organization Owner Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="required" value="false" />
+    <property name="name" value="oldOrganizationOwnerChartOfAccountsCode"/>
+    <property name="label" value="Organization Owner Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="AssetTransferDocument-oldOrganizationOwnerAccountNumber" parent="AssetTransferDocument-oldOrganizationOwnerAccountNumber-parentBean" />
+  <bean id="AssetTransferDocument-oldOrganizationOwnerAccountNumber" parent="AssetTransferDocument-oldOrganizationOwnerAccountNumber-parentBean"/>
 
   <bean id="AssetTransferDocument-oldOrganizationOwnerAccountNumber-parentBean" abstract="true" parent="AssetTransferDocument-organizationOwnerAccountNumber">
-    <property name="name" value="oldOrganizationOwnerAccountNumber" />
-    <property name="label" value="Organization Owner Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="required" value="false" />
+    <property name="name" value="oldOrganizationOwnerAccountNumber"/>
+    <property name="label" value="Organization Owner Account Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="required" value="false"/>
   </bean>
   
-   <bean id="AssetTransferDocument-offCampusCountryCode" parent="AssetTransferDocument-offCampusCountryCode-parentBean" />
+   <bean id="AssetTransferDocument-offCampusCountryCode" parent="AssetTransferDocument-offCampusCountryCode-parentBean"/>
 
   <bean id="AssetTransferDocument-offCampusCountryCode-parentBean" abstract="true" parent="AssetGlobalDetail-offCampusCountryCode">
-    <property name="label" value="Country" />
+    <property name="label" value="Country"/>
   </bean>
-  <bean id="AssetTransferDocument-offCampusName" parent="AssetTransferDocument-offCampusName-parentBean" />
+  <bean id="AssetTransferDocument-offCampusName" parent="AssetTransferDocument-offCampusName-parentBean"/>
 
   <bean id="AssetTransferDocument-offCampusName-parentBean" abstract="true" parent="AssetGlobalDetail-offCampusName">
-    <property name="label" value="Name" />
+    <property name="label" value="Name"/>
   </bean>
   
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="AssetTransferDocument-workflowAttributes" parent="AssetTransferDocument-workflowAttributes-parentBean" />
+  <bean id="AssetTransferDocument-workflowAttributes" parent="AssetTransferDocument-workflowAttributes-parentBean"/>
 
   <bean id="AssetTransferDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     <property name="searchingTypeDefinitions">
@@ -279,8 +258,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-		    			<property name="attributeName" value="capitalAssetNumber" />
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
+		    			<property name="attributeName" value="capitalAssetNumber"/>
 		    		</bean>
 		    	</property>
 		    	<property name="documentValues">
@@ -293,8 +272,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-		    			<property name="attributeName" value="campusTagNumber" />
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
+		    			<property name="attributeName" value="campusTagNumber"/>
 		    		</bean>
 		    	</property>
 		    	<property name="documentValues">
@@ -307,8 +286,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-		    			<property name="attributeName" value="organizationOwnerChartOfAccountsCode" />
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
+		    			<property name="attributeName" value="organizationOwnerChartOfAccountsCode"/>
 		    		</bean>
 		    	</property>
 		    	<property name="documentValues">
@@ -322,8 +301,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-		    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
-		    			<property name="attributeName" value="organizationCode" />
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+		    			<property name="attributeName" value="organizationCode"/>
 		    		</bean>
 		    	</property>
 		    	<property name="documentValues">
@@ -337,8 +316,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-		    			<property name="attributeName" value="organizationOwnerAccountNumber" />
+		    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
+		    			<property name="attributeName" value="organizationOwnerAccountNumber"/>
 		    		</bean>
 		    	</property>
 		    	<property name="documentValues">
@@ -352,8 +331,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
    	</property>
     <property name="routingTypeDefinitions">
     	<map>
-    		<entry key="Account" value-ref="RoutingType-AssetTransferDocument-Account" />
-    		<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetTransferDocument-OrganizationHierarchy" />
+    		<entry key="Account" value-ref="RoutingType-AssetTransferDocument-Account"/>
+    		<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetTransferDocument-OrganizationHierarchy"/>
     	</map>
     </property>
   </bean>
@@ -361,8 +340,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <bean id="RoutingType-AssetTransferDocument-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-accountNumber" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-accountNumber"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
@@ -390,8 +369,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <bean id="RoutingType-AssetTransferDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-organizationCode" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-organizationCode"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">

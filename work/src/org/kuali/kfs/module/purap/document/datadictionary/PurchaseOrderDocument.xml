@@ -1,1320 +1,1227 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderDocument" parent="PurchaseOrderDocument-parentBean" />
+  <bean id="PurchaseOrderDocument" parent="PurchaseOrderDocument-parentBean"/>
 
   <bean id="PurchaseOrderDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order" />
-    <property name="shortLabel" value="PO" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" p:parameterName="PURCHASE_ORDER" />
+    <property name="label" value="Purchase Order"/>
+    <property name="shortLabel" value="PO"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" p:parameterName="PURCHASE_ORDER"/>
     </property>
-    <property name="documentTypeName" value="PO" />
-    <property name="sessionDocument" value="true" />
-    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules" />
-    <property name="allowsCopy" value="true" />
+    <property name="documentTypeName" value="PO"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules"/>
+    <property name="allowsCopy" value="true"/>
 
     <property name="workflowAttributes">
-    	<ref bean="PurchaseOrderDocument-workflowAttributes" />
+    	<ref bean="PurchaseOrderDocument-workflowAttributes"/>
     </property>
     
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	        <entry>
     			<key><value>distributeSource</value></key>
-	    		<ref bean="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderDocument-statusDescription" />
-        <ref bean="PurchaseOrderDocument-contractManagerName" />
-        <ref bean="PurchaseOrderDocument-versionNumber" />
-        <ref bean="PurchaseOrderDocument-postingYear" />
-        <ref bean="PurchaseOrderDocument-vendorNumber" />
-        <ref bean="PurchaseOrderDocument-vendorDetailAssignedIdentifier" />
-        <ref bean="PurchaseOrderDocument-vendorCustomerNumber" />
-        <ref bean="PurchaseOrderDocument-vendorAttentionName" />
-        <ref bean="PurchaseOrderDocument-vendorLine2Address" />
-        <ref bean="PurchaseOrderDocument-vendorStateCode" />
-        <ref bean="PurchaseOrderDocument-vendorAddressInternationalProvinceName" />
-        <ref bean="PurchaseOrderDocument-vendorPostalCode" />
-        <ref bean="PurchaseOrderDocument-totalDollarAmount" />
-        <ref bean="PurchaseOrderDocument-totalPreTaxDollarAmount" />
-        <ref bean="PurchaseOrderDocument-totalTaxAmount" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode" />
-        <ref bean="PurchaseOrderDocument-retransmitHeader" />
-        <ref bean="PurchaseOrderDocument-receivingDocumentRequiredIndicator" />
-        <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator" />
-        <ref bean="PurchaseOrderDocument-contractManagerCode" />
-        <ref bean="PurchaseOrderDocument-contractManager" />
-        <ref bean="PurchaseOrderDocument-purapDocumentIdentifier" />
-        <ref bean="PurchaseOrderDocument-statusCode" />
-        <ref bean="PurchaseOrderDocument-chartOfAccountsCode" />
-        <ref bean="PurchaseOrderDocument-organizationCode" />
-        <ref bean="PurchaseOrderDocument-vendorAddressGeneratedIdentifier" />
-        <ref bean="PurchaseOrderDocument-vendorContractName" />
-        <ref bean="PurchaseOrderDocument-supplierDiversityLabel" />
-        <ref bean="PurchaseOrderDocument-vendorContactsLabel" />
-        <ref bean="PurchaseOrderDocument-billingName" />
-        <ref bean="PurchaseOrderDocument-billingLine1Address" />
-        <ref bean="PurchaseOrderDocument-billingLine2Address" />
-        <ref bean="PurchaseOrderDocument-billingCityName" />
-        <ref bean="PurchaseOrderDocument-billingStateCode" />
-        <ref bean="PurchaseOrderDocument-billingPostalCode" />
-        <ref bean="PurchaseOrderDocument-billingCountryCode" />
-        <ref bean="PurchaseOrderDocument-billingPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-receivingName" />
-        <ref bean="PurchaseOrderDocument-receivingLine1Address" />
-        <ref bean="PurchaseOrderDocument-receivingLine2Address" />
-        <ref bean="PurchaseOrderDocument-receivingCityName" />
-        <ref bean="PurchaseOrderDocument-receivingStateCode" />
-        <ref bean="PurchaseOrderDocument-receivingPostalCode" />
-        <ref bean="PurchaseOrderDocument-receivingCountryCode" />
-        <ref bean="PurchaseOrderDocument-addressToVendorIndicator" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingName" />
-        <ref bean="PurchaseOrderDocument-deliveryCampusCode" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingOtherIndicator" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingLine1Address" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingLine2Address" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingRoomNumber" />
-        <ref bean="PurchaseOrderDocument-deliveryCityName" />
-        <ref bean="PurchaseOrderDocument-deliveryStateCode" />
-        <ref bean="PurchaseOrderDocument-deliveryPostalCode" />
-        <ref bean="PurchaseOrderDocument-deliveryCountryCode" />
-        <ref bean="PurchaseOrderDocument-deliveryInstructionText" />
-        <ref bean="PurchaseOrderDocument-deliveryRequiredDate" />
-        <ref bean="PurchaseOrderDocument-deliveryRequiredDateReasonCode" />
-        <ref bean="PurchaseOrderDocument-deliveryToEmailAddress" />
-        <ref bean="PurchaseOrderDocument-deliveryToName" />
-        <ref bean="PurchaseOrderDocument-deliveryToPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier" />
-        <ref bean="PurchaseOrderDocument-fundingSourceCode" />
-        <ref bean="PurchaseOrderDocument-institutionContactEmailAddress" />
-        <ref bean="PurchaseOrderDocument-institutionContactName" />
-        <ref bean="PurchaseOrderDocument-institutionContactPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-nonInstitutionFundAccountNumber" />
-        <ref bean="PurchaseOrderDocument-nonInstitutionFundChartOfAccountsCode" />
-        <ref bean="PurchaseOrderDocument-nonInstitutionFundOrgChartOfAccountsCode" />
-        <ref bean="PurchaseOrderDocument-nonInstitutionFundOrganizationCode" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderAutomaticIndicator" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderCostSourceCode" />
+        <ref bean="PurchaseOrderDocument-statusDescription"/>
+        <ref bean="PurchaseOrderDocument-contractManagerName"/>
+        <ref bean="PurchaseOrderDocument-versionNumber"/>
+        <ref bean="PurchaseOrderDocument-postingYear"/>
+        <ref bean="PurchaseOrderDocument-vendorNumber"/>
+        <ref bean="PurchaseOrderDocument-vendorDetailAssignedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-vendorCustomerNumber"/>
+        <ref bean="PurchaseOrderDocument-vendorAttentionName"/>
+        <ref bean="PurchaseOrderDocument-vendorLine2Address"/>
+        <ref bean="PurchaseOrderDocument-vendorStateCode"/>
+        <ref bean="PurchaseOrderDocument-vendorAddressInternationalProvinceName"/>
+        <ref bean="PurchaseOrderDocument-vendorPostalCode"/>
+        <ref bean="PurchaseOrderDocument-totalDollarAmount"/>
+        <ref bean="PurchaseOrderDocument-totalPreTaxDollarAmount"/>
+        <ref bean="PurchaseOrderDocument-totalTaxAmount"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode"/>
+        <ref bean="PurchaseOrderDocument-retransmitHeader"/>
+        <ref bean="PurchaseOrderDocument-receivingDocumentRequiredIndicator"/>
+        <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator"/>
+        <ref bean="PurchaseOrderDocument-contractManagerCode"/>
+        <ref bean="PurchaseOrderDocument-contractManager"/>
+        <ref bean="PurchaseOrderDocument-purapDocumentIdentifier"/>
+        <ref bean="PurchaseOrderDocument-statusCode"/>
+        <ref bean="PurchaseOrderDocument-chartOfAccountsCode"/>
+        <ref bean="PurchaseOrderDocument-organizationCode"/>
+        <ref bean="PurchaseOrderDocument-vendorAddressGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-vendorContractName"/>
+        <ref bean="PurchaseOrderDocument-supplierDiversityLabel"/>
+        <ref bean="PurchaseOrderDocument-vendorContactsLabel"/>
+        <ref bean="PurchaseOrderDocument-billingName"/>
+        <ref bean="PurchaseOrderDocument-billingLine1Address"/>
+        <ref bean="PurchaseOrderDocument-billingLine2Address"/>
+        <ref bean="PurchaseOrderDocument-billingCityName"/>
+        <ref bean="PurchaseOrderDocument-billingStateCode"/>
+        <ref bean="PurchaseOrderDocument-billingPostalCode"/>
+        <ref bean="PurchaseOrderDocument-billingCountryCode"/>
+        <ref bean="PurchaseOrderDocument-billingPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-receivingName"/>
+        <ref bean="PurchaseOrderDocument-receivingLine1Address"/>
+        <ref bean="PurchaseOrderDocument-receivingLine2Address"/>
+        <ref bean="PurchaseOrderDocument-receivingCityName"/>
+        <ref bean="PurchaseOrderDocument-receivingStateCode"/>
+        <ref bean="PurchaseOrderDocument-receivingPostalCode"/>
+        <ref bean="PurchaseOrderDocument-receivingCountryCode"/>
+        <ref bean="PurchaseOrderDocument-addressToVendorIndicator"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingName"/>
+        <ref bean="PurchaseOrderDocument-deliveryCampusCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingOtherIndicator"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingLine1Address"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingLine2Address"/>
+        <ref bean="PurchaseOrderDocument-deliveryBuildingRoomNumber"/>
+        <ref bean="PurchaseOrderDocument-deliveryCityName"/>
+        <ref bean="PurchaseOrderDocument-deliveryStateCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryPostalCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryCountryCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryInstructionText"/>
+        <ref bean="PurchaseOrderDocument-deliveryRequiredDate"/>
+        <ref bean="PurchaseOrderDocument-deliveryRequiredDateReasonCode"/>
+        <ref bean="PurchaseOrderDocument-deliveryToEmailAddress"/>
+        <ref bean="PurchaseOrderDocument-deliveryToName"/>
+        <ref bean="PurchaseOrderDocument-deliveryToPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier"/>
+        <ref bean="PurchaseOrderDocument-fundingSourceCode"/>
+        <ref bean="PurchaseOrderDocument-institutionContactEmailAddress"/>
+        <ref bean="PurchaseOrderDocument-institutionContactName"/>
+        <ref bean="PurchaseOrderDocument-institutionContactPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-nonInstitutionFundAccountNumber"/>
+        <ref bean="PurchaseOrderDocument-nonInstitutionFundChartOfAccountsCode"/>
+        <ref bean="PurchaseOrderDocument-nonInstitutionFundOrgChartOfAccountsCode"/>
+        <ref bean="PurchaseOrderDocument-nonInstitutionFundOrganizationCode"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderAutomaticIndicator"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderCostSourceCode"/>
         <ref bean="PurchaseOrderDocument-purchaseOrderCurrentIndicator"/>
-        <ref bean="PurchaseOrderDocument-purchaseOrderBeginDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderEndDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderTotalLimit" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderTransmissionMethodCode" />
-        <ref bean="PurchaseOrderDocument-recurringPaymentTypeCode" />
-        <ref bean="PurchaseOrderDocument-requestorPersonEmailAddress" />
-        <ref bean="PurchaseOrderDocument-requestorPersonName" />
-        <ref bean="PurchaseOrderDocument-requestorPersonPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-requisitionSourceCode" />
-        <ref bean="PurchaseOrderDocument-vendorContractGeneratedIdentifier" />
-        <ref bean="PurchaseOrderDocument-vendorFaxNumber" />
-        <ref bean="PurchaseOrderDocument-vendorNoteText" />
-        <ref bean="PurchaseOrderDocument-vendorPhoneNumber" />
-        <ref bean="PurchaseOrderDocument-vendorRestrictedIndicator" />
-        <ref bean="PurchaseOrderDocument-vendorPaymentTermsCode" />
-        <ref bean="PurchaseOrderDocument-vendorShippingTitleCode" />
-        <ref bean="PurchaseOrderDocument-vendorShippingPaymentTermsCode" />
-        <ref bean="PurchaseOrderDocument-requisitionIdentifier" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderVendorChoiceCode" />
-        <ref bean="PurchaseOrderDocument-alternateVendorHeaderGeneratedIdentifier" />
-        <ref bean="PurchaseOrderDocument-alternateVendorDetailAssignedIdentifier" />
-        <ref bean="PurchaseOrderDocument-alternateVendorNumber" />
-        <ref bean="PurchaseOrderDocument-alternateVendorName" />
-        <ref bean="PurchaseOrderDocument-finalPaymentAmount" />
-        <ref bean="PurchaseOrderDocument-finalPaymentDate" />
-        <ref bean="PurchaseOrderDocument-initialPaymentAmount" />
-        <ref bean="PurchaseOrderDocument-initialPaymentDate" />
-        <ref bean="PurchaseOrderDocument-recurringPaymentAmount" />
-        <ref bean="PurchaseOrderDocument-recurringPaymentDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderCommodityDescription" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderConfirmedIndicator" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteDueDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteTypeCode" />
-        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText" />
-        <ref bean="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier" />
-        <ref bean="PurchaseOrderDocument-vendorName" />
-        <ref bean="PurchaseOrderDocument-vendorLine1Address" />
-        <ref bean="PurchaseOrderDocument-vendorCityName" />
-        <ref bean="PurchaseOrderDocument-vendorCountryCode" />
-        <ref bean="PurchaseOrderDocument-recurringPaymentFrequencyCode" />
-        <ref bean="PurchaseOrderDocument-requisitionSource" />
-        <ref bean="PurchaseOrderDocument-statusChange" />
-        <ref bean="PurchaseOrderDocument-internalPurchasingLimit" />
+        <ref bean="PurchaseOrderDocument-purchaseOrderBeginDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderEndDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderTotalLimit"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderTransmissionMethodCode"/>
+        <ref bean="PurchaseOrderDocument-recurringPaymentTypeCode"/>
+        <ref bean="PurchaseOrderDocument-requestorPersonEmailAddress"/>
+        <ref bean="PurchaseOrderDocument-requestorPersonName"/>
+        <ref bean="PurchaseOrderDocument-requestorPersonPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-requisitionSourceCode"/>
+        <ref bean="PurchaseOrderDocument-vendorContractGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-vendorFaxNumber"/>
+        <ref bean="PurchaseOrderDocument-vendorNoteText"/>
+        <ref bean="PurchaseOrderDocument-vendorPhoneNumber"/>
+        <ref bean="PurchaseOrderDocument-vendorRestrictedIndicator"/>
+        <ref bean="PurchaseOrderDocument-vendorPaymentTermsCode"/>
+        <ref bean="PurchaseOrderDocument-vendorShippingTitleCode"/>
+        <ref bean="PurchaseOrderDocument-vendorShippingPaymentTermsCode"/>
+        <ref bean="PurchaseOrderDocument-requisitionIdentifier"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderVendorChoiceCode"/>
+        <ref bean="PurchaseOrderDocument-alternateVendorHeaderGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-alternateVendorDetailAssignedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-alternateVendorNumber"/>
+        <ref bean="PurchaseOrderDocument-alternateVendorName"/>
+        <ref bean="PurchaseOrderDocument-finalPaymentAmount"/>
+        <ref bean="PurchaseOrderDocument-finalPaymentDate"/>
+        <ref bean="PurchaseOrderDocument-initialPaymentAmount"/>
+        <ref bean="PurchaseOrderDocument-initialPaymentDate"/>
+        <ref bean="PurchaseOrderDocument-recurringPaymentAmount"/>
+        <ref bean="PurchaseOrderDocument-recurringPaymentDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderCommodityDescription"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderConfirmedIndicator"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderPreviousIdentifier"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteDueDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteTypeCode"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText"/>
+        <ref bean="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderDocument-vendorName"/>
+        <ref bean="PurchaseOrderDocument-vendorLine1Address"/>
+        <ref bean="PurchaseOrderDocument-vendorCityName"/>
+        <ref bean="PurchaseOrderDocument-vendorCountryCode"/>
+        <ref bean="PurchaseOrderDocument-recurringPaymentFrequencyCode"/>
+        <ref bean="PurchaseOrderDocument-requisitionSource"/>
+        <ref bean="PurchaseOrderDocument-statusChange"/>
+        <ref bean="PurchaseOrderDocument-internalPurchasingLimit"/>
         <ref bean="PurchaseOrderDocument-copyingNotesWhenSplitting"/>
         <ref bean="PurchaseOrderDocument-capitalAssetSystemTypeCode"/>
         <ref bean="PurchaseOrderDocument-capitalAssetSystemStateCode"/>
-        <ref bean="PurchaseOrderDocument-useTaxIndicator" />
+        <ref bean="PurchaseOrderDocument-useTaxIndicator"/>
       </list>
     </property>
-    <property name="validationMap" ref="PurchaseOrderDocument-validations" />
+    <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
   </bean>
 
 <!-- Attribute Definitions -->
 
 
-  <bean id="PurchaseOrderDocument-statusDescription" parent="PurchaseOrderDocument-statusDescription-parentBean" />
+  <bean id="PurchaseOrderDocument-statusDescription" parent="PurchaseOrderDocument-statusDescription-parentBean"/>
 
   <bean id="PurchaseOrderDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
-    <property name="name" value="statusDescription" />
+    <property name="name" value="statusDescription"/>
   </bean>
-  <bean id="PurchaseOrderDocument-contractManagerName" parent="PurchaseOrderDocument-contractManagerName-parentBean" />
+  <bean id="PurchaseOrderDocument-contractManagerName" parent="PurchaseOrderDocument-contractManagerName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-contractManagerName-parentBean" abstract="true" parent="PurApGenericAttributes-contractManager">
-    <property name="name" value="contractManagerName" />
+    <property name="name" value="contractManagerName"/>
   </bean>
-  <bean id="PurchaseOrderDocument-versionNumber" parent="PurchaseOrderDocument-versionNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-versionNumber" parent="PurchaseOrderDocument-versionNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
-  <bean id="PurchaseOrderDocument-postingYear" parent="PurchaseOrderDocument-postingYear-parentBean" />
+  <bean id="PurchaseOrderDocument-postingYear" parent="PurchaseOrderDocument-postingYear-parentBean"/>
 
   <bean id="PurchaseOrderDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYear" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="postingYear"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorNumber" parent="PurchaseOrderDocument-vendorNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorNumber" parent="PurchaseOrderDocument-vendorNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorDetailAssignedIdentifier" parent="PurchaseOrderDocument-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorDetailAssignedIdentifier" parent="PurchaseOrderDocument-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorCustomerNumber" parent="PurchaseOrderDocument-vendorCustomerNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorCustomerNumber" parent="PurchaseOrderDocument-vendorCustomerNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorCustomerNumber-parentBean" abstract="true" parent="VendorCustomerNumber-vendorCustomerNumber">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="PurchaseOrderDocument-vendorAttentionName" parent="PurchaseOrderDocument-vendorAttentionName-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorAttentionName" parent="PurchaseOrderDocument-vendorAttentionName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorAttentionName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
-    <property name="name" value="vendorAttentionName" />
+    <property name="name" value="vendorAttentionName"/>
   </bean>
   
-  <bean id="PurchaseOrderDocument-vendorLine2Address" parent="PurchaseOrderDocument-vendorLine2Address-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorLine2Address" parent="PurchaseOrderDocument-vendorLine2Address-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
-    <property name="name" value="vendorLine2Address" />
+    <property name="name" value="vendorLine2Address"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorStateCode" parent="PurchaseOrderDocument-vendorStateCode-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorStateCode" parent="PurchaseOrderDocument-vendorStateCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
-    <property name="name" value="vendorStateCode" />
+    <property name="name" value="vendorStateCode"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorAddressInternationalProvinceName" parent="PurchaseOrderDocument-vendorAddressInternationalProvinceName-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorAddressInternationalProvinceName" parent="PurchaseOrderDocument-vendorAddressInternationalProvinceName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorGenericAttributes-internationalProvinceName">
-    <property name="name" value="vendorAddressInternationalProvinceName" />
+    <property name="name" value="vendorAddressInternationalProvinceName"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorPostalCode" parent="PurchaseOrderDocument-vendorPostalCode-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorPostalCode" parent="PurchaseOrderDocument-vendorPostalCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
-    <property name="name" value="vendorPostalCode" />
+    <property name="name" value="vendorPostalCode"/>
   </bean>
-  <bean id="PurchaseOrderDocument-totalDollarAmount" parent="PurchaseOrderDocument-totalDollarAmount-parentBean" />
+  <bean id="PurchaseOrderDocument-totalDollarAmount" parent="PurchaseOrderDocument-totalDollarAmount-parentBean"/>
 
   <bean id="PurchaseOrderDocument-totalDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalDollarAmount" />
-    <property name="label" value="Grand Total" />
-    <property name="shortLabel" value="Grand Total" />
+    <property name="name" value="totalDollarAmount"/>
+    <property name="label" value="Grand Total"/>
+    <property name="shortLabel" value="Grand Total"/>
   </bean>
-  <bean id="PurchaseOrderDocument-totalPreTaxDollarAmount" parent="PurchaseOrderDocument-totalPreTaxDollarAmount-parentBean" />
+  <bean id="PurchaseOrderDocument-totalPreTaxDollarAmount" parent="PurchaseOrderDocument-totalPreTaxDollarAmount-parentBean"/>
 
   <bean id="PurchaseOrderDocument-totalPreTaxDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalPreTaxDollarAmount" />
-    <property name="label" value="Total Prior to Tax" />
-    <property name="shortLabel" value="Total Prior to Tax" />
+    <property name="name" value="totalPreTaxDollarAmount"/>
+    <property name="label" value="Total Prior to Tax"/>
+    <property name="shortLabel" value="Total Prior to Tax"/>
   </bean>
-  <bean id="PurchaseOrderDocument-totalTaxAmount" parent="PurchaseOrderDocument-totalTaxAmount-parentBean" />
+  <bean id="PurchaseOrderDocument-totalTaxAmount" parent="PurchaseOrderDocument-totalTaxAmount-parentBean"/>
 
   <bean id="PurchaseOrderDocument-totalTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalTaxAmount" />
-    <property name="label" value="Total Tax" />
-    <property name="shortLabel" value="Total Tax" />
+    <property name="name" value="totalTaxAmount"/>
+    <property name="label" value="Total Tax"/>
+    <property name="shortLabel" value="Total Tax"/>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode" parent="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode" parent="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode-parentBean" abstract="true" parent="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode">
-    <property name="name" value="purchaseOrderRetransmissionMethodCode" />
-    <property name="label" value="Method of PO Retransmission" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderRetransmissionMethodValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="purchaseOrderRetransmissionMethodCode"/>
+    <property name="label" value="Method of PO Retransmission"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderRetransmissionMethodValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-retransmitHeader" parent="PurchaseOrderDocument-retransmitHeader-parentBean" />
+  <bean id="PurchaseOrderDocument-retransmitHeader" parent="PurchaseOrderDocument-retransmitHeader-parentBean"/>
 
   <bean id="PurchaseOrderDocument-retransmitHeader-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="retransmitHeader" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="PO Header" />
-    <property name="shortLabel" value="PO Header" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="retransmitHeader"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="PO Header"/>
+    <property name="shortLabel" value="PO Header"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderHeaderValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderHeaderValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-receivingDocumentRequiredIndicator" parent="PurchaseOrderDocument-receivingDocumentRequiredIndicator-parentBean" />
+  <bean id="PurchaseOrderDocument-receivingDocumentRequiredIndicator" parent="PurchaseOrderDocument-receivingDocumentRequiredIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-receivingDocumentRequiredIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="receivingDocumentRequiredIndicator" />
-    <property name="label" value="Receiving Required" />
-    <property name="shortLabel" value="Receiving Required" />
+    <property name="name" value="receivingDocumentRequiredIndicator"/>
+    <property name="label" value="Receiving Required"/>
+    <property name="shortLabel" value="Receiving Required"/>
   </bean>
-  <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator" parent="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean" />
+  <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator" parent="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="paymentRequestPositiveApprovalIndicator" />
-    <property name="label" value="Payment Request Positive Approval Required" />
-    <property name="shortLabel" value="Payment Request Positive Approval Required" />
+    <property name="name" value="paymentRequestPositiveApprovalIndicator"/>
+    <property name="label" value="Payment Request Positive Approval Required"/>
+    <property name="shortLabel" value="Payment Request Positive Approval Required"/>
   </bean>
-  <bean id="PurchaseOrderDocument-contractManagerCode" parent="PurchaseOrderDocument-contractManagerCode-parentBean" />
+  <bean id="PurchaseOrderDocument-contractManagerCode" parent="PurchaseOrderDocument-contractManagerCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-contractManagerCode-parentBean" abstract="true" parent="ContractManager-contractManagerCode">
-    <property name="label" value="Contract Manager" />
-    <property name="shortLabel" value="Contract Manager" />
+    <property name="label" value="Contract Manager"/>
+    <property name="shortLabel" value="Contract Manager"/>
   </bean>
-  <bean id="PurchaseOrderDocument-contractManager" parent="PurchaseOrderDocument-contractManager-parentBean" />
+  <bean id="PurchaseOrderDocument-contractManager" parent="PurchaseOrderDocument-contractManager-parentBean"/>
 
   <bean id="PurchaseOrderDocument-contractManager-parentBean" abstract="true" parent="PurApGenericAttributes-contractManager">
   </bean>
-  <bean id="PurchaseOrderDocument-purapDocumentIdentifier" parent="PurchaseOrderDocument-purapDocumentIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-purapDocumentIdentifier" parent="PurchaseOrderDocument-purapDocumentIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
-    <property name="label" value="Purchase Order Nbr" />
-    <property name="shortLabel" value="PO Nbr" />
+    <property name="label" value="Purchase Order Nbr"/>
+    <property name="shortLabel" value="PO Nbr"/>
   </bean>
-  <bean id="PurchaseOrderDocument-statusCode" parent="PurchaseOrderDocument-statusCode-parentBean" />
+  <bean id="PurchaseOrderDocument-statusCode" parent="PurchaseOrderDocument-statusCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
-    <property name="name" value="statusCode" />
+    <property name="name" value="statusCode"/>
   </bean>
-  <bean id="PurchaseOrderDocument-chartOfAccountsCode" parent="PurchaseOrderDocument-chartOfAccountsCode-parentBean" />
+  <bean id="PurchaseOrderDocument-chartOfAccountsCode" parent="PurchaseOrderDocument-chartOfAccountsCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="label" value="Chart" />
-    <property name="shortLabel" value="Code" />
+    <property name="label" value="Chart"/>
+    <property name="shortLabel" value="Code"/>
   </bean>
-  <bean id="PurchaseOrderDocument-organizationCode" parent="PurchaseOrderDocument-organizationCode-parentBean" />
+  <bean id="PurchaseOrderDocument-organizationCode" parent="PurchaseOrderDocument-organizationCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-organizationCode-parentBean" abstract="true" parent="PurApGenericAttributes-organizationCode">
   </bean>
-  <bean id="PurchaseOrderDocument-vendorAddressGeneratedIdentifier" parent="PurchaseOrderDocument-vendorAddressGeneratedIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorAddressGeneratedIdentifier" parent="PurchaseOrderDocument-vendorAddressGeneratedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorAddressGeneratedIdentifier-parentBean" abstract="true" parent="VendorAddress-vendorAddressGeneratedIdentifier">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorContractName" parent="PurchaseOrderDocument-vendorContractName-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorContractName" parent="PurchaseOrderDocument-vendorContractName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorContractName-parentBean" abstract="true" parent="VendorContract-vendorContractName">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-supplierDiversityLabel" parent="PurchaseOrderDocument-supplierDiversityLabel-parentBean" />
+  <bean id="PurchaseOrderDocument-supplierDiversityLabel" parent="PurchaseOrderDocument-supplierDiversityLabel-parentBean"/>
 
   <bean id="PurchaseOrderDocument-supplierDiversityLabel-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="supplierDiversityLabel" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Supplier Diversity" />
-    <property name="shortLabel" value="Supplier Diversity" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="supplierDiversityLabel"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Supplier Diversity"/>
+    <property name="shortLabel" value="Supplier Diversity"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorContactsLabel" parent="PurchaseOrderDocument-vendorContactsLabel-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorContactsLabel" parent="PurchaseOrderDocument-vendorContactsLabel-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorContactsLabel-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorContactsLabel" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Contacts" />
-    <property name="shortLabel" value="Contacts" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorContactsLabel"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Contacts"/>
+    <property name="shortLabel" value="Contacts"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-billingName" parent="PurchaseOrderDocument-billingName-parentBean" />
+  <bean id="PurchaseOrderDocument-billingName" parent="PurchaseOrderDocument-billingName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-billingName-parentBean" abstract="true" parent="BillingAddress-billingName">
-    <property name="label" value="Address" />
+    <property name="label" value="Address"/>
   </bean>
-  <bean id="PurchaseOrderDocument-billingLine1Address" parent="PurchaseOrderDocument-billingLine1Address-parentBean" />
+  <bean id="PurchaseOrderDocument-billingLine1Address" parent="PurchaseOrderDocument-billingLine1Address-parentBean"/>
 
   <bean id="PurchaseOrderDocument-billingLine1Address-parentBean" abstract="true" parent="BillingAddress-billingLine1Address">
   </bean>
-  <bean id="PurchaseOrderDocument-billingLine2Address" parent="PurchaseOrderDocument-billingLine2Address-parentBean" />
+  <bean id="PurchaseOrderDocument-billingLine2Address" parent="PurchaseOrderDocument-billingLine2Address-parentBean"/>
 
   <bean id="PurchaseOrderDocument-billingLine2Address-parentBean" abstract="true" parent="BillingAddress-billingLine2Address">
   </bean>
-  <bean id="PurchaseOrderDocument-billingCityName" parent="PurchaseOrderDocument-billingCityName-parentBean" />
+  <bean id="PurchaseOrderDocument-billingCityName" parent="PurchaseOrderDocument-billingCityName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-billingCityName-parentBean" abstract="true" parent="BillingAddress-billingCityName">
   </bean>
-  <bean id="PurchaseOrderDocument-billingStateCode" parent="PurchaseOrderDocument-billingStateCode-parentBean" />
+  <bean id="PurchaseOrderDocument-billingStateCode" parent="PurchaseOrderDocument-billingStateCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-billingStateCode-parentBean" abstract="true" parent="BillingAddress-billingStateCode">
   </bean>
-  <bean id="PurchaseOrderDocument-billingPostalCode" parent="PurchaseOrderDocument-billingPostalCode-parentBean" />
+  <bean id="PurchaseOrderDocument-billingPostalCode" parent="PurchaseOrderDocument-billingPostalCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-billingPostalCode-parentBean" abstract="true" parent="BillingAddress-billingPostalCode">
   </bean>
-  <bean id="PurchaseOrderDocument-billingCountryCode" parent="PurchaseOrderDocument-billingCountryCode-parentBean" />
+  <bean id="PurchaseOrderDocument-billingCountryCode" parent="PurchaseOrderDocument-billingCountryCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-billingCountryCode-parentBean" abstract="true" parent="BillingAddress-billingCountryCode">
   </bean>
-  <bean id="PurchaseOrderDocument-billingPhoneNumber" parent="PurchaseOrderDocument-billingPhoneNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-billingPhoneNumber" parent="PurchaseOrderDocument-billingPhoneNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-billingPhoneNumber-parentBean" abstract="true" parent="BillingAddress-billingPhoneNumber">
   </bean>
-  <bean id="PurchaseOrderDocument-receivingName" parent="PurchaseOrderDocument-receivingName-parentBean" />
+  <bean id="PurchaseOrderDocument-receivingName" parent="PurchaseOrderDocument-receivingName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-receivingName-parentBean" abstract="true" parent="ReceivingAddress-receivingName">
-    <property name="label" value="Receiving Address" />
+    <property name="label" value="Receiving Address"/>
   </bean>
-  <bean id="PurchaseOrderDocument-receivingLine1Address" parent="PurchaseOrderDocument-receivingLine1Address-parentBean" />
+  <bean id="PurchaseOrderDocument-receivingLine1Address" parent="PurchaseOrderDocument-receivingLine1Address-parentBean"/>
 
   <bean id="PurchaseOrderDocument-receivingLine1Address-parentBean" abstract="true" parent="ReceivingAddress-receivingLine1Address">
   </bean>
-  <bean id="PurchaseOrderDocument-receivingLine2Address" parent="PurchaseOrderDocument-receivingLine2Address-parentBean" />
+  <bean id="PurchaseOrderDocument-receivingLine2Address" parent="PurchaseOrderDocument-receivingLine2Address-parentBean"/>
 
   <bean id="PurchaseOrderDocument-receivingLine2Address-parentBean" abstract="true" parent="ReceivingAddress-receivingLine2Address">
   </bean>
-  <bean id="PurchaseOrderDocument-receivingCityName" parent="PurchaseOrderDocument-receivingCityName-parentBean" />
+  <bean id="PurchaseOrderDocument-receivingCityName" parent="PurchaseOrderDocument-receivingCityName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-receivingCityName-parentBean" abstract="true" parent="ReceivingAddress-receivingCityName">
   </bean>
-  <bean id="PurchaseOrderDocument-receivingStateCode" parent="PurchaseOrderDocument-receivingStateCode-parentBean" />
+  <bean id="PurchaseOrderDocument-receivingStateCode" parent="PurchaseOrderDocument-receivingStateCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-receivingStateCode-parentBean" abstract="true" parent="ReceivingAddress-receivingStateCode">
   </bean>
-  <bean id="PurchaseOrderDocument-receivingPostalCode" parent="PurchaseOrderDocument-receivingPostalCode-parentBean" />
+  <bean id="PurchaseOrderDocument-receivingPostalCode" parent="PurchaseOrderDocument-receivingPostalCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-receivingPostalCode-parentBean" abstract="true" parent="ReceivingAddress-receivingPostalCode">
   </bean>
-  <bean id="PurchaseOrderDocument-receivingCountryCode" parent="PurchaseOrderDocument-receivingCountryCode-parentBean" />
+  <bean id="PurchaseOrderDocument-receivingCountryCode" parent="PurchaseOrderDocument-receivingCountryCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-receivingCountryCode-parentBean" abstract="true" parent="ReceivingAddress-receivingCountryCode">
   </bean>
-  <bean id="PurchaseOrderDocument-addressToVendorIndicator" parent="PurchaseOrderDocument-addressToVendorIndicator-parentBean" />
+  <bean id="PurchaseOrderDocument-addressToVendorIndicator" parent="PurchaseOrderDocument-addressToVendorIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-addressToVendorIndicator-parentBean" abstract="true" parent="ReceivingAddress-useReceivingIndicator">
-    <property name="name" value="addressToVendorIndicator" />
-    <property name="label" value="Shipping Address Presented to Vendor (use Receiving Address?)" />
-    <property name="shortLabel" value="Address to Vendor" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AddressToVendorIndicatorValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="addressToVendorIndicator"/>
+    <property name="label" value="Shipping Address Presented to Vendor (use Receiving Address?)"/>
+    <property name="shortLabel" value="Address to Vendor"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AddressToVendorIndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryBuildingName" parent="PurchaseOrderDocument-deliveryBuildingName-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryBuildingName" parent="PurchaseOrderDocument-deliveryBuildingName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryBuildingName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Building" />
-    <property name="shortLabel" value="Building" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="deliveryBuildingName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Building"/>
+    <property name="shortLabel" value="Building"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.BuildingValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.BuildingValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryCampusCode" parent="PurchaseOrderDocument-deliveryCampusCode-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryCampusCode" parent="PurchaseOrderDocument-deliveryCampusCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
-    <property name="name" value="deliveryCampusCode" />
-    <property name="label" value="Delivery Campus" />
-    <property name="shortLabel" value="Delivery Campus" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="deliveryCampusCode"/>
+    <property name="label" value="Delivery Campus"/>
+    <property name="shortLabel" value="Delivery Campus"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryBuildingOtherIndicator" parent="PurchaseOrderDocument-deliveryBuildingOtherIndicator-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryBuildingOtherIndicator" parent="PurchaseOrderDocument-deliveryBuildingOtherIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryBuildingOtherIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingOtherIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Other Building" />
-    <property name="shortLabel" value="Other Bldg." />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="deliveryBuildingOtherIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Other Building"/>
+    <property name="shortLabel" value="Other Bldg."/>
+    <property name="maxLength" value="4"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryBuildingLine1Address" parent="PurchaseOrderDocument-deliveryBuildingLine1Address-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryBuildingLine1Address" parent="PurchaseOrderDocument-deliveryBuildingLine1Address-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
-    <property name="name" value="deliveryBuildingLine1Address" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryBuildingLine1Address"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryBuildingLine2Address" parent="PurchaseOrderDocument-deliveryBuildingLine2Address-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryBuildingLine2Address" parent="PurchaseOrderDocument-deliveryBuildingLine2Address-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
-    <property name="name" value="deliveryBuildingLine2Address" />
+    <property name="name" value="deliveryBuildingLine2Address"/>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryBuildingRoomNumber" parent="PurchaseOrderDocument-deliveryBuildingRoomNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryBuildingRoomNumber" parent="PurchaseOrderDocument-deliveryBuildingRoomNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryBuildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingRoomNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Room" />
-    <property name="shortLabel" value="Room" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="deliveryBuildingRoomNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Room"/>
+    <property name="shortLabel" value="Room"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryCityName" parent="PurchaseOrderDocument-deliveryCityName-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryCityName" parent="PurchaseOrderDocument-deliveryCityName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
-    <property name="name" value="deliveryCityName" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryCityName"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryStateCode" parent="PurchaseOrderDocument-deliveryStateCode-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryStateCode" parent="PurchaseOrderDocument-deliveryStateCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
-    <property name="name" value="deliveryStateCode" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryStateCode"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryPostalCode" parent="PurchaseOrderDocument-deliveryPostalCode-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryPostalCode" parent="PurchaseOrderDocument-deliveryPostalCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
-    <property name="name" value="deliveryPostalCode" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryPostalCode"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryCountryCode" parent="PurchaseOrderDocument-deliveryCountryCode-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryCountryCode" parent="PurchaseOrderDocument-deliveryCountryCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
-    <property name="name" value="deliveryCountryCode" />
+    <property name="name" value="deliveryCountryCode"/>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryInstructionText" parent="PurchaseOrderDocument-deliveryInstructionText-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryInstructionText" parent="PurchaseOrderDocument-deliveryInstructionText-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryInstructionText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryInstructionText" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Delivery Instructions" />
-    <property name="shortLabel" value="Instructions" />
-    <property name="maxLength" value="125" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="deliveryInstructionText"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Delivery Instructions"/>
+    <property name="shortLabel" value="Instructions"/>
+    <property name="maxLength" value="125"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="50" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="50"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryRequiredDate" parent="PurchaseOrderDocument-deliveryRequiredDate-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryRequiredDate" parent="PurchaseOrderDocument-deliveryRequiredDate-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryRequiredDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="deliveryRequiredDate" />
-    <property name="label" value="Date Required" />
-    <property name="shortLabel" value="Date Required" />
+    <property name="name" value="deliveryRequiredDate"/>
+    <property name="label" value="Date Required"/>
+    <property name="shortLabel" value="Date Required"/>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryRequiredDateReasonCode" parent="PurchaseOrderDocument-deliveryRequiredDateReasonCode-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryRequiredDateReasonCode" parent="PurchaseOrderDocument-deliveryRequiredDateReasonCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryRequiredDateReasonCode-parentBean" abstract="true" parent="DeliveryRequiredDateReason-deliveryRequiredDateReasonCode">
-    <property name="label" value="Date Required Reason" />
-    <property name="shortLabel" value="Date Reason" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.DateRequiredReasonValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Date Required Reason"/>
+    <property name="shortLabel" value="Date Reason"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.DateRequiredReasonValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryToEmailAddress" parent="PurchaseOrderDocument-deliveryToEmailAddress-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryToEmailAddress" parent="PurchaseOrderDocument-deliveryToEmailAddress-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
-    <property name="name" value="deliveryToEmailAddress" />
-    <property name="required" value="false" />
+    <property name="name" value="deliveryToEmailAddress"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryToName" parent="PurchaseOrderDocument-deliveryToName-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryToName" parent="PurchaseOrderDocument-deliveryToName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryToName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
-    <property name="name" value="deliveryToName" />
-    <property name="label" value="Delivery To" />
-    <property name="shortLabel" value="To" />
-    <property name="required" value="true" />
+    <property name="name" value="deliveryToName"/>
+    <property name="label" value="Delivery To"/>
+    <property name="shortLabel" value="To"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-deliveryToPhoneNumber" parent="PurchaseOrderDocument-deliveryToPhoneNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryToPhoneNumber" parent="PurchaseOrderDocument-deliveryToPhoneNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
-    <property name="name" value="deliveryToPhoneNumber" />
+    <property name="name" value="deliveryToPhoneNumber"/>
   </bean>
-  <bean id="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier" parent="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier" parent="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="externalOrganizationB2bSupplierIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="External OrganizationB2b Supplier Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="externalOrganizationB2bSupplierIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="External OrganizationB2b Supplier Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-fundingSourceCode" parent="PurchaseOrderDocument-fundingSourceCode-parentBean" />
+  <bean id="PurchaseOrderDocument-fundingSourceCode" parent="PurchaseOrderDocument-fundingSourceCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-fundingSourceCode-parentBean" abstract="true" parent="FundingSource-fundingSourceCode">
-    <property name="label" value="Funding Source" />
-    <property name="shortLabel" value="Funding Source" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.FundingSourceValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Funding Source"/>
+    <property name="shortLabel" value="Funding Source"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.FundingSourceValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-institutionContactEmailAddress" parent="PurchaseOrderDocument-institutionContactEmailAddress-parentBean" />
+  <bean id="PurchaseOrderDocument-institutionContactEmailAddress" parent="PurchaseOrderDocument-institutionContactEmailAddress-parentBean"/>
 
   <bean id="PurchaseOrderDocument-institutionContactEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
-    <property name="name" value="institutionContactEmailAddress" />
-    <property name="label" value="Contact Email" />
-    <property name="shortLabel" value="Address" />
+    <property name="name" value="institutionContactEmailAddress"/>
+    <property name="label" value="Contact Email"/>
+    <property name="shortLabel" value="Address"/>
   </bean>
-  <bean id="PurchaseOrderDocument-institutionContactName" parent="PurchaseOrderDocument-institutionContactName-parentBean" />
+  <bean id="PurchaseOrderDocument-institutionContactName" parent="PurchaseOrderDocument-institutionContactName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-institutionContactName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="institutionContactName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Contact Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="institutionContactName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Contact Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-institutionContactPhoneNumber" parent="PurchaseOrderDocument-institutionContactPhoneNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-institutionContactPhoneNumber" parent="PurchaseOrderDocument-institutionContactPhoneNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
-    <property name="name" value="institutionContactPhoneNumber" />
-    <property name="label" value="Contact Phone" />
-    <property name="shortLabel" value="Number" />
+    <property name="name" value="institutionContactPhoneNumber"/>
+    <property name="label" value="Contact Phone"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
-  <bean id="PurchaseOrderDocument-nonInstitutionFundAccountNumber" parent="PurchaseOrderDocument-nonInstitutionFundAccountNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-nonInstitutionFundAccountNumber" parent="PurchaseOrderDocument-nonInstitutionFundAccountNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-nonInstitutionFundAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="nonInstitutionFundAccountNumber" />
-    <property name="label" value="Non Institution Fund Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="required" value="false" />
+    <property name="name" value="nonInstitutionFundAccountNumber"/>
+    <property name="label" value="Non Institution Fund Account Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-nonInstitutionFundChartOfAccountsCode" parent="PurchaseOrderDocument-nonInstitutionFundChartOfAccountsCode-parentBean" />
+  <bean id="PurchaseOrderDocument-nonInstitutionFundChartOfAccountsCode" parent="PurchaseOrderDocument-nonInstitutionFundChartOfAccountsCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-nonInstitutionFundChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="nonInstitutionFundChartOfAccountsCode" />
-    <property name="label" value="Non Institution Fund Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="required" value="false" />
+    <property name="name" value="nonInstitutionFundChartOfAccountsCode"/>
+    <property name="label" value="Non Institution Fund Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-nonInstitutionFundOrgChartOfAccountsCode" parent="PurchaseOrderDocument-nonInstitutionFundOrgChartOfAccountsCode-parentBean" />
+  <bean id="PurchaseOrderDocument-nonInstitutionFundOrgChartOfAccountsCode" parent="PurchaseOrderDocument-nonInstitutionFundOrgChartOfAccountsCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-nonInstitutionFundOrgChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="nonInstitutionFundOrgChartOfAccountsCode" />
-    <property name="label" value="Non Institution Fund Org Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="required" value="false" />
+    <property name="name" value="nonInstitutionFundOrgChartOfAccountsCode"/>
+    <property name="label" value="Non Institution Fund Org Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-nonInstitutionFundOrganizationCode" parent="PurchaseOrderDocument-nonInstitutionFundOrganizationCode-parentBean" />
+  <bean id="PurchaseOrderDocument-nonInstitutionFundOrganizationCode" parent="PurchaseOrderDocument-nonInstitutionFundOrganizationCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-nonInstitutionFundOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
-    <property name="name" value="nonInstitutionFundOrganizationCode" />
-    <property name="label" value="Non Institution Fund Org Organization Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="required" value="false" />
+    <property name="name" value="nonInstitutionFundOrganizationCode"/>
+    <property name="label" value="Non Institution Fund Org Organization Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderAutomaticIndicator" parent="PurchaseOrderDocument-purchaseOrderAutomaticIndicator-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderAutomaticIndicator" parent="PurchaseOrderDocument-purchaseOrderAutomaticIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderAutomaticIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-hiddenIndicator">
-    <property name="name" value="purchaseOrderAutomaticIndicator" />
-    <property name="label" value="Purchase Order Automatic Indicator" />
-    <property name="shortLabel" value="Indicator" />
+    <property name="name" value="purchaseOrderAutomaticIndicator"/>
+    <property name="label" value="Purchase Order Automatic Indicator"/>
+    <property name="shortLabel" value="Indicator"/>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderCostSourceCode" parent="PurchaseOrderDocument-purchaseOrderCostSourceCode-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderCostSourceCode" parent="PurchaseOrderDocument-purchaseOrderCostSourceCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderCostSourceCode-parentBean" abstract="true" parent="PurchaseOrderCostSource-purchaseOrderCostSourceCode">
-    <property name="label" value="Cost Source" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PurchaseOrderCostSourceValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Cost Source"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PurchaseOrderCostSourceValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   
-  <bean id="PurchaseOrderDocument-purchaseOrderCurrentIndicator" parent="PurchaseOrderDocument-purchaseOrderCurrentIndicator-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderCurrentIndicator" parent="PurchaseOrderDocument-purchaseOrderCurrentIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderCurrentIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
   	<property name="name" value="purchaseOrderCurrentIndicator"/>
-    <property name="label" value="Return Current Documents Only" />
+    <property name="label" value="Return Current Documents Only"/>
   </bean>  
   
-  <bean id="PurchaseOrderDocument-purchaseOrderBeginDate" parent="PurchaseOrderDocument-purchaseOrderBeginDate-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderBeginDate" parent="PurchaseOrderDocument-purchaseOrderBeginDate-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderBeginDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="purchaseOrderBeginDate" />
-    <property name="label" value="Begin/End Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="name" value="purchaseOrderBeginDate"/>
+    <property name="label" value="Begin/End Date"/>
+    <property name="shortLabel" value="Date"/>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderEndDate" parent="PurchaseOrderDocument-purchaseOrderEndDate-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderEndDate" parent="PurchaseOrderDocument-purchaseOrderEndDate-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="purchaseOrderEndDate" />
-    <property name="label" value="Begin/End Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="name" value="purchaseOrderEndDate"/>
+    <property name="label" value="Begin/End Date"/>
+    <property name="shortLabel" value="Date"/>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderTotalLimit" parent="PurchaseOrderDocument-purchaseOrderTotalLimit-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderTotalLimit" parent="PurchaseOrderDocument-purchaseOrderTotalLimit-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderTotalLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="purchaseOrderTotalLimit" />
-    <property name="label" value="PO Total Cannot Exceed" />
-    <property name="shortLabel" value="Limit" />
+    <property name="name" value="purchaseOrderTotalLimit"/>
+    <property name="label" value="PO Total Cannot Exceed"/>
+    <property name="shortLabel" value="Limit"/>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderTransmissionMethodCode" parent="PurchaseOrderDocument-purchaseOrderTransmissionMethodCode-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderTransmissionMethodCode" parent="PurchaseOrderDocument-purchaseOrderTransmissionMethodCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderTransmissionMethodCode-parentBean" abstract="true" parent="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode">
-    <property name="label" value="Method of PO Transmission" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderTransmissionMethodValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Method of PO Transmission"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderTransmissionMethodValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-recurringPaymentTypeCode" parent="PurchaseOrderDocument-recurringPaymentTypeCode-parentBean" />
+  <bean id="PurchaseOrderDocument-recurringPaymentTypeCode" parent="PurchaseOrderDocument-recurringPaymentTypeCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-recurringPaymentTypeCode-parentBean" abstract="true" parent="RecurringPaymentType-recurringPaymentTypeCode">
-    <property name="label" value="Type of Recurring Payment" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.RecurringPaymentTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Type of Recurring Payment"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.RecurringPaymentTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-requestorPersonEmailAddress" parent="PurchaseOrderDocument-requestorPersonEmailAddress-parentBean" />
+  <bean id="PurchaseOrderDocument-requestorPersonEmailAddress" parent="PurchaseOrderDocument-requestorPersonEmailAddress-parentBean"/>
 
   <bean id="PurchaseOrderDocument-requestorPersonEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
-    <property name="name" value="requestorPersonEmailAddress" />
-    <property name="label" value="Requestor Email" />
-    <property name="required" value="true" />
+    <property name="name" value="requestorPersonEmailAddress"/>
+    <property name="label" value="Requestor Email"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-requestorPersonName" parent="PurchaseOrderDocument-requestorPersonName-parentBean" />
+  <bean id="PurchaseOrderDocument-requestorPersonName" parent="PurchaseOrderDocument-requestorPersonName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-requestorPersonName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="requestorPersonName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Requestor Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="requestorPersonName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Requestor Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-requestorPersonPhoneNumber" parent="PurchaseOrderDocument-requestorPersonPhoneNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-requestorPersonPhoneNumber" parent="PurchaseOrderDocument-requestorPersonPhoneNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-requestorPersonPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
-    <property name="name" value="requestorPersonPhoneNumber" />
-    <property name="label" value="Requestor Phone" />
-    <property name="shortLabel" value="Phone Number" />
-    <property name="required" value="true" />
+    <property name="name" value="requestorPersonPhoneNumber"/>
+    <property name="label" value="Requestor Phone"/>
+    <property name="shortLabel" value="Phone Number"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-requisitionSourceCode" parent="PurchaseOrderDocument-requisitionSourceCode-parentBean" />
+  <bean id="PurchaseOrderDocument-requisitionSourceCode" parent="PurchaseOrderDocument-requisitionSourceCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-requisitionSourceCode-parentBean" abstract="true" parent="RequisitionSource-requisitionSourceCode">
   </bean>
-  <bean id="PurchaseOrderDocument-vendorContractGeneratedIdentifier" parent="PurchaseOrderDocument-vendorContractGeneratedIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorContractGeneratedIdentifier" parent="PurchaseOrderDocument-vendorContractGeneratedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorContractGeneratedIdentifier-parentBean" abstract="true" parent="VendorContract-vendorContractGeneratedIdentifier">
   </bean>
-  <bean id="PurchaseOrderDocument-vendorFaxNumber" parent="PurchaseOrderDocument-vendorFaxNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorFaxNumber" parent="PurchaseOrderDocument-vendorFaxNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
-    <property name="name" value="vendorFaxNumber" />
-    <property name="label" value="Fax Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="name" value="vendorFaxNumber"/>
+    <property name="label" value="Fax Number"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorNoteText" parent="PurchaseOrderDocument-vendorNoteText-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorNoteText" parent="PurchaseOrderDocument-vendorNoteText-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorNoteText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorNoteText" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Notes To Vendor" />
-    <property name="shortLabel" value="Text" />
-    <property name="maxLength" value="255" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorNoteText"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Notes To Vendor"/>
+    <property name="shortLabel" value="Text"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="50" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="50"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorPhoneNumber" parent="PurchaseOrderDocument-vendorPhoneNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorPhoneNumber" parent="PurchaseOrderDocument-vendorPhoneNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
-    <property name="name" value="vendorPhoneNumber" />
-    <property name="shortLabel" value="Number" />
+    <property name="name" value="vendorPhoneNumber"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorRestrictedIndicator" parent="PurchaseOrderDocument-vendorRestrictedIndicator-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorRestrictedIndicator" parent="PurchaseOrderDocument-vendorRestrictedIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorRestrictedIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-hiddenIndicator">
-    <property name="name" value="vendorRestrictedIndicator" />
-    <property name="label" value="Restricted Indicator" />
-    <property name="shortLabel" value="Restricted" />
+    <property name="name" value="vendorRestrictedIndicator"/>
+    <property name="label" value="Restricted Indicator"/>
+    <property name="shortLabel" value="Restricted"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorPaymentTermsCode" parent="PurchaseOrderDocument-vendorPaymentTermsCode-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorPaymentTermsCode" parent="PurchaseOrderDocument-vendorPaymentTermsCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorPaymentTermsCode-parentBean" abstract="true" parent="VendorDetail-vendorPaymentTermsCode">
   </bean>
-  <bean id="PurchaseOrderDocument-vendorShippingTitleCode" parent="PurchaseOrderDocument-vendorShippingTitleCode-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorShippingTitleCode" parent="PurchaseOrderDocument-vendorShippingTitleCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorShippingTitleCode-parentBean" abstract="true" parent="VendorDetail-vendorShippingTitleCode">
   </bean>
-  <bean id="PurchaseOrderDocument-vendorShippingPaymentTermsCode" parent="PurchaseOrderDocument-vendorShippingPaymentTermsCode-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorShippingPaymentTermsCode" parent="PurchaseOrderDocument-vendorShippingPaymentTermsCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorShippingPaymentTermsCode-parentBean" abstract="true" parent="VendorDetail-vendorShippingPaymentTermsCode">
   </bean>
-  <bean id="PurchaseOrderDocument-requisitionIdentifier" parent="PurchaseOrderDocument-requisitionIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-requisitionIdentifier" parent="PurchaseOrderDocument-requisitionIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-requisitionIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionIdentifier">
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderVendorChoiceCode" parent="PurchaseOrderDocument-purchaseOrderVendorChoiceCode-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderVendorChoiceCode" parent="PurchaseOrderDocument-purchaseOrderVendorChoiceCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderVendorChoiceCode-parentBean" abstract="true" parent="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode">
-    <property name="label" value="Vendor Choice" />
-    <property name="shortLabel" value="Vendor Choice" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderVendorChoiceValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Vendor Choice"/>
+    <property name="shortLabel" value="Vendor Choice"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderVendorChoiceValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-alternateVendorHeaderGeneratedIdentifier" parent="PurchaseOrderDocument-alternateVendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-alternateVendorHeaderGeneratedIdentifier" parent="PurchaseOrderDocument-alternateVendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-alternateVendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
-    <property name="name" value="alternateVendorHeaderGeneratedIdentifier" />
-    <property name="label" value="Alternate Vendor Header Generated Identifier" />
-    <property name="required" value="false" />
+    <property name="name" value="alternateVendorHeaderGeneratedIdentifier"/>
+    <property name="label" value="Alternate Vendor Header Generated Identifier"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-alternateVendorDetailAssignedIdentifier" parent="PurchaseOrderDocument-alternateVendorDetailAssignedIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-alternateVendorDetailAssignedIdentifier" parent="PurchaseOrderDocument-alternateVendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-alternateVendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
-    <property name="name" value="alternateVendorDetailAssignedIdentifier" />
-    <property name="label" value="Alternate Vendor Detail Assigned Identifier" />
-    <property name="required" value="false" />
+    <property name="name" value="alternateVendorDetailAssignedIdentifier"/>
+    <property name="label" value="Alternate Vendor Detail Assigned Identifier"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-alternateVendorNumber" parent="PurchaseOrderDocument-alternateVendorNumber-parentBean" />
+  <bean id="PurchaseOrderDocument-alternateVendorNumber" parent="PurchaseOrderDocument-alternateVendorNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-alternateVendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
-    <property name="name" value="alternateVendorNumber" />
-    <property name="required" value="false" />
+    <property name="name" value="alternateVendorNumber"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-alternateVendorName" parent="PurchaseOrderDocument-alternateVendorName-parentBean" />
+  <bean id="PurchaseOrderDocument-alternateVendorName" parent="PurchaseOrderDocument-alternateVendorName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-alternateVendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
-    <property name="name" value="alternateVendorName" />
-    <property name="required" value="false" />
+    <property name="name" value="alternateVendorName"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderDocument-finalPaymentAmount" parent="PurchaseOrderDocument-finalPaymentAmount-parentBean" />
+  <bean id="PurchaseOrderDocument-finalPaymentAmount" parent="PurchaseOrderDocument-finalPaymentAmount-parentBean"/>
 
   <bean id="PurchaseOrderDocument-finalPaymentAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finalPaymentAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Final Payment Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="finalPaymentAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Final Payment Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-finalPaymentDate" parent="PurchaseOrderDocument-finalPaymentDate-parentBean" />
+  <bean id="PurchaseOrderDocument-finalPaymentDate" parent="PurchaseOrderDocument-finalPaymentDate-parentBean"/>
 
   <bean id="PurchaseOrderDocument-finalPaymentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="finalPaymentDate" />
-    <property name="label" value="Final Payment Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="name" value="finalPaymentDate"/>
+    <property name="label" value="Final Payment Date"/>
+    <property name="shortLabel" value="Date"/>
   </bean>
-  <bean id="PurchaseOrderDocument-initialPaymentAmount" parent="PurchaseOrderDocument-initialPaymentAmount-parentBean" />
+  <bean id="PurchaseOrderDocument-initialPaymentAmount" parent="PurchaseOrderDocument-initialPaymentAmount-parentBean"/>
 
   <bean id="PurchaseOrderDocument-initialPaymentAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="initialPaymentAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Initial Payment Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="initialPaymentAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Initial Payment Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-initialPaymentDate" parent="PurchaseOrderDocument-initialPaymentDate-parentBean" />
+  <bean id="PurchaseOrderDocument-initialPaymentDate" parent="PurchaseOrderDocument-initialPaymentDate-parentBean"/>
 
   <bean id="PurchaseOrderDocument-initialPaymentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="initialPaymentDate" />
-    <property name="label" value="Initial Payment Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="name" value="initialPaymentDate"/>
+    <property name="label" value="Initial Payment Date"/>
+    <property name="shortLabel" value="Date"/>
   </bean>
-  <bean id="PurchaseOrderDocument-recurringPaymentAmount" parent="PurchaseOrderDocument-recurringPaymentAmount-parentBean" />
+  <bean id="PurchaseOrderDocument-recurringPaymentAmount" parent="PurchaseOrderDocument-recurringPaymentAmount-parentBean"/>
 
   <bean id="PurchaseOrderDocument-recurringPaymentAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="recurringPaymentAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Recurring Payment Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="recurringPaymentAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Recurring Payment Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-recurringPaymentDate" parent="PurchaseOrderDocument-recurringPaymentDate-parentBean" />
+  <bean id="PurchaseOrderDocument-recurringPaymentDate" parent="PurchaseOrderDocument-recurringPaymentDate-parentBean"/>
 
   <bean id="PurchaseOrderDocument-recurringPaymentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="recurringPaymentDate" />
-    <property name="label" value="Recurring Payment Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="name" value="recurringPaymentDate"/>
+    <property name="label" value="Recurring Payment Date"/>
+    <property name="shortLabel" value="Date"/>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderCommodityDescription" parent="PurchaseOrderDocument-purchaseOrderCommodityDescription-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderCommodityDescription" parent="PurchaseOrderDocument-purchaseOrderCommodityDescription-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderCommodityDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderCommodityDescription" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Commodity Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="purchaseOrderCommodityDescription"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Purchase Order Commodity Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderConfirmedIndicator" parent="PurchaseOrderDocument-purchaseOrderConfirmedIndicator-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderConfirmedIndicator" parent="PurchaseOrderDocument-purchaseOrderConfirmedIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderConfirmedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderConfirmedIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Confirmed Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="purchaseOrderConfirmedIndicator"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Purchase Order Confirmed Indicator"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp" parent="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp" parent="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderInitialOpenTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="purchaseOrderInitialOpenTimestamp" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Initial Open Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="purchaseOrderInitialOpenTimestamp"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Purchase Order Initial Open Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp" parent="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp" parent="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="purchaseOrderLastTransmitTimestamp" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Last Transmit Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="purchaseOrderLastTransmitTimestamp"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Purchase Order Last Transmit Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" parent="PurchaseOrderDocument-purchaseOrderPreviousIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" parent="PurchaseOrderDocument-purchaseOrderPreviousIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderPreviousIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderPreviousIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Previous Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="purchaseOrderPreviousIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Purchase Order Previous Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderQuoteDueDate" parent="PurchaseOrderDocument-purchaseOrderQuoteDueDate-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderQuoteDueDate" parent="PurchaseOrderDocument-purchaseOrderQuoteDueDate-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteDueDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteDueDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Quote Due Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="purchaseOrderQuoteDueDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Quote Due Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate" parent="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate" parent="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteInitializationDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Quote Init Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="purchaseOrderQuoteInitializationDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Quote Init Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
 
-  <bean id="PurchaseOrderDocument-purchaseOrderQuoteTypeCode" parent="PurchaseOrderDocument-purchaseOrderQuoteTypeCode-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderQuoteTypeCode" parent="PurchaseOrderDocument-purchaseOrderQuoteTypeCode-parentBean"/>
 
 
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Quote Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="purchaseOrderQuoteTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Quote Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderQuoteTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderQuoteTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText" parent="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText-parentBean" />
+  <bean id="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText" parent="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteVendorNoteText" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Notes to Vendor" />
-    <property name="shortLabel" value="Text" />
-    <property name="maxLength" value="255" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-            p:allowWhitespace="true" />
+    <property name="name" value="purchaseOrderQuoteVendorNoteText"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Notes to Vendor"/>
+    <property name="shortLabel" value="Text"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier" parent="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier" parent="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
-    <property name="required" value="true" />
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorName" parent="PurchaseOrderDocument-vendorName-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorName" parent="PurchaseOrderDocument-vendorName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
-    <property name="label" value="Vendor" />
-    <property name="shortLabel" value="Vendor" />
-    <property name="required" value="true" />
+    <property name="label" value="Vendor"/>
+    <property name="shortLabel" value="Vendor"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorLine1Address" parent="PurchaseOrderDocument-vendorLine1Address-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorLine1Address" parent="PurchaseOrderDocument-vendorLine1Address-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
-    <property name="name" value="vendorLine1Address" />
-    <property name="required" value="true" />
+    <property name="name" value="vendorLine1Address"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-vendorCityName" parent="PurchaseOrderDocument-vendorCityName-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorCityName" parent="PurchaseOrderDocument-vendorCityName-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
-    <property name="name" value="vendorCityName" />
-    <property name="required" value="true" />
+    <property name="name" value="vendorCityName"/>
+    <property name="required" value="true"/>
   </bean>
   
-  <bean id="PurchaseOrderDocument-capitalAssetSystemTypeCode" parent="PurchaseOrderDocument-capitalAssetSystemTypeCode-parentBean" />
+  <bean id="PurchaseOrderDocument-capitalAssetSystemTypeCode" parent="PurchaseOrderDocument-capitalAssetSystemTypeCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode">
-    <property name="name" value="capitalAssetSystemTypeCode" />
+    <property name="name" value="capitalAssetSystemTypeCode"/>
     <property name="label" value="Capital Asset System Type"/>
     <property name="shortLabel" value="System Type"/>
   </bean>
 
-  <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode" parent="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean" />
+  <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode" parent="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean" abstract="true" parent="CapitalAssetSystemState-capitalAssetSystemStateCode">
-    <property name="name" value="capitalAssetSystemStateCode" />
-    <property name="required" value="false" />
+    <property name="name" value="capitalAssetSystemStateCode"/>
+    <property name="required" value="false"/>
     <property name="label" value="Capital Asset System State"/>
     <property name="shortLabel" value="System State"/>
   </bean>
   
-  <bean id="PurchaseOrderDocument-vendorCountryCode" parent="PurchaseOrderDocument-vendorCountryCode-parentBean" />
+  <bean id="PurchaseOrderDocument-vendorCountryCode" parent="PurchaseOrderDocument-vendorCountryCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
-    <property name="name" value="vendorCountryCode" />
-    <property name="required" value="true" />
+    <property name="name" value="vendorCountryCode"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderDocument-recurringPaymentFrequencyCode" parent="PurchaseOrderDocument-recurringPaymentFrequencyCode-parentBean" />
+  <bean id="PurchaseOrderDocument-recurringPaymentFrequencyCode" parent="PurchaseOrderDocument-recurringPaymentFrequencyCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-recurringPaymentFrequencyCode-parentBean" abstract="true" parent="RecurringPaymentFrequency-recurringPaymentFrequencyCode">
-    <property name="label" value="Recurring Payment Frequency" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.RecurringPaymentFrequencyValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Recurring Payment Frequency"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.RecurringPaymentFrequencyValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-requisitionSource" parent="PurchaseOrderDocument-requisitionSource-parentBean" />
+  <bean id="PurchaseOrderDocument-requisitionSource" parent="PurchaseOrderDocument-requisitionSource-parentBean"/>
 
   <bean id="PurchaseOrderDocument-requisitionSource-parentBean" abstract="true" parent="RequisitionSource-requisitionSourceDescription">
-    <property name="name" value="requisitionSource" />
-    <property name="label" value="Requisition Source" />
-    <property name="shortLabel" value="Req. Source" />
+    <property name="name" value="requisitionSource"/>
+    <property name="label" value="Requisition Source"/>
+    <property name="shortLabel" value="Req. Source"/>
   </bean>
-  <bean id="PurchaseOrderDocument-statusChange" parent="PurchaseOrderDocument-statusChange-parentBean" />
+  <bean id="PurchaseOrderDocument-statusChange" parent="PurchaseOrderDocument-statusChange-parentBean"/>
 
   <bean id="PurchaseOrderDocument-statusChange-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="statusChange" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Waiting on Additional Info" />
-    <property name="shortLabel" value="Status Change" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="statusChange"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Waiting on Additional Info"/>
+    <property name="shortLabel" value="Status Change"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.StatusChangeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.StatusChangeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-internalPurchasingLimit" parent="PurchaseOrderDocument-internalPurchasingLimit-parentBean" />
+  <bean id="PurchaseOrderDocument-internalPurchasingLimit" parent="PurchaseOrderDocument-internalPurchasingLimit-parentBean"/>
 
   <bean id="PurchaseOrderDocument-internalPurchasingLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="internalPurchasingLimit" />
-    <property name="label" value="Internal Purchasing Limit" />
-    <property name="shortLabel" value="Internal Purchasing Limit" />
+    <property name="name" value="internalPurchasingLimit"/>
+    <property name="label" value="Internal Purchasing Limit"/>
+    <property name="shortLabel" value="Internal Purchasing Limit"/>
   </bean>
   
-  <bean id="PurchaseOrderDocument-copyingNotesWhenSplitting" parent="PurchaseOrderDocument-copyingNotesWhenSplitting-parentBean" />
+  <bean id="PurchaseOrderDocument-copyingNotesWhenSplitting" parent="PurchaseOrderDocument-copyingNotesWhenSplitting-parentBean"/>
 
   <bean id="PurchaseOrderDocument-copyingNotesWhenSplitting-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="copyingNotesWhenSplitting" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Copy Notes to New Purchase Order?" />
-    <property name="shortLabel" value="Copy Notes" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="copyingNotesWhenSplitting"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Copy Notes to New Purchase Order?"/>
+    <property name="shortLabel" value="Copy Notes"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
   
-  <bean id="PurchaseOrderDocument-useTaxIndicator" parent="PurchaseOrderDocument-useTaxIndicator-parentBean" />
+  <bean id="PurchaseOrderDocument-useTaxIndicator" parent="PurchaseOrderDocument-useTaxIndicator-parentBean"/>
   
-  <bean id="PurchaseOrderDocument-useTaxIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
-  	<property name="name" value="useTaxIndicator" />
-  	<property name="label" value="Use Tax Indicator" />
-  	<property name="shortLabel" value="Use Tax" />
+  <bean id="PurchaseOrderDocument-useTaxIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+  	<property name="name" value="useTaxIndicator"/>
+  	<property name="label" value="Use Tax Indicator"/>
+  	<property name="shortLabel" value="Use Tax"/>
   </bean>
 
   
     <!-- Purchase Order accountingInformation -->
-    <bean id="purchaseOrderAccountingInformation" parent="purchaseOrderAccountingInformation-parent" />
+    <bean id="purchaseOrderAccountingInformation" parent="purchaseOrderAccountingInformation-parent"/>
 
 	<bean id="purchaseOrderAccountingInformation-parent" parent="AccountingLineView-line" abstract="true">
-		<property name="elementName" value="purchaseOrderAccountingInformation" />
+		<property name="elementName" value="purchaseOrderAccountingInformation"/>
 		<property name="fields">
 			<list>
-				<bean parent="AccountingLineView-field"
-					p:name="chartOfAccountsCode" p:required="true"
-					p:webUILeaveFieldFunction="loadChartInfo"
-					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
-				<bean parent="AccountingLineView-field"
-					p:name="accountNumber" p:required="true"
-					p:webUILeaveFieldFunction="loadAccountInfo"
-					p:dynamicLabelProperty="account.accountName">
+				<bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription"/>
+				<bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
 					<property name="overrideFields">
 						<list>
-							<bean
-								parent="AccountingLineView-overrideField"
-								p:name="accountExpiredOverride" />
-							<bean
-								parent="AccountingLineView-overrideField"
-								p:name="nonFringeAccountOverride" />
+							<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride"/>
+							<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride"/>
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field"
-					p:name="subAccountNumber"
-					p:webUILeaveFieldFunction="loadSubAccountInfo"
-					p:dynamicLabelProperty="subAccount.subAccountName"  />
-				<bean parent="AccountingLineView-field"
-					p:name="financialObjectCode" p:required="true"
-					p:dynamicNameLabelGeneratorBeanName="purapObjectCodeDynamicNameLabelGenerator"
-					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField"
-					p:overrideLookupParameters="document.postingYear:universityFiscalYear" >
+				<bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName"/>
+				<bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="purapObjectCodeDynamicNameLabelGenerator" p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField" p:overrideLookupParameters="document.postingYear:universityFiscalYear">
 					<property name="overrideFields">
 						<list>
-							<bean
-								parent="AccountingLineView-overrideField"
-								p:name="objectBudgetOverride" />
+							<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride"/>
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field"
-					p:name="financialSubObjectCode"
-					p:webUILeaveFieldFunction="loadSubObjectInfo"
-					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" 
-					p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField"
-					p:overrideLookupParameters="document.postingYear:universityFiscalYear" />
-				<bean parent="AccountingLineView-field"
-					p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo"
-					p:dynamicLabelProperty="project.projectDescription" />
-				<bean parent="AccountingLineView-field"
-					p:name="organizationReferenceId" />
+				<bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField" p:overrideLookupParameters="document.postingYear:universityFiscalYear"/>
+				<bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription"/>
+				<bean parent="AccountingLineView-field" p:name="organizationReferenceId"/>
 			</list>
 		</property>
 	</bean>  
 	
     <!-- accounting line groups -->
-    <bean id="PurchaseOrderDocument-sourceAccountingLineGroup" parent="PurchaseOrderDocument-sourceAccountingLineGroup-parentBean" />  
+    <bean id="PurchaseOrderDocument-sourceAccountingLineGroup" parent="PurchaseOrderDocument-sourceAccountingLineGroup-parentBean"/>  
     <bean id="PurchaseOrderDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	    <property name="accountingLineView" ref="PurchaseOrderDocument-accountingLineView" />
-	    <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-    	<property name="groupLabel" value="Source" />
-	    <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />
-	    <property name="importedLinePropertyPrefix" value="source" />
-	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
-	    <property name="importingAllowed" value="false" /> 
+	    <property name="accountingLineView" ref="PurchaseOrderDocument-accountingLineView"/>
+	    <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+    	<property name="groupLabel" value="Source"/>
+	    <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer"/>
+	    <property name="importedLinePropertyPrefix" value="source"/>
+	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> 
+	    <property name="importingAllowed" value="false"/> 
     </bean>
 
-    <bean id="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="PurchaseOrderDocument-distributeSourceAccountingLineGroup-parentBean" />  
+    <bean id="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="PurchaseOrderDocument-distributeSourceAccountingLineGroup-parentBean"/>  
     <bean id="PurchaseOrderDocument-distributeSourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	    <property name="accountingLineView" ref="PurchaseOrderDocument-accountingLineView" />
-	    <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-    	<property name="groupLabel" value="Source" />
-        <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer" />
-	    <property name="importedLinePropertyPrefix" value="source" />	  
-	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
-	    <property name="importingAllowed" value="true" /> 
+	    <property name="accountingLineView" ref="PurchaseOrderDocument-accountingLineView"/>
+	    <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+    	<property name="groupLabel" value="Source"/>
+        <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer"/>
+	    <property name="importedLinePropertyPrefix" value="source"/>	  
+	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> 
+	    <property name="importingAllowed" value="true"/> 
     </bean>
   
-    <bean id="PurchaseOrderDocument-accountingLineView" parent="PurchaseOrderDocument-accountingLineView-parent" />
+    <bean id="PurchaseOrderDocument-accountingLineView" parent="PurchaseOrderDocument-accountingLineView-parent"/>
 
-    <bean id="PurchaseOrderDocument-accountingLineView-parent"
-	      parent="AccountingLineView" abstract="true">
+    <bean id="PurchaseOrderDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 		  <property name="elements">
 			  <list>
 				  <bean parent="AccountingLineView-lines">
 					  <property name="lines">
 						  <list>
-							  <ref bean="purchaseOrderAccountingInformation" />
+							  <ref bean="purchaseOrderAccountingInformation"/>
     					  </list>
 					  </property>
 				  </bean>
-				  <bean parent="AccountingLineView-field" p:name="accountLinePercent"
-					  p:required="true" 
-					  p:useShortLabel="true" />
-				  <bean parent="AccountingLineView-actions" />
+				  <bean parent="AccountingLineView-field" p:name="accountLinePercent" p:required="true" p:useShortLabel="true"/>
+				  <bean parent="AccountingLineView-actions"/>
 			  </list>
 		  </property>
     </bean>
   
-    <bean id="PurchaseOrderDocument-validations" parent="PurchaseOrderDocument-validations-parentBean" />
+    <bean id="PurchaseOrderDocument-validations" parent="PurchaseOrderDocument-validations-parentBean"/>
   
     <bean id="PurchaseOrderDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
     	<property name="sourceMap">
@@ -1384,14 +1291,14 @@
     </bean>
     
     <!-- workflow attributes for routing -->
-    <bean id="PurchaseOrderDocument-workflowAttributes" parent="PurchaseOrderDocument-workflowAttributes-parentBean" />
+    <bean id="PurchaseOrderDocument-workflowAttributes" parent="PurchaseOrderDocument-workflowAttributes-parentBean"/>
 
     <bean id="PurchaseOrderDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="routingTypeDefinitions">
     		<map>
-    		    <entry key="ContractManagement" value-ref="RoutingType-PurchaseOrderDocument-ContractManagement" />
-    		    <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity" />
-    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    		    <entry key="ContractManagement" value-ref="RoutingType-PurchaseOrderDocument-ContractManagement"/>
+    		    <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
                 <!-- no qualifiers for RequiresBudgetReview -->
                 <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
                 <!-- no qualifiers for TransmissionMethodIsPrint -->
@@ -1402,8 +1309,8 @@
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="purapDocumentIdentifier" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="purapDocumentIdentifier"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1415,8 +1322,8 @@
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">			
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="vendorName" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="vendorName"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1428,8 +1335,8 @@
     	      	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">     				
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="requisitionIdentifier" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="requisitionIdentifier"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1443,8 +1350,8 @@
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
    					<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="requestorPersonName" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="requestorPersonName"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1456,8 +1363,8 @@
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="deliveryCampusCode" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="deliveryCampusCode"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1469,8 +1376,8 @@
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="contractManagerCode" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="contractManagerCode"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1482,8 +1389,8 @@
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="purchaseOrderPreviousIdentifier" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="purchaseOrderPreviousIdentifier"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1495,8 +1402,8 @@
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="vendorNumber" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="vendorNumber"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1508,8 +1415,8 @@
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
    					<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.VendorContract" />
-    						<property name="attributeName" value="vendorContractName" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.VendorContract"/>
+    						<property name="attributeName" value="vendorContractName"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1522,8 +1429,8 @@
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="purchaseOrderLastTransmitTimestamp" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="purchaseOrderLastTransmitTimestamp"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1535,8 +1442,8 @@
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="deliveryRequiredDate" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="deliveryRequiredDate"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1548,8 +1455,8 @@
         		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
      				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader" />
-    						<property name="attributeName" value="documentDescription" />
+    						<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader"/>
+    						<property name="attributeName" value="documentDescription"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1561,8 +1468,8 @@
          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader" />
-    						<property name="attributeName" value="organizationDocumentNumber" />
+    						<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader"/>
+    						<property name="attributeName" value="organizationDocumentNumber"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1575,8 +1482,8 @@
           		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="contractManagerName" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="contractManagerName"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1588,8 +1495,8 @@
         		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" />
-    						<property name="attributeName" value="statusDescription" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus"/>
+    						<property name="attributeName" value="statusDescription"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1601,8 +1508,8 @@
           		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="postingYear" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="postingYear"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1614,8 +1521,8 @@
            		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="statusCode" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="statusCode"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1627,8 +1534,8 @@
  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="purchaseOrderCurrentIndicator" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="purchaseOrderCurrentIndicator"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1640,8 +1547,8 @@
               	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="receivingDocumentRequiredIndicator" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="receivingDocumentRequiredIndicator"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1654,8 +1561,8 @@
               	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="paymentRequestPositiveApprovalIndicator" />
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="paymentRequestPositiveApprovalIndicator"/>
     					</bean>
     				</property>
     				<property name="documentValues">

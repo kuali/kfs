@@ -1,44 +1,34 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderRemoveHoldDocument" parent="PurchaseOrderRemoveHoldDocument-parentBean" />
+  <bean id="PurchaseOrderRemoveHoldDocument" parent="PurchaseOrderRemoveHoldDocument-parentBean"/>
 
   <bean id="PurchaseOrderRemoveHoldDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Remove Payment Hold" />
-    <property name="shortLabel" value="Purchase Order Remove Payment Hold" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="PURCHASE_ORDER"
-            p:parameterDetailType="PurchaseOrder" />
+    <property name="label" value="Purchase Order Remove Payment Hold"/>
+    <property name="shortLabel" value="Purchase Order Remove Payment Hold"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
     </property>
-    <property name="documentTypeName" value="PORH" />
-    <property name="sessionDocument" value="true" />
-    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRemoveHoldDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderRemoveHoldDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRemoveHoldDocumentPresentationController" />
+    <property name="documentTypeName" value="PORH"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRemoveHoldDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderRemoveHoldDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRemoveHoldDocumentPresentationController"/>
     <property name="workflowAttributes">
-    	<ref bean="PurchaseOrderRemoveHoldDocument-workflowAttributes" />
+    	<ref bean="PurchaseOrderRemoveHoldDocument-workflowAttributes"/>
     </property>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
   </bean>
 
     <!-- workflow attributes -->
-    <bean id="PurchaseOrderRemoveHoldDocument-workflowAttributes" parent="PurchaseOrderRemoveHoldDocument-workflowAttributes-parentBean" />
+    <bean id="PurchaseOrderRemoveHoldDocument-workflowAttributes" parent="PurchaseOrderRemoveHoldDocument-workflowAttributes-parentBean"/>
   
     <bean id="PurchaseOrderRemoveHoldDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
     </bean>

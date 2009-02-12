@@ -1,78 +1,55 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PaymentTermTypeMaintenanceDocument" parent="PaymentTermTypeMaintenanceDocument-parentBean" />
+  <bean id="PaymentTermTypeMaintenanceDocument" parent="PaymentTermTypeMaintenanceDocument-parentBean"/>
 
   <bean id="PaymentTermTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PaymentTermType" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PaymentTermType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PaymentTermTypeMaintenanceDocument-EditPaymentTermsType" />
+        <ref bean="PaymentTermTypeMaintenanceDocument-EditPaymentTermsType"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>vendorPaymentTermsCode</value>
       </list>
     </property>
-    <property name="label" value="Payment Terms Type" />
-    <property name="shortLabel" value="Payment Terms Type" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PaymentTermType" p:parameterName="PAYMENT_TERM_TYPE" />
+    <property name="label" value="Payment Terms Type"/>
+    <property name="shortLabel" value="Payment Terms Type"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PaymentTermType" p:parameterName="PAYMENT_TERM_TYPE"/>
     </property>
-    <property name="documentTypeName" value="PMPA" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="PMPA"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="PaymentTermTypeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="PaymentTermTypeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="PaymentTermTypeMaintenanceDocument-EditPaymentTermsType" parent="PaymentTermTypeMaintenanceDocument-EditPaymentTermsType-parentBean" />
+  <bean id="PaymentTermTypeMaintenanceDocument-EditPaymentTermsType" parent="PaymentTermTypeMaintenanceDocument-EditPaymentTermsType-parentBean"/>
 
   <bean id="PaymentTermTypeMaintenanceDocument-EditPaymentTermsType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Payment Terms Type" />
-    <property name="title" value="Edit Payment Terms Type" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Payment Terms Type"/>
+    <property name="title" value="Edit Payment Terms Type"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorPaymentTermsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorPaymentTermsDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorPaymentTermsPercent"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorDiscountDueNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorDiscountDueTypeDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorNetDueNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorNetDueTypeDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" 
-              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="vendorPaymentTermsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorPaymentTermsDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorPaymentTermsPercent" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorDiscountDueNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorDiscountDueTypeDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorNetDueNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorNetDueTypeDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="PaymentTermTypeMaintenanceDocument-workflowAttributes" parent="PaymentTermTypeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="PaymentTermTypeMaintenanceDocument-workflowAttributes" parent="PaymentTermTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="PaymentTermTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="PaymentTermTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

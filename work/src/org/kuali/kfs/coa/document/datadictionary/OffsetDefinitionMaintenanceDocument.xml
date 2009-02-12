@@ -1,39 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="OffsetDefinitionMaintenanceDocument" parent="OffsetDefinitionMaintenanceDocument-parentBean" />
+  <bean id="OffsetDefinitionMaintenanceDocument" parent="OffsetDefinitionMaintenanceDocument-parentBean"/>
 
   <bean id="OffsetDefinitionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OffsetDefinition" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OffsetDefinition"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="OffsetDefinitionMaintenanceDocument-EditOffsetDefinition" />
+        <ref bean="OffsetDefinitionMaintenanceDocument-EditOffsetDefinition"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chartOfAccounts"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="universityFiscal"
-              p:attributeToHighlightOnFail="universityFiscalYear" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialObject"
-              p:attributeToHighlightOnFail="financialObjectCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialBalanceType"
-              p:attributeToHighlightOnFail="financialBalanceTypeCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="universityFiscal" p:attributeToHighlightOnFail="universityFiscalYear"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialObject" p:attributeToHighlightOnFail="financialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialBalanceType" p:attributeToHighlightOnFail="financialBalanceTypeCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>universityFiscalYear</value>
         <value>chartOfAccountsCode</value>
@@ -41,52 +26,42 @@
         <value>financialBalanceTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Offset Definition" />
-    <property name="shortLabel" value="Offset Definition" />
-    <property name="summary" value="Offset Definition Maintenance Document" />
-    <property name="description" value="Maintenance document which allows you to create new Offset Definitions, remove exsiting Offset Definitions, or modify existing Offset Definitions." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.OffsetDefinition" p:parameterName="OFFSET_DEFINITION" />
+    <property name="label" value="Offset Definition"/>
+    <property name="shortLabel" value="Offset Definition"/>
+    <property name="summary" value="Offset Definition Maintenance Document"/>
+    <property name="description" value="Maintenance document which allows you to create new Offset Definitions, remove exsiting Offset Definitions, or modify existing Offset Definitions."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.OffsetDefinition" p:parameterName="OFFSET_DEFINITION"/>
     </property>
-    <property name="documentTypeName" value="OFSD" />
-    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OffsetDefinitionRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="OFSD"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OffsetDefinitionRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="OffsetDefinitionMaintenanceDocument-workflowAttributes" />
+    	<ref bean="OffsetDefinitionMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="OffsetDefinitionMaintenanceDocument-EditOffsetDefinition" parent="OffsetDefinitionMaintenanceDocument-EditOffsetDefinition-parentBean" />
+  <bean id="OffsetDefinitionMaintenanceDocument-EditOffsetDefinition" parent="OffsetDefinitionMaintenanceDocument-EditOffsetDefinition-parentBean"/>
 
   <bean id="OffsetDefinitionMaintenanceDocument-EditOffsetDefinition-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Offset Definition" />
-    <property name="title" value="Edit Offset Definition" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Offset Definition"/>
+    <property name="title" value="Edit Offset Definition"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialBalanceTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectCode"
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialBalanceTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="OffsetDefinitionMaintenanceDocument-workflowAttributes" parent="OffsetDefinitionMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="OffsetDefinitionMaintenanceDocument-workflowAttributes" parent="OffsetDefinitionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="OffsetDefinitionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="OffsetDefinitionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
   
 </beans>

@@ -1,115 +1,101 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="BudgetAdjustmentDocument" parent="BudgetAdjustmentDocument-parentBean" />
+  <bean id="BudgetAdjustmentDocument" parent="BudgetAdjustmentDocument-parentBean"/>
 
   <bean id="BudgetAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Budget Adjustment" />
-    <property name="shortLabel" value="Budget Adjustment" />
-    <property name="summary" value="Document used for adjusting budgets." />
-    <property name="description" value="The Budget Adjustment document is a financial planning tool that allows an organization to adjust the current 
-        and/or base budget figures for a given account as circumstances may change throughout the fiscal year. It may be used to 
-        create a budget for a new account established after the beginning of a new fiscal year, and it may also be used to transfer funds between
-        general fund accounts belonging to the same chart of accounts." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.BudgetAdjustmentDocument" p:parameterName="BUDGET_ADJUSTMENT" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Budget Adjustment"/>
+    <property name="shortLabel" value="Budget Adjustment"/>
+    <property name="summary" value="Document used for adjusting budgets."/>
+    <property name="description" value="The Budget Adjustment document is a financial planning tool that allows an organization to adjust the current          and/or base budget figures for a given account as circumstances may change throughout the fiscal year. It may be used to          create a budget for a new account established after the beginning of a new fiscal year, and it may also be used to transfer funds between         general fund accounts belonging to the same chart of accounts."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.BudgetAdjustmentDocument" p:parameterName="BUDGET_ADJUSTMENT"/>
     </property>
-    <property name="documentTypeName" value="BA" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.BudgetAdjustmentDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentPresentationController" />    
-    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    <property name="documentTypeName" value="BA"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.BudgetAdjustmentDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentPresentationController"/>    
+    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
 
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="BudgetAdjustmentDocument-nextPositionSourceLineNumber" />
-        <ref bean="BudgetAdjustmentDocument-nextPositionTargetLineNumber" />
-        <ref bean="BudgetAdjustmentDocument-postingYear" />
+        <ref bean="BudgetAdjustmentDocument-nextPositionSourceLineNumber"/>
+        <ref bean="BudgetAdjustmentDocument-nextPositionTargetLineNumber"/>
+        <ref bean="BudgetAdjustmentDocument-postingYear"/>
       </list>
     </property>
-    <property name="validationMap" ref="BudgetAdjustmentDocument-validations" />
+    <property name="validationMap" ref="BudgetAdjustmentDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="BudgetAdjustment-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="BudgetAdjustment-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
 	    		<key><value>target</value></key>
-	    		<ref bean="BudgetAdjustment-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="BudgetAdjustment-targetAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
     <property name="workflowAttributes">
-    	<ref bean="BudgetAdjustmentDocument-workflowAttributes" />
+    	<ref bean="BudgetAdjustmentDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetAdjustmentDocument-nextPositionSourceLineNumber" parent="BudgetAdjustmentDocument-nextPositionSourceLineNumber-parentBean" />
+  <bean id="BudgetAdjustmentDocument-nextPositionSourceLineNumber" parent="BudgetAdjustmentDocument-nextPositionSourceLineNumber-parentBean"/>
 
   <bean id="BudgetAdjustmentDocument-nextPositionSourceLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextPositionSourceLineNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Next PS Source Line Number" />
-    <property name="shortLabel" value="Next PS Source" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="nextPositionSourceLineNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Next PS Source Line Number"/>
+    <property name="shortLabel" value="Next PS Source"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="&amp;nbsp;" />
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="&amp;nbsp;"/>
   </bean>
-  <bean id="BudgetAdjustmentDocument-nextPositionTargetLineNumber" parent="BudgetAdjustmentDocument-nextPositionTargetLineNumber-parentBean" />
+  <bean id="BudgetAdjustmentDocument-nextPositionTargetLineNumber" parent="BudgetAdjustmentDocument-nextPositionTargetLineNumber-parentBean"/>
 
   <bean id="BudgetAdjustmentDocument-nextPositionTargetLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextPositionTargetLineNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Next PS Target Line Number" />
-    <property name="shortLabel" value="Next PS Target" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="nextPositionTargetLineNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Next PS Target Line Number"/>
+    <property name="shortLabel" value="Next PS Target"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="&amp;nbsp;" />
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="&amp;nbsp;"/>
   </bean>
-  <bean id="BudgetAdjustmentDocument-postingYear" parent="BudgetAdjustmentDocument-postingYear-parentBean" />
+  <bean id="BudgetAdjustmentDocument-postingYear" parent="BudgetAdjustmentDocument-postingYear-parentBean"/>
 
   <bean id="BudgetAdjustmentDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYear" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BudgetAdjustmentFiscalYearValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="postingYear"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BudgetAdjustmentFiscalYearValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   
   <!-- validations -->
   
-  <bean id="BudgetAdjustmentDocument-validations" parent="BudgetAdjustmentDocument-validations-parentBean" />
+  <bean id="BudgetAdjustmentDocument-validations" parent="BudgetAdjustmentDocument-validations-parentBean"/>
   
   <bean id="BudgetAdjustmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -147,62 +133,61 @@
   </bean>
   
   <!-- accounting line groups -->
-  <bean id="BudgetAdjustment-sourceAccountingLineGroup" parent="BudgetAdjustment-sourceAccountingLineGroup-parentBean" />
+  <bean id="BudgetAdjustment-sourceAccountingLineGroup" parent="BudgetAdjustment-sourceAccountingLineGroup-parentBean"/>
   
   <bean id="BudgetAdjustment-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="BudgetAdjustment-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine" />
-	  <property name="groupLabel" value="From/Decrease" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
+	  <property name="accountingLineView" ref="BudgetAdjustment-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine"/>
+	  <property name="groupLabel" value="From/Decrease"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/>
 	</bean>
 	
-	<bean id="BudgetAdjustment-targetAccountingLineGroup" parent="BudgetAdjustment-targetAccountingLineGroup-parentBean" />
+	<bean id="BudgetAdjustment-targetAccountingLineGroup" parent="BudgetAdjustment-targetAccountingLineGroup-parentBean"/>
 	
 	<bean id="BudgetAdjustment-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="BudgetAdjustment-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine" />
-	  <property name="groupLabel" value="To/Increase" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="target" />
-	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+	  <property name="accountingLineView" ref="BudgetAdjustment-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine"/>
+	  <property name="groupLabel" value="To/Increase"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="target"/>
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
 	</bean>
 	
-	<bean id="BudgetAdjustment-accountingLineView" parent="BudgetAdjustment-accountingLineView-parent" />
+	<bean id="BudgetAdjustment-accountingLineView" parent="BudgetAdjustment-accountingLineView-parent"/>
 	
 	<bean id="BudgetAdjustment-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 	  <property name="elements">
 	    <list>
-	      <bean parent="AccountingLineView-sequenceNumber" />
+	      <bean parent="AccountingLineView-sequenceNumber"/>
 	      <bean parent="AccountingLineView-lines">
 	        <property name="lines">
 	          <list>
 	            <bean parent="AccountingLineView-line">
-	              <property name="elementName" value="accountingInformation" />
+	              <property name="elementName" value="accountingInformation"/>
 	              <property name="fields">
 	                <list>
-	                  <bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+	                  <bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription"/>
 	                  <bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
 	                  	<property name="overrideFields">
 	                  		<list>
-	                  			<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride" />
-	                  			<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride" />
+	                  			<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride"/>
+	                  			<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride"/>
 	                  		</list>
 	                  	</property>
 	                  </bean>
-	                  <bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName" />
-	                  <bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator" 
-	                  		p:overrideLookupParameters="document.postingYear:universityFiscalYear">
+	                  <bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName"/>
+	                  <bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator" p:overrideLookupParameters="document.postingYear:universityFiscalYear">
 	                  	<property name="overrideFields">
 	                  		<list>
-	                  			<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride" />
+	                  			<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride"/>
 	                  		</list>
 	                  	</property>
 	                  </bean>
-	                  <bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
-	                  <bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription" />
-	                  <bean parent="AccountingLineView-field" p:name="organizationReferenceId" />
+	                  <bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName"/>
+	                  <bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription"/>
+	                  <bean parent="AccountingLineView-field" p:name="organizationReferenceId"/>
 	                </list>
 	              </property>
 	            </bean>
@@ -212,18 +197,18 @@
 	            			<bean parent="AccountingLineView-columns" p:columnCount="2" p:name="monthlyLines">
 	            				<property name="fields">
 	            					<list>
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth1LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth2LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth3LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth4LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth5LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth6LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth7LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth8LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth9LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth10LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth11LineAmount" />
-	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth12LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth1LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth2LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth3LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth4LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth5LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth6LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth7LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth8LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth9LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth10LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth11LineAmount"/>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth12LineAmount"/>
 	            					</list>
 	            				</property>
 	            			</bean>
@@ -233,28 +218,28 @@
 	          </list>
 	        </property>
 	      </bean>
-	      <bean parent="AccountingLineView-currentBaseAmountField" p:useShortLabels="true" />
-	      <bean parent="AccountingLineView-actions" />
+	      <bean parent="AccountingLineView-currentBaseAmountField" p:useShortLabels="true"/>
+	      <bean parent="AccountingLineView-actions"/>
 	    </list>
 	  </property>
 	</bean>
 	
 	<!-- workflow attributes for routing -->
-	<bean id="BudgetAdjustmentDocument-workflowAttributes" parent="BudgetAdjustmentDocument-workflowAttributes-parentBean" />
+	<bean id="BudgetAdjustmentDocument-workflowAttributes" parent="BudgetAdjustmentDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="BudgetAdjustmentDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
     		</map>
     	</property>
 	</bean>

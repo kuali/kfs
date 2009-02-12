@@ -1,164 +1,103 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="EffortCertificationReportDefinitionMaintenanceDocument" parent="EffortCertificationReportDefinitionMaintenanceDocument-parentBean" />
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument" parent="EffortCertificationReportDefinitionMaintenanceDocument-parentBean"/>
 
   <bean id="EffortCertificationReportDefinitionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition" />
-        <ref bean="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes" />
+        <ref bean="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition"/>
+        <ref bean="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="options"
-              p:attributeToHighlightOnFail="universityFiscalYear" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="effortCertificationPeriodStatusCode"
-              p:attributeToHighlightOnFail="effortCertificationReportPeriodStatusCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="reportBeginFiscalYear"
-              p:attributeToHighlightOnFail="effortCertificationReportBeginFiscalYear" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="reportBeginPeriod"
-              p:attributeToHighlightOnFail="effortCertificationReportBeginPeriodCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="reportEndFiscalYear"
-              p:attributeToHighlightOnFail="effortCertificationReportEndFiscalYear" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="reportEndPeriod"
-              p:attributeToHighlightOnFail="effortCertificationReportEndPeriodCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="expenseTransferYear"
-              p:attributeToHighlightOnFail="expenseTransferFiscalYear" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="expenseTransferFiscalPeriod"
-              p:attributeToHighlightOnFail="expenseTransferFiscalPeriodCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="effortCertificationReportType"
-              p:attributeToHighlightOnFail="effortCertificationReportTypeCode" />
-        <bean parent="ReferenceDefinition"
-              p:collection="effortCertificationReportPositions"
-              p:attributeName="positionObjectGroup"
-              p:attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="options" p:attributeToHighlightOnFail="universityFiscalYear"/>
+        <bean parent="ReferenceDefinition" p:attributeName="effortCertificationPeriodStatusCode" p:attributeToHighlightOnFail="effortCertificationReportPeriodStatusCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="reportBeginFiscalYear" p:attributeToHighlightOnFail="effortCertificationReportBeginFiscalYear"/>
+        <bean parent="ReferenceDefinition" p:attributeName="reportBeginPeriod" p:attributeToHighlightOnFail="effortCertificationReportBeginPeriodCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="reportEndFiscalYear" p:attributeToHighlightOnFail="effortCertificationReportEndFiscalYear"/>
+        <bean parent="ReferenceDefinition" p:attributeName="reportEndPeriod" p:attributeToHighlightOnFail="effortCertificationReportEndPeriodCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseTransferYear" p:attributeToHighlightOnFail="expenseTransferFiscalYear"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseTransferFiscalPeriod" p:attributeToHighlightOnFail="expenseTransferFiscalPeriodCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="effortCertificationReportType" p:attributeToHighlightOnFail="effortCertificationReportTypeCode"/>
+        <bean parent="ReferenceDefinition" p:collection="effortCertificationReportPositions" p:attributeName="positionObjectGroup" p:attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>universityFiscalYear</value>
         <value>effortCertificationReportNumber</value>
       </list>
     </property>
-    <property name="label" value="Report Definition" />
-    <property name="shortLabel" value="Effort Cert Report Maint Doc" />
-    <property name="summary" value="Effort Certification Report Definition Maintenance Document" />
-    <property name="description" value="Document used to create or update Effort Certification Report Maintenance Document" />
-    <property name="documentTypeName" value="ECRD" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationReportDefinitionRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationReportDefinitionMaintenanceDocumentPreRules" />
+    <property name="label" value="Report Definition"/>
+    <property name="shortLabel" value="Effort Cert Report Maint Doc"/>
+    <property name="summary" value="Effort Certification Report Definition Maintenance Document"/>
+    <property name="description" value="Document used to create or update Effort Certification Report Maintenance Document"/>
+    <property name="documentTypeName" value="ECRD"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationReportDefinitionRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationReportDefinitionMaintenanceDocumentPreRules"/>
     <property name="workflowAttributes">
-    	<ref bean="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes" />
+    	<ref bean="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition" parent="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition-parentBean" />
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition" parent="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition-parentBean"/>
 
   <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Report Definition" />
-    <property name="title" value="Edit Report Definition" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Report Definition"/>
+    <property name="title" value="Edit Report Definition"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effortCertificationReportNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effortCertificationReportPeriodTitle"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effortCertificationReportPeriodStatusCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effortCertificationReportBeginFiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effortCertificationReportBeginPeriodCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effortCertificationReportEndFiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effortCertificationReportEndPeriodCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effortCertificationReportTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="expenseTransferFiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="expenseTransferFiscalPeriodCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effortCertificationReportReturnDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true"
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportPeriodTitle" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportPeriodStatusCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportBeginFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportBeginPeriodCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportEndFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportEndPeriodCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseTransferFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseTransferFiscalPeriodCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportReturnDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
       </list>
     </property>
   </bean>
-  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes" parent="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes-parentBean" />
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes" parent="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes-parentBean"/>
 
   <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Report Position Object Group Codes" />
-    <property name="title" value="Edit Report Position Object Group Codes" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Report Position Object Group Codes"/>
+    <property name="title" value="Edit Report Position Object Group Codes"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="effortCertificationReportPositions" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition" />
-          <property name="summaryTitle" value="Position Object Group Codes" />
-          <property name="summaryFields" >
+          <property name="name" value="effortCertificationReportPositions"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition"/>
+          <property name="summaryTitle" value="Position Object Group Codes"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="effortCertificationReportPositionObjectGroupCode" />
+              <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportPositionObjectGroupCode"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="effortCertificationReportPositionObjectGroupCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportPositionObjectGroupCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
           <property name="duplicateIdentificationFields">
           	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportPositionObjectGroupCode" />
-          		<bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" />
-          		<bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportNumber" />
+          		<bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportPositionObjectGroupCode"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportNumber"/>
           	</list>
           </property>
         </bean>
@@ -167,7 +106,7 @@
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes" parent="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes" parent="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

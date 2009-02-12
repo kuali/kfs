@@ -1,70 +1,63 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PreEncumbranceDocument" parent="PreEncumbranceDocument-parentBean" />
+  <bean id="PreEncumbranceDocument" parent="PreEncumbranceDocument-parentBean"/>
 
   <bean id="PreEncumbranceDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Pre-Encumbrance" />
-    <property name="shortLabel" value="Pre-Encumbrance" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The Pre-Encumbrance (PE) document provides the capability to record encumbrances independently of purchase orders, travel, or Physical Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments have already been made." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.PreEncumbranceDocument" p:parameterName="PRE_ENCUMBRANCE" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Pre-Encumbrance"/>
+    <property name="shortLabel" value="Pre-Encumbrance"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The Pre-Encumbrance (PE) document provides the capability to record encumbrances independently of purchase orders, travel, or Physical Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments have already been made."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.PreEncumbranceDocument" p:parameterName="PRE_ENCUMBRANCE"/>
     </property>
-    <property name="documentTypeName" value="PE" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.PreEncumbranceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
+    <property name="documentTypeName" value="PE"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.PreEncumbranceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
 
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PreEncumbranceDocument-reversalDate" />
+        <ref bean="PreEncumbranceDocument-reversalDate"/>
       </list>
     </property>
-     <property name="validationMap" ref="PreEncumbranceDocument-validations" />
+     <property name="validationMap" ref="PreEncumbranceDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="PreEncumbranceDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="PreEncumbranceDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
 	    		<key><value>target</value></key>
-	    		<ref bean="PreEncumbranceDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="PreEncumbranceDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>  
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
     <property name="workflowAttributes">
-    	<ref bean="PreEncumbranceDocument-workflowAttributes" />
+    	<ref bean="PreEncumbranceDocument-workflowAttributes"/>
     </property>    
   </bean>
 
 <!-- Attribute Definitions -->
 
 
-  <bean id="PreEncumbranceDocument-reversalDate" parent="PreEncumbranceDocument-reversalDate-parentBean" />
+  <bean id="PreEncumbranceDocument-reversalDate" parent="PreEncumbranceDocument-reversalDate-parentBean"/>
 
   <bean id="PreEncumbranceDocument-reversalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="reversalDate" />
-    <property name="label" value="Reversal Date" />
-    <property name="shortLabel" value="Reversal Date" />
-    <property name="required" value="false" />
-    <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today&apos;s date. Use the calendar icon to select and format the Reversal Date." />
+    <property name="name" value="reversalDate"/>
+    <property name="label" value="Reversal Date"/>
+    <property name="shortLabel" value="Reversal Date"/>
+    <property name="required" value="false"/>
+    <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today's date. Use the calendar icon to select and format the Reversal Date."/>
   </bean>
   
      <!-- Validations -->
   
-  <bean id="PreEncumbranceDocument-validations" parent="PreEncumbranceDocument-validations-parentBean" />
+  <bean id="PreEncumbranceDocument-validations" parent="PreEncumbranceDocument-validations-parentBean"/>
   
   <bean id="PreEncumbranceDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -94,69 +87,69 @@
   </bean>
   
   <!-- accounting line groups -->
-  <bean id="PreEncumbranceDocument-sourceAccountingLineGroup" parent="PreEncumbranceDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="PreEncumbranceDocument-sourceAccountingLineGroup" parent="PreEncumbranceDocument-sourceAccountingLineGroup-parentBean"/>  
   <bean id="PreEncumbranceDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="Encumbrance" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value="Encumbrance"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
 	</bean>
 	
-  <bean id="PreEncumbranceDocument-targetAccountingLineGroup" parent="PreEncumbranceDocument-targetAccountingLineGroup-parentBean" />	
+  <bean id="PreEncumbranceDocument-targetAccountingLineGroup" parent="PreEncumbranceDocument-targetAccountingLineGroup-parentBean"/>	
   <bean id="PreEncumbranceDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="PreEncumbranceDocument-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
-	  <property name="groupLabel" value="Disencumbrance" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="target" />
-	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
-	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+	  <property name="accountingLineView" ref="PreEncumbranceDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine"/>
+	  <property name="groupLabel" value="Disencumbrance"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="target"/>
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals"/>
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
   </bean>  
   
-  <bean id="PreEncumbranceDocument-accountingLineView" parent="PreEncumbranceDocument-accountingLineView-parent" />
+  <bean id="PreEncumbranceDocument-accountingLineView" parent="PreEncumbranceDocument-accountingLineView-parent"/>
   <bean id="PreEncumbranceDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 	<property name="elements">
 		<list>
-			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-sequenceNumber"/>
 			<bean parent="AccountingLineView-lines">
 				<property name="lines">
 					<list>
-						<ref bean="accountingInformation" />
+						<ref bean="accountingInformation"/>
 						<bean parent="AccountingLineView-line">
-							<property name="elementName" value="lineDescription" />
+							<property name="elementName" value="lineDescription"/>
 							<property name="fields">
 								<list>
-									<bean parent="AccountingLineView-field" p:name="referenceNumber" p:required="true" />
+									<bean parent="AccountingLineView-field" p:name="referenceNumber" p:required="true"/>
 								</list>
 							</property>
 						</bean>
 					</list>
 				</property>
 			</bean>
-			<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
-			<bean parent="AccountingLineView-actions" />
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-actions"/>
 		</list>
 	</property>
   </bean>
   
   <!-- workflow attributes for routing -->
-	<bean id="PreEncumbranceDocument-workflowAttributes" parent="PreEncumbranceDocument-workflowAttributes-parentBean" />
+	<bean id="PreEncumbranceDocument-workflowAttributes" parent="PreEncumbranceDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="PreEncumbranceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly" />
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly"/>
     		</map>
     	</property>
 	</bean>

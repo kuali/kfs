@@ -1,88 +1,63 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="SubFundGroupMaintenanceDocument" parent="SubFundGroupMaintenanceDocument-parentBean" />
+  <bean id="SubFundGroupMaintenanceDocument" parent="SubFundGroupMaintenanceDocument-parentBean"/>
 
   <bean id="SubFundGroupMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubFundGroup" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubFundGroup"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="SubFundGroupMaintenanceDocument-EditSub-FundGroup" />
+        <ref bean="SubFundGroupMaintenanceDocument-EditSub-FundGroup"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="fundGroup"
-              p:attributeToHighlightOnFail="fundGroupCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="fundGroup" p:attributeToHighlightOnFail="fundGroupCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>subFundGroupCode</value>
       </list>
     </property>
-    <property name="label" value="Sub-Fund Group" />
-    <property name="shortLabel" value="Sub-Fund Group" />
-    <property name="summary" value="Sub-Fund Group maintenance document" />
-    <property name="description" value="Document used to create or update Sub-Fund Group objects." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubFundGroup" p:parameterName="SUB_FUND_GROUP" />
+    <property name="label" value="Sub-Fund Group"/>
+    <property name="shortLabel" value="Sub-Fund Group"/>
+    <property name="summary" value="Sub-Fund Group maintenance document"/>
+    <property name="description" value="Document used to create or update Sub-Fund Group objects."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubFundGroup" p:parameterName="SUB_FUND_GROUP"/>
     </property>
-    <property name="documentTypeName" value="SFGR" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="SFGR"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="SubFundGroupMaintenanceDocument-workflowAttributes" />
+    	<ref bean="SubFundGroupMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="SubFundGroupMaintenanceDocument-EditSub-FundGroup" parent="SubFundGroupMaintenanceDocument-EditSub-FundGroup-parentBean" />
+  <bean id="SubFundGroupMaintenanceDocument-EditSub-FundGroup" parent="SubFundGroupMaintenanceDocument-EditSub-FundGroup-parentBean"/>
 
   <bean id="SubFundGroupMaintenanceDocument-EditSub-FundGroup-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Sub-Fund Group" />
-    <property name="title" value="Edit Sub-Fund Group" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Sub-Fund Group"/>
+    <property name="title" value="Edit Sub-Fund Group"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subFundGroupCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subFundGroupDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="fundGroupCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subFundGroupTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="accountRestrictedStatusCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialReportingSortCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subFundGroupWagesIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="fundGroupBudgetAdjustmentRestrictionLevelCode"
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="subFundGroupCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subFundGroupDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fundGroupCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subFundGroupTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountRestrictedStatusCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialReportingSortCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subFundGroupWagesIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fundGroupBudgetAdjustmentRestrictionLevelCode" p:required="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="SubFundGroupMaintenanceDocument-workflowAttributes" parent="SubFundGroupMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="SubFundGroupMaintenanceDocument-workflowAttributes" parent="SubFundGroupMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="SubFundGroupMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="SubFundGroupMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

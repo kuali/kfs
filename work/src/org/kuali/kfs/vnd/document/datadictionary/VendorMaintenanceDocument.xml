@@ -1,49 +1,42 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="VendorMaintenanceDocument" parent="VendorMaintenanceDocument-parentBean" />
+  <bean id="VendorMaintenanceDocument" parent="VendorMaintenanceDocument-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDetail" />
-    <property name="maintainableClass" value="org.kuali.kfs.vnd.document.VendorMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDetail"/>
+    <property name="maintainableClass" value="org.kuali.kfs.vnd.document.VendorMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="VendorMaintenanceDocument-Vendor" />
-        <ref bean="VendorMaintenanceDocument-Address" />
-        <ref bean="VendorMaintenanceDocument-Contact" />
-        <ref bean="VendorMaintenanceDocument-SupplierDiversity" />
-        <ref bean="VendorMaintenanceDocument-ShippingSpecialConditions" />
-        <ref bean="VendorMaintenanceDocument-VendorCommodityCodes" />
-        <ref bean="VendorMaintenanceDocument-SearchAlias" />
-        <ref bean="VendorMaintenanceDocument-VendorPhoneNumber" />
-        <ref bean="VendorMaintenanceDocument-CustomerNumber" />
-        <ref bean="VendorMaintenanceDocument-Contracts" />
+        <ref bean="VendorMaintenanceDocument-Vendor"/>
+        <ref bean="VendorMaintenanceDocument-Address"/>
+        <ref bean="VendorMaintenanceDocument-Contact"/>
+        <ref bean="VendorMaintenanceDocument-SupplierDiversity"/>
+        <ref bean="VendorMaintenanceDocument-ShippingSpecialConditions"/>
+        <ref bean="VendorMaintenanceDocument-VendorCommodityCodes"/>
+        <ref bean="VendorMaintenanceDocument-SearchAlias"/>
+        <ref bean="VendorMaintenanceDocument-VendorPhoneNumber"/>
+        <ref bean="VendorMaintenanceDocument-CustomerNumber"/>
+        <ref bean="VendorMaintenanceDocument-Contracts"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>vendorHeaderGeneratedIdentifier</value>
         <value>vendorDetailAssignedIdentifier</value>
       </list>
     </property>
-    <property name="label" value="Vendor" />
-    <property name="shortLabel" value="Vendor" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.VendorDetail" p:parameterName="VENDOR" />
+    <property name="label" value="Vendor"/>
+    <property name="shortLabel" value="Vendor"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.VendorDetail" p:parameterName="VENDOR"/>
     </property>
-    <property name="documentTypeName" value="PVEN" />
-    <property name="businessRulesClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentAuthorizer" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentPresentationController" />
-    <property name="preRulesCheckClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorPreRules" />
+    <property name="documentTypeName" value="PVEN"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentPresentationController"/>
+    <property name="preRulesCheckClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorPreRules"/>
     <property name="workflowAttributes">
-    	<ref bean="VendorMaintenanceDocument-workflowAttributes" />
+    	<ref bean="VendorMaintenanceDocument-workflowAttributes"/>
     </property>
     
   </bean>
@@ -51,225 +44,128 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="VendorMaintenanceDocument-Vendor" parent="VendorMaintenanceDocument-Vendor-parentBean" />
+  <bean id="VendorMaintenanceDocument-Vendor" parent="VendorMaintenanceDocument-Vendor-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-Vendor-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Vendor" />
-    <property name="title" value="Vendor" />
-    <property name="maintainableItems" >
+    <property name="id" value="Vendor"/>
+    <property name="title" value="Vendor"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="General Information" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeaderGeneratedIdentifier"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorDetailAssignedIdentifier"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorParentIndicator"
-              p:defaultValue="true" />              
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorLastName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorFirstName" />
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="Corporate Information" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorForeignIndicator"
-              p:defaultValue="No"
-              p:required="true" />
+        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="General Information"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorNumber" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorParentIndicator" p:defaultValue="true"/>              
+        <bean parent="MaintainableFieldDefinition" p:name="vendorName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorLastName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorFirstName"/>
+        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Corporate Information"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorForeignIndicator" p:defaultValue="No" p:required="true"/>
         <bean parent="MaintainableFieldDefinition">
-          <property name="name" value="vendorHeader.vendorTaxNumber" />
-          <property name="displayMask" >
+          <property name="name" value="vendorHeader.vendorTaxNumber"/>
+          <property name="displayMask">
             <bean parent="Mask">
-              <property name="maskFormatter" >
-                <bean parent="MaskFormatterLiteral"
-                      p:literal="*********" />
+              <property name="maskFormatter">
+                <bean parent="MaskFormatterLiteral" p:literal="*********"/>
               </property>
             </bean>
           </property>
-          <property name="displayEditMode" value="taxEntry" />
+          <property name="displayEditMode" value="taxEntry"/>
         </bean>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorTaxTypeCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorOwnershipCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorOwnershipCategoryCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorW9ReceivedIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorW8BenReceivedIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorFederalWithholdingTaxEndDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.vendorDebarredIndicator" />
-        <bean parent="MaintainableSubSectionHeaderDefinition"
-              p:name="Detail Information" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorPaymentTermsCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorPrepaymentIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorCreditCardIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="taxableIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorMinimumOrderAmount" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorShippingTitleCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorShippingPaymentTermsCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorDunsNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorUrlAddress" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorConfirmationIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorSoldToGeneratedIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorSoldToAssignedIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorSoldToNumber"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorSoldToName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorRestrictedIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorRestrictedDate"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorRestrictedPersonIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorRestrictedPerson.name"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorRestrictedPerson.principalName"
-              p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorRestrictedReasonText" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorRemitName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="activeIndicator"
-              p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorInactiveReasonCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorFirstLastNameIndicator" />
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorTaxTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorOwnershipCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorOwnershipCategoryCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorW9ReceivedIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorW8BenReceivedIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorFederalWithholdingTaxBeginningDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorFederalWithholdingTaxEndDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorDebarredIndicator"/>
+        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Detail Information"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorPaymentTermsCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorPrepaymentIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorCreditCardIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="taxableIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorMinimumOrderAmount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorShippingTitleCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorShippingPaymentTermsCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorDunsNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorUrlAddress"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorConfirmationIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorSoldToGeneratedIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorSoldToAssignedIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorSoldToNumber" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorSoldToName" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorRestrictedIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorRestrictedDate" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorRestrictedPersonIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorRestrictedPerson.name" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorRestrictedPerson.principalName" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorRestrictedReasonText"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorRemitName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="activeIndicator" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorInactiveReasonCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorFirstLastNameIndicator"/>
       </list>
     </property>
   </bean>
-  <bean id="VendorMaintenanceDocument-Address" parent="VendorMaintenanceDocument-Address-parentBean" />
+  <bean id="VendorMaintenanceDocument-Address" parent="VendorMaintenanceDocument-Address-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-Address-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Address" />
-    <property name="title" value="Address" />
-    <property name="maintainableItems" >
+    <property name="id" value="Address"/>
+    <property name="title" value="Address"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="vendorAddresses" />
-          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAddress" />
-          <property name="summaryTitle" value="Address" />
-          <property name="summaryFields" >
+          <property name="name" value="vendorAddresses"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAddress"/>
+          <property name="summaryTitle" value="Address"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAddressTypeCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCityName" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAddressTypeCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCityName"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAddressGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAddressTypeCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorLine1Address"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorLine2Address" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCityName"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorStateCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorZipCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAddressInternationalProvinceName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCountryCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAttentionName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorBusinessToBusinessUrlAddress" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorFaxNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAddressEmailAddress" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDefaultAddressIndicator" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetailAssignedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAddressGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAddressTypeCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorLine1Address" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorLine2Address"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCityName" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorStateCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorZipCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAddressInternationalProvinceName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCountryCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAttentionName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorBusinessToBusinessUrlAddress"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorFaxNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAddressEmailAddress"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDefaultAddressIndicator"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
-          <property name="maintainableCollections" >
+          <property name="maintainableCollections">
             <list>
               <bean parent="MaintainableCollectionDefinition">
-                <property name="name" value="vendorDefaultAddresses" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDefaultAddress" />
-                <property name="summaryTitle" value="Default Address" />
-                <property name="summaryFields" >
+                <property name="name" value="vendorDefaultAddresses"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDefaultAddress"/>
+                <property name="summaryTitle" value="Default Address"/>
+                <property name="summaryFields">
                   <list>
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorCampusCode" />
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorCampusCode"/>
                   </list>
                 </property>
-                <property name="maintainableFields" >
+                <property name="maintainableFields">
                   <list>
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorCampusCode"
-                          p:required="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorAddressGeneratedIdentifier"
-                          p:unconditionallyReadOnly="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorDefaultAddressGeneratedIdentifier"
-                          p:unconditionallyReadOnly="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="newCollectionRecord" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="active"
-                          p:defaultValue="true" />
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorCampusCode" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorAddressGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorDefaultAddressGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
                   </list>
                 </property>
               </bean>
@@ -279,104 +175,65 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorMaintenanceDocument-Contact" parent="VendorMaintenanceDocument-Contact-parentBean" />
+  <bean id="VendorMaintenanceDocument-Contact" parent="VendorMaintenanceDocument-Contact-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-Contact-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Contact" />
-    <property name="title" value="Contact" />
-    <property name="maintainableItems" >
+    <property name="id" value="Contact"/>
+    <property name="title" value="Contact"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="vendorContacts" />
-          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContact" />
-          <property name="summaryTitle" value="Contact" />
-          <property name="summaryFields" >
+          <property name="name" value="vendorContacts"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContact"/>
+          <property name="summaryTitle" value="Contact"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContactTypeCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContactName" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContactTypeCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContactName"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContactTypeCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContactName"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContactEmailAddress" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorLine1Address" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorLine2Address" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCityName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorStateCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorZipCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAddressInternationalProvinceName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCountryCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAttentionName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContactCommentText" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContactGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetailAssignedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContactTypeCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContactName" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContactEmailAddress"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorLine1Address"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorLine2Address"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCityName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorStateCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorZipCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAddressInternationalProvinceName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCountryCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAttentionName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContactCommentText"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContactGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
-          <property name="maintainableCollections" >
+          <property name="maintainableCollections">
             <list>
               <bean parent="MaintainableCollectionDefinition">
-                <property name="name" value="vendorContactPhoneNumbers" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber" />
-                <property name="summaryTitle" value="Phone Number" />
-                <property name="summaryFields" >
+                <property name="name" value="vendorContactPhoneNumbers"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber"/>
+                <property name="summaryTitle" value="Phone Number"/>
+                <property name="summaryFields">
                   <list>
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorPhoneTypeCode" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorPhoneNumber" />
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneTypeCode"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneNumber"/>
                   </list>
                 </property>
-                <property name="maintainableFields" >
+                <property name="maintainableFields">
                   <list>
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorPhoneTypeCode"
-                          p:required="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorPhoneNumber"
-                          p:required="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorPhoneExtensionNumber" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="newCollectionRecord" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorContactGeneratedIdentifier"
-                          p:unconditionallyReadOnly="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorContactPhoneGeneratedIdentifier"
-                          p:unconditionallyReadOnly="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="active"
-                          p:defaultValue="true" />
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneTypeCode" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneNumber" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneExtensionNumber"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorContactGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorContactPhoneGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
                   </list>
                 </property>
               </bean>
@@ -386,358 +243,246 @@
       </list>
     </property>
   </bean>
-  <bean id="VendorMaintenanceDocument-SupplierDiversity" parent="VendorMaintenanceDocument-SupplierDiversity-parentBean" />
+  <bean id="VendorMaintenanceDocument-SupplierDiversity" parent="VendorMaintenanceDocument-SupplierDiversity-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-SupplierDiversity-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="vendorSupplierDiversities" />
-    <property name="title" value="Supplier Diversity" />
-    <property name="maintainableItems" >
+    <property name="id" value="vendorSupplierDiversities"/>
+    <property name="title" value="Supplier Diversity"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="vendorHeader.vendorSupplierDiversities" />
-          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity" />
-          <property name="summaryTitle" value="Supplier Diversity" />
-          <property name="summaryFields" >
+          <property name="name" value="vendorHeader.vendorSupplierDiversities"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity"/>
+          <property name="summaryTitle" value="Supplier Diversity"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorSupplierDiversityCode" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorSupplierDiversityCode"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorSupplierDiversityCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorSupplierDiversityCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="VendorMaintenanceDocument-ShippingSpecialConditions" parent="VendorMaintenanceDocument-ShippingSpecialConditions-parentBean" />
+  <bean id="VendorMaintenanceDocument-ShippingSpecialConditions" parent="VendorMaintenanceDocument-ShippingSpecialConditions-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-ShippingSpecialConditions-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="vendorShippingSpecialConditions" />
-    <property name="title" value="Shipping Special Conditions" />
-    <property name="maintainableItems" >
+    <property name="id" value="vendorShippingSpecialConditions"/>
+    <property name="title" value="Shipping Special Conditions"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="vendorShippingSpecialConditions" />
-          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition" />
-          <property name="summaryTitle" value="Shipping Special Condition" />
-          <property name="summaryFields" >
+          <property name="name" value="vendorShippingSpecialConditions"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition"/>
+          <property name="summaryTitle" value="Shipping Special Condition"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorShippingSpecialConditionCode" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorShippingSpecialConditionCode"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorShippingSpecialConditionCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetailAssignedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorShippingSpecialConditionCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="VendorMaintenanceDocument-VendorCommodityCodes" parent="VendorMaintenanceDocument-VendorCommodityCodes-parentBean" />
+  <bean id="VendorMaintenanceDocument-VendorCommodityCodes" parent="VendorMaintenanceDocument-VendorCommodityCodes-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-VendorCommodityCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="vendorCommodities" />
-    <property name="title" value="Vendor Commodity Codes" />
-    <property name="maintainableItems" >
+    <property name="id" value="vendorCommodities"/>
+    <property name="title" value="Vendor Commodity Codes"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="vendorCommodities" />
-          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCommodityCode" />
-          <property name="summaryTitle" value="Vendor Commodity Code" />
-          <property name="summaryFields" >
+          <property name="name" value="vendorCommodities"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCommodityCode"/>
+          <property name="summaryTitle" value="Vendor Commodity Code"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="purchasingCommodityCode" />
+              <bean parent="MaintainableFieldDefinition" p:name="purchasingCommodityCode"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="purchasingCommodityCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetailAssignedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="commodityDefaultIndicator"
-                    p:defaultValue="false" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="purchasingCommodityCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="commodityDefaultIndicator" p:defaultValue="false"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
           <property name="duplicateIdentificationFields">
           	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="purchasingCommodityCode" />
+          		<bean parent="MaintainableFieldDefinition" p:name="purchasingCommodityCode"/>
           	</list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="VendorMaintenanceDocument-SearchAlias" parent="VendorMaintenanceDocument-SearchAlias-parentBean" />
+  <bean id="VendorMaintenanceDocument-SearchAlias" parent="VendorMaintenanceDocument-SearchAlias-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-SearchAlias-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="vendorAliases" />
-    <property name="title" value="Search Alias" />
-    <property name="maintainableItems" >
+    <property name="id" value="vendorAliases"/>
+    <property name="title" value="Search Alias"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="vendorAliases" />
-          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAlias" />
-          <property name="summaryFields" >
+          <property name="name" value="vendorAliases"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAlias"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAliasName" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAliasName"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorAliasName"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorAliasName" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="VendorMaintenanceDocument-VendorPhoneNumber" parent="VendorMaintenanceDocument-VendorPhoneNumber-parentBean" />
+  <bean id="VendorMaintenanceDocument-VendorPhoneNumber" parent="VendorMaintenanceDocument-VendorPhoneNumber-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-VendorPhoneNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="vendorPhoneNumbers" />
-    <property name="title" value="Vendor Phone Number" />
-    <property name="maintainableItems" >
+    <property name="id" value="vendorPhoneNumbers"/>
+    <property name="title" value="Vendor Phone Number"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="vendorPhoneNumbers" />
-          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber" />
-          <property name="summaryFields" >
+          <property name="name" value="vendorPhoneNumbers"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorPhoneTypeCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorPhoneNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneTypeCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneNumber"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorPhoneTypeCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorPhoneNumber"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorPhoneExtensionNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetailAssignedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorPhoneGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneTypeCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneNumber" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneExtensionNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorPhoneGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="VendorMaintenanceDocument-CustomerNumber" parent="VendorMaintenanceDocument-CustomerNumber-parentBean" />
+  <bean id="VendorMaintenanceDocument-CustomerNumber" parent="VendorMaintenanceDocument-CustomerNumber-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-CustomerNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="vendorCustomerNumbers" />
-    <property name="title" value="Customer Number" />
-    <property name="maintainableItems" >
+    <property name="id" value="vendorCustomerNumbers"/>
+    <property name="title" value="Customer Number"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="vendorCustomerNumbers" />
-          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCustomerNumber" />
-          <property name="summaryFields" >
+          <property name="name" value="vendorCustomerNumbers"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCustomerNumber"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCustomerNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCustomerNumber"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCustomerNumber"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="chartOfAccountsCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorOrganizationCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCustomerNumberGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetailAssignedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCustomerNumber" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorOrganizationCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCustomerNumberGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-  <bean id="VendorMaintenanceDocument-Contracts" parent="VendorMaintenanceDocument-Contracts-parentBean" />
+  <bean id="VendorMaintenanceDocument-Contracts" parent="VendorMaintenanceDocument-Contracts-parentBean"/>
 
   <bean id="VendorMaintenanceDocument-Contracts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="vendorContracts" />
-    <property name="title" value="Contracts" />
-    <property name="maintainableItems" >
+    <property name="id" value="vendorContracts"/>
+    <property name="title" value="Contracts"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="vendorContracts" />
-          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContract" />
-          <property name="summaryTitle" value="Contract" />
-          <property name="summaryFields" >
+          <property name="name" value="vendorContracts"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContract"/>
+          <property name="summaryTitle" value="Contract"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCampusCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContractName" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCampusCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContractName"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContractName"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContractDescription"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorCampusCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContractBeginningDate"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContractEndDate"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="contractManagerCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="purchaseOrderCostSourceCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorB2bIndicator"
-                    p:required="true" 
-                    p:defaultValue="false" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorPaymentTermsCode"
-                    p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorShippingPaymentTermsCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorShippingTitleCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContractExtensionDate" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="organizationAutomaticPurchaseOrderLimit" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorContractGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorHeaderGeneratedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetailAssignedIdentifier"
-                    p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="active"
-                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContractName" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContractDescription" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorCampusCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContractBeginningDate" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContractEndDate" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="contractManagerCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderCostSourceCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorB2bIndicator" p:required="true" p:defaultValue="false"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorPaymentTermsCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorShippingPaymentTermsCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorShippingTitleCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContractExtensionDate"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationAutomaticPurchaseOrderLimit"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContractGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
-          <property name="maintainableCollections" >
+          <property name="maintainableCollections">
             <list>
               <bean parent="MaintainableCollectionDefinition">
-                <property name="name" value="vendorContractOrganizations" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContractOrganization" />
-                <property name="summaryTitle" value="Contract Organization" />
-                <property name="summaryFields" >
+                <property name="name" value="vendorContractOrganizations"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContractOrganization"/>
+                <property name="summaryTitle" value="Contract Organization"/>
+                <property name="summaryFields">
                   <list>
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="chartOfAccountsCode" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="organizationCode" />
+                    <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="organizationCode"/>
                   </list>
                 </property>
-                <property name="maintainableFields" >
+                <property name="maintainableFields">
                   <list>
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="chartOfAccountsCode"
-                          p:required="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="organizationCode"
-                          p:required="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorContractPurchaseOrderLimitAmount" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorContractExcludeIndicator" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="vendorContractGeneratedIdentifier"
-                          p:unconditionallyReadOnly="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="newCollectionRecord" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="active"
-                          p:defaultValue="true" />
+                    <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorContractPurchaseOrderLimitAmount"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorContractExcludeIndicator"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="vendorContractGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
                   </list>
                 </property>
               </bean>
@@ -749,16 +494,15 @@
   </bean>
 
     <!-- workflow attributes for routing -->
-    <bean id="VendorMaintenanceDocument-workflowAttributes" parent="VendorMaintenanceDocument-workflowAttributes-parentBean" />
+    <bean id="VendorMaintenanceDocument-workflowAttributes" parent="VendorMaintenanceDocument-workflowAttributes-parentBean"/>
 
     <bean id="VendorMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="routingTypeDefinitions">
     		<map>
-    		    <entry key="Management" value-ref="RoutingType-VendorMaintenanceDocument-Management" />
+    		    <entry key="Management" value-ref="RoutingType-VendorMaintenanceDocument-Management"/>
     			<!-- no qualifiers for Initiators -->
     		</map>
     	</property>
 	</bean>
     	  	  
 </beans>
-

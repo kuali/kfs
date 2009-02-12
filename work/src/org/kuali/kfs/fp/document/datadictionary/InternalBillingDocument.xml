@@ -1,53 +1,45 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="InternalBillingDocument" parent="InternalBillingDocument-parentBean" />
+  <bean id="InternalBillingDocument" parent="InternalBillingDocument-parentBean"/>
 
   <bean id="InternalBillingDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="allowsErrorCorrection" value="true" />
-    <property name="label" value="Internal Billing" />
-    <property name="shortLabel" value="Internal Billing" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The Internal Billing (IB) document is used for the billing of goods or services provided by a university department to another university department, reflecting income to the provider and expense to the customer." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.InternalBillingDocument" p:parameterName="INTERNAL_BILLING" />
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="label" value="Internal Billing"/>
+    <property name="shortLabel" value="Internal Billing"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="The Internal Billing (IB) document is used for the billing of goods or services provided by a university department to another university department, reflecting income to the provider and expense to the customer."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.InternalBillingDocument" p:parameterName="INTERNAL_BILLING"/>
     </property>
-    <property name="documentTypeName" value="IB" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.InternalBillingDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    <property name="sessionDocument" value="true" />
-    <property name="allowsCopy" value="true" />
-    <property name="workflowAttributes" >
-      <ref bean="InternalBillingDocument-workflowAttributes" />
+    <property name="documentTypeName" value="IB"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.InternalBillingDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
+    <property name="workflowAttributes">
+      <ref bean="InternalBillingDocument-workflowAttributes"/>
     </property>
 
-    <property name="validationMap" ref="InternalBillingDocument-validations" />
+    <property name="validationMap" ref="InternalBillingDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="InternalBilling-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="InternalBilling-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
 	    	<entry>
 	    		<key><value>target</value></key>
-	    		<ref bean="InternalBilling-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="InternalBilling-targetAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
   </bean>
   
   <!-- Validations -->
   
-  <bean id="InternalBillingDocument-validations" parent="InternalBillingDocument-validations-parentBean" />
+  <bean id="InternalBillingDocument-validations" parent="InternalBillingDocument-validations-parentBean"/>
   
   <bean id="InternalBillingDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -85,44 +77,44 @@
   </bean>
   
   <!-- accounting line groups -->
-  <bean id="InternalBilling-sourceAccountingLineGroup" parent="InternalBilling-sourceAccountingLineGroup-parentBean" />
+  <bean id="InternalBilling-sourceAccountingLineGroup" parent="InternalBilling-sourceAccountingLineGroup-parentBean"/>
   
   <bean id="InternalBilling-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="Income" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value="Income"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
 	</bean>
 	
-	<bean id="InternalBilling-targetAccountingLineGroup" parent="InternalBilling-targetAccountingLineGroup-parentBean" />
+	<bean id="InternalBilling-targetAccountingLineGroup" parent="InternalBilling-targetAccountingLineGroup-parentBean"/>
 	
 	<bean id="InternalBilling-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
-	  <property name="groupLabel" value="Expense" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="target" />
-	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
-	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine"/>
+	  <property name="groupLabel" value="Expense"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="target"/>
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals"/>
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
 	</bean>
 	
-	<bean id="InternalBillingDocument-workflowAttributes" parent="InternalBillingDocument-workflowAttributes-parentBean" />
+	<bean id="InternalBillingDocument-workflowAttributes" parent="InternalBillingDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="InternalBillingDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account" />
-    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy" />
-    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly" />
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly"/>
     		</map>
     	</property>
 	</bean>	

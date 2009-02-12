@@ -1,92 +1,84 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BarcodeInventoryErrorDocument" parent="BarcodeInventoryErrorDocument-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument" parent="BarcodeInventoryErrorDocument-parentBean"/>
 
   <bean id="BarcodeInventoryErrorDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Barcode Inventory Error" />
-    <property name="shortLabel" value="Barcode Inventory Error" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Barcode Inventory Error Document" />
-    <property name="documentTypeName" value="BCIE" />
+    <property name="label" value="Barcode Inventory Error"/>
+    <property name="shortLabel" value="Barcode Inventory Error"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="Barcode Inventory Error Document"/>
+    <property name="documentTypeName" value="BCIE"/>
     
-    <property name="documentClass" value="org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule" />
+    <property name="documentClass" value="org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentAuthorizer"/>
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentPresentationController" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentPresentationController"/>
     
-    <property name="workflowAttributes" >
-      <ref bean="BarcodeInventoryErrorDocument-workflowAttributes" />
+    <property name="workflowAttributes">
+      <ref bean="BarcodeInventoryErrorDocument-workflowAttributes"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="BarcodeInventoryErrorDocument-documentNumber" />
-        <ref bean="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier" />
-        <ref bean="BarcodeInventoryErrorDocument-currentTagNumber" />
-		<ref bean="BarcodeInventoryErrorDocument-currentScanCode" />
-		<ref bean="BarcodeInventoryErrorDocument-currentCampusCode" />
-		<ref bean="BarcodeInventoryErrorDocument-currentBuildingNumber" />
-		<ref bean="BarcodeInventoryErrorDocument-currentRoom" />
-		<ref bean="BarcodeInventoryErrorDocument-currentSubroom" />
-		<ref bean="BarcodeInventoryErrorDocument-currentConditionCode" />		
-        <ref bean="BarcodeInventoryErrorDocument-newTagNumber" />
-		<ref bean="BarcodeInventoryErrorDocument-newScanCode" />
-		<ref bean="BarcodeInventoryErrorDocument-newCampusCode" />
-		<ref bean="BarcodeInventoryErrorDocument-newBuildingNumber" />
-		<ref bean="BarcodeInventoryErrorDocument-newRoom" />
-		<ref bean="BarcodeInventoryErrorDocument-newSubroom" />
-		<ref bean="BarcodeInventoryErrorDocument-newConditionCode" />		        
+        <ref bean="BarcodeInventoryErrorDocument-documentNumber"/>
+        <ref bean="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier"/>
+        <ref bean="BarcodeInventoryErrorDocument-currentTagNumber"/>
+		<ref bean="BarcodeInventoryErrorDocument-currentScanCode"/>
+		<ref bean="BarcodeInventoryErrorDocument-currentCampusCode"/>
+		<ref bean="BarcodeInventoryErrorDocument-currentBuildingNumber"/>
+		<ref bean="BarcodeInventoryErrorDocument-currentRoom"/>
+		<ref bean="BarcodeInventoryErrorDocument-currentSubroom"/>
+		<ref bean="BarcodeInventoryErrorDocument-currentConditionCode"/>		
+        <ref bean="BarcodeInventoryErrorDocument-newTagNumber"/>
+		<ref bean="BarcodeInventoryErrorDocument-newScanCode"/>
+		<ref bean="BarcodeInventoryErrorDocument-newCampusCode"/>
+		<ref bean="BarcodeInventoryErrorDocument-newBuildingNumber"/>
+		<ref bean="BarcodeInventoryErrorDocument-newRoom"/>
+		<ref bean="BarcodeInventoryErrorDocument-newSubroom"/>
+		<ref bean="BarcodeInventoryErrorDocument-newConditionCode"/>		        
       </list>
     </property>
   </bean>
  
  <!-- Attribute Definitions -->
-  <bean id="BarcodeInventoryErrorDocument-documentNumber" parent="BarcodeInventoryErrorDocument-documentNumber-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-documentNumber" parent="BarcodeInventoryErrorDocument-documentNumber-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Number"/>
   </bean>
   
-  <bean id="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier" parent="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier" parent="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-uploaderUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="uploaderUniversalIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Uploader Universal Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="uploaderUniversalIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Uploader Universal Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
     
-  <bean id="BarcodeInventoryErrorDocument-currentTagNumber" parent="BarcodeInventoryErrorDocument-currentTagNumber-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-currentTagNumber" parent="BarcodeInventoryErrorDocument-currentTagNumber-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-currentTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
-    <property name="name" value="currentTagNumber" />
-    <property name="required" value="false" />    
+    <property name="name" value="currentTagNumber"/>
+    <property name="required" value="false"/>    
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-currentScanCode" parent="BarcodeInventoryErrorDocument-currentScanCode-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-currentScanCode" parent="BarcodeInventoryErrorDocument-currentScanCode-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-currentScanCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="currentScanCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="required" value="false" />    
-    <property name="label" value="Scan Code" />
-    <property name="shortLabel" value="Scan Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="CharsetValidationPattern"
-            p:validChars="YN " />
+    <property name="name" value="currentScanCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="required" value="false"/>    
+    <property name="label" value="Scan Code"/>
+    <property name="shortLabel" value="Scan Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="CharsetValidationPattern" p:validChars="YN "/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.YesNoValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.YesNoValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     <!-- property name="control" >
@@ -96,91 +88,90 @@
     
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-currentCampusCode" parent="BarcodeInventoryErrorDocument-currentCampusCode-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-currentCampusCode" parent="BarcodeInventoryErrorDocument-currentCampusCode-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-currentCampusCode-parentBean" abstract="true" parent="Campus-campusCode">
-    <property name="name" value="currentCampusCode" />
-    <property name="required" value="false" />    
+    <property name="name" value="currentCampusCode"/>
+    <property name="required" value="false"/>    
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-currentBuildingNumber" parent="BarcodeInventoryErrorDocument-currentBuildingNumber-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-currentBuildingNumber" parent="BarcodeInventoryErrorDocument-currentBuildingNumber-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-currentBuildingNumber-parentBean" abstract="true" parent="Room-buildingCode">
-  	<property name="name" value="currentBuildingNumber" />
-    <property name="required" value="false" />  	
+  	<property name="name" value="currentBuildingNumber"/>
+    <property name="required" value="false"/>  	
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-currentRoom" parent="BarcodeInventoryErrorDocument-currentRoom-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-currentRoom" parent="BarcodeInventoryErrorDocument-currentRoom-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-currentRoom-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-  	<property name="name" value="currentRoom" />
-    <property name="required" value="false" />  	  
+  	<property name="name" value="currentRoom"/>
+    <property name="required" value="false"/>  	  
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-currentSubroom" parent="BarcodeInventoryErrorDocument-currentSubroom-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-currentSubroom" parent="BarcodeInventoryErrorDocument-currentSubroom-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-currentSubroom-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-  	<property name="name" value="currentSubroom" />
-    <property name="required" value="false" />  	  
+  	<property name="name" value="currentSubroom"/>
+    <property name="required" value="false"/>  	  
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-currentConditionCode" parent="BarcodeInventoryErrorDocument-currentConditionCode-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-currentConditionCode" parent="BarcodeInventoryErrorDocument-currentConditionCode-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-currentConditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
-    <property name="name" value="currentConditionCode" />
-    <property name="required" value="false" />    
+    <property name="name" value="currentConditionCode"/>
+    <property name="required" value="false"/>    
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-newTagNumber" parent="BarcodeInventoryErrorDocument-newTagNumber-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-newTagNumber" parent="BarcodeInventoryErrorDocument-newTagNumber-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
-    <property name="name" value="newTagNumber" />
-    <property name="required" value="false" />    
+    <property name="name" value="newTagNumber"/>
+    <property name="required" value="false"/>    
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-newScanCode" parent="BarcodeInventoryErrorDocument-newScanCode-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-newScanCode" parent="BarcodeInventoryErrorDocument-newScanCode-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newScanCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="newScanCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Scan Code" />
-    <property name="shortLabel" value="Scan Code" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="false" />    
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="newScanCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Scan Code"/>
+    <property name="shortLabel" value="Scan Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>    
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
 		
-  <bean id="BarcodeInventoryErrorDocument-newCampusCode" parent="BarcodeInventoryErrorDocument-newCampusCode-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-newCampusCode" parent="BarcodeInventoryErrorDocument-newCampusCode-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newCampusCode-parentBean" abstract="true" parent="Campus-campusCode">
-    <property name="name" value="newCampusCode" />
-    <property name="required" value="false" />    
+    <property name="name" value="newCampusCode"/>
+    <property name="required" value="false"/>    
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-newBuildingNumber" parent="BarcodeInventoryErrorDocument-newBuildingNumber-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-newBuildingNumber" parent="BarcodeInventoryErrorDocument-newBuildingNumber-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newBuildingNumber-parentBean" abstract="true" parent="Room-buildingCode">
-  	<property name="name" value="newBuildingNumber" />
-    <property name="required" value="false" />  	
+  	<property name="name" value="newBuildingNumber"/>
+    <property name="required" value="false"/>  	
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-newRoom" parent="BarcodeInventoryErrorDocument-newRoom-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-newRoom" parent="BarcodeInventoryErrorDocument-newRoom-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newRoom-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-  	<property name="name" value="newRoom" /> 
-    <property name="required" value="false" />  	 
+  	<property name="name" value="newRoom"/> 
+    <property name="required" value="false"/>  	 
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-newSubroom" parent="BarcodeInventoryErrorDocument-newSubroom-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-newSubroom" parent="BarcodeInventoryErrorDocument-newSubroom-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newSubroom-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-  	<property name="name" value="newSubroom" />
-    <property name="required" value="false" />  	  
+  	<property name="name" value="newSubroom"/>
+    <property name="required" value="false"/>  	  
   </bean>
 
-  <bean id="BarcodeInventoryErrorDocument-newConditionCode" parent="BarcodeInventoryErrorDocument-newConditionCode-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-newConditionCode" parent="BarcodeInventoryErrorDocument-newConditionCode-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newConditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
-    <property name="name" value="newConditionCode" />
-    <property name="required" value="false" />    
+    <property name="name" value="newConditionCode"/>
+    <property name="required" value="false"/>    
   </bean>
 
  <!-- workflow attributes -->
-  <bean id="BarcodeInventoryErrorDocument-workflowAttributes" parent="BarcodeInventoryErrorDocument-workflowAttributes-parentBean" />
+  <bean id="BarcodeInventoryErrorDocument-workflowAttributes" parent="BarcodeInventoryErrorDocument-workflowAttributes-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

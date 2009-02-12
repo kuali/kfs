@@ -1,59 +1,49 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CreditCardReceiptDocument" parent="CreditCardReceiptDocument-parentBean" />
+  <bean id="CreditCardReceiptDocument" parent="CreditCardReceiptDocument-parentBean"/>
 
   <bean id="CreditCardReceiptDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    <property name="label" value="Credit Card Receipt" />
-    <property name="shortLabel" value="Credit Card Receipt" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="A Credit Card Receipt document is used to record credit card receipts and distribute the monetary amount received for them, into the appropriate accounts in the financial system. Once submitted, a Credit Card Receipt routes straight to FINAL and is applied to the General Ledger, since it is a form of an advance deposit." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CreditCardReceiptDocument" p:parameterName="CREDIT_CARD_RECEIPT" />
+    <property name="label" value="Credit Card Receipt"/>
+    <property name="shortLabel" value="Credit Card Receipt"/>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="description" value="A Credit Card Receipt document is used to record credit card receipts and distribute the monetary amount received for them, into the appropriate accounts in the financial system. Once submitted, a Credit Card Receipt routes straight to FINAL and is applied to the General Ledger, since it is a form of an advance deposit."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CreditCardReceiptDocument" p:parameterName="CREDIT_CARD_RECEIPT"/>
     </property>
-    <property name="documentTypeName" value="CCR" />
-    <property name="documentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CreditCardReceiptDocumentAuthorizer" />
-    <property name="sessionDocument" value="true" />
+    <property name="documentTypeName" value="CCR"/>
+    <property name="documentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CreditCardReceiptDocumentAuthorizer"/>
+    <property name="sessionDocument" value="true"/>
     
-    <property name="allowsCopy" value="true" />
+    <property name="allowsCopy" value="true"/>
 	<property name="allowsErrorCorrection" value="false"/>
 
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="CreditCardReceiptDocument-totalCreditCardAmount" />
+        <ref bean="CreditCardReceiptDocument-totalCreditCardAmount"/>
       </list>
     </property>
-    <property name="validationMap" ref="CreditCardReceiptDocument-validations" />
+    <property name="validationMap" ref="CreditCardReceiptDocument-validations"/>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="CreditCardReceiptDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="CreditCardReceiptDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
     <property name="workflowAttributes">
-    	<ref bean="CreditCardReceiptDocument-workflowAttributes" />
+    	<ref bean="CreditCardReceiptDocument-workflowAttributes"/>
     </property>    
     
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialDocumentCreditCardVendor"
-              p:collection="creditCardReceipts"
-              p:attributeToHighlightOnFail="financialDocumentCreditCardVendor"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialDocumentCreditCardVendor" p:collection="creditCardReceipts" p:attributeToHighlightOnFail="financialDocumentCreditCardVendor"/>
     
     
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialDocumentCreditCardType"
-              p:collection="creditCardReceipts"
-              p:attributeToHighlightOnFail="financialDocumentCreditCardType"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialDocumentCreditCardType" p:collection="creditCardReceipts" p:attributeToHighlightOnFail="financialDocumentCreditCardType"/>
       </list>
     </property>
   </bean>
@@ -61,19 +51,19 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CreditCardReceiptDocument-totalCreditCardAmount" parent="CreditCardReceiptDocument-totalCreditCardAmount-parentBean" />
+  <bean id="CreditCardReceiptDocument-totalCreditCardAmount" parent="CreditCardReceiptDocument-totalCreditCardAmount-parentBean"/>
 
   <bean id="CreditCardReceiptDocument-totalCreditCardAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalCreditCardAmount" />
-    <property name="label" value="Credit Card Receipt Total" />
-    <property name="shortLabel" value="Credit Card Receipt Total" />
-    <property name="description" value="The sum of the entered credit card lines." />
+    <property name="name" value="totalCreditCardAmount"/>
+    <property name="label" value="Credit Card Receipt Total"/>
+    <property name="shortLabel" value="Credit Card Receipt Total"/>
+    <property name="description" value="The sum of the entered credit card lines."/>
   </bean>
   
     
     <!-- Validations -->
   
-  <bean id="CreditCardReceiptDocument-validations" parent="CreditCardReceiptDocument-validations-parentBean" />
+  <bean id="CreditCardReceiptDocument-validations" parent="CreditCardReceiptDocument-validations-parentBean"/>
   
   <bean id="CreditCardReceiptDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
@@ -103,51 +93,51 @@
   </bean>
   
   <!-- accounting line groups -->
-  <bean id="CreditCardReceiptDocument-sourceAccountingLineGroup" parent="CreditCardReceiptDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="CreditCardReceiptDocument-sourceAccountingLineGroup" parent="CreditCardReceiptDocument-sourceAccountingLineGroup-parentBean"/>  
   <bean id="CreditCardReceiptDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="CreditCardReceiptDocument-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	  <property name="accountingLineView" ref="CreditCardReceiptDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value=""/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
   </bean>
 	
-  <bean id="CreditCardReceiptDocument-accountingLineView" parent="CreditCardReceiptDocument-accountingLineView-parent" />
+  <bean id="CreditCardReceiptDocument-accountingLineView" parent="CreditCardReceiptDocument-accountingLineView-parent"/>
   <bean id="CreditCardReceiptDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 	  <property name="elements">
 		<list>
-			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-sequenceNumber"/>
 			<bean parent="AccountingLineView-lines">
 				<property name="lines">
 					<list>
-						<ref bean="accountingInformation" />
+						<ref bean="accountingInformation"/>
 						<bean parent="AccountingLineView-line">
-							<property name="elementName" value="lineDescription" />
+							<property name="elementName" value="lineDescription"/>
 							<property name="fields">
 								<list>
-									<bean parent="AccountingLineView-field"	p:name="financialDocumentLineDescription" p:overrideColSpan="2" />
+									<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
 								</list>
 							</property>
 						</bean>
 					</list>
 				</property>
 			</bean>
-			<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
-			<bean parent="AccountingLineView-actions" />
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-actions"/>
 		</list>
 	</property>
   </bean>
   
   <!-- workflow attributes -->
-	<bean id="CreditCardReceiptDocument-workflowAttributes" parent="CreditCardReceiptDocument-workflowAttributes-parentBean" />
+	<bean id="CreditCardReceiptDocument-workflowAttributes" parent="CreditCardReceiptDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="CreditCardReceiptDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 		<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
-    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
+    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly"/>
     		</list>
     	</property>
 	</bean>

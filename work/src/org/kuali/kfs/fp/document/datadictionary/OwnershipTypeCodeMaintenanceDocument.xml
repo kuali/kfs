@@ -1,68 +1,52 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="OwnershipTypeCodeMaintenanceDocument" parent="OwnershipTypeCodeMaintenanceDocument-parentBean" />
+  <bean id="OwnershipTypeCodeMaintenanceDocument" parent="OwnershipTypeCodeMaintenanceDocument-parentBean"/>
 
   <bean id="OwnershipTypeCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.OwnershipTypeCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.OwnershipTypeCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="OwnershipTypeCodeMaintenanceDocument-EditOwnershipTypeCode" />
+        <ref bean="OwnershipTypeCodeMaintenanceDocument-EditOwnershipTypeCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Voucher Ownership Type" />
-    <property name="shortLabel" value="Disbursement Voucher Ownership Type" />
-    <property name="summary" value="Ownership Type Code Maintenance Document" />
-    <property name="description" value="Document used to create or update Ownership Type objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="OWNERSHIP_TYPE"
-            p:parameterDetailType="OwnershipType" />
+    <property name="label" value="Disbursement Voucher Ownership Type"/>
+    <property name="shortLabel" value="Disbursement Voucher Ownership Type"/>
+    <property name="summary" value="Ownership Type Code Maintenance Document"/>
+    <property name="description" value="Document used to create or update Ownership Type objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterNamespace="KFS-VND" p:parameterName="OWNERSHIP_TYPE" p:parameterDetailType="OwnershipType"/>
     </property>
-    <property name="documentTypeName" value="DVOT" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="DVOT"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="OwnershipTypeCodeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="OwnershipTypeCodeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="OwnershipTypeCodeMaintenanceDocument-EditOwnershipTypeCode" parent="OwnershipTypeCodeMaintenanceDocument-EditOwnershipTypeCode-parentBean" />
+  <bean id="OwnershipTypeCodeMaintenanceDocument-EditOwnershipTypeCode" parent="OwnershipTypeCodeMaintenanceDocument-EditOwnershipTypeCode-parentBean"/>
 
   <bean id="OwnershipTypeCodeMaintenanceDocument-EditOwnershipTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Ownership Type Code" />
-    <property name="title" value="Edit Ownership Type Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Ownership Type Code"/>
+    <property name="title" value="Edit Ownership Type Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="name"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:defaultValue="true"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="OwnershipTypeCodeMaintenanceDocument-workflowAttributes" parent="OwnershipTypeCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="OwnershipTypeCodeMaintenanceDocument-workflowAttributes" parent="OwnershipTypeCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="OwnershipTypeCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="OwnershipTypeCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -1,93 +1,67 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="LaborObjectMaintenanceDocument" parent="LaborObjectMaintenanceDocument-parentBean" />
+  <bean id="LaborObjectMaintenanceDocument" parent="LaborObjectMaintenanceDocument-parentBean"/>
 
   <bean id="LaborObjectMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LaborObject" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LaborObject"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="LaborObjectMaintenanceDocument-EditLaborObject" />
+        <ref bean="LaborObjectMaintenanceDocument-EditLaborObject"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="chartOfAccounts"
-              p:attributeToHighlightOnFail="chartOfAccountsCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialObject"
-              p:attributeToHighlightOnFail="financialObjectCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="positionObjectGroup"
-              p:attributeToHighlightOnFail="positionObjectGroupCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialObject" p:attributeToHighlightOnFail="financialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="positionObjectGroup" p:attributeToHighlightOnFail="positionObjectGroupCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>universityFiscalYear</value>
         <value>chartOfAccountsCode</value>
         <value>financialObjectCode</value>
       </list>
     </property>
-    <property name="label" value="Labor Object Code" />
-    <property name="shortLabel" value="Labor Object Code" />
-    <property name="summary" value="Labor Object Code Maintenance Document" />
-    <property name="description" value="Document used to create or update Labor objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.LaborObject" p:parameterName="LABOR_OBJECT_BENEFITS" />
+    <property name="label" value="Labor Object Code"/>
+    <property name="shortLabel" value="Labor Object Code"/>
+    <property name="summary" value="Labor Object Code Maintenance Document"/>
+    <property name="description" value="Document used to create or update Labor objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.LaborObject" p:parameterName="LABOR_OBJECT_BENEFITS"/>
     </property>
-    <property name="documentTypeName" value="LOBJ" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="LOBJ"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="LaborObjectMaintenanceDocument-workflowAttributes" />
+    	<ref bean="LaborObjectMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="LaborObjectMaintenanceDocument-EditLaborObject" parent="LaborObjectMaintenanceDocument-EditLaborObject-parentBean" />
+  <bean id="LaborObjectMaintenanceDocument-EditLaborObject" parent="LaborObjectMaintenanceDocument-EditLaborObject-parentBean"/>
 
   <bean id="LaborObjectMaintenanceDocument-EditLaborObject-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Labor Object" />
-    <property name="title" value="Edit Labor Object" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Labor Object"/>
+    <property name="title" value="Edit Labor Object"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="chartOfAccountsCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="detailPositionRequiredIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectFringeOrSalaryCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectHoursRequiredIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="financialObjectPayTypeCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="positionObjectGroupCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:required="false" />
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="detailPositionRequiredIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectFringeOrSalaryCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectHoursRequiredIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectPayTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="positionObjectGroupCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="LaborObjectMaintenanceDocument-workflowAttributes" parent="LaborObjectMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="LaborObjectMaintenanceDocument-workflowAttributes" parent="LaborObjectMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="LaborObjectMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="LaborObjectMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -1,38 +1,34 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="PaymentApplicationDocument" parent="PaymentApplicationDocument-parentBean" />
+	<bean id="PaymentApplicationDocument" parent="PaymentApplicationDocument-parentBean"/>
 
 	<bean id="PaymentApplicationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-		<property name="label" value="Application" />
-		<property name="shortLabel" value="Application" />
-		<property name="documentTypeName" value="APP" />
-		<property name="documentClass" value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" />
-		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRule" />
+		<property name="label" value="Application"/>
+		<property name="shortLabel" value="Application"/>
+		<property name="documentTypeName" value="APP"/>
+		<property name="documentClass" value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument"/>
+		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRule"/>
 <!-- Uncommenting this line will move to the accounting line validation framework. To enable it comment out the line above and uncomment this line. -->
 <!-- 
 		<property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
  -->
-		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer" />
-		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentPresentationController" />
-		<property name="attributes" >
+		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer"/>
+		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentPresentationController"/>
+		<property name="attributes">
 			<list>
-				<ref bean="PaymentApplicationDocument-versionNumber" />
+				<ref bean="PaymentApplicationDocument-versionNumber"/>
 			</list>
 		</property>
-		<property name="validationMap" ref="PaymentApplicationDocument-validations" />
-    <property name="workflowAttributes" >
-      <ref bean="PaymentApplicationDocument-workflowAttributes" />
+		<property name="validationMap" ref="PaymentApplicationDocument-validations"/>
+    <property name="workflowAttributes">
+      <ref bean="PaymentApplicationDocument-workflowAttributes"/>
     </property>
 	</bean>
     
-	<bean id="PaymentApplicationDocument-versionNumber" parent="PaymentApplicationDocument-versionNumber-parentBean" />
-	<bean id="PaymentApplicationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
+	<bean id="PaymentApplicationDocument-versionNumber" parent="PaymentApplicationDocument-versionNumber-parentBean"/>
+	<bean id="PaymentApplicationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber"/>
 
-	<bean id="PaymentApplicationDocument-validations" parent="PaymentApplicationDocument-validations-parentBean" />
+	<bean id="PaymentApplicationDocument-validations" parent="PaymentApplicationDocument-validations-parentBean"/>
 	<bean id="PaymentApplicationDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
 	  <property name="sourceMap">
 		<map>			
@@ -82,14 +78,14 @@
    
 <!-- Start - Workflow Attribute Beans -->   
 
-    <bean id="PaymentApplicationDocument-workflowAttributes" parent="PaymentApplicationDocument-workflowAttributes-parentBean" />
+    <bean id="PaymentApplicationDocument-workflowAttributes" parent="PaymentApplicationDocument-workflowAttributes-parentBean"/>
 	<bean id="PaymentApplicationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber" />
-   				<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
-	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode" />
-   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode" />
+	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber"/>
+   				<ref bean="SearchingType-AccountsReceivableDocument-customerName"/>
+	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode"/>
+   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode"/>
 <!--
     			<ref bean="SearchingType-PaymentApplicationDocument-billingChartOfAccountsCode" />
     			<ref bean="SearchingType-PaymentApplicationDocument-billingOrganizationCode" />

@@ -1,65 +1,52 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="FederalFundedCodeMaintenanceDocument" parent="FederalFundedCodeMaintenanceDocument-parentBean" />
+  <bean id="FederalFundedCodeMaintenanceDocument" parent="FederalFundedCodeMaintenanceDocument-parentBean"/>
 
   <bean id="FederalFundedCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.FederalFundedCode" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.FederalFundedCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="FederalFundedCodeMaintenanceDocument-EditFederalFundedCode" />
+        <ref bean="FederalFundedCodeMaintenanceDocument-EditFederalFundedCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
     </property>
-    <property name="label" value="Federal Funded Code" />
-    <property name="shortLabel" value="Federal Funded Code" />
-    <property name="summary" value="Federal Funded Code Maintenance Document" />
-    <property name="description" value="Maintenance document which allows you to create new Federal Funded Codes, or modify existing Federal Funded Codes." />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.FederalFundedCode" p:parameterName="FEDERAL_FUNDED_CODE" />
+    <property name="label" value="Federal Funded Code"/>
+    <property name="shortLabel" value="Federal Funded Code"/>
+    <property name="summary" value="Federal Funded Code Maintenance Document"/>
+    <property name="description" value="Maintenance document which allows you to create new Federal Funded Codes, or modify existing Federal Funded Codes."/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.FederalFundedCode" p:parameterName="FEDERAL_FUNDED_CODE"/>
     </property>
-    <property name="documentTypeName" value="FFC" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="FFC"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="FederalFundedCodeMaintenanceDocument-workflowAttributes" />
+    	<ref bean="FederalFundedCodeMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="FederalFundedCodeMaintenanceDocument-EditFederalFundedCode" parent="FederalFundedCodeMaintenanceDocument-EditFederalFundedCode-parentBean" />
+  <bean id="FederalFundedCodeMaintenanceDocument-EditFederalFundedCode" parent="FederalFundedCodeMaintenanceDocument-EditFederalFundedCode-parentBean"/>
 
   <bean id="FederalFundedCodeMaintenanceDocument-EditFederalFundedCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Federal Funded Code" />
-    <property name="title" value="Edit Federal Funded Code" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Federal Funded Code"/>
+    <property name="title" value="Edit Federal Funded Code"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="name"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:defaultValue="true"
-              p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="FederalFundedCodeMaintenanceDocument-workflowAttributes" parent="FederalFundedCodeMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="FederalFundedCodeMaintenanceDocument-workflowAttributes" parent="FederalFundedCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
   <bean id="FederalFundedCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>

@@ -1,58 +1,43 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="BuildingMaintenanceDocument" parent="BuildingMaintenanceDocument-parentBean" />
+  <bean id="BuildingMaintenanceDocument" parent="BuildingMaintenanceDocument-parentBean"/>
 
   <bean id="BuildingMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.Building" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.Building"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="BuildingMaintenanceDocument-EditBuilding" />
+        <ref bean="BuildingMaintenanceDocument-EditBuilding"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="campus"
-              p:attributeToHighlightOnFail="campusCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="buildingAddressZip"
-              p:attributeToHighlightOnFail="buildingAddressZipCode" />
-         <bean parent="ReferenceDefinition"
-              p:attributeName="buildingAddressState"
-              p:attributeToHighlightOnFail="buildingAddressStateCode" />
-          <bean parent="ReferenceDefinition"
-              p:attributeName="buildingAddressCountry"
-              p:attributeToHighlightOnFail="buildingAddressCountryCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="campus" p:attributeToHighlightOnFail="campusCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="buildingAddressZip" p:attributeToHighlightOnFail="buildingAddressZipCode"/>
+         <bean parent="ReferenceDefinition" p:attributeName="buildingAddressState" p:attributeToHighlightOnFail="buildingAddressStateCode"/>
+          <bean parent="ReferenceDefinition" p:attributeName="buildingAddressCountry" p:attributeToHighlightOnFail="buildingAddressCountryCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>campusCode</value>
         <value>buildingCode</value>
       </list>
     </property>
-    <property name="label" value="Building" />
-    <property name="shortLabel" value="Building" />
-    <property name="summary" value="Building maintenance document" />
-    <property name="description" value="Document used to create or update Building objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.Building" p:parameterName="BUILDING" />
+    <property name="label" value="Building"/>
+    <property name="shortLabel" value="Building"/>
+    <property name="summary" value="Building maintenance document"/>
+    <property name="description" value="Document used to create or update Building objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.Building" p:parameterName="BUILDING"/>
     </property>
-    <property name="documentTypeName" value="BLDG" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="authorizations" >
+    <property name="documentTypeName" value="BLDG"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="authorizations">
       <list>
         <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
+          <property name="action" value="initiate"/>
+          <property name="authorizedGroups">
             <set>
               <value>SY_MAINTENANCE_USERS</value>
             </set>
@@ -61,50 +46,36 @@
       </list>
     </property>
     <property name="workflowAttributes">
-    	<ref bean="BuildingMaintenanceDocument-workflowAttributes" />
+    	<ref bean="BuildingMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="BuildingMaintenanceDocument-EditBuilding" parent="BuildingMaintenanceDocument-EditBuilding-parentBean" />
+  <bean id="BuildingMaintenanceDocument-EditBuilding" parent="BuildingMaintenanceDocument-EditBuilding-parentBean"/>
 
   <bean id="BuildingMaintenanceDocument-EditBuilding-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Building" />
-    <property name="title" value="Edit Building" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Building"/>
+    <property name="title" value="Edit Building"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="campusCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingStreetAddress" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingAddressCityName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingAddressStateCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingAddressZipCode" />
-         <bean parent="MaintainableFieldDefinition"
-              p:name="buildingAddressCountryCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="alternateBuildingCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active" 
-              p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingStreetAddress"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressCityName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressStateCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressZipCode"/>
+         <bean parent="MaintainableFieldDefinition" p:name="buildingAddressCountryCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="alternateBuildingCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="BuildingMaintenanceDocument-workflowAttributes" parent="BuildingMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="BuildingMaintenanceDocument-workflowAttributes" parent="BuildingMaintenanceDocument-workflowAttributes-parentBean"/>
   
   <bean id="BuildingMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
   </bean>

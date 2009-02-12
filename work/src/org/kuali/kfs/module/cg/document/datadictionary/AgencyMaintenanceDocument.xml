@@ -1,87 +1,63 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AgencyMaintenanceDocument" parent="AgencyMaintenanceDocument-parentBean" />
+  <bean id="AgencyMaintenanceDocument" parent="AgencyMaintenanceDocument-parentBean"/>
 
   <bean id="AgencyMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Agency" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Agency"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="AgencyMaintenanceDocument-EditAgency" />
+        <ref bean="AgencyMaintenanceDocument-EditAgency"/>
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
+    <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="agencyType"
-              p:attributeToHighlightOnFail="agencyTypeCode" />
+        <bean parent="ReferenceDefinition" p:attributeName="agencyType" p:attributeToHighlightOnFail="agencyTypeCode"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>agencyNumber</value>
       </list>
     </property>
-    <property name="label" value="Agency" />
-    <property name="shortLabel" value="Agency" />
-    <property name="summary" value="Agency Maintenance Document" />
-    <property name="description" value="Document used to create or update Agency objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Agency" p:parameterName="AGENCY" />
+    <property name="label" value="Agency"/>
+    <property name="shortLabel" value="Agency"/>
+    <property name="summary" value="Agency Maintenance Document"/>
+    <property name="description" value="Document used to create or update Agency objects"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Agency" p:parameterName="AGENCY"/>
     </property>
-    <property name="documentTypeName" value="AGCY" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AgencyRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="AGCY"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AgencyRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="AgencyMaintenanceDocument-workflowAttributes" />
+    	<ref bean="AgencyMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="AgencyMaintenanceDocument-EditAgency" parent="AgencyMaintenanceDocument-EditAgency-parentBean" />
+  <bean id="AgencyMaintenanceDocument-EditAgency" parent="AgencyMaintenanceDocument-EditAgency-parentBean"/>
 
   <bean id="AgencyMaintenanceDocument-EditAgency-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Agency" />
-    <property name="title" value="Edit Agency" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Agency"/>
+    <property name="title" value="Edit Agency"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="agencyNumber"
-              p:unconditionallyReadOnly="true"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.NextAgencyNumberFinder" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="reportingName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="fullName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="agencyTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="inStateIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="indirectAmount" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="reportsToAgencyNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="agencyNumber" p:unconditionallyReadOnly="true" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.NextAgencyNumberFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportingName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fullName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="agencyTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="inStateIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="indirectAmount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToAgencyNumber"/>
       </list>
     </property>
   </bean>
   
     <!-- workflow attributes -->
-  <bean id="AgencyMaintenanceDocument-workflowAttributes" parent="AgencyMaintenanceDocument-workflowAttributes-parentBean" />
+  <bean id="AgencyMaintenanceDocument-workflowAttributes" parent="AgencyMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="AgencyMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
+  <bean id="AgencyMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

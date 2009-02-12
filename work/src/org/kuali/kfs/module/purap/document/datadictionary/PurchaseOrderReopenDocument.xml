@@ -1,44 +1,34 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderReopenDocument" parent="PurchaseOrderReopenDocument-parentBean" />
+  <bean id="PurchaseOrderReopenDocument" parent="PurchaseOrderReopenDocument-parentBean"/>
 
   <bean id="PurchaseOrderReopenDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Purchase Order Reopen" />
-    <property name="shortLabel" value="Purchase Order Reopen" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="PURCHASE_ORDER"
-            p:parameterDetailType="PurchaseOrder" />
+    <property name="label" value="Purchase Order Reopen"/>
+    <property name="shortLabel" value="Purchase Order Reopen"/>
+    <property name="helpDefinition">
+      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP" p:parameterName="PURCHASE_ORDER" p:parameterDetailType="PurchaseOrder"/>
     </property>
-    <property name="documentTypeName" value="POR" />
-    <property name="sessionDocument" value="true" />
-    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase" />
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderReopenDocumentPresentationController" />
+    <property name="documentTypeName" value="POR"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderReopenDocumentPresentationController"/>
     <property name="workflowAttributes">
-    	<ref bean="PurchaseOrderReopenDocument-workflowAttributes" />
+    	<ref bean="PurchaseOrderReopenDocument-workflowAttributes"/>
     </property>
     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
     </property>
-    <property name="validationMap" ref="PurchaseOrderReopenDocument-validations" />
+    <property name="validationMap" ref="PurchaseOrderReopenDocument-validations"/>
   </bean>
 
-	<bean id="PurchaseOrderReopenDocument-validations" parent="PurchaseOrderReopenDocument-validations-parentBean" />
+	<bean id="PurchaseOrderReopenDocument-validations" parent="PurchaseOrderReopenDocument-validations-parentBean"/>
 	 
 	   <bean id="PurchaseOrderReopenDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
 	   	<property name="sourceMap">
@@ -80,7 +70,7 @@
 	   </bean>
 
     <!-- workflow attributes -->
-    <bean id="PurchaseOrderReopenDocument-workflowAttributes" parent="PurchaseOrderReopenDocument-workflowAttributes-parentBean" />
+    <bean id="PurchaseOrderReopenDocument-workflowAttributes" parent="PurchaseOrderReopenDocument-workflowAttributes-parentBean"/>
   
     <bean id="PurchaseOrderReopenDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
     </bean>

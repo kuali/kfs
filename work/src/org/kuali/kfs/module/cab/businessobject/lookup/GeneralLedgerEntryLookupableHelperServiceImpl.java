@@ -106,7 +106,7 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
                 else if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode())) {
                     Map<String, String> cmKeys = new HashMap<String, String>();
                     cmKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, entry.getDocumentNumber());
-                    // check if CAB PO document exsists, if not include
+                    // check if CAB PO document exists, if not included
                     Collection<PurchasingAccountsPayableDocument> matchingCreditMemos = businessObjectService.findMatching(PurchasingAccountsPayableDocument.class, cmKeys);
                     if (matchingCreditMemos == null || matchingCreditMemos.isEmpty()) {
                         newList.add(entry);

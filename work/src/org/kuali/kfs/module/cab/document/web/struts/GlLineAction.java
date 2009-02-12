@@ -69,16 +69,29 @@ public class GlLineAction extends CabActionBase {
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(CabPropertyConstants.DOCUMENT_NUMBER, entry.getDocumentNumber());
-        fieldValues.put(CabPropertyConstants.ACTIVE, true);
+        // fieldValues.put(CabPropertyConstants.ACTIVE, true);
         Collection<GeneralLedgerEntry> entries = boService.findMatchingOrderBy(GeneralLedgerEntry.class, fieldValues, CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER, true);
-        List<GeneralLedgerEntry> list = new ArrayList<GeneralLedgerEntry>();
-        list.addAll(entries);
-        for (GeneralLedgerEntry generalLedgerEntry : list) {
-            if (generalLedgerEntry.getGeneralLedgerAccountIdentifier().equals(entry.getGeneralLedgerAccountIdentifier())) {
-                generalLedgerEntry.setSelected(true);
+        List<GeneralLedgerEntry> fullList = new ArrayList<GeneralLedgerEntry>();
+        List<GeneralLedgerEntry> inactiveList = new ArrayList<GeneralLedgerEntry>();
+        // make the default one as the first one
+        entry.setSelected(true);
+        fullList.add(0, entry);
+
+        for (GeneralLedgerEntry generalLedgerEntry : entries) {
+            if (!generalLedgerEntry.getGeneralLedgerAccountIdentifier().equals(entry.getGeneralLedgerAccountIdentifier())) {
+                if (generalLedgerEntry.isActive()) {
+                    generalLedgerEntry.setSelected(false);
+                    fullList.add(generalLedgerEntry);
+                }
+                else {
+                    generalLedgerEntry.setSelected(false);
+                    inactiveList.add(generalLedgerEntry);
+                }
             }
         }
-        glLineForm.setRelatedGlEntries(list);
+        // merge lists
+        fullList.addAll(inactiveList);
+        glLineForm.setRelatedGlEntries(fullList);
         glLineForm.setPrimaryGlAccountId(entry.getGeneralLedgerAccountIdentifier());
         CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(entry);
         glLineForm.setCapitalAssetInformation(capitalAssetInformation);
@@ -141,6 +154,7 @@ public class GlLineAction extends CabActionBase {
         GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
         List<GeneralLedgerEntry> submitList = prepareSubmitList(glLineForm, defaultGeneralLedgerEntry);
         if (submitList.isEmpty()) {
+            form.reset(mapping, request);
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
 
@@ -168,7 +182,7 @@ public class GlLineAction extends CabActionBase {
         if (!pendingList.isEmpty()) {
             glLineForm.reset(mapping, request);
             glLineForm.setPrimaryGlAccountId(pendingList.get(0).getGeneralLedgerAccountIdentifier());
-            glLineForm.setRelatedGlEntries(pendingList);
+            // glLineForm.setRelatedGlEntries(pendingList);
             glLineForm.setCurrDocNumber(maintDoc.getDocumentNumber());
             GeneralLedgerEntry entry = findGeneralLedgerEntry(pendingList.get(0).getGeneralLedgerAccountIdentifier());
             prepareRecordsForDisplay(glLineForm, entry);
@@ -187,15 +201,16 @@ public class GlLineAction extends CabActionBase {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
         List<GeneralLedgerEntry> submitList = new ArrayList<GeneralLedgerEntry>();
-        defaultGeneralLedgerEntry.setSelected(true);
-        submitList.add(defaultGeneralLedgerEntry);
-        List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
-
-        for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
-            if (generalLedgerEntry.isSelected()) {
-                GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier());
-                if (entry != null && entry.isActive()) {
-                    submitList.add(entry);
+        if (defaultGeneralLedgerEntry != null) {
+            defaultGeneralLedgerEntry.setSelected(true);
+            submitList.add(defaultGeneralLedgerEntry);
+            List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
+            for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
+                if (generalLedgerEntry.isSelected()) {
+                    GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier());
+                    if (entry != null && entry.isActive()) {
+                        submitList.add(entry);
+                    }
                 }
             }
         }
@@ -220,6 +235,7 @@ public class GlLineAction extends CabActionBase {
 
         List<GeneralLedgerEntry> submitList = prepareSubmitList(glLineForm, defaultGeneralLedgerEntry);
         if (submitList.isEmpty()) {
+            form.reset(mapping, request);
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
 

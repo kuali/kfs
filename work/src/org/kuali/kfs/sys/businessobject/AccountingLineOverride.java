@@ -65,13 +65,12 @@ public class AccountingLineOverride {
      * The names of the AccountingLine properties that the processForOutput() and determineNeededOverrides() methods use. Callers of
      * those methods may need to refresh these fields from OJB.
      */
-    // todo: JDK 1.5 generic List
-    public static final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "account", "objectCode" }));
+    public static final List<String> REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "account", "objectCode" }));
 
     /**
      * This holds an instance of every valid override, mapped by code.
      */
-    private static final Map codeToOverrideMap = new HashMap();
+    private static final Map<String, AccountingLineOverride> codeToOverrideMap = new HashMap<String, AccountingLineOverride>();
 
     /**
      * This holds an instance of every valid override, mapped by components.

@@ -17,10 +17,10 @@ package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.BalanceTypService;
@@ -28,6 +28,7 @@ import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI for the Journal
@@ -60,6 +61,7 @@ public class JournalVoucherForm extends VoucherForm {
      * 
      * @see org.kuali.rice.kns.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
+    @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
         populateBalanceTypeListForRendering();
@@ -72,8 +74,9 @@ public class JournalVoucherForm extends VoucherForm {
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateSourceAccountingLine(org.kuali.rice.kns.bo.SourceAccountingLine)
      */
-    public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {
-        super.populateSourceAccountingLine(sourceLine);
+    @Override
+    public void populateSourceAccountingLine(SourceAccountingLine sourceLine, String accountingLinePropertyName, Map parameterMap) {
+        super.populateSourceAccountingLine(sourceLine, accountingLinePropertyName, parameterMap);
         populateSourceAccountingLineEncumbranceCode(sourceLine);
     }
 

@@ -21,6 +21,7 @@ import static org.kuali.kfs.sys.KFSConstants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -156,8 +157,8 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateSourceAccountingLine(org.kuali.rice.kns.bo.SourceAccountingLine)
      */
     @Override
-    public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {
-        super.populateSourceAccountingLine(sourceLine);
+    public void populateSourceAccountingLine(SourceAccountingLine sourceLine, String accountingLinePropertyName, Map parameterMap) {
+        super.populateSourceAccountingLine(sourceLine, accountingLinePropertyName, parameterMap);
 
         // set the chosen accounting period into the line
         String selectedAccountingPeriod = getSelectedAccountingPeriod();

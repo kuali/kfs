@@ -811,6 +811,8 @@ public class KFSPropertyConstants {
     public static final String NEW_NONEMPLOYEE_EXPENSE_LINE = "newNonEmployeeExpenseLine";
     public static final String NEW_PRECONF_REGISTRANT_LINE = "newPreConferenceRegistrantLine";
     public static final String NEW_PREPAID_EXPENSE_LINE = "newPrePaidNonEmployeeExpenseLine";
+    public static final String NEW_SOURCE_LINE = "newSourceLine";
+    public static final String NEW_TARGET_LINE = "newTargetLine";
     public static final String NEXT_CAPITAL_ASSET_NUMBER = "nextCapitalAssetNumber";
     public static final String NEXT_CHECK_SEQUENCE_ID = "nextCheckSequenceId";
     public static final String NEXT_CONTRACTS_AND_GRANTS_AGENCY_NUMBER = "nextContractsAndGrantsAgencyNumber";

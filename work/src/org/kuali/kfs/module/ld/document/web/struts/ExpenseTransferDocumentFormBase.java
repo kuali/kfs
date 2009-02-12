@@ -17,10 +17,12 @@ package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborAccountingLineOverride;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -157,8 +159,8 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populateSourceAccountingLine(org.kuali.kfs.sys.businessobject.SourceAccountingLine)
      */
     @Override
-    public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {
-        super.populateSourceAccountingLine(sourceLine);
+    public void populateSourceAccountingLine(SourceAccountingLine sourceLine, String accountingLinePropertyName, Map parameterMap) {
+        super.populateSourceAccountingLine(sourceLine, accountingLinePropertyName, parameterMap);
         LaborAccountingLineOverride.populateFromInput(sourceLine);
     }
 
@@ -168,8 +170,25 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populateTargetAccountingLine(org.kuali.kfs.sys.businessobject.TargetAccountingLine)
      */
     @Override
-    public void populateTargetAccountingLine(TargetAccountingLine targetLine) {
-        super.populateTargetAccountingLine(targetLine);
+    public void populateTargetAccountingLine(TargetAccountingLine targetLine, String accountingLinePropertyName, Map parameterMap) {
+        super.populateTargetAccountingLine(targetLine, accountingLinePropertyName, parameterMap);
         LaborAccountingLineOverride.populateFromInput(targetLine);
     }
+
+    /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#repopulateOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    protected void repopulateOverrides(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {
+        super.repopulateOverrides(line, accountingLinePropertyName, parameterMap);
+        LaborAccountingLineOverride.determineNeededOverrides(line);
+        if (line.getNonFringeAccountOverrideNeeded()) {
+            if (parameterMap.containsKey(accountingLinePropertyName+".nonFringeAccountOverride.present")) {
+                line.setNonFringeAccountOverride(parameterMap.containsKey(accountingLinePropertyName+".nonFringeAccountOverride"));
+            }
+        } else {
+            line.setNonFringeAccountOverride(false);
+        }
+    }
+    
 }

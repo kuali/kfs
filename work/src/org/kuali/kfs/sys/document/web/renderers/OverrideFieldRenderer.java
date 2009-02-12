@@ -37,6 +37,7 @@ public class OverrideFieldRenderer extends FieldRendererBase {
     private FieldRenderer overrideFieldRenderer;
     private HiddenTag overrideHiddenTag = new HiddenTag();
     private HiddenTag overrideNeededTag = new HiddenTag();
+    private HiddenTag overridePresentTag = new HiddenTag();
     private boolean readOnly = false;
     private String overrideNeededProperty;
     private String overrideNeededValue;
@@ -75,6 +76,10 @@ public class OverrideFieldRenderer extends FieldRendererBase {
         overrideHiddenTag.setParent(null);
         overrideHiddenTag.setProperty(null);
         overrideHiddenTag.setValue(null);
+        overridePresentTag.setPageContext(null);
+        overridePresentTag.setParent(null);
+        overridePresentTag.setProperty(null);
+        overridePresentTag.setValue(null);
     }
     
     /**
@@ -154,9 +159,11 @@ public class OverrideFieldRenderer extends FieldRendererBase {
         Boolean isSessionDoc = (Boolean) pageContext.getRequest().getAttribute("sessionDoc");
         if ((readOnly && getField().getPropertyValue().equals("Yes")) || overrideNeededValue.equals("Yes")) {
             renderOverrideAsNonHidden(pageContext, parentTag);
+            renderOverridePresent(pageContext, parentTag);
         } else {
             if(isSessionDoc != null && !isSessionDoc.booleanValue()){
                 renderOverrideAsHidden(pageContext, parentTag);
+                renderOverridePresent(pageContext, parentTag);
             }
         }
         if(isSessionDoc != null && !isSessionDoc.booleanValue()){
@@ -245,6 +252,21 @@ public class OverrideFieldRenderer extends FieldRendererBase {
         }
         overrideHiddenTag.doStartTag();
         overrideHiddenTag.doEndTag();
+    }
+    
+    /**
+     * Renders the override field as a hidden field
+     * @param pageContext the page context to render to
+     * @param parentTag the tag requesting all this rendering
+     * @throws JspException thrown if rendering fails
+     */
+    protected void renderOverridePresent(PageContext pageContext, Tag parentTag) throws JspException {
+        overridePresentTag.setPageContext(pageContext);
+        overridePresentTag.setParent(parentTag);
+        overridePresentTag.setProperty(getField().getPropertyPrefix()+"."+getField().getPropertyName()+".present");
+        overridePresentTag.setValue("I'm here yo!");
+        overridePresentTag.doStartTag();
+        overridePresentTag.doEndTag();
     }
     
     /**

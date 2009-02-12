@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.web.struts;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,7 +45,6 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -57,6 +55,7 @@ import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
  * This class is the base action form for all financial documents.
  */
 public class KualiAccountingDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentFormBase.class);
     private SourceAccountingLine newSourceLine;
     private TargetAccountingLine newTargetLine;
 
@@ -106,68 +105,43 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+        final String methodToCall = this.getMethodToCall();
+        final Map parameterMap = request.getParameterMap();
 
-        String methodToCall = this.getMethodToCall();
-        if (!StringUtils.equals(methodToCall, KFSConstants.RETURN_METHOD_TO_CALL)) {
-            resetPropertyFromHtmlCheckBox(request);
-        }
-
-        populateSourceAccountingLine(getNewSourceLine());
-        populateTargetAccountingLine(getNewTargetLine());
+        populateSourceAccountingLine(getNewSourceLine(), KFSPropertyConstants.NEW_SOURCE_LINE, parameterMap);
+        populateTargetAccountingLine(getNewTargetLine(), KFSPropertyConstants.NEW_TARGET_LINE, parameterMap);
 
         // don't call populateAccountingLines if you are copying or errorCorrecting a document,
         // since you want the accountingLines in the copy to be "identical" to those in the original
         if (!StringUtils.equals(methodToCall, KFSConstants.COPY_METHOD) && !StringUtils.equals(methodToCall, KFSConstants.ERRORCORRECT_METHOD)) {
-            populateAccountingLines();
+            populateAccountingLines(parameterMap);
         }
 
         setDocTypeName(discoverDocumentTypeName());
-    }
-
-    // reset the properties rendered as Struts html checkbox when the box is unchecked
-    protected void resetPropertyFromHtmlCheckBox(HttpServletRequest request) {
-        this.resetAccountExpiredOverride(request, "newSourceLine.accountExpiredOverride", getNewSourceLine());
-        this.resetAccountExpiredOverride(request, "newTargetLine.accountExpiredOverride", getNewTargetLine());
-        
-        int index = 0;
-        String propertyNamePattern = "document.{0}[{1}].accountExpiredOverride";
-        for(Object accountingLine : getFinancialDocument().getSourceAccountingLines()) {
-            SourceAccountingLine sourceAccountingLine = (SourceAccountingLine)accountingLine;
-            String propertyName = MessageFormat.format(propertyNamePattern, KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, index++);
-            this.resetAccountExpiredOverride(request, propertyName, sourceAccountingLine);
-        }
-        
-        index = 0;
-        for(Object accountingLine : getFinancialDocument().getTargetAccountingLines()) {
-            TargetAccountingLine targetAccountingLine = (TargetAccountingLine)accountingLine;
-            String propertyName = MessageFormat.format(propertyNamePattern, KFSPropertyConstants.TARGET_ACCOUNTING_LINES, index++);
-            this.resetAccountExpiredOverride(request, propertyName, targetAccountingLine);
-        }        
-    }
-
-    // reset accountExpiredOverride of the given accountingLine if its corresponding request parameter is not present
-    private void resetAccountExpiredOverride(HttpServletRequest request, String accountingLinePropertyName, AccountingLineBase accountingLine) {
-        if (ObjectUtils.isNull(request.getParameterMap().get(accountingLinePropertyName))) {
-            accountingLine.setAccountExpiredOverride(false);
-        }
     }
 
     /**
      * This method iterates over all of the source lines and all of the target lines in a transactional document, and calls
      * prepareAccountingLineForValidationAndPersistence on each one. This is called because a user could have updated already
      * existing accounting lines that had blank values in composite key fields.
+     * 
+     * @param parameterMap the map of parameters that were sent in with the request
      */
-    protected void populateAccountingLines() {
+    protected void populateAccountingLines(Map parameterMap) {
         Iterator sourceLines = getFinancialDocument().getSourceAccountingLines().iterator();
+        int count = 0;
         while (sourceLines.hasNext()) {
             SourceAccountingLine sourceLine = (SourceAccountingLine) sourceLines.next();
-            populateSourceAccountingLine(sourceLine);
+            populateSourceAccountingLine(sourceLine, KFSPropertyConstants.DOCUMENT+"."+KFSPropertyConstants.SOURCE_ACCOUNTING_LINE+"["+count+"]", parameterMap);
+            count += 1;
         }
 
         Iterator targetLines = getFinancialDocument().getTargetAccountingLines().iterator();
+        count = 0;
         while (targetLines.hasNext()) {
             TargetAccountingLine targetLine = (TargetAccountingLine) targetLines.next();
-            populateTargetAccountingLine(targetLine);
+            populateTargetAccountingLine(targetLine, KFSPropertyConstants.DOCUMENT+"."+KFSPropertyConstants.TARGET_ACCOUNTING_LINE+"["+count+"]", parameterMap);
+            count += 1;
         }
     }
 
@@ -177,9 +151,11 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * document level attributes need to be pushed down into the accounting lines.
      * 
      * @param sourceLine
+     * @param accountingLinePropertyName the property path from the form to the accounting line
+     * @param parameterMap the map of parameters that were sent in with the request
      */
-    public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {
-        populateAccountingLine(sourceLine);
+    public void populateSourceAccountingLine(SourceAccountingLine sourceLine, String accountingLinePropertyName, Map parameterMap) {
+        populateAccountingLine(sourceLine, accountingLinePropertyName, parameterMap);
     }
 
     /**
@@ -188,18 +164,22 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * document level attributes need to be pushed down into the accounting lines.
      * 
      * @param targetLine
+     * @param accountingLinePropertyName the property path from the form to the accounting line
+     * @param parameterMap the map of parameters that were sent in with the request
      */
-    public void populateTargetAccountingLine(TargetAccountingLine targetLine) {
-        populateAccountingLine(targetLine);
+    public void populateTargetAccountingLine(TargetAccountingLine targetLine, String accountingLinePropertyName, Map parameterMap) {
+        populateAccountingLine(targetLine, accountingLinePropertyName, parameterMap);
     }
 
     /**
      * Populates the dependent fields of objects contained within the given accountingLine
      * 
      * @param line
+     * @param accountingLinePropertyName the property path from the form to the accounting line
+     * @param parameterMap the map of parameters that were sent in with the request
      */
     @SuppressWarnings("deprecation")
-    private void populateAccountingLine(AccountingLineBase line) {
+    private void populateAccountingLine(AccountingLineBase line, String accountingLinePropertyName, Map parameterMap) {
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(line);
 
         line.setDocumentNumber(getDocument().getDocumentNumber());
@@ -228,8 +208,37 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         line.getSubObjectCode().setAccountNumber(line.getAccountNumber());
         line.getSubObjectCode().setFinancialObjectCode(line.getFinancialObjectCode());
         line.getSubObjectCode().setUniversityFiscalYear(getFinancialDocument().getPostingYear());
+        
+        repopulateOverrides(line, accountingLinePropertyName, parameterMap);
 
         AccountingLineOverride.populateFromInput(line);
+    }
+    
+    /**
+     * This repopulates the override values from the request
+     * @param line the line to repopulate override values for
+     * @param accountingLinePropertyName the property path from the form to the accounting line
+     * @param parameterMap the map of parameters that were sent in with the request
+     */
+    protected void repopulateOverrides(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(StringUtils.join(parameterMap.keySet(), "\n"));
+        }
+        AccountingLineOverride.determineNeededOverrides(line);
+        if (line.getAccountExpiredOverrideNeeded()) {
+            if (parameterMap.containsKey(accountingLinePropertyName+".accountingExpiredOverride.present")) {
+                line.setAccountExpiredOverride(parameterMap.containsKey(accountingLinePropertyName+".accountExpiredOverride"));
+            }
+        } else {
+            line.setAccountExpiredOverride(false);
+        }
+        if (line.isObjectBudgetOverrideNeeded()) {
+            if (parameterMap.containsKey(accountingLinePropertyName+".objectBudgetOverride.present")) {
+                line.setObjectBudgetOverride(parameterMap.containsKey(accountingLinePropertyName+".objectBudgetOverride"));
+            }
+        } else {
+            line.setObjectBudgetOverride(false);
+        }
     }
 
     /**

@@ -72,11 +72,11 @@
 				<bean parent="AccountingLineView-field"
 					p:name="chartOfAccountsCode" p:required="true"
 					p:webUILeaveFieldFunction="loadChartInfo"
-					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+					p:dynamicLabelProperty="chart.finChartOfAccountDescription" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="accountNumber" p:required="true"
 					p:webUILeaveFieldFunction="loadAccountInfo"
-					p:dynamicLabelProperty="account.accountName">
+					p:dynamicLabelProperty="account.accountName" p:useShortLabel="true">
 					<property name="overrideFields">
 						<list>
 							<bean
@@ -91,10 +91,10 @@
 				<bean parent="AccountingLineView-field"
 					p:name="subAccountNumber"
 					p:webUILeaveFieldFunction="loadSubAccountInfo"
-					p:dynamicLabelProperty="subAccount.subAccountName" />
+					p:dynamicLabelProperty="subAccount.subAccountName" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="financialObjectCode" p:required="true"
-					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator" p:useShortLabel="true">
 					<property name="overrideFields">
 						<list>
 							<bean

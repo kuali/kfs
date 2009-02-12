@@ -276,8 +276,6 @@
 				<bean parent="AccountingLineView-field" p:name="expenditureFinancialDocumentPostedDate" p:useShortLabel="true" p:required="true"/>
 				<bean parent="AccountingLineView-field" p:name="postingYear" p:useShortLabel="true" p:unconditionallyReadOnly="true"/>          
 				<bean parent="AccountingLineView-field" p:name="postingPeriodCode" p:useShortLabel="true" p:unconditionallyReadOnly="true"/>
-				<bean parent="AccountingLineView-field" p:name="transferPaymentIndicator" p:hidden="true"/>
-				<bean parent="AccountingLineView-field" p:name="sequenceNumber" p:hidden="true"/>
             </list>
         </property>
 	</bean>

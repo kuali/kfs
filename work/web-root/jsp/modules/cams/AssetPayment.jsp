@@ -15,29 +15,49 @@
 --%>
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+<c:set var="readOnly"
+	value="${empty KualiForm.editingMode['fullEntry']}" />
 
-<kul:documentPage showDocumentInfo="true"  htmlFormAction="camsAssetPayment"  documentTypeName="AssetPaymentDocument" renderMultipart="true"  showTabButtons="true">
+<kul:documentPage showDocumentInfo="true"
+	htmlFormAction="camsAssetPayment"
+	documentTypeName="AssetPaymentDocument" renderMultipart="true"
+	showTabButtons="true">
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
-  	<html:hidden property="document.capitalAssetNumber"/>
-  	<html:hidden property="document.objectSubTypesQuestionAnswered"/>
-  	<html:hidden property="document.objectSubTypesQuestionRequired"/>
-    <cams:assetPayments /> 
+	<html:hidden property="document.capitalAssetNumber" />
+	<html:hidden property="document.objectSubTypesQuestionAnswered" />
+	<html:hidden property="document.objectSubTypesQuestionRequired" />
+	<cams:assetPayments />
 
-	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-		<sys:accountingLines>
-			<sys:accountingLineGroup newLinePropertyName="newSourceLine" 
-									 collectionPropertyName="document.sourceAccountingLines" 
-									 collectionItemPropertyName="document.sourceAccountingLine" 
-									 attributeGroupName="source" />
-		</sys:accountingLines>
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true"
+		tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<c:choose>
+			<c:when
+				test="${KualiForm.document.capitalAssetBuilderOriginIndicator }">
+				<sys:accountingLines>
+					<sys:accountingLineGroup
+						collectionPropertyName="document.sourceAccountingLines"
+						collectionItemPropertyName="document.sourceAccountingLine"
+						attributeGroupName="source" />
+				</sys:accountingLines>
+			</c:when>
+			<c:otherwise>
+				<sys:accountingLines>
+					<sys:accountingLineGroup newLinePropertyName="newSourceLine"
+						collectionPropertyName="document.sourceAccountingLines"
+						collectionItemPropertyName="document.sourceAccountingLine"
+						attributeGroupName="source" />
+				</sys:accountingLines>
+			</c:otherwise>
+		</c:choose>
 	</kul:tab>
-	
-	<cams:viewPaymentInProcessByAsset assetPaymentAssetDetail="${KualiForm.document.assetPaymentAssetDetail}" assetPaymentDetail="${KualiForm.document.sourceAccountingLines}" />
-	
-    <kul:notes />
-    <kul:adHocRecipients />
-    <kul:routeLog />
-    <kul:panelFooter />
-    <kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
+	<cams:viewPaymentInProcessByAsset
+		assetPaymentAssetDetail="${KualiForm.document.assetPaymentAssetDetail}"
+		assetPaymentDetail="${KualiForm.document.sourceAccountingLines}" />
+
+	<kul:notes />
+	<kul:adHocRecipients />
+	<kul:routeLog />
+	<kul:panelFooter />
+	<kfs:documentControls
+		transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

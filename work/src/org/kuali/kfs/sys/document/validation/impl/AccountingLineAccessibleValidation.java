@@ -95,7 +95,12 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      * @return the accounting line collection property
      */
     protected String getAccountingLineCollectionProperty() {
-        final String propertyName = ((String)GlobalVariables.getErrorMap().getErrorPath().get(0)).replaceFirst(".*?document\\.", "");
+        String propertyName = null;
+        if (GlobalVariables.getErrorMap().getErrorPath().size() > 0) {
+            propertyName = ((String)GlobalVariables.getErrorMap().getErrorPath().get(0)).replaceFirst(".*?document\\.", "");
+        } else {
+            propertyName = accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
+        }
         if (propertyName.equals("newSourceLine")) return KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value;
         if (propertyName.equals("newTargetLine")) return KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
         return propertyName;

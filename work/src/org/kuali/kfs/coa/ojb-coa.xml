@@ -62,6 +62,7 @@
     <field-descriptor name="financialObjectivePrsctrlIndicator" column="FIN_OBJ_PRSCTRL_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountCfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="accountOffCampusIndicator" column="ACCT_OFF_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    <field-descriptor name="contractsAndGrantsAccountResponsibilityId" column="CG_ACCT_RESP_ID" jdbc-type="INTEGER" />
     <field-descriptor name="active" column="ACCT_CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.kfs.coa.util.OjbAccountActiveIndicatorConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

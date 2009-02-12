@@ -493,6 +493,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     public void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts) {
         HashSet<String> savedLines = new HashSet<String>();
         for (PurchaseOrderAccount purchaseOrderAccount : preTaggablePOAccounts) {
+            //TODO this could be removed if OJB comes with data and avoid this whole refresh
             purchaseOrderAccount.refresh();
             PurchaseOrderItem purapItem = purchaseOrderAccount.getPurapItem();
             PurchaseOrderDocument purchaseOrder = purapItem.getPurchaseOrder();

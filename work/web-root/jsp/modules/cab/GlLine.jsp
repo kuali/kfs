@@ -23,6 +23,12 @@
 			}
 		}
 	}
+
+<c:if test="${!empty KualiForm.currDocNumber}">
+	var popUpurl = 'cabGlLine.do?methodToCall=viewDoc&documentNumber=${KualiForm.currDocNumber}';
+	window.open(popUpurl, popUpurl);
+</c:if>
+	
 </script>
 <kul:page showDocumentInfo="false" htmlFormAction="cabGlLine" renderMultipart="true"
 	showTabButtons="true" docTitle="General Ledger Processing" 

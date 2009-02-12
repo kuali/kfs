@@ -26,6 +26,7 @@ import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -64,12 +65,16 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         GeneralLedgerEntry entry = (GeneralLedgerEntry) bo;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         if (entry.isActive()) {
-            anchorHtmlDataList.add(new AnchorHtmlData("../cabGlLine.do?methodToCall=process&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "process", "process"));
+            AnchorHtmlData processLink = new AnchorHtmlData("../cabGlLine.do?methodToCall=process&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "process", "process");
+            processLink.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+            anchorHtmlDataList.add(processLink);
         }
         else {
             List<GeneralLedgerEntryAsset> generalLedgerEntryAssets = entry.getGeneralLedgerEntryAssets();
             if (!generalLedgerEntryAssets.isEmpty()) {
-                anchorHtmlDataList.add(new AnchorHtmlData("../cabGlLine.do?methodToCall=viewDoc&" + "documentNumber" + "=" + generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber(), "viewDoc", generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber()));
+                AnchorHtmlData viewDocLink = new AnchorHtmlData("../cabGlLine.do?methodToCall=viewDoc&" + "documentNumber" + "=" + generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber(), "viewDoc", generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber());
+                viewDocLink.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+                anchorHtmlDataList.add(viewDocLink);
             }
             else {
                 anchorHtmlDataList.add(new AnchorHtmlData("", "n/a"));

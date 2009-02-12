@@ -40,7 +40,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
@@ -116,7 +115,7 @@ public class GlLineAction extends CabActionBase {
                 docHandlerUrl += "&";
             }
 
-            docHandlerUrl += "docId=" + maintDoc.getDocumentNumber() + "&command=displayDocSearchView";
+            docHandlerUrl += "docId=" + maintDoc.getDocumentNumber() + "&" + "command=displayDocSearchView";
             return docHandlerUrl;
         }
         catch (WorkflowException e) {
@@ -144,8 +143,36 @@ public class GlLineAction extends CabActionBase {
         if (submitList.isEmpty()) {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
+
         Document maintDoc = glLineService.createAssetGlobalDocument(submitList, defaultGeneralLedgerEntry);
+
+        List<GeneralLedgerEntry> pendingList = new ArrayList<GeneralLedgerEntry>();
+        preparePendingForAction(mapping, request, glLineForm, maintDoc, pendingList);
+        if (!pendingList.isEmpty()) {
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
         return new ActionForward(prepareDocHandlerUrl(maintDoc, CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT), true);
+    }
+
+    private void preparePendingForAction(ActionMapping mapping, HttpServletRequest request, GlLineForm glLineForm, Document maintDoc, List<GeneralLedgerEntry> pendingList) {
+        List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
+
+        for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
+            if (!generalLedgerEntry.isSelected()) {
+                GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier());
+                if (entry != null && entry.isActive()) {
+                    pendingList.add(entry);
+                }
+            }
+        }
+        if (!pendingList.isEmpty()) {
+            glLineForm.reset(mapping, request);
+            glLineForm.setPrimaryGlAccountId(pendingList.get(0).getGeneralLedgerAccountIdentifier());
+            glLineForm.setRelatedGlEntries(pendingList);
+            glLineForm.setCurrDocNumber(maintDoc.getDocumentNumber());
+            GeneralLedgerEntry entry = findGeneralLedgerEntry(pendingList.get(0).getGeneralLedgerAccountIdentifier());
+            prepareRecordsForDisplay(glLineForm, entry);
+        }
     }
 
     /**
@@ -195,7 +222,13 @@ public class GlLineAction extends CabActionBase {
         if (submitList.isEmpty()) {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
+
         Document document = glLineService.createAssetPaymentDocument(submitList, defaultGeneralLedgerEntry);
+        List<GeneralLedgerEntry> pendingList = new ArrayList<GeneralLedgerEntry>();
+        preparePendingForAction(mapping, request, glLineForm, document, pendingList);
+        if (!pendingList.isEmpty()) {
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
         return new ActionForward(prepareDocHandlerUrl(document, CabConstants.ASSET_PAYMENT_DOCUMENT), true);
     }
 
@@ -222,7 +255,7 @@ public class GlLineAction extends CabActionBase {
                 docHandlerUrl += "&";
             }
 
-            docHandlerUrl += "docId=" + documentId + "&command=displayDocSearchView";
+            docHandlerUrl += "docId=" + documentId + "&" + "command=displayDocSearchView";
             return new ActionForward(docHandlerUrl, true);
         }
         catch (WorkflowException e) {

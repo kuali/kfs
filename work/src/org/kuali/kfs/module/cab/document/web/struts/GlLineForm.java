@@ -18,6 +18,9 @@ package org.kuali.kfs.module.cab.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -27,6 +30,7 @@ public class GlLineForm extends KualiForm {
     private Long primaryGlAccountId;
     private CapitalAssetInformation capitalAssetInformation;
     private boolean selectAllGlEntries;
+    private String currDocNumber;
 
     public GlLineForm() {
         this.relatedGlEntries = new ArrayList<GeneralLedgerEntry>();
@@ -94,8 +98,9 @@ public class GlLineForm extends KualiForm {
      * @return value
      */
     public GeneralLedgerEntry getRelatedGlEntry(int index) {
-        while (getRelatedGlEntries().size() <= index || getRelatedGlEntries().get(index) == null) {
-            getRelatedGlEntries().add(index, new GeneralLedgerEntry());
+        int size = getRelatedGlEntries().size();
+        while (size <= index || getRelatedGlEntries().get(index) == null) {
+            getRelatedGlEntries().add(size++, new GeneralLedgerEntry());
         }
         return (GeneralLedgerEntry) getRelatedGlEntries().get(index);
     }
@@ -116,5 +121,34 @@ public class GlLineForm extends KualiForm {
      */
     public void setSelectAllGlEntries(boolean selectAllGlEntries) {
         this.selectAllGlEntries = selectAllGlEntries;
+    }
+
+
+    /**
+     * Gets the currDocNumber attribute.
+     * 
+     * @return Returns the currDocNumber.
+     */
+    public String getCurrDocNumber() {
+        return currDocNumber;
+    }
+
+    /**
+     * Sets the currDocNumber attribute value.
+     * 
+     * @param currDocNumber The currDocNumber to set.
+     */
+    public void setCurrDocNumber(String currDocNumber) {
+        this.currDocNumber = currDocNumber;
+    }
+
+    @Override
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        super.reset(mapping, request);
+        this.relatedGlEntries.clear();
+        this.primaryGlAccountId = null;
+        this.capitalAssetInformation = null;
+        this.selectAllGlEntries = false;
+        this.currDocNumber = null;
     }
 }

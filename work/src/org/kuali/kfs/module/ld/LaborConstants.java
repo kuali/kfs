@@ -147,8 +147,6 @@ public class LaborConstants {
     }
     
     public static class BatchFileSystem {
-        static final public String DIVIDER = "/";
-        
         static final public String BACKUP_FILE = "LD_LDBACKUP";
         static final public String PRE_SCRUBBER_FILE = "LD_LABENTRY";
         static final public String SCRUBBER_INPUT_FILE = "LD_SORTSCRB";

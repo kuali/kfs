@@ -56,7 +56,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     /**
      * @see org.kuali.module.labor.service.ScrubberService#scrubGroupReportOnly(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
+    public void scrubGroupReportOnly(String fileName, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
         // The logic for this was moved into another object because the process was written using
@@ -64,7 +64,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
 
         LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
-        sp.scrubGroupReportOnly(group, documentNumber);
+        sp.scrubGroupReportOnly(fileName, documentNumber);
         sp.setReferenceLookup(null);
     }
 

@@ -16,6 +16,7 @@
 package org.kuali.kfs.gl.businessobject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -59,7 +60,6 @@ import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -152,8 +152,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
     private ParameterService parameterService;
 
-    /* Misc stuff */
-    private boolean reportOnlyMode;
     /**
      * Whether this instance is being used to support the scrubbing of a collector batch
      */
@@ -200,24 +198,42 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
      * @param group the origin entry group that should be scrubbed
      * @param the document number of any specific entries to scrub
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
+    public void scrubGroupReportOnly(String fileName, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
-
-        scrubEntries(group, documentNumber);
+        this.inputFile = fileName;
+        this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE;
+        this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE;
+        this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE;
+        
+        scrubEntries(true, documentNumber);
+        
+        File deleteValidFile = new File(validFile);
+        File deleteErrorFile = new File(errorFile);
+        File deleteExpiredFile = new File(expiredFile);
+        try {
+            deleteValidFile.delete();
+            deleteErrorFile.delete();
+            deleteExpiredFile.delete();
+        } catch (Exception e){
+            LOG.error("scrubGroupReportOnly delete output files process Stopped: " + e.getMessage());
+            throw new RuntimeException("scrubGroupReportOnly delete output files process Stopped: " + e.getMessage(), e);
+        }
+        
+        
     }
 
     /**
      * Scrubs all entries in all groups and documents.
      */
     public void scrubEntries() {
-        this.inputFile = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE;
-        this.validFile = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE;
-        this.errorFile = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE;
-        this.expiredFile = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE;
+        this.inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE;
+        this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE;
+        this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE;
+        this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE;
         
         //TODO: should move to new step
         //sortGlBackupFile();
-        scrubEntries(null, null);
+        scrubEntries(false, null);
     }
 
     /**
@@ -238,7 +254,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         this.validFile = inputFile + "_scrbout1";
         this.errorFile = inputFile + "_scrberr1";
         this.expiredFile = inputFile + "_expaccts";
-        scrubEntries(null, null);
+        scrubEntries(false, null);
         // the scrubber process has just updated several member variables of this class. Store these values for the collector report
         collectorReportData.setBatchOriginEntryScrubberErrors(batch, scrubberReportErrors);
         collectorReportData.setScrubberReportData(batch, scrubberReport);
@@ -255,12 +271,11 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
      * @param group the specific origin entry group to scrub
      * @param documentNumber the number of the document with entries to scrub
      */
-    public void scrubEntries(OriginEntryGroup group, String documentNumber) {
+    public void scrubEntries(boolean reportOnlyMode, String documentNumber) {
         LOG.debug("scrubEntries() started");
 
-        // We are in report only mode if we pass a group to this method.
+        // We are in report only mode if reportOnlyMode is true.
         // if not, we are in batch mode and we scrub the backup group
-        reportOnlyMode = (group != null) && !collectorMode;
 
         scrubberReportErrors = new HashMap<Transaction, List<Message>>();
 
@@ -282,7 +297,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
         scrubberReport = new ScrubberReportData();
         //TODO: TEMPORARY TESTING!
-        processGroup(null);
+        processGroup(reportOnlyMode);
         reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
     }
 
@@ -313,8 +328,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         
         // new demerger starts
         
-        String validOutputFilename = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
-        String errorOutputFilename = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE;
+        String validOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
+        String errorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE;
 
         // Without this step, the job fails with Optimistic Lock Exceptions
         persistenceService.clearCache();
@@ -326,8 +341,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         PrintStream OUTPUT_DEMERGER_GLE_FILE_ps;
         PrintStream OUTPUT_DEMERGER_ERR_FILE_ps;
         
-        String demergerValidOutputFilename = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE; 
-        String demergerErrorOutputFilename = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE;
+        String demergerValidOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE; 
+        String demergerErrorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE;
 
         try {
             INPUT_GLE_FILE = new FileReader(validOutputFilename);
@@ -524,7 +539,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
      * 
      * @param originEntryGroup Group to process
      */
-    private void processGroup(OriginEntryGroup originEntryGroup) {
+    private void processGroup(boolean reportOnlyMode) {
         this.referenceLookup.get().setLookupService(SpringContext.getBean(CachingLookup.class));
 
         OriginEntryFull lastEntry = null;
@@ -543,10 +558,10 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             OUTPUT_GLE_FILE_ps = new PrintStream(validFile);
             OUTPUT_ERR_FILE_ps = new PrintStream(errorFile);
             OUTPUT_EXP_FILE_ps = new PrintStream(expiredFile);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
         int line = 0;
         LOG.info("Starting Scrubber Process process group...");
@@ -589,7 +604,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                     // Make a copy of it so OJB doesn't just update the row in the original
                     // group. It needs to make a new one in the expired group
                     OriginEntryFull expiredEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
-    
                     createOutputEntry(expiredEntry, OUTPUT_EXP_FILE_ps);
                     scrubberReport.incrementExpiredAccountFound();
                 }
@@ -706,7 +720,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                                 // group. It needs to make a new one in the error group
                                 OriginEntryFull errorEntry = new OriginEntryFull(te.transaction);
                                 errorEntry.setTransactionScrubberOffsetGenerationIndicator(false);
-                                createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
+                                createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);    
                                 scrubberReport.incrementErrorRecordWritten();
                                 unitOfWork.errorsFound = true;
     
@@ -746,16 +760,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                     scrubberReport.incrementErrorRecordWritten();
                     unitOfWork.errorsFound = true;
                 }
-                
-                
-                
-                
                 } 
-                
-                
-                
-                
-                
             }
     
             if (!collectorMode) {

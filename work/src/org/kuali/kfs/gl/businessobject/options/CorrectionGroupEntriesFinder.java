@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -57,7 +58,10 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
         if (fileList != null){
             for (File file : fileList){
                 String fileName = file.getName();
-                activeLabels.add(new KeyLabelPair(fileName, fileName));
+                if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.EXTENSION)){
+                    activeLabels.add(new KeyLabelPair(fileName, fileName));
+                }
+                
                 
             }    
         }

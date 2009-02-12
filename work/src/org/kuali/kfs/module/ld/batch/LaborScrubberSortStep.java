@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ld.batch;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -41,8 +42,8 @@ public class LaborScrubberSortStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
-        String inputFile = batchFileDirectoryName+LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.BACKUP_FILE;
-        String outputFile = batchFileDirectoryName+LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE;
+        String inputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BACKUP_FILE;
+        String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE;
         BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new LaborScrubberSortComparator());
 
 

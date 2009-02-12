@@ -64,12 +64,12 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     /**
      * This is the input group ID selected when the last page was rendered
      */
-    private Integer previousInputGroupId;
+    private String previousInputGroupId;
 
     /**
      * This is the input group ID of the document when it was retrieved from the DB
      */
-    private Integer inputGroupIdFromLastDocumentLoad;
+    private String inputGroupIdFromLastDocumentLoad;
 
     /**
      * True only when the selected input group ID does not correspond to an input group in the system. True means that querying the
@@ -83,7 +83,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      */
     private boolean persistedOriginEntriesMissing = false;
 
-    private Integer outputGroupId;
+    private String outputGroupId;
     private String inputFileName;
     protected FormFile sourceFile;
     private boolean processInBatch = true;
@@ -356,11 +356,11 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         this.inputFileName = inputFileName;
     }
 
-    public Integer getOutputGroupId() {
+    public String getOutputGroupId() {
         return outputGroupId;
     }
 
-    public void setOutputGroupId(Integer outputGroupId) {
+    public void setOutputGroupId(String outputGroupId) {
         this.outputGroupId = outputGroupId;
     }
 
@@ -379,9 +379,9 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     public void setEditMethod(String editMethod) {
         this.editMethod = editMethod;
     }
-
-    public Integer getInputGroupId() {
-        return ((GeneralLedgerCorrectionProcessDocument) getDocument()).getCorrectionInputGroupId();
+    
+    public String getInputGroupId() {
+        return ((GeneralLedgerCorrectionProcessDocument) getDocument()).getCorrectionInputFileName();
     }
 
     public boolean getProcessInBatch() {
@@ -560,7 +560,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      * 
      * @return Returns the previousInputGroupId.
      */
-    public Integer getPreviousInputGroupId() {
+    public String getPreviousInputGroupId() {
         return previousInputGroupId;
     }
 
@@ -569,7 +569,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      * 
      * @param previousInputGroupId The previousInputGroupId to set.
      */
-    public void setPreviousInputGroupId(Integer previousInputGroupId) {
+    public void setPreviousInputGroupId(String previousInputGroupId) {
         this.previousInputGroupId = previousInputGroupId;
     }
 
@@ -578,7 +578,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      * 
      * @return the input group ID of the document when it was persisted in the DB
      */
-    public Integer getInputGroupIdFromLastDocumentLoad() {
+    public String getInputGroupIdFromLastDocumentLoad() {
         return inputGroupIdFromLastDocumentLoad;
     }
 
@@ -587,7 +587,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      * 
      * @param inputGroupIdFromLastDocumentLoad the input group ID of the document when it was persisted in the DB
      */
-    public void setInputGroupIdFromLastDocumentLoad(Integer inputGroupIdFromLastDocumentLoad) {
+    public void setInputGroupIdFromLastDocumentLoad(String inputGroupIdFromLastDocumentLoad) {
         this.inputGroupIdFromLastDocumentLoad = inputGroupIdFromLastDocumentLoad;
     }
 
@@ -658,7 +658,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      */
     public void setDocType() {
         setDocumentType("GLCP");
-        setDocTitle("General Ledger Correction Process");
+        //setDocTitle("General Ledger Correction Process");
+        setDocTitle("GeneralLedgerCorrectionProcessDocument");
         setHtmlFormAction("generalLedgerCorrection");
     }
 

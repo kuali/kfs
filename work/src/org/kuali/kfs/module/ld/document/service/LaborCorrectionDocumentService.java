@@ -213,4 +213,6 @@ public interface LaborCorrectionDocumentService {
      * @param LaborCorrectionDocumentEntryMetadata
      */
     public void persistOriginEntryGroupsForDocumentSave(LaborCorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata);
+    
+    public String generateOutputOriginEntryFileName(String docId);
 }

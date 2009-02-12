@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ld.service;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
@@ -237,8 +239,10 @@ public interface LaborOriginEntryService {
      * @param groupId
      */
     public List<LaborOriginEntry> getEntriesByGroupId(Integer groupId);
+    
+    public  Map getEntriesByGroupId(String fileName, List<LaborOriginEntry> originEntryList);
 
-
+    public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<LaborOriginEntry> originEntryList);
     /**
      * get the summarized information of the entries that belong to the entry groups with the given group id list
      * 
@@ -274,4 +278,8 @@ public interface LaborOriginEntryService {
      * @return the count of the entries in that group
      */
     public Integer getGroupCount(Integer groupId);
+    
+    public Integer getGroupCount(String fileName);
+    
+    public  Iterator<LaborOriginEntry> getEntriesIteratorByGroupIdWithoutErrorChecking(String fileName);
 }

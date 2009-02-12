@@ -18,10 +18,12 @@ package org.kuali.kfs.gl.document;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -64,8 +66,9 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     private String correctionInputFileName; // File name if uploaded
     private String correctionOutputFileName; // Not used
     private String correctionScriptText; // Not used
-    private Integer correctionInputGroupId; // Group ID that has input data
-    private Integer correctionOutputGroupId; // Group ID that has output data
+    //TODO: Shawn - Do I need to change OriginEntryGroupId as String?
+    private String correctionInputGroupId; // Group ID that has input data
+    private String correctionOutputGroupId; // Group ID that has output data
     private Integer correctionChangeGroupNextLineNumber;
 
     private List<CorrectionChangeGroup> correctionChangeGroup;
@@ -192,16 +195,26 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
         if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             String correctionType = doc.getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
-                originEntryGroupService.dontProcessGroup(doc.getCorrectionInputGroupId());
+                //TODO: Shawn - We might not need this part -- need to talk to Sterling
+                //originEntryGroupService.dontProcessGroup(doc.getCorrectionInputGroupId());
             }
             else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
-                OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
-                if (!doc.getCorrectionFileDelete()) {
-                    LOG.debug("handleRouteStatusChange() Mark group as to be processed");
-                    outputGroup.setProcess(true);
-                    originEntryGroupService.save(outputGroup);
-                }
+                //TODO: Shawn - We might not need this part -- need to talk to Sterling
+//                OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
+//                if (!doc.getCorrectionFileDelete()) {
+//                    LOG.debug("handleRouteStatusChange() Mark group as to be processed");
+//                    outputGroup.setProcess(true);
+//                    originEntryGroupService.save(outputGroup);
+//                }
+                
+                //TODO: Shawn - should call scrubber here......don't know why not below - handleRouteLevelChange method??
+                String fileNameWithPath = correctionDocumentService.generateOutputOriginEntryFileName(docId);
+                ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
+                scrubberService.scrubGroupReportOnly(fileNameWithPath, docId);
             }
+            
+            
+            
             else {
                 LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
@@ -234,6 +247,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 // this code is performed asynchronously
 
                 // First, save the origin entries to the origin entry table
+                // TODO: Shawn - don't need this part from here
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
                 CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
@@ -245,11 +259,19 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 // Scrub is set to false when the document is initiated. When the document is final, it will be changed to true
                 OriginEntryGroup oeg = originEntryService.copyEntries(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
 
+                //TODO: Shawn - don't need until here
+                
+                
+                String fileNameWithPath = correctionDocumentService.generateOutputOriginEntryFileName(docId);
                 // Now, run the reports
                 ReportService reportService = SpringContext.getBean(ReportService.class);
                 ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
-
-                setCorrectionOutputGroupId(oeg.getId());
+                
+                String outputFileName = OriginEntrySource.GL_CORRECTION_PROCESS_EDOC + "_uploaded_file";
+                //build file name with time information
+                outputFileName += buildFileExtensionWithDate(today);
+                
+                setCorrectionOutputFileName(outputFileName);
                 // not using the document service to save because it touches workflow, just save the doc BO as a regular BO
                 SpringContext.getBean(BusinessObjectService.class).save(this);
 
@@ -259,7 +281,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
 
                 // Run the scrubber on this group to generate a bunch of reports. The scrubber won't save anything when running it
                 // this way.
-                scrubberService.scrubGroupReportOnly(oeg, docId);
+                scrubberService.scrubGroupReportOnly(fileNameWithPath, docId);
             }
         }
     }
@@ -378,19 +400,32 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
         this.correctionChangeGroup = correctionChangeGroup;
     }
 
-    public Integer getCorrectionInputGroupId() {
+    public String getCorrectionInputGroupId() {
         return correctionInputGroupId;
     }
 
-    public void setCorrectionInputGroupId(Integer correctionInputGroupId) {
-        this.correctionInputGroupId = correctionInputGroupId;
-    }
-
-    public Integer getCorrectionOutputGroupId() {
+    public String getCorrectionOutputGroupId() {
         return correctionOutputGroupId;
     }
 
-    public void setCorrectionOutputGroupId(Integer correctionOutputGroupId) {
+    public void setCorrectionOutputGroupId(String correctionOutputGroupId) {
         this.correctionOutputGroupId = correctionOutputGroupId;
     }
+    
+    protected String buildFileExtensionWithDate(Date date){
+
+        String timeString = date.toString();
+        String year = timeString.substring(timeString.length() - 4, timeString.length());
+        String month = timeString.substring(4, 7);
+        String day = timeString.substring(8, 10);
+        String hour = timeString.substring(11, 13);
+        String min = timeString.substring(14, 16);
+        String sec = timeString.substring(17, 19);
+        
+        return "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        
+        
+    }
 }
+
+

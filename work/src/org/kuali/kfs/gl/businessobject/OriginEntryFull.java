@@ -143,7 +143,7 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
 
     public OriginEntryFull(String line) {
         try {
-            setFromTextFile(line, 0);
+            setFromTextFileForBatch(line, 0);
         }
         catch (LoadException e) {
             LOG.error("OriginEntryFull() Error loading line", e);

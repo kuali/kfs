@@ -425,6 +425,7 @@ public class KFSKeyConstants {
     public static final String ERROR_TRANSACTION_DATE_INVALID = "error.gl.TransactionDateInvalid";
 
     public static final String ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE = "error.gl.NumberFormatOriginEntryFromTextFile";
+    public static final String ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE = "error.gl.InvalidFormatOriginEntryFromTextFile";
 
     public static final String ERROR_ENTERPRISE_FEEDER_RECONCILIATION_OR_LOADING_ERROR = "error.gl.EnterpriseFeederReconciliationOrLoadingError";
 

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.service.impl;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -33,6 +34,7 @@ import java.util.Map;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.LedgerEntry;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
@@ -48,6 +50,7 @@ import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.LaborLedgerUnitOfWork;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.Guid;
@@ -65,6 +68,8 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     private OriginEntryDao originEntryDao;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
+    
+    private String batchFileDirectoryName;
 
     public OriginEntryStatistics getStatistics(Integer groupId) {
         LOG.debug("getStatistics() started");
@@ -367,6 +372,64 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
             return new ArrayList<LaborOriginEntry>(searchResultAsCollection);
         }
     }
+    
+    public  Map getEntriesByGroupId(String fileName, List<LaborOriginEntry> originEntryList) {
+        if (fileName == null) {
+            throw new IllegalArgumentException("File Name is null");
+        }
+        
+        String fullFileName = batchFileDirectoryName + File.separator + fileName;
+        FileReader INPUT_GLE_FILE = null;
+        BufferedReader INPUT_GLE_FILE_br;
+        try {
+            INPUT_GLE_FILE = new FileReader(fullFileName);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+        
+        boolean loadError = false;
+        //returnErrorList is list of List<Message>
+        Map returnErrorMap = getEntriesByBufferedReader(INPUT_GLE_FILE_br, originEntryList);
+
+        try{
+            INPUT_GLE_FILE_br.close();
+            INPUT_GLE_FILE.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        
+        
+        return returnErrorMap;
+    }
+    
+    
+    public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<LaborOriginEntry> originEntryList) {
+        String line;
+        int lineNumber = 0;
+        Map returnErrorMap = new HashMap();
+        try {
+            List<Message> tmperrors = new ArrayList();    
+            while ((line = inputBufferedReader.readLine()) != null) {
+                lineNumber++;
+                LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
+                tmperrors = laborOriginEntry.setFromTextFileForBatch(line, lineNumber);
+                laborOriginEntry.setEntryId(lineNumber);
+                if (tmperrors.size() > 0){
+                    returnErrorMap.put(new Integer(lineNumber), tmperrors);
+                } else {
+                    originEntryList.add(laborOriginEntry);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+            
+        return returnErrorMap;
+
+        
+    }
+
 
 
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList) {
@@ -589,12 +652,29 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
             }
         }
     }
+    
+    public  Iterator<LaborOriginEntry> getEntriesIteratorByGroupIdWithoutErrorChecking(String fileName) {
+        File file = new File(batchFileDirectoryName + File.separator + fileName);
+        
+        return new LaborOriginEntryFileIterator(file);
+    }
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborOriginEntryService#getGroupCount(java.lang.Integer)
      */
     public Integer getGroupCount(Integer groupId) {
         return laborOriginEntryDao.getGroupCount(groupId);
+    }
+    
+    public Integer getGroupCount(String fileName){
+        Iterator<LaborOriginEntry> fileIterator = getEntriesIteratorByGroupIdWithoutErrorChecking(fileName);
+        int count = 0;
+        
+        while(fileIterator.hasNext()){
+            count++;
+            fileIterator.next();
+        }
+        return count;
     }
 
     /**
@@ -631,5 +711,9 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Date;
@@ -70,7 +71,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     public void copyApprovedPendingLedgerEntries() {
         Date runDate = dateTimeService.getCurrentSqlDate();
 
-        String outputFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.BACKUP_FILE;
+        String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BACKUP_FILE;
         PrintStream outputFilePs;
         
         try {

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Date;
@@ -76,7 +77,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
         
         Iterator pendingEntries = generalLedgerPendingEntryService.findApprovedPendingLedgerEntries();
-        String outputFile = batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE;
+        String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE;
         PrintStream outputFilePs;
         
         try {

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.batch.service.impl;
 import static org.kuali.kfs.module.ld.LaborConstants.DestinationNames.ORIGN_ENTRY;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -129,9 +130,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
         // change file name to FIS
 
-        String postInputFileName = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.POSTER_INPUT_FILE;
-        String postOutFileName = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.POSTER_VALID_OUTPUT_FILE;
-        String postErrFileName = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE;
+        String postInputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_INPUT_FILE;
+        String postOutFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_VALID_OUTPUT_FILE;
+        String postErrFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE;
 
         FileReader INPUT_GLE_FILE = null;
         String GLEN_RECORD;

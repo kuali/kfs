@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ld.businessobject.options;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -144,6 +145,15 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
         if (value.length() > fieldLength) {
             return false;
         }
+        if ("BigDecimal".equals(fieldType)) {
+            try {
+                BigDecimal d = new BigDecimal(value);
+                return true;
+            }
+            catch (NumberFormatException nfe) {
+                return false;
+            }
+        } 
         if ("KualiDecimal".equals(fieldType)) {
             try {
                 KualiDecimal d = new KualiDecimal(value);
@@ -205,7 +215,7 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
             return "Date";
         }
         if (fieldName.equals("transactionTotalHours")) {
-            return "KualiDecimal";
+            return "BigDecimal";
         }
         if (fieldName.equals("payrollEndDateFiscalYear")) {
             return "Integer";
@@ -321,10 +331,10 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
             return 8;
         }
         else if (fieldName.equals("transactionPostingDate")) {
-            return 7;
+            return 10;
         }
         else if (fieldName.equals("payPeriodEndDate")) {
-            return 7;
+            return 10;
         }
         else if (fieldName.equals("transactionTotalHours")) {
             return 22;

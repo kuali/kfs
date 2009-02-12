@@ -176,7 +176,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     /**
      * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#generateOutputOriginEntryFileName(java.lang.String)
      */
-    protected String generateOutputOriginEntryFileName(String docId) {
+    public String generateOutputOriginEntryFileName(String docId) {
         return getOriginEntryStagingDirectoryPath() + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
     }
 
@@ -486,8 +486,11 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             // we haven't saved the origin entry group yet, so let's load the entries from the DB and persist them for the document
             // this could be because we've previously saved the doc, but now we are now using a new input group, so we have to
             // repersist the input group
-            OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
-            inputGroupEntries = laborOriginEntryService.getEntriesByGroup(group);
+            
+            
+            //OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
+            String fileName = document.getCorrectionInputFileName();
+            inputGroupEntries = laborOriginEntryService.getEntriesIteratorByGroupIdWithoutErrorChecking(fileName);
             persistInputOriginEntriesForInitiatedOrSavedDocument(document, inputGroupEntries);
 
             // we've exhausted the iterator for the origin entries group
@@ -563,7 +566,8 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
         CorrectionDocumentUtils.copyStatisticsToDocument(statistics, document);
     }
-
+    
+    
     /**
      * Gets the OriginEntryStagingDirectoryPath attribute.
      * 

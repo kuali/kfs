@@ -356,7 +356,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param docId the document id of a GLCP document
      * @return the name of the file to write output origin entries to
      */
-    protected String generateOutputOriginEntryFileName(String docId) {
+    public String generateOutputOriginEntryFileName(String docId) {
         return getOriginEntryStagingDirectoryPath() + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
     }
 
@@ -737,24 +737,27 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         // reload the group from the origin entry service
         Iterator<OriginEntryFull> inputGroupEntries;
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if ((workflowDocument.stateIsSaved() && !(correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad() != null && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputGroupId()))) || workflowDocument.stateIsInitiated()) {
+        if ((workflowDocument.stateIsSaved() && !(correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad() != null && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputFileName()))) || workflowDocument.stateIsInitiated()) {
             // we haven't saved the origin entry group yet, so let's load the entries from the DB and persist them for the document
             // this could be because we've previously saved the doc, but now we are now using a new input group, so we have to
             // repersist the input group
-            OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
-            inputGroupEntries = originEntryService.getEntriesByGroup(group);
+            
+            
+            //OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
+            String fileName = document.getCorrectionInputFileName();
+            inputGroupEntries = originEntryService.getEntriesIteratorByGroupIdWithoutErrorChecking(fileName);
             persistInputOriginEntriesForInitiatedOrSavedDocument(document, inputGroupEntries);
 
             // we've exhausted the iterator for the origin entries group
             // reload the iterator from the file
             inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
         }
-        else if (workflowDocument.stateIsSaved() && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputGroupId())) {
+        else if (workflowDocument.stateIsSaved() && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputFileName())) {
             // we've saved the origin entries before, so just retrieve them
             inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
         }
         else {
-            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " + workflowDocument.getStatusDisplayValue() + " selected input group: " + document.getCorrectionInputGroupId() + " last saved input group: " + correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad());
+            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " + workflowDocument.getStatusDisplayValue() + " selected input group: " + document.getCorrectionInputFileName() + " last saved input group: " + correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad());
             throw new RuntimeException("Error persisting GLCP document origin entries.");
         }
 

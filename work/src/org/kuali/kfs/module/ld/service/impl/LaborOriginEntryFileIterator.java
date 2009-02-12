@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.gl.batch.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,8 +24,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.exception.LoadException;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 
 /**
  * This class lazy loads the origin entries in a flat file. This implementation uses a limited amount of memory because it does not
@@ -33,35 +33,35 @@ import org.kuali.kfs.gl.exception.LoadException;
  * uses this iterator stores the contents of this iterator in a big list somewhere, then a lot of memory may be consumed, depending
  * on the size of the file.
  */
-public class OriginEntryFileIterator implements Iterator<OriginEntryFull> {
-    private static Logger LOG = Logger.getLogger(OriginEntryFileIterator.class);
+public class LaborOriginEntryFileIterator implements Iterator<LaborOriginEntry> {
+    private static Logger LOG = Logger.getLogger(LaborOriginEntryFileIterator.class);
 
-    protected OriginEntryFull nextEntry;
+    protected LaborOriginEntry nextEntry;
     protected BufferedReader reader;
     protected int lineNumber;
     protected boolean autoCloseReader;
 
     /**
-     * Constructs a OriginEntryFileIterator
+     * Constructs a LaborOriginEntryFileIterator
      * 
      * @param reader a reader representing flat-file origin entries
      * @param autoCloseReader whether to automatically close the reader when the end of origin entries has been reached (i.e. when
      *        hasNext() returns false)
      */
-    public OriginEntryFileIterator(BufferedReader reader) {
+    public LaborOriginEntryFileIterator(BufferedReader reader) {
         this(reader, true);
     }
 
     /**
-     * Constructs a OriginEntryFileIterator
+     * Constructs a LaborOriginEntryFileIterator
      * 
      * @param reader a reader representing flat-file origin entries
      * @param autoCloseReader whether to automatically close the reader when the end of origin entries has been reached (i.e. when
      *        hasNext() returns false)
      */
-    public OriginEntryFileIterator(BufferedReader reader, boolean autoCloseReader) {
+    public LaborOriginEntryFileIterator(BufferedReader reader, boolean autoCloseReader) {
         if (reader == null) {
-            LOG.error("reader is null in the OriginEntryFileIterator!");
+            LOG.error("reader is null in the LaborOriginEntryFileIterator!");
             throw new IllegalArgumentException("reader is null!");
         }
         this.reader = reader;
@@ -71,14 +71,14 @@ public class OriginEntryFileIterator implements Iterator<OriginEntryFull> {
     }
 
     /**
-     * Constructs a OriginEntryFileIterator When constructed with this method, the file handle will be automatically closed when the
+     * Constructs a LaborOriginEntryFileIterator When constructed with this method, the file handle will be automatically closed when the
      * end of origin entries has been reached (i.e. when hasNext() returns false)
      * 
      * @param file the file
      */
-    public OriginEntryFileIterator(File file) {
+    public LaborOriginEntryFileIterator(File file) {
         if (file == null) {
-            LOG.error("reader is null in the OriginEntryFileIterator!");
+            LOG.error("reader is null in the LaborOriginEntryFileIterator!");
             throw new IllegalArgumentException("reader is null!");
         }
         try {
@@ -88,8 +88,8 @@ public class OriginEntryFileIterator implements Iterator<OriginEntryFull> {
             lineNumber = 0;
         }
         catch (FileNotFoundException e) {
-            LOG.error("File not found for OriginEntryFileIterator! " + file.getAbsolutePath(), e);
-            throw new RuntimeException("File not found for OriginEntryFileIterator! " + file.getAbsolutePath());
+            LOG.error("File not found for LaborOriginEntryFileIterator! " + file.getAbsolutePath(), e);
+            throw new RuntimeException("File not found for LaborOriginEntryFileIterator! " + file.getAbsolutePath());
         }
     }
 
@@ -110,10 +110,10 @@ public class OriginEntryFileIterator implements Iterator<OriginEntryFull> {
     /**
      * @see java.util.Iterator#next()
      */
-    public OriginEntryFull next() {
+    public LaborOriginEntry next() {
         if (nextEntry != null) {
             // an entry may have been fetched by hasNext()
-            OriginEntryFull temp = nextEntry;
+            LaborOriginEntry temp = nextEntry;
             nextEntry = null;
             return temp;
         }
@@ -126,7 +126,7 @@ public class OriginEntryFileIterator implements Iterator<OriginEntryFull> {
             }
 
             // clear out the nextEntry to signal that no record has been loaded
-            OriginEntryFull temp = nextEntry;
+            LaborOriginEntry temp = nextEntry;
             nextEntry = null;
             return temp;
         }
@@ -153,7 +153,7 @@ public class OriginEntryFileIterator implements Iterator<OriginEntryFull> {
                 }
             }
             else {
-                nextEntry = new OriginEntryFull();
+                nextEntry = new LaborOriginEntry();
                 try {
                     nextEntry.setFromTextFileForBatch(line, lineNumber - 1);
                 }

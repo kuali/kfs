@@ -131,6 +131,7 @@
 		<property name="originEntryDao">
 			<ref bean="originEntryDao" />
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 
 	<bean id="laborPositionObjectBenefitService" class="org.kuali.kfs.module.ld.service.impl.LaborPositionObjectBenefitServiceImpl">

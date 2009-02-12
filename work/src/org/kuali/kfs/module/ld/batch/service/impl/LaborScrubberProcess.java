@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -141,7 +142,6 @@ public class LaborScrubberProcess {
     private String costShareDescription;
 
     /* Misc stuff */
-    private boolean reportOnlyMode;
     private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
     
     //TODO: change to FIS
@@ -187,38 +187,50 @@ public class LaborScrubberProcess {
      * 
      * @param group
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
+    public void scrubGroupReportOnly(String fileName, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
+        this.inputFile = fileName;
+        this.validFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
+        this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE; 
+        this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE; 
 
-        scrubEntries(group, documentNumber);
+        scrubEntries(true, documentNumber);
+        
+        File deleteValidFile = new File(validFile);
+        File deleteErrorFile = new File(errorFile);
+        File deleteExpiredFile = new File(expiredFile);
+        try {
+            deleteValidFile.delete();
+            deleteErrorFile.delete();
+            deleteExpiredFile.delete();
+        } catch (Exception e){
+            LOG.error("scrubGroupReportOnly delete output files process Stopped: " + e.getMessage());
+            throw new RuntimeException("scrubGroupReportOnly delete output files process Stopped: " + e.getMessage(), e);
+        }
     }
 
     public void scrubEntries() {
         
+        this.inputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE;
+        this.validFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
+        this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE; 
+        this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE; 
         
-        scrubEntries(null, null);
+        scrubEntries(false, null);
     }
 
     /**
      * Scrub all entries that need it in origin entry. Put valid scrubbed entries in a scrubber valid group, put errors in a
      * scrubber error group, and transactions with an expired account in the scrubber expired account group.
      */
-    public void scrubEntries(OriginEntryGroup group, String documentNumber) {
+    public void scrubEntries(boolean reportOnlyMode, String documentNumber) {
         LOG.debug("scrubEntries() started");
-        
-        this.inputFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE;
-        this.validFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
-        this.errorFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE; 
-        this.expiredFile = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE; 
-            
+        // We are in report only mode if reportOnlyMode is true.
+        // if not, we are in batch mode and we scrub the backup group
 
 //        LaborOriginEntryLookupService refLookup = SpringContext.getBean(LaborOriginEntryLookupService.class);
 //        refLookup.setLookupService(SpringContext.getBean(CachingLookup.class));
 //        scrubberValidator.setReferenceLookup(refLookup);
-
-        // We are in report only mode if we pass a group to this method.
-        // if not, we are in batch mode and we scrub the backup group
-        reportOnlyMode = (group != null);
 
         String reportsDirectory = ReportRegistry.getReportsDirectory();
 
@@ -239,7 +251,7 @@ public class LaborScrubberProcess {
         setOffsetString();
         setDescriptions();
         scrubberReport = new ScrubberReportData();
-        processGroup(null);
+        processGroup();
 
         laborReportService.generateBatchScrubberStatisticsReport(scrubberReport, scrubberReportErrors, reportsDirectory, runDate);
         
@@ -312,7 +324,7 @@ public class LaborScrubberProcess {
      * 
      * @param originEntryGroup Group to process
      */
-    private void processGroup(OriginEntryGroup originEntryGroup) {
+    private void processGroup() {
         this.referenceLookup.get().setLookupService(SpringContext.getBean(CachingLookup.class));
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
@@ -850,8 +862,8 @@ public class LaborScrubberProcess {
      */
     public void performDemerger() {
         LOG.debug("performDemerger() started");
-        String validOutputFilename = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
-        String errorOutputFilename = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE;
+        String validOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
+        String errorOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE;
         
         // Without this step, the job fails with Optimistic Lock Exceptions
         persistenceService.clearCache();
@@ -874,8 +886,8 @@ public class LaborScrubberProcess {
         PrintStream OUTPUT_DEMERGER_ERR_FILE_ps;
         
         //TODO: change file name for FIS
-        String demergerValidOutputFilename = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE; 
-        String demergerErrorOutputFilename = batchFileDirectoryName + LaborConstants.BatchFileSystem.DIVIDER + LaborConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE; 
+        String demergerValidOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE; 
+        String demergerErrorOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE; 
         
         try {
             INPUT_GLE_FILE = new FileReader(validOutputFilename);

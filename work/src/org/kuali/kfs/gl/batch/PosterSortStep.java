@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -44,8 +45,8 @@ public class PosterSortStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
-        String inputFile = batchFileDirectoryName+GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE;
-        String outputFile = batchFileDirectoryName+GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE; 
+        String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE;
+        String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE; 
         
         BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new PosterSortComparator());
 

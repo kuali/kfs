@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor business object for LaborLedgerPendingEntry.

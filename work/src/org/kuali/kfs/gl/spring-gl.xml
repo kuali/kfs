@@ -806,6 +806,7 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
 	<bean id="originEntryLiteCachingLookup" class="org.kuali.kfs.gl.service.impl.CachingLookup" singleton="false">
@@ -853,6 +854,7 @@
 			<ref bean="dateTimeService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+		<property name="batchLaborFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 
 	<bean id="glNightlyOutService" class="org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl">

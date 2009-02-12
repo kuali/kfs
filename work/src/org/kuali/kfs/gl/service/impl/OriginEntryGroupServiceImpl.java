@@ -16,14 +16,18 @@
 package org.kuali.kfs.gl.service.impl;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
@@ -48,6 +52,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private OriginEntryDao originEntryDao;
     private DateTimeService dateTimeService;
     private String batchFileDirectoryName;
+    private String batchLaborFileDirectoryName;
 
     /**
      * Constructs a OriginEntryGroupServiceImpl instance
@@ -148,7 +153,64 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         return newest;
     }
+    
 
+    public String getNewestScrubberErrorFileName(){
+        File newestFile = null;
+        
+        File[] files = null;
+        //can add filter here: listFiles(filter); -- check out originEntryTestBase from Jeff
+        if(new File(batchFileDirectoryName) == null){
+            return null;
+        }
+        files = new File(batchFileDirectoryName).listFiles(new ScrubberErrorFilenameFilter());
+        List<File> fileList =  Arrays.asList(files);
+        if (fileList.size() > 0) {
+            for (File eachFile: fileList){
+                if (newestFile == null) {
+                    newestFile = eachFile;
+                }
+                else {
+                    if (newestFile.lastModified() < eachFile.lastModified()) {
+                        newestFile = eachFile;
+                    }
+                }
+            }    
+        } else {
+            return null;
+        }
+        
+        return newestFile.getName();
+    }
+
+    public String getNewestScrubberErrorLaborFileName(){
+        File newestFile = null;
+        
+        File[] files = null;
+        //can add filter here: listFiles(filter); -- check out originEntryTestBase from Jeff
+        if(new File(batchLaborFileDirectoryName) == null){
+            return null;
+        }
+        files = new File(batchLaborFileDirectoryName).listFiles(new ScrubberErrorFilenameFilter());
+        List<File> fileList =  Arrays.asList(files);
+        if (fileList.size() > 0) {
+            for (File eachFile: fileList){
+                if (newestFile == null) {
+                    newestFile = eachFile;
+                }
+                else {
+                    if (newestFile.lastModified() < eachFile.lastModified()) {
+                        newestFile = eachFile;
+                    }
+                }
+            }    
+        } else {
+            return null;
+        }
+        
+        return newestFile.getName();
+    }
+    
     /**
      * Returns all groups created by a given origin entry Source
      * @param sourceCode the source of the origin entry group
@@ -313,6 +375,14 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         return oeg;
     }
+    
+    public File createGroup(String fileName){
+        return new File(batchFileDirectoryName + File.separator + fileName);
+    }
+    
+    public File createLaborGroup(String fileName){
+        return new File(batchLaborFileDirectoryName + File.separator + fileName);
+    }
 
     /**
      * Get all non-ICR-related OriginEntryGroups waiting to be posted as of postDate.
@@ -418,6 +488,16 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         Collection groups = getMatchingGroups(criteria);
         return groups.size() > 0;
     }
+    
+    public boolean getGroupExists(String groupId) {
+        
+        File file = new File(batchFileDirectoryName + File.separator + groupId);
+        if (file == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public void setOriginEntryGroupDao(OriginEntryGroupDao oegd) {
         originEntryGroupDao = oegd;
@@ -430,7 +510,14 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
     }
-    
+//    
+//    public List getAllFileInBatchDirectoryWithList(){
+//        List returnList = new ArrayList();
+//        File[] allFiles = getAllFileInBatchDirectory();
+//        returnList.toArray(allFiles);
+//        return returnList;
+//    }
+
     public File[] getAllFileInBatchDirectory(){
         File[] returnFiles = null;
         //can add filter here: listFiles(filter); -- check out originEntryTestBase from Jeff
@@ -439,8 +526,31 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
         return returnFiles;
     }
+    
+    public File[] getAllLaborFileInBatchDirectory(){
+        File[] returnFiles = null;
+        //can add filter here: listFiles(filter); -- check out originEntryTestBase from Jeff
+        if(new File(batchLaborFileDirectoryName) != null){
+            returnFiles = new File(batchLaborFileDirectoryName).listFiles();    
+        }
+        return returnFiles;
+    }
+    
 
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+    
+    final class ScrubberErrorFilenameFilter implements FilenameFilter {
+        /**
+         * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+         */
+        public boolean accept(File dir, String name) {
+            return name.contains(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_PREFIX);
+        }
+    }
+
+    public void setBatchLaborFileDirectoryName(String batchLaborFileDirectoryName) {
+        this.batchLaborFileDirectoryName = batchLaborFileDirectoryName;
     }
 }

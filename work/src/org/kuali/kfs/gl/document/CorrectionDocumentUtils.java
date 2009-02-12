@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.document;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -225,6 +226,10 @@ public class CorrectionDocumentUtils {
             KualiDecimal kd = (KualiDecimal) fieldActualValue;
             return kd.toString();
         }
+        else if ("BigDecimal".equals(fieldType)) {
+            BigDecimal bd = (BigDecimal) fieldActualValue;
+            return bd.toString();
+        } 
         else if ("Date".equals(fieldType)) {
             Date d = (Date) fieldActualValue;
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

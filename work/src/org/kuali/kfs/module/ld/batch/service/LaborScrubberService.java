@@ -32,7 +32,7 @@ public interface LaborScrubberService {
      * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin
      * entry. It will create a the scrubber report
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber);
+    public void scrubGroupReportOnly(String fileName, String documentNumber);
 
     /**
      * Sets the dateTimeService attribute value.

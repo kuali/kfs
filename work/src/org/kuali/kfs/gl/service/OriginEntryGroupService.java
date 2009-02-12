@@ -141,6 +141,10 @@ public interface OriginEntryGroupService {
      * @return a new origin entry group to put origin entries into
      */
     public OriginEntryGroup createGroup(Date date, String sourceCode, boolean valid, boolean process, boolean scrub);
+    
+    public File createGroup(String fileName);
+    
+    public File createLaborGroup(String fileName);
 
     /**
      * save a group
@@ -180,6 +184,13 @@ public interface OriginEntryGroupService {
      */
     public boolean getGroupExists(Integer groupId);
     
+    public boolean getGroupExists(String groupId);
+    
+    public String getNewestScrubberErrorFileName();
+    
+    public String getNewestScrubberErrorLaborFileName();
     
     public File[] getAllFileInBatchDirectory();
+    
+    public File[] getAllLaborFileInBatchDirectory();
 }

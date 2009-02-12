@@ -189,8 +189,10 @@ public class GeneralLedgerConstants {
     }
     
     public static class BatchFileSystem {
-        static final public String DIVIDER = "/";
         static final public String EXTENSION = ".data";
+        
+        //TODO: Shawn - Should I move it to OriginEntrySource??
+        static final public String SCRUBBER_ERROR_PREFIX = "SCRBERR1";
         
         static final public String BACKUP_FILE = "GL_GLBACKUP";
         static final public String PRE_SCRUBBER_FILE = "GL_PRESCRUB";

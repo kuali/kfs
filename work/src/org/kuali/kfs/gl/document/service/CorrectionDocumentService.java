@@ -233,4 +233,6 @@ public interface CorrectionDocumentService {
      * @return a collection of documents
      */
     public Collection<GeneralLedgerCorrectionProcessDocument> getCorrectionDocumentsFinalizedOn(Date date);
+    
+    public String generateOutputOriginEntryFileName(String docId);
 }

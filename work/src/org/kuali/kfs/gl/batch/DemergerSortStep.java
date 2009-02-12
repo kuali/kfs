@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -44,8 +45,8 @@ public class DemergerSortStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
-        String inputFile = batchFileDirectoryName+GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE; 
-        String outputFile = batchFileDirectoryName+GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE; 
+        String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE; 
+        String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE; 
             
         BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new DemergerSortComparator());
         

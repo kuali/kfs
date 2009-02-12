@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp" %>
 
 
-<kul:documentPage showDocumentInfo="true" documentTypeName="GeneralLedgerCorrectionProcessDocument"
+<kul:documentPage showDocumentInfo="true" documentTypeName="${KualiForm.docTitle}"
 	htmlFormAction="${KualiForm.htmlFormAction}"
 	renderMultipart="true" showTabButtons="true">
   <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
@@ -38,8 +38,8 @@
           <tr><td>processInBatch</td><td>${KualiForm.processInBatch}</td></tr>
           <tr><td>chooseSystem</td><td>${KualiForm.chooseSystem}</td></tr>
           <tr><td>editMethod</td><td>${KualiForm.editMethod}</td></tr>
-          <tr><td>inputGroupId</td><td>${KualiForm.document.correctionInputGroupId}</td></tr>
-          <tr><td>outputGroupId</td><td>${KualiForm.outputGroupId}</td></tr>
+          <tr><td>inputGroupId</td><td>${KualiForm.document.correctionInputFileName}</td></tr>
+          <tr><td>outputGroupId</td><td>${KualiForm.document.correctionOutputFileName}</td></tr>
           <tr><td>inputFileName</td><td>${KualiForm.inputFileName}</td></tr>
           <tr><td>dataLoadedFlag</td><td>${KualiForm.dataLoadedFlag}</td></tr>
           <tr><td>matchCriteriaOnly</td><td>${KualiForm.matchCriteriaOnly}</td></tr>
@@ -161,7 +161,7 @@
               <td colspan="2" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
                 <center>
                   <label for="inputGroupId"><strong>Origin Entry Group</strong></label><br/><br/>
-                  <html:select property="document.correctionInputGroupId" size="10" styleId="inputGroupId" title="Origin Entry Group" >
+                  <html:select property="document.correctionInputFileName" size="10" styleId="inputGroupId" title="Origin Entry Group" >
                     <c:if test="${KualiForm.inputGroupIdFromLastDocumentLoadIsMissing and KualiForm.inputGroupId eq KualiForm.inputGroupIdFromLastDocumentLoad}">
                       <option value="<c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/>" selected="selected"><c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/> Document was last saved with this origin entry group selected.  Group is no longer in system.</option>
                     </c:if>
@@ -181,18 +181,6 @@
                     	</c:choose>
                    	</c:otherwise>
                   </c:choose>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                   </html:select>
                   
                   <br/><br/>

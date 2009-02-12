@@ -34,7 +34,7 @@ public interface CorrectionDocumentEntryMetadata {
      * 
      * @return the input group ID of the document when it was persisted in the DB
      */
-    public Integer getInputGroupIdFromLastDocumentLoad();
+    public String getInputGroupIdFromLastDocumentLoad();
 
     public boolean isRestrictedFunctionalityMode();
 

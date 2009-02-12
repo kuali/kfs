@@ -16,6 +16,7 @@
 package org.kuali.kfs.gl.service;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
@@ -28,6 +29,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
+import org.kuali.kfs.sys.Message;
 
 /**
  * An interface of methods to interact with Origin Entries
@@ -125,7 +127,7 @@ public interface OriginEntryService {
      * @return Iterator to all the entires
      */
     public Iterator<OriginEntryFull> getEntriesByGroup(OriginEntryGroup oeg);
-
+    
     /**
      * Return all the entries for a specific document in a specific group
      * 
@@ -210,7 +212,11 @@ public interface OriginEntryService {
      * @return a List of Origin Entries
      */
     public List<OriginEntryFull> getEntriesByGroupId(Integer groupId);
+    
+    public  Map getEntriesByGroupId(String groupId, List<OriginEntryFull> originEntryList);
 
+    public  Iterator<OriginEntryFull> getEntriesIteratorByGroupIdWithoutErrorChecking(String fileName);
+    
     /**
      * Returns the entry with the given id
      * 
@@ -233,4 +239,8 @@ public interface OriginEntryService {
      * @return a count of entries
      */
     public Integer getGroupCount(Integer groupId);
+    
+    public Integer getGroupCount(String groupId);
+    
+    public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<OriginEntryFull> originEntryList);
 }

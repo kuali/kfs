@@ -65,6 +65,8 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
                 String docId = getDocumentHeader().getDocumentNumber();
                 // this code is performed asynchronously
                 // First, save the origin entries to the origin entry table
+                
+                // TODO: Shawn - don't need this part from here
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 LaborOriginEntryService laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
                 LaborCorrectionDocumentService laborCorrectionDocumentService = SpringContext.getBean(LaborCorrectionDocumentService.class);
@@ -72,19 +74,22 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
                 // Create output group
                 java.sql.Date today = dateTimeService.getCurrentSqlDate();
                 // Scrub is set to false when the document is initiated. When the document is final, it will be changed to true
+                String fileNameWithPath = laborCorrectionDocumentService.generateOutputOriginEntryFileName(docId);
                 OriginEntryGroup oeg = laborOriginEntryService.copyEntries(today, OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
+                
+                // TODO: Shawn - don't need until here
                 // Now, run the reports
                 LaborReportService reportService = SpringContext.getBean(LaborReportService.class);
                 LaborScrubberService laborScrubberService = SpringContext.getBean(LaborScrubberService.class);
-                setCorrectionOutputGroupId(oeg.getId());
-                // not using the document service to save because it touches workflow, just save the doc BO as a regular BO
-                SpringContext.getBean(BusinessObjectService.class).save(this);
-                LOG.debug("handleRouteStatusChange() Run reports");
+                
+                String outputFileName = OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC + "_uploaded_file";
+                //build file name with time information
+                outputFileName += buildFileExtensionWithDate(today);
+                setCorrectionOutputFileName(outputFileName);
                 String reportsDirectory = ReportRegistry.getReportsDirectory();
                 reportService.generateCorrectionOnlineReport(this, reportsDirectory, today);
-                // Run the scrubber on this group to generate a bunch of reports. The scrubber won't save anything when running it
-                // this way.
-                laborScrubberService.scrubGroupReportOnly(oeg, docId);
+                
+                laborScrubberService.scrubGroupReportOnly(fileNameWithPath, docId);
             }
         }
     }
@@ -119,19 +124,26 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
         if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             String correctionType = doc.getCorrectionTypeCode();
             if (LaborCorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
-                SpringContext.getBean(OriginEntryGroupService.class).dontProcessGroup(doc.getCorrectionInputGroupId());
+                //TODO: Shawn - We might not need this part -- need to talk to Sterling
+                //SpringContext.getBean(OriginEntryGroupService.class).dontProcessGroup(doc.getCorrectionInputGroupId());
             }
             else if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
-                OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
-                if (!doc.getCorrectionFileDelete()) {
-                    LOG.debug("handleRouteStatusChange() Mark group as to be processed");
-                    outputGroup.setProcess(true);
-                    originEntryGroupService.save(outputGroup);
-                }
+              //TODO: Shawn - We might not need this part -- need to talk to Sterling
+//                OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
+//                if (!doc.getCorrectionFileDelete()) {
+//                    LOG.debug("handleRouteStatusChange() Mark group as to be processed");
+//                    outputGroup.setProcess(true);
+//                    originEntryGroupService.save(outputGroup);
+//                }
             }
             else {
                 LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
+            
+            //TODO: Shawn - should call scrubber here......don't know why not above - handleRouteLevelChange method??
+            String fileNameWithPath = laborCorrectionDocumentService.generateOutputOriginEntryFileName(docId);
+            LaborScrubberService laborScrubberService = SpringContext.getBean(LaborScrubberService.class);
+            laborScrubberService.scrubGroupReportOnly(fileNameWithPath, docId);
         }
     }
 }

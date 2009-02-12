@@ -48,7 +48,7 @@ public interface ScrubberService {
      * @param group the origin entry group to scrub for report
      * @param documentNumber the id of documents which generated origin entries that should be scrubbed
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber);
+    public void scrubGroupReportOnly(String fileName, String documentNumber);
 
     /**
      * Sets the dateTimeService attribute the ScrubberService implementation should use

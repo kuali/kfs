@@ -69,7 +69,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * @param documentNumber the id of documents which generated origin entries that should be scrubbed
      * @see org.kuali.kfs.gl.service.ScrubberService#scrubGroupReportOnly(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
+    public void scrubGroupReportOnly(String fileName, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
         // The logic for this was moved into another object because the process was written using
@@ -77,7 +77,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, batchFileDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
-        sp.scrubGroupReportOnly(group, documentNumber);
+        sp.scrubGroupReportOnly(fileName, documentNumber);
         sp.setReferenceLookup(null);
     }
 

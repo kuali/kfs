@@ -1,5 +1,4 @@
 /*
- * Copyright 2005-2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,7 @@
 package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -159,13 +159,13 @@ public class PosterServiceImpl implements PosterService {
 
         try {
             if (mode != PosterService.MODE_REVERSAL) {
-                INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE);
+                INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE);
                 INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
             }
             else {
-                OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE);
+                OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE);
             }
-            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.POSTER_VALID_OUTPUT_FILE);
+            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_VALID_OUTPUT_FILE);
         }
         catch (FileNotFoundException e1) {
             e1.printStackTrace();
@@ -479,7 +479,7 @@ public class PosterServiceImpl implements PosterService {
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
 
         try {
-            OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + GeneralLedgerConstants.BatchFileSystem.DIVIDER + GeneralLedgerConstants.BatchFileSystem.ICR_TRANSACTIONS_OUTPUT_FILE);
+            OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_TRANSACTIONS_OUTPUT_FILE);
         }
         catch (FileNotFoundException e) {
             // TODO Auto-generated catch block

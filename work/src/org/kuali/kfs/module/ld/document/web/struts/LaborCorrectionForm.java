@@ -94,7 +94,8 @@ public class LaborCorrectionForm extends CorrectionForm {
      */
     public void setDocType() {
         setDocumentType("LLCP");
-        setDocTitle("Labor Ledger Correction Process");
+        //setDocTitle("Labor Ledger Correction Process");
+        setDocTitle("LaborCorrectionDocument");
         setHtmlFormAction("laborLedgerCorrection");
     }
 

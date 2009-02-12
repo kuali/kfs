@@ -18,6 +18,8 @@ package org.kuali.kfs.gl.service.impl;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.LedgerEntry;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -42,6 +45,7 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.Message;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +65,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     private OriginEntryGroupService originEntryGroupService;
 
     private DateTimeService dateTimeService;
+    private String batchFileDirectoryName;
 
     /**
      * Sets the originEntryDao attribute
@@ -91,6 +96,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * @return an OriginEntryStatistics object with the statistics for the group
      * @see org.kuali.kfs.gl.service.OriginEntryService#getStatistics(java.lang.Integer)
      */
+    //TODO: Shawn -  this method is not used
     public OriginEntryStatistics getStatistics(Integer groupId) {
         LOG.debug("getStatistics() started");
 
@@ -117,6 +123,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * @see org.kuali.kfs.gl.service.OriginEntryService#copyEntries(java.util.Date, java.lang.String, boolean, boolean, boolean,
      *      java.util.Collection)
      */
+  //TODO: Shawn -  this method is not used
     public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Collection<OriginEntryFull> entries) {
         LOG.debug("copyEntries() started");
 
@@ -527,6 +534,69 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             return new ArrayList<OriginEntryFull>(searchResultAsCollection);
         }
     }
+    
+    public  Map getEntriesByGroupId(String fileName, List<OriginEntryFull> originEntryList) {
+        if (fileName == null) {
+            throw new IllegalArgumentException("File Name is null");
+        }
+        
+        String fullFileName = batchFileDirectoryName + File.separator + fileName;
+        FileReader INPUT_GLE_FILE = null;
+        BufferedReader INPUT_GLE_FILE_br;
+        try {
+            INPUT_GLE_FILE = new FileReader(fullFileName);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+        
+        boolean loadError = false;
+        //returnErrorList is list of List<Message>
+        Map returnErrorMap = getEntriesByBufferedReader(INPUT_GLE_FILE_br, originEntryList);
+
+        try{
+            INPUT_GLE_FILE_br.close();
+            INPUT_GLE_FILE.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        
+        
+        return returnErrorMap;
+    }
+    
+    public  Iterator<OriginEntryFull> getEntriesIteratorByGroupIdWithoutErrorChecking(String fileName) {
+        List<OriginEntryFull> returnList = new ArrayList();
+        File file = new File(batchFileDirectoryName + File.separator + fileName);
+        
+        return new OriginEntryFileIterator(file);
+    }
+    
+    public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<OriginEntryFull> originEntryList) {
+        String line;
+        int lineNumber = 0;
+        Map returnErrorMap = new HashMap();
+        try {
+            List<Message> tmperrors = new ArrayList();    
+            while ((line = inputBufferedReader.readLine()) != null) {
+                lineNumber++;
+                OriginEntryFull originEntry = new OriginEntryFull();
+                tmperrors = originEntry.setFromTextFileForBatch(line, lineNumber);
+                originEntry.setEntryId(lineNumber);
+                if (tmperrors.size() > 0){
+                    returnErrorMap.put(new Integer(lineNumber), tmperrors);
+                } else {
+                    originEntryList.add(originEntry);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+            
+        return returnErrorMap;
+
+        
+    }
 
     /**
      * Returns the origin entry with the given id.  Defers to the DAO.
@@ -612,8 +682,23 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     public Integer getGroupCount(Integer groupId) {
         return originEntryDao.getGroupCount(groupId);
     }
+    
+    public Integer getGroupCount(String fileName){
+        Iterator<OriginEntryFull> fileIterator = getEntriesIteratorByGroupIdWithoutErrorChecking(fileName);
+        int count = 0;
+        
+        while(fileIterator.hasNext()){
+            count++;
+            fileIterator.next();
+        }
+        return count;
+    }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 }

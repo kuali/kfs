@@ -115,8 +115,6 @@
 				<bean parent="AccountingLineView-field"
 					p:name="organizationReferenceId" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="positionNumber" p:hidden="true" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
-				<bean parent="AccountingLineView-field"
 					p:name="payrollEndDateFiscalYear" p:required="true" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="payrollEndDateFiscalPeriodCode" p:useShortLabel="true" p:unconditionallyReadOnly="true" />

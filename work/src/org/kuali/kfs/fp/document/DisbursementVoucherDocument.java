@@ -72,7 +72,6 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.EntityExternalIdentifier;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -941,8 +940,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'S' is present ('S'=SSN), then the employee must be foreign
-        for (EntityExternalIdentifier id : getIdentityManagementService().getEntityDefaultInfo(employee.getEntityId()).getExternalIdentifiers()) {
-            if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(id.getExternalIdentifierTypeCode())) {
+        for ( String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet() ) {
+            if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(externalIdentifierTypeCode)) {
                 this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
             }
         }
@@ -1013,11 +1012,11 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
         else if (payeeDetail.isEmployee()) {
             // Determine if employee is a non-resident alien
-            Person uu = getPersonService().getPerson(payeeDetail.getDisbVchrEmployeeIdNumber());
-            if (uu != null) {
+            Person person = getPersonService().getPerson(payeeDetail.getDisbVchrEmployeeIdNumber());
+            if (person != null) {
                 payeeDetail.setDisbVchrAlienPaymentCode(true);
-                for (EntityExternalIdentifier id : getIdentityManagementService().getEntityDefaultInfo(uu.getEntityId()).getExternalIdentifiers()) {
-                    if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(id.getExternalIdentifierTypeCode())) {
+                for ( String externalIdentifierTypeCode : person.getExternalIdentifiers().keySet() ) {
+                    if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(externalIdentifierTypeCode)) {
                         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
                     }
                 }

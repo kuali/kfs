@@ -945,6 +945,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // add the accounting line to the item
         taxLine.setItemIdentifier(taxItem.getItemIdentifier());
         taxLine.setPurapItem(taxItem);        
+        taxItem.getSourceAccountingLines().add(taxLine);
         
         return taxLine;
     }

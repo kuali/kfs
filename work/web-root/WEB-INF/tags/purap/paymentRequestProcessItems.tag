@@ -98,6 +98,7 @@
 			<td colspan=5 class="datacell">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
+		
 		<c:set var="showInvoiced" value="${empty isCreditMemo or !isCreditMemo}" />
 		<purap:miscitems 
 			documentAttributes="${documentAttributes}"
@@ -131,6 +132,20 @@
 				</tr>
 			</jsp:attribute>
 		</purap:miscitems>
+		
+		<c:set var="taxInfoViewable" value="${KualiForm.editingMode['taxInfoViewable']}" scope="request" />
+    	<c:set var="taxAreaEditable" value="${KualiForm.editingMode['taxAreaEditable']}" scope="request" />
+		<c:if test="${taxInfoViewable || taxAreaEditable}" >
+			<purap:taxitems 
+				documentAttributes="${documentAttributes}"
+				itemAttributes="${itemAttributes}" 
+				accountingLineAttributes="${accountingLineAttributes}" 
+				overrideTitle="Tax Withholding Charges" 
+				mainColumnCount="${mainColumnCount}"
+				colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}" colSpanBlank="${colSpanBlank}">
+			</purap:taxitems>
+		</c:if> 
+		
 		<!-- BEGIN TOTAL SECTION -->
 		<c:if test="${purapTaxEnabled}">
 		<tr>

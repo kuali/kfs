@@ -67,7 +67,7 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
         federalTaxRates.put("O", fedrates);
 
         ArrayList<BigDecimal> strates = new ArrayList<BigDecimal>();
-        strates.add(new BigDecimal(3.4));
+        strates.add(new BigDecimal("3.40"));
         strates.add(new BigDecimal(0));
         stateTaxRates.put("F", strates);
         stateTaxRates.put("A", strates);
@@ -93,8 +93,8 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();        
         errorMap.clearErrorPath();
-        errorMap.addToErrorPath(PurapConstants.PAYMENT_REQUEST_TAX_TAB_ERRORS);
         //errorMap.addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        errorMap.addToErrorPath(PurapConstants.PAYMENT_REQUEST_TAX_TAB_ERRORS);
 
         boolean valid = true;        
         valid &= validateTaxIncomeClass(preq);        

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -38,12 +39,10 @@ public class ItemType extends PersistableBusinessObjectBase {
     public ItemType() {
 
     }
-
     
     public boolean isTaxableIndicator() {
         return taxableIndicator;
     }
-
 
     public void setTaxableIndicator(boolean taxableIndicator) {
         this.taxableIndicator = taxableIndicator;
@@ -90,6 +89,22 @@ public class ItemType extends PersistableBusinessObjectBase {
 
     public void setAdditionalChargeIndicator(boolean additionalChargeIndicator) {
         this.additionalChargeIndicator = additionalChargeIndicator;
+    }
+    
+    public boolean getIsTaxCharge() {
+        boolean isTax = itemTypeCode.equals(ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE);
+        isTax |= itemTypeCode.equals(ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE); 
+        isTax |= itemTypeCode.equals(ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE); 
+        isTax |= itemTypeCode.equals(ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE); 
+        return isTax;
+    }
+
+    public static boolean getIsTaxCharge(String itemTypeCode) {
+        boolean isTax = itemTypeCode.equals(ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE);
+        isTax |= itemTypeCode.equals(ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE); 
+        isTax |= itemTypeCode.equals(ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE); 
+        isTax |= itemTypeCode.equals(ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE); 
+        return isTax;
     }
 
     public boolean isActive() {

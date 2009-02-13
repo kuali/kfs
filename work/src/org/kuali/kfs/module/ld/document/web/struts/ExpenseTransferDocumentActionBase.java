@@ -346,7 +346,6 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         copyAccountingLine((ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLine(index), line);
 
         boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line, KFSPropertyConstants.TARGET_ACCOUNTING_LINES));
-        rulePassed = true;
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             // add accountingLine

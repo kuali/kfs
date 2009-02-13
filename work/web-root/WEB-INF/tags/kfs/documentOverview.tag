@@ -54,7 +54,7 @@
 		                attributeEntry="${postingYearAttributes.postingYear}" 
 		                property="document.postingYear" 
 		                onchange="${postingYearOnChange}"
-		                readOnly="${!KualiForm.editingMode['fullEntry'] or fiscalYearReadOnly}"
+		                readOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] or fiscalYearReadOnly}"
 		              />
 		          <c:if test="${!readOnly and includePostingYearRefresh}">
 		            <html:image property="methodToCall.refresh" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" title="refresh" styleClass="tinybutton"/>    

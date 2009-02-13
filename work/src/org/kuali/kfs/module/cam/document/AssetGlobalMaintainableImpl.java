@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
@@ -128,21 +127,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         return assetOrganization;
     }
     
-    
-    /**
-     * Get organizationOwnerAccount from Asset
-     * 
-     * @param asset
-     * @return organizationOwnerAccount
-     */
-    private Account getOrganizationOwnerAccount(Asset asset) {
-        HashMap map = new HashMap();
-        map.put(CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE, asset.getOrganizationOwnerChartOfAccountsCode());
-        map.put(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, asset.getOrganizationOwnerAccountNumber());
-        Account organizationOwnerAccount = (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, map);
-        return organizationOwnerAccount;
-    }
-
     /**
      * Populate Asset Details for Asset Separate document
      * 
@@ -153,7 +137,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     private void populateAssetSeparateAssetDetails(AssetGlobal assetGlobal, Asset asset, AssetOrganization assetOrganization) {
         assetGlobal.setOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
         assetGlobal.setOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
-        assetGlobal.setOrganizationOwnerAccount(getOrganizationOwnerAccount(asset));
         assetGlobal.setAgencyNumber(asset.getAgencyNumber());
         assetGlobal.setAcquisitionTypeCode(asset.getAcquisitionTypeCode());
         assetGlobal.setInventoryStatusCode(asset.getInventoryStatusCode());
@@ -178,6 +161,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setLandCountyName(asset.getLandCountyName());
         assetGlobal.setLandAcreageSize(asset.getLandAcreageSize());
         assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());
+        
+        assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
+
     }
 
     /**
@@ -193,16 +179,23 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.getAssetPaymentDetails().clear();
         List<AssetPaymentDetail> newAssetPaymentDetailList = assetGlobal.getAssetPaymentDetails();
 
+
         if (!getAssetGlobalService().isAssetSeparateByPayment(assetGlobal)) {
             // Separate by Asset. Pick all payments up
 
             for (AssetPayment assetPayment : asset.getAssetPayments()) {
+
                 // create new AssetPaymentDetail
                 AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail(assetPayment);
-
+                
+                // reinforce these fields
+                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(assetPayment.getFinancialDocumentTypeCode());
+                assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(assetPayment.getFinancialSystemOriginationCode());
+                assetPaymentDetail.setPurchaseOrderNumber(assetPayment.getPurchaseOrderNumber());
+                
                 // add assetPaymentDetail to AssetPaymentDetail list
                 newAssetPaymentDetailList.add(assetPaymentDetail);
-            }
+           }
 
             // Set total amount per asset
             assetGlobal.setTotalCostAmount(asset.getTotalCostAmount());
@@ -232,6 +225,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
         // set AssetGlobal payment details with new payment details
         assetGlobal.setAssetPaymentDetails(newAssetPaymentDetailList);
+
     }
 
     /**

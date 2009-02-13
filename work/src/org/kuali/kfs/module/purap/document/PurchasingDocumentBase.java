@@ -142,6 +142,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String vendorContractName;
     private String supplierDiversityLabel;
     private String vendorContactsLabel;
+    private String deliveryCampusCodeForSearching;
 
     // REFERENCE OBJECTS
     private FundingSource fundingSource;
@@ -1134,6 +1135,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setPurchasingCapitalAssetItems(List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems) {
         this.purchasingCapitalAssetItems = purchasingCapitalAssetItems;
+    }
+    
+    public String getDeliveryCampusCodeForSearching() {
+        return deliveryCampusCodeForSearching;
+    }
+
+    public void setDeliveryCampusCodeForSearching(String deliveryCampusCodeForSearching) {
+        this.deliveryCampusCodeForSearching = deliveryCampusCodeForSearching;
     }
 
     public abstract Class getPurchasingCapitalAssetItemClass();

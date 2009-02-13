@@ -156,6 +156,7 @@
         <ref bean="PurchaseOrderDocument-useTaxIndicator" />
         <ref bean="PurchaseOrderDocument-statusCodeForMultiboxSearching"/>
         <ref bean="PurchaseOrderDocument-deliveryCampusCodeForSearching"/>
+        <ref bean="PurchaseOrderDocument-postingYearForSearching"/>
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations" />
@@ -178,6 +179,7 @@
 
   <bean id="PurchaseOrderDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+  
   <bean id="PurchaseOrderDocument-postingYear" parent="PurchaseOrderDocument-postingYear-parentBean" />
 
   <bean id="PurchaseOrderDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
@@ -187,6 +189,17 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
+  
+  <bean id="PurchaseOrderDocument-postingYearForSearching" parent="PurchaseOrderDocument-postingYearForSearching-parentBean" />
+
+  <bean id="PurchaseOrderDocument-postingYearForSearching-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+    <property name="name" value="postingYearForSearching" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearWithBlankValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean> 
+  
   <bean id="PurchaseOrderDocument-vendorNumber" parent="PurchaseOrderDocument-vendorNumber-parentBean" />
 
   <bean id="PurchaseOrderDocument-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
@@ -1548,7 +1561,7 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    						<property name="attributeName" value="postingYear" />
+    						<property name="attributeName" value="postingYearForSearching" />
     					</bean>
     				</property>
     				<property name="documentValues">

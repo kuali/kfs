@@ -21,6 +21,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.service.impl.WorkflowDocumentServiceImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
@@ -64,7 +65,6 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private String capitalAssetTransactionTypeCode;
     private List<ItemCapitalAsset> purApItemAssets;
     private Integer capitalAssetSystemIdentifier;
-    private List<Long> approvedAssetNumbers;
 
     private Integer purchaseOrderItemIdentifier;
     // used to control "create asset" and "apply payment" button display
@@ -615,12 +615,11 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * @return Returns the approvedAssetNumbers.
      */
     public List<Long> getApprovedAssetNumbers() {
+        List<Long> assetNumbers = new ArrayList<Long>();
         if (!StringUtils.isEmpty(this.getCapitalAssetManagementDocumentNumber())) {
-
             try {
                 Document doc = (Document) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getCapitalAssetManagementDocumentNumber());
                 KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
-                List<Long> assetNumbers = new ArrayList<Long>();
                 Map<String, String> fieldValues = new HashMap<String, String>();
                 if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal()) {
                     if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(workflowDocument.getDocumentType())) {
@@ -629,36 +628,26 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
                         for (AssetGlobalDetail detail : assetGlobalDetails) {
                             assetNumbers.add(detail.getCapitalAssetNumber());
                         }
-                        return assetNumbers;
                     }
                     else if (this.getDataDictionaryService().getDocumentTypeNameByClass(AssetPaymentDocument.class).equalsIgnoreCase(workflowDocument.getDocumentType())) {
-                        fieldValues.put(CamsPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+                        fieldValues.put(CamsPropertyConstants.DOCUMENT_NUMBER, this.getCapitalAssetManagementDocumentNumber());
                         Collection<AssetPaymentAssetDetail> paymentAssetDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetPaymentAssetDetail.class, fieldValues);
                         for (AssetPaymentAssetDetail detail : paymentAssetDetails) {
-                            if (ObjectUtils.isNotNull(detail.getAsset())) {
-                                assetNumbers.add(detail.getCapitalAssetNumber());
-                            }
+                            assetNumbers.add(detail.getCapitalAssetNumber());
                         }
                     }
                 }
             }
             catch (WorkflowException e) {
                 e.printStackTrace();
-            } catch (UnknownDocumentIdException unknowne) {
-                this.capitalAssetManagementDocumentNumber = null;
+            }
+            catch (UnknownDocumentIdException unknownIdE) {
+                //throw new RuntimeException( "Error retrieving documentId: " + this.getCapitalAssetManagementDocumentNumber() + " with KualiWorkflowDocument.", unknownIdE );
             }
         }
-        return approvedAssetNumbers;
+        return assetNumbers;
     }
 
-    /**
-     * Sets the approvedAssetNumbers attribute value.
-     * 
-     * @param approvedAssetNumbers The approvedAssetNumbers to set.
-     */
-    public void setApprovedAssetNumbers(List<Long> approvedAssetNumbers) {
-        this.approvedAssetNumbers = approvedAssetNumbers;
-    }
 
     private DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);

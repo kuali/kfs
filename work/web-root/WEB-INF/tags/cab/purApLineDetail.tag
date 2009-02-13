@@ -26,6 +26,7 @@
 <c:set var="generalLedgerAttributes" value="${DataDictionary.GeneralLedgerEntry.attributes}" />
 <c:set var="financialSystemDocumentHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
 <c:set var="genericAttributes" value="${DataDictionary.GenericAttributes.attributes}" />
+<c:set var="CapitalAssetInformationAttributes"	value="${DataDictionary.CapitalAssetInformation.attributes}" />	
 
 <c:choose>
 	<c:when test="${itemLine.tradeInAllowance}">
@@ -152,9 +153,10 @@
 		</td>
 		<td class="infoline" align="center">
 			<c:forEach items="${itemLine.approvedAssetNumbers }" var="assetNumber" >
-				<a href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.integration.cam.CapitalAssetManagementAsset&capitalAssetNumber=${assetNumber}&methodToCall=start" target="_blank">
+				<kul:inquiry boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" keyValues="capitalAssetNumber=${assetNumber}" render="true">
 					${assetNumber }
-				</a>&nbsp;
+				</kul:inquiry>
+				&nbsp;
 			</c:forEach>
 			&nbsp;
 		</td>

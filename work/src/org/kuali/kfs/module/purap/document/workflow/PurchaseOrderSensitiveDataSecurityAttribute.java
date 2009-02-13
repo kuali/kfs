@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.document.workflow;
+package org.kuali.kfs.module.purap.document.workflow;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.businessobject.SensitiveData;
-import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.DocumentTypeSecurity;
 import org.kuali.rice.kew.doctype.SecurityAttribute;
@@ -36,7 +33,7 @@ import org.kuali.rice.kns.service.DocumentService;
 /**
  * This class...
  */
-public class FinancialSystemSecurityAttribute implements SecurityAttribute {
+public class PurchaseOrderSensitiveDataSecurityAttribute implements SecurityAttribute {
 
     private WorkflowUtility workflowUtils = SpringContext.getBean(WorkflowUtility.class);
     private DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);

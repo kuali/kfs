@@ -91,6 +91,7 @@
 		<c:if test="${itemLine.active }">
 			<kul:htmlControlAttribute property="${assetItemStr}.splitQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/>
 		</c:if>
+		&nbsp;
 	</td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.unitCost" attributeEntry="${genericAttributes.genericAmount}" readOnly="true"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.firstFincialObjectCode" attributeEntry="${generalLedgerAttributes.financialObjectCode}" readOnly="true"/></td>
@@ -144,17 +145,18 @@
 	</c:when>
 	<c:otherwise>
 	    <td class="infoline" align="center">
-		<a href="${ConfigProperties.application.url}/en/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
-			<kul:htmlControlAttribute property="${assetItemStr}.capitalAssetManagementDocumentNumber" attributeEntry="${purApItemAssetAttributes.capitalAssetManagementDocumentNumber}" readOnly="true">
-			</kul:htmlControlAttribute>
-		</a>&nbsp;
+			<a href="${ConfigProperties.application.url}/en/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
+				<kul:htmlControlAttribute property="${assetItemStr}.capitalAssetManagementDocumentNumber" attributeEntry="${purApItemAssetAttributes.capitalAssetManagementDocumentNumber}" readOnly="true">
+				</kul:htmlControlAttribute>
+			</a>&nbsp;
 		</td>
 		<td class="infoline" align="center">
-		<c:forEach items="${itemLine.approvedAssetNumbers }" var="assetNumber" >
-		<a href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.integration.cam.CapitalAssetManagementAsset&capitalAssetNumber=${assetNumber}&methodToCall=start" target="_blank">
-			${assetNumber }
-		</a>&nbsp;
-		</c:forEach>
+			<c:forEach items="${itemLine.approvedAssetNumbers }" var="assetNumber" >
+				<a href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.integration.cam.CapitalAssetManagementAsset&capitalAssetNumber=${assetNumber}&methodToCall=start" target="_blank">
+					${assetNumber }
+				</a>&nbsp;
+			</c:forEach>
+			&nbsp;
 		</td>
 	</c:otherwise>
 	</c:choose>

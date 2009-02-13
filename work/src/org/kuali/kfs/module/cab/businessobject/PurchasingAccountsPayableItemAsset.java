@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -609,14 +610,15 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the approvedAssetNumbers attribute. 
+     * Gets the approvedAssetNumbers attribute.
+     * 
      * @return Returns the approvedAssetNumbers.
      */
     public List<Long> getApprovedAssetNumbers() {
         if (!StringUtils.isEmpty(this.getCapitalAssetManagementDocumentNumber())) {
-            
+
             try {
-                Document doc= (Document)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getCapitalAssetManagementDocumentNumber());
+                Document doc = (Document) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getCapitalAssetManagementDocumentNumber());
                 KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
                 List<Long> assetNumbers = new ArrayList<Long>();
                 Map<String, String> fieldValues = new HashMap<String, String>();
@@ -640,16 +642,18 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
                     }
                 }
             }
-            catch (WorkflowException we) {
-                we.printStackTrace();
+            catch (WorkflowException e) {
+                e.printStackTrace();
+            } catch (UnknownDocumentIdException unknowne) {
+                this.capitalAssetManagementDocumentNumber = null;
             }
-            
         }
         return approvedAssetNumbers;
     }
 
     /**
      * Sets the approvedAssetNumbers attribute value.
+     * 
      * @param approvedAssetNumbers The approvedAssetNumbers to set.
      */
     public void setApprovedAssetNumbers(List<Long> approvedAssetNumbers) {
@@ -659,5 +663,5 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);
     }
-    
+
 }

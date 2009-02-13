@@ -33,6 +33,7 @@
 		<c:if test="${activeIndicator=='true'}">
 			<html:checkbox property="selectAll" onclick="selectSources(this)"/>Select		
 		</c:if>
+		&nbsp;
 		</th>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}"/>
   		<th class="grid" align="center">Doc Type

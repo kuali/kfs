@@ -91,11 +91,11 @@ public class PurApLineAction extends CabActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private void createPurApLineSession(Integer purchaseOrderIdentifier) {
+    protected void createPurApLineSession(Integer purchaseOrderIdentifier) {
         GlobalVariables.getUserSession().addObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()), new PurApLineSession());
     }
 
-    private void clearPurApLineSession(Integer purchaseOrderIdentifier) {
+    protected void clearPurApLineSession(Integer purchaseOrderIdentifier) {
         GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()));
     }
 
@@ -153,7 +153,7 @@ public class PurApLineAction extends CabActionBase {
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
     }
-    
+
     /**
      * save the information in the current form into underlying data store
      */
@@ -220,6 +220,10 @@ public class PurApLineAction extends CabActionBase {
 
         // Get the line item for applying split action.
         PurchasingAccountsPayableItemAsset selectedLineItem = getSelectedLineItem((PurApLineForm) form);
+        
+        if (selectedLineItem == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
         String errorPath = CabPropertyConstants.PurApLineForm.PURAP_DOCS + KFSConstants.SQUARE_BRACKET_LEFT + purApLineForm.getActionPurApDocIndex() + KFSConstants.SQUARE_BRACKET_RIGHT + "." + CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS + KFSConstants.SQUARE_BRACKET_LEFT + purApLineForm.getActionItemAssetIndex() + KFSConstants.SQUARE_BRACKET_RIGHT;
         GlobalVariables.getErrorMap().addToErrorPath(errorPath);
@@ -490,6 +494,9 @@ public class PurApLineAction extends CabActionBase {
     public ActionForward allocate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset allocateSourceLine = getSelectedLineItem(purApForm);
+        if (allocateSourceLine == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
         List<PurchasingAccountsPayableItemAsset> allocateTargetLines = purApLineService.getAllocateTargetLines(allocateSourceLine, purApForm.getPurApDocs());
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -580,7 +587,12 @@ public class PurApLineAction extends CabActionBase {
         PurchasingAccountsPayableDocument purApDoc = purApLineForm.getPurApDocs().get(purApLineForm.getActionPurApDocIndex());
         PurchasingAccountsPayableItemAsset selectedItem = purApDoc.getPurchasingAccountsPayableItemAssets().get(purApLineForm.getActionItemAssetIndex());
         // Set non-persistent object relationship from item to document. This is important for split and percent payment.
-        selectedItem.setPurchasingAccountsPayableDocument(purApDoc);
+        if (selectedItem.isActive()) {
+            selectedItem.setPurchasingAccountsPayableDocument(purApDoc);
+        }
+        else {
+            selectedItem = null;
+        }
         return selectedItem;
     }
 
@@ -608,6 +620,10 @@ public class PurApLineAction extends CabActionBase {
     public ActionForward applyPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
+        
+        if (selectedLine == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question != null) {
@@ -644,12 +660,11 @@ public class PurApLineAction extends CabActionBase {
         String documentNumber;
         // create CAMS asset payment global document.
         if ((documentNumber = purApLineDocumentService.processApplyPayment(selectedLine, purApForm.getPurApDocs(), purApLineSession, purApForm.getRequisitionIdentifier())) != null) {
-            String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_PAYMENT_DOCUMENT, documentNumber);
-            return new ActionForward(forwardUrl, true);
+            purApForm.setDocumentNumber(documentNumber);
         }
-        else {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
     }
 
     /**
@@ -665,6 +680,10 @@ public class PurApLineAction extends CabActionBase {
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
+        
+        if (selectedLine == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question != null) {
@@ -732,38 +751,10 @@ public class PurApLineAction extends CabActionBase {
         // create CAMS asset global document.
         if ((documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm.getPurApDocs(), purApLineSession, purApForm.getRequisitionIdentifier())) != null) {
             // forward link to asset global
-            String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT, documentNumber);
-            return new ActionForward(forwardUrl, true);
+            purApForm.setDocumentNumber(documentNumber);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * Return Asset Global forwarding URL.
-     * 
-     * @param request
-     * @param documentNumber
-     * @return
-     */
-    private String getDocHandlerForwardLink(String docTypeName, String documentNumber) {
-        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-        try {
-            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(docTypeName);
-            String docHandlerUrl = docType.getDocTypeHandlerUrl();
-            if (docHandlerUrl.indexOf("?") == -1) {
-                docHandlerUrl += "?";
-            }
-            else {
-                docHandlerUrl += "&";
-            }
-
-            docHandlerUrl += KNSConstants.PARAMETER_DOC_ID + "=" + documentNumber + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
-            return docHandlerUrl;
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
-        }
     }
 
     /**

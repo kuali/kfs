@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 
@@ -57,19 +59,48 @@ public enum AssetRetirementGlobalMaintainableFixture {
     }
 
     @SuppressWarnings("deprecation")
-    public List<AssetRetirementGlobalDetail> newAssetRetirementDetail() {
-        String propertyKey;
-        String deliminator = properties.getProperty("deliminator");
-        String fieldNames = properties.getProperty("assetRetirementDetail.fieldNames");
-        
-        Integer dataRows    = new Integer(properties.getProperty("assetRetirementDetail.numOfData"));                
-        
+    private List<AssetRetirementGlobalDetail> newAssetRetirementDetail() {
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = new ArrayList<AssetRetirementGlobalDetail>();
-        for(int i=1;i<=dataRows.intValue();i++) {
-            propertyKey = "assetRetirementDetail.testData" + i;
-            AssetRetirementGlobalDetail assetRetirementGlobalDetail = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetRetirementGlobalDetail.class, properties, propertyKey, fieldNames, deliminator);            
-            assetRetirementGlobalDetails.add(assetRetirementGlobalDetail);
+        List<Asset> assets = newAssets();
+        for (Asset asset : assets) {
+            AssetRetirementGlobalDetail assetRetirementDetail = new AssetRetirementGlobalDetail();
+            assetRetirementDetail.setAsset(asset);
+            assetRetirementGlobalDetails.add(assetRetirementDetail);
         }
         return assetRetirementGlobalDetails;
+    }
+    
+    @SuppressWarnings("deprecation")
+    private List<Asset> newAssets() {
+        List<Asset>  assets = new ArrayList<Asset>();
+        String deliminator = properties.getProperty("deliminator");
+        String fieldNames = properties.getProperty("asset.fieldNames");
+        Integer dataRows    = new Integer(properties.getProperty("asset.numOfData"));  
+        testDataPos=1;
+        for (int i=1; i<= dataRows.intValue(); i++) {
+            String propertyKey = "asset.testData" +i;
+            Asset asset = CamsFixture.DATA_POPULATOR.buildTestDataObject(Asset.class, properties, propertyKey, fieldNames, deliminator);
+            List<AssetPayment> assetPayments = newAssetPayments();
+            asset.setAssetPayments(assetPayments);
+            for (AssetPayment assetPayment : assetPayments) {
+                assetPayment.setAsset(asset);
+            }
+            assets.add(asset);
+            testDataPos += 2;
+        }
+        return assets;
+    }
+    
+    private List<AssetPayment> newAssetPayments() {
+        List<AssetPayment> assetPayments = new ArrayList<AssetPayment>();
+        String deliminator = properties.getProperty("deliminator");
+        String fieldNames = properties.getProperty("assetPayment.fieldNames");
+        Integer dataRows = new Integer(properties.getProperty("assetPayment.numOfData"));
+        for (int i=testDataPos;i<=dataRows.intValue() && i<testDataPos+2;i++) {
+            String propertyKey = "assetPayment.testData" + i;
+            AssetPayment assetPayment = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);
+            assetPayments.add(assetPayment);
+        }
+        return assetPayments;
     }
 }

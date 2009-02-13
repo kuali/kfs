@@ -14,6 +14,13 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<script>
+<c:if test="${!empty KualiForm.documentNumber}">
+	var popUpurl = '${KualiForm.docHandlerForwardLink}';
+	window.open(popUpurl, popUpurl);
+</c:if>
+</script>
+
 <kul:page showDocumentInfo="false" htmlFormAction="cabPurApLine" renderMultipart="true"
 	showTabButtons="true" docTitle="Purchasing / Accounts Payable Transactions" 
 	transactionalDocument="false" headerDispatch="true" headerTabActive="true"

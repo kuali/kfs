@@ -27,7 +27,7 @@
 <%@ attribute name="depositOnly" required="false" description="boolean indicating whether the bank lookup call should request only deposit banks" %>
 <%@ attribute name="disbursementOnly" required="false" description="boolean indicating whether the bank lookup call should request only disbursement banks" %>
 
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="financialDocHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
 <c:set var="includeTotalAmount" value="${not empty editingMode[KFSConstants.AMOUNT_TOTALING_EDITING_MODE]}" />
 
@@ -54,7 +54,7 @@
 		                attributeEntry="${postingYearAttributes.postingYear}" 
 		                property="document.postingYear" 
 		                onchange="${postingYearOnChange}"
-		                readOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] or fiscalYearReadOnly}"
+		                readOnly="${readOnly or fiscalYearReadOnly}"
 		              />
 		          <c:if test="${!readOnly and includePostingYearRefresh}">
 		            <html:image property="methodToCall.refresh" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" title="refresh" styleClass="tinybutton"/>    

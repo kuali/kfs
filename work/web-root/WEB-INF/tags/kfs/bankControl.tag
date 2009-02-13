@@ -25,9 +25,9 @@
 <%@ attribute name="readOnly" required="false" description="boolean indicating whether the document is readOnly. If not an additional check is made to verify the bank edit mode was exported." %>
 <%@ attribute name="style" required="false" description="style class for the cell" %>
 
-<c:if test="${KualiForm.editingMode[Constants.BANK_ENTRY_VIEWABLE_EDITING_MODE]}">
+<c:if test="${KualiForm.editingMode[KFSConstants.BANK_ENTRY_VIEWABLE_EDITING_MODE]}">
 
-  <c:if test="${!KualiForm.editingMode[Constants.BANK_ENTRY_EDITABLE_EDITING_MODE]}">
+  <c:if test="${empty KualiForm.editingMode[KFSConstants.BANK_ENTRY_EDITABLE_EDITING_MODE]}">
     <c:set var="readOnly" value="true" />
   </c:if>
   

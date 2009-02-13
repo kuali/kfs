@@ -115,6 +115,7 @@
             p:size="15" />
     </property>
 
+<!-- TODO: BIN comments: this throws execption when bankAccountNumber is null/blank
     <property name="attributeSecurity">
       <bean parent="AttributeSecurity">
   	     <property name="partialMask" value="true" /> 
@@ -123,6 +124,7 @@
   	     </property>
       </bean>
     </property>
+ -->    
   </bean>
   
   <bean id="Bank-bankAccountDescription" parent="Bank-bankAccountDescription-parentBean" />

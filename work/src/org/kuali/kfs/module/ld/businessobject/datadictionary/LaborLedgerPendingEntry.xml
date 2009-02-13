@@ -87,7 +87,7 @@
   </bean>
   <bean id="LaborLedgerPendingEntry-emplid" parent="LaborLedgerPendingEntry-emplid-parentBean" />
 
-  <bean id="LaborLedgerPendingEntry-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="LaborLedgerPendingEntry-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="LaborLedgerPendingEntry-employeeRecord" parent="LaborLedgerPendingEntry-employeeRecord-parentBean" />

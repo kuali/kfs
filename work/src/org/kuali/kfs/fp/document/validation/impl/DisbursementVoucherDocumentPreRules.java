@@ -91,27 +91,26 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
         boolean tabStatesOK = true;
 
         DisbursementVoucherNonEmployeeTravel dvNonEmplTrav = dvDocument.getDvNonEmployeeTravel();
-
+        if (!hasNonEmployeeTravelValues(dvNonEmplTrav)) {
+            return true;
+        }
+        
         String paymentReasonCode = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
         ParameterEvaluator travelNonEmplPaymentReasonEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);
-        if ((hasNonEmployeeTravelValues(dvNonEmplTrav) && !travelNonEmplPaymentReasonEvaluator.evaluationSucceeds()) || dvDocument.getDvPayeeDetail().isEmployee()) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
-
-            PaymentReasonValuesFinder payReasonValues = new PaymentReasonValuesFinder();
-            List<KeyLabelPair> reasons = payReasonValues.getKeyValues();
-            String nonEmplTravReasonStr = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
+        if(!travelNonEmplPaymentReasonEvaluator.evaluationSucceeds() || dvDocument.getDvPayeeDetail().isEmployee()){
+            String nonEmplTravReasonStr = StringUtils.EMPTY;
             
-            List<String> travelNonEmplPaymentReasonCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);
-            
+            List<String> travelNonEmplPaymentReasonCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);            
+            List<KeyLabelPair> reasons = new PaymentReasonValuesFinder().getKeyValues();
             for (KeyLabelPair r : reasons) {
-                // TODO: warren: what if there are multiple codes?, I think this code's under the assumption that there's only one
-                // non-employee travel payment reason
                 if (!travelNonEmplPaymentReasonCodes.isEmpty() && r.getKey().equals(travelNonEmplPaymentReasonCodes.get(0))) {
                     nonEmplTravReasonStr = r.getLabel();
                 }
             }
 
             Object[] args = { "payment reason", "'" + dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonName() + "'", "Non-Employee Travel", "'" + nonEmplTravReasonStr + "'" };
+            
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
             questionText = MessageFormat.format(questionText, args);
 
             boolean clearTab = super.askOrAnalyzeYesNoQuestion(KFSConstants.DisbursementVoucherDocumentConstants.CLEAR_NON_EMPLOYEE_TAB_QUESTION_ID, questionText);

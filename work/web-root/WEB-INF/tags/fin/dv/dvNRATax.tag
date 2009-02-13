@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="taxReadOnly" value="${!fullEntryMode || !taxEntryMode}"/>
-
 <kul:tab tabTitle="Nonresident Alien Tax" defaultOpen="false" tabErrorKey="${KFSConstants.DV_NRATAX_TAB_ERRORS}">
 	<c:set var="nraTaxAttributes" value="${DataDictionary.DisbursementVoucherNonResidentAlienTax.attributes}" />
     <div class="tab-container" align=center > 
@@ -27,42 +25,42 @@
             <tr>
               <th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.incomeClassCode}"/></div></th>
               <td width="25%">
-                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeClassCode}" property="document.dvNonResidentAlienTax.incomeClassCode" extraReadOnlyProperty="document.dvNonResidentAlienTax.incomeClassName"readOnly="${taxReadOnly}"/>
-                <c:if test="${!taxReadOnly}">
+                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeClassCode}" property="document.dvNonResidentAlienTax.incomeClassCode" extraReadOnlyProperty="document.dvNonResidentAlienTax.incomeClassName"readOnly="${!taxEntryMode}"/>
+                <c:if test="${taxEntryMode}">
                   <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" fieldConversions="code:document.dvNonResidentAlienTax.incomeClassCode"/>
                 </c:if>
               </td>
               <th width="25%" scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.incomeTaxTreatyExemptCode}"/></div></th>
               <td width="25%">
-                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeTaxTreatyExemptCode}" property="document.dvNonResidentAlienTax.incomeTaxTreatyExemptCode" readOnly="${taxReadOnly}"/>
+                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeTaxTreatyExemptCode}" property="document.dvNonResidentAlienTax.incomeTaxTreatyExemptCode" readOnly="${!taxEntryMode}"/>
               </td>
             </tr>
             
             <tr>
               <th  scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.federalIncomeTaxPercent}"/></div></th>
               <td>
-                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.federalIncomeTaxPercent}" property="document.dvNonResidentAlienTax.federalIncomeTaxPercent" readOnly="${taxReadOnly}"/>
-                <c:if test="${!taxReadOnly}">
+                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.federalIncomeTaxPercent}" property="document.dvNonResidentAlienTax.federalIncomeTaxPercent" readOnly="${!taxEntryMode}"/>
+                <c:if test="${taxEntryMode}">
                   <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" fieldConversions="incomeTaxPercent:document.dvNonResidentAlienTax.federalIncomeTaxPercent" lookupParameters="document.dvNonResidentAlienTax.incomeClassCode:incomeClassCode,'F':incomeTaxTypeCode"/>
                 </c:if>
               </td>
               <th  scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.foreignSourceIncomeCode}"/></div></th>
               <td>
-                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.foreignSourceIncomeCode}" property="document.dvNonResidentAlienTax.foreignSourceIncomeCode" readOnly="${taxReadOnly}"/>
+                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.foreignSourceIncomeCode}" property="document.dvNonResidentAlienTax.foreignSourceIncomeCode" readOnly="${!taxEntryMode}"/>
               </td>
             </tr>
             
             <tr>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.stateIncomeTaxPercent}"/></div></th>
               <td>
-                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.stateIncomeTaxPercent}" property="document.dvNonResidentAlienTax.stateIncomeTaxPercent" readOnly="${taxReadOnly}"/>
-                <c:if test="${!taxReadOnly}">
+                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.stateIncomeTaxPercent}" property="document.dvNonResidentAlienTax.stateIncomeTaxPercent" readOnly="${!taxEntryMode}"/>
+                <c:if test="${taxEntryMode}">
                   <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" fieldConversions="incomeTaxPercent:document.dvNonResidentAlienTax.stateIncomeTaxPercent" lookupParameters="document.dvNonResidentAlienTax.incomeClassCode:incomeClassCode,'S':incomeTaxTypeCode"/>
                 </c:if>
               </td>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.incomeTaxGrossUpCode}"/></div></th>
               <td>
-                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeTaxGrossUpCode}" property="document.dvNonResidentAlienTax.incomeTaxGrossUpCode" readOnly="${taxReadOnly}"/>
+                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.incomeTaxGrossUpCode}" property="document.dvNonResidentAlienTax.incomeTaxGrossUpCode" readOnly="${!taxEntryMode}"/>
               </td>
             </tr>
             
@@ -70,19 +68,19 @@
               <th scope="row">
               	<div align="right">
               		<kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.postalCountryCode}"/>
-              		<c:if test="${!taxReadOnly}"><br> *required unless Income Class Code is Non Reportable</c:if>
+              		<c:if test="${taxEntryMode}"><br> *required unless Income Class Code is Non Reportable</c:if>
               	</div>
               </th>
               <td>
-                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.postalCountryCode}" property="document.dvNonResidentAlienTax.postalCountryCode" readOnly="${taxReadOnly}"/>
+                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.postalCountryCode}" property="document.dvNonResidentAlienTax.postalCountryCode" readOnly="${!taxEntryMode}"/>
               </td>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nraTaxAttributes.referenceFinancialDocumentNumber}"/></div></th>
               <td>
-                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.referenceFinancialDocumentNumber}" property="document.dvNonResidentAlienTax.referenceFinancialDocumentNumber" readOnly="${taxReadOnly}"/>
+                <kul:htmlControlAttribute attributeEntry="${nraTaxAttributes.referenceFinancialDocumentNumber}" property="document.dvNonResidentAlienTax.referenceFinancialDocumentNumber" readOnly="${!taxEntryMode}"/>
               </td>
             </tr>
             
-            <c:if test="${!taxReadOnly}">
+            <c:if test="${taxEntryMode}">
               <tr>
                 <td class="infoline" colspan="4">
                   <center>

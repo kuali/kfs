@@ -21,28 +21,29 @@
 	renderMultipart="true" showTabButtons="true">
 	<dv:dvPrintCoverSheet />
 	<dv:dvMessages />
+	
 	<c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
 		<c:set var="fullEntryMode" value="true" scope="request" />
 	</c:if>
 	
-	<c:if test="${KualiForm.editingMode['frnEntry']}">
+	<c:if test="${fullEntryMode && KualiForm.editingMode['frnEntry']}">
 		<c:set var="frnEntryMode" value="true" scope="request" />
 	</c:if>	
-	<c:if test="${KualiForm.editingMode['travelEntry']}">
+	<c:if test="${fullEntryMode && KualiForm.editingMode['travelEntry']}">
 		<c:set var="travelEntryMode" value="true" scope="request" />
 	</c:if>
 	
-	<c:if test="${KualiForm.editingMode['wireEntry']}">
+	<c:if test="${fullEntryMode && KualiForm.editingMode['wireEntry']}">
 		<c:set var="wireEntryMode" value="true" scope="request" />
 	</c:if>
-	<c:if test="${KualiForm.editingMode['taxEntry']}">
+	<c:if test="${fullEntryMode && KualiForm.editingMode['taxEntry']}">
 		<c:set var="taxEntryMode" value="true" scope="request" />
 	</c:if>
 	
-	<c:if test="${KualiForm.editingMode['adminEntry']}">
+	<c:if test="${fullEntryMode && KualiForm.editingMode['adminEntry']}">
 		<c:set var="adminEntryMode" value="true" scope="request" />
 	</c:if>
-	<c:if test="${KualiForm.editingMode['payeeEntry']}">
+	<c:if test="${fullEntryMode && KualiForm.editingMode['payeeEntry']}">
 		<c:set var="payeeEntryMode" value="true" scope="request" />
 	</c:if>
 	

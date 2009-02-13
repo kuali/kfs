@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cg.dataaccess.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,10 +29,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
-import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * @see CloseDao
@@ -42,9 +41,12 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#getMaxApprovedClose()
      */
     public CFDAClose getMaxApprovedClose() {
-        CFDAClose returnVal = null;
 
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date today = dateTimeService.getCurrentSqlDateMidnight();
+        
         Criteria criteria = new Criteria();
+        criteria.addEqualTo("userInitiatedCloseDate", today);
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.ENROUTE);
         QueryByCriteria query = QueryFactory.newQuery(CFDAClose.class, criteria);
         query.addOrderByDescending("documentNumber");
@@ -56,36 +58,81 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
             documentHeaderIds.add(document.getDocumentNumber());
         }
 
-        if (documentHeaderIds.size() > 0) {
-
-            List<CFDAClose> docs  = null;
-
+        List<CFDAClose> docs = null;
+        
+        if (documentHeaderIds.size() > 0) { 
+            
             try {
-                docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(CFDAClose.class, documentHeaderIds);
-
-                if (docs.size() >= 1) {
-                    returnVal = docs.get(0);
-                    if (null == returnVal.getAwardClosedCount()) {
-                        returnVal.setAwardClosedCount(0L);
-                    }
-                    if (null == returnVal.getProposalClosedCount()) {
-                        returnVal.setProposalClosedCount(0L);
-                    }
-                }
-//                for (CFDAClose close : docs) {
-//
-//                    close.getDocumentHeader().getWorkflowDocument().disapprove("Was not most recent Close doc.");
-//                }
-            }catch (WorkflowException e) {
-                throw new InfrastructureException("unable to process CFDAClose", e);
+            docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(CFDAClose.class, documentHeaderIds);
+            } catch (WorkflowException we) {
+                throw new RuntimeException(we);
             }
-
+            
+            if (docs.size() > 1) {
+                CFDAClose close = docs.remove(0);
+                Date closeDate = close.getCloseOnOrBeforeDate();
+                for (CFDAClose cfdaClose: docs) {
+                    if (cfdaClose.getCloseOnOrBeforeDate().equals(closeDate)) {
+                        //disapprove docs with same close date??
+                    }
+                        
+                }
+                return close;
+                
+            } else if (docs.size() == 1) {
+                return docs.get(0);
+            } else
+                return null;
+            
+        } else {
+            return null;
         }
         
-        return returnVal;
       
     }
 
+    public CFDAClose getMostRecentClose() {
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date today = dateTimeService.getCurrentSqlDateMidnight();
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("userInitiatedCloseDate", today);
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        QueryByCriteria query = QueryFactory.newQuery(CFDAClose.class, criteria);
+        query.addOrderByDescending("documentNumber");
+
+        Iterator<CFDAClose> documents = (Iterator<CFDAClose>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        ArrayList<String> documentHeaderIds = new ArrayList<String>();
+        while (documents.hasNext()) {
+            CFDAClose document = (CFDAClose) documents.next();
+            documentHeaderIds.add(document.getDocumentNumber());
+        }
+
+        List<CFDAClose> docs = null;
+        
+        if (documentHeaderIds.size() > 0) { 
+            
+            try {
+            docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(CFDAClose.class, documentHeaderIds);
+            } catch (WorkflowException we) {
+                throw new RuntimeException(we);
+            }
+            
+            if (docs.size() > 1) {
+                CFDAClose close = docs.remove(0);
+                return close;
+                
+            } else if (docs.size() == 1) {
+                return docs.get(0);
+            } else
+                return null;
+            
+        } else {
+            return null;
+        }
+    }
+    
+    
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#save(org.kuali.kfs.module.cg.businessobject.Close)
      */

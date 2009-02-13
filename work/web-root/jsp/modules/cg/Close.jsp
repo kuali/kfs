@@ -15,9 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="closeAttributes"
-	value="${DataDictionary['CFDACloseDocument'].attributes}" />
-		
+
 <kul:page showDocumentInfo="true"
 	htmlFormAction="cgClose"
     renderMultipart="true"

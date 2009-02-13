@@ -16,10 +16,12 @@
 package org.kuali.kfs.module.cg.service.impl;
 
 import java.sql.Date;
+import java.text.MessageFormat;
 import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
@@ -32,6 +34,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +49,7 @@ public class CloseServiceImpl implements CloseService {
     /**
      * <ul>
      * <li>Get the max proposal_close_number in cg_prpsl_close_t.</li>
-     * <li>Get the Close with that max_close_number.</li>
+     * <li>Get the Close with that max_close_number.</li>got
      * <li>If todays date is the same as the user_initiate_date on that Close, continue. Else, break.</li>
      * <li>Get all proposals with a null closing_date and a submission_date <= the last_closed_date of the Close with the
      * max_proposal_close number.</li>
@@ -63,72 +66,77 @@ public class CloseServiceImpl implements CloseService {
      * 
      * @see org.kuali.kfs.module.cg.service.CloseService#close()
      */
-    public void close() {
+    public boolean close() {
 
         CFDAClose max = closeDao.getMaxApprovedClose();
         Date today = dateTimeService.getCurrentSqlDateMidnight();
 
         if (null == max) { // no closes at all. Gotta wait until we get an approved one.
-            return;
+            return true;
         }
 
-        if (!today.equals(max.getUserInitiatedCloseDate())) {
-            return;
-        }
-
+        String noteText = null;
         if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), 
                 CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)){
 
-            Collection<Proposal> proposals = proposalDao.getProposalsToClose(max);
-            Long proposalCloseCount = new Long(proposals.size());
-            for (Proposal p : proposals) {
-                p.setProposalClosingDate(today);
-                proposalDao.save(p);
+            KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+
+            try {
+
+                Collection<Proposal> proposals = proposalDao.getProposalsToClose(max);
+                Long proposalCloseCount = new Long(proposals.size());
+                for (Proposal p : proposals) {
+                    p.setProposalClosingDate(today);
+                    proposalDao.save(p);
+                }
+
+                Collection<Award> awards = awardDao.getAwardsToClose(max);
+                Long awardCloseCount = new Long(awards.size());
+                for (Award a : awards) {
+                    a.setAwardClosingDate(today);
+                    awardDao.save(a);
+                }
+
+                max.setAwardClosedCount(awardCloseCount);
+                max.setProposalClosedCount(proposalCloseCount);
+
+                closeDao.save(max);
+                noteText = kualiConfigurationService.getPropertyString(CGKeyConstants.MESSAGE_CLOSE_JOB_SUCCEEDED);
+
+            } catch (Exception e) {
+                String messageProperty = kualiConfigurationService.getPropertyString(CGKeyConstants.ERROR_CLOSE_JOB_FAILED);
+                noteText = MessageFormat.format(messageProperty, e.getMessage(), e.getCause().getMessage());
+            } finally {
+               return this.addDocumentNoteAfterClosing(max, noteText);
             }
-
-            Collection<Award> awards = awardDao.getAwardsToClose(max);
-            Long awardCloseCount = new Long(awards.size());
-            for (Award a : awards) {
-                a.setAwardClosingDate(today);
-                awardDao.save(a);
-            }
-
-            max.setAwardClosedCount(awardCloseCount);
-            max.setProposalClosedCount(proposalCloseCount);
-
-            closeDao.save(max);
-        }
+        } else
+            return true;
+    }
+    
+    public CFDAClose getMostRecentClose() {
+        CFDAClose mostRecentClose = closeDao.getMostRecentClose();
+        return mostRecentClose;
     }
 
     /**
      * @see org.kuali.kfs.module.cg.service.CloseService#addDocumentNoteAfterClosing(String)
      */
-    public void addDocumentNoteAfterClosing(String noteText) {
+    private boolean addDocumentNoteAfterClosing(CFDAClose close, String noteText) {
         Note note = new Note();
         note.setNoteText(noteText);
         note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
-        CFDAClose mostRecentCloseDocument = this.getMostRecentClose();
-        
-        if (StringUtils.equals(mostRecentCloseDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), 
-                CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)){
-
-            DocumentService service = SpringContext.getBean(DocumentService.class);
-            try {
-                service.addNoteToDocument(mostRecentCloseDocument, note);
-                service.approveDocument(mostRecentCloseDocument, note.getNoteText(), null);
-            } catch (WorkflowException we) {
-                we.printStackTrace();
-            }
+        DocumentService service = SpringContext.getBean(DocumentService.class);
+        try {
+            service.addNoteToDocument(close, note);
+            service.approveDocument(close, note.getNoteText(), null);
+        } catch (WorkflowException we) {
+            we.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cg.service.CloseService#getMostRecentClose()
-     */
-    public CFDAClose getMostRecentClose() {
-        return closeDao.getMaxApprovedClose();
-    }
 
     public void setAwardDao(AwardDao awardDao) {
         this.awardDao = awardDao;

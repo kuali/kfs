@@ -29,6 +29,8 @@ public interface CloseDao {
      */
     public CFDAClose getMaxApprovedClose();
 
+    public CFDAClose getMostRecentClose();
+    
     /**
      * Save a {@link Close} instance.
      * 

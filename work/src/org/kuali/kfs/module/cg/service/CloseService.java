@@ -27,17 +27,8 @@ public interface CloseService {
     /**
      * See class description.
      */
-    public void close();
+    public boolean close();
 
-    /**
-     * Gets the Close record with the greatest close date.
-     * 
-     * @return the close with the greatest close date.
-     */
     public CFDAClose getMostRecentClose();
-
-    /**
-     * @param noteText the given text of a note add a note into document after it is closed
-     */
-    public void addDocumentNoteAfterClosing(String noteText);
+   
 }

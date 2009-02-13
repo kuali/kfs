@@ -52,30 +52,9 @@ public class CloseBatchStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
 
-        String messageSubject = StringUtils.EMPTY;
-        String messageBody = StringUtils.EMPTY;
+        return closeService.close();
 
-        try {
-            closeService.close();
-
-            messageSubject = kualiConfigurationService.getPropertyString(CGKeyConstants.SUBJECT_CLOSE_JOB_SUCCEEDED);
-            messageBody = kualiConfigurationService.getPropertyString(CGKeyConstants.MESSAGE_CLOSE_JOB_SUCCEEDED);
-        }
-        catch (Exception e) {
-            messageSubject = kualiConfigurationService.getPropertyString(CGKeyConstants.SUBJECT_CLOSE_JOB_FAILED);
-
-            String messageProperty = kualiConfigurationService.getPropertyString(CGKeyConstants.ERROR_CLOSE_JOB_FAILED);
-            messageBody = MessageFormat.format(messageProperty, e.getMessage(), e.getCause().getMessage());
-
-            LOG.error(messageBody, e);
-        }
-
-        // add a note onto the close document
-        closeService.addDocumentNoteAfterClosing(messageBody);
-
-        return true;
     }
 
 

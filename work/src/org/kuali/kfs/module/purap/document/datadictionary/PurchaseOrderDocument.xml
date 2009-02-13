@@ -194,7 +194,6 @@
 
   <bean id="PurchaseOrderDocument-postingYearForSearching-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYearForSearching" />
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearWithBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>

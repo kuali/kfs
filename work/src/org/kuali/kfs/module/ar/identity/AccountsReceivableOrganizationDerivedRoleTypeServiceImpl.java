@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -80,10 +81,10 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
         if ( processingOrg == null ) {
             // check the org options for this org
             Map<String, Object> arProcessOrgCriteria = new HashMap<String, Object>( 2 );
-            arProcessOrgCriteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, userOrg.getChartOfAccountsCode());
-            arProcessOrgCriteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, userOrg.getOrganizationCode());
+            arProcessOrgCriteria.put(ArPropertyConstants.SystemInformationFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, userOrg.getChartOfAccountsCode());
+            arProcessOrgCriteria.put(ArPropertyConstants.SystemInformationFields.PROCESSING_ORGANIZATION_CODE, userOrg.getOrganizationCode());
             // return true if any matching org options records
-            return getBusinessObjectService().countMatching(OrganizationOptions.class, arProcessOrgCriteria) > 0;
+            return getBusinessObjectService().countMatching(SystemInformation.class, arProcessOrgCriteria) > 0;
         } else { // org was passed, user's org must match
             return processingOrg.equals(userOrg);
         }        

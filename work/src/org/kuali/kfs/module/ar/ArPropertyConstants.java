@@ -171,6 +171,12 @@ public class ArPropertyConstants {
         public static final String ORGANIZATION_POSTAL_ZIP_CODE = "organizationPostalZipCode";
     }
     
+    //  SystemInformation (aka ProcessingOrg)
+    public static class SystemInformationFields {
+        public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
+        public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
+    }
+    
     // CustomerInvoiceItemCodes
     public static class CustomerInvoiceItemCodes {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";

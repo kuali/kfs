@@ -51,7 +51,7 @@
                 </th>
                 <td align=left valign=middle class="grid">
                 	<kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="customerNumber"  />
-                	<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNbr:customerNumber" lookupParameters="customerNumber:customerNbr" />
+                	<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNumber:customerNumber" lookupParameters="customerNumber:customerNumber" />
                 </td>                
 				            
             </tr>

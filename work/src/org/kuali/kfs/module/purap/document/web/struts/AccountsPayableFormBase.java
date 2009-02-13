@@ -16,10 +16,12 @@
 package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -28,6 +30,8 @@ import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -114,6 +118,34 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
 
         // update counts after populate
         updateItemCounts();
+    }
+
+    /**
+     * overridden to make sure accounting lines on items are repopulated
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populateAccountingLinesForResponse(java.lang.String, java.util.Map)
+     */
+    @Override
+    protected void populateAccountingLinesForResponse(String methodToCall, Map parameterMap) {
+        super.populateAccountingLinesForResponse(methodToCall, parameterMap);
+        
+        populateItemAccountingLines(parameterMap);
+    }
+    
+    /**
+     * Populates accounting lines for each item on the AP document
+     * @param parameterMap the map of parameters
+     */
+    protected void populateItemAccountingLines(Map parameterMap) {
+       int itemCount = 0;
+       for (PurApItem item : ((AccountsPayableDocument)getDocument()).getItems()) {
+           populateAccountingLine(item.getNewSourceLine(), KFSPropertyConstants.DOCUMENT+"."+KFSPropertyConstants.ITEM+"["+itemCount+"]."+KFSPropertyConstants.NEW_SOURCE_LINE, parameterMap);
+           
+           int sourceLineCount = 0;
+           for (PurApAccountingLine purApLine : item.getSourceAccountingLines()) {
+               populateAccountingLine(purApLine, KFSPropertyConstants.DOCUMENT+"."+KFSPropertyConstants.ITEM+"["+itemCount+"]."+KFSPropertyConstants.SOURCE_ACCOUNTING_LINE+"["+sourceLineCount+"]", parameterMap);
+               sourceLineCount += 1;
+           }
+       }
     }
 
     /**

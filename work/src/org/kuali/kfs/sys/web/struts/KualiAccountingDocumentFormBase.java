@@ -188,7 +188,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * @param parameterMap the map of parameters that were sent in with the request
      */
     @SuppressWarnings("deprecation")
-    private void populateAccountingLine(AccountingLineBase line, String accountingLinePropertyName, Map parameterMap) {
+    protected void populateAccountingLine(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(line);
 
         line.setDocumentNumber(getDocument().getDocumentNumber());

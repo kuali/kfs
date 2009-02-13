@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.web.struts;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
@@ -27,6 +28,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -399,6 +401,16 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
 
     public void setInitialZipCode(String initialZipCode) {
         this.initialZipCode = initialZipCode;
+    }
+
+
+
+    /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#repopulateOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.util.Map)
+     */
+    @Override
+    protected void repopulateOverrides(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {
+        // do nothing; purchasing documents do not have overrides
     }
 
 }

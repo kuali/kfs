@@ -4,6 +4,7 @@
     <documentType>
       <name>LLCP</name>
       <parent>LaborDistributionTransactionalDocument</parent>
+      <docHandler>${application.url}/laborLedgerCorrection.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>
           <start name="AdHoc"/>

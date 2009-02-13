@@ -4,6 +4,7 @@
     <documentType>
       <name>LLJV</name>
       <parent>LaborDistributionTransactionalDocument</parent>
+      <docHandler>${application.url}/laborJournalVoucher.do?methodToCall=docHandler</docHandler> 
       <routePaths>
         <routePath>
           <start name="AdHoc"/>

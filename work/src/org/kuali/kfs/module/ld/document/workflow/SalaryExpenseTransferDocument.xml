@@ -4,6 +4,7 @@
     <documentType>
       <name>ST</name>
       <parent>LaborDistributionTransactionalDocument</parent>
+      <docHandler>${application.url}/laborSalaryExpenseTransfer.do?methodToCall=docHandler</docHandler> 
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>

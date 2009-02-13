@@ -36,7 +36,7 @@
 				<sys:accountingLines>
 					<sys:accountingLineGroup
 						collectionPropertyName="document.sourceAccountingLines"
-						collectionItemPropertyName="document.sourceAccountingLine"
+						collectionItemPropertyName="document.sourceAccountingLines"
 						attributeGroupName="source" />
 				</sys:accountingLines>
 			</c:when>
@@ -44,7 +44,7 @@
 				<sys:accountingLines>
 					<sys:accountingLineGroup newLinePropertyName="newSourceLine"
 						collectionPropertyName="document.sourceAccountingLines"
-						collectionItemPropertyName="document.sourceAccountingLine"
+						collectionItemPropertyName="document.sourceAccountingLines"
 						attributeGroupName="source" />
 				</sys:accountingLines>
 			</c:otherwise>

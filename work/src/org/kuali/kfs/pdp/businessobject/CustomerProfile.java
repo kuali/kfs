@@ -46,6 +46,7 @@ import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CustomerProfile extends PersistableBusinessObjectBase implements Inactivateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
@@ -115,7 +116,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
 
     public CustomerProfile() {
         super();
-        customerBanks = new ArrayList<CustomerBank>();
+        customerBanks = new TypedArrayList(CustomerBank.class);;
     }
 
     public String getCustomerShortName() {
@@ -176,14 +177,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
 
     public void setCustomerBanks(List<CustomerBank> cbs) {
         customerBanks = cbs;
-    }
-
-    public void addCustomerBank(CustomerBank cb) {
-        customerBanks.add(cb);
-    }
-
-    public void deleteCustomerBank(CustomerBank cb) {
-        customerBanks.remove(cb);
     }
 
     public boolean equals(Object obj) {

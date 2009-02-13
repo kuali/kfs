@@ -67,6 +67,11 @@
 		<ref bean="CustomerProfile-active" />
       </list>
     </property>
+    <property name="collections">
+        <list>
+            <bean parent="CollectionDefinition" p:name="customerBanks" p:label="Customer Banks" p:shortLabel="Customer Banks" p:elementLabel="Customer Banks"/>
+        </list>
+    </property>    
 	<property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">

@@ -69,15 +69,15 @@
    	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
   	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
   	
-    <reference-descriptor name="customerProfile" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="customerProfile" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
       <foreignkey field-ref="customerId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
       <foreignkey field-ref="bankCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
 
@@ -172,7 +172,7 @@
 		<foreignkey field-ref="defaultPhysicalCampusProcessingCode" />
 	</reference-descriptor>
 	
-    <collection-descriptor name="customerBanks" element-class-ref="org.kuali.kfs.pdp.businessobject.CustomerBank" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="customerBanks" element-class-ref="org.kuali.kfs.pdp.businessobject.CustomerBank" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
        <inverse-foreignkey field-ref="customerId"/>
     </collection-descriptor>
   </class-descriptor>

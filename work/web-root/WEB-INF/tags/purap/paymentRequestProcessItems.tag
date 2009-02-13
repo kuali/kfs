@@ -142,7 +142,9 @@
 				accountingLineAttributes="${accountingLineAttributes}" 
 				overrideTitle="Tax Withholding Charges" 
 				mainColumnCount="${mainColumnCount}"
-				colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}" colSpanBlank="${colSpanBlank}">
+				colSpanItemType="${colSpanItemType}" 
+				colSpanExtendedPrice="${colSpanExtendedPrice}" 
+				colSpanBlank="${colSpanBlank}">
 			</purap:taxitems>
 		</c:if> 
 		

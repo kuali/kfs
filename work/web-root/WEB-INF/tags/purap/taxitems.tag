@@ -24,12 +24,9 @@
 <%@ attribute name="accountingLineAttributes" required="true"
 	type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="descriptionFirst" required="false" type="java.lang.Boolean"
-    description="Whether or not to show item description before extended price." %>
 <%@ attribute name="mainColumnCount" required="true" %>
-<%@ attribute name="colSpanDescription" required="true" %>
-<%@ attribute name="colSpanExtendedPrice" required="true" %>
 <%@ attribute name="colSpanItemType" required="true" %>
+<%@ attribute name="colSpanExtendedPrice" required="true" %>
 <%@ attribute name="colSpanBlank" required="true" %>
 
 <c:if test="${empty overrideTitle}">
@@ -74,22 +71,9 @@
 <tr>
 	<kul:htmlAttributeHeaderCell colspan="${colSpanItemType}"
 		attributeEntry="${itemAttributes.itemTypeCode}" />	
-	<c:choose>
-		<c:when test="${descriptionFirst}">
-			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
-				attributeEntry="${itemAttributes.itemDescription}" />
-			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
-				attributeEntry="${itemAttributes.extendedPrice}" />
-			<th colspan="${colSpanBlank}">&nbsp;</th>
-		</c:when>
-	    <c:otherwise>
-			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
-				attributeEntry="${itemAttributes.extendedPrice}" />
-			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
-				attributeEntry="${itemAttributes.itemDescription}" />
-			<th colspan="${colSpanBlank}">&nbsp;</th>
-		</c:otherwise>
-	</c:choose>	
+	<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
+		attributeEntry="${itemAttributes.extendedPrice}" />
+	<th colspan="${colSpanBlank}">&nbsp;</th>
 </tr>
 
 <logic:iterate indexId="ctr" name="KualiForm" property="document.items"	id="itemLine">
@@ -108,36 +92,15 @@
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="true" />:&nbsp;
 			    </div>
 			</td>
-			<c:choose>
-				<c:when test="${descriptionFirst}">
-					<td class="infoline" colspan="${colSpanDescription}">
-						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="true" />
-					</td>
-					<td class="infoline" colspan="${colSpanExtendedPrice}">
-						<div align="right">
-							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="true" styleClass="amount" />
-						</div>
-					</td>
-					<td class="infoline" colspan="${colSpanBlank}">
-						&nbsp;
-					</td>
-				</c:when>
-    			<c:otherwise>
-					<td class="infoline" colspan="${colSpanExtendedPrice}">
-						<div align="right">
-							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="true" styleClass="amount" />
-						</div>
-					</td>
-					<td class="infoline" colspan="${colSpanDescription}">
-						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="true" />
-					</td>
-					<td class="infoline" colspan="${colSpanBlank}">
-						&nbsp;
-					</td>
-				</c:otherwise>
-			</c:choose>
-		</tr>
-		
+			<td class="infoline" colspan="${colSpanExtendedPrice}">
+				<div align="right">
+					<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="true" styleClass="amount" />
+				</div>
+			</td>
+			<td class="infoline" colspan="${colSpanBlank}">
+				&nbsp;
+			</td>
+		</tr>	
 		<c:if test="${empty KualiForm.editingMode['allowItemEntry'] || !empty itemLine.itemExtendedPrice}">
 		    <purap:purapGeneralAccounting 
 			    accountPrefix="document.item[${ctr}]."

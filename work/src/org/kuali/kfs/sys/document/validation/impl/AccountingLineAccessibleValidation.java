@@ -15,15 +15,18 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
+import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
+import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
@@ -62,20 +65,17 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {        
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        final String groupName = getGroupName();
-        AccountingLineAuthorizer accountingLineAuthorizer = ((FinancialSystemTransactionalDocumentEntry)dataDictionaryService.getDataDictionary().getDictionaryObjectEntry(accountingDocumentForValidation.getClass().getName())).getAccountingLineGroups().get(groupName).getAccountingLineAuthorizer();
-        
-        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+        final boolean isAccessible = lookupAccountingLineAuthorizer().hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
 
         // report errors
         if (!isAccessible) {
-            String principalName = currentUser.getPrincipalName();
+            final String principalName = currentUser.getPrincipalName();
             
-            String[] chartErrorParams = new String[] { accountingLineForValidation.getChartOfAccountsCode(),  principalName};
+            final String[] chartErrorParams = new String[] { accountingLineForValidation.getChartOfAccountsCode(),  principalName};
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, convertEventToMessage(event), chartErrorParams);
             
-            String[] accountErrorParams = new String[] { accountingLineForValidation.getAccountNumber(), principalName };
+            final String[] accountErrorParams = new String[] { accountingLineForValidation.getAccountNumber(), principalName };
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, convertEventToMessage(event), accountErrorParams);
         }
 
@@ -88,6 +88,22 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      */
     protected String getGroupName() {
         return (accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.SOURCE_ACCOUNTING_LINES_GROUP_NAME : KFSConstants.TARGET_ACCOUNTING_LINES_GROUP_NAME);
+    }
+    
+    /**
+     * @return hopefully, the best accounting line authorizer implementation to do the KIM check for to see if lines are accessible
+     */
+    protected AccountingLineAuthorizer lookupAccountingLineAuthorizer() {
+        final String groupName = getGroupName();
+        final Map<String, AccountingLineGroupDefinition> groups = ((FinancialSystemTransactionalDocumentEntry)dataDictionaryService.getDataDictionary().getDictionaryObjectEntry(accountingDocumentForValidation.getClass().getName())).getAccountingLineGroups();
+        
+        if (groups.isEmpty()) return new AccountingLineAuthorizerBase(); // no groups? just use the default...
+        if (groups.containsKey(groupName)) return groups.get(groupName).getAccountingLineAuthorizer(); // we've got the group
+
+        final Set<String> groupNames = groups.keySet(); // we've got groups, just not the proper name; try our luck and get the first group iterator
+        final Iterator<String> groupNameIterator = groupNames.iterator();
+        final String firstGroupName = groupNameIterator.next();
+        return groups.get(firstGroupName).getAccountingLineAuthorizer();
     }
     
     /**

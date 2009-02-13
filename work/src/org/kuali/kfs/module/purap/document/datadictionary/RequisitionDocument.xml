@@ -394,7 +394,6 @@
     <property name="name" value="deliveryCampusCodeForSearching" />
     <property name="label" value="Delivery Campus" />
     <property name="shortLabel" value="Delivery Campus" />
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"

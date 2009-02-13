@@ -1,3 +1,5 @@
+DROP TABLE krim_dlgn_attr_data_t
+/
 
 CREATE TABLE KRIM_ENTITY_CACHE_T ( 
     ENTITY_ID    	VARCHAR2(40) NOT NULL,

@@ -90,6 +90,7 @@ public class CamsConstants extends JSTLConstants {
         // necessarily the documents themselves use these document type codes.
         public static final String ASSET_GLOBAL_SEPARATE = "ASEP";
         public static final String ASSET_RETIREMENT_MERGE = "AMRG";
+        public static final String ASSET_RETIREMENT = "AR";
     }
 
     public static class Parameters {

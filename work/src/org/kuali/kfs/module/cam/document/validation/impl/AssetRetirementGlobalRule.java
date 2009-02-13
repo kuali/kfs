@@ -109,6 +109,11 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
+        
+        // append doc type to existing doc header description
+        if (!document.getDocumentHeader().getDocumentDescription().toLowerCase().contains(CamsConstants.PaymentDocumentTypeCodes.ASSET_RETIREMENT.toLowerCase())) {
+            document.getDocumentHeader().setDocumentDescription(CamsConstants.PaymentDocumentTypeCodes.ASSET_RETIREMENT + ":" + document.getDocumentHeader().getDocumentDescription());
+        }
 
         return valid;
     }

@@ -94,6 +94,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             if (getAssetGlobalService().isAssetSeparateByPayment(assetGlobal)) {
                 AssetGlobalRule.validateAssetAlreadySeparated(assetGlobal.getSeparateSourceCapitalAssetNumber());
             }
+            
+            // populate doc header description with the doc type
+            document.getDocumentHeader().setDocumentDescription(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE + ":");
         }
 
         super.processAfterNew(document, parameters);
@@ -464,7 +467,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             }
         }
     }
-
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#processAfterRetrieve()

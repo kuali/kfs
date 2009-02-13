@@ -53,7 +53,11 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
     private static final String RETIRED_ASSET_TRANSFERRED_EXTERNALLY = "RetiredAssetTransferredExternally";
     private static final String RETIRED_ASSET_SOLD_OR_GIFTED = "RetiredAssetSoldOrGifted";
-
+    
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable#answerSplitNodeQuestion(java.lang.String)
+     */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         String retirementReason = ((AssetRetirementGlobal) getBusinessObject()).getRetirementReasonCode();
@@ -120,8 +124,10 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
                 assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
             }
         }
+        
+        // populate doc header description with the doc type
+        document.getDocumentHeader().setDocumentDescription(CamsConstants.PaymentDocumentTypeCodes.ASSET_RETIREMENT + ":");
     }
-
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#processGlobalsAfterRetrieve()

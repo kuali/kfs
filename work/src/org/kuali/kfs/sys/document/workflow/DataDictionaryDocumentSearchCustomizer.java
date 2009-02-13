@@ -53,7 +53,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
         List<DocumentSearchColumn> columns = new ArrayList<DocumentSearchColumn>();
         DocumentType documentType = getDocumentType(criteria.getDocTypeFullName());
         DocumentEntry entry = getDocumentEntry(documentType);
-        if (entry != null) {
+        if (entry != null && entry.getWorkflowAttributes() != null) {
             DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
 
             List<SearchingTypeDefinition> searchingTypeDefinitions = entry.getWorkflowAttributes().getSearchingTypeDefinitions();

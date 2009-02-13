@@ -140,7 +140,8 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
        }
        
        WorkflowAttributes workflowAttributes = entry.getWorkflowAttributes();
-       docSearchRows.addAll(createFieldRowsForWorkflowAttributes(workflowAttributes));
+       if (workflowAttributes != null)
+           docSearchRows.addAll(createFieldRowsForWorkflowAttributes(workflowAttributes));
         
        return docSearchRows;
     }

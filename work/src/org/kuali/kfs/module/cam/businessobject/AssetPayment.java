@@ -147,7 +147,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
         setProjectCode(assetPaymentDetail.getProjectCode());
         setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
         setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());
-        setRequisitionNumber(assetPaymentDetail.getReferenceNumber());
+        setRequisitionNumber(assetPaymentDetail.getRequisitionNumber());
     }
     
     /**

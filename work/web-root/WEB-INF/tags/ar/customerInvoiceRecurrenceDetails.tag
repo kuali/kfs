@@ -88,7 +88,7 @@
 				<kul:checkErrors keyMatch="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName" />
 				<kul:user userIdFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName" universalIdFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier" userNameFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name" label="User" 
 				lookupParameters="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName:principalName,document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier:principalId,document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name:name" 
-				fieldConversions="principalName:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName,principalId:document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier,personName:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name" 
+				fieldConversions="principalName:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName,principalId:document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier,name:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name" 
 				userId="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName}" universalId="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier}" userName="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name}" renderOtherFields="true" hasErrors="${hasErrors}" readOnly="${readOnly}" />
 				</td>
             </tr>    

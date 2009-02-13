@@ -99,13 +99,13 @@
 	<bean id="CashControlDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-	   			<ref bean="SearchingType-CashControlDocument-customerNumber"/>
-   				<ref bean="SearchingType-CashControlDocument-customerName"/>
-	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode"/>
-   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode"/>
-    			<ref bean="SearchingType-CashControlDocument-lockboxNumber"/>
-    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumCode"/>
-    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumIdentifier"/>
+	   			<ref bean="SearchingType-CashControlDocument-customerNumber-criteriaOnly" />
+   				<ref bean="SearchingType-CashControlDocument-customerName-criteriaOnly" />
+	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode" />
+   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode" />
+    			<ref bean="SearchingType-CashControlDocument-lockboxNumber" />
+    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumCode" />
+    			<ref bean="SearchingType-CashControlDocument-customerPaymentMediumIdentifier-criteriaOnly" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
@@ -114,33 +114,6 @@
     		</map>
     	</property>
 	</bean>
-
-
-    <bean id="SearchingType-CashControlDocument-lockboxNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-lockboxNumber"/>
-        <property name="documentValues">
-        	<list>
-        		<value>lockboxNumber</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingType-CashControlDocument-customerPaymentMediumCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-customerPaymentMediumCode"/>
-        <property name="documentValues">
-        	<list>
-        		<value>customerPaymentMediumCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingType-CashControlDocument-customerPaymentMediumIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-customerPaymentMediumIdentifier"/>
-        <property name="documentValues">
-        	<list>
-        		<value>cashControlDetails.customerPaymentMediumIdentifier</value>
-        	</list>
-        </property>
-    </bean>
-
 
 
 

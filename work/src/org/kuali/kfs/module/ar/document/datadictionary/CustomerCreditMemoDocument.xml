@@ -90,16 +90,16 @@
 	<bean id="CustomerCreditMemoDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber"/>
-   				<ref bean="SearchingType-AccountsReceivableDocument-customerName"/>
-	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode"/>
-   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode"/>
-   				<ref bean="SearchingType-CustomerCreditMemoDocument-billingChartOfAccountsCode"/>
-   				<ref bean="SearchingType-CustomerCreditMemoDocument-billingOrganizationCode"/>
-    			<ref bean="SearchingType-CustomerCreditMemoDocument-chartOfAccountsCode"/>
-    			<ref bean="SearchingType-CustomerCreditMemoDocument-accountNumber"/>
-   				<ref bean="SearchingType-CustomerCreditMemoDocument-invoiceItemCode"/>
-    			<ref bean="SearchingType-AccountsReceivableDocument-financialDocumentReferenceInvoiceNumber"/>
+	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber" />
+   				<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
+	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode-criteriaOnly" />
+   				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode-criteriaOnly" />
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-billingChartOfAccountsCode" />
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-billingOrganizationCode" />
+    			<ref bean="SearchingType-CustomerCreditMemoDocument-chartOfAccountsCode-sourceOnly" />
+    			<ref bean="SearchingType-CustomerCreditMemoDocument-accountNumber-sourceOnly" />
+   				<ref bean="SearchingType-CustomerCreditMemoDocument-invoiceItemCode-criteriaOnly" />
+    			<ref bean="SearchingType-CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber" />
     		</list>
     	</property>
     	<property name="routingTypeDefinitions">
@@ -109,46 +109,6 @@
     	</property>
 	</bean>  
 	
-    <bean id="SearchingType-CustomerCreditMemoDocument-billingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-billingChartOfAccountsCode"/>
-        <property name="documentValues">
-        	<list>
-        		<value>invoice.billByChartOfAccountCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingType-CustomerCreditMemoDocument-billingOrganizationCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-billingOrganizationCode"/>
-        <property name="documentValues">
-        	<list>
-        		<value>invoice.billedByOrganizationCode</value>
-        	</list>
-        </property>
-    </bean>
-	<bean id="SearchingType-CustomerCreditMemoDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
-        <property name="documentValues">
-        	<list>
-        		<value>invoice.sourceAccountingLines.chartOfAccountsCode</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingType-CustomerCreditMemoDocument-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-accountNumber"/>
-        <property name="documentValues">
-        	<list>
-        		<value>invoice.sourceAccountingLines.accountNumber</value>
-        	</list>
-        </property>
-    </bean>
-    <bean id="SearchingType-CustomerCreditMemoDocument-invoiceItemCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-invoiceItemCode"/>
-        <property name="documentValues">
-        	<list>
-        		<value>invoice.sourceAccountingLines.invoiceItemCode</value>
-        	</list>
-        </property>
-    </bean>
 
 
 	<bean id="RoutingType-CustomerCreditMemoDocument-Account-sourceOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">

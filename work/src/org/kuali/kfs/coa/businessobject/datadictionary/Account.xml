@@ -626,8 +626,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda"
 	p:sourceAttributeName="cfdaNumber"> 
 	<property name="name" value="accountCfdaNumber"></property>
-    <property name="label" value="Catalog of Federal Domestic Assistance Number" /> 
-    <property name="shortLabel" value="FedDomAssisNum" /> 
     <property name="required" value="false" />
   </bean>
   

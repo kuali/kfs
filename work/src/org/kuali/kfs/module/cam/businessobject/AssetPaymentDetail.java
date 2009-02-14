@@ -53,7 +53,10 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
         this.setProjectCode(assetPayment.getProjectCode());
         this.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
+        this.setExpenditureFinancialSystemOriginationCode(assetPayment.getFinancialSystemOriginationCode());
         this.setExpenditureFinancialDocumentNumber(assetPayment.getDocumentNumber());
+        this.setExpenditureFinancialDocumentTypeCode(assetPayment.getFinancialDocumentTypeCode());
+        this.setPurchaseOrderNumber(assetPayment.getPurchaseOrderNumber());
         this.setRequisitionNumber(assetPayment.getRequisitionNumber());
         this.setExpenditureFinancialDocumentPostedDate(assetPayment.getFinancialDocumentPostingDate());
         this.setPostingYear(assetPayment.getFinancialDocumentPostingYear());

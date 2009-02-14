@@ -530,7 +530,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.sys.businessobject.UnitOfMeasure" table="PUR_AP_UOM_T">
+<class-descriptor class="org.kuali.kfs.sys.businessobject.UnitOfMeasure" table="SH_UOM_T">
     <field-descriptor name="itemUnitOfMeasureCode" column="ITM_UOM_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

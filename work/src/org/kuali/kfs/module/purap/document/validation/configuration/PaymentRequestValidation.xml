@@ -244,7 +244,7 @@
 						<map>
 							<entry>
 								<key><value>useDefaultAccountingLineAccessible</value></key>
-								<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+								<bean parent="PurchasingAccountsPayable-accountingLineAccessibleValidation" scope="prototype">
 									<property name="parameterProperties">
 										<list>
 											<bean parent="validationFieldConversion">
@@ -303,7 +303,7 @@
 						<map>
 							<entry>
 								<key><value>useDefaultAccountingLineAccessible</value></key>
-								<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+								<bean parent="PurchasingAccountsPayable-accountingLineAccessibleValidation" scope="prototype">
 									<property name="parameterProperties">
 										<list>
 											<bean parent="validationFieldConversion">

@@ -40,7 +40,7 @@
 	<bean id="PurchasingAccountsPayable-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessVendorValidation" abstract="true"/>
 
     <bean id="PurchasingAccountsPayable-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountingLineAccessibleValidation" abstract="true">
-        <property name="accountService" ref="accountService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
 
     <bean id="PurchasingAccountsPayable-processAccountSummaryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessAccountSummaryValidation" abstract="true">

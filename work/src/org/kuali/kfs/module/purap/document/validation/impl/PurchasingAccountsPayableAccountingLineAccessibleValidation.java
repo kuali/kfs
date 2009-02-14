@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -50,6 +51,18 @@ public class PurchasingAccountsPayableAccountingLineAccessibleValidation extends
     @Override
     protected String getAccountingLineCollectionProperty() {
         return "items.sourceAccountingLines"; 
+    }
+
+    @Override
+    public boolean validate(AttributedDocumentEvent event) {
+        //FIXME hjs: temporary fix for routing preq see KULPURAP-3324
+        KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument)event.getDocument().getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            return true;
+        }
+        else {
+            return super.validate(event);
+        }
     }
     
     

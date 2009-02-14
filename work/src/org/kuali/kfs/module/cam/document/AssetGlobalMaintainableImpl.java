@@ -188,11 +188,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                 // create new AssetPaymentDetail
                 AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail(assetPayment);
                 
-                // reinforce these fields
-                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(assetPayment.getFinancialDocumentTypeCode());
-                assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(assetPayment.getFinancialSystemOriginationCode());
-                assetPaymentDetail.setPurchaseOrderNumber(assetPayment.getPurchaseOrderNumber());
-                
                 // add assetPaymentDetail to AssetPaymentDetail list
                 newAssetPaymentDetailList.add(assetPaymentDetail);
            }

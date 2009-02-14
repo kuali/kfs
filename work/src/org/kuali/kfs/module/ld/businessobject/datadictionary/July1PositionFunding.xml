@@ -67,7 +67,7 @@
   </bean>
   <bean id="July1PositionFunding-emplid" parent="July1PositionFunding-emplid-parentBean" />
 
-  <bean id="July1PositionFunding-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="July1PositionFunding-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="July1PositionFunding-name" parent="July1PositionFunding-name-parentBean" />

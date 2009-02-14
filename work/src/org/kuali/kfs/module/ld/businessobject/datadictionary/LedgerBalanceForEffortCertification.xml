@@ -129,7 +129,7 @@
   </bean>
   <bean id="LedgerBalanceForEffortCertification-emplid" parent="LedgerBalanceForEffortCertification-emplid-parentBean" />
 
-  <bean id="LedgerBalanceForEffortCertification-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="LedgerBalanceForEffortCertification-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="LedgerBalanceForEffortCertification-ledgerPerson.principalId" parent="LedgerBalanceForEffortCertification-ledgerPerson.principalId-parentBean" />

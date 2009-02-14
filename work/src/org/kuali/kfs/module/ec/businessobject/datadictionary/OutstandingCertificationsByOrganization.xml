@@ -115,7 +115,7 @@
   </bean>
   <bean id="OutstandingCertificationsByOrganization-emplid" parent="OutstandingCertificationsByOrganization-emplid-parentBean" />
 
-  <bean id="OutstandingCertificationsByOrganization-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="OutstandingCertificationsByOrganization-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="OutstandingCertificationsByOrganization-employee.name" parent="OutstandingCertificationsByOrganization-employee.name-parentBean" />

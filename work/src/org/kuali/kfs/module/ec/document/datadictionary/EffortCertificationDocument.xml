@@ -56,7 +56,7 @@
   </bean>
   <bean id="EffortCertificationDocument-emplid" parent="EffortCertificationDocument-emplid-parentBean"/>
 
-  <bean id="EffortCertificationDocument-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="EffortCertificationDocument-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid"/>
     <property name="required" value="true"/>
   </bean>

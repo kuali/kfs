@@ -84,7 +84,7 @@
   </bean>
   <bean id="DuplicateCertificationsReport-emplid" parent="DuplicateCertificationsReport-emplid-parentBean" />
 
-  <bean id="DuplicateCertificationsReport-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="DuplicateCertificationsReport-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
 

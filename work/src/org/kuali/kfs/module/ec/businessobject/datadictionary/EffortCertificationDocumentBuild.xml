@@ -99,7 +99,7 @@
   </bean>
   <bean id="EffortCertificationDocumentBuild-emplid" parent="EffortCertificationDocumentBuild-emplid-parentBean" />
 
-  <bean id="EffortCertificationDocumentBuild-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="EffortCertificationDocumentBuild-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="EffortCertificationDocumentBuild-universityFiscalYear" parent="EffortCertificationDocumentBuild-universityFiscalYear-parentBean" />

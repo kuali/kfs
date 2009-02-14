@@ -129,7 +129,7 @@
   </bean>
   <bean id="LedgerBalance-emplid" parent="LedgerBalance-emplid-parentBean" />
 
-  <bean id="LedgerBalance-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="LedgerBalance-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="LedgerBalance-ledgerPerson.principalId" parent="LedgerBalance-ledgerPerson.principalId-parentBean" />

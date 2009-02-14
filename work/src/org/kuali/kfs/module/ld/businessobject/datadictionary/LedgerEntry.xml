@@ -125,7 +125,7 @@
   </bean>
   <bean id="LedgerEntry-emplid" parent="LedgerEntry-emplid-parentBean" />
 
-  <bean id="LedgerEntry-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="LedgerEntry-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="LedgerEntry-employeeRecord" parent="LedgerEntry-employeeRecord-parentBean" />

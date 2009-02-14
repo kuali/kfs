@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborConstants ;
 import org.kuali.kfs.module.ld.LaborKeyConstants; 
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -56,7 +59,15 @@ public class SalaryExpenseTransferSalaryObjectCodeValidation extends GenericVali
      * @return True if the given accounting line's object code is a salary object code, false otherwise.
      */ 
     private boolean isSalaryObjectCode(AccountingLine accountingLine) {
-        ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE, accountingLine.getObjectCode().getFinancialObjectCode());
+        ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
+
+        LaborObject laborObject = expenseTransferAccountingLine.getLaborObject();
+        if (laborObject == null) {
+            return false;
+        }
+        
+        String fringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
+        ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE, fringeOrSalaryCode);
         return evaluator != null ? evaluator.evaluationSucceeds() : false; 
     }
 

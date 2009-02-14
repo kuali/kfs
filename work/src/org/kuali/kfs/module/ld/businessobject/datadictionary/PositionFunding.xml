@@ -128,7 +128,7 @@
   </bean>
   <bean id="PositionFunding-emplid" parent="PositionFunding-emplid-parentBean" />
 
-  <bean id="PositionFunding-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="PositionFunding-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="PositionFunding-name" parent="PositionFunding-name-parentBean" />

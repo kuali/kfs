@@ -172,12 +172,12 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
          */
         sqlBuilder.append("INSERT INTO LD_BCN_POS_T\n");
         sqlBuilder.append("(POSITION_NBR, UNIV_FISCAL_YR, POS_EFFDT, POS_EFF_STATUS, POSN_STATUS,\n");
-        sqlBuilder.append(" BUDGETED_POSN, POS_STD_HRS_DFLT, POS_REG_TEMP, POS_FTE, POS_DESCR, SETID_DEPT, POS_DEPTID,\n"); 
+        sqlBuilder.append(" BUDGETED_POSN, CONFIDENTIAL_POSN, POS_STD_HRS_DFLT, POS_REG_TEMP, POS_FTE, POS_DESCR, SETID_DEPT, POS_DEPTID,\n"); 
         sqlBuilder.append(" RC_CD, POS_SAL_PLAN_DFLT, POS_GRADE_DFLT, SETID_JOBCODE, JOBCODE, SETID_SALARY,\n");
         sqlBuilder.append(" POS_LOCK_USR_ID)\n");
         sqlBuilder.append("(SELECT px.POSITION_NBR,\n");
         sqlBuilder.append("        ?, px.EFFDT, px.POS_EFF_STATUS,\n");
-        sqlBuilder.append("        px.POSN_STATUS, px.BUDGETED_POSN,\n");
+        sqlBuilder.append("        px.POSN_STATUS, px.BUDGETED_POSN, 'N',\n");
         sqlBuilder.append("        px.STD_HRS_DEFAULT, px.POS_REG_TEMP, px.POS_FTE, px.DESCR, px.BUSINESS_UNIT,\n");
         sqlBuilder.append("        px.DEPTID, COALESCE(org.RC_CD,?),\n");
         sqlBuilder.append("        px.POS_SAL_PLAN_DFLT, px.POS_GRADE_DFLT, px.BUSINESS_UNIT, px.JOBCODE,\n");
@@ -228,12 +228,12 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         
         sqlBuilder.append("INSERT INTO LD_BCN_POS_T\n");
         sqlBuilder.append("(POSITION_NBR, UNIV_FISCAL_YR, POS_EFFDT, POS_EFF_STATUS, POSN_STATUS,\n");
-        sqlBuilder.append(" BUDGETED_POSN, POS_STD_HRS_DFLT, POS_REG_TEMP, POS_FTE, POS_DESCR, SETID_DEPT, POS_DEPTID,\n"); 
+        sqlBuilder.append(" BUDGETED_POSN, CONFIDENTIAL_POSN, POS_STD_HRS_DFLT, POS_REG_TEMP, POS_FTE, POS_DESCR, SETID_DEPT, POS_DEPTID,\n"); 
         sqlBuilder.append(" RC_CD, POS_SAL_PLAN_DFLT, POS_GRADE_DFLT, SETID_JOBCODE, JOBCODE, SETID_SALARY,\n");
         sqlBuilder.append(" POS_LOCK_USR_ID)\n");
         sqlBuilder.append("(SELECT px.POSITION_NBR,\n");
         sqlBuilder.append("        ?, px.EFFDT, px.POS_EFF_STATUS,\n");
-        sqlBuilder.append("        px.POSN_STATUS, px.BUDGETED_POSN,\n");
+        sqlBuilder.append("        px.POSN_STATUS, px.BUDGETED_POSN, 'N',\n");
         sqlBuilder.append("        px.STD_HRS_DEFAULT, px.POS_REG_TEMP, px.POS_FTE, px.DESCR, px.BUSINESS_UNIT,\n");
         sqlBuilder.append("        px.DEPTID, COALESCE(org.RC_CD,?),\n");
         sqlBuilder.append("        px.POS_SAL_PLAN_DFLT, px.POS_GRADE_DFLT, px.BUSINESS_UNIT, px.JOBCODE,\n");

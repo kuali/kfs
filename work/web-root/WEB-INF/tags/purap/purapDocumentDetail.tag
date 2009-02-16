@@ -45,48 +45,49 @@
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 <c:set var="contentReadOnly" value="${(not empty KualiForm.editingMode['lockContentEntry'])}" />
 <c:set var="internalPurchasingReadOnly" value="${(not empty KualiForm.editingMode['lockInternalPurchasingEntry'])}" />
+<c:set var="tabindexOverrideBase" value="10" />
 
 <h3><c:out value="${detailSectionLabel}"/></h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
-   	<c:if test="${not paymentRequest}">
-	    <tr>
-	        <th align=right valign=middle class="bord-l-b">
-	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.organizationCode}" /></div>
-	        </th>
-	        <td align=left valign=middle class="datacell">
-	            <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" readOnly="true" />
-	            &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode"  readOnly="true"/>
-	            <c:if test="${(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}" >
-	                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode"/>
-	            </c:if>
-	        </td>
-	        <th align=right valign=middle class="bord-l-b">
-	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>
-	        </th>
-	        <td align=left valign=middle class="datacell">
-	            <kul:htmlControlAttribute
-	                property="document.fundingSourceCode"
-	                attributeEntry="${documentAttributes.fundingSourceCode}"
-	                extraReadOnlyProperty="document.fundingSource.fundingSourceDescription"
-	                readOnly="${not (fullEntryMode and editableFundingSource)}"/>
-	        </td>
-	    </tr>
-	</c:if>   
+    <tr>
+        <th align=right valign=middle class="bord-l-b">
+            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.organizationCode}" /></div>
+        </th>
+        <td align=left valign=middle class="datacell">
+            <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" readOnly="true" />
+            &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode"  readOnly="true"/>
+            <c:if test="${(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly or paymentRequest)}" >
+                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode" tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:if>
+        </td>
+        <th align=right valign=middle class="bord-l-b">
+            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}" /></div>
+        </th>
+        <td align=left valign=middle class="datacell">
+            <kul:htmlControlAttribute
+                property="document.receivingDocumentRequiredIndicator"
+                attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}"
+                readOnly="${paymentRequest or 
+                readOnlyReceivingRequired or 
+                not(fullEntryMode or amendmentEntry) and 
+                not (contentReadOnly or internalPurchasingReadOnly)}"
+                 tabindexOverride="${tabindexOverrideBase + 5}"/>
+        </td>
+    </tr>
 	
 	<tr>
-		<th align=right valign=middle class="bord-l-b">
-	        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}" /></div>
-	    </th>
-	    <td align=left valign=middle class="datacell">
-	        <kul:htmlControlAttribute
-	            property="document.receivingDocumentRequiredIndicator"
-	            attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}"
-	            readOnly="${paymentRequest or 
-	    		readOnlyReceivingRequired or 
-	    		not(fullEntryMode or amendmentEntry) and 
-	    		not (contentReadOnly or internalPurchasingReadOnly)}"/>
-	    </td>
+        <th align=right valign=middle class="bord-l-b">
+            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>
+        </th>
+        <td align=left valign=middle class="datacell">
+            <kul:htmlControlAttribute
+                property="document.fundingSourceCode"
+                attributeEntry="${documentAttributes.fundingSourceCode}"
+                extraReadOnlyProperty="document.fundingSource.fundingSourceDescription"
+                readOnly="${not (fullEntryMode and editableFundingSource) or paymentRequest}"
+                tabindexOverride="${tabindexOverrideBase + 0}"/>
+        </td>
 	    <th align=right valign=middle class="bord-l-b">
 	        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}" /></div>
 	    </th>
@@ -94,89 +95,81 @@
 	        <kul:htmlControlAttribute
 	            property="document.paymentRequestPositiveApprovalIndicator"
 	            attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}"
-	            readOnly="${paymentRequest or not(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}"/>
+	            readOnly="${paymentRequest or not(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}"
+	             tabindexOverride="${tabindexOverrideBase + 5}"/>
 	    </td>
 	</tr>  
-
-	<c:if test="${purapTaxEnabled}">
-	<tr>
-		<th align=right valign=middle class="bord-l-b">
-	        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.useTaxIndicator}" /></div>
-	    </th>
-	    <td align=left valign=middle class="datacell">
-	        <kul:htmlControlAttribute
-	            property="document.useTaxIndicator"
-	            attributeEntry="${documentAttributes.useTaxIndicator}"
-	            readOnly="${true}"/>
-			<c:if test="${fullEntryMode}">			
-			&nbsp;
-			<html:image property="methodToCall.changeUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"/>
-			</c:if>
-	    </td>
-	    <th align=right valign=middle class="bord-l-b">
-	        &nbsp;
-	    </th>
-	    <td align=left valign=middle class="datacell">
-			&nbsp;
-	    </td>
-	</tr>  
-	</c:if>
 
 	<c:if test="${purchaseOrder}">
 		<tr>
+            <th align=right valign=middle class="bord-l-b">
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionSource}" /></div>
+            </th>
+            <td align=left valign=middle class="datacell">
+                <kul:htmlControlAttribute 
+                    property="document.requisitionSource.requisitionSourceDescription" 
+                    attributeEntry="${documentAttributes.requisitionSource}" 
+                    readOnly="true" />
+            </td>                   
 		   	<th align=right valign=middle class="bord-l-b">
-		        <div align="right">
-		           	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderPreviousIdentifier}" />
-		        </div>
+		        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderPreviousIdentifier}" /></div>
 		    </th>
 		    <td align=left valign=middle class="datacell">
 		       	<kul:htmlControlAttribute 
 		            property="document.purchaseOrderPreviousIdentifier" 
 		            attributeEntry="${documentAttributes.purchaseOrderPreviousIdentifier}" 
-		            readOnly="${not (fullEntryMode or amendmentEntry)}" />
+		            readOnly="${not (fullEntryMode or amendmentEntry)}" 
+		            tabindexOverride="${tabindexOverrideBase + 5}" />
 		    </td>
-		    <th align=right valign=middle class="bord-l-b">
-		            <div align="right">
-	                    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionSource}" />
-	                </div>
-	        </th>
-	        <td align=left valign=middle class="datacell">
-	            <kul:htmlControlAttribute 
-	                property="document.requisitionSource.requisitionSourceDescription" 
-	                attributeEntry="${documentAttributes.requisitionSource}" 
-	                readOnly="true" />
-	        </td>                   
 		</tr>
 	    <tr>
+            <th align=right valign=middle class="bord-l-b">
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManager}" /></div>
+            </th>
+            <td align=left valign=middle class="datacell">
+                <kul:htmlControlAttribute 
+                    property="document.contractManager.contractManagerName" 
+                    attributeEntry="${documentAttributes.contractManager.contractManagerName}" 
+                    readOnly="true" />
+                <c:if test="${preRouteChangeMode}" >
+                    <kul:lookup
+                        boClassName="org.kuali.kfs.vnd.businessobject.ContractManager"
+                        fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" 
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+                </c:if>                     
+            </td>
 	        <th align=right valign=middle class="bord-l-b">
-	            <div align="right">
-		          	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" />
-	            </div>
+	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" /></div>
 		    </th>
 		    <td align=left valign=middle class="datacell">
 		       	<kul:htmlControlAttribute 
 		            property="document.purchaseOrderConfirmedIndicator"
 		            attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
-	                readOnly="${not (fullEntryMode or amendmentEntry)}" />
+	                readOnly="${not (fullEntryMode or amendmentEntry)}" 
+	                tabindexOverride="${tabindexOverrideBase + 5}" />
 		    </td> 
-	        <th align=right valign=middle class="bord-l-b">
-	            <div align="right">
-	                <kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManager}" />
-	            </div>
-	        </th>
-	        <td align=left valign=middle class="datacell">
-	            <kul:htmlControlAttribute 
-	                property="document.contractManager.contractManagerName" 
-	                attributeEntry="${documentAttributes.contractManager.contractManagerName}" 
-	                readOnly="true" />
-	            <c:if test="${preRouteChangeMode}" >
-	                <kul:lookup
-	                    boClassName="org.kuali.kfs.vnd.businessobject.ContractManager"
-	                    fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" />
-	            </c:if>                     
-	        </td>
 		</tr>
 	</c:if>
+
+    <c:if test="${purapTaxEnabled}">
+    <tr>
+        <th align=right valign=middle class="bord-l-b">
+            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.useTaxIndicator}" /></div>
+        </th>
+        <td align=left valign=middle class="datacell">
+            <kul:htmlControlAttribute
+                property="document.useTaxIndicator"
+                attributeEntry="${documentAttributes.useTaxIndicator}"
+                readOnly="true"/>&nbsp;
+            <c:if test="${fullEntryMode}">          
+                <html:image property="methodToCall.changeUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"  tabindex="${tabindexOverrideBase + 0}" />
+            </c:if>
+        </td>
+        <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+        <td align=left valign=middle class="datacell">&nbsp;</td>
+    </tr>  
+    </c:if>
+
 </table>
 	
 <c:if test="${purchaseOrder and preRouteChangeMode}">
@@ -185,14 +178,12 @@
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Status Changes Section">
 		<tr>
 			<th align=right valign=middle class="bord-l-b">
-	            <div align="right">
-	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.statusChange}" />
-	            </div>
+	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.statusChange}" /></div>
 	        </th>
-	        <td align=left valign=middle class="datacell">
-		        &nbsp;<html:radio title="${documentAttributes.statusChange.label} - None" property="statusChange" value="INPR" />&nbsp;None&nbsp;
-				<html:radio title="${documentAttributes.statusChange.label} - Department" property="statusChange" value="WDPT" />&nbsp;Department&nbsp;
-				<html:radio title="${documentAttributes.statusChange.label} - Vendor" property="statusChange" value="WVEN" />&nbsp;Vendor&nbsp;
+	        <td align=left valign=middle class="datacell">&nbsp;
+		        <html:radio title="${documentAttributes.statusChange.label} - None" property="statusChange" value="INPR" tabindex="${tabindexOverrideBase + 9}" />&nbsp;None&nbsp;
+				<html:radio title="${documentAttributes.statusChange.label} - Department" property="statusChange" value="WDPT" tabindex="${tabindexOverrideBase + 9}" />&nbsp;Department&nbsp;
+				<html:radio title="${documentAttributes.statusChange.label} - Vendor" property="statusChange" value="WVEN" tabindex="${tabindexOverrideBase + 9}" />&nbsp;Vendor&nbsp;
 			</td>
 		</tr>
 	</table>

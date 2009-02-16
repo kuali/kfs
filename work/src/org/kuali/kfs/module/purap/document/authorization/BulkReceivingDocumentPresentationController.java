@@ -15,18 +15,16 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
-public class BulkReceivingDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+public class BulkReceivingDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
     
     @Override
     protected boolean canSave(Document document) {

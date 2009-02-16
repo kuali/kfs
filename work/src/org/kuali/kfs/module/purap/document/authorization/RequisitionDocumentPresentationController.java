@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -32,21 +31,20 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 
-public class RequisitionDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+public class RequisitionDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
 
     @Override
     protected boolean canEdit(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument)document;
         if (!RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode()) &&
-                !reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) &&
-                !reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
-            //unless the Requisition is in the Content or Account route level, editing is not allowed
+                !RequisitionStatuses.AWAIT_CONTENT_REVIEW.equals(reqDocument.getStatusCode()) &&
+                !RequisitionStatuses.AWAIT_FISCAL_REVIEW.equals(reqDocument.getStatusCode())) {
+            //unless the Requisition is in process, awaiting content, or awaiting fiscal, editing is not allowed
             return false;
         }
         return super.canEdit(document);

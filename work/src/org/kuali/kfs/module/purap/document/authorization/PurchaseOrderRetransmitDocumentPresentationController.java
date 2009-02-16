@@ -31,12 +31,6 @@ public class PurchaseOrderRetransmitDocumentPresentationController extends Purch
     }
 
     @Override
-    public boolean canInitiate(String documentTypeName) {
-        // TODO (ying) move the initiate permissions to here (no user logic)
-        return super.canInitiate(documentTypeName);
-    }
-
-    @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
         PurchaseOrderRetransmitDocument poDocument = (PurchaseOrderRetransmitDocument)document;

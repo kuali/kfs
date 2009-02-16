@@ -27,13 +27,12 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
-public class VendorCreditMemoDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+public class VendorCreditMemoDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
 
     @Override
     protected boolean canSave(Document document) {
@@ -56,14 +55,7 @@ public class VendorCreditMemoDocumentPresentationController extends FinancialSys
      */
     @Override
     protected boolean canEdit(Document document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) document;
-
         if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((VendorCreditMemoDocument) document)) {
-            return false;
-        }
-
-        if (workflowDocument.isAdHocRequested()) {
             return false;
         }
 

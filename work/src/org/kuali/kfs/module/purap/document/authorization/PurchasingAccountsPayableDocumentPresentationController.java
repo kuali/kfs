@@ -15,22 +15,23 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.util.Set;
-
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 
 
-public class CorrectionReceivingDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
-    
+public class PurchasingAccountsPayableDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+
+    /**
+     * None of the PURAP documents allowing editing by adhoc requests
+     * 
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     */
     @Override
-    public Set<String> getEditModes(Document document) {
-        Set<String> editModes = super.getEditModes(document);
-
-        // lock vendor input
-        editModes.add(PurapAuthorizationConstants.BulkReceivingEditMode.LOCK_VENDOR_ENTRY);
-
-        return editModes;
+    protected boolean canEdit(Document document) {
+        if (document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
+            return false;
+        }
+        return super.canEdit(document);
     }
     
 }

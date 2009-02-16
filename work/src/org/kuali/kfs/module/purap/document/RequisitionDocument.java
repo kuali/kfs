@@ -124,7 +124,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     private boolean hasAccountingLines() {
-        //FIXME hjs- don't have responsibilites yet so this isnt' workign
         for (Iterator iterator = getItems().iterator(); iterator.hasNext();) {
             RequisitionItem item = (RequisitionItem) iterator.next();
             if (item.isConsideredEntered() && !SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPurchasingAccountsPayableAccountValidationEvent("", "", this, item))) {

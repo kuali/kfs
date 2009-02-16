@@ -32,14 +32,13 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
-public class PaymentRequestDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+public class PaymentRequestDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
 
     
     @Override
@@ -93,10 +92,6 @@ public class PaymentRequestDocumentPresentationController extends FinancialSyste
 
         // if the hold or cancel indicator is true, don't allow editing
         if (paymentRequestDocument.isHoldIndicator() || paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
-            return false;
-        }
-
-        if (paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
             return false;
         }
 

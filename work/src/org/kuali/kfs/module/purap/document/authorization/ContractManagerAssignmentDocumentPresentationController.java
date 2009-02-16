@@ -18,11 +18,10 @@ package org.kuali.kfs.module.purap.document.authorization;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 
 
-public class ContractManagerAssignmentDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+public class ContractManagerAssignmentDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
     
     @Override
     protected boolean canSave(Document document) {

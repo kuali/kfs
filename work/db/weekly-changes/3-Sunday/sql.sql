@@ -68,3 +68,17 @@ INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, AC
 -- make account supv request for account maint doc an fyi
 update krim_role_rsp_actn_t set actn_typ_cd = 'F' where role_rsp_actn_id = '52'
 /
+
+-- create create/maintain record perm for kfs-ar billers for customer invoice item code maint doc
+INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD) 
+    VALUES('305', sys_guid(), 1, '42', null, null, 'Y', 'KFS-AR')
+/
+INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_KEY, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) 
+    VALUES('429', sys_guid(), 1, '305', '56', '13', 'IICO')
+/
+INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_KEY, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) 
+    VALUES('430', sys_guid(), 1, '305', '56', '7', 'false')
+/
+INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
+    VALUES('577', sys_guid(), 1, '2', '305', 'Y')
+/

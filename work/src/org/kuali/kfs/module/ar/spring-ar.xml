@@ -829,12 +829,12 @@
 		</property>
 	</bean>
 
-    <bean id="invoiceRecurrenceRoleTypeService" class="org.kuali.kfs.module.ar.identity.InvoiceRecurrenceRoleTypeServiceImpl" />  
+    <bean id="invoiceRecurrenceDerivedRoleTypeService" class="org.kuali.kfs.module.ar.identity.InvoiceRecurrenceDerivedRoleTypeServiceImpl" />  
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
     	<property name="serviceDefinition">
       	<bean parent="kfsService"
-        	p:service-ref="invoiceRecurrenceRoleTypeService"
-        	p:localServiceName="invoiceRecurrenceRoleTypeService" />
+        	p:service-ref="invoiceRecurrenceDerivedRoleTypeService"
+        	p:localServiceName="invoiceRecurrenceDerivedRoleTypeService" />
 	    </property>
 	</bean>
   

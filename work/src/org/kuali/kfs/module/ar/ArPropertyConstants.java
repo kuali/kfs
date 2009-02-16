@@ -79,6 +79,7 @@ public class ArPropertyConstants {
         public static final String INVOICE_RECURRENCE_BEGIN_DATE = "documentRecurrenceBeginDate";
         public static final String INVOICE_RECURRENCE_END_DATE = "documentRecurrenceEndDate";
         public static final String INVOICE_RECURRENCE_TOTAL_RECURRENCE_NUMBER = "documentTotalRecurrenceNumber";
+        public static final String INVOICE_RECURRENCE_INITIATOR_USER_ID = "documentInitiatorUserIdentifier";
     }
     
     // OrganizationAccountingDefaults

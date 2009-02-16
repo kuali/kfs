@@ -20,11 +20,12 @@
 		<!--  Rice Bean Definitions : This is a bean declared in Rice, but is needed throughout this config -->
 		<form-bean name="KualiForm"
 			type="org.kuali.rice.kns.web.struts.form.KualiForm" />
-		<form-bean name="KualiBatchJobModifyForm"
-			type="org.kuali.kfs.sys.web.struts.KualiBatchJobModifyForm" />
+
 		<!--  KFS Core Bean Definitions -->
 		<form-bean name="KualiBalanceInquiryReportMenuForm"
 			type="org.kuali.kfs.sys.web.struts.KualiBalanceInquiryReportMenuForm" />
+		<form-bean name="KualiBatchJobModifyForm"
+			type="org.kuali.kfs.sys.web.struts.KualiBatchJobModifyForm" />
 		<form-bean name="KualiBatchInputFileForm"
 			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileForm" />
 		<form-bean name="KualiBatchInputFileSetForm"
@@ -233,41 +234,20 @@
 
 
 	<global-forwards>
-		<forward name="error" path="/kr/WEB-INF/jsp/KualiError.jsp" />
 		<forward name="save" path="/index.jsp" redirect="true" />
 		<forward name="cancel" path="/index.jsp" redirect="true" />
 		<forward name="close" path="/index.jsp" redirect="true" />
 		<forward name="portal" path="/index.jsp" redirect="true" />
 		<forward name="route_report"
 			path="/kr/WEB-INF/jsp/RoutingReportForward.jsp" />
-
-		<!--  KFS Exception -->
-		<forward name="exceptionIncidentHandler" path="/kualiExceptionIncidentReport.do" />
 	</global-forwards>
 
 	<action-mappings>
-
- 		<!-- KFS Exception Action  Mappings -->
-        <action path="/kualiExceptionIncidentReport"
-                name="KualiExceptionIncidentForm"
-                attribute="KualiForm"
-                type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
-            <forward name="basic" path="/kr/WEB-INF/jsp/KualiExceptionIncident.jsp" />
-        </action>        
 		<!-- Rice Pass-through Actions : These delegate to the Rice (kr) struts module -->
-		<action path="/Exception"
-			type="org.kuali.rice.kns.web.struts.action.KualiExceptionAction">
-			<forward name="basic" path="/kr/Exception.do" />
-		</action>
-		<action path="/authorizationException" name="KualiForm"
-			type="org.kuali.rice.kns.web.struts.action.KualiAuthorizationExceptionAction">
-			<forward name="basic" path="/kr/authorizationException.do" />
-		</action>
-		<action path="/initiationAuthorizationException"
-			type="org.kuali.rice.kns.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
-			<forward name="basic"
-				path="/kr/initiationAuthorizationException.do" />
-		</action>
+        <action path="/kualiExceptionIncidentReport"
+                type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
+            <forward name="basic" path="/kr/kualiExceptionIncidentReport.do" />
+        </action>        
 		<!-- End Rice Pass-through Actions -->
 
 		<!--  Core Action Mappings -->

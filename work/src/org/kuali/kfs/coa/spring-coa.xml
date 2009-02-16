@@ -624,26 +624,6 @@
 		</property>
     </bean>
 
-    <bean name="campusRoleService" class="org.kuali.kfs.coa.identity.CampusRoleTypeServiceImpl">
-    	<property name="kimAttributesTranslators">
-    		<list>
-				<bean class="org.kuali.kfs.coa.identity.CampusAttributesTranslator">
-					<property name="supportedAttributeNames">
-						<list>
-							<value>Chart Code</value>
-							<value>Organization Code</value>
-						</list>
-					</property>
-					<property name="resultAttributeNames">
-						<list>
-							<value>Campus Code</value>
-						</list>
-					</property>
-			    </bean>
-    		</list>
-    	</property>
-    </bean>
-    
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="campusRoleService"

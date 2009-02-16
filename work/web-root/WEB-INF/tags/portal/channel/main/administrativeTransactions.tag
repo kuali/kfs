@@ -31,7 +31,7 @@
 
   <strong>Effort Certification</strong>
   <ul class="chan">		
-	 <li><portal:portalLink displayTitle="true" title="Effort Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=A21" /></li>
+	 <li><portal:portalLink displayTitle="true" title="Effort Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=ECD" /></li>
   </ul>
 	<strong>Financial Processing</strong><br />
     <ul class="chan">

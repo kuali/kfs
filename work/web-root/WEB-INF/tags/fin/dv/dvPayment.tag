@@ -116,7 +116,7 @@
               	<div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrCheckTotalAmount}"/></div>
               </th>
               <td width="30%"  class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrCheckTotalAmount}" property="document.disbVchrCheckTotalAmount" readOnly="${!frnEntryMode&&!taxEntryMode&&!travelEntryMode&&!wireEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrCheckTotalAmount}" property="document.disbVchrCheckTotalAmount" readOnly="${!fullEntryMode&&!frnEntryMode&&!taxEntryMode&&!travelEntryMode&&!wireEntryMode}"/>
               </td>
               <th width="20%"  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbursementVoucherDueDate}"/></div></th>
               <td width="30%"  class="datacell">
@@ -193,7 +193,7 @@
             <tr>
               <th  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrPaymentMethodCode}"/></div></th>
               <td  class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrPaymentMethodCode}" property="document.disbVchrPaymentMethodCode" extraReadOnlyProperty="document.disbVchrPaymentMethodName" onchange="paymentMethodMessages(this.value);" readOnly="${!frnEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrPaymentMethodCode}" property="document.disbVchrPaymentMethodCode" extraReadOnlyProperty="document.disbVchrPaymentMethodName" onchange="paymentMethodMessages(this.value);" readOnly="${!fullEntryMode && !frnEntryMode}"/>
               </td>
               <th  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}"/></div></th>
               <td  class="datacell">

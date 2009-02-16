@@ -155,7 +155,7 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.financialDocumentPostingYear}" readOnly="true" /></th>
 				<td class="grid" width="25%">
 	   	        	<kul:htmlControlAttribute property="${assetValueObj}.financialDocumentPostingYear" attributeEntry="${assetAttributes.financialDocumentPostingYear}" readOnly="true" readOnlyBody="true"> 
-						<kul:inquiry boClassName="org.kuali.kfs.sys.businessobject.Options" keyValues="universityFiscalYear=${assetValue.financialDocumentPostingYear}" render="true">
+						<kul:inquiry boClassName="org.kuali.kfs.sys.businessobject.SystemOptions" keyValues="universityFiscalYear=${assetValue.financialDocumentPostingYear}" render="true">
                 			<html:hidden write="true" property="${assetValueObj}.financialDocumentPostingYear" />
                 		</kul:inquiry>&nbsp;
             		</kul:htmlControlAttribute>

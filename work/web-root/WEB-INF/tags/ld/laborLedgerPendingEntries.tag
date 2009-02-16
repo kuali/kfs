@@ -46,7 +46,7 @@
 			<tr>
 				<th class="datacell center"><html:hidden property="document.laborLedgerPendingEntry[${ctr}].transactionLedgerEntrySequenceNumber" write="true"/></th>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.kfs.sys.businessobject.Options" keyValues="universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}" render="true">
+					<kul:inquiry boClassName="org.kuali.kfs.sys.businessobject.SystemOptions" keyValues="universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].universityFiscalYear" write="true"/>
 					</kul:inquiry>
 				</td>

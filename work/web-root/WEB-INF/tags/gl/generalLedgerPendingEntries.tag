@@ -70,7 +70,7 @@
 			<tr>
 				<th class="datacell center"><html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].transactionLedgerEntrySequenceNumber" write="true" value="${generalLedgerPendingEntry.transactionLedgerEntrySequenceNumber}" /></th>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.kfs.sys.businessobject.Options" keyValues="universityFiscalYear=${generalLedgerPendingEntry.universityFiscalYear}" render="true">
+					<kul:inquiry boClassName="org.kuali.kfs.sys.businessobject.SystemOptions" keyValues="universityFiscalYear=${generalLedgerPendingEntry.universityFiscalYear}" render="true">
             <html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].universityFiscalYear" value="${generalLedgerPendingEntry.universityFiscalYear}" write="true" />
 					</kul:inquiry>
 				</td>

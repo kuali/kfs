@@ -63,7 +63,7 @@
 					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
 					property="universityFiscalYear" forceRequired="true" readOnly="${readOnly}" /> 
 					<c:if test="${!readOnly}">
-						<kul:lookup	boClassName="org.kuali.kfs.sys.businessobject.Options"
+						<kul:lookup	boClassName="org.kuali.kfs.sys.businessobject.SystemOptions"
 						lookupParameters="universityFiscalYear:universityFiscalYear"
 						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" />
 					</c:if>

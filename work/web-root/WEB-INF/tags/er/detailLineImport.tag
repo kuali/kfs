@@ -64,7 +64,7 @@
 				property="universityFiscalYear" readOnly="${readOnly}" forceRequired="true" />
 			
 			<c:if test="${!readOnly}" >	 
-			<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Options"
+			<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.SystemOptions"
 				fieldConversions="universityFiscalYear:universityFiscalYear"
 				lookupParameters="universityFiscalYear:universityFiscalYear"
 				fieldLabel="${attributes.universityFiscalYear.label}" />

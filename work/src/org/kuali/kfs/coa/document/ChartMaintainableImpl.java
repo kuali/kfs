@@ -15,14 +15,13 @@
  */
 package org.kuali.kfs.coa.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -48,13 +47,15 @@ public class ChartMaintainableImpl extends KualiMaintainableImpl {
 
             RoleManagementService roleManagementService = SpringContext.getBean(RoleManagementService.class);
 
-            List<String> roleIds = new ArrayList<String>();
-            roleIds.add(roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME));
-
             AttributeSet qualification = new AttributeSet();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart.getChartOfAccountsCode());
 
-            if (StringUtils.isNotBlank(chart.getFinCoaManagerPrincipalId()) && !roleManagementService.principalHasRole(chart.getFinCoaManagerPrincipalId(), roleIds, qualification)) {
+            Person oldChartManager = SpringContext.getBean(ChartService.class).getChartManager(chart.getChartOfAccountsCode());
+            if (oldChartManager != null) {
+                roleManagementService.removePrincipalFromRole(oldChartManager.getPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
+            }
+
+            if (StringUtils.isNotBlank(chart.getFinCoaManagerPrincipalId())) {
                 roleManagementService.assignPrincipalToRole(chart.getFinCoaManagerPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
             }
         }

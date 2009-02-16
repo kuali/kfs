@@ -86,7 +86,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
                 members.add( new RoleMembershipInfo( null, null, account.getAccountsSupervisorySystemsIdentifier(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
             }
             // only add the additional approver if they are different
-            if (StringUtils.isNotBlank(accountSupervisorPrincipalID) && !StringUtils.equals(accountSupervisorPrincipalID, account.getAccountsSupervisorySystemsIdentifier())) {
+            if (StringUtils.isNotBlank(accountSupervisorPrincipalID) && (account == null || !StringUtils.equals(accountSupervisorPrincipalID, account.getAccountsSupervisorySystemsIdentifier()))) {
                 members.add( new RoleMembershipInfo( null, null, accountSupervisorPrincipalID, KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
             }
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)){
@@ -95,7 +95,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
                 members.add( new RoleMembershipInfo( null, null, account.getAccountFiscalOfficerSystemIdentifier(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
             }
             // only add the additional approver if they are different
-            if (StringUtils.isNotBlank(fiscalOfficerPrincipalID) && !StringUtils.equals(fiscalOfficerPrincipalID, account.getAccountFiscalOfficerSystemIdentifier())) {
+            if (StringUtils.isNotBlank(fiscalOfficerPrincipalID) && (account == null || !StringUtils.equals(fiscalOfficerPrincipalID, account.getAccountFiscalOfficerSystemIdentifier()))) {
                 members.add( new RoleMembershipInfo( null, null, fiscalOfficerPrincipalID, KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier ) );
             }
         } else if(KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)){

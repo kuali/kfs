@@ -237,6 +237,7 @@
 		<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
+	   			<value>newMaintainableObject.businessObject.accountsSupervisorySystemsIdentifier</value>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
 	   			<value>newMaintainableObject.businessObject.accountNumber</value>
 	   		</list>
@@ -271,6 +272,7 @@
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier"/>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier"/>
 		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart"/>
 		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Account"/>
     		</list>

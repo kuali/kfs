@@ -1147,15 +1147,6 @@
 		</property>
 	</bean>
 	
-	<bean id="fileRenameJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="fileRenameStep" />
-			</list>
-		</property>
-	</bean>
-	
-	
 	<bean id="scrubberJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>

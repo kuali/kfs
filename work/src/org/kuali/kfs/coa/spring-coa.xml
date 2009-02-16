@@ -623,13 +623,6 @@
 				p:localServiceName="accountingOrganizationHierarchyReviewRoleTypeService" />
 		</property>
     </bean>
-
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="campusRoleService"
-	      p:localServiceName="campusRoleService" />
-	  </property>
-	</bean>
 	
     <bean id="accountRoleTypeService" class="org.kuali.kfs.coa.identity.AccountRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

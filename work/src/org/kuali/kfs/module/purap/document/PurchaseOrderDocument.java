@@ -632,7 +632,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                     else {
                         String newStatusCode = newNodeDetails.getAwaitingStatusCode();
                         if (StringUtils.isNotBlank(newStatusCode)) {
-                            if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ })) {
+                            if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
                                 // if an approve or complete request will be created then we need to set the status as awaiting for
                                 // the new node
                                 SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);

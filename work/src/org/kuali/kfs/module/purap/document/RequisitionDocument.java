@@ -185,12 +185,14 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setOrganizationCode(purapChartOrg.getOrganizationCode());
         }
         this.setDeliveryCampusCode(currentUser.getCampusCode());
+        this.setDeliveryToName(currentUser.getName());
+        this.setDeliveryToEmailAddress(currentUser.getEmailAddress());
+        this.setDeliveryToPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(currentUser.getPhoneNumber()));
         this.setRequestorPersonName(currentUser.getName());
         this.setRequestorPersonEmailAddress(currentUser.getEmailAddress());
         this.setRequestorPersonPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(currentUser.getPhoneNumber()));
 
-        DefaultPrincipalAddress defaultPrincipalAddress = new DefaultPrincipalAddress();
-        defaultPrincipalAddress.setPrincipalId(currentUser.getPrincipalId());
+        DefaultPrincipalAddress defaultPrincipalAddress = new DefaultPrincipalAddress(currentUser.getPrincipalId());
         Map addressKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(defaultPrincipalAddress);
         defaultPrincipalAddress = (DefaultPrincipalAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DefaultPrincipalAddress.class, addressKeys);
         if (ObjectUtils.isNotNull(defaultPrincipalAddress) && ObjectUtils.isNotNull(defaultPrincipalAddress.getBuilding())) {
@@ -419,7 +421,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             if (StringUtils.isNotBlank(newNodeName)) {
                 ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(getDocumentNumber()));
                 reportCriteriaDTO.setTargetNodeName(newNodeName);
-                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ })) {
+                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
                     NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
                     if (ObjectUtils.isNotNull(currentNode)) {
                         if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {

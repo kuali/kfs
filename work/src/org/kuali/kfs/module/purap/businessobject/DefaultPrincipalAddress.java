@@ -33,6 +33,11 @@ public class DefaultPrincipalAddress extends PersistableBusinessObjectBase {
         super();
     }
     
+    public DefaultPrincipalAddress(String principalId) {
+        super();
+        setPrincipalId(principalId);
+    }
+    
     public DefaultPrincipalAddress(String principalId, String campusCode, String buildingCode, String buildingRoomNumber) {
         super();
         setPrincipalId(principalId);
@@ -41,6 +46,11 @@ public class DefaultPrincipalAddress extends PersistableBusinessObjectBase {
         setBuildingRoomNumber(buildingRoomNumber);
     }
     
+    public void setDefaultBuilding(String campusCode, String buildingCode, String buildingRoomNumber) {
+        setCampusCode(campusCode);
+        setBuildingCode(buildingCode);
+        setBuildingRoomNumber(buildingRoomNumber);
+    }
     
     public String getBuildingCode() {
         return buildingCode;

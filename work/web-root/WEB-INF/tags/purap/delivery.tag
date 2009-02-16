@@ -80,8 +80,8 @@
                             lookupParameters="document.deliveryCampusCode:campusCode"
                             fieldConversions="buildingCode:document.deliveryBuildingCode,buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode,buildingAddressCountryCode:document.deliveryCountryCode"/>&nbsp;&nbsp;
                         <html:image property="methodToCall.useOtherDeliveryBuilding" src="${ConfigProperties.externalizable.images.url}tinybutton-buildingnotfound.gif" alt="building not found" styleClass="tinybutton"/>&nbsp;
-                        <c:if test="${showDefaultBuildingOption}" >
-                            <html:image property="methodToCall.setAsDefaultBuilding" src="${ConfigProperties.externalizable.images.url}tinybutton-setAsDefaultBuilding.gif" alt="set as default building" styleClass="tinybutton"/>
+                        <c:if test="${showDefaultBuildingOption && notOtherDeliveryBuilding}" >
+                            <html:image property="methodToCall.setAsDefaultBuilding" src="${ConfigProperties.externalizable.images.url}tinybutton-setbuilding.gif" alt="set as default building" styleClass="tinybutton"/>
                         </c:if>
                     </c:if>
                 </td>           

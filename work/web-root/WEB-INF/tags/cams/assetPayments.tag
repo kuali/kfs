@@ -23,7 +23,7 @@
 
 		<html:hidden property="document.hiddenFieldForError"/>
 		 	
-		<table class="datatable" width="100%" border="0" cellpadding="0" cellspacing="0">
+		<table class="datatable" width="100%" border="0" cellpadding="0" cellspacing="0" border="1">
 			<tr>
 				<td colspan="3" class="subhead">
 			    	<span class="subhead-left">Assets</span>
@@ -35,15 +35,9 @@
 					<td class="infoline" valign="top" width="84%">															   
 						<kul:htmlControlAttribute attributeEntry="${assetAttributes.capitalAssetNumber}" property="capitalAssetNumber"/>				
 						<kul:multipleValueLookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" lookedUpCollectionName="assetPaymentAssetDetail"/>
-					</td>
-					<td class="infoline" width="6%" align="center">
 					    <html:image property="methodToCall.insertAssetPaymentAssetDetail" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add an asset" title="Add an asset"/>
-				    </td>
-			    </tr>
-				<tr>
-					<td colspan="7">
 					</td>
-				</tr>
+			    </tr>
 			</c:if>
 			<tr>
 				<td colspan="7" style="padding: 0px;border-bottom-style:none;border-left-style:none;border-right-style:none;border-top-style:none;">

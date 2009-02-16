@@ -34,7 +34,7 @@
 		<c:set var="preRouteChangeMode" value="true" scope="request" />
 	</c:if>
 
-	<c:if test="${((KualiForm.editingMode['displayRetransmitTab']) and (KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus != 'F'))}">
+	<c:if test="${((KualiForm.editingMode['displayRetransmitTab']))}">
         <c:set var="retransmitMode" value="true" scope="request" />
     </c:if>
     

@@ -34,6 +34,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderRetransmitDocument.class);
 
+    private boolean shouldDisplayRetransmitTab;
+    
     /**
      * Default constructor.
      */
@@ -124,6 +126,14 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
         }
 
+    }
+
+    public boolean isShouldDisplayRetransmitTab() {
+        return shouldDisplayRetransmitTab;
+    }
+
+    public void setShouldDisplayRetransmitTab(boolean shouldDisplayRetransmitTab) {
+        this.shouldDisplayRetransmitTab = shouldDisplayRetransmitTab;
     }
 
 }

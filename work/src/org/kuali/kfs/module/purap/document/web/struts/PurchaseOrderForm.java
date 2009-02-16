@@ -586,6 +586,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
         can = can && getPurchaseOrderDocument().getPurchaseOrderLastTransmitTimestamp() != null;
+        can = can && !editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
         
         if (!can) {
             return false;       
@@ -618,7 +619,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     private boolean canPrintRetransmit() {
         // check PO status etc
         boolean can = getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT);
-        can = can && PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
         
         if (can) {

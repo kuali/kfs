@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.rice.kns.document.Document;
 
 
@@ -39,7 +39,10 @@ public class PurchaseOrderRetransmitDocumentPresentationController extends Purch
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
+        PurchaseOrderRetransmitDocument poDocument = (PurchaseOrderRetransmitDocument)document;
+        if (poDocument.isShouldDisplayRetransmitTab()) {
+            editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
+        }
         return editModes;
     }
 }

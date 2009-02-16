@@ -22,7 +22,9 @@ import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborCachingDao;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryLookupService;
+import org.kuali.kfs.sys.service.NonTransactional;
 
+@NonTransactional
 public class LaborOriginEntryLookupServiceImpl extends OriginEntryLookupServiceImpl implements LaborOriginEntryLookupService{
     
     private LaborCachingDao laborCachingDao;

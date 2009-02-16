@@ -127,7 +127,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         //FIXME hjs- don't have responsibilites yet so this isnt' workign
         for (Iterator iterator = getItems().iterator(); iterator.hasNext();) {
             RequisitionItem item = (RequisitionItem) iterator.next();
-            if (!SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPurchasingAccountsPayableAccountValidationEvent("", "", this, item))) {
+            if (item.isConsideredEntered() && !SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPurchasingAccountsPayableAccountValidationEvent("", "", this, item))) {
                 return false;
             }
         }

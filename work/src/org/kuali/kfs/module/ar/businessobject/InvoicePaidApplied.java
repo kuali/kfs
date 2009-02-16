@@ -23,7 +23,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	private Integer invoiceItemNumber;
 	private Integer universityFiscalYear;
 	private String universityFiscalPeriodCode;
-	private KualiDecimal invoiceItemAppliedAmount;
+	private KualiDecimal invoiceItemAppliedAmount = KualiDecimal.ZERO;
 
     private CustomerInvoiceDetail invoiceItem;
 	private AccountingPeriod universityFiscalPeriod;

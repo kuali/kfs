@@ -27,8 +27,8 @@
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>
 
-<c:set var="arDocHeaderAttributes"
-	value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
+<c:set var="disableQuickApplyToDetails" value="${KualiForm.selectedInvoiceDocument.quickApply}" />
+<c:set var="arDocHeaderAttributes" value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 
 <kul:tab tabTitle="Apply to Invoice Detail" defaultOpen="true"
 	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
@@ -271,6 +271,7 @@
 																		</td>
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
+																				disabled="${true eq disableQuickApplyToDetails}"
 																				readOnly="${readOnly}"
 																				styleClass="amount"
 																				attributeEntry="${customerInvoiceDetailAttributes.amountApplied}"
@@ -279,7 +280,7 @@
 																		<c:if test="${readOnly ne true}">
 																			<td>
 																				<center>
-																					<html:checkbox title="Apply Full Amount" property="customerInvoiceDetail[${ctr}].fullApply" value="true" />
+																					<html:checkbox disabled="${true eq disableQuickApplyToDetails}" title="Apply Full Amount" property="customerInvoiceDetail[${ctr}].fullApply" value="true" />
 																				</center>
 																			</td>
 																		</c:if>

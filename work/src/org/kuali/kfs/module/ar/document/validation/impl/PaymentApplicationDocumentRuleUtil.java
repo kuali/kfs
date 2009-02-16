@@ -74,16 +74,17 @@ public class PaymentApplicationDocumentRuleUtil {
         }
         
         // Paying zero means nothing.
-        if(!amountPaid.isGreaterThan(KualiDecimal.ZERO)) {
-            isValid = false;
-            GlobalVariables.getErrorMap().putError(
-                fieldName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_GREATER_THAN_ZERO);
-        }
+//        if(!amountPaid.isGreaterThan(KualiDecimal.ZERO)) {
+//            isValid = false;
+//            GlobalVariables.getErrorMap().putError(
+//                fieldName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_GREATER_THAN_ZERO);
+//        }
         
         // Can't apply more than the amount received via the related CashControlDocument
         PaymentApplicationDocument paymentApplicationDocument = invoicePaidApplied.getPaymentApplicationDocument();
         if(null != paymentApplicationDocument) {
-            if(amountPaid.isGreaterThan(paymentApplicationDocument.getTotalFromCashControl())) {
+            KualiDecimal totalFromCashControl = paymentApplicationDocument.getTotalFromCashControl();
+            if(amountPaid.isGreaterThan(totalFromCashControl)) {
                 isValid = false;
                 GlobalVariables.getErrorMap().putError(
                     fieldName,ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);

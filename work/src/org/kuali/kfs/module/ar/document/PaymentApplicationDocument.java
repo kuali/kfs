@@ -153,9 +153,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return the sum of all invoice paid applieds.
      */
     public KualiDecimal getSumOfInvoicePaidApplieds() {
-        KualiDecimal amount = new KualiDecimal(0);
+        KualiDecimal amount = KualiDecimal.ZERO;
         for(InvoicePaidApplied payment : getInvoicePaidApplieds()) {
-            amount = amount.add(payment.getInvoiceItemAppliedAmount());
+            KualiDecimal _amount = payment.getInvoiceItemAppliedAmount();
+            if(null == _amount) { _amount = KualiDecimal.ZERO; }
+            amount = amount.add(_amount);
         }
         return amount;
     }

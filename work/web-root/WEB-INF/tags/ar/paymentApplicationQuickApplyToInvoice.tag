@@ -17,50 +17,45 @@
 <%@ attribute name="hasRelatedCashControlDocument" required="true" description="If has related cash control document"%>
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
 <%@ attribute name="isCustomerSelected" required="true" description="Whether or not the customer is set" %>
+
+<c:set var="invoicesByDocumentNumber" value="${KualiForm.invoicesByDocumentNumber}" scope="request" />
+
     <kul:tab tabTitle="Quick Apply to Invoice"
         defaultOpen="${isCustomerSelected}"
         tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
         <div class="tab-container" align="center">
-
             <c:choose>
-                <c:when
-                    test="${!isCustomerSelected}">
+                <c:when test="${!isCustomerSelected}">
                     No Customer Selected
                 </c:when>
                 <c:otherwise>
                     <table width="100%" cellpadding="0" cellspacing="0"
                         class="datatable">
                         <tr>
-                            <th>
-                                Invoice Number
-                            </th>
-                            <th>
-                                Open Amount
-                            </th>
+                            <th>Invoice Number</th>
+                            <th>Open Amount</th>
 							<c:if test="${readOnly ne true}">
-	                            <th>
-	                                Quick Apply
-	                            </th>
+	                            <th>Quick Apply</th>
 	                        </c:if>
                         </tr>
-                        <c:forEach items="${KualiForm.updatedBalanceInvoices}" var="updatedBalanceInvoice" varStatus="current">
+                        <logic:iterate name="KualiForm" property="invoices" id="invoice" indexId="idx">
+                        
                             <tr>
                                 <td>
-                                    <c:out value="${updatedBalanceInvoice.invoice.documentNumber}" />
+                                    <bean:write name="invoice" property="documentNumber" />
                                 </td>
                                 <td style="text-align: right;">
-                                    $
-                                    <c:out value="${updatedBalanceInvoice.openAmount}" />
+                                    $<bean:write name="invoice" property="openAmount" />
                                 </td>
 								<c:if test="${readOnly ne true}">
 	                                <td>
 	                                	<center>
-		                                    <html:checkbox property="updatedBalanceInvoices[${current.index}].invoice.quickApply" value="true" />
+		                                    <html:checkbox property="invoices[${idx}].quickApply" value="1" />
 		                                </center>
 	                                </td>
 	                            </c:if>
                             </tr>
-                        </c:forEach>
+                        </logic:iterate>
 						<c:if test="${readOnly ne true}">
 	                        <tr>
 	                            <td colspan='3' style='text-align: right;'>

@@ -22,22 +22,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
+import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.util.CustomerInvoiceBalanceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -54,7 +59,9 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     private NonInvoiced nonInvoicedAddLine;
 
     private ArrayList<CustomerInvoiceDocument> invoices;
+    @SuppressWarnings("unchecked")
     private Map<String, Collection> appliedPaymentsPerCustomerInvoiceDetail;
+    private Map<String, Boolean> previouslyQuickAppliedInvoices;
     private Integer nextNonInvoicedLineNumber;
 
     private KualiDecimal nonAppliedHoldingAmount;
@@ -65,16 +72,111 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     /**
      * Constructs a PaymentApplicationDocumentForm.java.
      */
+    @SuppressWarnings("unchecked")
     public PaymentApplicationDocumentForm() {
         super();
         setDocument(new PaymentApplicationDocument());
         nonInvoicedAddLine = new NonInvoiced();
         invoices = new ArrayList<CustomerInvoiceDocument>();
         selectedInvoiceDocument = new CustomerInvoiceDocument();
-
         appliedPaymentsPerCustomerInvoiceDetail = new HashMap<String, Collection>();
+        previouslyQuickAppliedInvoices = new HashMap<String,Boolean>();
     }
 
+    @Override
+    public void reset(ActionMapping mapping, ServletRequest request) {
+        super.reset(mapping, request);
+        for(CustomerInvoiceDocument invoice : invoices) {
+            invoice.setQuickApply(false);
+        }
+    }
+
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        
+        for(int i = 0; i < invoices.size(); i++) {
+            CustomerInvoiceDocument invoice = invoices.get(i);
+            invoice.setQuickApply(request.getParameterMap().containsKey("invoices["+i+"].quickApply"));
+        }
+        
+        // Set the next non-invoiced line number
+        PaymentApplicationDocument paymentApplicationDocument = getPaymentApplicationDocument();
+        if (ObjectUtils.isNotNull(paymentApplicationDocument.getNonInvoicedDistributions())) {
+            for (NonInvoicedDistribution u : paymentApplicationDocument.getNonInvoicedDistributions()) {
+                if (null == getNextNonInvoicedLineNumber()) {
+                    setNextNonInvoicedLineNumber(u.getFinancialDocumentLineNumber());
+                } else if (u.getFinancialDocumentLineNumber() > getNextNonInvoicedLineNumber()) {
+                    setNextNonInvoicedLineNumber(u.getFinancialDocumentLineNumber());
+                }
+            }
+        }
+        
+        if (null == getNextNonInvoicedLineNumber()) {
+            setNextNonInvoicedLineNumber(1);
+        }
+        
+        // This step doesn't affect anything persisted to the database. It allows proper calculation
+        // of amounts for the display.
+        String customerNumber = null;
+        if(ObjectUtils.isNotNull(request.getParameter("docId")) && ObjectUtils.isNull(getDocument().getDocumentNumber())) {
+            try {
+                // The document hasn't yet been set on the form. Let's look it up manually so that we can get the customer number.
+                DocumentService documentService = SpringContext.getBean(DocumentService.class);
+                Document d = documentService.getByDocumentHeaderId(request.getParameter("docId"));
+                PaymentApplicationDocument pDocument = (PaymentApplicationDocument) d;
+                AccountsReceivableDocumentHeader arHeader = pDocument.getAccountsReceivableDocumentHeader();
+                if(ObjectUtils.isNotNull(arHeader)) {
+                    customerNumber = arHeader.getCustomerNumber();
+                }
+            } catch(WorkflowException we) {
+                we.printStackTrace();
+            }
+        }
+        
+        if(ObjectUtils.isNull(getSelectedInvoiceDocument())) {
+            if(ObjectUtils.isNull(getInvoices()) || getInvoices().isEmpty()) {
+                if(ObjectUtils.isNotNull(customerNumber)) {
+                    // get open invoices for the current customer
+                    CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+                    Collection<CustomerInvoiceDocument> openInvoicesForCustomer = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+                    setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
+                    setSelectedInvoiceDocumentNumber(getInvoices().iterator().next().getDocumentNumber());
+                }
+            }
+        }
+        
+        for(CustomerInvoiceDetail customerInvoiceDetail : getSelectedInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts()) {
+            customerInvoiceDetail.setCurrentPaymentApplicationDocument(paymentApplicationDocument);
+        }
+
+        
+        
+    }
+
+    public Map<String, Boolean> getPreviouslyQuickAppliedInvoices() {
+        return previouslyQuickAppliedInvoices;
+    }
+
+    public void setPreviouslyQuickAppliedInvoices(Map<String, Boolean> previouslyQuickAppliedInvoices) {
+        this.previouslyQuickAppliedInvoices = previouslyQuickAppliedInvoices;
+    }
+
+    public void setInvoicesByDocumentNumber(Map<String,CustomerInvoiceDocument> m1) {
+        Map<String,CustomerInvoiceDocument> m2 = getInvoicesByDocumentNumber();
+        for(String k : m1.keySet()) {
+            m2.put(k, m1.get(k));
+        }
+    }
+    
+    public Map<String,CustomerInvoiceDocument> getInvoicesByDocumentNumber() {
+        Map<String,CustomerInvoiceDocument> m = new HashMap<String,CustomerInvoiceDocument>();
+        for(CustomerInvoiceDocument i : getInvoices()) {
+            m.put(i.getDocumentNumber(),i);
+        }
+        return m;
+    }
+    
     public Integer getNextNonInvoicedLineNumber() {
         return nextNonInvoicedLineNumber;
     }
@@ -114,7 +216,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public Collection<CustomerInvoiceBalanceHelper> getUpdatedBalanceInvoices() {
         Collection<CustomerInvoiceBalanceHelper> invoices = new ArrayList<CustomerInvoiceBalanceHelper>();
         for (CustomerInvoiceDocument invoice : getInvoices()) {
-            // /!! get invoice paidapplieds for invoice
+            // Get InvoicePaidApplieds for invoice
             invoices.add(new CustomerInvoiceBalanceHelper(invoice, new ArrayList<InvoicePaidApplied>()));
         }
         return invoices;
@@ -137,10 +239,14 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     }
 
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetails() {
-        Collection<CustomerInvoiceDetail> details = getSelectedInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts();
-        if(null == details) {
-            getSelectedInvoiceDocument().setCustomerInvoiceDetailsWithoutDiscounts(new ArrayList<CustomerInvoiceDetail>());
-            details = getSelectedInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts();
+        CustomerInvoiceDocument customerInvoice = getSelectedInvoiceDocument();
+        Collection<CustomerInvoiceDetail> details = null;
+        if(ObjectUtils.isNotNull(customerInvoice)) {
+            details = customerInvoice.getCustomerInvoiceDetailsWithoutDiscounts();
+            if(null == details) {
+                getSelectedInvoiceDocument().setCustomerInvoiceDetailsWithoutDiscounts(new ArrayList<CustomerInvoiceDetail>());
+                details = getSelectedInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts();
+            }
         }
         return details; 
     }
@@ -179,11 +285,17 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     }
 
     public CustomerInvoiceDocument getSelectedInvoiceDocument() {
-        return selectedInvoiceDocument;
-    }
-
-    public void setSelectedInvoiceDocument(CustomerInvoiceDocument selectedInvoiceDocument) {
-        this.selectedInvoiceDocument = selectedInvoiceDocument;
+        String docNumber = getSelectedInvoiceDocumentNumber();
+        if(ObjectUtils.isNotNull(docNumber)) {
+            return getInvoicesByDocumentNumber().get(docNumber);
+        } else {
+            Collection<CustomerInvoiceDocument> i = getInvoices();
+            if(i.isEmpty()) {
+                return null;
+            } else {
+                return getInvoices().iterator().next();
+            }
+        }
     }
 
     public void setInvoices(ArrayList<CustomerInvoiceDocument> invoices) {
@@ -227,6 +339,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         return (CustomerInvoiceDocument) invoices.get(index);
     }
 
+    @SuppressWarnings("unchecked")
     public void setCustomerInvoiceDetail(int key, CustomerInvoiceDetail value) {
         ((List)getCustomerInvoiceDetails()).set(key, value);
     }
@@ -256,10 +369,12 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         return amount;
     }
 
+    @SuppressWarnings("unchecked")
     public Map<String, Collection> getAppliedPaymentsPerCustomerInvoiceDetail() {
         return appliedPaymentsPerCustomerInvoiceDetail;
     }
 
+    @SuppressWarnings("unchecked")
     public void setAppliedPaymentsPerCustomerInvoiceDetail(Map<String, Collection> appliedPaymentsPerCustomerInvoiceDetail) {
         this.appliedPaymentsPerCustomerInvoiceDetail = appliedPaymentsPerCustomerInvoiceDetail;
     }
@@ -362,20 +477,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             }
         }
         return number + 1;
-    }
-
-    @Override
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        super.reset(mapping, request);
-        // do check box resets here
-        for (CustomerInvoiceDetail customerInvoiceDetail : getCustomerInvoiceDetails()) {
-            customerInvoiceDetail.setFullApply(false);
-        }
-        if (this.invoices != null) {
-            for (CustomerInvoiceDocument invoice : this.invoices) {
-                invoice.setQuickApply(false);
-            }
-        }
     }
 
     public KualiDecimal getOldNonAppliedHoldingAmount() {

@@ -88,7 +88,7 @@ delete from krim_role_rsp_actn_t where role_rsp_id = '1096'
 /
 delete from krim_role_rsp_t where role_rsp_id = '1096'
 /
-update krim_role_rsp_actn_t set priority_nbr = null, ignore_previous_ind = 'N' where role_rsp_id = '1097'
+update krim_role_rsp_actn_t set priority_nbr = null, IGNORE_PREV_IND = 'N' where role_rsp_id = '1097'
 /
 INSERT INTO KRIM_TYP_T(KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) 
     VALUES('64', sys_guid(), 1, 'Derived Role: Invoice Recurrence', 'invoiceRecurrenceDerivedRoleTypeService', 'Y', 'KFS-AR')

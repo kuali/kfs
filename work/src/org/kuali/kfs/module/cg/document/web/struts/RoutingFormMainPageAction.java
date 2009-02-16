@@ -211,13 +211,24 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
 
+        
         // check to see if we are coming back from a lookup
         if (KFSConstants.MULTIPLE_VALUE.equals(routingForm.getRefreshCaller())) {
             // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
             // Since URLs have a max length of 2000 chars, field conversions can not be done.
-            String lookupResultsSequenceNumber = routingForm.getLookupResultsSequenceNumber();
-            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
-                Class lookupResultsBOClass = Class.forName(routingForm.getLookupResultsBOClassName());
+            String lookupResultsSequenceNumber = null;
+            String lookupResultsBOName = null;
+
+            if (request.getParameter("lookupResultsSequenceNumber") != null) {
+                lookupResultsSequenceNumber = request.getParameter("lookupResultsSequenceNumber");
+            }
+            if (request.getParameter("lookupResultsBOClassName") != null) {
+                lookupResultsBOName = request.getParameter("lookupResultsBOClassName");
+            }
+                
+            if (StringUtils.isNotBlank(lookupResultsSequenceNumber) && StringUtils.isNotBlank(lookupResultsBOName)) {
+                
+                Class lookupResultsBOClass = Class.forName(lookupResultsBOName);
                 Collection<PersistableBusinessObject> rawValues = SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
                 if (lookupResultsBOClass.isAssignableFrom(Keyword.class)) {

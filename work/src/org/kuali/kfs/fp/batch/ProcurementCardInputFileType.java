@@ -62,8 +62,8 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
     
     public String getAuthorPrincipalName(File file) {
         String[] fileNameParts = StringUtils.split(file.getName(), "_");
-        if (fileNameParts.length > 3) {
-            return fileNameParts[2];
+        if (fileNameParts.length >= 2) {
+            return fileNameParts[1];
         }
         return null;
     }

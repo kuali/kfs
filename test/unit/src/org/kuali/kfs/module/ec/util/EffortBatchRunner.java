@@ -27,13 +27,16 @@ import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.batch.service.EffortCertificationCreateService;
 import org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService;
 import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.SpringContextForBatchRunner;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.Log4jConfigurer;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.spring.Logged;
 
 /**
@@ -114,6 +117,17 @@ public class EffortBatchRunner {
     @Logged
     public static void main(String[] args) {
         EffortBatchRunner batchRunner = new EffortBatchRunner();
+        GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+        
+        Integer fiscalYear = 2007;
+        String reportPeriod = "B01";
+        if(args.length < 1) {
+            throw new IllegalArgumentException("Wrong argument -- The argument only can be -load, -extract or -create");
+        }
+        else if(args.length >= 3) {
+            fiscalYear = StringUtils.isNumeric(args[1]) ? Integer.parseInt(args[1]) : 2007;
+            reportPeriod = StringUtils.isNotBlank(args[2]) ? StringUtils.trim(args[2]).toUpperCase() : "B01";
+        }
 
         try {
             if (StringUtils.equalsIgnoreCase("-load", args[0])) {
@@ -123,15 +137,22 @@ public class EffortBatchRunner {
             else if (StringUtils.equalsIgnoreCase("-extract", args[0])) {
                 System.out.println("Extracting Effort Certifications ...");
                 EffortCertificationExtractService effortCertificationExtractService = SpringContextForBatchRunner.getBean(EffortCertificationExtractService.class);
-                effortCertificationExtractService.extract(2007, "B01");
+                effortCertificationExtractService.extract(fiscalYear, reportPeriod);
             }
             else if (StringUtils.equalsIgnoreCase("-create", args[0])) {
                 System.out.println("Creating Effort Certifications ...");
                 EffortCertificationCreateService effortCertificationCreateService = SpringContextForBatchRunner.getBean(EffortCertificationCreateService.class);
-                effortCertificationCreateService.create(2007, "B01");
+                effortCertificationCreateService.create(fiscalYear, reportPeriod);
             }
             else {
-                throw new IllegalArgumentException("Wrong argument -- The argument only can be -load or -extract");
+                //throw new IllegalArgumentException("Wrong argument -- The argument only can be -load, -extract or -create");
+                batchRunner.loadData();
+                
+                EffortCertificationExtractService effortCertificationExtractService = SpringContextForBatchRunner.getBean(EffortCertificationExtractService.class);
+                effortCertificationExtractService.extract(fiscalYear, reportPeriod);
+                
+                EffortCertificationCreateService effortCertificationCreateService = SpringContextForBatchRunner.getBean(EffortCertificationCreateService.class);
+                effortCertificationCreateService.create(fiscalYear, reportPeriod);
             }
         }
         catch (Exception e) {

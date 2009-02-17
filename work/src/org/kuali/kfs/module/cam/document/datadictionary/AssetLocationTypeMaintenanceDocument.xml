@@ -38,7 +38,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="assetLocationTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="assetLocationTypeName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true"/>
       </list>
     </property>
   </bean>

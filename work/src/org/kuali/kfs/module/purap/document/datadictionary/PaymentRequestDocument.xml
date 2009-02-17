@@ -223,10 +223,12 @@
     <property name="label" value="AP Processed Date" />
     <property name="shortLabel" value="Date" />
   </bean>
-  <bean id="PaymentRequestDocument-holdIndicator" parent="PaymentRequestDocument-holdIndicator-parentBean" />
-
+  
+  <bean id="PaymentRequestDocument-holdIndicator" parent="PaymentRequestDocument-holdIndicator-parentBean" >
+  	<property name="name" value="holdIndicator" />
+  </bean>
+  
   <bean id="PaymentRequestDocument-holdIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="holdIndicator" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Hold Indicator" />
     <property name="shortLabel" value="Hold" />
@@ -235,6 +237,7 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
+  
   <bean id="PaymentRequestDocument-extractedTimestamp" parent="PaymentRequestDocument-extractedTimestamp-parentBean" />
 
   <bean id="PaymentRequestDocument-extractedTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
@@ -1001,20 +1004,19 @@
     					</list>
     				</property>
     			</bean>
-      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
-    						<property name="attributeName" value="vendorHeaderGeneratedIdentifier" />
+    						<property name="attributeName" value="vendorNumber" />
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>vendorHeaderGeneratedIdentifier</value>
-    						<value>vendorDetailAssignedIdentifier</value>
+    						<value>vendorNumber</value>
     					</list>
     				</property>
-    			</bean>
+    			</bean>   			
     			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
     			<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>
      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
@@ -1100,8 +1102,8 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
-    						<property name="attributeName" value="holdIndicator" />
-    					</bean>
+    						<property name="attributeName" value="holdIndicator" />						
+    					</bean>  					
     				</property>
     				<property name="documentValues">
     					<list>

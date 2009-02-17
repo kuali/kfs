@@ -175,7 +175,7 @@
 </table>
 	
 <c:if test="${purchaseOrder and preRouteChangeMode}">
-	    <h3>Status Changes</h3>
+	<h3>Status Changes</h3>
 		
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Status Changes Section">
 		<tr>

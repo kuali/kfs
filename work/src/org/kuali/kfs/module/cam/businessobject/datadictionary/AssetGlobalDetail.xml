@@ -123,10 +123,20 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-governmentTagNumber" parent="AssetGlobalDetail-governmentTagNumber-parentBean" />
   <bean id="AssetGlobalDetail-governmentTagNumber-parentBean" abstract="true" parent="Asset-governmentTagNumber">
   	<property name="label" value="Government Tag " />
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="AssetGlobalDetail-nationalStockNumber" parent="AssetGlobalDetail-nationalStockNumber-parentBean" />
   <bean id="AssetGlobalDetail-nationalStockNumber-parentBean" abstract="true" parent="Asset-nationalStockNumber">
+  <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="AssetGlobalDetail-offCampusAddress" parent="AssetGlobalDetail-offCampusAddress-parentBean" />

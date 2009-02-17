@@ -10,7 +10,7 @@
       <list>
       	<ref bean="Asset-hiddenFieldForError" />
         <ref bean="Asset-acquisitionTypeCode" />
-        <ref bean="Asset-agencyNumber" />
+        <ref bean="AssetFabrication-agencyNumber" />       
         <ref bean="Asset-buildingSubRoomNumber" />
         <ref bean="Asset-campusPoliceDepartmentCaseNumber" />
         <ref bean="Asset-campusTagNumber" />
@@ -18,7 +18,7 @@
         <ref bean="Asset-capitalAssetNumber" />
         <ref bean="Asset-cashReceiptFinancialDocumentNumber" />
         <ref bean="Asset-createDate" />
-        <ref bean="Asset-financialObjectSubTypeCode" />
+        <ref bean="AssetFabrication-financialObjectSubTypeCode" />
         <ref bean="Asset-depreciationDate" />
         <ref bean="Asset-depreciationDateCopy" />
         <ref bean="Asset-capitalAssetInServiceDate" />
@@ -31,8 +31,8 @@
         <ref bean="Asset-financialDocumentPostingYear" />
         <ref bean="Asset-inventoryScannedCode" />
         <ref bean="Asset-inventoryStatusCode" />
-        <ref bean="Asset-nationalStockNumber" />
-        <ref bean="Asset-governmentTagNumber" />
+        <ref bean="AssetFabrication-nationalStockNumber" />
+        <ref bean="AssetFabrication-governmentTagNumber" />
         <ref bean="Asset-lastInventoryDate" />
         <ref bean="Asset-loanDate" />
         <ref bean="Asset-loanReturnDate" />
@@ -53,7 +53,7 @@
         <ref bean="Asset-serialNumber" />
         <ref bean="Asset-totalCostAmount" />
         <ref bean="Asset-transferOfFundsFinancialDocumentNumber" />
-        <ref bean="Asset-vendorName" />
+        <ref bean="AssetFabrication-vendorName" />
         <ref bean="Asset-capitalAssetType.depreciableLifeLimit" />
         <ref bean="Asset-representativeUniversalIdentifier" />
         <ref bean="Asset-assetRepresentative.principalName" />
@@ -162,5 +162,44 @@
         </bean>
     </property>
   </bean>
-
+	<bean id="AssetFabrication-agencyNumber" parent="AssetFabrication-agencyNumber-parentBean" />
+	  <bean id="AssetFabrication-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber">
+	  	<property name="attributeSecurity">
+	        <bean parent="AttributeSecurity">
+	           <property name="readOnly" value="false" />
+	       </bean>
+	    </property>
+	</bean>
+  <bean id="AssetFabrication-vendorName" parent="AssetFabrication-vendorName-parentBean" />
+  <bean id="AssetFabrication-vendorName-parentBean" abstract="true" parent="Asset-vendorName">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>	
+  <bean id="AssetFabrication-governmentTagNumber" parent="AssetFabrication-governmentTagNumber-parentBean" />
+  <bean id="AssetFabrication-governmentTagNumber-parentBean" abstract="true" parent="Asset-governmentTagNumber">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>
+  <bean id="AssetFabrication-nationalStockNumber" parent="AssetFabrication-nationalStockNumber-parentBean" />
+  <bean id="AssetFabrication-nationalStockNumber-parentBean" abstract="true" parent="Asset-nationalStockNumber">
+  <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>
+  <bean id="AssetFabrication-financialObjectSubTypeCode" parent="AssetFabrication-financialObjectSubTypeCode-parentBean" />
+  <bean id="AssetFabrication-financialObjectSubTypeCode-parentBean" abstract="true" parent="Asset-financialObjectSubTypeCode">
+  <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>  
 </beans>

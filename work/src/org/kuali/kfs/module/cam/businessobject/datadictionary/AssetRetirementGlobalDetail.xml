@@ -102,6 +102,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobalDetail-asset.agencyNumber" parent="AssetRetirementGlobalDetail-asset.agencyNumber-parentBean" />
   <bean id="AssetRetirementGlobalDetail-asset.agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber">
     <property name="name" value="asset.agencyNumber" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-asset.acquisitionTypeCode" parent="AssetRetirementGlobalDetail-asset.acquisitionTypeCode-parentBean" />
@@ -132,6 +137,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobalDetail-asset.vendorName" parent="AssetRetirementGlobalDetail-asset.vendorName-parentBean" />
   <bean id="AssetRetirementGlobalDetail-asset.vendorName-parentBean" abstract="true" parent="Asset-vendorName">
     <property name="name" value="asset.vendorName" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-asset.manufacturerName" parent="AssetRetirementGlobalDetail-asset.manufacturerName-parentBean" />
@@ -162,11 +172,21 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobalDetail-asset.governmentTagNumber" parent="AssetRetirementGlobalDetail-asset.governmentTagNumber-parentBean" />
   <bean id="AssetRetirementGlobalDetail-asset.governmentTagNumber-parentBean" abstract="true" parent="Asset-governmentTagNumber">
     <property name="name" value="asset.governmentTagNumber" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-asset.nationalStockNumber" parent="AssetRetirementGlobalDetail-asset.nationalStockNumber-parentBean" />
   <bean id="AssetRetirementGlobalDetail-asset.nationalStockNumber-parentBean" abstract="true" parent="Asset-nationalStockNumber">
     <property name="name" value="asset.nationalStockNumber" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="AssetRetirementGlobalDetail-asset.lastInventoryDate" parent="AssetRetirementGlobalDetail-asset.lastInventoryDate-parentBean" />

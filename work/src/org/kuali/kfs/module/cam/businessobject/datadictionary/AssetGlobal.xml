@@ -134,7 +134,13 @@
   </bean>
 
   <bean id="AssetGlobal-agencyNumber" parent="AssetGlobal-agencyNumber-parentBean" />
-  <bean id="AssetGlobal-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber" />
+  <bean id="AssetGlobal-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>
 
   <bean id="AssetGlobal-acquisitionTypeCode" parent="AssetGlobal-acquisitionTypeCode-parentBean" />
   <bean id="AssetGlobal-acquisitionTypeCode-parentBean" abstract="true" parent="Asset-acquisitionTypeCode">
@@ -166,7 +172,13 @@
   </bean>
   
   <bean id="AssetGlobal-vendorName" parent="AssetGlobal-vendorName-parentBean" />
-  <bean id="AssetGlobal-vendorName-parentBean" abstract="true" parent="Asset-vendorName" />
+  <bean id="AssetGlobal-vendorName-parentBean" abstract="true" parent="Asset-vendorName">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>
 
   <bean id="AssetGlobal-manufacturerName" parent="AssetGlobal-manufacturerName-parentBean" />
   <bean id="AssetGlobal-manufacturerName-parentBean" abstract="true" parent="Asset-manufacturerName" />

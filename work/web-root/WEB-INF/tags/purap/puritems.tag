@@ -382,10 +382,11 @@
 						    attributeEntry="${itemAttributes.itemDescription}"
 						    property="document.item[${ctr}].itemDescription"
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" />
-						<kul:expandedTextArea 
+<!-- removing until KFSMI-1867 is fixed -->
+						<!-- kul:expandedTextArea 
 							textAreaFieldName="document.item[${ctr}].itemDescription"
 							action="purapRequisition"
-							textAreaLabel="description" />
+							textAreaLabel="description" / -->
 					</td>
 					<td class="infoline">
 					    <div align="right">

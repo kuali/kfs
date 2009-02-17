@@ -86,11 +86,13 @@ public class ReportServiceTest extends KualiTestBase {
 
         nightlyOutService.copyApprovedPendingLedgerEntries();
 
-        List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t");
-        assertEquals("Should have 1 group", 1, groups.size());
+        //TODO: originEntryGroup and originEntry tables are not used anymore.  Need to change it using file. 
+        //List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t");
+        //assertEquals("Should have 1 group", 1, groups.size());
 
-        List entries = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_t");
-        assertEquals("Should have 6 entries", 6, entries.size());
+        
+        //List entries = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_t");
+        //assertEquals("Should have 6 entries", 6, entries.size());
         // TODO: fix this
         // reportService.generatePendingEntryReport();
 

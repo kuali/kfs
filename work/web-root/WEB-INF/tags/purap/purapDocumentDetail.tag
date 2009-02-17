@@ -50,17 +50,33 @@
 <h3><c:out value="${detailSectionLabel}"/></h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
-    <tr>
-        <th align=right valign=middle class="bord-l-b">
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.organizationCode}" /></div>
-        </th>
-        <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" readOnly="true" />
-            &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode"  readOnly="true"/>
-            <c:if test="${(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly or paymentRequest)}" >
-                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode" tabindexOverride="${tabindexOverrideBase + 0}" />
-            </c:if>
-        </td>
+    <c:if test="${not paymentRequest}">
+	    <tr>
+	        <th align=right valign=middle class="bord-l-b">
+	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.organizationCode}" /></div>
+	        </th>
+	        <td align=left valign=middle class="datacell">
+	            <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" readOnly="true" />
+	            &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode"  readOnly="true"/>
+	            <c:if test="${(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}" >
+	                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode" tabindexOverride="${tabindexOverrideBase + 0}" />
+	            </c:if>
+	        </td>
+	        <th align=right valign=middle class="bord-l-b">
+	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>
+	        </th>
+	        <td align=left valign=middle class="datacell">
+	            <kul:htmlControlAttribute
+	                property="document.fundingSourceCode"
+	                attributeEntry="${documentAttributes.fundingSourceCode}"
+	                extraReadOnlyProperty="document.fundingSource.fundingSourceDescription"
+	                readOnly="${not (fullEntryMode and editableFundingSource)}"
+	                tabindexOverride="${tabindexOverrideBase + 5}"/>
+	        </td>
+	    </tr>
+    </c:if>
+	
+	<tr>
         <th align=right valign=middle class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}" /></div>
         </th>
@@ -72,21 +88,7 @@
                 readOnlyReceivingRequired or 
                 not(fullEntryMode or amendmentEntry) and 
                 not (contentReadOnly or internalPurchasingReadOnly)}"
-                 tabindexOverride="${tabindexOverrideBase + 5}"/>
-        </td>
-    </tr>
-	
-	<tr>
-        <th align=right valign=middle class="bord-l-b">
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>
-        </th>
-        <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute
-                property="document.fundingSourceCode"
-                attributeEntry="${documentAttributes.fundingSourceCode}"
-                extraReadOnlyProperty="document.fundingSource.fundingSourceDescription"
-                readOnly="${not (fullEntryMode and editableFundingSource) or paymentRequest}"
-                tabindexOverride="${tabindexOverrideBase + 0}"/>
+                 tabindexOverride="${tabindexOverrideBase + 0}"/>
         </td>
 	    <th align=right valign=middle class="bord-l-b">
 	        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}" /></div>

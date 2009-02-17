@@ -127,10 +127,6 @@
 		    <purap:additional
 		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
 		
-		    <purap:summaryaccounts
-		        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
-		    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
-			
             <c:if test="${!lockB2BEntry}">
                 <purap:quotes
                     documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
@@ -138,6 +134,10 @@
                     isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
             </c:if>
 		
+            <purap:summaryaccounts
+                itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
+                documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
+            
 		    <purap:relatedDocuments
 		            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 		

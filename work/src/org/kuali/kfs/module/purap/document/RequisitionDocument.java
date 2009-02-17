@@ -417,7 +417,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         super.handleRouteLevelChange(change);
         try {
             String newNodeName = change.getNewNodeName();
-            if (StringUtils.isNotBlank(newNodeName)) {
+            if (StringUtils.isNotBlank(newNodeName) && !newNodeName.equals(PurapWorkflowConstants.HAS_ACCOUNTING_LINES) && !newNodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) {
                 ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(getDocumentNumber()));
                 reportCriteriaDTO.setTargetNodeName(newNodeName);
                 if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {

@@ -71,17 +71,17 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
     }
 
 
-//    public void testDemerger() throws Exception {
-//        String[] inputTransactions = { "2026BA6044900-----2400---ACEX06BT  PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003493.50D2006-12-22                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA", "2007BA6044900-----2400---ACEX06BT  PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003493.50C2006-12-22                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA", "2026BA6044900-----2400---ACEX06ST  PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003493.50C2006-12-22                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA",
-//                "2007BA6044900-----2400---ACEX06ST  PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003493.50C2006-12-22                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA" };
-//
-//        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.LABOR_BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.LABOR_BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.LABOR_BACKUP, inputTransactions[2]), new EntryHolder(OriginEntrySource.LABOR_BACKUP, inputTransactions[3]), new EntryHolder(OriginEntrySource.LABOR_SCRUBBER_ERROR, inputTransactions[0]), new EntryHolder(OriginEntrySource.LABOR_SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.LABOR_SCRUBBER_ERROR, inputTransactions[2]), new EntryHolder(OriginEntrySource.LABOR_SCRUBBER_ERROR, inputTransactions[3]) };
-//
-//
-//        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
-//
-//    }
+    public void testDemerger() throws Exception {
+        String[] inputTransactions = { "2026BA6044900-----2400---ACEX06BT  PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003493.50D2006-12-22                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA", "2007BA6044900-----2400---ACEX06BT  PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003493.50C2006-12-22                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA", "2026BA6044900-----2400---ACEX06ST  PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003493.50C2006-12-22                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA",
+                "2007BA6044900-----2400---ACEX06ST  PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003493.50C2006-12-22                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA" };
+
+        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.LABOR_BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.LABOR_BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.LABOR_BACKUP, inputTransactions[2]), new EntryHolder(OriginEntrySource.LABOR_BACKUP, inputTransactions[3]), new EntryHolder(OriginEntrySource.LABOR_SCRUBBER_ERROR, inputTransactions[0]), new EntryHolder(OriginEntrySource.LABOR_SCRUBBER_ERROR, inputTransactions[1]), new EntryHolder(OriginEntrySource.LABOR_SCRUBBER_ERROR, inputTransactions[2]), new EntryHolder(OriginEntrySource.LABOR_SCRUBBER_ERROR, inputTransactions[3]) };
+
+        //TODO: Shawn - need to change it using file
+        //scrub(inputTransactions);
+        //assertOriginEntries(4, outputTransactions);
+
+    }
 //
 //
 //    public void testValidEntries() throws Exception {

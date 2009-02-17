@@ -115,7 +115,7 @@
             p:size="15" />
     </property>
 
-<!-- TODO: BIN comments: this throws execption when bankAccountNumber is null/blank
+<!-- TODO: BIN comments: this is causing ClassCastException execption
     <property name="attributeSecurity">
       <bean parent="AttributeSecurity">
   	     <property name="partialMask" value="true" /> 

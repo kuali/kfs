@@ -284,14 +284,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="SystemInformation-universityClearingSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="universityClearingSubObjectCode" />
-    <property name="label" value="Sub Object Code" />
-    <property name="shortLabel" value="University Clearing Sub Object Code" />
+    <property name="label" value="Unapplied Payment Sub Object Code" />
+    <property name="shortLabel" value="Unappl Pmnt SubObj Cd" />
   </bean>
-  
-  
-  
-  
-  
   
   <bean id="SystemInformation-wireSubAccountNumber" parent="SystemInformation-wireSubAccountNumber-parentBean" />
   <bean id="SystemInformation-wireSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CustomerProfileMaintenanceDocument" parent="CustomerProfileMaintenanceDocument-parentBean"/>
+  <bean id="CustomerProfileMaintenanceDocument" parent="CustomerProfileMaintenanceDocument-parentBean" />
 
   <bean id="CustomerProfileMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerProfile"/>
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
-    <property name="maintainableSections">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerProfile" />
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
       <list>
-        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1"/>
-        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2"/>
-        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3"/>
-        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerBank"/>
+        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1" />
+        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2" />
+        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3" />
+        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerBank" />
       </list>
     </property>
-    <property name="defaultExistenceChecks">
+    <property name="defaultExistenceChecks" >
       <list>
         <bean parent="ReferenceDefinition" p:attributeName="defaultChart" p:attributeToHighlightOnFail="defaultChartCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="defaultAccount" p:attributeToHighlightOnFail="defaultAccountNumber"/>
@@ -27,7 +27,7 @@
         <bean parent="ReferenceDefinition" p:collection="customerBanks" p:attributeName="bank" p:attributeToHighlightOnFail="bankCode"/>
       </list>
     </property>
-    <property name="lockingKeys">
+    <property name="lockingKeys" >
       <list>
         <value>chartCode</value>
         <value>unitCode</value>
@@ -38,22 +38,23 @@
     
     
     
-    <property name="documentTypeName" value="CSPR"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentTypeName" value="CSPR" />
+    <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.CustomerProfileRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="workflowAttributes">
-    	<ref bean="CustomerProfileMaintenanceDocument-workflowAttributes"/>
+    	<ref bean="CustomerProfileMaintenanceDocument-workflowAttributes" />
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1" parent="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1-parentBean"/>
+  <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1" parent="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1-parentBean" />
 
   <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Customer Profile"/>
-    <property name="title" value="Edit Customer Profile"/>
-    <property name="maintainableItems">
+    <property name="id" value="Edit Customer Profile" />
+    <property name="title" value="Edit Customer Profile" />
+    <property name="maintainableItems" >
       <list>
           <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true"/>
           <bean parent="MaintainableFieldDefinition" p:name="chartCode" p:required="true"/>      
@@ -76,12 +77,12 @@
 	</property>
    </bean>
         
-   <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2" parent="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2-parentBean"/>
+   <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2" parent="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2-parentBean" />
 
    <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection2-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Customer Check/ACH"/>
-    <property name="title" value="Customer Check/ACH"/>
-    <property name="maintainableItems">
+    <property name="id" value="Customer Check/ACH" />
+    <property name="title" value="Customer Check/ACH" />
+    <property name="maintainableItems" >
       <list>	  
       	  <bean parent="MaintainableFieldDefinition" p:name="achPaymentDescription" p:required="false"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine1" p:required="false"/>
@@ -100,12 +101,12 @@
    </bean>          
 	                      
 	                       
-	<bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3" parent="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3-parentBean"/>
+	<bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3" parent="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3-parentBean" />
 
    <bean id="CustomerProfileMaintenanceDocument-EditCustomerProfileSection3-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Customer Processing"/>
-    <property name="title" value="Customer Processing"/>
-    <property name="maintainableItems">
+    <property name="id" value="Customer Processing" />
+    <property name="title" value="Customer Processing" />
+    <property name="maintainableItems" >
       <list>	    
           <bean parent="MaintainableFieldDefinition" p:name="adviceCreate" p:required="false"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="defaultChartCode" p:required="true"/>
@@ -129,41 +130,35 @@
     </property>
   </bean>
   
-  <bean id="CustomerProfileMaintenanceDocument-EditCustomerBank" parent="CustomerProfileMaintenanceDocument-EditCustomerBank-parentBean"/>
+  <bean id="CustomerProfileMaintenanceDocument-EditCustomerBank" parent="CustomerProfileMaintenanceDocument-EditCustomerBank-parentBean" />
 
   <bean id="CustomerProfileMaintenanceDocument-EditCustomerBank-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Customer Bank"/>
-    <property name="title" value="Edit Customer Bank"/>
-    <property name="maintainableItems">
+    <property name="id" value="Edit Customer Bank" />
+    <property name="title" value="Edit Customer Bank" />
+    <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="customerBanks"/>
-          <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerBank"/>
-          <property name="summaryTitle" value="Edit Customer Bank"/>
-          <property name="summaryFields">
+          <property name="name" value="customerBanks" />
+          <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerBank" />
+          <property name="summaryTitle" value="Edit Customer Bank" />
+          <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="disbursementTypeCode"/>
             </list>
           </property>
-          <property name="maintainableFields">
+          <property name="maintainableFields" >
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="disbursementTypeCode" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="bankCode" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
-          <property name="duplicateIdentificationFields">
-          	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="customerId"/>
-          		<bean parent="MaintainableFieldDefinition" p:name="disbursementTypeCode"/>
-          	</list>
-          </property>
         </bean>
       </list>
     </property>
   </bean>
   <!-- workflow attributes -->
-  <bean id="CustomerProfileMaintenanceDocument-workflowAttributes" parent="CustomerProfileMaintenanceDocument-workflowAttributes-parentBean"/>
+  <bean id="CustomerProfileMaintenanceDocument-workflowAttributes" parent="CustomerProfileMaintenanceDocument-workflowAttributes-parentBean" />
   
-  <bean id="CustomerProfileMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="CustomerProfileMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

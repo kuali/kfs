@@ -186,6 +186,7 @@ public class PdpPropertyConstants {
         public static final String CUSTOMER_PROFILE_CHART_CODE = "chartCode";
         public static final String CUSTOMER_PROFILE_UNIT_CODE = "unitCode";
         public static final String CUSTOMER_PROFILE_SUB_UNIT_CODE = "subUnitCode";
+        public static final String CUSTOMER_PROFILE_BANKS = "customerBanks";
     }
     
     public static class DisbursementNumberRange {

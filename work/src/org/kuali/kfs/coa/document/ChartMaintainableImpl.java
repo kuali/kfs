@@ -58,6 +58,8 @@ public class ChartMaintainableImpl extends KualiMaintainableImpl {
             if (StringUtils.isNotBlank(chart.getFinCoaManagerPrincipalId())) {
                 roleManagementService.assignPrincipalToRole(chart.getFinCoaManagerPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
             }
+            
+            roleManagementService.flushRoleCaches();
         }
 
         super.handleRouteStatusChange(documentHeader);

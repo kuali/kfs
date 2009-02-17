@@ -236,11 +236,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
      * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
-//    public void testPostGlEntry() throws Exception {
-//        LOG.debug("testPostGlEntry() started");
-//
-//        String[] inputTransactions = { "2007BA6044909-----5300---ACEX07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044909-----5300---ACEX07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       " };
-//
+    public void testPostGlEntry() throws Exception {
+        LOG.debug("testPostGlEntry() started");
+
+        String[] inputTransactions = { "2007BA6044909-----5300---ACEX07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044909-----5300---ACEX07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       " };
+
 //        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.SCRUBBER_VALID, inputTransactions[0]), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, inputTransactions[1]), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, inputTransactions[0]), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, inputTransactions[1]) };
 //
 //        clearOriginEntryTables();
@@ -288,7 +288,8 @@ public class PosterServiceTest extends OriginEntryTestBase {
 //        glEntry = (Map) glEntries.get(1);
 //        tesq = (BigDecimal) glEntry.get("TRN_ENTR_SEQ_NBR");
 //        assertEquals("TRN_ENTR_SEQ_NBR wrong", 2, tesq.intValue());
-//    }
+    }
+    
 //
 //    /**
 //     * Check valid and invalid reversal posting

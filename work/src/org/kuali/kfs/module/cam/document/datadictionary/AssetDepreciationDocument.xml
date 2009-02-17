@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
   <bean id="AssetDepreciationDocument" parent="AssetDepreciationDocument-parentBean"/>
-
   <bean id="AssetDepreciationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-    
-    
     <property name="documentTypeName" value="DEPR"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetDepreciationDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetDepreciationDocumentRule"/>
@@ -14,8 +8,7 @@
     <property name="workflowAttributes">
       <ref bean="AssetDepreciationDocument-workflowAttributes"/>
     </property>
-  </bean>
-  
+  </bean>  
  <!-- workflow attributes -->
   <bean id="AssetDepreciationDocument-workflowAttributes" parent="AssetDepreciationDocument-workflowAttributes-parentBean"/>
   <bean id="AssetDepreciationDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">

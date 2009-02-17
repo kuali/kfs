@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 
-public class AssetDepreciationDocumentRule extends AccountingDocumentRuleBase {
+public class AssetDepreciationDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
 }

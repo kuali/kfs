@@ -525,6 +525,11 @@
       <bean parent="TextControlDefinition"
             p:size="27" />
     </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="true" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="Asset-governmentTagNumber" parent="Asset-governmentTagNumber-parentBean" />
@@ -541,6 +546,11 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="14" />
+    </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="true" />
+       </bean>
     </property>
   </bean>
   
@@ -707,6 +717,11 @@
     <property name="label" value="Financial Object Subtype Code" />
     <property name="shortLabel" value="Code" />
     <property name="required" value="false" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="true" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="Asset-retirementReasonCode" parent="Asset-retirementReasonCode-parentBean" />
@@ -775,6 +790,11 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="42" />
+    </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="true" />
+       </bean>
     </property>
   </bean>
   

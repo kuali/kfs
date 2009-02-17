@@ -41,7 +41,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="depreciableLifeLimit"/>
         <bean parent="MaintainableFieldDefinition" p:name="movingIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:name="requiredBuildingIndicator"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true"/>
       </list>
     </property>
   </bean>

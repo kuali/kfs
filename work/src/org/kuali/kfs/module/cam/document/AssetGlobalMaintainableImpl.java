@@ -95,7 +95,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             }
             
             // populate doc header description with the doc type
-            document.getDocumentHeader().setDocumentDescription(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE + ":");
+            document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION);
         }
 
         super.processAfterNew(document, parameters);

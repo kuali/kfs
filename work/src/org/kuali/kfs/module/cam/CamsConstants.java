@@ -90,7 +90,6 @@ public class CamsConstants extends JSTLConstants {
         // necessarily the documents themselves use these document type codes.
         public static final String ASSET_GLOBAL_SEPARATE = "ASEP";
         public static final String ASSET_RETIREMENT_MERGE = "AMRG";
-        public static final String ASSET_RETIREMENT = "AR";
     }
 
     public static class Parameters {
@@ -192,6 +191,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
         public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
         public static final String LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION = "Gain/Loss Disposition of Assets";
+        public static final String MERGE_AN_ASSET_DESCRIPTION = "Merge an Asset";
     }
 
     public static class AssetRetirementReasonCode {
@@ -273,6 +273,7 @@ public class CamsConstants extends JSTLConstants {
     public static class AssetSeparate {
         public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
         public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
+        public static final String SEPARATE_AN_ASSET_DESCRIPTION = "Separate an Asset";
     }
 
     public static class GLPostingObjectCodeType {

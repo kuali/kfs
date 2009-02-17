@@ -126,7 +126,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         }
         
         // populate doc header description with the doc type
-        document.getDocumentHeader().setDocumentDescription(CamsConstants.PaymentDocumentTypeCodes.ASSET_RETIREMENT + ":");
+        document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION);
     }
 
     /**

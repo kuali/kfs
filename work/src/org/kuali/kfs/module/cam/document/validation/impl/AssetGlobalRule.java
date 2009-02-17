@@ -736,8 +736,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validatePaymentCollection(document, assetGlobal);
         } else {
             // append doc type to existing doc header description
-            if (!document.getDocumentHeader().getDocumentDescription().toLowerCase().contains(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE.toLowerCase())) {
-                document.getDocumentHeader().setDocumentDescription(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE + ":" + document.getDocumentHeader().getDocumentDescription());
+            if (!document.getDocumentHeader().getDocumentDescription().toLowerCase().contains(CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION.toLowerCase())) {
+                document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION + " " + document.getDocumentHeader().getDocumentDescription());
             }    
         }
 

@@ -143,7 +143,8 @@
 
   <bean id="AssetGlobal-inventoryStatusCode" parent="AssetGlobal-inventoryStatusCode-parentBean" />
   <bean id="AssetGlobal-inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode">
-  	<property name="label" value="Asset Status" />
+    <property name="forceUppercase" value="true" />
+  	<property name="label" value="Asset Status Code" />
   </bean>
 
   <bean id="AssetGlobal-conditionCode" parent="AssetGlobal-conditionCode-parentBean" />

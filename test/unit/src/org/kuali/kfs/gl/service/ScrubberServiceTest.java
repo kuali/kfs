@@ -88,28 +88,28 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
-//    public void testMiscellaneousBlankFields() throws Exception {
-//
-//        String[] stringInput = new String[] { "2007  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
-//                "2007BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ", };
-//
-//        // Add inputs to expected output ...
-//        EntryHolder output[] = new EntryHolder[12];
-//        for (int i = 0; i < stringInput.length; i++) {
-//            output[i] = new EntryHolder(OriginEntrySource.BACKUP, stringInput[i]);
-//        }
-//
-//        int c = stringInput.length;
-//        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-//        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-//        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-//        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-//        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-//        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-//
-//        scrub(stringInput);
-//        assertOriginEntries(4, output);
-//    }
+    public void testMiscellaneousBlankFields() throws Exception {
+
+        String[] stringInput = new String[] { "2007  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
+                "2007BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ", };
+
+        // Add inputs to expected output ...
+        EntryHolder output[] = new EntryHolder[12];
+        for (int i = 0; i < stringInput.length; i++) {
+            output[i] = new EntryHolder(OriginEntrySource.BACKUP, stringInput[i]);
+        }
+
+        int c = stringInput.length;
+        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+
+        //scrub(stringInput);
+        //assertOriginEntries(4, output);
+    }
 //
 //    /**
 //     * Tests that the scrubber generates cost share encumbrances for pre-encumbrance entries

@@ -51,7 +51,7 @@ public class CertificationRecreateAction extends EffortCertificationAction {
         effortCertificationDocument.setEffortCertificationReportNumber(recreateForm.getEffortCertificationReportNumber());
         
         if (recreateForm.validateImportingFieldValues(effortCertificationDocument)) {            
-            boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));
+            boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING, effortCertificationDocument));
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

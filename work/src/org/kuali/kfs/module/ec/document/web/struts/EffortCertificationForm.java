@@ -50,14 +50,14 @@ import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Action form for Effort Certification Document.
  */
 public class EffortCertificationForm extends FinancialSystemTransactionalDocumentFormBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationForm.class);
-
-    private EffortCertificationDocument effortCertificationDocument;
+    
     private EffortCertificationDetail newDetailLine;
 
     /**
@@ -66,8 +66,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
     public EffortCertificationForm() {
         super();
 
-        this.setEffortCertificationDocument(new EffortCertificationDocument());
-        this.setDocument(this.getEffortCertificationDocument());
+        this.setDocument(new EffortCertificationDocument());
         this.setNewDetailLine(this.createNewDetailLine());
     }
 
@@ -107,16 +106,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @return Returns the effortCertificationDocument.
      */
     public EffortCertificationDocument getEffortCertificationDocument() {
-        return effortCertificationDocument;
-    }
-
-    /**
-     * Sets the effortCertificationDocument attribute value.
-     * 
-     * @param effortCertificationDocument The effortCertificationDocument to set.
-     */
-    public void setEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
-        this.effortCertificationDocument = effortCertificationDocument;
+        return (EffortCertificationDocument)this.getDocument();
     }
 
     /**
@@ -349,22 +339,22 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
             fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountInfo);
 
             SubAccount subAccount = detailLine.getSubAccount();
-            if (subAccount != null) {
+            if (ObjectUtils.isNotNull(subAccount)) {
                 fieldInfoForAttribute.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccount.getSubAccountName());
             }
 
             ObjectCode objectCode = detailLine.getFinancialObject();
-            if (objectCode != null) {
+            if (ObjectUtils.isNotNull(objectCode)) {
                 fieldInfoForAttribute.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCodeName());
             }
 
             Account sourceAccount = detailLine.getSourceAccount();
-            if (sourceAccount != null) {
+            if (ObjectUtils.isNotNull(sourceAccount)) {
                 fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, sourceAccount.getAccountName());
             }
 
             Chart sourceChart = detailLine.getSourceChartOfAccounts();
-            if (sourceChart != null) {
+            if (ObjectUtils.isNotNull(sourceChart)) {
                 fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
             }
 
@@ -396,7 +386,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @return the descriptive information of the given account
      */
     public static String buildAccountInfo(Account account) {
-        if (account == null) {
+        if (ObjectUtils.isNotNull(account)) {
             return KFSConstants.EMPTY_STRING;
         }
 

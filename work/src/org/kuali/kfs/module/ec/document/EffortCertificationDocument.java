@@ -31,6 +31,8 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -40,6 +42,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Effort Certification Document Class.
  */
+@COMPONENT(component="EffortCertificationDocumentBuild")
 public class EffortCertificationDocument extends FinancialSystemTransactionalDocumentBase  {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
@@ -68,6 +71,8 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * Default constructor.
      */
     public EffortCertificationDocument() {
+        super();
+        
         effortCertificationDetailLines = new TypedArrayList(EffortCertificationDetail.class);
         summarizedDetailLines = new TypedArrayList(EffortCertificationDetail.class);
     }

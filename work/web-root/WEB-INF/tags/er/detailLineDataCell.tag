@@ -34,7 +34,7 @@
               
 <%@ attribute name="fieldInfo" required="false"
     description="the descriptive information of the field that will be displayed" %>                         
-<%@ attribute name="inquirableUrl" required="false"
+<%@ attribute name="inquirableUrl" required="false" type="java.lang.Object"
     description="The inquirable url if the given field is inquirable" %>
 
 <%@ attribute name="fieldFormNamePrefix" required="true"
@@ -109,10 +109,10 @@
 		    <fmt:formatNumber var="formatNumber" value="${fieldValue}" type="number"/>
 		</c:when>
 	</c:choose>
-  	
+
     <c:choose>
       	<c:when test="${inquirable}">
-      		<a href="${inquirableUrl}" target="_blank">
+      		<a href="${inquirableUrl.href}" target="_blank">
 	    		<span class="${styleClass}" style="text-decoration: underline;" id="${spanName}" name="${spanName}">
 	    			${formatNumber}${percent}
 	    		</span>

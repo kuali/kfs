@@ -42,7 +42,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Effort Certification Document Class.
  */
-@COMPONENT(component="EffortCertificationDocumentBuild")
+@COMPONENT(component="EffortCertificationDocument")
 public class EffortCertificationDocument extends FinancialSystemTransactionalDocumentBase  {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 

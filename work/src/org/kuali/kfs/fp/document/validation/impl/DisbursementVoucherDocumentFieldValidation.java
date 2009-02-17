@@ -43,10 +43,10 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      */
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
-        boolean isValid = true;        
-        
+        boolean isValid = true;
+
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
-        
+
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         // validate document required fields
@@ -58,7 +58,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(document.getDvPayeeDetail());
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-        
+
         if (!errors.isEmpty()) {
             return false;
         }
@@ -70,7 +70,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
                 isValid = false;
             }
         }
-        
+
         boolean hasNoNotes = this.hasNoNotes(document);
 
         /* if no documentation is selected, must be a note explaining why */
@@ -101,7 +101,9 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      * @return whether the given document has no notes
      */
     private boolean hasNoNotes(DisbursementVoucherDocument document) {
-        ArrayList<Note> notes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(document.getDocumentNumber());
+        String remoteObjectId = document.getDocumentHeader().getObjectId();
+        ArrayList<Note> notes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(remoteObjectId);
+
         return (notes == null || notes.size() == 0);
     }
 
@@ -115,7 +117,8 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute. 
+     * Gets the accountingDocumentForValidation attribute.
+     * 
      * @return Returns the accountingDocumentForValidation.
      */
     public AccountingDocument getAccountingDocumentForValidation() {

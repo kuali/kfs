@@ -1549,7 +1549,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected boolean isTaxReviewRequired() {
         if (this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE)) return true;
         if (this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR) && SpringContext.getBean(VendorService.class).isVendorForeign(getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger())) return true;
-        if (this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS)) return true;
+        if (!StringUtils.isBlank(this.getDisbVchrPayeeTaxControlCode()) && (this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS))) return true;
         if (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_DECENDENT_COMPENSATION)) return true;
         if (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_MOVING_REASON) && taxedCampusForMovingReimbursements()) return true;
         return true;

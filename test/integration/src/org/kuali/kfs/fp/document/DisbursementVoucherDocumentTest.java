@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.saveDocument;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE7;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.cswinson;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.hschrein;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.mylarge;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.vputman;
@@ -26,14 +25,11 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.vputman;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -47,6 +43,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -68,7 +65,8 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     // The set of Route Nodes that the test document will progress through
 
     private static final String ACCOUNT_REVIEW = "Account";
-    private static final String ORG_REVIEW = "OrganizationHierarchy";
+    private static final String ORG_REVIEW = "AccountingOrganizationHierarchy";
+    private static final String TAX_REVIEW = "Tax";
     private static final String CAMPUS_CODE = "Campus";
 
 
@@ -131,12 +129,20 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         assertTrue("vputman should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as vputman", null);
 
-        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
+        /*WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
         // now doc should be in Org Review routing to cswinson
         changeCurrentUser(cswinson);
         document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
         assertTrue("cswinson should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as cswinson", null);*/
+        
+        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), TAX_REVIEW);
+        // now doc should be in Org Review routing to cswinson
+        changeCurrentUser(UserNameFixture.dfogle);
+        document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, TAX_REVIEW));
+        assertTrue("dfogle should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as cswinson", null);
 
         // this is going to skip a bunch of other routing and end up at campus code
@@ -163,7 +169,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     private Document getDocumentParameterFixture() throws Exception {
         DisbursementVoucherDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         DisbursementVoucherPayeeDetail payeeDetail = new DisbursementVoucherPayeeDetail();
-        payeeDetail.setDisbVchrPayeeIdNumber("1000-0");
+        payeeDetail.setDisbVchrPayeeIdNumber("1012-0");
         payeeDetail.setDisbursementVoucherPayeeTypeCode("V");
         payeeDetail.setDisbVchrPayeeLine1Addr("100 Main St");
         payeeDetail.setDisbVchrPayeeCityName("Bloomington");

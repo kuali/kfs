@@ -54,7 +54,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="capitalizationFinancialObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="accumulatedDepreciationFinancialObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="depreciationExpenseFinancialObjectCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true"/>
       </list>
     </property>
   </bean>

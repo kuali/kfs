@@ -40,7 +40,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="acquisitionTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="acquisitionTypeName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="incomeAssetObjectCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>

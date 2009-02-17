@@ -39,7 +39,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="assetConditionCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="assetConditionName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true"/>
       </list>
     </property>
   </bean>

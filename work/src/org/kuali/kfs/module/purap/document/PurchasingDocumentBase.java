@@ -823,6 +823,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public VendorContract getVendorContract() {
+        if (ObjectUtils.isNull(vendorContract))
+            refreshReferenceObject(PurapPropertyConstants.VENDOR_CONTRACT);
         return vendorContract;
     }
 

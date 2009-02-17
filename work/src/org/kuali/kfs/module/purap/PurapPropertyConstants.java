@@ -97,6 +97,7 @@ public class PurapPropertyConstants {
     public static final String PURCHASING_CAPITAL_ASSET_SYSTEM = "purchasingCapitalAssetSystem";
     public static final String CAPITAL_ASSET_LOCATIONS = "capitalAssetLocations";
     public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+    public static final String VENDOR_CONTRACT = "vendorContract";
     
     // Capital Asset Locations
     public static final String CAPITAL_ASSET_LOCATION_ADDRESS_LINE1 = "capitalAssetLine1Address";
@@ -122,6 +123,7 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_STATUS_CODE = "purchaseOrderStatusCode";
     public static final String TOTAL_ENCUMBRANCE = "totalEncumbrance";
     public static final String VENDOR_CHOICE_CODE = "vendorChoiceCode";
+    public static final String CONTRACT_MANAGER = "contractManager";
     // Quote Language
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
     // vendor quote

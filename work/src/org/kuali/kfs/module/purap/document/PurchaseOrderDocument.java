@@ -298,6 +298,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     
 
     public ContractManager getContractManager() {
+        if (ObjectUtils.isNull(contractManager))
+            refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);
         return contractManager;
     }
 

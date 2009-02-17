@@ -15,11 +15,39 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
+import java.util.Map;
+
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * AssetAuthorizer for Asset edit.
  */
 public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
+    @Override
+    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
 
+        Asset asset = null;
+        if (businessObject instanceof MaintenanceDocument) {
+            asset = (Asset) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
+        }
+        else {
+            asset = (Asset) businessObject;
+        }
+
+        String chart = asset.getOrganizationOwnerChartOfAccountsCode();
+        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
+
+        if (ObjectUtils.isNotNull(asset.getOrganizationOwnerAccount())) {
+            // should only be null if AssetService.isAssetFabrication=true
+            String org = asset.getOrganizationOwnerAccount().getOrganizationCode();
+
+            attributes.put(KfsKimAttributes.ORGANIZATION_CODE, org);
+        }
+    }
 }

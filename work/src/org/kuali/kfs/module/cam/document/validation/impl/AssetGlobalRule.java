@@ -401,8 +401,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validatePaymentLine(MaintenanceDocument maintenanceDocument, AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean success = true;
 
-        if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode())) {
-            success &= checkRequiredFieldsForNew(assetPaymentDetail);
+        // If Acquisition type is "New" or "non-capital", check required fields including Document number, Document type code, Posted date.
+        if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode()) || !getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP,assetGlobal.getAcquisitionTypeCode())) {
+            success &= checkRequiredFieldsForNewOrNonCapital(assetPaymentDetail);
         }
         else {
             // Validate Financial Document Type Code
@@ -438,7 +439,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetPaymentDetail
      * @return
      */
-    private boolean checkRequiredFieldsForNew(AssetPaymentDetail assetPaymentDetail) {
+    private boolean checkRequiredFieldsForNewOrNonCapital(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
 
         if (StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentNumber())) {

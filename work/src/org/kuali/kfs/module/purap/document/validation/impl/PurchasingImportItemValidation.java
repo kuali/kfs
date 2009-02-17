@@ -42,8 +42,7 @@ public class PurchasingImportItemValidation extends PurchasingAccountsPayableImp
     private DataDictionaryService dataDictionaryService;
     
     public boolean validate(AttributedDocumentEvent event) {
-        boolean valid = true;
-        
+        boolean valid = true;        
         valid &= super.validate(event);
         GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
         
@@ -51,12 +50,10 @@ public class PurchasingImportItemValidation extends PurchasingAccountsPayableImp
             valid &= validateItemDescription(getItemForValidation());
         }
         valid &= validateItemUnitPrice(getItemForValidation());
-        valid &= validateUnitOfMeasureCodeExists(getItemForValidation());
-        
+        valid &= validateUnitOfMeasureCodeExists(getItemForValidation());        
         valid &= validateCommodityCodes(getItemForValidation(), commodityCodeIsRequired());
         
         GlobalVariables.getErrorMap().removeFromErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
-
         return valid;
     }
 

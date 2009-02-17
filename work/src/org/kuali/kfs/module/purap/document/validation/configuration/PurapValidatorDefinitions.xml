@@ -139,6 +139,7 @@
 
 	<bean id="Purchasing-importItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingImportItemValidation" abstract="true">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="dictionaryValidationService" ref="dictionaryValidationService" />		
 		<property name="businessObjectService" ref="businessObjectService" />		
 	</bean>		
 

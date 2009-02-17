@@ -51,7 +51,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNonquantityDrivenAllowIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:name="capitalAssetQuantitySubtypeRequiredText"/>
         <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNonquantitySubtypeRequiredText"/>             
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true"/>
       </list>
     </property>
   </bean>

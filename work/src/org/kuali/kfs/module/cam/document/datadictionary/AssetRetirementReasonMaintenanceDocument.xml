@@ -41,7 +41,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="retirementReasonCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="retirementReasonName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="retirementReasonRestrictionIndicator"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>

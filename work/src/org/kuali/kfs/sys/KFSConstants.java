@@ -34,9 +34,6 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class KFSConstants extends JSTLConstants implements ParameterKeyConstants {
     private static final long serialVersionUID = 2882277719647128949L;
 
-    @Deprecated
-    public static final String KFS_GROUP_NAMESPACE = "KFS";
-    
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";
         public static final String CHART = "KFS-COA";

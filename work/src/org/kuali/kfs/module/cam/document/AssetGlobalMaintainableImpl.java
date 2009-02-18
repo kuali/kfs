@@ -72,7 +72,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        document.getNewMaintainableObject().setGenerateDefaultValues(false);
+        //document.getNewMaintainableObject().setGenerateDefaultValues(false);
 
         // set "asset number" and "type code" from URL
         setSeparateSourceCapitalAssetParameters(assetGlobal, parameters);
@@ -99,6 +99,11 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         }
 
         super.processAfterNew(document, parameters);
+    }
+    
+    @Override
+    public void setGenerateDefaultValues(String docTypeName) {      
+        
     }
 
     /**

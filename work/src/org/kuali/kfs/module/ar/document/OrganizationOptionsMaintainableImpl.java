@@ -57,8 +57,8 @@ public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
         super.processAfterNew(document, parameters);
         
         initializeAttributes(document);
-        document.getNewMaintainableObject().setGenerateDefaultValues(false);
-
+        //document.getNewMaintainableObject().setGenerateDefaultValues(false);
+		
         Person finSysUser = GlobalVariables.getUserSession().getPerson();
         
         String chartAccountsCode = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(finSysUser, ArConstants.AR_NAMESPACE_CODE).getChartOfAccountsCode();
@@ -69,6 +69,11 @@ public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
         
         updateRemitToAddress(chartAccountsCode, organizationCode);
     }
+    
+    @Override
+	public void setGenerateBlankRequiredValues(String docTypeName) {		
+		
+	}
     
     /**
      * This method gets old and new maintainable objects and creates convenience handles to them

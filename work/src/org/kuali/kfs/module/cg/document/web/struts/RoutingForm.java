@@ -35,6 +35,7 @@ import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.format.PhoneNumberFormatter;
 
 public class RoutingForm extends ResearchDocumentFormBase {
@@ -93,6 +94,13 @@ public class RoutingForm extends ResearchDocumentFormBase {
 
         setFormatterType("document.routingFormPersonnel.personPhoneNumber", PhoneNumberFormatter.class);
         setFormatterType("document.routingFormPersonnel.personFaxNumber", PhoneNumberFormatter.class);
+    }
+
+    @Override
+    public void addRequiredNonEditableProperties(){
+        super.addRequiredNonEditableProperties();
+        registerRequiredNonEditableProperty(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        registerRequiredNonEditableProperty(KNSConstants.LOOKED_UP_COLLECTION_NAME);
     }
 
     @Override

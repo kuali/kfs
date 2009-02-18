@@ -57,9 +57,9 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setGenerateDefaultValues(boolean)
      */
-    @Override
-    public void setGenerateDefaultValues(boolean generateDefaultValues) {
-        super.setGenerateDefaultValues(generateDefaultValues);
+	@Override
+    public void setGenerateDefaultValues(String docTypeName) {
+        super.setGenerateDefaultValues(docTypeName);
         if (this.getBusinessObject().getBoNotes().isEmpty()) {
             setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
         }

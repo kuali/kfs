@@ -112,12 +112,12 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
      * 
      * @param generateDefaultValues true for initialization
      */
-    @Override
-    public void setGenerateDefaultValues(boolean generateDefaultValues) {
-        if (generateDefaultValues) {
+	@Override
+    public void setGenerateDefaultValues(String docTypeName) {
+        //if (generateDefaultValues) {
             initResearchRiskTypes();
-        }
-        super.setGenerateDefaultValues(generateDefaultValues);
+        //}
+        super.setGenerateDefaultValues(docTypeName);
     }
 
     /**

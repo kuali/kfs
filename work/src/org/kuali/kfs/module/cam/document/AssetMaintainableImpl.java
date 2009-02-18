@@ -130,7 +130,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterNew(document, parameters);
         initializeAttributes(document);
-        document.getNewMaintainableObject().setGenerateDefaultValues(false);
+        //document.getNewMaintainableObject().setGenerateDefaultValues(false);
         if (newAsset.getCreateDate() == null) {
             newAsset.setCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             newAsset.setAcquisitionTypeCode(CamsConstants.Asset.ACQUISITION_TYPE_CODE_C);
@@ -141,6 +141,11 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
             getAssetService().setFiscalPeriod(newAsset);
         }
     }
+    
+    @Override
+	public void setGenerateDefaultValues(String docTypeName) {		
+		
+	}
 
     private AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);

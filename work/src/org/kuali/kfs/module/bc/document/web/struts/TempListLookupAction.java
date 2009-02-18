@@ -68,6 +68,27 @@ public class TempListLookupAction extends KualiLookupAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TempListLookupAction.class);
 
     /**
+     * Does not supress actions if in position or incumbent lookup mode in the BC application, otherwise calls on
+     * KualiLookupAction.supressActions
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#supressActionsIfNeeded(org.apache.struts.action.ActionForm)
+     */
+    @Override
+    protected void supressActionsIfNeeded(ActionForm form) throws ClassNotFoundException {
+
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+        if ((tempListLookupForm.getTempListLookupMode() == BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP) || (tempListLookupForm.getTempListLookupMode() == BCConstants.TempListLookupMode.INTENDED_INCUMBENT)) {
+
+            // we want the actions in actions column to show when in position or incumbent lookup mode
+            // regardless of what KIM thinks
+            tempListLookupForm.setSuppressActions(false);
+        }
+        else {
+            super.supressActionsIfNeeded(form);
+        }
+    }
+
+    /**
      * TempListLookupAction can be called to build and display different lists. This method determines what the requested behavior
      * is and either makes a build call for that list or sets up a message (if the list has already been built). If the request
      * parameter showInitialResults is true, an initial search will be performed before display of the screen.
@@ -500,4 +521,3 @@ public class TempListLookupAction extends KualiLookupAction {
     }
 
 }
-

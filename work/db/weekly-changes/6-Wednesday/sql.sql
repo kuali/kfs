@@ -43,3 +43,6 @@ CREATE TABLE KRIM_PND_DLGN_MBR_ATTR_DATA_T (
     PRIMARY KEY(ATTR_DATA_ID,FDOC_NBR)
 )
 /
+
+update krns_parm_t set PARM_DESC_TXT = 'Controls whether the bank code functionality is enabled in the system. If set to Y additional bank entries will be created on supported documents. Also when set to Y document types that appear in the BANK_CODE_DOCUMENT_TYPES parameter list will display the bank code for viewing and editing by users who have permission.' where PARM_NM = 'ENABLE_BANK_SPECIFICATION_IND'
+/

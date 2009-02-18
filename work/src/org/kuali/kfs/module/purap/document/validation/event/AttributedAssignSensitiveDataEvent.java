@@ -26,6 +26,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
 
 public final class AttributedAssignSensitiveDataEvent extends AttributedDocumentEventBase {
     
+    private PurchaseOrderDocument accountingDocumentForValidation;
     private List<SensitiveData> sensitiveDatas;
     
     /**
@@ -38,6 +39,23 @@ public final class AttributedAssignSensitiveDataEvent extends AttributedDocument
     public AttributedAssignSensitiveDataEvent(String errorPathPrefix, Document document, List<SensitiveData> sensitiveDatas) {
         super("Assign sensitive data to purchase order " + getDocumentId(document), errorPathPrefix, document);
         this.sensitiveDatas = sensitiveDatas;
+        this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
 
+    public PurchaseOrderDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
+    }
+
+    public void setAccountingDocumentForValidation(PurchaseOrderDocument accountingDocumentForValidation) {
+        this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    public List<SensitiveData> getSensitiveDatas() {
+        return sensitiveDatas;
+    }
+
+    public void setSensitiveDatas(List<SensitiveData> sensitiveDatas) {
+        this.sensitiveDatas = sensitiveDatas;
+    }
+    
 }

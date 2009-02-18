@@ -57,6 +57,7 @@ import org.kuali.kfs.module.purap.document.service.FaxService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedAddVendorToQuoteEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -631,10 +632,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         //FIXME this is broken KULPURAP-3297
         // check business rules
-//        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAssignSensitiveDataEvent("", po, sds));
-//        if (!rulePassed) {
-//            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-//        }
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAssignSensitiveDataEvent("", po, sds));
+        if (!rulePassed) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
         // update table SensitiveDataAssignment
         SensitiveDataAssignment sda = new SensitiveDataAssignment(poId, poForm.getSensitiveDataAssignmentReason(), GlobalVariables.getUserSession().getPerson().getPrincipalId(), poForm.getSensitiveDatasAssigned());

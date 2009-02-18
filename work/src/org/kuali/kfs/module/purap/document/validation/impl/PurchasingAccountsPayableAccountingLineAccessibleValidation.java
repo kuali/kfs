@@ -53,18 +53,5 @@ public class PurchasingAccountsPayableAccountingLineAccessibleValidation extends
         return "items.sourceAccountingLines"; 
     }
 
-    @Override
-    public boolean validate(AttributedDocumentEvent event) {
-        //FIXME hjs: temporary fix for routing preq see KULPURAP-3324
-        KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument)event.getDocument().getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            return true;
-        }
-        else {
-            return super.validate(event);
-        }
-    }
-    
-    
 }
 

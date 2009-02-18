@@ -32,7 +32,6 @@
     </c:if>
     
     <%-- add extra columns count for the "Action" button and/or dual amounts --%>
-    <%@ include file="/WEB-INF/tags/fin/accountingLinesVariablesOverride.tag"%>
 
     <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
     <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />

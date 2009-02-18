@@ -23,11 +23,15 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum CreditMemoDocumentFixture {
 
     REC1 {
+        
+        private DateTimeService dateTimeService;
+        
         @Override
         public VendorCreditMemoDocument newRecord() {
             VendorCreditMemoDocument obj = new VendorCreditMemoDocument();
@@ -45,12 +49,12 @@ public enum CreditMemoDocumentFixture {
             obj.setPostingYear(2009);
             obj.setStatusCode("CMPT");
             obj.setCreditMemoNumber("1003");
-            obj.setCreditMemoDate(new java.sql.Date(new Date().getTime()));
+            obj.setCreditMemoDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setCreditMemoAmount(new KualiDecimal(7000));
             obj.setHoldIndicator(false);
             obj.setAccountsPayableProcessorIdentifier("2133704704");
             obj.setProcessingCampusCode("IN");
-            obj.setAccountsPayableApprovalTimestamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setAccountsPayableApprovalTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setAccountsPayablePurchasingDocumentLinkIdentifier(21);
             obj.setLastActionPerformedByPersonId("2133704704");
             obj.setContinuationAccountIndicator(false);

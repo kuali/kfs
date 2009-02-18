@@ -40,11 +40,9 @@ import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetTransferServiceImpl implements AssetTransferService {
@@ -88,6 +86,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     private BusinessObjectService businessObjectService;
     private AssetPaymentService assetPaymentService;
     private AssetObjectCodeService assetObjectCodeService;
+    private DateTimeService dateTimeService;
 
 
     /**
@@ -185,7 +184,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     newPayment.setSubAccountNumber(null);
                     newPayment.setDocumentNumber(document.getDocumentNumber());
                     newPayment.setFinancialDocumentTypeCode(CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE);
-                    newPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
+                    newPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(dateTimeService.getCurrentDate()));
                     newPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     newPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
                     getAssetPaymentService().adjustPaymentAmounts(newPayment, false, true);
@@ -223,7 +222,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     ObjectValueUtils.copySimpleProperties(assetPayment, offsetPayment);
                     offsetPayment.setDocumentNumber(document.getDocumentNumber());
                     offsetPayment.setFinancialDocumentTypeCode(CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE);
-                    offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
+                    offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(dateTimeService.getCurrentDate()));
                     offsetPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     offsetPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
                     getAssetPaymentService().adjustPaymentAmounts(offsetPayment, true, true);

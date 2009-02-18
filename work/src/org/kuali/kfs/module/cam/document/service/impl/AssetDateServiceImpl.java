@@ -17,13 +17,10 @@ package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -33,12 +30,16 @@ import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 
 public class AssetDateServiceImpl implements AssetDateService {
 
     AssetService assetService;
     UniversityDateService universityDateService;
+    private DateTimeService dateTimeService;
 
     /**
      * @see org.kuali.module.cams.service.AssetDetailInformationService#checkAndUpdateLastInventoryDate(org.kuali.kfs.module.cam.businessobject.Asset,
@@ -46,7 +47,8 @@ public class AssetDateServiceImpl implements AssetDateService {
      */
     public void checkAndUpdateLastInventoryDate(Asset oldAsset, Asset newAsset) {
         if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingSubRoomNumber(), newAsset.getBuildingSubRoomNumber()) || !StringUtils.equalsIgnoreCase(oldAsset.getCampusTagNumber(), newAsset.getCampusTagNumber())) {
-            newAsset.setLastInventoryDate(new Timestamp(new Date().getTime()));
+            Timestamp timestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
+            newAsset.setLastInventoryDate(timestamp);
         }
     }
 

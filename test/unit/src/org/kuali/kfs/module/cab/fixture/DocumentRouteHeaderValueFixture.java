@@ -16,22 +16,21 @@
 package org.kuali.kfs.module.cab.fixture;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.workflow.service.impl.KualiWorkflowInfoImpl;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public enum DocumentRouteHeaderValueFixture {
     REC1 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -39,11 +38,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("REQS"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Requisition - CAB Test Data 1");
             obj.setAppDocId(null);
@@ -55,6 +54,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC2 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -63,11 +63,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("REQS"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Requisition - CAB Test Data 1");
             obj.setAppDocId(null);
@@ -79,6 +79,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC3 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -87,11 +88,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("REQS"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(0);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Contract Manager Assignment - Contract Manager Assigned");
             obj.setAppDocId(null);
@@ -103,6 +104,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC4 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -111,11 +113,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("PO"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
@@ -127,6 +129,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC5 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -135,11 +138,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("PO"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
@@ -151,6 +154,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC6 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -159,11 +163,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("PO"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
@@ -175,6 +179,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC7 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -183,11 +188,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -199,6 +204,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC8 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -207,11 +213,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -223,6 +229,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC9 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -231,11 +238,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -247,6 +254,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC10 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -255,11 +263,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -271,6 +279,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC11 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -279,11 +288,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -295,6 +304,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC12 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -303,11 +313,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -319,6 +329,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC13 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -327,11 +338,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("CM"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(2);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Credit Memo - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -343,6 +354,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC14 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -351,11 +363,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("INV"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(0);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Customer Invoice - Customer Invoice");
             obj.setAppDocId(null);
@@ -367,6 +379,7 @@ public enum DocumentRouteHeaderValueFixture {
         }
     },
     REC15 {
+        private DateTimeService dateTimeService;
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
@@ -374,11 +387,11 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setDocumentTypeId(docTypeId("INV"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(0);
-            obj.setStatusModDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setCreateDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setApprovedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setFinalizedDate(new java.sql.Timestamp(new Date().getTime()));
-            obj.setRouteStatusDate(new java.sql.Timestamp(new Date().getTime()));
+            obj.setStatusModDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setCreateDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setApprovedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setFinalizedDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setRouteStatusDate(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             obj.setRouteLevelDate(null);
             obj.setDocTitle("Customer Invoice - Customer Invoice");
             obj.setAppDocId(null);
@@ -389,8 +402,8 @@ public enum DocumentRouteHeaderValueFixture {
             return obj;
         }
     };
+    
     public abstract DocumentRouteHeaderValue newRecord();
-
 
     public static Long docTypeId(String documentTypeName) {
         try {

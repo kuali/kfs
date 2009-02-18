@@ -20,7 +20,6 @@ import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_WARRANT
 
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +82,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private AssetComponentService assetComponentService = SpringContext.getBean(AssetComponentService.class);
     private UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
     private AssetLocationService assetLocationService = SpringContext.getBean(AssetLocationService.class);
+    private DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
     private Asset newAsset;
     private Asset oldAsset;
@@ -146,7 +146,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_COMPLETION_DATE, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED);
             valid &= false;
         }
-        if (newAsset.getEstimatedFabricationCompletionDate() != null && newAsset.getEstimatedFabricationCompletionDate().before(DateUtils.clearTimeFields(new Date()))) {
+        if (newAsset.getEstimatedFabricationCompletionDate() != null && newAsset.getEstimatedFabricationCompletionDate().before(DateUtils.clearTimeFields(dateTimeService.getCurrentDate()))) {
             putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_COMPLETION_DATE, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_PAST);
             valid &= false;
         }

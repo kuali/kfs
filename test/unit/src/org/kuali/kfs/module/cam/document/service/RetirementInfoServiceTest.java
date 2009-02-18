@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cam.document.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -27,11 +26,13 @@ import org.kuali.kfs.module.cam.document.service.impl.RetirementInfoServiceImpl;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.service.impl.KfsParameterServiceImpl;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
 import org.kuali.rice.kns.util.DateUtils;
 
 public class RetirementInfoServiceTest extends KualiTestBase {
     private RetirementInfoServiceImpl retirementInfoService;
+    private DateTimeService dateTimeService;
     private Asset asset;
 
     @Override
@@ -69,7 +70,7 @@ public class RetirementInfoServiceTest extends KualiTestBase {
             }
 
         };
-        retirementGlobal.setRetirementDate(new java.sql.Date(DateUtils.addDays(new Date(), daysToAdd).getTime()));
+        retirementGlobal.setRetirementDate(new java.sql.Date(DateUtils.addDays(dateTimeService.getCurrentDate(), daysToAdd).getTime()));
         FinancialSystemDocumentHeader header = new FinancialSystemDocumentHeader();
         header.setFinancialDocumentStatusCode(docStatus);
         retirementGlobal.setDocumentHeader(header);

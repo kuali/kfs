@@ -23,11 +23,13 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum EntryFixture {
 
     REC1 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -47,18 +49,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC2 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -78,18 +81,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC3 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -109,18 +113,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC4 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -140,18 +145,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC5 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -171,18 +177,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Trade in allowance");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(3000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC6 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -202,18 +209,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(3000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC7 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -233,18 +241,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC8 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -264,18 +273,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC9 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -295,18 +305,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC10 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -326,18 +337,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC11 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -357,18 +369,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC12 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -388,18 +401,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC13 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -419,18 +433,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC14 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -450,18 +465,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC15 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -481,18 +497,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC16 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -512,18 +529,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC17 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -543,18 +561,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC18 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -574,18 +593,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC19 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -605,18 +625,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC20 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -636,18 +657,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC21 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -667,18 +689,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode("R");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC22 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -698,18 +721,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode("R");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC23 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -729,18 +753,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC24 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -760,18 +785,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC25 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -791,18 +817,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Customer Invoice");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode(" ");
             obj.setReferenceFinancialSystemOriginationCode(" ");
             obj.setReferenceFinancialDocumentNumber(" ");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC26 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -822,18 +849,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Customer Invoice");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode(" ");
             obj.setReferenceFinancialSystemOriginationCode(" ");
             obj.setReferenceFinancialDocumentNumber(" ");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC27 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -853,18 +881,19 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Customer Invoice");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(5200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode(" ");
             obj.setReferenceFinancialSystemOriginationCode(" ");
             obj.setReferenceFinancialDocumentNumber(" ");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     },
     REC28 {
+        private DateTimeService dateTimeService;
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
@@ -884,14 +913,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Customer Invoice");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(5200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(new Date().getTime()));
+            obj.setTransactionDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode(" ");
             obj.setReferenceFinancialSystemOriginationCode(" ");
             obj.setReferenceFinancialDocumentNumber(" ");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(new Date().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(new Date().getTime()));
+            obj.setTransactionPostingDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
             return obj;
         };
     };

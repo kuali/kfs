@@ -24,6 +24,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 import com.lowagie.text.Cell;
@@ -44,6 +45,9 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class DepreciationReport {
+    
+    private DateTimeService dateTimeService;
+    
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepreciationReport.class);
     private int pageNumber = 0;
     private int line = 0;
@@ -65,15 +69,14 @@ public class DepreciationReport {
 
             String destinationDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
 
-            Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
-            String filename = destinationDirectory + "/" + CamsConstants.Report.FILE_PREFIX + "_" + CamsConstants.Depreciation.REPORT_FILE_NAME + "_"+sdf.format(date) + "." + CamsConstants.Report.REPORT_EXTENSION;
+            String filename = destinationDirectory + "/" + CamsConstants.Report.FILE_PREFIX + "_" + CamsConstants.Depreciation.REPORT_FILE_NAME + "_"+sdf.format(dateTimeService.getCurrentDate()) + "." + CamsConstants.Report.REPORT_EXTENSION;
             
             Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
 
             PageHelper helper = new PageHelper();
-            helper.runDate      = date;
+            helper.runDate      = dateTimeService.getCurrentDate();
             helper.headerFont   = headerFont;
             helper.title        = CamsConstants.Depreciation.DEPRECIATION_REPORT_TITLE;
             

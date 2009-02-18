@@ -17,7 +17,6 @@ package org.kuali.kfs.module.cab.batch.service;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +45,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -54,6 +54,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public abstract class BatchTestBase extends KualiTestBase {
     private static final String SQL_PACKAGE = "org/kuali/kfs/module/cab/sql/";
+    private DateTimeService dateTimeService;
 
     @Override
     protected void setUp() throws Exception {
@@ -71,7 +72,7 @@ public abstract class BatchTestBase extends KualiTestBase {
         Parameter lastExtractTime = findCabExtractTimeParam();
         if (ObjectUtils.isNotNull(lastExtractTime)) {
             SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(new Date(), -1)));
+            lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
             SpringContext.getBean(BusinessObjectService.class).save(lastExtractTime);
         }
         else {
@@ -92,7 +93,7 @@ public abstract class BatchTestBase extends KualiTestBase {
         Parameter lastExtractTime = findPretagExtractDateParam();
         if (ObjectUtils.isNotNull(lastExtractTime)) {
             SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
-            lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(new Date(), -1)));
+            lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
             SpringContext.getBean(BusinessObjectService.class).save(lastExtractTime);
         }
         else {

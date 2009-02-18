@@ -29,8 +29,6 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAsse
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -63,6 +61,7 @@ public class ExtractStepTest extends BatchTestBase {
         }
     }
 
+    private DateTimeService dateTimeService;
     private BusinessObjectService boService;
     private ExtractStep extractStep;
 
@@ -84,7 +83,7 @@ public class ExtractStepTest extends BatchTestBase {
     public void testExecute() throws Exception {
         java.sql.Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
 
-        extractStep.execute("CabBatchExtractJob", new Date());
+        extractStep.execute("CabBatchExtractJob", dateTimeService.getCurrentDate());
 
         // Count of GL lines
         Collection<GeneralLedgerEntry> gls = boService.findAll(GeneralLedgerEntry.class);

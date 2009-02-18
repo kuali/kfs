@@ -26,11 +26,12 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
     private EquipmentLoanOrReturnService equipmentLoanOrReturnService;
+    private DateTimeService dateTimeService;
     private Asset asset;
-
 
     @Override
     @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
@@ -51,7 +52,7 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
                 this.setAssetLocations(assetLocations);
             }
         };
-        this.asset.setExpectedReturnDate(new java.sql.Date(new Date().getTime()));
+        this.asset.setExpectedReturnDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
     }
 
     public void testSetEquipmentLoanInfo() throws Exception {

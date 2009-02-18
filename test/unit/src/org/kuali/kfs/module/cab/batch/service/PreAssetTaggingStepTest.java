@@ -31,6 +31,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 
 public class PreAssetTaggingStepTest extends BatchTestBase {
     private PreAssetTaggingStep preAssetTaggingStep;
+    private DateTimeService dateTimeService;
 
     @Override
     @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
@@ -41,7 +42,7 @@ public class PreAssetTaggingStepTest extends BatchTestBase {
 
     public void testExecute() throws Exception {
         java.sql.Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        preAssetTaggingStep.execute("testPreAssetTaggingExtractStep", new Date());
+        preAssetTaggingStep.execute("testPreAssetTaggingExtractStep", dateTimeService.getCurrentDate());
         Collection<Pretag> match = findByPO("21");
         assertEquals(0, match.size());
 

@@ -145,7 +145,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         ContractManager manager = new ContractManager();
         Integer mngrCode = po.getContractManagerCode();
         manager.setContractManagerCode(mngrCode);
-        KualiDecimal mngrDDLimit = new KualiDecimal(15000.00);  
+        KualiDecimal mngrDDLimit = new KualiDecimal(100000.00);  
         manager.setContractManagerDelegationDollarLimit(mngrDDLimit);
 
         VendorService vdService = SpringContext.getBean(VendorService.class);

@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
@@ -101,10 +102,14 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      * @return whether the given document has no notes
      */
     private boolean hasNoNotes(DisbursementVoucherDocument document) {
-        String remoteObjectId = document.getDocumentHeader().getObjectId();
-        ArrayList<Note> notes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(remoteObjectId);
+        List<Note> notes = document.getDocumentHeader().getBoNotes();
 
-        return (notes == null || notes.size() == 0);
+        if(notes == null || notes.isEmpty()) {
+            String remoteObjectId = document.getDocumentHeader().getObjectId();
+            notes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(remoteObjectId);
+        }
+
+        return (notes == null || notes.isEmpty());
     }
 
     /**

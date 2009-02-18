@@ -237,7 +237,7 @@
 		<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
-	   			<value>newMaintainableObject.businessObject.accountsSupervisorySystemsIdentifier</value>
+	   			<value>newMaintainableObject.routingAccountsSupervisorySystemsIdentifier</value>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
 	   			<value>newMaintainableObject.businessObject.accountNumber</value>
 	   		</list>

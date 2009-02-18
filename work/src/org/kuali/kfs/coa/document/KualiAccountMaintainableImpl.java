@@ -104,4 +104,17 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
         }
         return false;
     }
+    
+    /**
+     * Determines who should be FYI'd as the account supervisor for the routing of the account maintenance document.  If there is an existing account,
+     * it uses the account supervisor from that; otherwise, it uses the account supervisor from the business object of this maintainable
+     * @return an appropriate account supervisor to FYI during account maintenance document routing
+     */
+    public String getRoutingAccountsSupervisorySystemsIdentifier() {
+        final Account existingAccountFromDB = retrieveExistingAccountFromDB();
+        if (ObjectUtils.isNull(existingAccountFromDB)) {
+            return ((Account)getBusinessObject()).getAccountsSupervisorySystemsIdentifier();
+        }
+        return existingAccountFromDB.getAccountsSupervisorySystemsIdentifier();
+    }
 }

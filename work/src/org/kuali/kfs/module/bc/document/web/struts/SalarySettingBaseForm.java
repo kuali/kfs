@@ -19,11 +19,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
@@ -31,15 +28,13 @@ import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * the base Struts form for salary setting
@@ -128,6 +123,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public void refreshBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         appointmentFunding.refreshNonUpdateableReferences();
+        ObjectUtils.materializeObjects(appointmentFunding.getBudgetConstructionAppointmentFundingReason());
         appointmentFunding.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         appointmentFunding.refreshReferenceObject(KFSPropertyConstants.SUB_ACCOUNT);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);

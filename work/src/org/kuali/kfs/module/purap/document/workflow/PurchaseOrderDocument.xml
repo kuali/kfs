@@ -1,10 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+  <ruleAttribute>
+    <name>NoFyiActionListAttribute</name>
+    <className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>
+    <label>No FYI</label>
+    <description>No FYI Action List Attribute</description>
+    <type>ActionListAttribute</type>
+  </ruleAttribute>
+</ruleAttributes>
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>PO</name>
       <parent>PurchasingTransactionalDocument</parent>
       <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <attributes>
+        <attribute>
+          <name>NoFyiActionListAttribute</name>
+        </attribute>
+      </attributes>
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="RequiresContractManagementReview"/>
@@ -51,29 +65,24 @@
       <routeNodes>
         <start name="AdHoc"/>
         <role name="ContractManagement">
-
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
         <role name="Commodity">
-
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
         <role name="Award">
-
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
         <role name="Budget">
-
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
         <role name="Tax">
-
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
-        <role name="PrintTransmission">
-
+        <requests name="PrintTransmission">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-        </role>
+          <routeModule>org.kuali.kfs.module.purap.document.workflow.PrintRoleRouteModule</routeModule>
+        </requests>
         <split name="RequiresContractManagementReview">
           <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
         </split>

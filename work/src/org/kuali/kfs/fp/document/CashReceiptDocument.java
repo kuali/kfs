@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -488,6 +489,16 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public void setCashReceiptHeader(CashReceiptHeader cashReceiptHeader) {
         this.cashReceiptHeader = cashReceiptHeader;
     }
+    
+    /**
+     * Builds a new cash receipt header for this new document
+     */
+    public void buildHeaderForNewCashReceipt() {
+        CashReceiptHeader header = new CashReceiptHeader();
+        header.setDocumentNumber(getDocumentNumber());
+        header.setCampusCode(getCampusLocationCode());
+        setCashReceiptHeader(header);
+    }
 
     /**
      * Generate the primary key for a currency or coin detail related to this document
@@ -639,5 +650,19 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
+
+    /**
+     * Override the campus code on the copied document to whatever the campus of the copying user is
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
+     */
+    @Override
+    public void toCopy() throws WorkflowException {
+        super.toCopy();
+        if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getPerson() != null && GlobalVariables.getUserSession().getPerson().getCampusCode() != null) {
+            setCampusLocationCode(GlobalVariables.getUserSession().getPerson().getCampusCode());
+            buildHeaderForNewCashReceipt();
+        }
+    }
+    
 }
 

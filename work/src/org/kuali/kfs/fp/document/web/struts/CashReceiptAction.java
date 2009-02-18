@@ -313,9 +313,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         String campusCode = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getPerson());
         crDoc.setCampusLocationCode(campusCode);
 
-        crDoc.setCashReceiptHeader(new CashReceiptHeader());
-        crDoc.getCashReceiptHeader().setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.getCashReceiptHeader().setCampusCode(campusCode);
+        crDoc.buildHeaderForNewCashReceipt();
 
         /* initialize currency and coin detail */
         CurrencyDetail currencyDetail = new CurrencyDetail();

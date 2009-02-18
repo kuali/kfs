@@ -146,12 +146,16 @@
 		
 		    <gl:generalLedgerPendingEntries />
 		
-		    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true">
+		    <kul:notes 
+		    	notesBo="${KualiForm.document.documentBusinessObject.boNotes}" 
+		    	noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  
+		    	allowsNoteFYI="true"
+		    	attachmentTypesValuesFinderClass="${DataDictionary.PurchaseOrderDocument.attachmentTypesValuesFinderClass}">
 		          <html:messages id="warnings" property="noteWarning" message="true">
 		            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
 		          </html:messages>
 		    </kul:notes> 
-		
+
 		    <kul:adHocRecipients />
 		
 		    <kul:routeLog />

@@ -1073,14 +1073,15 @@ public class PurapConstants extends JSTLConstants {
     }
 
     public static final class AttachmentTypeCodes{
-        public static final String ATTACHMENT_TYPE_CM = "CM";
-        public static final String ATTACHMENT_TYPE_CONTRACTS = "CN";
-        public static final String ATTACHMENT_TYPE_CONTRACT_AMENDMENTS = "CA";
-        public static final String ATTACHMENT_TYPE_OTHER = "OT";
-        public static final String ATTACHMENT_TYPE_INVOICE_IMAGE = "IM";        
-        public static final String ATTACHMENT_TYPE_QUOTE = "QO";
-        public static final String ATTACHMENT_TYPE_RFP = "RF";
-        public static final String ATTACHMENT_TYPE_RFP_RESPONSES = "RR";
-        public static final String ATTACHMENT_TYPE_TAX_DOCUMENTS = "TD";
+        public static final String ATTACHMENT_TYPE_CM_IMAGE = "Credit Memo Image";
+        public static final String ATTACHMENT_TYPE_CONTRACTS = "Contracts";
+        public static final String ATTACHMENT_TYPE_CONTRACT_AMENDMENTS = "Contract Amendments";
+        public static final String ATTACHMENT_TYPE_OTHER = "Other";
+        public static final String ATTACHMENT_TYPE_OTHER_RESTRICTED = "Other - Restricted";
+        public static final String ATTACHMENT_TYPE_INVOICE_IMAGE = "Invoice Image";
+        public static final String ATTACHMENT_TYPE_QUOTE = "Quote";
+        public static final String ATTACHMENT_TYPE_RFP = "RFP";
+        public static final String ATTACHMENT_TYPE_RFP_RESPONSES = "RFP Responses";
+        public static final String ATTACHMENT_TYPE_TAX_DOCUMENTS = "Tax Documents";
     }
 }

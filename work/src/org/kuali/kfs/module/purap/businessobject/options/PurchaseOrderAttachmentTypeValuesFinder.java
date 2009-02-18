@@ -23,13 +23,18 @@ import org.kuali.kfs.module.purap.PurapConstants.AttachmentTypeCodes;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
-public class PaymentRequestAttachmentTypeValuesFinder extends KeyValuesBase {
+public class PurchaseOrderAttachmentTypeValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         List keyValues = new ArrayList();
         
+        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACTS, AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACTS));
+        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_QUOTE, AttachmentTypeCodes.ATTACHMENT_TYPE_QUOTE));
+        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_RFP, AttachmentTypeCodes.ATTACHMENT_TYPE_RFP));
+        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_RFP_RESPONSES, AttachmentTypeCodes.ATTACHMENT_TYPE_RFP_RESPONSES));
+        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACT_AMENDMENTS, AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACT_AMENDMENTS));
+        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER_RESTRICTED, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER_RESTRICTED));
         keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_INVOICE_IMAGE, AttachmentTypeCodes.ATTACHMENT_TYPE_INVOICE_IMAGE));
 
         return keyValues;
     }

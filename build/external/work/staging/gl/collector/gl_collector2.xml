@@ -39,7 +39,7 @@
 		<balanceTypeCode>ac</balanceTypeCode>
 		<objectTypeCode>ex</objectTypeCode>
 		<universityFiscalAccountingPeriod>04</universityFiscalAccountingPeriod>
-		<documentTypeCode>dv</documentTypeCode>
+		<documentTypeCode>ex02</documentTypeCode>
 		<originationCode>01</originationCode>
 		<documentNumber>1000000</documentNumber>
 		<transactionEntrySequenceId>1</transactionEntrySequenceId>
@@ -50,7 +50,7 @@
 		<organizationDocumentNumber>ODN</organizationDocumentNumber>
 		<projectCode>bat</projectCode>
 		<organizationReferenceId>ORI</organizationReferenceId>
-		<referenceDocumentTypeCode>dv</referenceDocumentTypeCode>
+		<referenceDocumentTypeCode>ex02</referenceDocumentTypeCode>
 		<referenceOriginationCode>01</referenceOriginationCode>
 		<referenceDocumentNumber>1234</referenceDocumentNumber>
 		<documentReversalDate>2005-10-31</documentReversalDate>
@@ -66,7 +66,7 @@
 		<subObjectCode>WAC</subObjectCode>
 		<collectorDetailSequenceNumber>47</collectorDetailSequenceNumber>
 		<originationCode>01</originationCode>
-		<documentTypeCode>dv</documentTypeCode>
+		<documentTypeCode>ex02</documentTypeCode>
 		<documentNumber>1000000</documentNumber>
 		<amount>1000000</amount>
 		<detailText>Line 1b</detailText>

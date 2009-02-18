@@ -46,3 +46,18 @@ CREATE TABLE KRIM_PND_DLGN_MBR_ATTR_DATA_T (
 
 update krns_parm_t set PARM_DESC_TXT = 'Controls whether the bank code functionality is enabled in the system. If set to Y additional bank entries will be created on supported documents. Also when set to Y document types that appear in the BANK_CODE_DOCUMENT_TYPES parameter list will display the bank code for viewing and editing by users who have permission.' where PARM_NM = 'ENABLE_BANK_SPECIFICATION_IND'
 /
+
+delete from krim_role_perm_t where perm_id in  ('153', '154')
+/
+delete from krim_perm_attr_data_t where target_primary_key in  ('153', '154')
+/
+delete from krim_perm_t where perm_tmpl_id = '39'
+/
+delete from krim_perm_tmpl_t where perm_tmpl_id = '39'
+/
+delete from krim_typ_attr_t where kim_typ_id = '22'
+/
+delete from krim_typ_t where kim_typ_id = '22'
+/
+delete from krim_attr_defn_t where kim_attr_defn_id = '17'
+/

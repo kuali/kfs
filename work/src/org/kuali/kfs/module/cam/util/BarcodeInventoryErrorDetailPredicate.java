@@ -52,10 +52,6 @@ public class BarcodeInventoryErrorDetailPredicate implements Predicate, Closure 
             
             // It will only replace when the status is equals to error
             if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR)) {            
-//                if (StringUtils.isBlank(this.doc.getCurrentTagNumber()) && StringUtils.isBlank(this.doc.getCurrentScanCode()) && StringUtils.isBlank(this.doc.getCurrentCampusCode()) && StringUtils.isBlank(this.doc.getCurrentBuildingNumber()) && StringUtils.isBlank(this.doc.getCurrentRoom()) && StringUtils.isBlank(this.doc.getCurrentSubroom()) && StringUtils.isBlank(this.doc.getCurrentConditionCode())) {
-//                    return false;
-//                }
-    
                 if ((this.doc.getCurrentTagNumber() != null) && !StringUtils.isBlank(this.doc.getCurrentTagNumber())) {
                     if (!StringUtils.equals(this.doc.getCurrentTagNumber(), detail.getAssetTagNumber())) {
                         satisfies = false;

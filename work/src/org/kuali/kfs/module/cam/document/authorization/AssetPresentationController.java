@@ -165,4 +165,10 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
         }
         return super.canEdit(document);
     }
+    
+    
+    @Override
+    protected boolean canBlanketApprove(Document document) {
+        return true;
+    }
 }

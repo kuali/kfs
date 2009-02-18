@@ -85,7 +85,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) kualiDocumentFormBase;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
-
         // Validating records.
         this.invokeRules(document, false);
     }
@@ -108,8 +107,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         String currentUserID = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument());
-        // BarcodeInventoryErrorDetailPredicate predicatedClosure = new
-        // BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
 
         // searches and replaces
         CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
@@ -127,6 +124,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    
     /**
      * Validates all the selected records and saves them
      * 

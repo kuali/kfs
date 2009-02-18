@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.cam;
 
 import java.util.Currency;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
@@ -150,7 +152,6 @@ public class CamsConstants extends JSTLConstants {
     }
 
     public static class BarCodeInventoryError {
-        // barcode inventory error document status codes
         public static final String STATUS_CODE_ERROR = "E";
         public static final String STATUS_CODE_CORRECTED = "C";
         public static final String STATUS_CODE_DELETED = "D";
@@ -158,7 +159,13 @@ public class CamsConstants extends JSTLConstants {
         public static final String STATUS_CODE_CORRECTED_DESCRIPTION = "Corrected";
         public static final String STATUS_CODE_DELETED_DESCRIPTION = "Deleted";
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO = "N";
-        // public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES = "Y";
+        
+        public static final Map<String, String> statusDescription = new HashMap<String, String>();
+        static {
+            statusDescription.put(STATUS_CODE_CORRECTED, STATUS_CODE_CORRECTED_DESCRIPTION);
+            statusDescription.put(STATUS_CODE_DELETED, STATUS_CODE_DELETED_DESCRIPTION);
+            statusDescription.put(STATUS_CODE_ERROR, STATUS_CODE_ERROR_DESCRIPTION);
+        }
     }
 
     public static class InventoryStatusCode {
@@ -273,7 +280,7 @@ public class CamsConstants extends JSTLConstants {
     public static class AssetSeparate {
         public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
         public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
-        public static final String SEPARATE_AN_ASSET_DESCRIPTION = "Separate an Asset";
+        public static final String SEPARATE_AN_ASSET_DESCRIPTION = "Separate an Asset";        
     }
 
     public static class GLPostingObjectCodeType {

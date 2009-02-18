@@ -44,25 +44,6 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
         setDocument(new BarcodeInventoryErrorDocument());
     }
 
-
-    /*    public void populate(HttpServletRequest request) {
-       LOG.info("****************Request Parameters*************");
-        Enumeration paramNames;
-        paramNames = request.getParameterNames();
-        while (paramNames.hasMoreElements()) {
-            String name = (String) paramNames.nextElement();            
-            String[] values = request.getParameterValues(name);
-
-            for (int x=0;x < values.length;x++)
-                LOG.info("******Request Parameters: "+name +"["+x+"]: "+values[x]);
-
-        }
-        LOG.info("**********************************************");                
-
-
-        super.populate(request);
-    }*/
-
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);

@@ -3,12 +3,7 @@
   <bean id="BarcodeInventoryErrorDocument" parent="BarcodeInventoryErrorDocument-parentBean"/>
 
   <bean id="BarcodeInventoryErrorDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-    
-    
     <property name="documentTypeName" value="BCIE"/>
-    
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentAuthorizer"/>

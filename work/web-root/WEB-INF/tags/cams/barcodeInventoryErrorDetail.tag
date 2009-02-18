@@ -23,7 +23,7 @@
 <%@ attribute name="rowNumber" required="true"%>
 <%@ attribute name="status" required="true"%>
 
-<c:if test="${(status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR) || readOnly}">
+<c:if test="${(status == CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR) || readOnly}">
 	<tr>	
 	   	<c:if test="${!readOnly}">				
 			<td align="right" class="${cssClass}">
@@ -36,7 +36,7 @@
 		</td>
 
 	   	<c:if test="${readOnly}">				
-			<td align="right" class="${cssClass}">${CamsConstants.BarcodeInventoryError.statusDescription[status]}</td>
+			<td align="right" class="${cssClass}">${CamsConstants.BarcodeInventoryError.statusDescription[status]}&nbsp</td>
 		</c:if>
 
 		<td align=left class="${cssClass}">&nbsp		

@@ -124,10 +124,12 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         this.saveDocumentNoWorkflow(budgetConstructionDocument);
 
+        // TODO verify that we don't want to call workflow save and remove this commented code
         // this seems to be the workflow related stuff only needed during a final save from save button or close
         // and user clicks yes when prompted to save or not.
-        documentService.prepareWorkflowDocument(budgetConstructionDocument);
-        workflowDocumentService.save(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument(), null);
+//        documentService.prepareWorkflowDocument(budgetConstructionDocument);
+//        workflowDocumentService.save(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument(), null);
+
         GlobalVariables.getUserSession().setWorkflowDocument(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument());
 
         // save any messages up to this point and put them back in after logDocumentAction()

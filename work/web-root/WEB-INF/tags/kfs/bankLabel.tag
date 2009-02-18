@@ -16,7 +16,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <%@ attribute name="align" required="false" description="label alignment in cell" %>
-<c:if test="${KualiForm.editingMode[Constants.BANK_ENTRY_VIEWABLE_EDITING_MODE]}">
+<c:if test="${KualiForm.editingMode[KFSConstants.BANK_ENTRY_VIEWABLE_EDITING_MODE]}">
 
   <c:if test="${empty align}">
     <c:set var="align" value="right" />

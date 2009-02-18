@@ -52,18 +52,14 @@
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />
                     </c:if>
-                    
-                    <!--  these three lines are necessary for the customer-number dwr lookup to show the label onBlur -->
-					<br/>
-				    <div id="document.accountsReceivableDocumentHeader.customer.customerName.div" class="fineprint"></div>
-					<html:hidden property="document.accountsReceivableDocumentHeader.customer.customerName" value="" />
-                    
                 </td>			
                 <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell" style="width: 25%;">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.customerName}" property="document.customerName" readOnly="${readOnly}" />
+                	<div id="document.accountsReceivableDocumentHeader.customer.customerName.div">
+                		<kul:htmlControlAttribute attributeEntry="${document.accountsReceivableDocumentHeader.customer.customerName}" property="document.accountsReceivableDocumentHeader.customer.customerName" readOnly="true" />
+                	</div>
                 </td>
             </tr>    
             <tr>        

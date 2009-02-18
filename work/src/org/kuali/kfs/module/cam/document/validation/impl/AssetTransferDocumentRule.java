@@ -33,6 +33,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetStatus;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.authorization.AssetTransferDocumentAuthorizer;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
@@ -242,7 +243,13 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         boolean valid = true;
         // check if selected account has plant fund accounts
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-        valid &= validateOwnerAccount(assetTransferDocument);
+        
+        // validate if asset status = N or D
+        String inventoryStatusCode = assetTransferDocument.getAsset().getInventoryStatus().getInventoryStatusCode();
+        if (inventoryStatusCode != null && !(StringUtils.equalsIgnoreCase(inventoryStatusCode, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE) || StringUtils.equalsIgnoreCase(inventoryStatusCode, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003)) ) {
+            valid &= validateOwnerAccount(assetTransferDocument);
+        }
+        
         // validate if location info is available, campus or off-campus
         valid &= validateLocation(assetTransferDocument);
         if (assetTransferDocument.isInterdepartmentalSalesIndicator()) {

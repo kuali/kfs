@@ -28,7 +28,7 @@
           </split>
           <requests name="SubAccount" nextNode="Account"/>
           <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
-          <requests name="AccountingOrganizationHierarchy" nextNode="Tax"/>
+          <requests name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien"/>
           <split name="VendorIsEmployeeOrNonResidentAlien">
             <branch name="True">
               <requests name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>

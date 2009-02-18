@@ -101,6 +101,7 @@
     <property name="name" value="customerFileCreateTimestamp" />
     <property name="label" value="File Creation Date" />
     <property name="shortLabel" value="Creation Date" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
   </bean>
   <bean id="Batch-customerProfile.customerShortName" parent="Batch-customerProfile.customerShortName-parentBean" />
 

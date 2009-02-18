@@ -357,6 +357,7 @@
 		abstract="true" parent="GenericAttributes-genericTimestamp">
 		<property name="name" value="lastUpdate" />
 		<property name="label" value="Payment Last Update" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
 	</bean> 
     <bean id="PaymentGroup-alternatePayeeIdTypeCd"
 		parent="PaymentGroup-alternatePayeeIdTypeCd-parentBean" />

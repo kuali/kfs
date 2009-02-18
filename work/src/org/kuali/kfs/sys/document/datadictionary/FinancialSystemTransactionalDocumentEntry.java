@@ -31,6 +31,7 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     private Class<? extends AccountingLineParser> importedLineParserClass;
     private Integer maxDictionaryValidationDepth;
     protected boolean allowsErrorCorrection = false;
+    protected boolean potentiallySensitive = false;
 
     /**
      * Gets the validationMap attribute. 
@@ -111,4 +112,22 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     public boolean getAllowsErrorCorrection() {
         return allowsErrorCorrection;
     }
+
+    /**
+     * Gets the potentiallySensitive attribute. 
+     * @return Returns the potentiallySensitive.
+     */
+    public boolean isPotentiallySensitive() {
+        return potentiallySensitive;
+    }
+
+    /**
+     * Sets the potentiallySensitive attribute value.
+     * @param potentiallySensitive The potentiallySensitive to set.
+     */
+    public void setPotentiallySensitive(boolean potentiallySensitive) {
+        this.potentiallySensitive = potentiallySensitive;
+    }
+    
+    
 }

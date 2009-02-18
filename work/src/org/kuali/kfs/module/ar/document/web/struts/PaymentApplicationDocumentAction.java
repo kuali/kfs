@@ -32,12 +32,12 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
-import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
@@ -51,7 +51,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -61,9 +60,13 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
-
 public class PaymentApplicationDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
+
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // TODO Auto-generated method stub
+        return super.save(mapping, form, request, response);
+    }
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentAction.class);
     
@@ -187,7 +190,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
         invoicePaidApplieds.addAll(applyToIndividualCustomerInvoiceDetails(paymentApplicationDocumentForm));
-        invoicePaidApplieds.addAll(applyToInvoices(paymentApplicationDocumentForm));
+        invoicePaidApplieds.addAll(applyToInvoices(paymentApplicationDocumentForm, invoicePaidApplieds));
         
         NonInvoiced nonInvoiced = applyNonInvoiced(paymentApplicationDocumentForm, false);
         NonAppliedHolding nonAppliedHolding = applyUnapplied(paymentApplicationDocumentForm);
@@ -283,7 +286,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invoicePaidApplieds;
     }
     
-    private List<InvoicePaidApplied> applyToInvoices(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
+    private List<InvoicePaidApplied> applyToInvoices(PaymentApplicationDocumentForm paymentApplicationDocumentForm, List<InvoicePaidApplied> appliedToIndividualDetails) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) paymentApplicationDocumentForm.getDocument();
         String applicationDocumentNumber = applicationDocument.getDocumentNumber();
 
@@ -349,6 +352,20 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
             
             if(!dontApply) {
+                // Apply the actual funds
+                
+                // Remove any details applied to individual details
+                List<Integer> indicesToRemove = new ArrayList<Integer>();
+                int i = appliedToIndividualDetails.size()-1;
+                // Remove from high number to low so we can keep the indices relevant to the correct element.
+                for(; i >= 0 ; i--) {
+                    InvoicePaidApplied applied = appliedToIndividualDetails.get(i);
+                    if(applied.getDocumentNumber().equals(_invoice.getDocumentNumber())) {
+                        appliedToIndividualDetails.remove(i);
+                    }
+                }
+                
+                // Apply to the invoice as a whole
                 for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
                     invoicePaidApplieds.add(applyToCustomerInvoiceDetail(customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmount(), "invoice[" + (customerInvoiceDocumentNumber) + "].quickApply", false));
                 }

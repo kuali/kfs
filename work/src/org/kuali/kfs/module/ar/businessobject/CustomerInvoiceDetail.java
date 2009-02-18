@@ -122,6 +122,13 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
     }
     
+    public KualiDecimal getAmountOpenExcludingAnyAmountFromCurrentPaymentApplicationDocument() {
+        return getAmountOpenExcludingAnyAmountFrom(getCurrentPaymentApplicationDocument());
+    }
+    
+//    public KualiDecimal getAmountAppliedByCurrentPaymentApplicationDocument() {
+//        
+//    }
     /**
      * This method returns the amount that remained unapplied on a given date.
      * 

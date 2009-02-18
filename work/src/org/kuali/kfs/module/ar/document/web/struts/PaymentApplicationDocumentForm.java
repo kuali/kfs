@@ -146,11 +146,11 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             }
         }
         
-        for(CustomerInvoiceDetail customerInvoiceDetail : getSelectedInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts()) {
-            customerInvoiceDetail.setCurrentPaymentApplicationDocument(paymentApplicationDocument);
+        if(ObjectUtils.isNotNull(getSelectedInvoiceDocument())) {
+            for(CustomerInvoiceDetail customerInvoiceDetail : getSelectedInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts()) {
+                customerInvoiceDetail.setCurrentPaymentApplicationDocument(paymentApplicationDocument);
+            }
         }
-
-        
         
     }
 

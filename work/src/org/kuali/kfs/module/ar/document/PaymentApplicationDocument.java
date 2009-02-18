@@ -110,9 +110,15 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @throws WorkflowException
      */
     public CashControlDocument getCashControlDocument() throws WorkflowException {
-        CashControlDocument cashControlDocument = 
-            getPaymentApplicationDocumentService().getCashControlDocumentForPaymentApplicationDocument(this);
-        return cashControlDocument;
+        CashControlDetail cashControlDetail = getCashControlDetail();
+        if(ObjectUtils.isNull(cashControlDetail)) {
+            return null;
+        } else {
+            if(ObjectUtils.isNull(cashControlDetail.getCashControlDocument())) {
+                cashControlDetail.refreshReferenceObject("cashControlDocument");
+            }
+        }
+        return cashControlDetail.getCashControlDocument();
     }
 
     public boolean hasCashControlDocument() {
@@ -796,6 +802,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        
         // set primary key for NonAppliedHolding if data entered
         if (ObjectUtils.isNotNull(this.nonAppliedHolding)) {
             if (ObjectUtils.isNull(this.nonAppliedHolding.getReferenceFinancialDocumentNumber())) {
@@ -809,7 +817,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             logErrors();
             throw new ValidationException("general ledger GLPE generation failed");
         }
-        super.prepareForSave(event);  
     }
 
     public PaymentApplicationDocumentService getPaymentApplicationDocumentService() {

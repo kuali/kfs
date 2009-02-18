@@ -184,6 +184,11 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocumentNumber);
     }
     
+    @SuppressWarnings("unchecked")
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber) throws WorkflowException {
+        return getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument)documentService.getByDocumentHeaderId(paymentApplicationDocumentNumber));
+    }
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDetailForPaymentApplicationDocument(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
      */
@@ -211,11 +216,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return null;
     }
     
-    @SuppressWarnings("unchecked")
-    public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber) throws WorkflowException {
-        return getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument)documentService.getByDocumentHeaderId(paymentApplicationDocumentNumber));
-    }
-
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

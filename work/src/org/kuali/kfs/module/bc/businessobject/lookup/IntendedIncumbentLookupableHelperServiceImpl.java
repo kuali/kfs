@@ -224,6 +224,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
                 urlData2.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
             }
             anchorHtmlDataList.add(urlData2);
+            anchorHtmlDataList.get(anchorHtmlDataList.lastIndexOf(urlData2)).setPrependDisplayText("<br />");
         }
         
         return anchorHtmlDataList;

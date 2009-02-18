@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.businessobject.lookup;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -227,6 +228,7 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
             }
             
             anchorHtmlDataList.add(urlData2);
+            anchorHtmlDataList.get(anchorHtmlDataList.lastIndexOf(urlData2)).setPrependDisplayText("<br />");
         }
 
         return anchorHtmlDataList;

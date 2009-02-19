@@ -245,7 +245,11 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
     public CashControlDocument getCashControlDocument() {
         if (cashControlDocument == null) {
             try {
-                cashControlDocument = (CashControlDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.documentNumber);
+                String n = getDocumentNumber();
+                if(null == n) {
+                    return null;
+                }
+                cashControlDocument = (CashControlDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(n);
             }
             catch (WorkflowException e) {
                 throw new RuntimeException("WorkflowException caught while trying to load CashControl Document #" + referenceFinancialDocumentNumber + ".", e);

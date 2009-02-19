@@ -15,8 +15,7 @@
 --%>
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<c:set var="readOnly"
-	value="${empty KualiForm.editingMode['fullEntry']}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="camsAssetPayment"

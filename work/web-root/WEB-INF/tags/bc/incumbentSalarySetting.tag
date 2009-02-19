@@ -43,7 +43,7 @@
 	</div>
 </kul:tabTop>
 
-<kul:tab tabTitle="Salary Setting by Incumbent" defaultOpen="true" tabErrorKey="${BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS}">
+<kul:tab tabTitle="Incumbent Funding" defaultOpen="true" tabErrorKey="${BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align=center>
 	<c:if test="${not readOnly}">
 		<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      

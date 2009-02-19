@@ -99,6 +99,9 @@
 		                    <call-param-rule paramnumber="1" />
 	                	</pattern>
       					
+      					<call-method-rule pattern="ItemDetail/ManufacturerPartID" methodname="setManufacturerPartID" paramcount="0" />
+                        <call-method-rule pattern="ItemDetail/ManufacturerName" methodname="setManufacturerName" paramcount="0" /> 
+                        
       					<pattern value="ItemDetail/Extrinsic">
 		                    <call-method-rule methodname="addExtrinsic" paramcount="2" />
 		                    <call-param-rule attrname="name" paramnumber="0"/>

@@ -20,15 +20,17 @@ public class B2BShoppingCartItem {
     private String unitPriceCurrency;
     private String description;
     private String unitOfMeasure;
-    private Map classification = new HashMap();
-    private Map extrinsic = new HashMap();
-    private Map supplier = new HashMap();
+    private String manufacturerPartID;
+    private String manufacturerName;
+    private Map<String,String> classification = new HashMap<String,String>();
+    private Map<String,String> extrinsic = new HashMap<String,String>();
+    private Map<String,String> supplier = new HashMap<String,String>();
 
     public B2BShoppingCartItem() {
     }
 
     public String getClassification(String domain) {
-        return (String) classification.get(domain);
+        return classification.get(domain);
     }
 
     public void addClassification(String domain, String value) {
@@ -48,14 +50,14 @@ public class B2BShoppingCartItem {
     }
 
     public String getExtrinsic(String domain) {
-        return (String) extrinsic.get(domain);
+        return extrinsic.get(domain);
     }
 
     public void addExtrinsic(String domain, String value) {
         extrinsic.put(domain, value);
     }
 
-    public Map getExtrinsic() {
+    public Map<String,String> getExtrinsic() {
         return extrinsic;
     }
 
@@ -68,14 +70,14 @@ public class B2BShoppingCartItem {
     }
 
     public String getSupplier(String domain) {
-        return (String) supplier.get(domain);
+        return supplier.get(domain);
     }
 
     public void setSupplier(String domain, String value) {
         supplier.put(domain, value);
     }
 
-    public Map getSupplier() {
+    public Map<String,String> getSupplier() {
         return supplier;
     }
 
@@ -119,6 +121,22 @@ public class B2BShoppingCartItem {
         this.unitPriceCurrency = unitPriceCurrency;
     }
 
+    public String getManufacturerPartID() {
+        return manufacturerPartID;
+    }
+
+    public void setManufacturerPartID(String manufacturerPartID) {
+        this.manufacturerPartID = manufacturerPartID;
+    }
+
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
+    }
+    
     public String toString() {
         
         ToStringBuilder toString = new ToStringBuilder(this);
@@ -129,10 +147,13 @@ public class B2BShoppingCartItem {
         toString.append("unitPriceCurrency", unitPriceCurrency);
         toString.append("description", description);
         toString.append("unitOfMeasure", unitOfMeasure);
+        toString.append("manufacturerPartID", manufacturerPartID);
+        toString.append("manufacturerName", manufacturerName);
         toString.append("classification", classification);
         toString.append("extrinsic", extrinsic);
         toString.append("supplier", supplier);
 
         return toString.toString();
     }
+
 }

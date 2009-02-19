@@ -91,6 +91,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkReferenceExists(AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
+        
+        // TODO: objectCode is a required field as set in Maint DD. why this rule method processCustom***Rules could be called with required field not setting?
+        if (StringUtils.isBlank(assetPaymentDetail.getFinancialObjectCode())) {
+            //String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE).getLabel();
+            //GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
 
         // Validate Financial Posted date
         if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() != null) {

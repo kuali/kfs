@@ -33,6 +33,7 @@ public enum CreditMemoDocumentFixture {
         @Override
         public VendorCreditMemoDocument newRecord() {
             VendorCreditMemoDocument obj = new VendorCreditMemoDocument();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(41);
             obj.setDocumentNumber("41");
             obj.setVendorHeaderGeneratedIdentifier(2013);
@@ -52,7 +53,7 @@ public enum CreditMemoDocumentFixture {
             obj.setHoldIndicator(false);
             obj.setAccountsPayableProcessorIdentifier("2133704704");
             obj.setProcessingCampusCode("IN");
-            obj.setAccountsPayableApprovalTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setAccountsPayableApprovalTimestamp(timeStamp);
             obj.setAccountsPayablePurchasingDocumentLinkIdentifier(21);
             obj.setLastActionPerformedByPersonId("2133704704");
             obj.setContinuationAccountIndicator(false);

@@ -32,6 +32,7 @@ public enum CreditMemoAccountRevisionFixture {
         @Override
         public CreditMemoAccountRevision newRecord() {
             CreditMemoAccountRevision obj = new CreditMemoAccountRevision();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setAccountRevisionIdentifier(1);
             obj.setItemIdentifier(41);
             obj.setChartOfAccountsCode("EA");
@@ -39,7 +40,7 @@ public enum CreditMemoAccountRevisionFixture {
             obj.setFinancialObjectCode("7000");
             obj.setAmount(new KualiDecimal(7000));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(timeStamp);
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;

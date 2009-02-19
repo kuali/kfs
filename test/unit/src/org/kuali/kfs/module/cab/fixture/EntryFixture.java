@@ -32,6 +32,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366500");
@@ -48,14 +50,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -64,6 +66,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366500");
@@ -80,14 +84,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -96,6 +100,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366501");
@@ -112,14 +118,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -128,6 +134,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366501");
@@ -144,14 +152,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -160,6 +168,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366500");
@@ -176,14 +186,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Trade in allowance");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(3000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -192,6 +202,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366500");
@@ -208,14 +220,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(3000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -224,6 +236,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -240,14 +254,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -256,6 +270,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -272,14 +288,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -288,6 +304,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366500");
@@ -304,14 +322,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -320,6 +338,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366500");
@@ -336,14 +356,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -352,6 +372,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366501");
@@ -368,14 +390,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -384,6 +406,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366501");
@@ -400,14 +424,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -416,6 +440,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -432,14 +458,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -448,6 +474,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -464,14 +492,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("22");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -480,6 +508,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366500");
@@ -496,14 +526,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -512,6 +542,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366500");
@@ -528,14 +560,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -544,6 +576,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366501");
@@ -560,14 +594,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -576,6 +610,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366501");
@@ -592,14 +628,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7200));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -608,6 +644,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -624,14 +662,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -640,6 +678,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -656,14 +696,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(14000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("23");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -672,6 +712,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -688,14 +730,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode("R");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -704,6 +746,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -720,14 +764,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode("R");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -736,6 +780,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -752,14 +798,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("BESCO WATER TREATMENT INC");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7000));
             obj.setTransactionDebitCreditCode("C");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -768,6 +814,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("EA");
             obj.setAccountNumber("0366503");
@@ -784,14 +832,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("TP Generated Offset");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7000));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode("PO");
             obj.setReferenceFinancialSystemOriginationCode("EP");
             obj.setReferenceFinancialDocumentNumber("21");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -800,6 +848,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("BL");
             obj.setAccountNumber("1023200");
@@ -816,14 +866,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Customer Invoice");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode(" ");
             obj.setReferenceFinancialSystemOriginationCode(" ");
             obj.setReferenceFinancialDocumentNumber(" ");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -832,6 +882,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("BL");
             obj.setAccountNumber("1023200");
@@ -848,14 +900,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Customer Invoice");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(7800));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode(" ");
             obj.setReferenceFinancialSystemOriginationCode(" ");
             obj.setReferenceFinancialDocumentNumber(" ");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -864,6 +916,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("BL");
             obj.setAccountNumber("0212001");
@@ -880,14 +934,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Customer Invoice");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(5200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode(" ");
             obj.setReferenceFinancialSystemOriginationCode(" ");
             obj.setReferenceFinancialDocumentNumber(" ");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     },
@@ -896,6 +950,8 @@ public enum EntryFixture {
         @Override
         public Entry newRecord() {
             Entry obj = new Entry();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setUniversityFiscalYear(2009);
             obj.setChartOfAccountsCode("BL");
             obj.setAccountNumber("0212001");
@@ -912,14 +968,14 @@ public enum EntryFixture {
             obj.setTransactionLedgerEntryDescription("Customer Invoice");
             obj.setTransactionLedgerEntryAmount(new KualiDecimal(5200));
             obj.setTransactionDebitCreditCode("D");
-            obj.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionDate(date);
             obj.setProjectCode("----------");
             obj.setReferenceFinancialDocumentTypeCode(" ");
             obj.setReferenceFinancialSystemOriginationCode(" ");
             obj.setReferenceFinancialDocumentNumber(" ");
             obj.setTransactionEncumbranceUpdateCode(" ");
-            obj.setTransactionPostingDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-            obj.setTransactionDateTimeStamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setTransactionPostingDate(date);
+            obj.setTransactionDateTimeStamp(timeStamp);
             return obj;
         };
     };

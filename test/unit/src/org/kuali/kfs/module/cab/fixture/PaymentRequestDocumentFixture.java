@@ -32,17 +32,19 @@ public enum PaymentRequestDocumentFixture {
         @Override
         public PaymentRequestDocument newRecord() {
             PaymentRequestDocument obj = new PaymentRequestDocument();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(311);
             obj.setDocumentNumber("31");
             obj.setStatusCode("DPTA");
             obj.setPurchaseOrderIdentifier(21);
             obj.setPostingYear(2009);
-            obj.setInvoiceDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setInvoiceDate(date);
             obj.setInvoiceNumber("1001");
             obj.setVendorInvoiceAmount(new KualiDecimal(19000));
             obj.setVendorPaymentTermsCode("00N30");
             obj.setVendorShippingPaymentTermsCode("AL");
-            obj.setPaymentRequestPayDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setPaymentRequestPayDate(date);
             obj.setPaymentRequestCostSourceCode("EST");
             obj.setPaymentRequestedCancelIndicator(false);
             obj.setPaymentAttachmentIndicator(false);
@@ -60,7 +62,7 @@ public enum PaymentRequestDocumentFixture {
             obj.setAccountsPayableProcessorIdentifier("2133704704");
             obj.setLastActionPerformedByPersonId("2133704704");
             obj.setProcessingCampusCode("IN");
-            obj.setAccountsPayableApprovalTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setAccountsPayableApprovalTimestamp(timeStamp);
             obj.setOriginalVendorHeaderGeneratedIdentifier(2013);
             obj.setOriginalVendorDetailAssignedIdentifier(0);
             obj.setContinuationAccountIndicator(false);
@@ -79,17 +81,19 @@ public enum PaymentRequestDocumentFixture {
         @Override
         public PaymentRequestDocument newRecord() {
             PaymentRequestDocument obj = new PaymentRequestDocument();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(321);
             obj.setDocumentNumber("32");
             obj.setStatusCode("DPTA");
             obj.setPurchaseOrderIdentifier(21);
             obj.setPostingYear(2009);
-            obj.setInvoiceDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setInvoiceDate(date);
             obj.setInvoiceNumber("1003");
             obj.setVendorInvoiceAmount(new KualiDecimal(14000));
             obj.setVendorPaymentTermsCode("00N30");
             obj.setVendorShippingPaymentTermsCode("AL");
-            obj.setPaymentRequestPayDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setPaymentRequestPayDate(date);
             obj.setPaymentRequestCostSourceCode("EST");
             obj.setPaymentRequestedCancelIndicator(false);
             obj.setPaymentAttachmentIndicator(false);
@@ -107,7 +111,7 @@ public enum PaymentRequestDocumentFixture {
             obj.setAccountsPayableProcessorIdentifier("2133704704");
             obj.setLastActionPerformedByPersonId("2133704704");
             obj.setProcessingCampusCode("IN");
-            obj.setAccountsPayableApprovalTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setAccountsPayableApprovalTimestamp(timeStamp);
             obj.setOriginalVendorHeaderGeneratedIdentifier(2013);
             obj.setOriginalVendorDetailAssignedIdentifier(0);
             obj.setContinuationAccountIndicator(false);
@@ -126,17 +130,19 @@ public enum PaymentRequestDocumentFixture {
         @Override
         public PaymentRequestDocument newRecord() {
             PaymentRequestDocument obj = new PaymentRequestDocument();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(331);
             obj.setDocumentNumber("33");
             obj.setStatusCode("DPTA");
             obj.setPurchaseOrderIdentifier(22);
             obj.setPostingYear(2009);
-            obj.setInvoiceDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setInvoiceDate(date);
             obj.setInvoiceNumber("1001");
             obj.setVendorInvoiceAmount(new KualiDecimal(19000));
             obj.setVendorPaymentTermsCode("00N30");
             obj.setVendorShippingPaymentTermsCode("AL");
-            obj.setPaymentRequestPayDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setPaymentRequestPayDate(date);
             obj.setPaymentRequestCostSourceCode("EST");
             obj.setPaymentRequestedCancelIndicator(false);
             obj.setPaymentAttachmentIndicator(false);
@@ -154,7 +160,7 @@ public enum PaymentRequestDocumentFixture {
             obj.setAccountsPayableProcessorIdentifier("2133704704");
             obj.setLastActionPerformedByPersonId("2133704704");
             obj.setProcessingCampusCode("IN");
-            obj.setAccountsPayableApprovalTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setAccountsPayableApprovalTimestamp(timeStamp);
             obj.setOriginalVendorHeaderGeneratedIdentifier(2013);
             obj.setOriginalVendorDetailAssignedIdentifier(0);
             obj.setContinuationAccountIndicator(false);
@@ -173,17 +179,19 @@ public enum PaymentRequestDocumentFixture {
         @Override
         public PaymentRequestDocument newRecord() {
             PaymentRequestDocument obj = new PaymentRequestDocument();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(341);
             obj.setDocumentNumber("34");
             obj.setStatusCode("DPTA");
             obj.setPurchaseOrderIdentifier(22);
             obj.setPostingYear(2009);
-            obj.setInvoiceDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setInvoiceDate(date);
             obj.setInvoiceNumber("1003");
             obj.setVendorInvoiceAmount(new KualiDecimal(14000));
             obj.setVendorPaymentTermsCode("00N30");
             obj.setVendorShippingPaymentTermsCode("AL");
-            obj.setPaymentRequestPayDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setPaymentRequestPayDate(date);
             obj.setPaymentRequestCostSourceCode("EST");
             obj.setPaymentRequestedCancelIndicator(false);
             obj.setPaymentAttachmentIndicator(false);
@@ -201,7 +209,7 @@ public enum PaymentRequestDocumentFixture {
             obj.setAccountsPayableProcessorIdentifier("2133704704");
             obj.setLastActionPerformedByPersonId("2133704704");
             obj.setProcessingCampusCode("IN");
-            obj.setAccountsPayableApprovalTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setAccountsPayableApprovalTimestamp(timeStamp);
             obj.setOriginalVendorHeaderGeneratedIdentifier(2013);
             obj.setOriginalVendorDetailAssignedIdentifier(0);
             obj.setContinuationAccountIndicator(false);
@@ -220,17 +228,19 @@ public enum PaymentRequestDocumentFixture {
         @Override
         public PaymentRequestDocument newRecord() {
             PaymentRequestDocument obj = new PaymentRequestDocument();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(351);
             obj.setDocumentNumber("35");
             obj.setStatusCode("DPTA");
             obj.setPurchaseOrderIdentifier(23);
             obj.setPostingYear(2009);
-            obj.setInvoiceDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setInvoiceDate(date);
             obj.setInvoiceNumber("1001");
             obj.setVendorInvoiceAmount(new KualiDecimal(19000));
             obj.setVendorPaymentTermsCode("00N30");
             obj.setVendorShippingPaymentTermsCode("AL");
-            obj.setPaymentRequestPayDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setPaymentRequestPayDate(date);
             obj.setPaymentRequestCostSourceCode("EST");
             obj.setPaymentRequestedCancelIndicator(false);
             obj.setPaymentAttachmentIndicator(false);
@@ -248,7 +258,7 @@ public enum PaymentRequestDocumentFixture {
             obj.setAccountsPayableProcessorIdentifier("2133704704");
             obj.setLastActionPerformedByPersonId("2133704704");
             obj.setProcessingCampusCode("IN");
-            obj.setAccountsPayableApprovalTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setAccountsPayableApprovalTimestamp(timeStamp);
             obj.setOriginalVendorHeaderGeneratedIdentifier(2013);
             obj.setOriginalVendorDetailAssignedIdentifier(0);
             obj.setContinuationAccountIndicator(false);
@@ -267,17 +277,19 @@ public enum PaymentRequestDocumentFixture {
         @Override
         public PaymentRequestDocument newRecord() {
             PaymentRequestDocument obj = new PaymentRequestDocument();
+            java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+            java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(361);
             obj.setDocumentNumber("36");
             obj.setStatusCode("DPTA");
             obj.setPurchaseOrderIdentifier(23);
             obj.setPostingYear(2009);
-            obj.setInvoiceDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setInvoiceDate(date);
             obj.setInvoiceNumber("1003");
             obj.setVendorInvoiceAmount(new KualiDecimal(14000));
             obj.setVendorPaymentTermsCode("00N30");
             obj.setVendorShippingPaymentTermsCode("AL");
-            obj.setPaymentRequestPayDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setPaymentRequestPayDate(date);
             obj.setPaymentRequestCostSourceCode("EST");
             obj.setPaymentRequestedCancelIndicator(false);
             obj.setPaymentAttachmentIndicator(false);
@@ -295,7 +307,7 @@ public enum PaymentRequestDocumentFixture {
             obj.setAccountsPayableProcessorIdentifier("2133704704");
             obj.setLastActionPerformedByPersonId("2133704704");
             obj.setProcessingCampusCode("IN");
-            obj.setAccountsPayableApprovalTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setAccountsPayableApprovalTimestamp(timeStamp);
             obj.setOriginalVendorHeaderGeneratedIdentifier(2013);
             obj.setOriginalVendorDetailAssignedIdentifier(0);
             obj.setContinuationAccountIndicator(false);

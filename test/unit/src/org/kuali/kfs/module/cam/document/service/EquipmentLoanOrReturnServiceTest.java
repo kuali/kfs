@@ -39,6 +39,8 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
         super.setUp();
         equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
         dateTimeService = SpringContext.getBean(DateTimeService.class);
+        java.sql.Date date = new java.sql.Date(dateTimeService.getCurrentDate().getTime());
+        
         this.asset = new Asset() {
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
@@ -53,7 +55,7 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
                 this.setAssetLocations(assetLocations);
             }
         };
-        this.asset.setExpectedReturnDate(new java.sql.Date(dateTimeService.getCurrentDate().getTime()));
+        this.asset.setExpectedReturnDate(date);
     }
 
     public void testSetEquipmentLoanInfo() throws Exception {

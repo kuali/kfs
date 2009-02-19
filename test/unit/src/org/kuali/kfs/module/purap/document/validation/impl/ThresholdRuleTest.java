@@ -17,20 +17,17 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
+import org.kuali.kfs.module.purap.fixture.ThresholdFixture;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
-import org.kuali.kfs.module.purap.fixture.ThresholdFixture;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
-
-import org.kuali.rice.kew.exception.WorkflowException;
 
 @ConfigureContext(session = khuntley)
-@RelatesTo (JiraIssue.KULPURAP3157)
 public class ThresholdRuleTest extends PurapRuleTestBase {
     
     private ThresholdRule thresholdRule;
@@ -119,7 +116,7 @@ public class ThresholdRuleTest extends PurapRuleTestBase {
     private MaintenanceDocumentBase getMaintenanceDocument(ThresholdFixture thresholdFixture){
         MaintenanceDocumentBase doc = null;
         try {
-            doc = (MaintenanceDocumentBase) SpringContext.getBean(DocumentService.class).getNewDocument("ThresholdMaintenanceDocument");
+            doc = (MaintenanceDocumentBase) SpringContext.getBean(DocumentService.class).getNewDocument(PurapConstants.RECEIVING_THRESHOLD_DOCUMENT_TYPE);
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Document creation failed.");

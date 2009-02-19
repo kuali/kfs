@@ -109,7 +109,9 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @return
      */
     public KualiDecimal getAmountOpenFromDatabase() {
-        KualiDecimal a = getAmount().subtract(getAmountAppliedFromDatabase());
+        KualiDecimal amount = getAmount();
+        KualiDecimal applied = getAmountAppliedFromDatabase();
+        KualiDecimal a = amount.subtract(applied);
         CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
         if(ObjectUtils.isNotNull(discount)) {
             // Add the discount amount (instead of subtracting) because it's negative.

@@ -46,6 +46,15 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         // if the document is in routing, then we have some special rules
         if (workflowDocument.stateIsEnroute()) {
 
+            //  if doc is cash-type then payment app link always shows, once its in routing
+            if (ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
+                editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_APP_DOC);
+            }
+            // if not cash, then payapp link only shows once the GLPE's have been generated
+            else if (!cashControlDocument.getGeneralLedgerPendingEntries().isEmpty()) {
+                editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_APP_DOC);
+            }
+
             // the person who has the approval request in their Action List
             // should be able to modify the document
             if (workflowDocument.isApprovalRequested() && !ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
@@ -54,15 +63,11 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
                 }
-                else if (!cashControlDocument.getGeneralLedgerPendingEntries().isEmpty()) {
-                    editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_APP_DOC);
-                }
             }
             if (workflowDocument.isApprovalRequested() && ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
                 // if payment medium cash then the ref doc number can be changed
                 editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
                 editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);
-                editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_APP_DOC);
             }
         }
 

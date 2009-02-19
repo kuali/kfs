@@ -4,11 +4,6 @@
 
   <bean id="IndirectCostAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="ICA"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>

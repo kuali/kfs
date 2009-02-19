@@ -18,6 +18,7 @@
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="displayCommodityCodeFields" required="true" description="Boolean to indicate if commodity code relatedfields should be displayed"%>
 
 <script language="JavaScript" type="text/javascript" src="dwr/interface/CommodityCodeService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/vendor/objectInfo.js"></script>
@@ -48,12 +49,14 @@
 	alt="remove accounts from all items"
 	title="remove accounts from all items" styleClass="tinybutton" />
 	
-    <html:image
-    property="methodToCall.clearItemsCommodityCodes"
-    src="${ConfigProperties.externalizable.images.url}tinybutton-remcomcod.gif"
-    alt="remove commodity codes from all items"
-    title="remove commodity codes from all items" styleClass="tinybutton" />
-
+	<c:if test="${displayCommodityCodeFields}">	
+        <html:image
+        property="methodToCall.clearItemsCommodityCodes"
+        src="${ConfigProperties.externalizable.images.url}tinybutton-remcomcod.gif"
+        alt="remove commodity codes from all items"
+        title="remove commodity codes from all items" styleClass="tinybutton" />
+    </c:if>
+    
 	<html:image 
 	property="methodToCall.showAllAccounts" 
 	src="${ConfigProperties.externalizable.images.url}tinybutton-expandallacc.gif" 
@@ -92,6 +95,7 @@
     
     <table width="100%" border="0" cellpadding="0" cellspacing="0"
         class="datatable">
+        <c:if test="${displayCommodityCodeFields}">	
 	    <tr>
 	        <td colspan="2" class="subhead">
 	            <span class="subhead-left">Commodity Code</span>
@@ -119,6 +123,7 @@
                 </div>    
 	        </td>
 	    </tr>
+	    </c:if>
         <tr>
             <th colspan="2">&nbsp;</td>
         </tr>

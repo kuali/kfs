@@ -34,6 +34,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
         public static final String LOCK_B2B_ENTRY = "lockB2BEntry";
         public static final String RESTRICT_FISCAL_ENTRY = "restrictFiscalEntry";
+        public static final String ENABLE_COMMODITY_CODE = "enableCommodityCode";
     }
 
     public static class PurchaseOrderEditMode extends EditMode {
@@ -53,6 +54,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String PREVIEW_PRINT_PURCHASE_ORDER = "previewPrintPurchaseOrder";
         public static final String RESEND_PURCHASE_ORDER = "resendPurchaseOrder";
         public static final String ASSIGN_SENSITIVE_DATA = "assignSensitiveData";
+        public static final String ENABLE_COMMODITY_CODE = "enableCommodityCode";
     }
 
     public static class PaymentRequestEditMode extends EditMode {

@@ -63,6 +63,8 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     
     public static final String BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS = "BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS";
     
+    public static final String ENABLE_COMMODITY_CODE_IND = "ENABLE_COMMODITY_CODE_IND";
+    
     //Vendor Choices
     public static final String DEFAULT_APO_VENDOR_CHOICE = "DEFAULT_APO_VENDOR_CHOICE";
     public static final String DEFAULT_B2B_VENDOR_CHOICE = "DEFAULT_B2B_VENDOR_CHOICE";

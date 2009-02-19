@@ -60,11 +60,6 @@ public class CustomerCreditMemoDocumentPresentationController extends FinancialS
     }
 
     @Override
-    protected boolean canClose(Document document) {
-        return isDocStatusCodeInitiated(document);
-    }
-
-    @Override
     protected boolean canSave(Document document) {
         return !isDocStatusCodeInitiated(document);
     }

@@ -69,17 +69,17 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         applicationDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
         
         // This code is basically copied from PaymentApplicationDocumentAction.quickApply
+        int paidAppliedItemNumber = 1;
         for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
             InvoicePaidApplied invoicePaidApplied = 
                 createInvoicePaidAppliedForInvoiceDetail(
-                    customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpenFromDatabase());
+                    customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpenFromDatabase(),paidAppliedItemNumber);
             // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
             if (invoicePaidApplied != null) {
                 // add it to the payment application document list of applied payments
                 applicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
-                //customerInvoiceDetail.setAmountToBeApplied(customerInvoiceDetail.getAmount());
+                paidAppliedItemNumber++;
             }
-            //updateCustomerInvoiceDetailInfo(applicationDocument, customerInvoiceDetail);
         }
         
         return applicationDocument;
@@ -223,7 +223,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createInvoicePaidAppliedForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail, org.kuali.rice.kns.util.KualiDecimal)
      */
-    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount) {
+    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount, Integer paidAppliedItemNumber) {
 
         Integer universityFiscalYear = universityDateService.getCurrentFiscalYear();
         String universityFiscalPeriodCode = universityDateService.getCurrentUniversityDate().getAccountingPeriod().getUniversityFiscalPeriodCode();
@@ -239,8 +239,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         invoicePaidApplied.setInvoiceItemAppliedAmount(amount);
         invoicePaidApplied.setUniversityFiscalYear(universityFiscalYear);
         invoicePaidApplied.setUniversityFiscalPeriodCode(universityFiscalPeriodCode);
-        Integer invoicePaidAppliedItemNumber = 1 + paymentApplicationDocument.getInvoicePaidApplieds().size();
-        invoicePaidApplied.setPaidAppliedItemNumber(invoicePaidAppliedItemNumber);
+        //Integer invoicePaidAppliedItemNumber = 1 + paymentApplicationDocument.getInvoicePaidApplieds().size();
+        invoicePaidApplied.setPaidAppliedItemNumber(paidAppliedItemNumber);
 
         return invoicePaidApplied;
     }

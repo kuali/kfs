@@ -38,7 +38,7 @@ public interface PaymentApplicationDocumentService {
      * @throws WorkflowException
      */
     public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException;
-    //public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber) throws WorkflowException;
+
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException;
 
     /**
@@ -51,7 +51,7 @@ public interface PaymentApplicationDocumentService {
      * @param amount the amount to be applied
      * @return the created invoice paid applied if it did not exist, null otherwise
      */
-    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount);
+    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount, Integer paidAppliedItemNumber);
     
     /**
      * This method is used in the lockbox process to create a PA document which is then auto-approved when the amount on the invoice matches 
@@ -62,11 +62,6 @@ public interface PaymentApplicationDocumentService {
      */
     public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
 
-//    public void updateAmountAppliedOnDetail(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
-//    public void updateCustomerInvoiceDetailAppliedPayments(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
-//    public void updateCustomerInvoiceDetailBalance(CustomerInvoiceDetail customerInvoiceDetail);
-//    public InvoicePaidApplied getMatchingInvoicePaidAppliedForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument);
-//    public void updateCustomerInvoiceDetailInfo(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
     public PaymentApplicationDocument createSaveAndApprovePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument, String approvalAnnotation, List workflowNotificationRecipients) throws WorkflowException;
     public PaymentApplicationDocument createAndSavePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
     

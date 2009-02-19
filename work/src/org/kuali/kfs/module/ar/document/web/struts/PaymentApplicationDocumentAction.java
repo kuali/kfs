@@ -165,10 +165,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @return
      * @throws WorkflowException
      */
-    private InvoicePaidApplied applyToCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount, String fieldName, boolean addToDocument) throws WorkflowException {
+    private InvoicePaidApplied applyToCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount, String fieldName, boolean addToDocument, Integer paidAppliedItemNumber) throws WorkflowException {
         InvoicePaidApplied invoicePaidApplied = 
             paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(
-                customerInvoiceDetail, paymentApplicationDocument, amount);
+                customerInvoiceDetail, paymentApplicationDocument, amount, paidAppliedItemNumber);
         // If the new invoice paid applied is valid, add it to the document
         if (PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied, fieldName)) {
             if(addToDocument) {
@@ -191,6 +191,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
         invoicePaidApplieds.addAll(applyToIndividualCustomerInvoiceDetails(paymentApplicationDocumentForm));
         invoicePaidApplieds.addAll(applyToInvoices(paymentApplicationDocumentForm, invoicePaidApplieds));
+        
+        // Set the InvoicePaidAppliedItemNumbers properly
+        int paidAppliedItemNumber = 0;
+        for(InvoicePaidApplied i : invoicePaidApplieds) {
+            i.setPaidAppliedItemNumber(paidAppliedItemNumber++);
+        }
         
         NonInvoiced nonInvoiced = applyNonInvoiced(paymentApplicationDocumentForm, false);
         NonAppliedHolding nonAppliedHolding = applyUnapplied(paymentApplicationDocumentForm);
@@ -275,8 +281,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             
             if(null != amountToApply) {
                 // If the new invoice paid applied is valid, add it to the document
-                InvoicePaidApplied invoicePaidApplied = applyToCustomerInvoiceDetail(customerInvoiceDetail, paymentApplicationDocument, amountToApply, fieldName, false);
+                // I just pass in a paidAppliedItemNumber of 0 and set the paidAppliedItemNumber to the correct value after adding all
+                // InvoicePaidApplieds to the document.
+                InvoicePaidApplied invoicePaidApplied = applyToCustomerInvoiceDetail(customerInvoiceDetail, paymentApplicationDocument, amountToApply, fieldName, false, 0);
                 if (null != invoicePaidApplied) {
+                    //invoicePaidApplied.setInvoiceItemNumber(invoiceItemNumber);
                     invoicePaidApplieds.add(invoicePaidApplied);
                     customerInvoiceDetailCounter++;
                 }
@@ -367,7 +376,9 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 
                 // Apply to the invoice as a whole
                 for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
-                    invoicePaidApplieds.add(applyToCustomerInvoiceDetail(customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmount(), "invoice[" + (customerInvoiceDocumentNumber) + "].quickApply", false));
+                    // I just pass in a paidAppliedItemNumber of 0 and set the paidAppliedItemNumber to the correct value after adding all
+                    // InvoicePaidApplieds to the document.
+                    invoicePaidApplieds.add(applyToCustomerInvoiceDetail(customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmount(), "invoice[" + (customerInvoiceDocumentNumber) + "].quickApply", false, 0));
                 }
             }
 

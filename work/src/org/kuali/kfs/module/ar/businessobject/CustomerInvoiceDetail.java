@@ -97,7 +97,9 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     
     // ---- BEGIN OPEN AMOUNTS
     
-    public KualiDecimal getAmountOpen() { return getAmountOpenFromDatabase(); }
+    public KualiDecimal getAmountOpen() { 
+        return getAmountOpenFromDatabase();
+    }
     
     /**
      * This method returns an open amount for a specific detail. If a customer 
@@ -107,28 +109,23 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @return
      */
     public KualiDecimal getAmountOpenFromDatabase() {
-        if (isDiscountLine()) {
-            return null;
-        } else {
-            return getAmount().subtract(getAmountAppliedFromDatabase());
+        KualiDecimal a = getAmount().subtract(getAmountAppliedFromDatabase());
+        CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
+        if(ObjectUtils.isNotNull(discount)) {
+            // Add the discount amount (instead of subtracting) because it's negative.
+            a = a.add(discount.getAmount());
         }
+        return a;
     }
 
-    public KualiDecimal getAmountOpenExcludingAnyAmountFrom(PaymentApplicationDocument paymentApplicationDocument) {
-        if(isDiscountLine()) {
-            return null;
-        } else {
-            return getAmount().subtract(getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument));
-        }
-    }
-    
     public KualiDecimal getAmountOpenExcludingAnyAmountFromCurrentPaymentApplicationDocument() {
         return getAmountOpenExcludingAnyAmountFrom(getCurrentPaymentApplicationDocument());
     }
     
-//    public KualiDecimal getAmountAppliedByCurrentPaymentApplicationDocument() {
-//        
-//    }
+    public KualiDecimal getAmountOpenExcludingAnyAmountFrom(PaymentApplicationDocument paymentApplicationDocument) {
+        return getAmount().subtract(getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument));
+    }
+    
     /**
      * This method returns the amount that remained unapplied on a given date.
      * 

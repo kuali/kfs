@@ -54,7 +54,6 @@ import java.util.ListIterator;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -67,13 +66,11 @@ import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
 import org.kuali.kfs.sys.document.validation.DeleteAccountingLineRule;
 import org.kuali.kfs.sys.document.validation.ReviewAccountingLineRule;
-import org.kuali.kfs.sys.document.validation.SufficientFundsCheckingPreparationRule;
 import org.kuali.kfs.sys.document.validation.UpdateAccountingLineRule;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -96,7 +93,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * document specific business rules are contained within the specific child class that extends off of this one.
  */
 @Deprecated
-public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDocumentRuleBase implements AddAccountingLineRule<AccountingDocument>, DeleteAccountingLineRule<AccountingDocument>, UpdateAccountingLineRule<AccountingDocument>, ReviewAccountingLineRule<AccountingDocument>, SufficientFundsCheckingPreparationRule, AccountingDocumentRuleBaseConstants {
+public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDocumentRuleBase implements AddAccountingLineRule<AccountingDocument>, DeleteAccountingLineRule<AccountingDocument>, UpdateAccountingLineRule<AccountingDocument>, ReviewAccountingLineRule<AccountingDocument>, AccountingDocumentRuleBaseConstants {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentRuleBase.class);
     private ParameterService parameterService;
 

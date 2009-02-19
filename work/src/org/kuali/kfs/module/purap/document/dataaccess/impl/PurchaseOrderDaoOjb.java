@@ -52,6 +52,15 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return null;
     }
 
+    public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
+        
+        return (PurchaseOrderDocument) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PurchaseOrderDocument.class, criteria));
+    }
+
+
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getDocumentNumberForPurchaseOrderId(java.lang.Integer)
      */

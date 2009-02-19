@@ -1219,6 +1219,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
         return getPurchaseOrderByDocumentNumber(purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(id));
+        //TODO hjs: code review (why is this DB call so complicated?  wouldn't this method be cleaner and less db calls?)
+//        return purchaseOrderDao.getCurrentPurchaseOrder(id);
     }
 
     /**

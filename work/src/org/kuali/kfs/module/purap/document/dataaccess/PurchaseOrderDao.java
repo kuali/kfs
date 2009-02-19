@@ -29,6 +29,8 @@ public interface PurchaseOrderDao {
 
     public Integer getPurchaseOrderIdForCurrentPurchaseOrderByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier);
     
+    public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
+    
     /**
      * Retrieves the Purchase Order Document's document number using the purapDocumentIdentifier as criteria
      * 

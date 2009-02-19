@@ -28,7 +28,7 @@ public class CustomerInvoiceDetailSubFundGroupReceivableValidationTest extends K
     
     private CustomerInvoiceDetailSubFundGroupReceivableValidation validation;
     private final static String VALID_CHART_OF_ACCOUNTS_CODE = "UA";
-    private final static String VALID_ACCOUNT_NUMBER = "1912610";
+    private final static String VALID_ACCOUNT_NUMBER = "1912810";
     private final static String INVALID_ACCOUNT_NUMBER_WITHOUT_MATCHING_OBJECT_CODE = "1912201";
     private final static String INVALID_ACCOUNT_NUMBER_WITH_MATCHING_OBJECT_CODE = "2312810";
     private final static Integer VALID_POSTING_YEAR = new Integer(2008); 

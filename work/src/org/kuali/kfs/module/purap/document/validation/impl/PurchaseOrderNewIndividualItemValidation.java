@@ -25,8 +25,6 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PurchaseOrderNewIndividualItemValidation extends PurchasingNewIndividualItemValidation {
-
-    private ParameterService parameterService;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = super.validate(event);
@@ -54,15 +52,7 @@ public class PurchaseOrderNewIndividualItemValidation extends PurchasingNewIndiv
 
     @Override
     protected boolean commodityCodeIsRequired() {
-        return parameterService.getIndicatorParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        return getParameterService().getIndicatorParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
     }
 
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
- 
 }

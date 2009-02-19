@@ -92,6 +92,7 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />		
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="Purchasing-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true">

@@ -206,12 +206,6 @@
 	<field-descriptor name="customerPaymentDescription" column="CUST_PMT_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerPaymentDate" column="CUST_PMT_DT" jdbc-type="DATE"/>
-	<reference-descriptor name="cashControlDocument" class-ref="org.kuali.kfs.module.ar.document.CashControlDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="referenceFinancialDocument" class-ref="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="referenceFinancialDocumentNumber" />
-	</reference-descriptor>
 	<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>

@@ -113,10 +113,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         CashControlDetail cashControlDetail = getCashControlDetail();
         if(ObjectUtils.isNull(cashControlDetail)) {
             return null;
-        } else {
-            if(ObjectUtils.isNull(cashControlDetail.getCashControlDocument())) {
-                cashControlDetail.refreshReferenceObject("cashControlDocument");
-            }
         }
         return cashControlDetail.getCashControlDocument();
     }

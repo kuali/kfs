@@ -5,7 +5,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -21,8 +24,8 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	private String customerNumber;
 	private Date customerPaymentDate;
 
-    private PaymentApplicationDocument referenceFinancialDocument;
-    private CashControlDocument cashControlDocument;
+    private transient PaymentApplicationDocument referenceFinancialDocument;
+    private transient CashControlDocument cashControlDocument;
 	private Customer customer;
     
     private String status;
@@ -187,6 +190,14 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	public PaymentApplicationDocument getReferenceFinancialDocument() { 
+	    if (referenceFinancialDocument == null) {
+	        try {
+                referenceFinancialDocument = (PaymentApplicationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.referenceFinancialDocumentNumber);
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("WorkflowException caught while trying to load PayApp Document #" + referenceFinancialDocumentNumber + ".", e);
+            }
+	    }
 		return referenceFinancialDocument;
 	}
 
@@ -232,6 +243,14 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
     }
 
     public CashControlDocument getCashControlDocument() {
+        if (cashControlDocument == null) {
+            try {
+                cashControlDocument = (CashControlDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.documentNumber);
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("WorkflowException caught while trying to load CashControl Document #" + referenceFinancialDocumentNumber + ".", e);
+            }
+        }
         return cashControlDocument;
     }
 

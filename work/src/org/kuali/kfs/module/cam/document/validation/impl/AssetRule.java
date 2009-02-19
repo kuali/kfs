@@ -289,20 +289,16 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateInventoryStatusCode(String oldInventoryStatusCode, String newInventoryStatusCode) {
         boolean valid = true;
-        // disallow change to "R" for any user.
-        if (assetService.isAssetRetired(newAsset)) {
-            if (assetService.isCapitalAsset(oldAsset)) {
-                putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_ASSET_RETIRED_CAPITAL);
-                valid = false;
-            }
-            else if (oldInventoryStatusCode.equals(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003) && !newInventoryStatusCode.equals(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003)) {
-                putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_ASSET_RETIRED_ACT_NON_CAPITAL_2003);
-                valid = false;
-            }
-            else if (oldInventoryStatusCode.equals(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE) && !newInventoryStatusCode.equals(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED)) {
-                putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_ASSET_RETIRED_NON_CAPITAL_ACTIVE);
-                valid = false;
-            }
+        if (assetService.isCapitalAsset(oldAsset) && assetService.isAssetRetired(newAsset)) {
+            // disallow retire capital asset.
+            putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_ASSET_RETIRED_CAPITAL);
+            valid = false;
+        }
+        else {
+            // validate inventory status change per system parameter.
+            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
+            valid &= parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
+            GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
         }
         return valid;
     }

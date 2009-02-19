@@ -502,7 +502,6 @@
   <bean id="Asset-inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
     <property name="label" value="Asset Status Code" />
     <property name="name" value="inventoryStatusCode" />
-    <property name="forceUppercase" value="false" />
     <property name="shortLabel" value="Asset Status Code" />
     <property name="maxLength" value="1" />
     <property name="control" >

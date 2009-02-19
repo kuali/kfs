@@ -137,6 +137,37 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
 
+        cancelLinkedPaymentApplicationDocuments(cashControlDocument);
+        
+        return super.cancel(mapping, form, request, response);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#disapprove(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean success = true;
+        CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
+        CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
+
+        success = cancelLinkedPaymentApplicationDocuments(cashControlDocument);
+
+        if(!success) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        return super.disapprove(mapping, form, request, response);
+    }
+
+    /**
+     * This method cancels all linked Payment Application documents that are not already in approved status.
+     * @param cashControlDocument
+     * @throws WorkflowException
+     */
+    private boolean cancelLinkedPaymentApplicationDocuments(CashControlDocument cashControlDocument) throws WorkflowException {
+        boolean success = true;
         List<CashControlDetail> details = cashControlDocument.getCashControlDetails();
         
         for(CashControlDetail cashControlDetail : details) {
@@ -149,13 +180,12 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
                 documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
             } else {
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath("CashControlDocument", ArKeyConstants.ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION);
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                success = false;;
             }
         }
-        
-        return super.cancel(mapping, form, request, response);
+        return success;
     }
-    
+        
     /**
      * This method adds a new cash control detail
      * 

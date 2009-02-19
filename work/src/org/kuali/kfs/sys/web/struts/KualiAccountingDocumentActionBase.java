@@ -989,7 +989,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         // register that we're going to come back w/ to this form w/ a refresh methodToCall
         ((KualiAccountingDocumentFormBase) form).registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
         ((KualiAccountingDocumentFormBase) form).registerNextMethodToCallIsRefresh(true);
-        
+
         return new ActionForward(lookupUrl, true);
     }
 
@@ -1339,7 +1339,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         if (capitalAssetInformation == null) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         this.resetCapitalAssetInfo(capitalAssetInformation);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1360,7 +1360,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         this.addCapitalAssetInfoDetailLines(capitalAssetInformation);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    } 
+    }
 
     /**
      * delete a detail line from the capital asset information
@@ -1373,14 +1373,14 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         if (capitalAssetInformation == null) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         int lineToDelete = this.getLineToDelete(request);
         List<CapitalAssetInformationDetail> detailLines = capitalAssetInformation.getCapitalAssetInformationDetails();
         CapitalAssetInformationDetail detailLine = detailLines.get(lineToDelete);
-          
+
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         boService.delete(detailLine);
-        
+
         detailLines.remove(lineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1391,7 +1391,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      */
     protected CapitalAssetInformation getCurrentCapitalAssetInformationObject(KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase) {
         LOG.debug("getCurrentCapitalAssetInformationObject() - start");
-        
+
         AccountingDocument financialDocument = kualiAccountingDocumentFormBase.getFinancialDocument();
         if (!(financialDocument instanceof CapitalAssetEditable) || !(kualiAccountingDocumentFormBase instanceof CapitalAssetEditable)) {
             return null;
@@ -1429,7 +1429,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         }
 
         List<CapitalAssetInformationDetail> detailLines = capitalAssetInformation.getCapitalAssetInformationDetails();
-        
+
         int maxItemNumber = 0;
         for (CapitalAssetInformationDetail detailLine : detailLines) {
             if (detailLine.getItemLineNumber() > maxItemNumber) {
@@ -1463,6 +1463,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             capitalAssetInformation.setVendorDetailAssignedIdentifier(null);
             capitalAssetInformation.setVendorHeaderGeneratedIdentifier(null);
             capitalAssetInformation.setVendorName(null);
+
+            capitalAssetInformation.getCapitalAssetInformationDetails().clear();
         }
     }
 
@@ -1488,7 +1490,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
         // apply capitalAsset information if there is at least one movable object code associated with the source accounting lines
-        boolean isCapitalAssetInformationNeeded = capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(document);        
+        boolean isCapitalAssetInformationNeeded = capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(document);
         if (isCapitalAssetInformationNeeded) {
             newCapitalAssetInformation.setDocumentNumber(document.getDocumentNumber());
             capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);

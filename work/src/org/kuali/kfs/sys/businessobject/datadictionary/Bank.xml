@@ -100,6 +100,14 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
+    <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+  			<property name="mask" value="true" /> 
+			<property name="maskFormatter">
+  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  			</property>
+  		</bean>
+  	</property>
   </bean>
   
   <bean id="Bank-bankAccountNumber" parent="Bank-bankAccountNumber-parentBean" />
@@ -116,13 +124,13 @@
     </property>
 
 	<property name="attributeSecurity">
-      <bean parent="AttributeSecurity">
-  	     <property name="partialMask" value="true" /> 
-	     <property name="partialMaskFormatter">
-  	        <bean parent="MaskFormatterSubString" p:maskLength="5" /> 
-  	     </property>
-      </bean>
-    </property>
+		<bean parent="AttributeSecurity">
+  			<property name="mask" value="true" /> 
+			<property name="maskFormatter">
+  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  			</property>
+  		</bean>
+  	</property>
 
   </bean>
   

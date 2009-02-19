@@ -507,7 +507,9 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
-	<bean id="PaymentRequest-taxAreaValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestTaxAreaValidation" abstract="true"/>	        
+	<bean id="PaymentRequest-taxAreaValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestTaxAreaValidation" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>				       
 
 	<bean id="PaymentRequest-cancelValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestCancelValidation" abstract="true"/>
 	

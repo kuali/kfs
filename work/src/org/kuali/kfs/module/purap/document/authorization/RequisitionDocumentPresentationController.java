@@ -90,7 +90,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         }
             
         // set display mode for Address to Vendor section according to parameter value 
-        boolean lockAddressToVendor = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Requisition", PurapParameterConstants.ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND);                
+        boolean lockAddressToVendor = !SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Requisition", PurapParameterConstants.ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND);                
         if (lockAddressToVendor) {
             editModes.add(PurapAuthorizationConstants.RequisitionEditMode.LOCK_ADDRESS_TO_VENDOR);
         }

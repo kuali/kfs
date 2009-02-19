@@ -141,7 +141,6 @@
                         property="document.deliveryBuildingRoomNumber" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
 			        <c:if test="${(fullEntryMode or amendmentEntry) && !deliveryReadOnly && notOtherDeliveryBuilding && (not empty KualiForm.document.deliveryBuildingCode)}">
 			            <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
-			                readOnlyFields="buildingCode,campusCode"
 			                lookupParameters="'Y':active,document.deliveryBuildingCode:buildingCode,document.deliveryCampusCode:campusCode"
 			                fieldConversions="buildingRoomNumber:document.deliveryBuildingRoomNumber"/>
 			        </c:if>
@@ -240,7 +239,7 @@
                    	</c:if>
             	</td>
                 <td align=left valign=middle class="datacell">
-                    <c:if test="${fullEntryMode}">
+                    <c:if test="${fullEntryMode || amendmentEntry}" > 
                     	<kul:lookup boClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress"
                     		lookupParameters="'Y':active,document.chartOfAccountsCode:chartOfAccountsCode,document.organizationCode:organizationCode"
                     		fieldConversions="receivingName:document.receivingName,receivingCityName:document.receivingCityName,receivingLine1Address:document.receivingLine1Address,receivingLine2Address:document.receivingLine2Address,receivingCityName:document.receivingCityName,receivingStateCode:document.receivingStateCode,receivingPostalCode:document.receivingPostalCode,receivingCountryCode:document.receivingCountryCode,useReceivingIndicator:document.addressToVendorIndicator"/>
@@ -256,11 +255,18 @@
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${documentAttributes.addressToVendorIndicator}" />
+						<c:choose>
+							<c:when test="${(fullEntryMode || amendmentEntry) && !lockAddressToVendor}" >
+								<kul:htmlAttributeLabel attributeEntry="${documentAttributes.addressToVendorIndicator}" />
+							</c:when>
+							<c:otherwise>
+								Use Receiving Address as Shipping Address Presented to Vendor?
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.addressToVendorIndicator}" property="document.addressToVendorIndicator" readOnly="${not(fullEntryMode or amendmentEntry) or lockAddressToVendor}" /><br>				
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.addressToVendorIndicator}" property="document.addressToVendorIndicator" readOnly="${!(fullEntryMode || amendmentEntry) || lockAddressToVendor}" /><br>				
 					<!--
 					<c:choose>
 						<c:when test="${KualiForm.document.addressToVendorIndicator == 'true'}">

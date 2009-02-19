@@ -151,7 +151,9 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     }
 
     public VendorType getVendorType() {
-
+        // refresh because proxy doesn't work properly and vendor type sometimes is null
+        if (vendorType == null)
+            this.refreshReferenceObject("vendorType");
         return vendorType;
     }
 

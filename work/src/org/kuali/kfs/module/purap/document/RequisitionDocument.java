@@ -411,33 +411,34 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
-    @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
-        LOG.debug("handleRouteLevelChange() started");
-        super.handleRouteLevelChange(change);
-        try {
-            String newNodeName = change.getNewNodeName();
-            if (StringUtils.isNotBlank(newNodeName) && !newNodeName.equals(PurapWorkflowConstants.HAS_ACCOUNTING_LINES) && !newNodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) {
-                ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(getDocumentNumber()));
-                reportCriteriaDTO.setTargetNodeName(newNodeName);
-                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
-                    NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
-                    if (ObjectUtils.isNotNull(currentNode)) {
-                        if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {
-                            updateStatusAndSave(currentNode.getAwaitingStatusCode());
-                        }
-                    }
-                }
-                else {
-                    LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
-                }
-            }
-        }
-        catch (WorkflowException e) {
-            String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
-            LOG.warn(errorMsg, e);
-        }
-    }
+//FIXME hjs: this is not workign and often causing docs to break, so i'm commenting out so we can keep working (see KULPURAP-3323, KFSMI-2739, and KFSMI-2687)
+//    @Override
+//    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+//        LOG.debug("handleRouteLevelChange() started");
+//        super.handleRouteLevelChange(change);
+//        try {
+//            String newNodeName = change.getNewNodeName();
+//            if (StringUtils.isNotBlank(newNodeName) && !newNodeName.equals(PurapWorkflowConstants.HAS_ACCOUNTING_LINES) && !newNodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) {
+//                ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(getDocumentNumber()));
+//                reportCriteriaDTO.setTargetNodeName(newNodeName);
+//                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
+//                    NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
+//                    if (ObjectUtils.isNotNull(currentNode)) {
+//                        if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {
+//                            updateStatusAndSave(currentNode.getAwaitingStatusCode());
+//                        }
+//                    }
+//                }
+//                else {
+//                    LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
+//                }
+//            }
+//        }
+//        catch (WorkflowException e) {
+//            String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
+//            LOG.warn(errorMsg, e);
+//        }
+//    }
 
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLineClass()

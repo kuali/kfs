@@ -12,3 +12,23 @@ insert into pdp_disb_nbr_rng_t
 /
 update krim_entity_emp_info_t set base_slry_amt = '50000'
 /
+delete krns_parm_t
+where nmspc_cd = 'KFS-FP'
+and parm_dtl_typ_cd = 'IndirectCostAdjustment'
+and parm_nm = 'OBJECT_SUB_TYPES'
+/
+delete krns_parm_t
+where nmspc_cd = 'KFS-FP'
+and parm_dtl_typ_cd = 'IndirectCostAdjustment'
+and parm_nm = 'OBJECT_TYPES '
+/
+delete krns_parm_t
+where nmspc_cd = 'KFS-FP'
+and parm_dtl_typ_cd = 'IndirectCostAdjustment'
+and parm_nm = 'OBJECT_SUB_TYPES'
+/
+delete krns_parm_t
+where nmspc_cd = 'KFS-FP'
+and parm_dtl_typ_cd = 'IndirectCostAdjustment'
+and parm_nm = 'OBJECT_TYPES '
+/

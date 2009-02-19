@@ -328,7 +328,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * 
      * @param barcodeInventoryErrorDetails
      */
-    public void processBarcodeInventory(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails,AssetBarCodeInventoryInputFileForm form) throws Exception {
+    private void processBarcodeInventory(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails,AssetBarCodeInventoryInputFileForm form) throws Exception {
         Long lineNumber = new Long(0);
         boolean docCreated=false;
         int errorRecCount=0;
@@ -366,12 +366,10 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         }
 
         if (!docCreated) {
-//          GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_NO_DOCUMENT_CREATED);            
             form.getMessages().add(MESSAGE_NO_DOCUMENT_CREATED);
         } else {
             //Adding the list of documents that were created in the message list
             form.getMessages().add(DOCUMENTS_MSG+": "+documentsCreated.substring(2));
-//            GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_DOCUMENT_CREATED);
         }
         form.getMessages().add(TOTAL_RECORDS_UPLOADED_MSG+": "+StringUtils.rightPad(Integer.toString(totalRecCount), 5, " "));
         form.getMessages().add(TOTAL_RECORDS_IN_ERROR_MSG+": "+StringUtils.rightPad(Integer.toString(errorRecCount), 5, " "));
@@ -384,7 +382,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param bcies
      * @param barcodeInventoryErrorDocument
      */
-    public String createBarcodeInventoryErrorDocuments(List<BarcodeInventoryErrorDetail> bcies,BarcodeInventoryErrorDocument barcodeInventoryErrorDocument, AssetBarCodeInventoryInputFileForm form) {
+    private String createBarcodeInventoryErrorDocuments(List<BarcodeInventoryErrorDetail> bcies,BarcodeInventoryErrorDocument barcodeInventoryErrorDocument, AssetBarCodeInventoryInputFileForm form) {
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
         boolean isFirstDocument=true;
         int ln=0;
@@ -440,14 +438,6 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, barcodeInventoryErrorDetail.getAssetTagNumber());
         Asset asset = ((List<Asset>) businessObjectService.findMatching(Asset.class, fieldValues)).get(0);
 
-//        LOG.info("*********BEFORE *******************"); 
-//        LOG.info("Asset:"+asset.getCapitalAssetNumber());
-//        LOG.info("BuildingCode:"+asset.getBuildingCode()); 
-//        LOG.info("Room:"+asset.getBuildingRoomNumber());
-//        LOG.info("SubRoom:"+asset.getBuildingSubRoomNumber()); 
-//        LOG.info("Condition Code:"+asset.getConditionCode());
-//        LOG.info("************************************");
-         
         asset.setInventoryScannedCode( (barcodeInventoryErrorDetail.isUploadScanIndicator() ? CamsConstants.BarCodeInventory.BCI_SCANED_INTO_DEVICE : CamsConstants.BarCodeInventory.BCI_MANUALLY_KEYED_CODE));
         asset.setBuildingCode(barcodeInventoryErrorDetail.getBuildingCode());
         asset.setBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber());
@@ -458,17 +448,6 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
         // Updating asset information
         businessObjectService.save(asset);
-        
-//        asset = ((List<Asset>)businessObjectService.findMatching(Asset.class, fieldValues)).get(0); 
-//        LOG.info("********* After *******************"); 
-//        LOG.info("Asset:"+asset.getCapitalAssetNumber()); 
-//        LOG.info("BuildingCode:"+asset.getBuildingCode());
-//        LOG.info("Room:"+asset.getBuildingRoomNumber()); 
-//        LOG.info("SubRoom:"+asset.getBuildingSubRoomNumber());
-//        LOG.info("Condition Code:"+asset.getConditionCode()); 
-//        LOG.info("Last Inv Date:"+asset.getLastInventoryDate());
-//        LOG.info("************************************");
-         
     }
 
     /**

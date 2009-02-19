@@ -126,8 +126,7 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
 
                 //Running depreciation
                 camsAssetDepreciationService.runDepreciation();
-            }
-            
+            }            
             Collection<AssetPayment> depreciatedPayments = assetDepreciationUtilDao.getAssetPayments(assets);
             Collection<AssetPayment> resultsMustGet = AssetDepreciationServiceFixture.DATA.getResultsFromPropertiesFile(); 
             assertTrue(ERROR_RECORD_NUMBER_DOESNT_MATCH,resultsMustGet.size() == depreciatedPayments.size());            

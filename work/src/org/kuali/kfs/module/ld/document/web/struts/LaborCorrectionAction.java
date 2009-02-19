@@ -19,6 +19,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -948,62 +949,62 @@ public class LaborCorrectionAction extends CorrectionAction {
     public ActionForward saveToDesktop(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException {
         LOG.debug("saveToDesktop() started");
 
-//        LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
-//
-//        if (checkOriginEntryGroupSelection(laborCorrectionForm)) {
-//            if (laborCorrectionForm.isInputGroupIdFromLastDocumentLoadIsMissing() && laborCorrectionForm.getInputGroupIdFromLastDocumentLoad() != null && laborCorrectionForm.getInputGroupIdFromLastDocumentLoad().equals(laborCorrectionForm.getInputGroupId())) {
-//                if (laborCorrectionForm.isPersistedOriginEntriesMissing()) {
-//                    GlobalVariables.getErrorMap().putError("documentsInSystem", LaborKeyConstants.ERROR_LABOR_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING);
-//                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
-//                }
-//                else {
-//                    String fileName = "llcp_archived_group_" + laborCorrectionForm.getInputGroupIdFromLastDocumentLoad().toString() + ".txt";
-//                    // set response
-//                    response.setContentType("application/txt");
-//                    response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-//                    response.setHeader("Expires", "0");
-//                    response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-//                    response.setHeader("Pragma", "public");
-//
-//                    BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
-//
-//                    SpringContext.getBean(CorrectionDocumentService.class).writePersistedInputOriginEntriesToStream((GeneralLedgerCorrectionProcessDocument) laborCorrectionForm.getDocument(), bw);
-//
-//                    bw.flush();
-//                    bw.close();
-//
-//                    return null;
-//                }
-//            }
-//            else {
-//                OriginEntryGroup oeg = CorrectionAction.originEntryGroupService.getExactMatchingEntryGroup(laborCorrectionForm.getInputGroupId());
-//
-//                String fileName = oeg.getSource().getCode() + oeg.getId().toString() + "_" + oeg.getDate().toString() + ".txt";
-//
-//                // set response
-//                response.setContentType("application/txt");
-//                response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-//                response.setHeader("Expires", "0");
-//                response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-//                response.setHeader("Pragma", "public");
-//
-//                BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
-//
-//                // write to output
-//                laborOriginEntryService.flatFile(laborCorrectionForm.getInputGroupId(), bw);
-//
-//                bw.flush();
-//                bw.close();
-//
-//                return null;
-//            }
-//        }
-//        else {
-//            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-//        }
-        
-        //TODO: Shawn - implement later - delete below line
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
+
+        if (checkOriginEntryGroupSelection(laborCorrectionForm)) {
+            if (laborCorrectionForm.isInputGroupIdFromLastDocumentLoadIsMissing() && laborCorrectionForm.getInputGroupIdFromLastDocumentLoad() != null && laborCorrectionForm.getInputGroupIdFromLastDocumentLoad().equals(laborCorrectionForm.getInputGroupId())) {
+                if (laborCorrectionForm.isPersistedOriginEntriesMissing()) {
+                    GlobalVariables.getErrorMap().putError("documentsInSystem", LaborKeyConstants.ERROR_LABOR_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+                else {
+                    String fileName = "llcp_archived_group_" + laborCorrectionForm.getInputGroupIdFromLastDocumentLoad().toString() + ".txt";
+                    // set response
+                    response.setContentType("application/txt");
+                    response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+                    response.setHeader("Expires", "0");
+                    response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+                    response.setHeader("Pragma", "public");
+
+                    BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
+
+                    SpringContext.getBean(CorrectionDocumentService.class).writePersistedInputOriginEntriesToStream((LaborCorrectionDocument) laborCorrectionForm.getDocument(), bw);
+
+                    bw.flush();
+                    bw.close();
+
+                    return null;
+                }
+            }
+            else {
+//String fileName = oeg.getSource().getCode() + oeg.getId().toString() + "_" + oeg.getDate().toString() + ".txt";
+                
+                File file = originEntryGroupService.getLaborFileWithFileName(laborCorrectionForm.getInputGroupId());
+                FileReader fileReader = new FileReader(file.getPath());
+                BufferedReader br = new BufferedReader(fileReader);
+                
+                // set response
+                response.setContentType("application/txt");
+                response.setHeader("Content-disposition", "attachment; filename=" + laborCorrectionForm.getInputGroupId());
+                response.setHeader("Expires", "0");
+                response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+                response.setHeader("Pragma", "public");
+
+                BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
+
+                // write to output
+                buildTextOutputfile(bw, br);
+                
+                bw.flush();
+                bw.close();
+                br.close();
+                
+                return null;
+            }
+        }
+        else {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
     }
 
     /**

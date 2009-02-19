@@ -15,11 +15,13 @@
  */
 package org.kuali.kfs.gl.businessobject.options;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,22 +43,33 @@ public class ProcessingCorrectionGroupEntriesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
 
+//        OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+//
+//
+//        Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
+//
+//        List<OriginEntryGroup> sortedGroupList = (List<OriginEntryGroup>) groupList;
+//
+//        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
+//        Collections.sort(sortedGroupList, oegTypeComparator);
+//
+//        for (OriginEntryGroup oeg : sortedGroupList) {
+//            if (oeg.getProcess().booleanValue() & !oeg.getSourceCode().startsWith("L")) {
+//                activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
+//            }
+//        }
+
         OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
-
-
-        Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
-
-        List<OriginEntryGroup> sortedGroupList = (List<OriginEntryGroup>) groupList;
-
-        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
-        Collections.sort(sortedGroupList, oegTypeComparator);
-
-        for (OriginEntryGroup oeg : sortedGroupList) {
-            if (oeg.getProcess().booleanValue() & !oeg.getSourceCode().startsWith("L")) {
-                activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
-            }
+        File[] fileList = originEntryGroupService.getAllFileInBatchDirectory();
+        if (fileList != null){
+            for (File file : fileList){
+                String fileName = file.getName();
+                if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)){
+                    activeLabels.add(new KeyLabelPair(fileName, fileName));
+                }
+            }    
         }
-
+        
         return activeLabels;
     }
 

@@ -193,4 +193,10 @@ public interface OriginEntryGroupService {
     public File[] getAllFileInBatchDirectory();
     
     public File[] getAllLaborFileInBatchDirectory();
+    
+    public File getFileWithFileName(String fileName);
+    
+    public File getLaborFileWithFileName(String fileName);
+    
+    public void deleteFile(String fileName);
 }

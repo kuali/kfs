@@ -536,6 +536,21 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         return returnFiles;
     }
     
+    public void deleteFile(String fileName){
+        File file = getFileWithFileName(fileName);
+        if (file.exists()){
+            file.delete();
+        }
+    }
+    
+    
+    public File getFileWithFileName(String fileName){
+        return new File(batchFileDirectoryName + File.separator + fileName);
+    }
+    
+    public File getLaborFileWithFileName(String fileName){
+        return new File(batchLaborFileDirectoryName + File.separator + fileName);
+    }
 
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;

@@ -235,4 +235,6 @@ public interface CorrectionDocumentService {
     public Collection<GeneralLedgerCorrectionProcessDocument> getCorrectionDocumentsFinalizedOn(Date date);
     
     public String generateOutputOriginEntryFileName(String docId);
+    
+    public void createOutputFileForProcessing(String docId, java.util.Date today);
 }

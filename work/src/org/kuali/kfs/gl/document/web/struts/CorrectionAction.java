@@ -16,9 +16,12 @@
 
 package org.kuali.kfs.gl.document.web.struts;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -41,9 +44,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
-import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
-import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.CorrectionChange;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
@@ -59,7 +59,6 @@ import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.service.GlCorrectionProcessOriginEntryService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
-import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -507,8 +506,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 List values = f.getKeyValues();
                 if (values.size() > 0) {
                     
-                    //TODO: Shawn - need to change using file
-                    //OriginEntryGroup g = CorrectionAction.originEntryGroupService.getNewestScrubberErrorGroup();
                     String newestScrubberErrorFileName = CorrectionAction.originEntryGroupService.getNewestScrubberErrorFileName();
                     //if (g != null) {
                     if (newestScrubberErrorFileName != null) {
@@ -541,64 +538,79 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * Called when copy group to desktop is selected
      */
     public ActionForward saveToDesktop(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        LOG.debug("saveToDesktop() started");
-//
-//        CorrectionForm correctionForm = (CorrectionForm) form;
-//
-//        if (checkOriginEntryGroupSelection(correctionForm)) {
-//            if (correctionForm.isInputGroupIdFromLastDocumentLoadIsMissing() && correctionForm.getInputGroupIdFromLastDocumentLoad() != null && correctionForm.getInputGroupIdFromLastDocumentLoad().equals(correctionForm.getInputGroupId())) {
-//                if (correctionForm.isPersistedOriginEntriesMissing()) {
-//                    GlobalVariables.getErrorMap().putError("documentsInSystem", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING);
-//                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
-//                }
-//                else {
-//                    String fileName = "glcp_archived_group_" + correctionForm.getInputGroupIdFromLastDocumentLoad().toString() + ".txt";
-//                    // set response
-//                    response.setContentType("application/txt");
-//                    response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-//                    response.setHeader("Expires", "0");
-//                    response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-//                    response.setHeader("Pragma", "public");
-//
-//                    BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
-//
-//                    SpringContext.getBean(CorrectionDocumentService.class).writePersistedInputOriginEntriesToStream((GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument(), bw);
-//
-//                    bw.flush();
-//                    bw.close();
-//
-//                    return null;
-//                }
-//            }
-//            else {
-//                OriginEntryGroup oeg = CorrectionAction.originEntryGroupService.getExactMatchingEntryGroup(correctionForm.getInputGroupId());
-//
-//                String fileName = oeg.getSource().getCode() + oeg.getId().toString() + "_" + oeg.getDate().toString() + ".txt";
-//
-//                // set response
-//                response.setContentType("application/txt");
-//                response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-//                response.setHeader("Expires", "0");
-//                response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-//                response.setHeader("Pragma", "public");
-//
-//                BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
-//
-//                // write to output
-//                CorrectionAction.originEntryService.flatFile(correctionForm.getInputGroupId(), bw);
-//
-//                bw.flush();
-//                bw.close();
-//
-//                return null;
-//            }
-//        }
-//        else {
-//            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-//        }
+        LOG.debug("saveToDesktop() started");
+
+        CorrectionForm correctionForm = (CorrectionForm) form;
+
+        if (checkOriginEntryGroupSelection(correctionForm)) {
+            if (correctionForm.isInputGroupIdFromLastDocumentLoadIsMissing() && correctionForm.getInputGroupIdFromLastDocumentLoad() != null && correctionForm.getInputGroupIdFromLastDocumentLoad().equals(correctionForm.getInputGroupId())) {
+                if (correctionForm.isPersistedOriginEntriesMissing()) {
+                    GlobalVariables.getErrorMap().putError("documentsInSystem", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+                else {
+                    String fileName = "glcp_archived_group_" + correctionForm.getInputGroupIdFromLastDocumentLoad().toString() + ".txt";
+                    // set response
+                    response.setContentType("application/txt");
+                    response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+                    response.setHeader("Expires", "0");
+                    response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+                    response.setHeader("Pragma", "public");
+
+                    BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
+
+                    SpringContext.getBean(CorrectionDocumentService.class).writePersistedInputOriginEntriesToStream((GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument(), bw);
+
+                    bw.flush();
+                    bw.close();
+
+                    return null;
+                }
+            }
+            else {
+
+                //String fileName = oeg.getSource().getCode() + oeg.getId().toString() + "_" + oeg.getDate().toString() + ".txt";
+                
+                File file = originEntryGroupService.getFileWithFileName(correctionForm.getInputGroupId());
+                FileReader fileReader = new FileReader(file.getPath());
+                BufferedReader br = new BufferedReader(fileReader);
+                
+                // set response
+                response.setContentType("application/txt");
+                response.setHeader("Content-disposition", "attachment; filename=" + correctionForm.getInputGroupId());
+                response.setHeader("Expires", "0");
+                response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+                response.setHeader("Pragma", "public");
+
+                BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
+
+                // write to output
+                buildTextOutputfile(bw, br);
+                
+                bw.flush();
+                bw.close();
+                br.close();
+                
+                return null;
+            }
+        }
+        else {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
         
-        //TODO: Shawn - Do it little later (delete below line after finishing implementing
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    
+    
+    public void buildTextOutputfile(BufferedOutputStream bw, BufferedReader br){
+        String line;
+        try {
+            while ((line = br.readLine()) != null) {
+                bw.write((line + "\n").getBytes());
+            }    
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -613,8 +625,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             GeneralLedgerCorrectionProcessDocument doc = (GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument();
             doc.setCorrectionInputFileName(correctionForm.getInputGroupId());
 
-            // TODO: Shawn - need to change using file - just size info will be enough
-            // TODO: Shawn - int will be enough? should I change it long??
             int inputGroupSize = originEntryService.getGroupCount(correctionForm.getInputGroupId());
             int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
             correctionForm.setPersistedOriginEntriesMissing(false);
@@ -637,7 +647,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             else {
                 correctionForm.setRestrictedFunctionalityMode(false);
                 
-                //TODO: Shawn - need to change using file
                 loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
 
                 if (correctionForm.getAllEntries().size() > 0) {
@@ -669,32 +678,33 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     /**
      * Called when a group is selected to be deleted
      */
-    //TODO: Shawn - implement later
     public ActionForward confirmDeleteDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("confirmDeleteDocument() started");
-//
-//        CorrectionForm correctionForm = (CorrectionForm) form;
-//
-//        if (checkOriginEntryGroupSelection(correctionForm)) {
-//            OriginEntryGroup oeg = originEntryGroupService.getExactMatchingEntryGroup(correctionForm.getInputGroupId());
-//            if (oeg.getProcess()) {
-//                int groupCount = originEntryService.getGroupCount(oeg.getId());
-//                int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
-//
-//                if (!CorrectionDocumentUtils.isRestrictedFunctionalityMode(groupCount, recordCountFunctionalityLimit)) {
-//                    loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
-//                    correctionForm.setDeleteFileFlag(true);
-//                    correctionForm.setDataLoadedFlag(true);
-//                    correctionForm.setRestrictedFunctionalityMode(false);
-//                }
-//                else {
-//                    correctionForm.setRestrictedFunctionalityMode(true);
-//                }
-//            }
-//            else {
-//                GlobalVariables.getErrorMap().putError("documentsInSystem", KFSKeyConstants.ERROR_GL_ERROR_GROUP_ALREADY_MARKED_NO_PROCESS);
-//            }
-//        }
+
+        CorrectionForm correctionForm = (CorrectionForm) form;
+
+        if (checkOriginEntryGroupSelection(correctionForm)) {
+            //OriginEntryGroup oeg = originEntryGroupService.getExactMatchingEntryGroup(correctionForm.getInputGroupId());
+            String doneFileName = correctionForm.getInputGroupId();
+            String dataFileName = doneFileName.replace(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION, GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            
+            int groupCount = originEntryService.getGroupCount(dataFileName);
+            int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
+
+            if (!CorrectionDocumentUtils.isRestrictedFunctionalityMode(groupCount, recordCountFunctionalityLimit)) {
+                loadAllEntries(dataFileName, correctionForm);
+                correctionForm.setDeleteFileFlag(true);
+                correctionForm.setDataLoadedFlag(true);
+                correctionForm.setRestrictedFunctionalityMode(false);
+            }
+            else {
+                correctionForm.setRestrictedFunctionalityMode(true);
+            }
+            
+            originEntryGroupService.deleteFile(doneFileName);
+            GeneralLedgerCorrectionProcessDocument document = (GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument();
+            document.setCorrectionInputFileName(dataFileName);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

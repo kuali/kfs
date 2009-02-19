@@ -1116,6 +1116,7 @@
 			<ref bean="originEntryGroupService" />
 		</property>
 		<property name="glcpDirectoryName" value="${staging.directory}/gl/correctionProcess"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 
 	<bean id="glCorrectionChangeDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.CorrectionChangeDaoOjb" />

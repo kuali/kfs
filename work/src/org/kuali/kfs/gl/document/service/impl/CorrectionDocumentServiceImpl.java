@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Date;
@@ -31,16 +32,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.dataaccess.CorrectionChangeDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionCriteriaDao;
-import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.dataaccess.CorrectionDocumentDao;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
@@ -74,8 +75,10 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
+    protected static final String GLCP_OUTPUT_PREFIX = "GLCP_OUTPUT";
 
     protected CorrectionDocumentDao correctionDocumentDao;
+    private String batchFileDirectoryName; 
 
     /**
      * Returns a specific correction change group for a GLCP document.  Defers to DAO.
@@ -709,7 +712,53 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             fileIn.close();
         }
     }
+    
+    public void createOutputFileForProcessing(String docId, java.util.Date today) {
+        File outputFile = new File(glcpDirectoryName + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX);
+        String newFileName = batchFileDirectoryName + File.separator + GLCP_OUTPUT_PREFIX + buildFileExtensionWithDate(today);
+        File newFile = new File (newFileName);
+        FileReader inputFileReader;
+        FileWriter newFileWriter;
+        
+        try{
+            // copy output file and put in OriginEntry directory
+            inputFileReader = new FileReader(outputFile);
+            newFileWriter = new FileWriter(newFile);
+            int c;
+            while ((c = inputFileReader.read()) != -1){
+                newFileWriter.write(c);
+            }
+            
+            inputFileReader.close();
+            newFileWriter.close();
+            
+            // create done file, after successfully copying output file
+            String doneFileName = newFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+            File doneFile = new File(doneFileName);
+            if (!doneFile.exists()){
+                doneFile.createNewFile();
+            }
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    protected String buildFileExtensionWithDate(java.util.Date date){
+
+        String timeString = date.toString();
+        String year = timeString.substring(timeString.length() - 4, timeString.length());
+        String month = timeString.substring(4, 7);
+        String day = timeString.substring(8, 10);
+        String hour = timeString.substring(11, 13);
+        String min = timeString.substring(14, 16);
+        String sec = timeString.substring(17, 19);
+        
+        return "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        
+        
+    }
+    
     /**
      * Saves the input and output origin entry groups for a document prior to saving the document
      * 
@@ -910,5 +959,9 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     public void setCorrectionDocumentDao(CorrectionDocumentDao correctionDocumentDao) {
         this.correctionDocumentDao = correctionDocumentDao;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 }

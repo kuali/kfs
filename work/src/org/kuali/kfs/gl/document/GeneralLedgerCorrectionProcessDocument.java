@@ -206,7 +206,12 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
 //                    outputGroup.setProcess(true);
 //                    originEntryGroupService.save(outputGroup);
 //                }
-                
+                //TODO: Shawn - need to save the output file to originEntry directory when correctionFileDelete is false
+                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+                Date today = dateTimeService.getCurrentDate();
+                if (!correctionFileDelete){
+                    correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
+                }
                 //TODO: Shawn - should call scrubber here......don't know why not below - handleRouteLevelChange method??
                 String fileNameWithPath = correctionDocumentService.generateOutputOriginEntryFileName(docId);
                 ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);

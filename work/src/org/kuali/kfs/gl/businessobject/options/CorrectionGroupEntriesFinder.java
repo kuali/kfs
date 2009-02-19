@@ -58,7 +58,7 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
         if (fileList != null){
             for (File file : fileList){
                 String fileName = file.getName();
-                if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.EXTENSION)){
+                if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.EXTENSION) || fileName.contains(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)){
                     activeLabels.add(new KeyLabelPair(fileName, fileName));
                 }
                 

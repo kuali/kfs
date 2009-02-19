@@ -190,6 +190,7 @@ public class GeneralLedgerConstants {
     
     public static class BatchFileSystem {
         static final public String EXTENSION = ".data";
+        static final public String DONE_FILE_EXTENSION = ".done"; 
         
         //TODO: Shawn - Should I move it to OriginEntrySource??
         static final public String SCRUBBER_ERROR_PREFIX = "SCRBERR1";

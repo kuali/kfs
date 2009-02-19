@@ -35,11 +35,12 @@
 	
 	<er:reportInformation />
 	
- 	<c:if test="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.PROJECT_ENTRY]}">
+	<c:set var="isSummaryTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.SUMMARY_TAB_ENTRY]}"/>
+ 	<c:if test="${isSummaryTabEntry}">
 		<er:summaryTab/>	
 	</c:if>
 	
-	<er:detailTab/>
+	<er:detailTab isOpen="${!isSummaryTabEntry}"/>
 	
 	<kul:notes />
 	

@@ -15,17 +15,16 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<%@ attribute name="isOpen" required="false" description="determine whehter the tab is open"%>
+
 <c:set var="documentAttributes"	value="${DataDictionary.EffortCertificationDocument.attributes}" />
 <c:set var="detailAttributes" value="${DataDictionary.EffortCertificationDetail.attributes}" />
 
 <c:set var="detailLines" value="${KualiForm.detailLines}"/>
 <c:set var="newDetailLine" value="${KualiForm.newDetailLine}"/>
-
-<c:set var="viewOnlyEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.VIEW_ONLY]}" />
-<c:set var="expenseEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.EXPENSE_ENTRY]}" />
 <c:set var="tabErrorKey" value="${expenseEntry ? EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS : '' }" />
 
-<kul:tab tabTitle="Effort Detail" defaultOpen="${viewOnlyEntry || expenseEntry}" tabErrorKey="${tabErrorKey}">	
+<kul:tab tabTitle="Effort Detail" defaultOpen="${isOpen}" tabErrorKey="${tabErrorKey}">	
 <c:choose>
 	<c:when test="${expenseEntry}">
 		<div class="tab-container" align=center>

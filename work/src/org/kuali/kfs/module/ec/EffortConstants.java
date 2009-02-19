@@ -112,15 +112,9 @@ public class EffortConstants extends JSTLConstants {
 
     public static final String GENERATE_EFFORT_CERTIFICATION_REPORT_DEFINITION_QUESTION_ID = "GenerateDefinitionQuestion";
 
-    public static class EffortCertificationEditMode {
-        public static final String UNVIEWABLE = TransactionalEditMode.UNVIEWABLE;
-        public static final String VIEW_ONLY = TransactionalEditMode.VIEW_ONLY;
-        public static final String FULL_ENTRY = TransactionalEditMode.FULL_ENTRY;
-        public static final String EXPENSE_ENTRY = TransactionalEditMode.EXPENSE_ENTRY;
-
-        public static final String PROJECT_ENTRY = "projectEntry";
-        
-        public static final String HAS_TOTAL_AMOUNT = "hasTotalAmount";
+    public static class EffortCertificationEditMode {        
+        public static final String DETAIL_TAB_ENTRY = "detailTabEntry";      
+        public static final String SUMMARY_TAB_ENTRY = "summaryTabEntry";
     }
     
     public static final List<String> DETAIL_LINES_CONSOLIDATION_FILEDS = getDetailLinesConsolidationFields();

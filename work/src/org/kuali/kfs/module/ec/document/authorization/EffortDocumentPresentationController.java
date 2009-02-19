@@ -15,57 +15,84 @@
  */
 package org.kuali.kfs.module.ec.document.authorization;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
+import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * Document Presentation Controller for the Effort Certification document.
- * allowsErrorCorrection property has been set to false in data dictionary entry
- * setHasAmountTotal property has been set to true in data dictionary entry
+ * Document Presentation Controller for the Effort Certification document. allowsErrorCorrection property has been set to false in
+ * data dictionary entry setHasAmountTotal property has been set to true in data dictionary entry
  */
 
 public class EffortDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
-    
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.kns.document.Document)
+     */
     @Override
     public boolean canCancel(Document document) {
-        return false ;
+        return false;
     }
-    
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canSave(org.kuali.rice.kns.document.Document)
+     */
     @Override
     public boolean canSave(Document document) {
-        return false ;
+        return false;
     }
-    
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.kns.document.Document)
+     */
     @Override
     public boolean canCopy(Document document) {
-            return false;
+        return false;
     }
-    
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.kns.document.Document)
+     */
     @Override
     public boolean canBlanketApprove(Document document) {
-        boolean canBlanketApproveValue = super.canBlanketApprove(document);
-
         boolean initiated = document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
-        if (initiated) {         
+        if (initiated) {
             return false;
         }
-        
-        return canBlanketApproveValue ;
+
+        return super.canBlanketApprove(document);
     }
- 
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.kns.document.Document)
+     */
     @Override
     public boolean canDisapprove(Document document) {
-        boolean canDisapproveValue = super.canDisapprove(document);
-        
-        boolean initiated = document.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
-        if (initiated) {         
+        boolean enroute = document.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+        if (enroute) {
             return false;
         }
-        
-        return canDisapproveValue;
+
+        return super.canDisapprove(document);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
+        editModes.add(EffortCertificationEditMode.DETAIL_TAB_ENTRY);
+        editModes.add(EffortCertificationEditMode.SUMMARY_TAB_ENTRY);
+
+        return editModes;
     }
 }

@@ -103,42 +103,8 @@
   
   
   <!-- Exported Workflow Attributes -->
-
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean"/>
-  
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
-	  <property name="documentValues">
-	  	<list>
-	  		<value>effortCertificationDetailLines.account.chartOfAccountsCode</value>
-	   	</list>
-	</property>
-  </bean>
-
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode" parent="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean"/>
-  
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode"/>
-	  <property name="documentValues">
-	  	<list>
-	  		<value>effortCertificationDetailLines.account.organizationCode</value>
-	   	</list>
-	</property>
-  </bean>   
-    
-  <bean id="RoutingType-EffortCertificationDocument-ProjectManagement" parent="RoutingType-EffortCertificationDocument-parentBean"/>
-  
-  <bean id="RoutingType-EffortCertificationDocument-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
-		        <ref bean="RoutingAttribute-accountNumber"/>
-    		</list>
-    	</property>
-  </bean>
  
   <bean id="EffortCertificationDocument-workflowAttributes" parent="EffortCertificationDocument-workflowAttributes-parentBean"/>
-
   <bean id="EffortCertificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 	  <property name="searchingTypeDefinitions">
 	  		<list>
@@ -188,12 +154,105 @@
   	  </property>
   	  <property name="routingTypeDefinitions">
   	  		<map>
-  	  			<entry key="ProjectManagement" value-ref="RoutingType-EffortCertificationDocument-ProjectManagement"/>
-  	  			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
-  	  			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
-  	  			
+  	  			<entry key="ProjectManagement" value-ref="RoutingType-EffortCertificationDocument-Account"/>
+  	  			<entry key="Account" value-ref="RoutingType-EffortCertificationDocument-Account"/>
+  	  			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-EffortCertificationDocument-OrganizationHierarchy"/>
+  	  			<entry key="Management" value-ref="RoutingType-EffortCertificationDocument-Award"/>
+  	  			<entry key="Award" value-ref="RoutingType-EffortCertificationDocument-Award"/>
   	  		</map>
   	  </property>	
-  </bean>		
+  </bean>
   
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean"/> 
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
+	  <property name="documentValues">
+	  	<list>
+	  		<value>effortCertificationDetailLines.account.chartOfAccountsCode</value>
+	   	</list>
+	</property>
+  </bean>
+
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode" parent="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean"/> 
+  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode"/>
+	  <property name="documentValues">
+	  	<list>
+	  		<value>effortCertificationDetailLines.account.organizationCode</value>
+	   	</list>
+	</property>
+  </bean>   
+
+	<!-- define the routing types -->    
+  <bean id="RoutingType-EffortCertificationDocument-Account" parent="RoutingType-EffortCertificationDocument-Account-parentBean"/>
+  <bean id="RoutingType-EffortCertificationDocument-Account-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+    			<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-accountNumber"/>
+    		</list>
+    	</property>    	
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-EffortCertificationDocument-Account-detailLines" />
+    		</list>
+    	</property>    	
+  </bean>
+  
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Account-detailLines" parent="DocumentValuePathGroup-EffortCertificationDocument-Account-detailLines-parentBean"/>  
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Account-detailLines-parentBean" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" abstract="true">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
+    			<property name="collectionPath" value="effortCertificationDetailLines" />
+    		</bean>
+    	</property>
+  </bean>	
+  
+  <bean id="RoutingType-EffortCertificationDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-organizationCode" />
+		        <ref bean="RoutingAttribute-overrideCode" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-EffortCertificationDocument-OrganizationHierarchy-detailLines" />
+    		</list>
+    	</property>
+  </bean>  
+    
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-OrganizationHierarchy-detailLines" parent="DocumentValuePathGroup-EffortCertificationDocument-OrganizationHierarchy-detailLines-parentBean"/>
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-OrganizationHierarchy-detailLines-parentBean" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" abstract="true">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-chartOrganizationAndOverrideCode">
+    			<property name="collectionPath" value="effortCertificationDetailLines" />
+    		</bean>
+    	</property>
+  </bean>
+  
+  <bean id="RoutingType-EffortCertificationDocument-Award" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-contractsAndGrantsAccountResponsibilityId" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-EffortCertificationDocument-Award-detailLines" />
+    		</list>
+    	</property>
+  </bean> 
+  
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Award-detailLines" parent="DocumentValuePathGroup-EffortCertificationDocument-Award-detailLines-parentBean"/>  
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Award-detailLines-parentBean" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" abstract="true">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-contractsAndGrantsAccountResponsibilityId">
+    			<property name="collectionPath" value="effortCertificationDetailLines" />
+    		</bean>
+    	</property>
+  </bean>   	
 </beans>

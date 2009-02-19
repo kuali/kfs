@@ -385,8 +385,8 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @param accountNumber the given account number
      * @return the descriptive information of the given account
      */
-    public static String buildAccountInfo(Account account) {
-        if (ObjectUtils.isNotNull(account)) {
+    public static String buildAccountInfo(Account account) {        
+        if (ObjectUtils.isNull(account)) {
             return KFSConstants.EMPTY_STRING;
         }
 
@@ -395,6 +395,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
         try {
             ContractsAndGrantsModuleService contractsAndGrantsModuleService = SpringContext.getBean(ContractsAndGrantsModuleService.class);
             Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
+            
             projectDirectorName = projectDirector != null ? MessageFormat.format("  ({0})", projectDirector.getName()) : KFSConstants.EMPTY_STRING;
         }
         catch (Exception e) {

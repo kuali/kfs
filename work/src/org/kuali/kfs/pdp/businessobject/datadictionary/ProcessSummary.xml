@@ -27,7 +27,7 @@
         <ref bean="ProcessSummary-endDisbursementNbr" />
         <ref bean="ProcessSummary-processTotalAmount" />
         <ref bean="ProcessSummary-processTotalCount" />
-        <ref bean="ProcessSummary-process.campus" />
+        <ref bean="ProcessSummary-process.campusCode" />
         <ref bean="ProcessSummary-process.processTimestamp" />
         <ref bean="ProcessSummary-process.processUser.name" />
         <ref bean="ProcessSummary-customer.chartCode" />
@@ -156,10 +156,10 @@
             p:size="32" />
     </property>
   </bean>
-  <bean id="ProcessSummary-process.campus" parent="ProcessSummary-process.campus-parentBean" />
+  <bean id="ProcessSummary-process.campusCode" parent="ProcessSummary-process.campusCode-parentBean" />
 
-  <bean id="ProcessSummary-process.campus-parentBean" abstract="true" parent="PaymentProcess-campus">
-    <property name="name" value="process.campus" />
+  <bean id="ProcessSummary-process.campusCode-parentBean" abstract="true" parent="PaymentProcess-campusCode">
+    <property name="name" value="process.campusCode" />
     <property name="label" value="Campus" />
     <property name="shortLabel" value="Campus" />
   </bean>
@@ -288,7 +288,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="processId" />
               <bean parent="FieldDefinition"
-                    p:attributeName="process.campus" />
+                    p:attributeName="process.campusCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="process.processUser.name" />
               <bean parent="FieldDefinition"

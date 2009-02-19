@@ -523,7 +523,7 @@
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentProcess" table="PDP_PROC_T">
     <field-descriptor name="id" column="PROC_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PROC_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
-    <field-descriptor name="campus" column="PHYS_CMP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="campusCode" column="PHYS_CMP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="processTimestamp" column="PROC_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="processUserId" column="PROC_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="extractedInd" column="EXTRACTED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -531,6 +531,10 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="formattedIndicator" column="FORMATTED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    
+    <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
+      <foreignkey field-ref="campusCode"/>
+    </reference-descriptor>
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.ProcessSummary" table="PDP_PROC_SUM_T">

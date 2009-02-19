@@ -26,59 +26,111 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.util.KualiInteger;
 
+
 /**
- * 
+ * This class represents a Payment Process.
  */
 public class PaymentProcess extends TimestampedBusinessObjectBase {
     private KualiInteger id;
     private Timestamp processTimestamp;
-    private String campus;
+    private String campusCode;
     private String processUserId;
     private Person processUser;
     private boolean extractedInd;
     private boolean formattedIndicator;
-    
+
+    private Campus campus;
+
+    /**
+     * Constructs a PaymentProcess.
+     */
     public PaymentProcess() {
         super();
         this.setExtractedInd(false);
     }
 
+    /**
+     * This method updates the user based on processUserId.
+     * 
+     * @param userService
+     */
     public void updateUser(org.kuali.rice.kim.service.PersonService userService) {
         Person u = userService.getPerson(processUserId);
         setProcessUser(u);
     }
 
-    public String getCampus() {
-        return campus;
+    /**
+     * This method gets the campusCode.
+     * 
+     * @return campusCode
+     */
+    public String getCampusCode() {
+        return campusCode;
     }
 
-    public void setCampus(String campus) {
-        this.campus = campus;
+    /**
+     * This method sets the campusCode.
+     * 
+     * @param campusCode
+     */
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
     }
 
+    /**
+     * This method gets the Id.
+     * 
+     * @return id
+     */
     public KualiInteger getId() {
         return id;
     }
 
+    /**
+     * This method sets the id.
+     * 
+     * @param id
+     */
     public void setId(KualiInteger id) {
         this.id = id;
     }
 
+    /**
+     * This method gets the processTimestamp
+     * 
+     * @return processTimestamp
+     */
     public Timestamp getProcessTimestamp() {
         return processTimestamp;
     }
 
+    /**
+     * This method sets the processTimestamp.
+     * 
+     * @param processTimestamp
+     */
     public void setProcessTimestamp(Timestamp processTimestamp) {
         this.processTimestamp = processTimestamp;
     }
 
+    /**
+     * This method gets the processUser.
+     * 
+     * @return processUser
+     */
     public Person getProcessUser() {
         processUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(processUserId, processUser);
         return processUser;
     }
 
+    /**
+     * This method sets the processUser.
+     * 
+     * @param processUser
+     */
     public void setProcessUser(Person processUser) {
         if (processUser != null) {
             processUserId = processUser.getPrincipalId();
@@ -86,36 +138,58 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
         this.processUser = processUser;
     }
 
+    /**
+     * This method gets the processUserId.
+     * 
+     * @return processUserId
+     */
     public String getProcessUserId() {
         return processUserId;
     }
 
+    /**
+     * This method sets the processUserId.
+     * 
+     * @param processUserId
+     */
     public void setProcessUserId(String processUserId) {
         this.processUserId = processUserId;
     }
-    
+
+
     /**
+     * This method gets the extractedInd.
      * 
-     * returns extractedInd
-     * @return
+     * @return extractedInd
      */
     public boolean isExtractedInd() {
         return extractedInd;
     }
-    
+
+
     /**
+     * This method sets the extractedInd.
      * 
-     * Sets extractedInd
      * @param extractedInd
      */
     public void setExtractedInd(boolean extractedInd) {
         this.extractedInd = extractedInd;
     }
 
+    /**
+     * This method gets the formattedIndicator.
+     * 
+     * @return formattedIndicator
+     */
     public boolean isFormattedIndicator() {
         return formattedIndicator;
     }
 
+    /**
+     * This method sets the formattedIndicator.
+     * 
+     * @param formattedIndicator
+     */
     public void setFormattedIndicator(boolean formattedIndicator) {
         this.formattedIndicator = formattedIndicator;
     }
@@ -126,11 +200,28 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        
+
         m.put(KFSPropertyConstants.ID, this.id);
 
         return m;
     }
 
-}
+    /**
+     * This method gets the campus.
+     * 
+     * @return campus
+     */
+    public Campus getCampus() {
+        return campus;
+    }
 
+    /**
+     * This method sets the campus.
+     * 
+     * @param campus
+     */
+    public void setCampus(Campus campus) {
+        this.campus = campus;
+    }
+
+}

@@ -18,7 +18,7 @@
     <property name="attributes" >
       <list>
         <ref bean="PaymentProcess-id" />
-        <ref bean="PaymentProcess-campus" />
+        <ref bean="PaymentProcess-campusCode" />
         <ref bean="PaymentProcess-processTimestamp" />
         <ref bean="PaymentProcess-processUser.name" />   
         <ref bean="PaymentProcess-extractedInd" />
@@ -45,20 +45,12 @@
             p:size="32" />
     </property>
   </bean>
-  <bean id="PaymentProcess-campus" parent="PaymentProcess-campus-parentBean" />
+  <bean id="PaymentProcess-campusCode" parent="PaymentProcess-campusCode-parentBean" />
 
-  <bean id="PaymentProcess-campus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="campus" />
-    <property name="label" value="Process campus" />
-    <property name="shortLabel" value="Campus" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
-    </property>
+  <bean id="PaymentProcess-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+    <property name="name" value="campusCode" />
+    <property name="label" value="Process Campus" />
+    <property name="shortLabel" value="campusCode" />
   </bean>
   <bean id="PaymentProcess-processTimestamp" parent="PaymentProcess-processTimestamp-parentBean" />
 
@@ -125,7 +117,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="id" />    
               <bean parent="FieldDefinition"
-                    p:attributeName="campus" />  
+                    p:attributeName="campusCode" />  
               <bean parent="FieldDefinition"
                     p:attributeName="processUser.name" />                                                                                           
               <bean parent="FieldDefinition"
@@ -161,7 +153,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="id" />
               <bean parent="FieldDefinition"
-                    p:attributeName="campus" />                               
+                    p:attributeName="campusCode" />                               
               <bean parent="FieldDefinition"
                     p:attributeName="processTimestamp" 
                     p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.options.PaymentProcessTimestampFinder" />                     
@@ -172,7 +164,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="id" />      
               <bean parent="FieldDefinition"
-                    p:attributeName="campus" />    
+                    p:attributeName="campusCode" />    
               <bean parent="FieldDefinition"
                     p:attributeName="processUser.name" />  
               <bean parent="FieldDefinition"

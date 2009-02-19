@@ -212,7 +212,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         try {
             os = new BufferedWriter(new FileWriter(filename));
             os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-            writeOpenTagAttribute(os, 0, "checks", "processId", processId.toString(), "campus", p.getCampus());
+            writeOpenTagAttribute(os, 0, "checks", "processId", processId.toString(), "campusCode", p.getCampusCode());
 
             List<Integer> disbNbrs = paymentGroupService.getDisbursementNumbersByDisbursementType(processId, PdpConstants.DisbursementTypeCodes.CHECK);
             for (Iterator iter = disbNbrs.iterator(); iter.hasNext();) {
@@ -327,7 +327,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
                 writeOpenTagAttribute(os, 2, "ach", "disbursementNbr", paymentGroup.getDisbursementNbr().toString());
                 PaymentProcess paymentProcess = paymentGroup.getProcess();
-                writeTag(os, 4, "processCampus", paymentProcess.getCampus());
+                writeTag(os, 4, "processCampus", paymentProcess.getCampusCode());
                 writeTag(os, 4, "processId", paymentProcess.getId().toString());
 
                 writeBank(os, 4, paymentGroup.getBank());

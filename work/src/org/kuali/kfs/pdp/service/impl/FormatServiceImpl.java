@@ -148,7 +148,7 @@ public class FormatServiceImpl implements FormatService {
         // Create the process
         Date d = new Date();
         PaymentProcess paymentProcess = new PaymentProcess();
-        paymentProcess.setCampus(campus);
+        paymentProcess.setCampusCode(campus);
         paymentProcess.setProcessUser(user);
         paymentProcess.setProcessTimestamp(new Timestamp(d.getTime()));
 
@@ -214,7 +214,7 @@ public class FormatServiceImpl implements FormatService {
             LOG.error("performFormat() Invalid proc ID " + processId);
             throw new RuntimeException("Invalid proc ID");
         }
-        String campus = paymentProcess.getCampus();
+        String campus = paymentProcess.getCampusCode();
         
         //get disbursement types, payment statuses
         DisbursementType checkDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
@@ -305,7 +305,7 @@ public class FormatServiceImpl implements FormatService {
         paymentGroup.setSortValue(paymentGroupService.getSortGroupId(paymentGroup));
 
         paymentGroup.setDisbursementDate(paymentProcess.getProcessTimestamp());
-        paymentGroup.setPhysCampusProcessCd(paymentProcess.getCampus());
+        paymentGroup.setPhysCampusProcessCd(paymentProcess.getCampusCode());
         paymentGroup.setProcess(paymentProcess);
 
         // If any one of the payment details in the group are negative, we always force a check
@@ -531,7 +531,7 @@ public class FormatServiceImpl implements FormatService {
 
         formatPaymentDao.unmarkPaymentsForFormat(paymentProcess);
 
-        endFormatProcess(paymentProcess.getCampus());
+        endFormatProcess(paymentProcess.getCampusCode());
     }
 
     /**

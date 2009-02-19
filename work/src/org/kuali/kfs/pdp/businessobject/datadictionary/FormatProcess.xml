@@ -24,6 +24,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="FormatProcess-paymentProcIdentifier" />
         <ref bean="FormatProcess-paymentProcess.extractedInd" />
         <ref bean="FormatProcess-paymentProcess.formattedIndicator" />
+        <ref bean="FormatProcess-paymentProcess.campusCode" />
       </list>
     </property>
   </bean>
@@ -61,6 +62,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="FormatProcess-paymentProcess.formattedIndicator-parentBean" abstract="true" parent="PaymentProcess-formattedIndicator" >
   	<property name="name" value="paymentProcess.formattedIndicator" />
+  </bean>
+  <bean id="FormatProcess-paymentProcess.campusCode" parent="FormatProcess-paymentProcess.campusCode-parentBean" />
+  
+  <bean id="FormatProcess-paymentProcess.campusCode-parentBean" abstract="true" parent="PaymentProcess-campusCode" >
+  	<property name="name" value="paymentProcess.campusCode" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->
@@ -115,7 +121,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="physicalCampusProcessCode" />
+              p:attributeName="paymentProcess.campusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="beginFormat" />             
         <bean parent="FieldDefinition"

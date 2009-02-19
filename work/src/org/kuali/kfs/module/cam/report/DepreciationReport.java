@@ -45,9 +45,8 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class DepreciationReport {
-    
-    private DateTimeService dateTimeService;
-    
+
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepreciationReport.class);
     private int pageNumber = 0;
     private int line = 0;
@@ -56,7 +55,6 @@ public class DepreciationReport {
     private PdfWriter writer;
 
     /**
-     * 
      * This method creates the report file and invokes the methods that write the data
      * 
      * @param reportLog
@@ -64,6 +62,7 @@ public class DepreciationReport {
      */
     public void generateReport(List<String[]> reportLog, String errorMsg, String sDepreciationDate) {
         try {
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             LOG.debug("createReport() started");
             this.document = new Document();
 
@@ -71,22 +70,22 @@ public class DepreciationReport {
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
-            String filename = destinationDirectory + "/" + CamsConstants.Report.FILE_PREFIX + "_" + CamsConstants.Depreciation.REPORT_FILE_NAME + "_"+sdf.format(dateTimeService.getCurrentDate()) + "." + CamsConstants.Report.REPORT_EXTENSION;
-            
+            String filename = destinationDirectory + "/" + CamsConstants.Report.FILE_PREFIX + "_" + CamsConstants.Depreciation.REPORT_FILE_NAME + "_" + sdf.format(dateTimeService.getCurrentDate()) + "." + CamsConstants.Report.REPORT_EXTENSION;
+
             Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
 
             PageHelper helper = new PageHelper();
-            helper.runDate      = dateTimeService.getCurrentDate();
-            helper.headerFont   = headerFont;
-            helper.title        = CamsConstants.Depreciation.DEPRECIATION_REPORT_TITLE;
-            
+            helper.runDate = dateTimeService.getCurrentDate();
+            helper.headerFont = headerFont;
+            helper.title = CamsConstants.Depreciation.DEPRECIATION_REPORT_TITLE;
+
             writer = PdfWriter.getInstance(this.document, new FileOutputStream(filename));
             writer.setPageEvent(helper);
 
             this.document.open();
 
             // Generate body of document.
-            //this.generateDepreciationDateLabel(sDepreciationDate);            
+            // this.generateDepreciationDateLabel(sDepreciationDate);
             this.generateReportLogBody(reportLog);
             this.generateReportErrorLog(errorMsg);
 
@@ -102,7 +101,6 @@ public class DepreciationReport {
     }
 
     /**
-     * 
      * This method adds the log lines into the report
      * 
      * @param reportLog
@@ -159,7 +157,6 @@ public class DepreciationReport {
     }
 
     /**
-     * 
      * This method adds any error to the report
      * 
      * @param errorMsg
@@ -184,8 +181,8 @@ public class DepreciationReport {
     }
 
     /**
-     * 
      * This method creates a report group for the error message on the report
+     * 
      * @throws DocumentException
      */
     private void generateErrorColumnHeaders() throws DocumentException {
@@ -216,43 +213,21 @@ public class DepreciationReport {
             throw new RuntimeException("DepreciationReport.generateErrorColumnHeaders() - Error: " + e.getMessage());
         }
     }
-/**
- * 
- * This method inserts the depreciation date on the report
- * @param sDepreciationDate
- *
-    private void generateDepreciationDateLabel(String sDepreciationDate) {
-        try {
-            int headerwidths[] = { 100 };
-
-            Table aTable = new Table(1, 1); // 1 columns, 1 rows.
-
-            aTable.setAutoFillEmptyCells(true);
-            aTable.setPadding(3);
-            aTable.setWidths(headerwidths);
-            aTable.setWidth(100);
-            aTable.setBorder(0);
-            
-            Cell cell;
-
-            Font font = FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL);
-
-            cell = new Cell(new Phrase("Depreciation Date: "+sDepreciationDate, font));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_CENTER);
-            cell.setBorder(0);
-            aTable.addCell(cell);
-
-            this.document.add(aTable);
-
-        }
-        catch (Exception e) {
-            throw new RuntimeException("DepreciationReport.generateDepreciationDateLabel() - Error: " + e.getMessage());
-        }
-    }*/
 
     /**
+     * This method inserts the depreciation date on the report
      * 
+     * @param sDepreciationDate private void generateDepreciationDateLabel(String sDepreciationDate) { try { int headerwidths[] = {
+     *        100 }; Table aTable = new Table(1, 1); // 1 columns, 1 rows. aTable.setAutoFillEmptyCells(true); aTable.setPadding(3);
+     *        aTable.setWidths(headerwidths); aTable.setWidth(100); aTable.setBorder(0); Cell cell; Font font =
+     *        FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL); cell = new Cell(new Phrase("Depreciation Date:
+     *        "+sDepreciationDate, font)); cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+     *        cell.setVerticalAlignment(Element.ALIGN_CENTER); cell.setBorder(0); aTable.addCell(cell); this.document.add(aTable); }
+     *        catch (Exception e) { throw new RuntimeException("DepreciationReport.generateDepreciationDateLabel() - Error: " +
+     *        e.getMessage()); } }
+     */
+
+    /**
      * This method creates the headers for the report statistics
      */
     private void generateColumnHeaders() {
@@ -305,15 +280,15 @@ public class DepreciationReport {
          */
         public void onEndPage(PdfWriter writer, Document document) {
             try {
-                Font titleFont  = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
-                Font font       = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL);
-                
+                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
+                Font font = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL);
+
                 Rectangle page = document.getPageSize();
                 PdfPTable head = new PdfPTable(3);
-                
-                int[] widths = {15, 70, 15};
+
+                int[] widths = { 15, 70, 15 };
                 head.setWidths(widths);
-                
+
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
                 PdfPCell cell = new PdfPCell(new Phrase(sdf.format(runDate), font));
@@ -332,7 +307,8 @@ public class DepreciationReport {
 
                 head.setTotalWidth(page.width() - document.leftMargin() - document.rightMargin());
                 head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
-                //head.writeSelectedRows(1, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
+                // head.writeSelectedRows(1, -1, document.leftMargin(), page.height() - document.topMargin() +
+                // head.getTotalHeight(), writer.getDirectContent());
             }
             catch (Exception e) {
                 throw new ExceptionConverter(e);

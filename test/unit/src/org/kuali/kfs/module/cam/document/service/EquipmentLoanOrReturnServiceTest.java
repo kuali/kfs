@@ -38,6 +38,7 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
         this.asset = new Asset() {
             @Override
             public void refreshReferenceObject(String referenceObjectName) {

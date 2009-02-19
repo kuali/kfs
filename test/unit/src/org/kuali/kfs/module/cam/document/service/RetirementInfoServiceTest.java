@@ -25,6 +25,7 @@ import org.kuali.kfs.module.cam.document.service.impl.AssetServiceImpl;
 import org.kuali.kfs.module.cam.document.service.impl.RetirementInfoServiceImpl;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterServiceImpl;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
@@ -38,6 +39,7 @@ public class RetirementInfoServiceTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
         this.retirementInfoService = new RetirementInfoServiceImpl();
         this.retirementInfoService.setParameterService(createParameterService());
         AssetServiceImpl assetServiceImpl = new AssetServiceImpl();

@@ -38,6 +38,7 @@ public class PreAssetTaggingStepTest extends BatchTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         preAssetTaggingStep = SpringContext.getBean(PreAssetTaggingStep.class);
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
     }
 
     public void testExecute() throws Exception {
@@ -65,4 +66,3 @@ public class PreAssetTaggingStepTest extends BatchTestBase {
         return match;
     }
 }
-

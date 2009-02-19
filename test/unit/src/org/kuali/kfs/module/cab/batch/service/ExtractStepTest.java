@@ -72,6 +72,7 @@ public class ExtractStepTest extends BatchTestBase {
         extractStep = SpringContext.getBean(ExtractStep.class);
         extractStep.setBatchExtractReportService(new MockBatchExtractReportService());
         boService = SpringContext.getBean(BusinessObjectService.class);
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
     }
 
     @Override

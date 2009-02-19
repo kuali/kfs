@@ -122,5 +122,23 @@ public class AssetDateServiceImpl implements AssetDateService {
         this.universityDateService = universityDateService;
     }
 
+    /**
+     * Gets the dateTimeService attribute.
+     * 
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
 
 }

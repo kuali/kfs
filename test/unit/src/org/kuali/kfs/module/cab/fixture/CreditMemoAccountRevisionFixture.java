@@ -28,11 +28,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum CreditMemoAccountRevisionFixture {
-    
     REC1 {
-        
-        private DateTimeService dateTimeService;
-        
         @Override
         public CreditMemoAccountRevision newRecord() {
             CreditMemoAccountRevision obj = new CreditMemoAccountRevision();
@@ -43,13 +39,13 @@ public enum CreditMemoAccountRevisionFixture {
             obj.setFinancialObjectCode("7000");
             obj.setAmount(new KualiDecimal(7000));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     };
-    
+
     public abstract CreditMemoAccountRevision newRecord();
 
     public static void setUpData() {

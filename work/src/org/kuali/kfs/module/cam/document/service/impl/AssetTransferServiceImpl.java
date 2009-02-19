@@ -434,7 +434,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
             saveAsset.getAssetLocations().add(offCampusLocation);
         }
-        // save details        
+        // save details
         offCampusLocation.setAssetLocationContactName(document.getOffCampusName());
         offCampusLocation.setAssetLocationState(document.getOffCampusState());
         offCampusLocation.setPostalZipCode(document.getPostalZipCode());
@@ -505,5 +505,23 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     public void setAssetObjectCodeService(AssetObjectCodeService assetObjectCodeService) {
         this.assetObjectCodeService = assetObjectCodeService;
+    }
+
+    /**
+     * Gets the dateTimeService attribute.
+     * 
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

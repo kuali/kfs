@@ -226,6 +226,7 @@
     <bean id="assetDateService" class="org.kuali.kfs.module.cam.document.service.impl.AssetDateServiceImpl">
     	<property name="assetService" ref="assetService"></property>
     	<property name="universityDateService" ref="universityDateService"/>
+    	<property name="dateTimeService" ref="dateTimeService" />
     </bean>
     
     <bean id="assetLocationService" class="org.kuali.kfs.module.cam.document.service.impl.AssetLocationServiceImpl">
@@ -256,6 +257,7 @@
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="assetPaymentService" ref="assetPaymentService" />
     	<property name="assetObjectCodeService" ref="assetObjectCodeService" />
+    	<property name="dateTimeService" ref="dateTimeService" />
     </bean>
     
     <bean id="assetRetirementService" class="org.kuali.kfs.module.cam.document.service.impl.AssetRetirementServiceImpl">

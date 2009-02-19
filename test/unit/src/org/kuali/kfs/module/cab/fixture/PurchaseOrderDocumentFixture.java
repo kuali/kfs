@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cab.fixture;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -29,7 +28,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 public enum PurchaseOrderDocumentFixture {
 
     REC1 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PurchaseOrderDocument newRecord() {
             PurchaseOrderDocument obj = new PurchaseOrderDocument();
@@ -65,7 +64,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setDeliveryToName("stoole");
             obj.setChartOfAccountsCode("UA");
             obj.setOrganizationCode("VPIT");
-            obj.setPurchaseOrderCreateTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setPurchaseOrderCreateTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPurchaseOrderCostSourceCode("EST");
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
@@ -78,12 +77,12 @@ public enum PurchaseOrderDocumentFixture {
             obj.setBillingPhoneNumber("892-973-8392");
             obj.setContractManagerCode(10);
             obj.setPurchaseOrderAutomaticIndicator(false);
-            obj.setPurchaseOrderInitialOpenTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
-            obj.setPurchaseOrderLastTransmitTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setPurchaseOrderInitialOpenTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setPurchaseOrderLastTransmitTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPurchaseOrderConfirmedIndicator(false);
             obj.setPurchaseOrderCurrentIndicator(true);
             obj.setPendingActionIndicator(false);
-            obj.setPurchaseOrderFirstTransmissionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setPurchaseOrderFirstTransmissionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setAccountsPayablePurchasingDocumentLinkIdentifier(21);
             obj.setReceivingDocumentRequiredIndicator(false);
             obj.setPaymentRequestPositiveApprovalIndicator(false);
@@ -95,7 +94,7 @@ public enum PurchaseOrderDocumentFixture {
         };
     },
     REC2 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PurchaseOrderDocument newRecord() {
             PurchaseOrderDocument obj = new PurchaseOrderDocument();
@@ -131,7 +130,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setDeliveryToName("stoole");
             obj.setChartOfAccountsCode("UA");
             obj.setOrganizationCode("VPIT");
-            obj.setPurchaseOrderCreateTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setPurchaseOrderCreateTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPurchaseOrderCostSourceCode("EST");
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
@@ -144,12 +143,12 @@ public enum PurchaseOrderDocumentFixture {
             obj.setBillingPhoneNumber("892-973-8392");
             obj.setContractManagerCode(10);
             obj.setPurchaseOrderAutomaticIndicator(false);
-            obj.setPurchaseOrderInitialOpenTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
-            obj.setPurchaseOrderLastTransmitTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setPurchaseOrderInitialOpenTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setPurchaseOrderLastTransmitTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPurchaseOrderConfirmedIndicator(false);
             obj.setPurchaseOrderCurrentIndicator(true);
             obj.setPendingActionIndicator(false);
-            obj.setPurchaseOrderFirstTransmissionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setPurchaseOrderFirstTransmissionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setAccountsPayablePurchasingDocumentLinkIdentifier(21);
             obj.setReceivingDocumentRequiredIndicator(false);
             obj.setPaymentRequestPositiveApprovalIndicator(false);
@@ -161,7 +160,7 @@ public enum PurchaseOrderDocumentFixture {
         };
     },
     REC3 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PurchaseOrderDocument newRecord() {
             PurchaseOrderDocument obj = new PurchaseOrderDocument();
@@ -197,7 +196,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setDeliveryToName("stoole");
             obj.setChartOfAccountsCode("UA");
             obj.setOrganizationCode("VPIT");
-            obj.setPurchaseOrderCreateTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setPurchaseOrderCreateTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPurchaseOrderCostSourceCode("EST");
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
@@ -210,12 +209,12 @@ public enum PurchaseOrderDocumentFixture {
             obj.setBillingPhoneNumber("892-973-8392");
             obj.setContractManagerCode(10);
             obj.setPurchaseOrderAutomaticIndicator(false);
-            obj.setPurchaseOrderInitialOpenTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
-            obj.setPurchaseOrderLastTransmitTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setPurchaseOrderInitialOpenTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            obj.setPurchaseOrderLastTransmitTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPurchaseOrderConfirmedIndicator(false);
             obj.setPurchaseOrderCurrentIndicator(true);
             obj.setPendingActionIndicator(false);
-            obj.setPurchaseOrderFirstTransmissionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setPurchaseOrderFirstTransmissionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setAccountsPayablePurchasingDocumentLinkIdentifier(21);
             obj.setReceivingDocumentRequiredIndicator(false);
             obj.setPaymentRequestPositiveApprovalIndicator(false);

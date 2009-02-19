@@ -17,7 +17,6 @@ package org.kuali.kfs.module.cab.fixture;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
@@ -30,7 +29,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public enum PaymentRequestAccountRevisionFixture {
 
     REC1 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -41,14 +40,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(750));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC2 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -59,14 +58,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(250));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC3 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -77,14 +76,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(10800));
             obj.setAccountLinePercent(new BigDecimal(60));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC4 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -95,14 +94,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(7200));
             obj.setAccountLinePercent(new BigDecimal(40));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC5 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -113,14 +112,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7000");
             obj.setAmount(new KualiDecimal(14000));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC6 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -131,14 +130,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(750));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC7 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -149,14 +148,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(250));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC8 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -167,14 +166,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(10800));
             obj.setAccountLinePercent(new BigDecimal(60));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC9 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -185,14 +184,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(7200));
             obj.setAccountLinePercent(new BigDecimal(40));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC10 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -203,14 +202,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7000");
             obj.setAmount(new KualiDecimal(14000));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC11 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -221,14 +220,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(750));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC12 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -239,14 +238,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(250));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC13 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -257,14 +256,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(10800));
             obj.setAccountLinePercent(new BigDecimal(60));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC14 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -275,14 +274,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7015");
             obj.setAmount(new KualiDecimal(7200));
             obj.setAccountLinePercent(new BigDecimal(40));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC15 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -293,14 +292,14 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7000");
             obj.setAmount(new KualiDecimal(14000));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;
         };
     },
     REC16 {
-        private DateTimeService dateTimeService;
+
         @Override
         public PaymentRequestAccountRevision newRecord() {
             PaymentRequestAccountRevision obj = new PaymentRequestAccountRevision();
@@ -311,7 +310,7 @@ public enum PaymentRequestAccountRevisionFixture {
             obj.setFinancialObjectCode("7000");
             obj.setAmount(new KualiDecimal(-3000));
             obj.setAccountLinePercent(new BigDecimal(100));
-            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(dateTimeService.getCurrentDate().getTime()));
+            obj.setAccountRevisionTimestamp(new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setPostingYear(2009);
             obj.setPostingPeriodCode("01");
             return obj;

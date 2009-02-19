@@ -59,6 +59,7 @@ public abstract class BatchTestBase extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
         updateLastExtractTime();
         prepareTestDataRecords();
     }

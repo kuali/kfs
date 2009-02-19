@@ -65,8 +65,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Campus" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:exactLength="2" />
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"

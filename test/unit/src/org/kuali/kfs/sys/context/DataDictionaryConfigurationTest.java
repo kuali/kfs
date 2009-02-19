@@ -71,11 +71,13 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
         for (DocumentEntry documentEntry : documentEntries) {
             String name = documentEntry.getDocumentTypeName();
-            String boName = new String(" ");
+            String testName = new String(" ");
             if (documentEntry instanceof FinancialSystemMaintenanceDocumentEntry){
-                boName=((FinancialSystemMaintenanceDocumentEntry)documentEntry).getBusinessObjectClass().getName();
+                testName=((FinancialSystemMaintenanceDocumentEntry)documentEntry).getBusinessObjectClass().getName();
+            }else{
+                testName=documentEntry.getDocumentClass().getName();
             }
-            if (!workflowDocumentTypeNames.contains(name) && !"RiceUserMaintenanceDocument".equals(name) && !boName.contains("rice")) {
+            if (!workflowDocumentTypeNames.contains(name) && !"RiceUserMaintenanceDocument".equals(name) && !testName.contains("rice")) {
                 ddEntriesWithMissingTypes.add(name);
             }
             else {

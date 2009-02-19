@@ -63,6 +63,10 @@
           <bean parent="MaintainableFieldDefinition" p:name="customerDescription" p:required="true"/>
           <bean parent="MaintainableFieldDefinition" p:name="defaultPhysicalCampusProcessingCode" p:required="true"/>
           <bean parent="MaintainableFieldDefinition" p:name="processingEmailAddr" p:required="true"/>
+          <bean parent="MaintainableFieldDefinition" p:name="fileThresholdAmount" p:required="true"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="fileThresholdEmailAddress" p:required="true"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="paymentThresholdAmount" p:required="true"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="paymentThresholdEmailAddress" p:required="true"/>
           <bean parent="MaintainableFieldDefinition" p:name="contactFullName" p:required="true"/>
           <bean parent="MaintainableFieldDefinition" p:name="address1" p:required="true"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="address2" p:required="false"/>
@@ -84,7 +88,8 @@
     <property name="title" value="Customer Check/ACH" />
     <property name="maintainableItems" >
       <list>	  
-      	  <bean parent="MaintainableFieldDefinition" p:name="achPaymentDescription" p:required="false"/>
+      	  <bean parent="MaintainableFieldDefinition" p:name="adviceCreate" p:required="false"/>
+	      <bean parent="MaintainableFieldDefinition" p:name="achPaymentDescription" p:required="false"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine1" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine2" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine3" p:required="false"/>
@@ -108,25 +113,19 @@
     <property name="title" value="Customer Processing" />
     <property name="maintainableItems" >
       <list>	    
-          <bean parent="MaintainableFieldDefinition" p:name="adviceCreate" p:required="false"/>
-	      <bean parent="MaintainableFieldDefinition" p:name="defaultChartCode" p:required="true"/>
+          <bean parent="MaintainableFieldDefinition" p:name="defaultChartCode" p:required="true"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="defaultAccountNumber" p:required="true"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="defaultSubAccountNumber" p:required="true"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="defaultObjectCode" p:required="true"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="defaultSubObjectCode" p:required="true"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="employeeCheck" p:required="false"/>
-	      <bean parent="MaintainableFieldDefinition" p:name="fileThresholdAmount" p:required="true"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="fileThresholdEmailAddress" p:required="true"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="nraReview" p:required="false"/>
+	      <bean parent="MaintainableFieldDefinition" p:name="nraReview" p:required="false"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="ownershipCodeRequired" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="payeeIdRequired" p:required="false"/>
-	      <bean parent="MaintainableFieldDefinition" p:name="paymentThresholdAmount" p:required="true"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="paymentThresholdEmailAddress" p:required="true"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="achTransactionType" p:required="false"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="accountingEditRequired" p:required="false"/>
+	      <bean parent="MaintainableFieldDefinition" p:name="accountingEditRequired" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="relieveLiabilities" p:required="false"/>
-		  
-      </list>
+		  <bean parent="MaintainableFieldDefinition" p:name="achTransactionType" p:required="false"/>
+	  </list>
     </property>
   </bean>
   

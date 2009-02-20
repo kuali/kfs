@@ -695,7 +695,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         criteriaId.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
-        String newAttr = ColumnNames.BEGINNING_BALANCE + "-" + ColumnNames.ANNUAL_BALANCE;
+        String newAttr = ColumnNames.BEGINNING_BALANCE + "+" + ColumnNames.ANNUAL_BALANCE;
         criteriaId.addNotEqualTo(newAttr, 0);
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.SUB_ACCOUNT_NUMBER };
         ReportQueryByCriteria queryId = new ReportQueryByCriteria(Balance.class, queryAttr, criteriaId, true);

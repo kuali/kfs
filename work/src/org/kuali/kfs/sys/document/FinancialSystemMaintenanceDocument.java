@@ -125,9 +125,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
-        if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-            getDocumentHeader().setDocumentFinalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-        }
+        
         super.handleRouteStatusChange();
     }
     

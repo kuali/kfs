@@ -32,8 +32,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
     private String correctedByDocumentId;
     private String financialDocumentInErrorNumber;
     private String financialDocumentStatusCode;
-    private Date documentFinalDate;
-
+    
     /**
      * Constructor - creates empty instances of dependent objects
      * 
@@ -132,15 +131,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
      * @return Returns the documentFinalDate.
      */
     public Date getDocumentFinalDate() {
-        return documentFinalDate;
-    }
-
-    /**
-     * Sets the documentFinalDate attribute value.
-     * @param documentFinalDate The documentFinalDate to set.
-     */
-    public void setDocumentFinalDate(Date documentFinalDate) {
-        this.documentFinalDate = documentFinalDate;
+        return  new java.sql.Date(this.getWorkflowDocument().getRouteHeader().getDateFinalized().getTime().getTime());
     }
 
 }

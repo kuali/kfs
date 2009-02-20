@@ -20,8 +20,7 @@
         conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="financialDocumentInErrorNumber" column="FDOC_IN_ERR_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentStatusCode" column="FDOC_STATUS_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="documentFinalDate" column="TEMP_DOC_FNL_DT" jdbc-type="DATE" />
-
+    
     <!-- The name="super" attribute below is not used to address an actual attribute of the super-class but as a marker keyword defining the JOIN  to the super-class.
          See OJB documentation: http://db.apache.org/ojb/docu/guides/advanced-technique.html#table-per-subclass -->
     <reference-descriptor name="super" class-ref="org.kuali.rice.kns.bo.DocumentHeader" proxy="true" >

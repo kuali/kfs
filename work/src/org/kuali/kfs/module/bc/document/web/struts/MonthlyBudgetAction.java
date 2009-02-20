@@ -59,7 +59,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         populateAuthorizationFields(monthlyBudgetForm);
-        
+
         // set the readOnly status on initial load of the form
         if (monthlyBudgetForm.getMethodToCall().equals(BCConstants.MONTHLY_BUDGET_METHOD)) {
             BudgetConstructionMonthly bcMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
@@ -79,7 +79,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
         return forward;
     }
-    
+
     protected void populateAuthorizationFields(MonthlyBudgetForm monthlyBudgetForm) {
         BudgetConstructionAuthorizationStatus authorizationStatus = (BudgetConstructionAuthorizationStatus) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY);
 
@@ -146,11 +146,13 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
 
+        this.replaceMonthlyNullWithZero(budgetConstructionMonthly);
+
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
         BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveMonthlyBudgetEvent(BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY, bcDoc, budgetConstructionMonthly));
-        
-        if (rulePassed){
+
+        if (rulePassed) {
             SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
             GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
             monthlyBudgetForm.setMonthlyPersisted(true);
@@ -158,7 +160,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
@@ -183,7 +185,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                     BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
                     boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveMonthlyBudgetEvent(BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY, bcDoc, budgetConstructionMonthly));
 
-                    if (rulePassed){
+                    if (rulePassed) {
                         SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
 
                         // drop to close logic below
@@ -195,7 +197,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                 // else go to close logic below
             }
         }
-        
+
         this.cleanupAnySessionForm(mapping, request);
         return returnToCaller(mapping, form, request, response);
     }
@@ -205,7 +207,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         MonthlyBudgetForm tForm = (MonthlyBudgetForm) form;
         BudgetConstructionMonthly bcMth = tForm.getBudgetConstructionMonthly();
         KualiInteger requestAmt = bcMth.getPendingBudgetConstructionGeneralLedger().getAccountLineAnnualBalanceAmount();
-        if (requestAmt != null){
+        if (requestAmt != null) {
             bcMth.setFinancialDocumentMonth2LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
             bcMth.setFinancialDocumentMonth3LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
             bcMth.setFinancialDocumentMonth4LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
@@ -274,7 +276,8 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                     // if yes button clicked - delete and close
                     SpringContext.getBean(BusinessObjectService.class).delete(budgetConstructionMonthly);
 
-                    // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
+                    // if benefits calculation is turned on, check if the line is benefits related and call for calculation after
+                    // save
                     BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
                     BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
                     SpringContext.getBean(BudgetDocumentService.class).callForBenefitsCalcIfNeeded(bcDoc, budgetConstructionMonthly, KualiInteger.ZERO);
@@ -285,8 +288,53 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                 // else go to close logic below
             }
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * checks monthly object for nulls in the amounts and replaces with zeros
+     * 
+     * @param bcMth
+     */
+    public void replaceMonthlyNullWithZero(BudgetConstructionMonthly bcMth) {
+
+        if (bcMth.getFinancialDocumentMonth1LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth1LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth2LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth2LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth3LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth3LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth4LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth4LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth5LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth5LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth6LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth6LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth7LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth7LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth8LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth8LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth9LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth9LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth10LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth10LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth11LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth11LineAmount(new KualiInteger(0));
+        }
+        if (bcMth.getFinancialDocumentMonth12LineAmount() == null) {
+            bcMth.setFinancialDocumentMonth12LineAmount(new KualiInteger(0));
+        }
     }
 
     /**
@@ -323,4 +371,3 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }
-

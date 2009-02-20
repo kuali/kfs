@@ -132,24 +132,32 @@
 			</list>
 		</property>
 	</bean>
-
-    <bean id="WorkflowAttributeMetaData-chartOfAccountsCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
+    
+    <bean id="SearchingAttribute-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
     	<property name="attributeName" value="chartOfAccountsCode" />
     </bean>
-    <bean id="SearchingAttribute-chartOfAccountsCode" parent="WorkflowAttributeMetaData-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
-    <bean id="RoutingAttribute-chartOfAccountsCode" parent="WorkflowAttributeMetaData-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
-    <bean id="WorkflowAttributeMetaData-accountNumber" abstract="true">
+    <bean id="RoutingAttribute-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+  		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
+    	<property name="attributeName" value="chartOfAccountsCode" />
+    </bean>
+   
+    <bean id="SearchingAttribute-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
+   		<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+    	<property name="attributeName" value="accountNumber" />
+    </bean>
+    <bean id="RoutingAttribute-accountNumber" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
     	<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account" />
     	<property name="attributeName" value="accountNumber" />
     </bean>
-    <bean id="SearchingAttribute-accountNumber" parent="WorkflowAttributeMetaData-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
-    <bean id="RoutingAttribute-accountNumber" parent="WorkflowAttributeMetaData-accountNumber" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
+    
+    
     <bean id="WorkflowAttributeMetaData-financialDocumentTotalAmount" abstract="true">
     	<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" />
     	<property name="attributeName" value="financialDocumentTotalAmount" />
     </bean>
     <bean id="RoutingAttribute-financialDocumentTotalAmount" parent="WorkflowAttributeMetaData-financialDocumentTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
+    
     <bean id="WorkflowAttributeMetaData-organizationCode" abstract="true">
     	<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
     	<property name="attributeName" value="organizationCode" />

@@ -119,7 +119,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         
        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
        if (entry  == null)
-           return null;
+           return docSearchRows;
        if (entry instanceof FinancialSystemMaintenanceDocumentEntry) {
            Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
            Class<? extends Maintainable> maintainableClass = getMaintainableClass(documentSearchContext.getDocumentTypeName());
@@ -166,22 +166,22 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
               final String attributeName = attr.getAttributeName();
               final String businessObjectClassName = attr.getBusinessObjectClassName();
               Class boClass = null;
+              BusinessObject businessObject  = null;
               try {
                   boClass = Class.forName(businessObjectClassName);
-              } catch (ClassNotFoundException cnfe) {
-                  throw new RuntimeException(cnfe);
+                  businessObject = (BusinessObject)boClass.newInstance();
+              } catch (Exception e) {
+                  throw new RuntimeException(e);
               }
               
-              Field searchField = FieldUtils.getPropertyField(boClass, attributeName, true);
-     //         searchField.setSavablePropertyName(attributeName);
-         //     LookupUtils.setFieldQuickfinder(businessObject, attributeName, searchField, displayedFieldNames)
+              Field searchField = FieldUtils.getPropertyField(boClass, attributeName, false);
+              List displayedFieldNames = new ArrayList();
+              displayedFieldNames.add(attributeName);
+              LookupUtils.setFieldQuickfinder(businessObject, attributeName, searchField, displayedFieldNames);
 
               List<Field> fieldList = new ArrayList<Field>();
               fieldList.add(searchField);
-          //    String quickfinderService = searchField.getQuickFinderClassNameImpl();
-              //            if (!Utilities.isEmpty(quickfinderService)) {
-//            fieldList.add(new DocumentSearchField("", "", Field.QUICKFINDER, false, "", "", null, quickfinderService));
-//            }
+
               searchFields.add(new Row(fieldList));
           } 
       }
@@ -335,16 +335,23 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectClass.getName());
         for (Object primaryKeyNameAsObject : primaryKeyNamesAsObjects) {
             
-            Field searchField = FieldUtils.getPropertyField(businessObjectClass, (String)primaryKeyNameAsObject, true);
+            String attributeName =  (String)primaryKeyNameAsObject;
+            BusinessObject businessObject = null;
+            try {
+                businessObject = businessObjectClass.newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            
+            Field searchField = FieldUtils.getPropertyField(businessObjectClass, attributeName, false);
+            
             List<Field> fieldList = new ArrayList<Field>();
             
-       //     searchField.setSavablePropertyName((String)primaryKeyNameAsObject);
+            List displayedFieldNames = new ArrayList();
+            displayedFieldNames.add(attributeName);
+            LookupUtils.setFieldQuickfinder(businessObject, attributeName, searchField, displayedFieldNames);
 
             fieldList.add(searchField);
-//            String quickfinderService = searchField.getQuickFinderClassNameImpl();
-//            if (!Utilities.isEmpty(quickfinderService)) {
-//                fieldList.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, quickfinderService));
-//            }
             searchFields.add(new Row(fieldList));
         }
 

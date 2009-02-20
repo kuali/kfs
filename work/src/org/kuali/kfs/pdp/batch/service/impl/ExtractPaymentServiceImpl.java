@@ -74,7 +74,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public static boolean testMode = false;
 
     private String getOutputFile(String fileprefix, Date runDate) {
-        String filename = directoryName + fileprefix + "_";
+        String filename = directoryName + "/" + fileprefix + "_";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         filename = filename + sdf.format(runDate);
         filename = filename + ".xml";

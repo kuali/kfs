@@ -796,6 +796,14 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
 
+        PendingBudgetConstructionGeneralLedger pbglLine;
+        if (isRevenue) {
+            pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerRevenueLines().get(this.getSelectedLine(request));
+        }
+        else {
+            pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
+        }
+
         // when we return from the lookup, our next request's method to call is going to be refresh
         budgetConstructionForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
         budgetConstructionForm.registerNextMethodToCallIsRefresh(true);
@@ -807,7 +815,12 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // The act of attempting to remove a 2plg (delete) forces a complete RI check.
             // The document is assumed inconsistent as long as a 2plg exists.
             if (!isRevenue && bcDocument.isContainsTwoPlug()) {
-                budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
+                if (pbglLine.getLaborObject() != null && pbglLine.getLaborObject().isDetailPositionRequiredIndicator()){
+                    budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
+                }
+                else {
+                    budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, true);
+                }
             }
             else {
                 budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
@@ -820,15 +833,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // budgetConstructionForm.populatePBGLLines();
 
         }
-
-        PendingBudgetConstructionGeneralLedger pbglLine;
-        if (isRevenue) {
-            pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerRevenueLines().get(this.getSelectedLine(request));
-        }
-        else {
-            pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
-        }
-
 
         // String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
         // request.getContextPath();

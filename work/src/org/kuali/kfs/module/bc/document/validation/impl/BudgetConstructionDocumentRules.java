@@ -508,10 +508,14 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             // Also tests if the line is has benefits associate and flags that a benefits calculation needs done.
             // Benefits calc is then called in the form action after successful rules check and save
             boolean forceTwoPlugRICheck = (budgetConstructionDocument.isContainsTwoPlug() && (element.getLaborObject() != null && element.getLaborObject().isDetailPositionRequiredIndicator()));
+
+            // force monthly RI check if 2PLG and if request amount changes AND not a detail salary setting line
+            boolean forceMonthlyRICheck = (budgetConstructionDocument.isContainsTwoPlug() && (element.getLaborObject() == null || !element.getLaborObject().isDetailPositionRequiredIndicator()));
+
             if (isReqAmountValid && (isRequestAmountChanged || forceTwoPlugRICheck)) {
 
                 // check monthly for all rows
-                if (doMonthRICheck) {
+                if (doMonthRICheck || forceMonthlyRICheck) {
                     if (element.getBudgetConstructionMonthly() != null && !element.getBudgetConstructionMonthly().isEmpty()) {
 
                         BudgetConstructionMonthly budgetConstructionMonthly = element.getBudgetConstructionMonthly().get(0);

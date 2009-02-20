@@ -115,12 +115,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
                 documentService.saveDocument(pcardDocument, DocumentSystemSaveEvent.class);
-                LOG.info("Saved Procurement Card document: "+pcardDocument.getDocumentNumber());
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info("Saved Procurement Card document: "+pcardDocument.getDocumentNumber());
+                }
                 // documentService.saveDocumentWithoutRunningValidation(pcardDocument);
             }
             catch (Exception e) {
                 LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
-                throw new RuntimeException("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+                throw new RuntimeException("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(),e);
             }
         }
 
@@ -139,23 +141,25 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         List<String> documentIdList = null;
         try {
             documentIdList = retrieveProcurementCardDocumentsToRoute(KEWConstants.ROUTE_HEADER_SAVED_CD);
-        }
-        catch (WorkflowException e1) {
-            LOG.error("Error retrieving pcdo documents for routing: " + e1.getMessage());
-            throw new RuntimeException(e1.getMessage());
-        }
-        catch (RemoteException re) {
-            LOG.error("Error retrieving pcdo documents for routing: " + re.getMessage());
-            throw new RuntimeException(re.getMessage());
+        } catch (WorkflowException e1) {
+            LOG.error("Error retrieving pcdo documents for routing: " + e1.getMessage(),e1);
+            throw new RuntimeException(e1.getMessage(),e1);
+        } catch (RemoteException re) {
+            LOG.error("Error retrieving pcdo documents for routing: " + re.getMessage(),re);
+            throw new RuntimeException(re.getMessage(),re);
         }
         
         //Collections.reverse(documentIdList);
-        LOG.info("PCards to Route: "+documentIdList);
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("PCards to Route: "+documentIdList);
+        }
         
         for (String pcardDocumentId: documentIdList) {
             try {
                 ProcurementCardDocument pcardDocument = (ProcurementCardDocument)documentService.getByDocumentHeaderId(pcardDocumentId);
-                LOG.info("Routing PCDO document # " + pcardDocumentId + ".");
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info("Routing PCDO document # " + pcardDocumentId + ".");
+                }
                 documentService.prepareWorkflowDocument(pcardDocument);
 
                 // calling workflow service to bypass business rule checks
@@ -163,7 +167,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             }
             catch (WorkflowException e) {
                 LOG.error("Error routing document # " + pcardDocumentId + " " + e.getMessage());
-                throw new RuntimeException(e.getMessage());
+                throw new RuntimeException(e.getMessage(),e);
             }
         }
 
@@ -227,10 +231,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             documentIdList = retrieveProcurementCardDocumentsToRoute(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
         }
         catch (WorkflowException e1) {
-            throw new RuntimeException(e1.getMessage());
+            throw new RuntimeException(e1.getMessage(),e1);
         }
         catch (RemoteException re) {
-            throw new RuntimeException(re.getMessage());
+            throw new RuntimeException(re.getMessage(),re);
         }
 
         // get number of days and type for auto approve
@@ -252,12 +256,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                     // update document description to reflect the auto approval
                     pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
                 
-                    LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
+                    if ( LOG.isInfoEnabled() ) {
+                        LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
+                    }
                     documentService.superUserApproveDocument(pcardDocument, "");
                 }
             } catch (WorkflowException e) {
-                LOG.error("Error auto approving document # " + pcardDocumentId + " " + e.getMessage());
-                throw new RuntimeException(e.getMessage());
+                LOG.error("Error auto approving document # " + pcardDocumentId + " " + e.getMessage(),e);
+                throw new RuntimeException(e.getMessage(),e);
             }
         }
 
@@ -358,8 +364,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             pcardDocument.getDocumentHeader().setExplanation(errorText);
         }
         catch (WorkflowException e) {
-            LOG.error("Error creating pcdo documents: " + e.getMessage());
-            throw new RuntimeException("Error creating pcdo documents: " + e.getMessage());
+            LOG.error("Error creating pcdo documents: " + e.getMessage(),e);
+            throw new RuntimeException("Error creating pcdo documents: " + e.getMessage(),e);
         }
 
         return pcardDocument;
@@ -565,7 +571,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         if (!accountingLineRuleUtil.isValidObjectCode(targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.";
-            LOG.info(tempErrorText);
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
             errorText += " " + tempErrorText;
 
             targetLine.setFinancialObjectCode(getDefaultObjectCode());
@@ -573,7 +581,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !accountingLineRuleUtil.isValidSubAccount(targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
-            LOG.info(tempErrorText);
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
             errorText += " " + tempErrorText;
 
             targetLine.setSubAccountNumber("");
@@ -584,14 +594,18 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !accountingLineRuleUtil.isValidSubObjectCode(targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Object Code " + targetLine.getFinancialObjectCode() + " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
-            LOG.info(tempErrorText);
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
             errorText += " " + tempErrorText;
 
             targetLine.setFinancialSubObjectCode("");
         }
 
         if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !accountingLineRuleUtil.isValidProjectCode(targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
-            LOG.info("Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info("Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
+            }
             errorText += " Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.";
 
             targetLine.setProjectCode("");
@@ -599,7 +613,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         if (!accountingLineRuleUtil.isValidAccount(targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
-            LOG.info(tempErrorText);
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
             errorText += " " + tempErrorText;
 
             targetLine.setChartOfAccountsCode(getErrorChartCode());

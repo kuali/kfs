@@ -158,7 +158,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public String[] parseSSNFormats() {
         if (ObjectUtils.isNull(taxNumberFormats)) {
-            taxNumberFormats = parameterService.getParameterValues(VendorDetail.class, "TAX_SSN_NUMBER_FORMATS");
+            taxNumberFormats = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.TAX_SSN_NUMBER_FORMATS);
         }
         return taxNumberFormats.toArray(new String[] {});
     }
@@ -171,7 +171,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public String[] parseFEINFormats() {
         if (ObjectUtils.isNull(feinNumberFormats)) {
-            feinNumberFormats = parameterService.getParameterValues(VendorDetail.class, "TAX_FEIN_NUMBER_FORMATS");
+            feinNumberFormats = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.TAX_FEIN_NUMBER_FORMATS);
         }
         return feinNumberFormats.toArray(new String[] {});
     }

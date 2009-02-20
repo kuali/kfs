@@ -32,4 +32,7 @@ public class VendorParameterConstants implements ParameterKeyConstants {
     public static final String PHONE_NUMBER_FORMATS_PARM_NM = "GENERIC_PHONE_NUMBER_FORMATS";
     public static final String DEFAULT_PHONE_NUMBER_DIGITS_PARM_NM = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
     public static final String PURAP_OVERRIDE_VENDOR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
+    public static final String TAX_FEIN_NUMBER_FORMATS = "TAX_FEIN_NUMBER_FORMATS";
+    public static final String TAX_SSN_NUMBER_FORMATS = "TAX_SSN_NUMBER_FORMATS";
+    
 }

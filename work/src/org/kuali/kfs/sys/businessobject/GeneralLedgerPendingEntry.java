@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * The general ledger pending entry structure holds financial transaction info that will post to the general ledger as an entry.
@@ -938,5 +939,12 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     @Deprecated
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
         this.accountingPeriod = accountingPeriod;
+    }
+    
+    /**
+     * @return the amount formatted as a currency number
+     */
+    public String getCurrencyFormattedTransactionLedgerEntryAmount() {
+        return (String) new CurrencyFormatter().format(getTransactionLedgerEntryAmount());
     }
 }

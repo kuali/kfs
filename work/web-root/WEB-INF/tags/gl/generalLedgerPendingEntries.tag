@@ -119,7 +119,10 @@
 						<html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].financialObjectTypeCode" write="true" value="${generalLedgerPendingEntry.financialObjectTypeCode}" />
 					</kul:inquiry>
 				</td>
-				<td class="datacell center"><html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].transactionLedgerEntryAmount" write="true" value="${generalLedgerPendingEntry.transactionLedgerEntryAmount}" /></td>
+				<td class="datacell center">
+					<html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].transactionLedgerEntryAmount" value="${generalLedgerPendingEntry.transactionLedgerEntryAmount}" />
+					<bean:write name="KualiForm" property="${generalLedgerPendingEntryProperty}[${ctr}].currencyFormattedTransactionLedgerEntryAmount" />
+				</td>
 				<td class="datacell center"><html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].transactionDebitCreditCode" write="true" value="${generalLedgerPendingEntry.transactionDebitCreditCode}" />&nbsp;</td>
 			</tr>
 		</logic:iterate>

@@ -131,7 +131,7 @@
 						<html:checkbox property="relatedGlEntry[${pos}].selected" disabled="true" />
 					</c:when>
 					<c:when test="${!entry.active}">
-						<a href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}" target="_blank">						
+						<a href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}" target="${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}">						
 						${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}</a>
 					</c:when>
 					<c:otherwise> 

@@ -24,6 +24,7 @@
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="amendmentEntry" value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
+<c:set var="tabindexOverrideBase" value="70" />
 
 <kul:tab tabTitle="Payment Info" defaultOpen="false" tabErrorKey="${PurapConstants.PAYMENT_INFO_TAB_ERRORS}">
     <div class="tab-container" align=center>
@@ -36,10 +37,10 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.recurringPaymentTypeCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" 
-                   property="document.recurringPaymentTypeCode"
-                   extraReadOnlyProperty="document.recurringPaymentType.recurringPaymentTypeDescription" 
-                   readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.recurringPaymentTypeCode}" property="document.recurringPaymentTypeCode"
+                   		extraReadOnlyProperty="document.recurringPaymentType.recurringPaymentTypeDescription" 
+                   		readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
             </tr>
             <tr>
@@ -47,10 +48,13 @@
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.purchaseOrderBeginDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell"> from:
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderBeginDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderBeginDate" datePicker="true" 
+                   		readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                  	&nbsp;&nbsp;
                   to:
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderEndDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderEndDate" datePicker="true" 
+                    	readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                </td> 
             </tr>
             <c:if test="${displayPurchaseOrderFields}">
@@ -62,13 +66,19 @@
                        <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.recurringPaymentAmount}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell"> Amount:
-                       <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentAmount}" property="document.recurringPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                       <kul:htmlControlAttribute 
+                       		attributeEntry="${documentAttributes.recurringPaymentAmount}" property="document.recurringPaymentAmount" 
+                       		readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                         &nbsp;&nbsp;
                         First Payment Date:
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentDate}" property="document.recurringPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                        <kul:htmlControlAttribute 
+                        	attributeEntry="${documentAttributes.recurringPaymentDate}" property="document.recurringPaymentDate" datePicker="true" 
+                        	readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                         &nbsp;&nbsp;
                         Frequency:
-                       <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentFrequencyCode}" property="document.recurringPaymentFrequencyCode" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                       <kul:htmlControlAttribute 
+                       		attributeEntry="${documentAttributes.recurringPaymentFrequencyCode}" property="document.recurringPaymentFrequencyCode" 
+                       		readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                     </td> 
                 </tr>
                 <tr>
@@ -76,10 +86,14 @@
                        <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.initialPaymentAmount}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell"> Amount:
-                       <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentAmount}" property="document.initialPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                       <kul:htmlControlAttribute 
+                       		attributeEntry="${documentAttributes.initialPaymentAmount}" property="document.initialPaymentAmount" 
+                       		readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                         &nbsp;&nbsp;
                       Date:
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentDate}" property="document.initialPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                        <kul:htmlControlAttribute 
+                        	attributeEntry="${documentAttributes.initialPaymentDate}" property="document.initialPaymentDate" datePicker="true" 
+                        	readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                    </td> 
                 </tr>
                 <tr>
@@ -87,10 +101,14 @@
                        <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.finalPaymentAmount}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell"> Amount:
-                       <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentAmount}" property="document.finalPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                       <kul:htmlControlAttribute 
+                       		attributeEntry="${documentAttributes.finalPaymentAmount}" property="document.finalPaymentAmount" 
+                       		readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                         &nbsp;&nbsp;
                       Date:
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentDate}" property="document.finalPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                       <kul:htmlControlAttribute 
+                       		attributeEntry="${documentAttributes.finalPaymentDate}" property="document.finalPaymentDate" datePicker="true" 
+                       		readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                    </td> 
                 </tr>
             </c:if>

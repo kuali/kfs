@@ -59,7 +59,7 @@
 	            <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" readOnly="true" />
 	            &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode"  readOnly="true"/>
 	            <c:if test="${(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}" >
-	                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode" tabindexOverride="${tabindexOverrideBase + 0}" />
+	                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode" />
 	            </c:if>
 	        </td>
 	        <th align=right valign=middle class="bord-l-b">
@@ -88,7 +88,7 @@
                 readOnlyReceivingRequired or 
                 not(fullEntryMode or amendmentEntry) and 
                 not (contentReadOnly or internalPurchasingReadOnly)}"
-                 tabindexOverride="${tabindexOverrideBase + 0}"/>
+                tabindexOverride="${tabindexOverrideBase + 0}"/>
         </td>
 	    <th align=right valign=middle class="bord-l-b">
 	        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}" /></div>
@@ -98,7 +98,7 @@
 	            property="document.paymentRequestPositiveApprovalIndicator"
 	            attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}"
 	            readOnly="${paymentRequest or not(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}"
-	             tabindexOverride="${tabindexOverrideBase + 5}"/>
+	            tabindexOverride="${tabindexOverrideBase + 5}"/>
 	    </td>
 	</tr>  
 
@@ -132,12 +132,11 @@
                 <kul:htmlControlAttribute 
                     property="document.contractManager.contractManagerName" 
                     attributeEntry="${documentAttributes.contractManager.contractManagerName}" 
-                    readOnly="true" />
+                    readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}" />
                 <c:if test="${preRouteChangeMode}" >
                     <kul:lookup
                         boClassName="org.kuali.kfs.vnd.businessobject.ContractManager"
-                        fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" 
-                        tabindexOverride="${tabindexOverrideBase + 0}" />
+                        fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" />
                 </c:if>                     
             </td>
 	        <th align=right valign=middle class="bord-l-b">

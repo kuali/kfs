@@ -70,7 +70,7 @@
 						</c:if>	
 			    	</table>
 			    </c:if>
-			    <c:if test="${not empty limitByPoId and limitByPoId eq view.purchaseOrderIdentifier}">
+			    <c:if test="${(not empty limitByPoId) and (limitByPoId eq view.purchaseOrderIdentifier)}">
 			    	<c:set var="viewShown" value="true"/>
 			    </c:if>
 		    </logic:iterate>

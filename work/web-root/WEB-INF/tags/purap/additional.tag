@@ -49,7 +49,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonName}" property="document.requestorPersonName" readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 5}" />
 			        <c:if test="${(fullEntryMode or amendmentEntry)}" >
-                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="name:document.requestorPersonName,phoneNumber:document.requestorPersonPhoneNumber,emailAddress:document.requestorPersonEmailAddress" tabindexOverride="${tabindexOverrideBase + 5}" /></div>
+                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="name:document.requestorPersonName,phoneNumber:document.requestorPersonPhoneNumber,emailAddress:document.requestorPersonEmailAddress" /></div>
 			        </c:if>
                 </td>
             </tr>
@@ -77,7 +77,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}" />
                     <c:if test="${(fullEntryMode or amendmentEntry)}" >
-                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="name:document.institutionContactName,phoneNumber:document.institutionContactPhoneNumber,emailAddress:document.institutionContactEmailAddress" tabindexOverride="${tabindexOverrideBase + 0}" /></div>
+                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="name:document.institutionContactName,phoneNumber:document.institutionContactPhoneNumber,emailAddress:document.institutionContactEmailAddress" /></div>
                     </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">

@@ -20,6 +20,7 @@
 
 <kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${KFSConstants.ITEM_LINE_ERRORS}">
 <c:set var="itemAttributes" value="${DataDictionary.InternalBillingItem.attributes}" />
+<c:set var="tabindexOverrideBase" value="50" />
 
  <div class="tab-container" align=center>
 	<h3>Items</h3>

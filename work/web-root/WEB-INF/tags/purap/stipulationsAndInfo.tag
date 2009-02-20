@@ -20,6 +20,7 @@
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="stipulationAttributes" value="${DataDictionary.PurchaseOrderVendorStipulation.attributes}" />
+<c:set var="tabindexOverrideBase" value="40" />
 
 <kul:tab tabTitle="Stipulations" defaultOpen="false" tabErrorKey="${PurapConstants.STIPULATIONS_TAB_ERRORS}">
     <div class="tab-container" align=center>
@@ -36,7 +37,8 @@
                     <td class="infoline">
                         <kul:htmlControlAttribute 
                             attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
-                            property="newPurchaseOrderVendorStipulationLine.vendorStipulationDescription" />
+                            property="newPurchaseOrderVendorStipulationLine.vendorStipulationDescription" 
+                            tabindexOverride="${tabindexOverrideBase + 0}"/>
                         <kul:lookup boClassName="org.kuali.kfs.module.purap.businessobject.VendorStipulation" 
                         	readOnlyFields="active" lookupParameters="'Y':active"
                         	fieldConversions="vendorStipulationDescription:document.vendorStipulationDescription" /></div>
@@ -54,7 +56,8 @@
 		                    <kul:htmlControlAttribute 
 		                        attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
 		                        property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationDescription" 
-		                        readOnly="${not (fullEntryMode or (!empty KualiForm.editingMode['amendmentEntry']))}" />
+		                        readOnly="${not (fullEntryMode or (!empty KualiForm.editingMode['amendmentEntry']))}" 
+		                        tabindexOverride="${tabindexOverrideBase + 0}" />
 		                </td>
 		                <c:if test="${(fullEntryMode or (!empty KualiForm.editingMode['amendmentEntry']))}" >		                
 		                	<td class="infoline"><div align="center"><html:image property="methodToCall.deleteStipulation.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Stipulation ${ctr+1}" title="Delete Stipulation ${ctr+1}" styleClass="tinybutton"/></div></td>

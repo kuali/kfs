@@ -187,7 +187,7 @@
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
 	      	    property="document.account.organization.organizationName"
-	      	    attributeEntry="${DataDictionary.Org.attributes.organizationName}"
+	      	    attributeEntry="${DataDictionary.Organization.attributes.organizationName}"
 	      	    readOnly="${true}"
 	      	    readOnlyBody="true">
 	      	    ${KualiForm.document.account.organization.organizationName}
@@ -221,7 +221,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.kfs.coa.businessobject.Org"
+				    boClassName="org.kuali.kfs.coa.businessobject.Organization"
 				    keyValues="chartOfAccountsCode=${orgVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgVals.reportsToOrganizationCode}"
 				    render="true">
 				    ${orgVals.reportsToOrganizationCode}

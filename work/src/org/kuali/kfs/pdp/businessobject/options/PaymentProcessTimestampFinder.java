@@ -33,12 +33,17 @@ public class PaymentProcessTimestampFinder implements ValueFinder {
     public String getValue() {
         // we create a search criteria to get te payment processes in tha last 4 months
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.MONTH, -4);
+        GregorianCalendar calendarFourMonthsAgo = new GregorianCalendar();
+        calendarFourMonthsAgo.setTime(new Date());
+        calendarFourMonthsAgo.add(Calendar.MONTH, -4);
 
-        String now = dateTimeService.toDateString(dateTimeService.getCurrentTimestamp());
-        String fourMonthsAgo = dateTimeService.toDateString(new Timestamp(calendar.getTimeInMillis()));
+        // one day was added to the current date becuase the ".." wildcard on date will give us the results with a date greater or
+        // equal with the beginning date and less than the end date.
+        GregorianCalendar calendarNow = new GregorianCalendar();
+        calendarNow.setTime(new Date());
+        calendarNow.add(Calendar.DATE, +1);
+        String now = dateTimeService.toDateString(new Timestamp(calendarNow.getTimeInMillis()));
+        String fourMonthsAgo = dateTimeService.toDateString(new Timestamp(calendarFourMonthsAgo.getTimeInMillis()));
 
         String processTimestampValue = fourMonthsAgo + ".." + now;
         return processTimestampValue;

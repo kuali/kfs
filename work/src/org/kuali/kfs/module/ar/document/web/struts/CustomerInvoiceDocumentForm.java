@@ -26,6 +26,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentPresentationController;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -35,7 +36,6 @@ import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -45,6 +45,9 @@ import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
+
+    private transient KualiConfigurationService configService;
+
     private CustomerInvoiceDetail newCustomerInvoiceDetail;
 
     /**
@@ -142,18 +145,25 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         // clear out the extra buttons array
         extraButtons.clear();
 
+        //  get the edit modes from the preso controller
         CustomerInvoiceDocument invoiceDocument = (CustomerInvoiceDocument) getDocument();
         DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);
-        TransactionalDocumentPresentationController presoController = 
-                (TransactionalDocumentPresentationController) docHelperService.getDocumentPresentationController(invoiceDocument);
-        
+        CustomerInvoiceDocumentPresentationController presoController = 
+                (CustomerInvoiceDocumentPresentationController) docHelperService.getDocumentPresentationController(invoiceDocument);
         Set<String> editModes = presoController.getEditModes(invoiceDocument);
+        
+        //  draw the Print File button if appropriate 
         if (editModes.contains(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON)) {
-            KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
-            String printButtonURL = configService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            String printButtonURL = getConfigService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
             addExtraButton("methodToCall.print", printButtonURL + "buttonsmall_genprintfile.gif", "Print");
         }
 
+        //  draw the Error Correction button if appropriate
+        if (presoController.canErrorCorrect(invoiceDocument)) {
+            String printButtonURL = getConfigService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            addExtraButton("methodToCall.correct", printButtonURL + "buttonsmall_correction.gif", "Correct");
+        }
+        
         return extraButtons;
     }
         
@@ -173,6 +183,13 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         newButton.setExtraButtonAltText(altText);
 
         extraButtons.add(newButton);
+    }
+
+    private KualiConfigurationService getConfigService() {
+        if (configService == null) {
+            configService = SpringContext.getBean(KualiConfigurationService.class);
+        }
+        return configService;
     }
 
 }

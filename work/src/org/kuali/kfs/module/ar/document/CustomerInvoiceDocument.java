@@ -1210,6 +1210,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         super.toErrorCorrection();
         negateCustomerInvoiceDetailUnitPrices();
         this.setOpenInvoiceIndicator(false);
+        
+        //  if we dont force this on the error correction, the recurrence will 
+        // have the old doc number, and will revert the main doc due to OJB fun, 
+        // which will cause PK unique index failure.
+        if (ObjectUtils.isNotNull(customerInvoiceRecurrenceDetails)) {
+            customerInvoiceRecurrenceDetails.setInvoiceNumber(this.documentNumber);
+        }
     }
 
 

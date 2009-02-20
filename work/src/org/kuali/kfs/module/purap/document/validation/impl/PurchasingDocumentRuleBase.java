@@ -136,7 +136,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * 
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
-    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean valid = true;
         
@@ -763,12 +762,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @return boolean false if there's any validation that fails.
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
-    @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
-        if (!super.processCustomUpdateAccountingLineBusinessRules(accountingDocument, originalAccountingLine, updatedAccountingLine)) {
-
-            return false;
-        }
         //this is necessary because sometimes this method is called for baseline accounts, should not be needed once baseline is removed
         if(updatedAccountingLine instanceof PurApAccountingLine) {
             return verifyAccountingLinePercent((PurApAccountingLine) updatedAccountingLine);
@@ -786,13 +780,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @return boolean false if there's any validation that fails.
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,org.kuali.kfs.sys.businessobject.AccountingLine)
      */
-    @Override
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, String collectionName) {
         boolean valid = validateAccountNotExpired(accountingLine);
         if (!valid) {
             GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED, KFSConstants.EMPTY_STRING, accountingLine.getAccountNumber());
         }
-        valid &= super.processAddAccountingLineBusinessRules(financialDocument, accountingLine, collectionName);
         if (!valid) {
 
             return false;

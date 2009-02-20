@@ -10,7 +10,7 @@
     
     <property name="documentTypeName" value="BT"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.BenefitExpenseTransferDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase"/>
     <property name="sessionDocument" value="true"/>    
     <property name="allowsCopy" value="true"/>
@@ -56,7 +56,7 @@
   	<property name="sourceMap">
 		<map>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
 				<value>BenefitExpenseTransferDocument-addAccountingLineValidation</value>
 			</entry>
 						

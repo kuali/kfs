@@ -48,7 +48,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineDecorator;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -109,35 +108,10 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         // This is after a potential handleUpdate(), to display automatically cleared overrides following a route or save.
         processAccountingLineOverrides(transForm);
 
-        // this refershes if the accounting lines within the form are editable or not
-        if (ObjectUtils.isNotNull(transForm.getDocument()) && ObjectUtils.isNotNull(transForm.getDocument().getDocumentHeader()) && ObjectUtils.isNotNull(transForm.getDocument().getDocumentNumber()) && SpringContext.getBean(WorkflowDocumentService.class).workflowDocumentExists(transForm.getDocument().getDocumentNumber())) {
-            transForm.refreshEditableAccounts();
-        }
-
         // proceed as usual
         ActionForward result = super.execute(mapping, form, request, response);
         t0.log();
         return result;
-    }
-
-    /**
-     * All document-creation gets routed through here
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     */
-    @Override
-    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.createDocument(kualiDocumentFormBase);
-
-        KualiAccountingDocumentFormBase tform = (KualiAccountingDocumentFormBase) kualiDocumentFormBase;
-
-        // reset baseline accountingLine lists
-        tform.getBaselineSourceAccountingLines().clear();
-        tform.getBaselineTargetAccountingLines().clear();
-
-        // reset decorator lists
-        tform.getSourceLineDecorators().clear();
-        tform.getTargetLineDecorators().clear();
     }
 
     /**
@@ -151,23 +125,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
 
         KualiAccountingDocumentFormBase tform = (KualiAccountingDocumentFormBase) kualiDocumentFormBase;
-
-        // populate baseline accountingLine lists
-        List baselineSourceLines = tform.getBaselineSourceAccountingLines();
-        baselineSourceLines.clear();
-        baselineSourceLines.addAll(tform.getFinancialDocument().getSourceAccountingLines());
-        // sales tax handling
-        handleSalesTaxRequiredAllLines(kualiDocumentFormBase, baselineSourceLines);
-
-        List baselineTargetLines = tform.getBaselineTargetAccountingLines();
-        baselineTargetLines.clear();
-        baselineTargetLines.addAll(tform.getFinancialDocument().getTargetAccountingLines());
-        // sales tax handling
-        handleSalesTaxRequiredAllLines(kualiDocumentFormBase, baselineTargetLines);
-
-        // populate decorator lists
-        tform.resetSourceLineDecorators(baselineSourceLines.size());
-        tform.resetTargetLineDecorators(baselineTargetLines.size());
 
         // clear out the new accounting line holders
         tform.setNewSourceLine(null);
@@ -257,87 +214,28 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      */
     private void processAccountingLines(AccountingDocument transDoc, KualiAccountingDocumentFormBase transForm, String lineSet) {
         // figure out which set of lines we're looking at
-        List baseLines;
         List formLines;
-        List<AccountingLineDecorator> decorators;
         String pathPrefix;
         boolean source;
         if (lineSet.equals(KFSConstants.SOURCE)) {
-            baseLines = transForm.getBaselineSourceAccountingLines();
             formLines = transDoc.getSourceAccountingLines();
-            decorators = transForm.getSourceLineDecorators(formLines.size());
             pathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME;
             source = true;
         }
         else {
-            baseLines = transForm.getBaselineTargetAccountingLines();
             formLines = transDoc.getTargetAccountingLines();
-            decorators = transForm.getTargetLineDecorators(formLines.size());
             pathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME;
             source = false;
-        }
-
-        Map baseLineMap = new HashMap();
-        for (Iterator i = baseLines.iterator(); i.hasNext();) {
-            AccountingLine baseLine = (AccountingLine) i.next();
-            baseLineMap.put(baseLine.getSequenceNumber(), baseLine);
         }
 
         // find and process corresponding form and baselines
         int index = 0;
         for (Iterator i = formLines.iterator(); i.hasNext(); index++) {
             AccountingLine formLine = (AccountingLine) i.next();
-            AccountingLine baseLine = (AccountingLine) baseLineMap.get(formLine.getSequenceNumber());
-            AccountingLineDecorator decorator = decorators.get(index);
-
-            // always update decorator
-            handleDecorator(formLine, baseLine, decorator);
 
             // update sales tax required attribute for view
             // handleSalesTaxRequired(transDoc, formLine, source, false, index);
             checkSalesTax(transDoc, formLine, source, false, index);
-            if (baseLine != null) {
-                handleSalesTaxRequired(transDoc, baseLine, source, false, index);
-                // checkSalesTax(transDoc, baseLine, source, false, index);
-            }
-
-            // only generate update events for specific action methods
-            String methodToCall = transForm.getMethodToCall();
-            if (UPDATE_EVENT_ACTIONS.contains(methodToCall)) {
-                handleUpdate(transDoc, pathPrefix + "[" + index + "]", formLine, baseLine);
-            }
-        }
-    }
-
-    /**
-     * @param formLine
-     * @param baseLine
-     * @param decorator
-     */
-    private void handleDecorator(AccountingLine formLine, AccountingLine baseLine, AccountingLineDecorator decorator) {
-        // if line is new, or line hasn't changed, make non-revertible;
-        // otherwise, revertible
-        if ((baseLine == null) || formLine.isLike(baseLine)) {
-            decorator.setRevertible(false);
-        }
-        else {
-            decorator.setRevertible(true);
-        }
-    }
-
-    /**
-     * @param transDoc
-     * @param errorPathPrefix
-     * @param formLine
-     * @param baseLine
-     */
-    private void handleUpdate(AccountingDocument transDoc, String errorPathPrefix, AccountingLine formLine, AccountingLine baseLine) {
-        if ((baseLine != null) && !formLine.isLike(baseLine)) {
-            // reluctantly refresh BOs for clearOverridesThatBecameUnneeded()
-            formLine.refreshNonUpdateableReferences();
-            clearOverridesThatBecameUnneeded(formLine);
-            // the rule itself is responsible for adding error messages to the global ErrorMap
-            SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateAccountingLineEvent(errorPathPrefix, transDoc, baseLine, formLine));
         }
     }
 
@@ -359,94 +257,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     }
 
     /**
-     * This method will revert a TargetAccountingLine by overwriting its current values with the values in the corresponding
-     * baseline accountingLine. This assumes that the user presses the revert button for a specific accounting line on the document
-     * and that the document is represented by a FinancialDocumentFormBase.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward revertTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
-        AccountingDocument financialDocument = (AccountingDocument) financialDocumentForm.getDocument();
-
-        int revertIndex = getSelectedLine(request);
-
-        TargetAccountingLine originalLine = financialDocumentForm.getBaselineTargetAccountingLine(revertIndex);
-        TargetAccountingLine brokenLine = financialDocument.getTargetAccountingLine(revertIndex);
-
-        if (revertAccountingLine(financialDocumentForm, revertIndex, originalLine, brokenLine)) {
-            financialDocumentForm.getTargetLineDecorator(revertIndex).setRevertible(false);
-        }
-
-        // no business rules to check, no events to create
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-
-    /**
-     * This method will revert a SourceAccountingLine by overwriting its current values with the values in the corresponding
-     * baseline accountingLine. This assumes that the user presses the revert button for a specific accounting line on the document
-     * and that the document is represented by a FinancialDocumentFormBase.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward revertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
-        AccountingDocument financialDocument = (AccountingDocument) financialDocumentForm.getDocument();
-
-        int revertIndex = getSelectedLine(request);
-
-        SourceAccountingLine originalLine = financialDocumentForm.getBaselineSourceAccountingLine(revertIndex);
-        SourceAccountingLine brokenLine = financialDocument.getSourceAccountingLine(revertIndex);
-
-        if (revertAccountingLine(financialDocumentForm, revertIndex, originalLine, brokenLine)) {
-            financialDocumentForm.getSourceLineDecorator(revertIndex).setRevertible(false);
-        }
-
-        // no business rules to check, no events to create
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * Overwrites field values in the given brokenLine with those in the given originalLine, if the two accountingLines differ.
-     * 
-     * @param transForm
-     * @param revertIndex
-     * @param originalLine
-     * @param newerLine
-     * @return true if and only if the brokenLine was actually changed
-     */
-    protected boolean revertAccountingLine(KualiAccountingDocumentFormBase transForm, int revertIndex, AccountingLine originalLine, AccountingLine newerLine) {
-        boolean reverted = false;
-
-        SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(originalLine);
-
-        // *always* revert (so that if someone manually changes the line to its original values, then hits revert, they won't get an
-        // error message saying "couldn't revert")
-        newerLine.copyFrom(originalLine);
-        if (isSalesTaxRequired((AccountingDocument) transForm.getDocument(), newerLine)) {
-            newerLine.setSalesTaxRequired(true);
-        }
-        reverted = true;
-        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_REVERT_SUCCESSFUL);
-
-        return reverted;
-    }
-
-
-    /**
      * This method will remove a TargetAccountingLine from a FinancialDocument. This assumes that the user presses the delete button
      * for a specific accounting line on the document and that the document is represented by a FinancialDocumentFormBase.
      * 
@@ -460,29 +270,15 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     public ActionForward deleteTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
 
-        boolean rulePassed = false;
         int deleteIndex = getLineToDelete(request);
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
-
-        // check business rule, if there is a baseline copy
-        // (accountingLines without baselines haven't been persisted yet, so they can safely be deleted)
-        if (financialDocumentForm.hasBaselineTargetAccountingLine(deleteIndex)) {
-            TargetAccountingLine baseline = financialDocumentForm.getBaselineTargetAccountingLine(deleteIndex);
-            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(baseline);
-
-            rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), baseline, false));
-        }
-        else {
-            rulePassed = true;
-        }
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(),((AccountingDocument)financialDocumentForm.getDocument()).getTargetAccountingLine(deleteIndex), false));
 
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
             deleteAccountingLine(false, financialDocumentForm, deleteIndex);
         }
         else {
-            financialDocumentForm.getTargetLineDecorator(deleteIndex).setRevertible(true);
-
             String[] errorParams = new String[] { "target", Integer.toString(deleteIndex + 1) };
             GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_ACCOUNTINGLINE_DELETERULE_INVALIDACCOUNT, errorParams);
         }
@@ -504,29 +300,15 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
 
-        boolean rulePassed = false;
         int deleteIndex = getLineToDelete(request);
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
-
-        // check business rule, if there is a baseline copy
-        // (accountingLines without baselines haven't been persisted yet, so they can safely be deleted)
-        if (financialDocumentForm.hasBaselineSourceAccountingLine(deleteIndex)) {
-            SourceAccountingLine baseline = financialDocumentForm.getBaselineSourceAccountingLine(deleteIndex);
-            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(baseline);
-
-            rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), baseline, false));
-        }
-        else {
-            rulePassed = true;
-        }
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), ((AccountingDocument)financialDocumentForm.getDocument()).getSourceAccountingLine(deleteIndex), false));
 
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
             deleteAccountingLine(true, financialDocumentForm, deleteIndex);
         }
         else {
-            financialDocumentForm.getSourceLineDecorator(deleteIndex).setRevertible(true);
-
             String[] errorParams = new String[] { "source", Integer.toString(deleteIndex + 1) };
             GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_ACCOUNTINGLINE_DELETERULE_INVALIDACCOUNT, errorParams);
         }
@@ -548,27 +330,17 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             // remove from document
             financialDocumentForm.getFinancialDocument().getSourceAccountingLines().remove(deleteIndex);
 
-            // remove baseline duplicate and decorator
-            if (deleteIndex < financialDocumentForm.getBaselineSourceAccountingLines().size()) {
-                financialDocumentForm.getBaselineSourceAccountingLines().remove(deleteIndex);
-            }
-            financialDocumentForm.getSourceLineDecorators().remove(deleteIndex);
-
-            // update the doc total
-            AccountingDocument tdoc = (AccountingDocument) financialDocumentForm.getDocument();
-            if (tdoc instanceof AmountTotaling)
-                ((FinancialSystemDocumentHeader) financialDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
         }
         else {
             // remove from document
             financialDocumentForm.getFinancialDocument().getTargetAccountingLines().remove(deleteIndex);
-
-            // remove baseline duplicate and decorator
-            if (deleteIndex < financialDocumentForm.getBaselineTargetAccountingLines().size()) {
-                financialDocumentForm.getBaselineTargetAccountingLines().remove(deleteIndex);
-            }
-            financialDocumentForm.getTargetLineDecorators().remove(deleteIndex);
         }
+        // update the doc total
+        AccountingDocument tdoc = (AccountingDocument) financialDocumentForm.getDocument();
+        if (tdoc instanceof AmountTotaling) {
+            ((FinancialSystemDocumentHeader) financialDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
+        }
+
     }
 
 
@@ -687,7 +459,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         rulePassed &= checkSalesTax((AccountingDocument) financialDocumentForm.getDocument(), line, false, true, 0);
 
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line, KFSPropertyConstants.TARGET_ACCOUNTING_LINES));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
@@ -724,7 +496,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         // accountingLine
         rulePassed &= checkSalesTax((AccountingDocument) financialDocumentForm.getDocument(), line, true, true, 0);
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line, KFSPropertyConstants.SOURCE_ACCOUNTING_LINES));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
 
         if (rulePassed) {
             // add accountingLine
@@ -746,20 +518,10 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * @param line
      */
     protected void insertAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, AccountingLine line) {
-        // create and init a decorator
-        AccountingLineDecorator decorator = new AccountingLineDecorator();
-        decorator.setRevertible(false);
-
         AccountingDocument tdoc = financialDocumentForm.getFinancialDocument();
         if (isSource) {
             // add it to the document
             tdoc.addSourceAccountingLine((SourceAccountingLine) line);
-
-            // add it to the baseline, to prevent generation of spurious update events
-            financialDocumentForm.getBaselineSourceAccountingLines().add(line);
-
-            // add the decorator
-            financialDocumentForm.getSourceLineDecorators().add(decorator);
 
             // add PK fields to sales tax if needed
             if (line.isSalesTaxRequired()) {
@@ -774,48 +536,11 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             // add it to the document
             tdoc.addTargetAccountingLine((TargetAccountingLine) line);
 
-            // add it to the baseline, to prevent generation of spurious update events
-            financialDocumentForm.getBaselineTargetAccountingLines().add(line);
-
-            // add the decorator
-            financialDocumentForm.getTargetLineDecorators().add(decorator);
-
             // add PK fields to sales tax if needed
             if (line.isSalesTaxRequired()) {
                 populateSalesTax(line);
             }
         }
-    }
-
-    /**
-     * Method that will take the current document, copy it, replace all references to doc header id with a new one, clear pending
-     * entries, clear notes, and reset version numbers
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.copy(mapping, form, request, response);
-
-        KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
-
-
-        // KULEDOCS-1440: need to reset base accounting lines since when doc number changes on copy base lines would still reference
-        // old doc number causing revert button to show up
-
-        // TODO: remove the deepCopyAccountingLinesList method once we remove baseline accounting lines
-        tmpForm.setBaselineSourceAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getSourceAccountingLines()));
-        tmpForm.setBaselineTargetAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getTargetAccountingLines()));
-
-
-        tmpForm.getSourceLineDecorators().clear();
-        tmpForm.getTargetLineDecorators().clear();
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -1011,11 +736,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         this.applyCapitalAssetInformation(tmpForm);
 
         ActionForward forward = super.save(mapping, form, request, response);
-
-        // KULEDOCS-1443: For the revert button, set the new baseline accounting lines as the most recently saved lines
-        // TODO: remove the deepCopyAccountingLinesList method once the baseline accounting lines have been removed
-        tmpForm.setBaselineSourceAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getSourceAccountingLines()));
-        tmpForm.setBaselineTargetAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getTargetAccountingLines()));
 
         // need to check on sales tax for all the accounting lines
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getSourceAccountingLines());

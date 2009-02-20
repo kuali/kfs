@@ -282,7 +282,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
             ExpenseTransferAccountingLine to = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
             copyAccountingLine((ExpenseTransferAccountingLine) line, to);
 
-            boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), to, KFSPropertyConstants.TARGET_ACCOUNTING_LINES));
+            boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), to));
 
             // if the rule evaluation passed, let's add it
             if (rulePassed) {
@@ -345,7 +345,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
         copyAccountingLine((ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLine(index), line);
 
-        boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line, KFSPropertyConstants.TARGET_ACCOUNTING_LINES));
+        boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             // add accountingLine
@@ -489,81 +489,6 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      */
     private SegmentedLookupResultsService getSegmentedLookupResultsService() {
         return SpringContext.getBean(SegmentedLookupResultsService.class);
-    }
-
-
-    /**
-     * This method will revert a TargetAccountingLine by overwriting its current values with the values in the corresponding
-     * baseline accountingLine. This assumes that the user presses the revert button for a specific accounting line on the document
-     * and that the document is represented by a FinancialDocumentFormBase.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    @Override
-    public ActionForward revertTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
-        LaborExpenseTransferDocumentBase financialDocument = (LaborExpenseTransferDocumentBase) financialDocumentForm.getDocument();
-
-        int revertIndex = getSelectedLine(request);
-
-        ExpenseTransferTargetAccountingLine originalLine = (ExpenseTransferTargetAccountingLine) financialDocumentForm.getBaselineTargetAccountingLine(revertIndex);
-        ExpenseTransferTargetAccountingLine brokenLine = (ExpenseTransferTargetAccountingLine) financialDocument.getTargetAccountingLine(revertIndex);
-
-        SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(originalLine);
-
-        // *always* revert (so that if someone manually changes the line to its original values, then hits revert, they won't get an
-        // error message saying "couldn't revert")
-        brokenLine.copyFrom(originalLine);
-        if (super.isSalesTaxRequired((AccountingDocument) financialDocumentForm.getDocument(), brokenLine)) {
-            brokenLine.setSalesTaxRequired(true);
-        }
-        financialDocumentForm.getTargetLineDecorator(revertIndex).setRevertible(false);
-        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_REVERT_SUCCESSFUL);
-
-        // no business rules to check, no events to create
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-
-    /**
-     * This method will revert a SourceAccountingLine by overwriting its current values with the values in the corresponding
-     * baseline accountingLine. This assumes that the user presses the revert button for a specific accounting line on the document
-     * and that the document is represented by a FinancialDocumentFormBase.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    @Override
-    public ActionForward revertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
-        LaborExpenseTransferDocumentBase financialDocument = (LaborExpenseTransferDocumentBase) financialDocumentForm.getDocument();
-        int revertIndex = getSelectedLine(request);
-
-        ExpenseTransferSourceAccountingLine originalLine = (ExpenseTransferSourceAccountingLine) financialDocumentForm.getBaselineSourceAccountingLine(revertIndex);
-        ExpenseTransferSourceAccountingLine brokenLine = (ExpenseTransferSourceAccountingLine) financialDocument.getSourceAccountingLine(revertIndex);
-
-        SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(originalLine);
-
-        // *always* revert (so that if someone manually changes the line to its original values, then hits revert, they won't get an
-        // error message saying "couldn't revert")
-        brokenLine.copyFrom(originalLine);
-        if (super.isSalesTaxRequired((AccountingDocument) financialDocumentForm.getDocument(), brokenLine)) {
-            brokenLine.setSalesTaxRequired(true);
-        }
-        financialDocumentForm.getSourceLineDecorator(revertIndex).setRevertible(false);
-        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_REVERT_SUCCESSFUL);
-
-        // no business rules to check, no events to create
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }
 

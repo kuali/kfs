@@ -22,7 +22,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -33,7 +33,7 @@ public class VendorCreditMemoAccountPercentBetween0And100Validation extends Gene
 
     public boolean validate(AttributedDocumentEvent event) {
         boolean isValid = true;        
-        PurApAccountingLine account = (PurApAccountingLine)((AttributedAddAccountingLineEvent)event).getAccountingLine();
+        PurApAccountingLine account = (PurApAccountingLine)((AddAccountingLineEvent)event).getAccountingLine();
         
         if (validateRequiredField(account, PurapPropertyConstants.ACCOUNT_LINE_PERCENT)) {
             double pct = account.getAccountLinePercent().doubleValue();

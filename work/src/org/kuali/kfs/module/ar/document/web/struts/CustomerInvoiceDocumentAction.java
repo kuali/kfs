@@ -295,7 +295,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         boolean rulePassed = true;
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail, KFSPropertyConstants.SOURCE_ACCOUNTING_LINES));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
 
         if (rulePassed) {
 

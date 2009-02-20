@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,6 @@ import org.apache.commons.collections.Predicate;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
-import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRule;
 import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -205,12 +206,12 @@ public class AuxiliaryVoucherForm extends VoucherForm {
                         result = acctPeriodService.compareAccountingPeriodsByDate(period, currPeriod) >= 0;
                         if (!result) {
                             // if yes, are we still in the grace period?
-                            result = AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(currentDate, period);
+                            result = getAuxiliaryVoucherDocument().calculateIfWithinGracePeriod(currentDate, period);
                         }
                     }
                     else {
                         // are we in current in the grace period of an ending accounting period of the previous fiscal year?
-                        result = AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(currentDate, period) && AuxiliaryVoucherDocumentRule.isEndOfPreviousFiscalYear(period);
+                        result = getAuxiliaryVoucherDocument().calculateIfWithinGracePeriod(currentDate, period) && getAuxiliaryVoucherDocument().isEndOfPreviousFiscalYear(period);
                     }
                 }
             }

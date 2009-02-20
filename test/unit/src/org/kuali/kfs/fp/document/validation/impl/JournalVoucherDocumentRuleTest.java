@@ -21,9 +21,7 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapCont
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
-import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.getBusinessRule;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
-import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
@@ -42,6 +40,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -55,16 +55,19 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
 import org.kuali.kfs.sys.document.validation.Validation;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = dfogle)
 public class JournalVoucherDocumentRuleTest extends KualiTestBase {
+    private static final Logger LOG = Logger.getLogger(JournalVoucherDocumentRuleTest.class);
 
     public static final Class<JournalVoucherDocument> DOCUMENT_CLASS = JournalVoucherDocument.class;
 
@@ -84,8 +87,8 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         line.setReferenceNumber("");
         line.setReferenceTypeCode("");
         testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_REQUIRED);
-        assertGlobalErrorMapContains(KFSPropertyConstants.REFERENCE_NUMBER, KFSKeyConstants.ERROR_REQUIRED);
-        assertGlobalErrorMapContains(KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
+        assertGlobalErrorMapContains(KFSKeyConstants.ERROR_REQUIRED+"."+KFSPropertyConstants.REFERENCE_NUMBER, KFSKeyConstants.ERROR_REQUIRED);
+        assertGlobalErrorMapContains(KFSKeyConstants.ERROR_REQUIRED+"."+KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
     }
 
     public void testProcessAddAccountingLineBusinessRules_validReferences() throws Exception {
@@ -109,13 +112,16 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     private void testProcessAddAccountingLineBusinessRules(AccountingLine line, String expectedErrorFieldName, String expectedErrorKey) throws Exception {
         line.refresh();
         assertGlobalErrorMapEmpty();
-        boolean wasValid = getBusinessRule(DOCUMENT_CLASS, AddAccountingLineRule.class).processAddAccountingLineBusinessRules(createDocumentUnbalanced(), line, expectedErrorKey);
+        boolean wasValid = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(expectedErrorKey, createDocumentUnbalanced(), line));
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(StringUtils.join(GlobalVariables.getErrorMap().keySet(),", ")+"; "+StringUtils.join(GlobalVariables.getErrorMap().getPropertiesWithErrors(), ", "));
+        }
         if (expectedErrorFieldName == null) {
             assertGlobalErrorMapEmpty(line.toString()); // fail printing error map for debugging before failing on simple result
             assertEquals("wasValid " + line, true, wasValid);
         }
         else {
-            assertGlobalErrorMapContains(line.toString(), expectedErrorFieldName, expectedErrorKey);
+            assertGlobalErrorMapContains(line.toString(), expectedErrorKey+"."+expectedErrorFieldName, expectedErrorKey);
             assertEquals("wasValid " + line, false, wasValid);
         }
     }
@@ -189,7 +195,15 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        JournalVoucherDocument document = buildDocument();
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation");
+        if (validation == null) throw new IllegalStateException("No object sub type value allowed validation");
+        validation.setAccountingDocumentForValidation(document);
+        validation.setAccountingLineForValidation(getValidObjectSubTypeTargetLine());
+        result = validation.validate(null);
+        assertEquals(true, result);
     }
 
     public void testProcessSaveDocument_Valid() throws Exception {

@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
@@ -34,7 +34,7 @@ public class VendorCreditMemoObjectCodeValidation extends GenericValidation {
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        PurApAccountingLine account = (PurApAccountingLine)((AttributedAddAccountingLineEvent)event).getAccountingLine();
+        PurApAccountingLine account = (PurApAccountingLine)((AddAccountingLineEvent)event).getAccountingLine();
         ObjectCode objectCode = account.getObjectCode();
 
         ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(VendorCreditMemoDocument.class, PurapRuleConstants.VALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, PurapRuleConstants.INVALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode());

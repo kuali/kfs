@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -37,10 +38,10 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -50,7 +51,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Business rule(s) applicable to Purchasing Accounts Payable Documents.
  */
-public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumentRuleBase implements AddPurchasingAccountsPayableItemRule, ImportPurchasingAccountsPayableItemRule {
+public class PurchasingAccountsPayableDocumentRuleBase implements AddPurchasingAccountsPayableItemRule, ImportPurchasingAccountsPayableItemRule {
+    public static final Logger LOG = Logger.getLogger(PurchasingAccountsPayableDocumentRuleBase.class);
 
     public PurchasingAccountsPayableDocumentRuleBase() {
         super();
@@ -63,7 +65,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @return boolean true if it passes the validation
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
-    @Override
+
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
@@ -78,7 +80,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @return boolean true if it passes the validation.
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
      */
-    @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) approveEvent.getDocument();
@@ -95,7 +96,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
-    @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         boolean isValid = true;
 
@@ -112,7 +112,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processDeleteAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, boolean)
      */
-    @Override
     public boolean processDeleteAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, boolean lineWasAlreadyDeletedFromDocument) {
         // I think PURAP's accounting line is a bit different than other documents. The source accounting line is per item, not per
         // document.
@@ -218,7 +217,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         boolean requiresAccountValidationOnAllEnteredItems = requiresAccountValidationOnAllEnteredItems(purapDocument);
         int i = 0;
         for (PurApItem item : purapDocument.getItems()) {
-            getDictionaryValidationService().validateBusinessObject(item);
+            SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(item);
             if (item.isConsideredEntered()) {
                 GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
                 // only do this check for below the line items
@@ -260,7 +259,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         int i = 0;
         for (PurApItem item : purapDocument.getItems()) {
         
-            getDictionaryValidationService().validateBusinessObject(item);
+            SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(item);
             
             //check to see if we need to call rules on a specific item (hook?)
             if (isItemConsideredEntered(item)) {
@@ -371,7 +370,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      */
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
 
-        return getDictionaryValidationService().isBusinessObjectValid(item, PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
+        return SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(item, PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
     }
 
 
@@ -386,7 +385,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      */
     public boolean processImportItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
 
-        return getDictionaryValidationService().isBusinessObjectValid(item, PurapConstants.ITEM_TAB_ERROR_PROPERTY);
+        return SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(item, PurapConstants.ITEM_TAB_ERROR_PROPERTY);
     }
     
     /**
@@ -413,7 +412,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
-    @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
 
         return true;
@@ -534,7 +532,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         return true;
     }
 
-    @Override
     protected AccountingLineRuleHelperService getAccountingLineRuleHelperService(AccountingDocument accountingDocument) {
         PurapAccountingLineRuleHelperService purapAccountingLineRuleHelperService = SpringContext.getBean(PurapAccountingLineRuleHelperService.class);
         purapAccountingLineRuleHelperService.setDocument((PurchasingAccountsPayableDocument)accountingDocument);

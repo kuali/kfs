@@ -120,8 +120,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase.AccountingLineAction)
      */
-    @Override
-    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
+    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine) {
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
@@ -132,7 +131,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         }
         else {
 
-            return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
+            return false;
         }
     }
 
@@ -167,7 +166,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processReviewAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
-    @Override
     public boolean processReviewAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         // make sure it's active for usage
         if (isAccountClosed(accountingLine)) {
@@ -175,7 +173,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
             return false;
         }
 
-        return super.processReviewAccountingLineBusinessRules(financialDocument, accountingLine);
+        return true;
     }
 
     /**
@@ -188,7 +186,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processUpdateAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
-    @Override
     public boolean processUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
         // make sure it's active for usage
         if (isAccountClosed(accountingLine)) {
@@ -196,7 +193,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
             return false;
         }
 
-        return super.processUpdateAccountingLineBusinessRules(financialDocument, accountingLine, updatedAccountingLine);
+        return true;
     }
 
     /**

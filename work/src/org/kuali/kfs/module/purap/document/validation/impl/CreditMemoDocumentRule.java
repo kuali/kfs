@@ -540,8 +540,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase.AccountingLineAction)
      */
-    @Override
-    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
+    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine) {
         // always return true because CM does not have a FO type of level
         return true;
     }

@@ -88,12 +88,6 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
             boolean generateBenefits = super.askOrAnalyzeYesNoQuestion(KFSConstants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);
             if (generateBenefits) {
                 SpringContext.getBean(BudgetAdjustmentLaborBenefitsService.class).generateLaborBenefitsAccountingLines(budgetDocument);
-                // update baselines in form
-                
-                // TODO: remove the deepCopyAccountingLinesList method from this class once we take out the baseline accountingl lines
-                ((KualiAccountingDocumentFormBase) form).setBaselineSourceAccountingLines(deepCopyAccountingLinesList(budgetDocument.getSourceAccountingLines()));
-                ((KualiAccountingDocumentFormBase) form).setBaselineTargetAccountingLines(deepCopyAccountingLinesList(budgetDocument.getTargetAccountingLines()));
-
                 // return to document after lines are generated
                 super.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
                 return false;

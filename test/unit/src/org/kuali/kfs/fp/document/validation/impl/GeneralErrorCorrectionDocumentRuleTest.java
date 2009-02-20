@@ -289,7 +289,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
 //        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
 //        validation.setAccountingLineForValidation(getInvalidObjectTypeSourceLine());
 //        validation.setParameterService(SpringContext.getBean(ParameterService.class));
-//        assertEquals(false, validation.validate(new AttributedAddAccountingLineEvent(null, accountingDocument, getInvalidObjectTypeSourceLine())));
+//        assertEquals(false, validation.validate(new AddAccountingLineEvent(null, accountingDocument, getInvalidObjectTypeSourceLine())));
 //        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS,  getInvalidObjectTypeSourceLine(), false);
  //       ObjectCode code = getInvalidObjectCodeSourceLine().getObjectCode();
   //      GeneralErrorCorrectionDocumentRule rule = new GeneralErrorCorrectionDocumentRule();
@@ -301,7 +301,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
 //        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
 //        validation.setAccountingLineForValidation(getValidObjectTypeSourceLine());
 //        validation.setParameterService(SpringContext.getBean(ParameterService.class));
-//        assertEquals(true, validation.validate(new AttributedAddAccountingLineEvent(null, accountingDocument, getValidObjectTypeSourceLine())));
+//        assertEquals(true, validation.validate(new AddAccountingLineEvent(null, accountingDocument, getValidObjectTypeSourceLine())));
 //    }
 //
 //    public void testIsObjectCodeAllowed_Valid() throws Exception {
@@ -313,7 +313,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
 //        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
 //        validation.setAccountingLineForValidation(getInvalidObjectTypeSourceLine());
 //        validation.setParameterService(SpringContext.getBean(ParameterService.class));
-//        assertEquals(false, validation.validate(new AttributedAddAccountingLineEvent(null, accountingDocument, getInvalidObjectCodeSourceLine())));
+//        assertEquals(false, validation.validate(new AddAccountingLineEvent(null, accountingDocument, getInvalidObjectCodeSourceLine())));
 //      //  testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getInvalidObjectCodeSourceLine(), false);
 //    }
 //
@@ -332,7 +332,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
 //        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
 //        validation.setAccountingLineForValidation(getInvalidObjectTypeSourceLine());
 //        validation.setParameterService(SpringContext.getBean(ParameterService.class));
-//        assertEquals(false, validation.validate(new AttributedAddAccountingLineEvent(null, accountingDocument, getInvalidObjectSubTypeTargetLine())));
+//        assertEquals(false, validation.validate(new AddAccountingLineEvent(null, accountingDocument, getInvalidObjectSubTypeTargetLine())));
 //        //testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getInvalidObjectSubTypeTargetLine(), false);
 //    }
 

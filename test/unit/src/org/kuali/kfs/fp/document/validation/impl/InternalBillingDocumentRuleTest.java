@@ -23,7 +23,10 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
+import java.util.Map;
+
 import org.kuali.kfs.fp.document.InternalBillingDocument;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -33,6 +36,8 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.Validation;
+import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -67,7 +72,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         AccountingLine line = EXPENSE_LINE.createSourceAccountingLine();
         line.refresh();
         assertGlobalErrorMapEmpty();
-        boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(InternalBillingDocument.class, line);
+        boolean actual = isSubFundGroupAllowed(new InternalBillingDocument(), line);
         assertGlobalErrorMapEmpty();
         assertEquals(true, actual);
     }
@@ -76,9 +81,25 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         AccountingLine line = PFIP_SUB_FUND_LINE.createSourceAccountingLine();
         line.refresh();
         assertGlobalErrorMapEmpty();
-        boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(InternalBillingDocument.class, line);
+        boolean actual = isSubFundGroupAllowed(new InternalBillingDocument(), line);
         assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_INVALID_VALUE, new String[] { null, "PFIP", null, "not allowed", "PFRI, PFIP", null });
         assertEquals(false, actual);
+    }
+    
+    /**
+     * Tests if a given sub fund group is allowed for an internal billing document
+     * @param ibDoc the internal billing document to check
+     * @param line the accounting line to check
+     * @return true if the sub fund group is allowed, false otherwise
+     */
+    public boolean isSubFundGroupAllowed(InternalBillingDocument ibDoc, AccountingLine line) {
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsSubFundGroupAllowed-DefaultValidation");
+        if (validation == null) throw new IllegalStateException("No object sub type value allowed validation");
+        validation.setAccountingDocumentForValidation(ibDoc);
+        validation.setAccountingLineForValidation(line);
+        return validation.validate(null);
     }
 
     /**

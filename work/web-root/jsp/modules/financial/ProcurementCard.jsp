@@ -53,7 +53,7 @@
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
-	<fin:procurementCardAccountingLines
+	<fin:procurementCardTransactions
 		editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" />
 	

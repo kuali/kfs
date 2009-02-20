@@ -3,11 +3,6 @@
   <bean id="DisbursementVoucherDocument" parent="DisbursementVoucherDocument-parentBean"/>
 
   <bean id="DisbursementVoucherDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="DV"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument"/>
 	   
@@ -572,19 +567,19 @@
 				<value>DisbursementVoucher-blanketApproveDocumentValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
 				<value>DisbursementVoucher-addAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
 				<value>DisbursementVoucher-deleteAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				<value>DisbursementVoucher-updateAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 				<value>DisbursementVoucher-reviewAccountingLineValidation</value>
 			</entry>
     	</map>

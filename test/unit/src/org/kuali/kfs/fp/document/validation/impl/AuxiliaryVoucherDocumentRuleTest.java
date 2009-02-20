@@ -17,7 +17,6 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
-import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
@@ -122,7 +121,15 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectCodeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        AuxiliaryVoucherDocument document = createDocument();
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectCodeAllowed-DefaultValidation");
+        if (validation == null) throw new IllegalStateException("No object code value allowed validation");
+        validation.setAccountingDocumentForValidation(document);
+        validation.setAccountingLineForValidation(getValidObjectCodeSourceLine());
+        result = validation.validate(null);
+        assertEquals(true, result);
     }
 
     public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
@@ -294,14 +301,15 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         AccountingPeriod firstPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("10", new Integer(2007));
         java.util.Calendar firstPeriodInside = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 8);
         java.util.Calendar firstPeriodOutside = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 23);
-        assertTrue(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodInside.getTimeInMillis()), firstPeriod));
-        assertFalse(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodOutside.getTimeInMillis()), firstPeriod));
+        final AuxiliaryVoucherDocument avDoc = new AuxiliaryVoucherDocument();
+        assertTrue(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodInside.getTimeInMillis()), firstPeriod));
+        assertFalse(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodOutside.getTimeInMillis()), firstPeriod));
 
         AccountingPeriod secondPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("13", new Integer(2006));
         java.util.Calendar secondPeriodInside = new java.util.GregorianCalendar(2006, java.util.Calendar.JULY, 20);
         java.util.Calendar secondPeriodOutside = new java.util.GregorianCalendar(2007, java.util.Calendar.JULY, 21);
-        assertTrue(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodInside.getTimeInMillis()), secondPeriod));
-        assertFalse(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodOutside.getTimeInMillis()), secondPeriod));
+        assertTrue(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodInside.getTimeInMillis()), secondPeriod));
+        assertFalse(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodOutside.getTimeInMillis()), secondPeriod));
 
     }
 
@@ -309,14 +317,15 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
      * This tests that comparable dates are being calculated correctly.
      */
     public void testComparableDateForm() {
+        final AuxiliaryVoucherDocument avDoc = new AuxiliaryVoucherDocument();
         java.util.Calendar firstDate = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 8);
-        assertEquals(new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(new java.sql.Date(firstDate.getTimeInMillis()))), new Integer(732683));
+        assertEquals(new Integer(avDoc.comparableDateForm(new java.sql.Date(firstDate.getTimeInMillis()))), new Integer(732683));
 
         java.util.Calendar secondDate = new java.util.GregorianCalendar(1776, java.util.Calendar.JULY, 4);
-        assertEquals(new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(new java.sql.Date(secondDate.getTimeInMillis()))), new Integer(648426));
+        assertEquals(new Integer(avDoc.comparableDateForm(new java.sql.Date(secondDate.getTimeInMillis()))), new Integer(648426));
 
         java.util.Calendar thirdDate = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 7);
-        assertEquals(new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(new java.sql.Date(thirdDate.getTimeInMillis()))), new Integer(732682));
+        assertEquals(new Integer(avDoc.comparableDateForm(new java.sql.Date(thirdDate.getTimeInMillis()))), new Integer(732682));
     }
 
     /**
@@ -346,7 +355,8 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
      * @param cal the calendar to check
      */
     private void doFirstDayOfMonthTest(java.util.Calendar cal) {
-        java.sql.Date firstOfMonth = AuxiliaryVoucherDocumentRule.calculateFirstDayOfMonth(new java.sql.Date(cal.getTimeInMillis()));
+        final AuxiliaryVoucherDocument avDoc = new AuxiliaryVoucherDocument();
+        java.sql.Date firstOfMonth = avDoc.calculateFirstDayOfMonth(new java.sql.Date(cal.getTimeInMillis()));
         java.util.Calendar testCal = new java.util.GregorianCalendar();
         testCal.setTime(firstOfMonth);
         assertEquals(new Integer(1), new Integer(testCal.get(java.util.Calendar.DAY_OF_MONTH)));

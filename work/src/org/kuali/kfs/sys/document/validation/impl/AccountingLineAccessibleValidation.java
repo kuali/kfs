@@ -29,10 +29,10 @@ import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -128,11 +128,11 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      * @return the key of the error message to display
      */
     protected String convertEventToMessage(KualiDocumentEvent event) {
-        if (event instanceof AttributedAddAccountingLineEvent) {
+        if (event instanceof AddAccountingLineEvent) {
             return AccountingLineAction.ADD.accessibilityErrorKey;
-        } else if (event instanceof AttributedUpdateAccountingLineEvent) {
+        } else if (event instanceof UpdateAccountingLineEvent) {
             return AccountingLineAction.UPDATE.accessibilityErrorKey;
-        } else if (event instanceof AttributedDeleteAccountingLineEvent) {
+        } else if (event instanceof DeleteAccountingLineEvent) {
             return AccountingLineAction.DELETE.accessibilityErrorKey;
         } else {
             return "";

@@ -134,7 +134,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#accountIsAccessible(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
-    @Override
     protected boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine) {
         PaymentRequestDocument preq = (PaymentRequestDocument) financialDocument;
         // We are overriding the accessibility of the accounts only in the case where awaiting ap review, that is because the super
@@ -144,7 +143,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             return true;
         }
         else {
-            return super.accountIsAccessible(financialDocument, accountingLine);
+            return false;
         }
     }
 
@@ -744,7 +743,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         KualiDecimal itemTotal = item.getTotalAmount();
         KualiDecimal accountTotal = KualiDecimal.ZERO;
         for (PurApAccountingLine accountingLine : accountingLines) {
-            valid &= this.processReviewAccountingLineBusinessRules(paymentRequestDocument, accountingLine);
+            valid &= true;
             accountTotal = accountTotal.add(accountingLine.getAmount());
         }
         if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument) paymentRequestDocument)) {
@@ -1242,15 +1241,13 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
 
-    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean valid = super.processCustomSaveDocumentBusinessRules(document);
         
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         
         GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         // Pay date in the past validation.
-        valid &= validatePayDateNotPast(paymentRequestDocument);
+        boolean valid = validatePayDateNotPast(paymentRequestDocument);
         GlobalVariables.getErrorMap().clearErrorPath();
         
         

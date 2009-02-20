@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,38 +16,43 @@
 package org.kuali.kfs.fp.document.validation.event;
 
 import org.kuali.kfs.fp.businessobject.Check;
-import org.kuali.kfs.fp.document.validation.DeleteCheckRule;
-import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- * This class represents the delete check event. This could be triggered when a user presses the delete button for a given
- * document's check line.
+ * An event which is fired when a member of the Cash Receipt family of documents deletes a check. 
  */
-public final class DeleteCheckEvent extends CheckEventBase {
+public class DeleteCheckEvent extends AttributedDocumentEventBase implements CheckEvent {
+    private final Check check;
+    
     /**
-     * Constructs a DeleteCheckEvent with the given errorPathPrefix, document, and accountingLine.
+     * Initializes fields common to all subclasses
      * 
+     * @param description
      * @param errorPathPrefix
      * @param document
-     * @param accountingLine
+     * @param check
+     */
+    public DeleteCheckEvent(String description, String errorPathPrefix, Document document, Check check) {
+        super(description, errorPathPrefix, document);
+
+        this.check = check;
+    }
+    
+    /**
+     * Constructs a DeleteCheckEvent with an empty description
+     * @param errorPathPrefix
+     * @param document
+     * @param check
      */
     public DeleteCheckEvent(String errorPathPrefix, Document document, Check check) {
-        super("deleting check from document " + getDocumentId(document), errorPathPrefix, document, check);
+        this("", errorPathPrefix, document, check);
     }
-
+    
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.CheckEvent#getCheck()
      */
-    public Class getRuleInterfaceClass() {
-        return DeleteCheckRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((DeleteCheckRule) rule).processDeleteCheckBusinessRules((AccountingDocument) getDocument(), getCheck());
+    public Check getCheck() {
+        return check;
     }
 }

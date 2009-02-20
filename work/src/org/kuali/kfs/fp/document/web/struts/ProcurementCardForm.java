@@ -116,19 +116,6 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase impleme
     public void setNewTargetLines(List newTargetLines) {
         this.newTargetLines = newTargetLines;
     }
-
-
-    /**
-     * Override to return ProcurementCardTargetAccountingLine
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getBaselineSourceAccountingLine(int)
-     */
-    public TargetAccountingLine getBaselineTargetAccountingLine(int index) {
-        while (getBaselineTargetAccountingLines().size() <= index) {
-            getBaselineTargetAccountingLines().add(new ProcurementCardTargetAccountingLine());
-        }
-        return (ProcurementCardTargetAccountingLine) getBaselineTargetAccountingLines().get(index);
-    }
     
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()

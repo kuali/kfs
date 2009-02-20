@@ -40,15 +40,15 @@
 					<value>PurchaseOrderVoid-approveDocumentValidation</value>
 				</entry>		
 				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+					<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
 					<value>PurchaseOrderVoid-addAccountingLineValidation</value>
 				</entry>
 				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+					<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 					<value>PurchaseOrderVoid-updateAccountingLineValidation</value>
 				</entry>	
 				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+					<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 					<value>PurchaseOrderVoid-reviewAccountingLineValidation</value>
 				</entry>
 				<entry>

@@ -67,9 +67,8 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getBaselineSourceAccountingLines()
      */
-    @Override
     public List getBaselineSourceAccountingLines() {
-        List<AccountingLine> accounts = super.getBaselineSourceAccountingLines();
+        List<AccountingLine> accounts = new ArrayList<AccountingLine>();
         if (ObjectUtils.isNull(accounts) || accounts.isEmpty()) {
             accounts = new ArrayList<AccountingLine>();
             for (PurApItem item : ((PurchasingAccountsPayableDocument) getDocument()).getItems()) {

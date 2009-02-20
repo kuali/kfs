@@ -32,8 +32,6 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineBase;
-import org.kuali.kfs.sys.businessobject.AccountingLineDecorator;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -67,32 +65,16 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     protected FormFile targetFile;
     private boolean hideDetails = false;
 
-    private List<AccountingLineDecorator> sourceLineDecorators;
-    private List<AccountingLineDecorator> targetLineDecorators;
-
-    private List baselineSourceAccountingLines;
-    private List baselineTargetAccountingLines;
-
     /**
      * This constructor sets up empty instances for the dependent objects...
      */
     public KualiAccountingDocumentFormBase() {
         super();
-        setFormatterType("sourceLineDecorator.revertible", SimpleBooleanFormatter.class);
-        setFormatterType("targetLineDecorator.revertible", SimpleBooleanFormatter.class);
 
         // create an empty editableAccounts map, for safety's sake
         editableAccounts = new HashMap();
         forcedReadOnlyFields = new HashMap();
         forcedLookupOptionalFields = new HashMap();
-
-        // initialize accountingLine lists
-        baselineSourceAccountingLines = new ArrayList();
-        baselineTargetAccountingLines = new ArrayList();
-
-        // initialize accountingLine decoration lists
-        sourceLineDecorators = new ArrayList<AccountingLineDecorator>();
-        targetLineDecorators = new ArrayList<AccountingLineDecorator>();
     }
 
 
@@ -355,240 +337,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         this.hideDetails = hideDetails;
     }
 
-
-    /**
-     * @return current List of baseline SourceAccountingLines for use in update-event generation
-     */
-    public List getBaselineSourceAccountingLines() {
-        return baselineSourceAccountingLines;
-    }
-
-    /**
-     * Sets the current List of baseline SourceAccountingLines to the given List
-     * 
-     * @param baselineSourceAccountingLines
-     */
-    public void setBaselineSourceAccountingLines(List baselineSourceAccountingLines) {
-        this.baselineSourceAccountingLines = baselineSourceAccountingLines;
-    }
-
-    /**
-     * @param index
-     * @return true if a baselineSourceAccountingLine with the given index exists
-     */
-    public boolean hasBaselineSourceAccountingLine(int index) {
-        boolean has = false;
-
-        if ((index >= 0) && (index <= baselineSourceAccountingLines.size())) {
-            has = true;
-        }
-
-        return has;
-    }
-
-    /**
-     * Implementation creates empty SourceAccountingLines as a side-effect, so that Struts' efforts to set fields of lines which
-     * haven't been created will succeed rather than causing a NullPointerException.
-     * 
-     * @param index
-     * @return baseline SourceAccountingLine at the given index
-     */
-    public SourceAccountingLine getBaselineSourceAccountingLine(int index) {
-        try {
-            while (baselineSourceAccountingLines.size() <= index) {
-                baselineSourceAccountingLines.add(getFinancialDocument().getSourceAccountingLineClass().newInstance());
-            }
-        }
-        catch (InstantiationException e) {
-            throw new RuntimeException("Unable to get new source line instance for document" + e.getMessage());
-        }
-        catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to get new source line instance for document" + e.getMessage());
-        }
-
-        return (SourceAccountingLine) baselineSourceAccountingLines.get(index);
-    }
-
-
-    /**
-     * @return current List of baseline TargetAccountingLines for use in update-event generation
-     */
-    public List getBaselineTargetAccountingLines() {
-        return baselineTargetAccountingLines;
-    }
-
-    /**
-     * Sets the current List of baseline TargetAccountingLines to the given List
-     * 
-     * @param baselineTargetAccountingLines
-     */
-    public void setBaselineTargetAccountingLines(List baselineTargetAccountingLines) {
-        this.baselineTargetAccountingLines = baselineTargetAccountingLines;
-    }
-
-
-    /**
-     * @param index
-     * @return true if a baselineTargetAccountingLine with the given index exists
-     */
-    public boolean hasBaselineTargetAccountingLine(int index) {
-        boolean has = false;
-
-        if ((index >= 0) && (index <= baselineTargetAccountingLines.size())) {
-            has = true;
-        }
-
-        return has;
-    }
-
-    /**
-     * Implementation creates empty TargetAccountingLines as a side-effect, so that Struts' efforts to set fields of lines which
-     * haven't been created will succeed rather than causing a NullPointerException.
-     * 
-     * @param index
-     * @return baseline TargetAccountingLine at the given index
-     */
-    public TargetAccountingLine getBaselineTargetAccountingLine(int index) {
-        try {
-            while (baselineTargetAccountingLines.size() <= index) {
-                baselineTargetAccountingLines.add(getFinancialDocument().getTargetAccountingLineClass().newInstance());
-            }
-        }
-        catch (InstantiationException e) {
-            throw new RuntimeException("Unable to get new target line instance for document" + e.getMessage());
-        }
-        catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to get new target line instance for document" + e.getMessage());
-        }
-
-        return (TargetAccountingLine) baselineTargetAccountingLines.get(index);
-    }
-
-
-    /**
-     * @return current List of SourceAccountingLine decorations
-     */
-    public List<AccountingLineDecorator> getSourceLineDecorators() {
-        return sourceLineDecorators;
-    }
-
-    /**
-     * @param minSize
-     * @return current List of SourceAccountingLine decorations, expanded to have at least minSize elements
-     */
-    public List<AccountingLineDecorator> getSourceLineDecorators(int minSize) {
-        extendSourceLineDecorators(minSize);
-
-        return sourceLineDecorators;
-    }
-
-    /**
-     * Adds default AccountingLineDecorators to sourceAccountingLineDecorators until it contains at least minSize elements
-     * 
-     * @param minSize
-     */
-    private void extendSourceLineDecorators(int minSize) {
-        while (sourceLineDecorators.size() < minSize) {
-            sourceLineDecorators.add(new AccountingLineDecorator());
-        }
-    }
-
-    /**
-     * Sets the current List of SourceAccountingLine decorators
-     * 
-     * @param sourceLineDecorators
-     */
-    public void setSourceLineDecorators(List<AccountingLineDecorator> sourceLineDecorators) {
-        this.sourceLineDecorators = sourceLineDecorators;
-    }
-
-    /**
-     * Implementation creates empty AccountingLineDecorators as a side-effect, so that Struts' efforts to set fields of lines which
-     * haven't been created will succeed rather than causing a NullPointerException.
-     * 
-     * @param index
-     * @return AccountingLineDecorators for sourceLine at the given index
-     */
-    public AccountingLineDecorator getSourceLineDecorator(int index) {
-        extendSourceLineDecorators(index + 1);
-
-        return sourceLineDecorators.get(index);
-    }
-
-
-    /**
-     * @return current List of TargetAccountingLine decorators
-     */
-    public List<AccountingLineDecorator> getTargetLineDecorators() {
-        return targetLineDecorators;
-    }
-
-    /**
-     * @param minSize
-     * @return current List of TargetAccountingLine decorators, expanded to have at least minSize elements
-     */
-    public List<AccountingLineDecorator> getTargetLineDecorators(int minSize) {
-        extendTargetLineDecorators(minSize);
-
-        return targetLineDecorators;
-    }
-
-    /**
-     * Adds default AccountingLineDecorators to targetAccountingLineDecorators until it contains at least minSize elements
-     * 
-     * @param minSize
-     */
-    private void extendTargetLineDecorators(int minSize) {
-        while (targetLineDecorators.size() < minSize) {
-            targetLineDecorators.add(new AccountingLineDecorator());
-        }
-    }
-
-    /**
-     * Sets the current List of TargetAccountingLine decorators
-     * 
-     * @param targetLineDecorators
-     */
-    public void setTargetLineDecorators(List<AccountingLineDecorator> targetLineDecorators) {
-        this.targetLineDecorators = targetLineDecorators;
-    }
-
-    /**
-     * Implementation creates empty AccountingLineDecorators as a side-effect, so that Struts' efforts to set fields of lines which
-     * haven't been created will succeed rather than causing a NullPointerException.
-     * 
-     * @param index
-     * @return AccountingLineDecorator for targetLine at the given index
-     */
-    public AccountingLineDecorator getTargetLineDecorator(int index) {
-        extendTargetLineDecorators(index + 1);
-
-        return targetLineDecorators.get(index);
-    }
-
-
-    /**
-     * Resets the source accounting line decorators to new and ensures that there are the given number. These decorators take very
-     * little memory, there are few of them on the page, and they are rarely reset, so this method does it the simple way.
-     * 
-     * @param size
-     */
-    public void resetSourceLineDecorators(int size) {
-        sourceLineDecorators.clear();
-        extendSourceLineDecorators(size);
-    }
-
-    /**
-     * Resets the target accounting line decorators to new and ensures that there are the given number. These decorators take very
-     * little memory, there are few of them on the page, and they are rarely reset, so this method does it the simple way.
-     * 
-     * @param size
-     */
-    public void resetTargetLineDecorators(int size) {
-        targetLineDecorators.clear();
-        extendTargetLineDecorators(size);
-    }
-
     /**
      * Retrieves the source accounting lines total in a currency format with commas.
      * 
@@ -645,27 +393,6 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         catch (Exception e) {
             throw new InfrastructureException("unable to create a new target accounting line", e);
         }
-    }
-
-    /**
-     * This method finds its appropriate document authorizer and uses that to reset the map of editable accounts, based on the
-     * current accounting lines.
-     */
-    public void refreshEditableAccounts() {
-        AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(this.getDocument());
-        this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), GlobalVariables.getUserSession().getPerson()));
-    }
-
-    /**
-     * This method returns a list made up of accounting line from all baseline accounting line sources.
-     * 
-     * @return a list of accounting lines, made up of all baseline source and baseline target lines.
-     */
-    private List<AccountingLine> glomBaselineAccountingLines() {
-        List<AccountingLine> lines = new ArrayList<AccountingLine>();
-        lines.addAll(harvestAccountingLines(this.getBaselineSourceAccountingLines()));
-        lines.addAll(harvestAccountingLines(this.getBaselineTargetAccountingLines()));
-        return lines;
     }
 
     /**

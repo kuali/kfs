@@ -162,14 +162,13 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         return requiresAccountValidation;
     }
     
-    @Override
-    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
+    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine) {
 
         if( SpringContext.getBean(PurapService.class).isDocumentStoppedInRouteNode((PurchasingAccountsPayableDocument)financialDocument, "New Unordered Items") ){
             //DO NOTHING: do not check that user owns acct lines; at this level, they can edit all accounts on PO amendment
             return true;
         }else{
-            return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
+            return false;
         }
     }
     

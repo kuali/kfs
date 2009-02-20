@@ -27,10 +27,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -127,13 +127,13 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * @see AccountingDocumentRuleBase.AccountingLineAction
      */
     protected static String noServiceBillingControlErrorKey(AttributedDocumentEvent event) {
-        if (event instanceof AttributedAddAccountingLineEvent) {
+        if (event instanceof AddAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NO_SB_CTRL;
         }
-        else if (event instanceof AttributedUpdateAccountingLineEvent) {
+        else if (event instanceof UpdateAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NO_SB_CTRL;
         }
-        else if (event instanceof AttributedDeleteAccountingLineEvent) {
+        else if (event instanceof DeleteAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NO_SB_CTRL;
         }
         else
@@ -149,13 +149,13 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * @see AccountingDocumentRuleBase.AccountingLineAction
      */
     protected static String notControlGroupMemberErrorKey(AttributedDocumentEvent event) {
-        if (event instanceof AttributedAddAccountingLineEvent) {
+        if (event instanceof AddAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NOT_IN_SB_CTRL_GRP;
         }
-        else if (event instanceof AttributedUpdateAccountingLineEvent) {
+        else if (event instanceof UpdateAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NOT_IN_SB_CTRL_GRP;
         }
-        else if (event instanceof AttributedDeleteAccountingLineEvent) {
+        else if (event instanceof DeleteAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NOT_IN_SB_CTRL_GRP;
         }
         else

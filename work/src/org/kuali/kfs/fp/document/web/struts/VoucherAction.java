@@ -57,32 +57,6 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
     // these should not be used outside of this class
 
     /**
-     * We want to keep the bad data for the voucher.
-     */
-    @Override
-    protected boolean revertAccountingLine(KualiAccountingDocumentFormBase transForm, int revertIndex, AccountingLine originalLine, AccountingLine brokenLine) {
-        boolean reverted = super.revertAccountingLine(transForm, revertIndex, originalLine, brokenLine);
-
-        if (reverted) {
-            VoucherForm vForm = (VoucherForm) transForm;
-            VoucherAccountingLineHelper helper = vForm.getVoucherLineHelper(revertIndex);
-
-            String debitCreditCode = originalLine.getDebitCreditCode();
-            if (StringUtils.equals(debitCreditCode, KFSConstants.GL_DEBIT_CODE)) {
-                helper.setDebit(originalLine.getAmount());
-                helper.setCredit(KualiDecimal.ZERO);
-            }
-            else if (StringUtils.equals(debitCreditCode, KFSConstants.GL_CREDIT_CODE)) {
-                helper.setDebit(KualiDecimal.ZERO);
-                helper.setCredit(originalLine.getAmount());
-            }
-            // intentionally ignoring the case where debitCreditCode is neither debit nor credir
-        }
-
-        return reverted;
-    }
-
-    /**
      * Overrides to call super, and then to repopulate the credit/debit amounts b/c the credit/debit code might change during a
      * voucher error correction.
      * 

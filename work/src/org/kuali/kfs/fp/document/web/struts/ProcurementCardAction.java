@@ -24,9 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineDecorator;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -78,7 +76,7 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
         ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) procurementCardForm.getNewTargetLines().get(newTargetIndex);
 
         // check any business rules
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(newTargetIndex) + "]", procurementCardForm.getDocument(), (AccountingLine) line, KFSPropertyConstants.TARGET_ACCOUNTING_LINES));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(newTargetIndex) + "]", procurementCardForm.getDocument(), (AccountingLine) line));
 
         if (rulePassed) {
             // add accountingLine
@@ -104,21 +102,8 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
     protected void insertAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, AccountingLine line) {
         AccountingDocument tdoc = financialDocumentForm.getFinancialDocument();
 
-        // create and init a decorator
-        AccountingLineDecorator decorator = new AccountingLineDecorator();
-        decorator.setRevertible(false);
-
         // add it to the document
         tdoc.addTargetAccountingLine((TargetAccountingLine) line);
-
-        // get the index of the inserted line
-        int newLineIndex = tdoc.getTargetAccountingLines().indexOf(line);
-
-        // add it to the baseline, to prevent generation of spurious update events
-        financialDocumentForm.getBaselineTargetAccountingLines().add(newLineIndex, line);
-
-        // add the decorator
-        financialDocumentForm.getTargetLineDecorators().add(newLineIndex, decorator);
     }
 
     /**
@@ -131,10 +116,6 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
     protected void deleteAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, int deleteIndex) {
         ProcurementCardDocument procurementCardDocument = (ProcurementCardDocument) financialDocumentForm.getDocument();
         procurementCardDocument.removeTargetAccountingLine(deleteIndex);
-
-        // remove baseline duplicate and decorator
-        financialDocumentForm.getBaselineTargetAccountingLines().remove(deleteIndex);
-        financialDocumentForm.getTargetLineDecorators().remove(deleteIndex);
     }
 
     /**

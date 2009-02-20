@@ -258,8 +258,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase.AccountingLineAction)
      */
-    @Override
-    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
+    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine) {
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
@@ -269,7 +268,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
         }
         else {
 
-            return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
+            return false;
         }
     }
     

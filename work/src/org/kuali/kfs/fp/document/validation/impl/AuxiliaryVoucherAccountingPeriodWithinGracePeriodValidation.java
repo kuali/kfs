@@ -60,7 +60,7 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
                 // we've only got problems if the av's accounting period is earlier than now
 
                 // are we in the grace period for this accounting period?
-                if (!calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod)) {
+                if (!getAuxiliaryVoucherDocumentForValidation().calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod)) {
                     GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                     return false;
                 }
@@ -69,69 +69,13 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
         else {
             // it's not the same fiscal year, so we need to test whether we are currently
             // in the grace period of the acctPeriod
-            if (!calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod) && isEndOfPreviousFiscalYear(acctPeriod)) {
+            if (!getAuxiliaryVoucherDocumentForValidation().calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod) && getAuxiliaryVoucherDocumentForValidation().isEndOfPreviousFiscalYear(acctPeriod)) {
                 GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                 return false;
             }
         }
 
         return valid;
-    }
-    
-    /**
-     * This method checks if a given moment of time is within an accounting period, or its auxiliary voucher grace period.
-     * 
-     * @param today a date to check if it is within the period
-     * @param periodToCheck the account period to check against
-     * @return true if a given moment in time is within an accounting period or an auxiliary voucher grace period
-     */
-    public boolean calculateIfWithinGracePeriod(Date today, AccountingPeriod periodToCheck) {
-        boolean result = false;
-        int todayAsComparableDate = AuxiliaryVoucherDocumentRule.comparableDateForm(today);
-        int periodClose = new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(periodToCheck.getUniversityFiscalPeriodEndDate()));
-        int periodBegin = AuxiliaryVoucherDocumentRule.comparableDateForm(calculateFirstDayOfMonth(periodToCheck.getUniversityFiscalPeriodEndDate()));
-        int gracePeriodClose = periodClose + new Integer(getParameterService().getParameterValue(AuxiliaryVoucherDocument.class, AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
-        return (todayAsComparableDate >= periodBegin && todayAsComparableDate <= gracePeriodClose);
-    }
-    /**
-     * This method returns a date as an approximate count of days since the BCE epoch.
-     * 
-     * @param d the date to convert
-     * @return an integer count of days, very approximate
-     */
-    public int comparableDateForm(Date d) {
-        java.util.Calendar cal = new java.util.GregorianCalendar();
-        cal.setTime(d);
-        return cal.get(java.util.Calendar.YEAR) * 365 + cal.get(java.util.Calendar.DAY_OF_YEAR);
-    }
-
-    /**
-     * Given a day, this method calculates what the first day of that month was.
-     * 
-     * @param d date to find first of month for
-     * @return date of the first day of the month
-     */
-    public Date calculateFirstDayOfMonth(Date d) {
-        java.util.Calendar cal = new java.util.GregorianCalendar();
-        cal.setTime(d);
-        int dayOfMonth = cal.get(java.util.Calendar.DAY_OF_MONTH) - 1;
-        cal.add(java.util.Calendar.DAY_OF_YEAR, -1 * dayOfMonth);
-        return new Date(cal.getTimeInMillis());
-    }
-
-    /**
-     * This method checks if the given accounting period ends on the last day of the previous fiscal year
-     * 
-     * @param acctPeriod accounting period to check
-     * @return true if the accounting period ends with the fiscal year, false if otherwise
-     */
-    public boolean isEndOfPreviousFiscalYear(AccountingPeriod acctPeriod) {
-        Date firstDayOfCurrFiscalYear = new Date(getUniversityDateService().getFirstDateOfFiscalYear(getUniversityDateService().getCurrentFiscalYear()).getTime());
-        Date periodClose = acctPeriod.getUniversityFiscalPeriodEndDate();
-        java.util.Calendar cal = new java.util.GregorianCalendar();
-        cal.setTime(periodClose);
-        cal.add(java.util.Calendar.DATE, 1);
-        return (firstDayOfCurrFiscalYear.equals(new Date(cal.getTimeInMillis())));
     }
 
     /**

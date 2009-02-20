@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -29,30 +30,17 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture;
 import org.kuali.rice.kns.rule.BusinessRule;
 import org.kuali.rice.kns.rule.RouteDocumentRule;
 import org.kuali.rice.kns.rule.SaveDocumentRule;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
 
     // test methods
-    public static void testAddAccountingLineRule_IsObjectTypeAllowed(Class<? extends AccountingDocument> documentClass, AccountingLine line, boolean expected) throws Exception {
-        AddAccountingLineRule rule = getBusinessRule(documentClass, AddAccountingLineRule.class);
-        assertEquals(expected, rule.isObjectTypeAllowed(documentClass, line));
-    }
-
-    public static void testAddAccountingLineRule_IsObjectCodeAllowed(Class<? extends AccountingDocument> documentClass, AccountingLine line, boolean expected) throws Exception {
-        AddAccountingLineRule rule = getBusinessRule(documentClass, AddAccountingLineRule.class);
-        assertEquals(expected, rule.isObjectCodeAllowed(documentClass, line));
-    }
-
-    public static void testAddAccountingLine_IsObjectSubTypeAllowed(Class<? extends AccountingDocument> documentClass, AccountingLine line, boolean expected) throws Exception {
-        AddAccountingLineRule rule = getBusinessRule(documentClass, AddAccountingLineRule.class);
-        assertEquals(expected, rule.isObjectSubTypeAllowed(documentClass, line));
-    }
 
     public static <T extends AccountingDocument> void testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(T document, boolean expected) throws Exception {
         // Check business rules
@@ -61,7 +49,6 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
         allLines.addAll(document.getTargetAccountingLines());
 
         assertGlobalErrorMapEmpty();
-        AddAccountingLineRule rule = getBusinessRule(document.getClass(), AddAccountingLineRule.class);
         for (AccountingLine accountingLine : allLines) {
             String collectionName = null;
             if(accountingLine instanceof SourceAccountingLine){
@@ -69,7 +56,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
             }else if(accountingLine instanceof TargetAccountingLine){
                 collectionName = KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME;
             }
-            boolean ruleResult = rule.processAddAccountingLineBusinessRules(document, accountingLine, collectionName);
+            boolean ruleResult = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSPropertyConstants.SOURCE_ACCOUNTING_LINE, document, accountingLine));
             if (expected) {
                 assertGlobalErrorMapEmpty(accountingLine.toString());
             }

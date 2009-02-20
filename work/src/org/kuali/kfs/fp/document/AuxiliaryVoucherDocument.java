@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.document;
 
+import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
 import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
 import static org.kuali.kfs.sys.KFSConstants.EMPTY_STRING;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
@@ -23,10 +24,12 @@ import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.businessobject.AuxiliaryVoucherAccountingLineParser;
 import org.kuali.kfs.gl.service.SufficientFundsService;
@@ -45,6 +48,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -620,6 +624,64 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         }
 
         return objectTypeCode;
+    }
+    
+    /**
+     * This method checks if a given moment of time is within an accounting period, or its auxiliary voucher grace period.
+     * 
+     * @param today a date to check if it is within the period
+     * @param periodToCheck the account period to check against
+     * @return true if a given moment in time is within an accounting period or an auxiliary voucher grace period
+     */
+    public boolean calculateIfWithinGracePeriod(Date today, AccountingPeriod periodToCheck) {
+        boolean result = false;
+        final int todayAsComparableDate = comparableDateForm(today);
+        final int periodClose = new Integer(comparableDateForm(periodToCheck.getUniversityFiscalPeriodEndDate()));
+        final int periodBegin = comparableDateForm(calculateFirstDayOfMonth(periodToCheck.getUniversityFiscalPeriodEndDate()));
+        final int gracePeriodClose = periodClose + new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(AuxiliaryVoucherDocument.class, AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
+        return (todayAsComparableDate >= periodBegin && todayAsComparableDate <= gracePeriodClose);
+    }
+    
+    /**
+     * This method returns a date as an approximate count of days since the BCE epoch.
+     * 
+     * @param d the date to convert
+     * @return an integer count of days, very approximate
+     */
+    public int comparableDateForm(Date d) {
+        java.util.Calendar cal = new java.util.GregorianCalendar();
+        cal.setTime(d);
+        return cal.get(java.util.Calendar.YEAR) * 365 + cal.get(java.util.Calendar.DAY_OF_YEAR);
+    }
+    
+    /**
+     * Given a day, this method calculates what the first day of that month was.
+     * 
+     * @param d date to find first of month for
+     * @return date of the first day of the month
+     */
+    public Date calculateFirstDayOfMonth(Date d) {
+        java.util.Calendar cal = new java.util.GregorianCalendar();
+        cal.setTime(d);
+        int dayOfMonth = cal.get(java.util.Calendar.DAY_OF_MONTH) - 1;
+        cal.add(java.util.Calendar.DAY_OF_YEAR, -1 * dayOfMonth);
+        return new Date(cal.getTimeInMillis());
+    }
+    
+    /**
+     * This method checks if the given accounting period ends on the last day of the previous fiscal year
+     * 
+     * @param acctPeriod accounting period to check
+     * @return true if the accounting period ends with the fiscal year, false if otherwise
+     */
+    public boolean isEndOfPreviousFiscalYear(AccountingPeriod acctPeriod) {
+        final UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        final Date firstDayOfCurrFiscalYear = new Date(universityDateService.getFirstDateOfFiscalYear(universityDateService.getCurrentFiscalYear()).getTime());
+        final Date periodClose = acctPeriod.getUniversityFiscalPeriodEndDate();
+        java.util.Calendar cal = new java.util.GregorianCalendar();
+        cal.setTime(periodClose);
+        cal.add(java.util.Calendar.DATE, 1);
+        return (firstDayOfCurrFiscalYear.equals(new Date(cal.getTimeInMillis())));
     }
     
 }

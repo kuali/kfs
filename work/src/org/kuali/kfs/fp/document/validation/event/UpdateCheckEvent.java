@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,39 +16,43 @@
 package org.kuali.kfs.fp.document.validation.event;
 
 import org.kuali.kfs.fp.businessobject.Check;
-import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
-import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- * This class represents the update check event.
- */
-public final class UpdateCheckEvent extends CheckEventBase {
+ * An event which is fired when a member of the Cash Receipt family of documents updates a pre-existing check on a document.
+ */ 
+public class UpdateCheckEvent extends AttributedDocumentEventBase implements CheckEvent {
+    private final Check check;
+    
     /**
-     * Constructs an UpdateCheckEvent with the given errorPathPrefix, document, and check
+     * Initializes fields common to all subclasses
      * 
+     * @param description
+     * @param errorPathPrefix
+     * @param document
+     * @param check
+     */
+    public UpdateCheckEvent(String description, String errorPathPrefix, Document document, Check check) {
+        super(description, errorPathPrefix, document);
+
+        this.check = check;
+    }
+    
+    /**
+     * Constructs a UpdateCheckEvent with a blank description
      * @param errorPathPrefix
      * @param document
      * @param check
      */
     public UpdateCheckEvent(String errorPathPrefix, Document document, Check check) {
-        super("updating check in document " + getDocumentId(document), errorPathPrefix, document, check);
+        this("", errorPathPrefix, document, check);
     }
-
+    
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.CheckEvent#getCheck()
      */
-    public Class getRuleInterfaceClass() {
-        return UpdateCheckRule.class;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        UpdateCheckRule crule = (UpdateCheckRule) rule;
-
-        return crule.processUpdateCheckRule((AccountingDocument) getDocument(), getCheck());
+    public Check getCheck() {
+        return check;
     }
 }

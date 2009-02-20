@@ -41,15 +41,15 @@
 					<value>PurchaseOrderClose-approveDocumentValidation</value>
 				</entry>		
 				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+					<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
 					<value>PurchaseOrderClose-addAccountingLineValidation</value>
 				</entry>
 				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+					<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 					<value>PurchaseOrderClose-updateAccountingLineValidation</value>
 				</entry>	
 				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+					<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 					<value>PurchaseOrderClose-reviewAccountingLineValidation</value>
 				</entry>
 				<entry>

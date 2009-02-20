@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,12 @@
 package org.kuali.kfs.sys.document.validation.event;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.DeleteAccountingLineRule;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
 
-/**
- * This class represents the delete accounting line event. This could be triggered when a user presses the delete button for a given
- * document's accounting line.
- */
-public final class DeleteAccountingLineEvent extends AccountingLineEventBase {
-
+public class DeleteAccountingLineEvent extends AttributedDocumentEventBase implements AccountingLineEvent {
+    private final AccountingLine accountingLine;
     private final boolean lineWasAlreadyDeletedFromDocument;
-
+    
     /**
      * Constructs a DeleteAccountingLineEvent with the given errorPathPrefix, document, and accountingLine.
      * 
@@ -37,21 +30,24 @@ public final class DeleteAccountingLineEvent extends AccountingLineEventBase {
      * @param accountingLine
      */
     public DeleteAccountingLineEvent(String errorPathPrefix, Document document, AccountingLine accountingLine, boolean lineWasAlreadyDeletedFromDocument) {
-        super("deleting accountingLine from document " + getDocumentId(document), errorPathPrefix, document, accountingLine);
+        super("deleting accountingLine from document " + getDocumentId(document), errorPathPrefix, document);
+        this.accountingLine = accountingLine;
         this.lineWasAlreadyDeletedFromDocument = lineWasAlreadyDeletedFromDocument;
     }
 
+
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.AccountingLineEvent#getAccountingLine()
      */
-    public Class getRuleInterfaceClass() {
-        return DeleteAccountingLineRule.class;
+    public AccountingLine getAccountingLine() {
+        return accountingLine;
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * Gets the lineWasAlreadyDeletedFromDocument attribute. 
+     * @return Returns the lineWasAlreadyDeletedFromDocument.
      */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((DeleteAccountingLineRule) rule).processDeleteAccountingLineBusinessRules((AccountingDocument) getDocument(), getAccountingLine(), lineWasAlreadyDeletedFromDocument);
+    public boolean isLineWasAlreadyDeletedFromDocument() {
+        return lineWasAlreadyDeletedFromDocument;
     }
 }

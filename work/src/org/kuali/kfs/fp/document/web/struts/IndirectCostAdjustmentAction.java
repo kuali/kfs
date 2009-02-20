@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document.web.struts;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineDecorator;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
@@ -26,28 +25,4 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 /**
  * This class handles Actions for <ocde>IndirectCostAdjustmentDocument</code>s
  */
-public class IndirectCostAdjustmentAction extends KualiAccountingDocumentActionBase {
-
-    /**
-     * added target line baseline creation for lines created by source add
-     * 
-     * @see org.kuali.module.financial.web.struts.action.KualiFinancialDocumentActionBase#insertAccountingLine(boolean,
-     *      org.kuali.module.financial.web.struts.form.KualiFinancialDocumentFormBase, org.kuali.rice.kns.bo.AccountingLine)
-     */
-    @Override
-    protected void insertAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, AccountingLine line) {
-        super.insertAccountingLine(isSource, financialDocumentForm, line);
-        if (isSource) {
-            AccountingLineDecorator decorator = new AccountingLineDecorator();
-            decorator.setRevertible(false);
-
-            // add it to the baseline, to prevent generation of spurious update events
-            AccountingDocument tDoc = (AccountingDocument) financialDocumentForm.getDocument();
-            List targetLines = tDoc.getTargetAccountingLines();
-            financialDocumentForm.getBaselineTargetAccountingLines().add(targetLines.get(targetLines.size() - 1));
-
-            // add the decorator
-            financialDocumentForm.getTargetLineDecorators().add(decorator);
-        }
-    }
-}
+public class IndirectCostAdjustmentAction extends KualiAccountingDocumentActionBase {}

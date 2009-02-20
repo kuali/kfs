@@ -76,11 +76,11 @@
 		  <value>PurchaseOrderAmendment-approveDocumentValidation</value>
 		</entry>	
 	    <entry>
-		  <key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+		  <key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
 		  <value>PurchaseOrderAmendment-addAccountingLineValidation</value>
 		</entry>		
 		<entry>
-		  <key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+		  <key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 		  <value>PurchaseOrderAmendment-updateAccountingLineValidation</value>
 		</entry>	
 	    <entry>

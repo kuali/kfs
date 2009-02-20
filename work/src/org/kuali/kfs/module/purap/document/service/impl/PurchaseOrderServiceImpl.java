@@ -1766,7 +1766,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
                 PurchaseOrderCloseDocumentRule rule = new PurchaseOrderCloseDocumentRule();
                 PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
-                boolean success = rule.processRouteDocument(document);
+                boolean success = true;
                 if (success) {
                     ++counter;
                     if (counter == 1) {

@@ -36,7 +36,6 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.kfs.sys.document.validation.AccountingLineRule;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -199,9 +198,6 @@ public class IsDebitTestUtils {
      * @throws IllegalAccessException
      */
     public static boolean isDebit(DataDictionaryService dataDictionaryService, DataDictionaryService dataDicitionaryService, AccountingDocument financialDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
-        String documentTypeName = dataDictionaryService.getValidDocumentTypeNameByClass(financialDocument.getClass());
-        AccountingLineRule rule = (AccountingLineRule) dataDicitionaryService.getDataDictionary().getDocumentEntry(documentTypeName).getBusinessRulesClass().newInstance();
-
         return financialDocument.isDebit(accountingLine);
     }
 

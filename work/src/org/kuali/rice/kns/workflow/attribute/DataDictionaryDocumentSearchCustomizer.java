@@ -25,15 +25,13 @@ import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.DocumentSearchGenerator;
-import org.kuali.rice.kew.docsearch.DocumentSearchResultComponents;
-import org.kuali.rice.kew.docsearch.DocumentSearchResultProcessor;
-import org.kuali.rice.kew.docsearch.DocumentSearchRow;
 import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
 import org.kuali.rice.kew.exception.WorkflowServiceError;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
+import org.kuali.rice.kns.web.ui.Row;
 
 public class DataDictionaryDocumentSearchCustomizer extends StandardDocumentSearchResultProcessor implements SearchableAttribute, DocumentSearchGenerator {
     // SEARCH GENERATOR IMPLEMENTATION
@@ -83,7 +81,7 @@ public class DataDictionaryDocumentSearchCustomizer extends StandardDocumentSear
         return searchableAttribute.getSearchContent(documentSearchContext);
     }
 
-    public List<DocumentSearchRow> getSearchingRows(DocumentSearchContext documentSearchContext) {
+    public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
         return searchableAttribute.getSearchingRows(documentSearchContext);
     }
 

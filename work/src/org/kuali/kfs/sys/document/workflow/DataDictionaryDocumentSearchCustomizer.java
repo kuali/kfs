@@ -20,26 +20,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.exception.RiceRuntimeException;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
-import org.kuali.rice.kew.docsearch.DocSearchUtils;
-import org.kuali.rice.kew.docsearch.DocumentSearchColumn;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
-import org.kuali.rice.kew.docsearch.DocumentSearchField;
-import org.kuali.rice.kew.docsearch.DocumentSearchRow;
-import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.SearchingAttribute;
 import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.Row;
 
 public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer {
     
@@ -49,8 +41,8 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
      * @return List of DocumentSearchColumns to be displayed
      */
     
-    protected List<DocumentSearchColumn> getCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
-        List<DocumentSearchColumn> columns = new ArrayList<DocumentSearchColumn>();
+    protected List<Column> getCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
+        List<Column> columns = new ArrayList<Column>();
         DocumentType documentType = getDocumentType(criteria.getDocTypeFullName());
         DocumentEntry entry = getDocumentEntry(documentType);
         if (entry != null && entry.getWorkflowAttributes() != null) {
@@ -62,7 +54,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
             for (SearchingTypeDefinition searchingTypeDefinition : searchingTypeDefinitions) {
                 SearchingAttribute searchingAttribute = searchingTypeDefinition.getSearchingAttribute();
                 if (searchingAttribute.isShowAttributeInResultSet()){
-                    String label =  ddService.getAttributeLabel(documentType.getName(), searchingAttribute.getAttributeName());
+                    String label =  ddService.getAttributeLabel(searchingAttribute.getBusinessObjectClassName(), searchingAttribute.getAttributeName());
                     searchableAttributeFieldNames.add(label);
                     addColumnUsingKey(columns, new HashMap<String,String>(), searchingAttribute.getAttributeName(), label);
                 } 
@@ -74,8 +66,8 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
     }
     
     @Override
-    public List<DocumentSearchColumn> getAndSetUpCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
-        List<DocumentSearchColumn> columns = getCustomDisplayColumns(criteria);
+    public List<Column> getAndSetUpCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
+        List<Column> columns = getCustomDisplayColumns(criteria);
         return super.setUpCustomDisplayColumns(criteria, columns);
     }
     
@@ -104,7 +96,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
     }
     
     @Override
-    public List<DocumentSearchRow> getSearchingRows(DocumentSearchContext documentSearchContext) {
+    public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
         return searchableAttribute.getSearchingRows(documentSearchContext);
     }
 

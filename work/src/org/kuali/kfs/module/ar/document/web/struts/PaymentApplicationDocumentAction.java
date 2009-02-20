@@ -150,6 +150,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
         }
         
+        // Set the NonInvoicedItemNumbers properly
+        Integer nonInvoicedItemNumber = 1;
+        for (NonInvoiced n : paymentApplicationDocument.getNonInvoiceds()) {
+            n.setFinancialDocumentLineNumber(nonInvoicedItemNumber++);
+        }
+                
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -240,7 +246,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     if(null != nonInvoiced) {
                         // add advanceDeposit
                         paymentApplicationDocument.getNonInvoiceds().add(nonInvoiced);
-    
+                        
+                        // Set the NonInvoicedItemNumbers properly
+                        Integer nonInvoicedItemNumber = 1;
+                        for (NonInvoiced n : paymentApplicationDocument.getNonInvoiceds()) {
+                            n.setFinancialDocumentLineNumber(nonInvoicedItemNumber++);
+                        }
+                            
                         // clear the used advanceDeposit
                         paymentApplicationDocumentForm.setNonInvoicedAddLine(new NonInvoiced());
                     }

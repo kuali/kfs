@@ -21,11 +21,13 @@ import java.util.Set;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
-import org.kuali.kfs.sys.batch.service.FiscalYearMakerService;
+import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMakersDao;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.FiscalYearMakerFixture;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ParameterService;
 
 @ConfigureContext
 public class FiscalYearMakerServiceImplTest extends KualiTestBase {
@@ -38,7 +40,10 @@ public class FiscalYearMakerServiceImplTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        fiscalYearMakerService = (FiscalYearMakerServiceImpl) SpringContext.getBean(FiscalYearMakerService.class);
+        fiscalYearMakerService = new FiscalYearMakerServiceImpl();
+        fiscalYearMakerService.setFiscalYearMakersDao(SpringContext.getBean(FiscalYearMakersDao.class));
+        fiscalYearMakerService.setParameterService(SpringContext.getBean(ParameterService.class));
+        fiscalYearMakerService.setKualiModuleService(SpringContext.getBean(KualiModuleService.class));
     }
 
     public final void NORUN_testRunProcess() throws Exception {
@@ -51,7 +56,7 @@ public class FiscalYearMakerServiceImplTest extends KualiTestBase {
     public final void testGetFiscalYearMakerHelpersConfiguration() throws Exception {
         fiscalYearMakerService.initialize();
 
-        testGetFiscalYearMakerHelpersInCopyOrder();
+        getFiscalYearMakerHelpersInCopyOrderTest();
     }
 
     /**
@@ -63,14 +68,14 @@ public class FiscalYearMakerServiceImplTest extends KualiTestBase {
         List<FiscalYearMaker> fiscalYearMakers = FiscalYearMakerFixture.getFiscalYearMakerList_valid();
         fiscalYearMakerService.setFiscalYearMakers(fiscalYearMakers);
 
-        testGetFiscalYearMakerHelpersInCopyOrder();
+        getFiscalYearMakerHelpersInCopyOrderTest();
     }
 
     /**
      * Tests the default fiscal year maker implementation getFiscalYearMakerHelpersInCopyOrder method with a valid setup
      * (parent-child configuration)
      */
-    public final void testGetFiscalYearMakerHelpersInCopyOrder() throws Exception {
+    private final void getFiscalYearMakerHelpersInCopyOrderTest() throws Exception {
         // get the fym list in copy order
         List<FiscalYearMaker> fiscalYearMakersCopyOrder = fiscalYearMakerService.getFiscalYearMakerHelpersInCopyOrder();
 

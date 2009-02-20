@@ -8,8 +8,8 @@
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 		    
 <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
-<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="http://localhost:8080/kuali-dev/static/xsd/purap/purapTypes.xsd" />
-<xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="http://localhost:8080/kuali-dev/static/xsd/sys/types.xsd" />
+<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="@externalizable.static.content.url@/xsd/purap/purapTypes.xsd" />
+<xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
 
 <xsd:element name="Credential">
 	<xsd:complexType>

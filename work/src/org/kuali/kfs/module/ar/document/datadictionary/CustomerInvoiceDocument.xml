@@ -649,16 +649,16 @@
   <bean id="CustomerInvoiceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
    	<property name="searchingTypeDefinitions">
    		<list>
-   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber" />
-   			<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
-   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode-criteriaOnly" />
-   			<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode-criteriaOnly" />
-   			<ref bean="SearchingType-CustomerInvoiceDocument-billingChartOfAccountsCode" />
-   			<ref bean="SearchingType-CustomerInvoiceDocument-billingOrganizationCode" />
-   			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly" />
-   			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly" />
-   			<ref bean="SearchingType-CustomerInvoiceDocument-invoiceItemCode-criteriaOnly" />
-   			<ref bean="SearchingType-CustomerInvoiceDocument-parentInvoiceNumber-criteriaOnly" />
+   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber"/>
+   			<ref bean="SearchingType-AccountsReceivableDocument-customerName"/>
+   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode-criteriaOnly"/>
+   			<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode-criteriaOnly"/>
+   			<ref bean="SearchingType-CustomerInvoiceDocument-billingChartOfAccountsCode"/>
+   			<ref bean="SearchingType-CustomerInvoiceDocument-billingOrganizationCode"/>
+   			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+   			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly"/>
+   			<ref bean="SearchingType-CustomerInvoiceDocument-invoiceItemCode-criteriaOnly"/>
+   			<ref bean="SearchingType-CustomerInvoiceDocument-parentInvoiceNumber-criteriaOnly"/>
    		</list>
    	</property>
    	<property name="routingTypeDefinitions">

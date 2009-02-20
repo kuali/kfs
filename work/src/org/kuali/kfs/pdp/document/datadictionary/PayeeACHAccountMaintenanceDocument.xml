@@ -56,28 +56,16 @@
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="bankRoutingNumber"/>
           <property name="required" value="true"/>
-          <property name="displayMask">
-            <bean parent="Mask">
-              <property name="maskFormatter">
-                <bean parent="MaskFormatterLiteral" p:literal="*********"/>
-              </property>
-            </bean>
-          </property>
-          <property name="displayEditMode" value="entry"/>
+          
+          
           <property name="webUILeaveFieldFunction" value="loadAchBankInfo"/>
         </bean>
         <bean parent="MaintainableFieldDefinition" p:name="bankRouting.bankName" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="bankAccountNumber"/>
           <property name="required" value="true"/>
-          <property name="displayMask">
-            <bean parent="Mask">
-              <property name="maskFormatter">
-                <bean parent="MaskFormatterLiteral" p:literal="*****************"/>
-              </property>
-            </bean>
-          </property>
-          <property name="displayEditMode" value="entry"/>
+          
+          
         </bean>
         <bean parent="MaintainableFieldDefinition" p:name="bankAccountTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payeeName" p:required="true"/>

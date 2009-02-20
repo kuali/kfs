@@ -111,16 +111,6 @@ public class AccountingLineViewCurrentBaseAmountFieldDefinition extends Maintain
         if (defaultValueFinderClass != null && defaultValue != null) {
             throw new AttributeValidationException("Both defaultValue and defaultValueFinderClass can not be specified on attribute " + getName() + " in rootBusinessObjectClass " + rootBusinessObjectClass.getName());
         }
-
-        if (StringUtils.isNotBlank(displayEditMode) && displayMask == null) {
-            throw new AttributeValidationException("property '" + getName() + "' has a display edit mode defined but not a valid display mask '" + "' (" + "" + ")");
-        }
-
-        if (displayMask != null) {
-            if (getDisplayMask().getMaskFormatter() == null && getDisplayMask().getMaskFormatterClass() == null) {
-                throw new AttributeValidationException("No mask formatter or formatter class specified for secure attribute " + getName() + "' (" + "" + ")");
-            }
-        }
     }
 
     /**

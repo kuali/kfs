@@ -62,14 +62,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorForeignIndicator" p:defaultValue="No" p:required="true"/>
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="vendorHeader.vendorTaxNumber"/>
-          <property name="displayMask">
-            <bean parent="Mask">
-              <property name="maskFormatter">
-                <bean parent="MaskFormatterLiteral" p:literal="*********"/>
-              </property>
-            </bean>
-          </property>
-          <property name="displayEditMode" value="taxEntry"/>
+          
+          
         </bean>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorTaxTypeCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorOwnershipCode" p:required="true"/>

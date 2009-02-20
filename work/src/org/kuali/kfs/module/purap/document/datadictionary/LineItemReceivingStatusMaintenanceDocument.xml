@@ -23,7 +23,7 @@
     </property> -->
     <property name="documentTypeName" value="PMLI"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="documentTypeCode" value="PMIT"/>
+    
     <property name="workflowAttributes">
     	<ref bean="LineItemReceivingStatusMaintenanceDocument-workflowAttributes"/>
     </property>

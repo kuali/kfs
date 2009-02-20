@@ -273,9 +273,6 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
         fieldDefinition.setTemplate(currentDefinition.getTemplate());
         fieldDefinition.setDefaultValueFinderClass(currentDefinition.getDefaultValueFinderClass());
         
-        fieldDefinition.setDisplayEditMode(currentDefinition.getDisplayEditMode());
-        fieldDefinition.setDisplayMask(currentDefinition.getDisplayMask());
-        
         fieldDefinition.setOverrideLookupClass(currentDefinition.getOverrideLookupClass());
         fieldDefinition.setOverrideFieldConversions(currentDefinition.getOverrideFieldConversions());
         

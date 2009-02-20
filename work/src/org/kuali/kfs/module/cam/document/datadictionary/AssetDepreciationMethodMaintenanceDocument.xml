@@ -38,7 +38,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="depreciationMethodCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="depreciationMethodName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>

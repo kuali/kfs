@@ -46,14 +46,8 @@
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="bankRoutingNumber"/>
           <property name="required" value="true"/>
-          <property name="displayMask">
-            <bean parent="Mask">
-              <property name="maskFormatter">
-                <bean parent="MaskFormatterLiteral" p:literal="*********"/>
-              </property>
-            </bean>
-          </property>
-          <property name="displayEditMode" value="entry"/>
+          
+          
         </bean> 
         <bean parent="MaintainableFieldDefinition" p:name="bankOfficeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="bankServiceNumber" p:required="true"/>

@@ -10,7 +10,7 @@
     
     <property name="documentTypeName" value="ST"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferDocumentRule"/>
 <!-- the following businessRuleClass should be used for granular validations, if implemented
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferDocumentRule" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>    

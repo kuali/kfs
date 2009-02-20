@@ -22,7 +22,7 @@
     <property name="documentTypeName" value="ParameterTypeMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="documentTypeCode" value="PTYP"/>
+    
     <property name="workflowProperties">
       <ref bean="ParameterTypeMaintenanceDocument-workflowProperties"/>
     </property>

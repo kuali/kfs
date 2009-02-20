@@ -215,4 +215,6 @@ public interface LaborCorrectionDocumentService {
     public void persistOriginEntryGroupsForDocumentSave(LaborCorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata);
     
     public String generateOutputOriginEntryFileName(String docId);
+    
+    public void createOutputFileForProcessing(String docId, java.util.Date today);
 }

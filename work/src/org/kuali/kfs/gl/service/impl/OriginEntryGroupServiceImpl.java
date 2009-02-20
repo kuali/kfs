@@ -543,6 +543,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
     }
     
+    public void deleteLaborFile(String fileName){
+        File file = getLaborFileWithFileName(fileName);
+        if (file.exists()){
+            file.delete();
+        }
+    }
     
     public File getFileWithFileName(String fileName){
         return new File(batchFileDirectoryName + File.separator + fileName);

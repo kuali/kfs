@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
@@ -64,14 +66,13 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     private static Logger LOG = Logger.getLogger(LaborCorrectionDocumentServiceImpl.class);
 
     protected OriginEntryGroupService originEntryGroupService;
-
-
     private LaborOriginEntryService laborOriginEntryService;
     private String llcpDirectoryName;
-
+    private String batchFileDirectoryName;
 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
+    protected static final String LLCP_OUTPUT_PREFIX = "LLCP_OUTPUT";
 
     public final static int UNLIMITED_ABORT_THRESHOLD = CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_UNLIMITED;
 
@@ -567,6 +568,41 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
         CorrectionDocumentUtils.copyStatisticsToDocument(statistics, document);
     }
     
+    /**
+     * 
+     */
+    public void createOutputFileForProcessing(String docId, java.util.Date today) {
+        File outputFile = new File(llcpDirectoryName + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX);
+        String newFileName = batchFileDirectoryName + File.separator + LLCP_OUTPUT_PREFIX + buildFileExtensionWithDate(today);
+        File newFile = new File (newFileName);
+        FileReader inputFileReader;
+        FileWriter newFileWriter;
+        
+        try{
+            // copy output file and put in OriginEntry directory
+            inputFileReader = new FileReader(outputFile);
+            newFileWriter = new FileWriter(newFile);
+            int c;
+            while ((c = inputFileReader.read()) != -1){
+                newFileWriter.write(c);
+            }
+            
+            inputFileReader.close();
+            newFileWriter.close();
+            
+            // create done file, after successfully copying output file
+            String doneFileName = newFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+            File doneFile = new File(doneFileName);
+            if (!doneFile.exists()){
+                doneFile.createNewFile();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    
     
     /**
      * Gets the OriginEntryStagingDirectoryPath attribute.
@@ -924,6 +960,10 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             }
         }
         return cachedColumns;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
 }

@@ -701,7 +701,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 correctionForm.setRestrictedFunctionalityMode(true);
             }
             
-            originEntryGroupService.deleteFile(doneFileName);
             GeneralLedgerCorrectionProcessDocument document = (GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument();
             document.setCorrectionInputFileName(dataFileName);
         }

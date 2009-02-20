@@ -39,6 +39,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.CorrectionChange;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
@@ -46,6 +47,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.document.web.struts.CorrectionAction;
@@ -1218,6 +1220,38 @@ public class LaborCorrectionAction extends CorrectionAction {
         laborCorrectionForm.setShowOutputFlag(false);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    @Override
+    public ActionForward confirmDeleteDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("confirmDeleteDocument() started");
+
+        LaborCorrectionForm correctionForm = (LaborCorrectionForm) form;
+
+        if (checkOriginEntryGroupSelection(correctionForm)) {
+            //OriginEntryGroup oeg = originEntryGroupService.getExactMatchingEntryGroup(correctionForm.getInputGroupId());
+            String doneFileName = correctionForm.getInputGroupId();
+            String dataFileName = doneFileName.replace(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION, GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            
+            int groupCount = laborOriginEntryService.getGroupCount(dataFileName);
+            int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
+
+            if (!CorrectionDocumentUtils.isRestrictedFunctionalityMode(groupCount, recordCountFunctionalityLimit)) {
+                loadAllEntries(dataFileName, correctionForm);
+                correctionForm.setDeleteFileFlag(true);
+                correctionForm.setDataLoadedFlag(true);
+                correctionForm.setRestrictedFunctionalityMode(false);
+            }
+            else {
+                correctionForm.setRestrictedFunctionalityMode(true);
+            }
+            
+            LaborCorrectionDocument document = (LaborCorrectionDocument) correctionForm.getDocument();
+            document.setCorrectionInputFileName(dataFileName);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
     }
 
 }

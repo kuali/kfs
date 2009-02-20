@@ -168,7 +168,14 @@
                     
                   <c:choose>
 					<c:when test="${KualiForm.documentType == 'LLCP'}" >
-						<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|CorrectionLaborGroupEntriesFinder" label="label" value="key" />
+						<c:choose>
+		                      <c:when test="${KualiForm.editMethod eq 'R'}">
+    		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|ProcessingCorrectionLaborGroupEntriesFinder" label="label" value="key" />
+        		              </c:when>
+            		          <c:otherwise>
+                		        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|CorrectionLaborGroupEntriesFinder" label="label" value="key" />
+                    		  </c:otherwise>
+                    	</c:choose>
                    	</c:when>
                    	<c:otherwise>
                    		<c:choose>

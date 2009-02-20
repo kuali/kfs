@@ -199,4 +199,6 @@ public interface OriginEntryGroupService {
     public File getLaborFileWithFileName(String fileName);
     
     public void deleteFile(String fileName);
+    
+    public void deleteLaborFile(String fileName);
 }

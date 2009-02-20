@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.ld.document;
 
+import java.util.Date;
 import java.util.Iterator;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
@@ -124,26 +126,32 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
         if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             String correctionType = doc.getCorrectionTypeCode();
             if (LaborCorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
-                //TODO: Shawn - We might not need this part -- need to talk to Sterling
-                //SpringContext.getBean(OriginEntryGroupService.class).dontProcessGroup(doc.getCorrectionInputGroupId());
-            }
+                //originEntryGroupService.dontProcessGroup(doc.getCorrectionInputGroupId());
+                String dataFileName = doc.getCorrectionInputFileName();
+                String doneFileName = dataFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+                originEntryGroupService.deleteLaborFile(doneFileName);            
+                }
+            
             else if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
-              //TODO: Shawn - We might not need this part -- need to talk to Sterling
-//                OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
-//                if (!doc.getCorrectionFileDelete()) {
-//                    LOG.debug("handleRouteStatusChange() Mark group as to be processed");
-//                    outputGroup.setProcess(true);
-//                    originEntryGroupService.save(outputGroup);
-//                }
-            }
+        
+                //TODO: Shawn - need to save the output file to originEntry directory when correctionFileDelete is false
+                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+                Date today = dateTimeService.getCurrentDate();
+                if (!doc.getCorrectionFileDelete()){
+                    laborCorrectionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
+                }
+                
+                
+                // should call scrubber here
+                String fileNameWithPath = laborCorrectionDocumentService.generateOutputOriginEntryFileName(docId);
+                LaborScrubberService laborScrubberService = SpringContext.getBean(LaborScrubberService.class);
+                laborScrubberService.scrubGroupReportOnly(fileNameWithPath, docId);
+                }
             else {
                 LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
             
-            //TODO: Shawn - should call scrubber here......don't know why not above - handleRouteLevelChange method??
-            String fileNameWithPath = laborCorrectionDocumentService.generateOutputOriginEntryFileName(docId);
-            LaborScrubberService laborScrubberService = SpringContext.getBean(LaborScrubberService.class);
-            laborScrubberService.scrubGroupReportOnly(fileNameWithPath, docId);
+            
         }
     }
 }

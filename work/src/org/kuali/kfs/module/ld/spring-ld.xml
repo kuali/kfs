@@ -960,6 +960,7 @@
 			<ref bean="originEntryGroupService" />
 		</property>
 		<property name="llcpDirectoryName" value="${staging.directory}/ld/correctionProcess"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 	
 	<bean id="laborInquiryOptionsService" class="org.kuali.kfs.module.ld.service.impl.LaborInquiryOptionsServiceImpl">

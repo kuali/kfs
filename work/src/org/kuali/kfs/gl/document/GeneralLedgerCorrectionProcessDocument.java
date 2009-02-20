@@ -195,24 +195,21 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
         if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             String correctionType = doc.getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
-                //TODO: Shawn - We might not need this part -- need to talk to Sterling
+                
                 //originEntryGroupService.dontProcessGroup(doc.getCorrectionInputGroupId());
+                String dataFileName = doc.getCorrectionInputFileName();
+                String doneFileName = dataFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+                originEntryGroupService.deleteFile(doneFileName);
+                
             }
             else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
-                //TODO: Shawn - We might not need this part -- need to talk to Sterling
-//                OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
-//                if (!doc.getCorrectionFileDelete()) {
-//                    LOG.debug("handleRouteStatusChange() Mark group as to be processed");
-//                    outputGroup.setProcess(true);
-//                    originEntryGroupService.save(outputGroup);
-//                }
-                //TODO: Shawn - need to save the output file to originEntry directory when correctionFileDelete is false
+                // save the output file to originEntry directory when correctionFileDelete is false
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 Date today = dateTimeService.getCurrentDate();
                 if (!correctionFileDelete){
                     correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
                 }
-                //TODO: Shawn - should call scrubber here......don't know why not below - handleRouteLevelChange method??
+                // should call scrubber here
                 String fileNameWithPath = correctionDocumentService.generateOutputOriginEntryFileName(docId);
                 ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
                 scrubberService.scrubGroupReportOnly(fileNameWithPath, docId);

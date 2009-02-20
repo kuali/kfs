@@ -1246,10 +1246,10 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String BANK_ENTRY_EDITABLE_EDITING_MODE = "bankEntry";
     
     public class RouteLevelNames {
-        public static final String ACCOUNT_REVIEW = "Account Review";
-        public static final String ORG_REVIEW = "Org Review";
+        public static final String ACCOUNT = "Account";
+        public static final String ACCOUNTING_ORGANIZATION_HIERARCHY = "AccountingOrganizationHierarchy";
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
-        public static final String PROJECT_DIRECTOR = "Project Director";
+        public static final String PROJECT_MANAGEMENT = "ProjectManagement";
     }
 }
 

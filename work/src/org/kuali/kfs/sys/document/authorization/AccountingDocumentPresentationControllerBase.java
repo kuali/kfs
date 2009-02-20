@@ -53,7 +53,7 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
-        if (workflowDocument.stateIsEnroute() && currentRouteLevels.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW)) {
+        if (workflowDocument.stateIsEnroute() && currentRouteLevels.contains(KFSConstants.RouteLevelNames.ACCOUNT)) {
             AccountingDocument accountingDocument = (AccountingDocument) document;
 
             List<AccountingLine> lineList = new ArrayList<AccountingLine>();
@@ -81,7 +81,7 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
         else if (workflowDocument.stateIsEnroute()) {
             List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
-            if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) {
+            if (currentRouteLevels.contains(RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
                 return false;
             }
         }

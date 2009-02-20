@@ -67,7 +67,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
             }
             else {
                 List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-                if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) {
+                if (currentRouteLevels.contains(RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
                     editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
                 }
             }

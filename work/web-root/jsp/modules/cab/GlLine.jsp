@@ -26,7 +26,7 @@
 
 <c:if test="${!empty KualiForm.currDocNumber}">
 	var popUpurl = 'cabGlLine.do?methodToCall=viewDoc&documentNumber=${KualiForm.currDocNumber}';
-	window.open(popUpurl, popUpurl);
+	window.open(popUpurl, "${KualiForm.currDocNumber}");
 </c:if>
 	
 </script>

@@ -148,4 +148,11 @@ alter table PUR_PO_ITM_USE_TAX_T modify (fin_object_cd varchar2(4))
 /
 alter table PUR_REQS_ITM_USE_TAX_T modify (fin_object_cd varchar2(4))
 /
-
+insert into pur_po_qt_lst_t (select po_qt_lst_id.nextval, sys_guid(), 1, 'Computer Supplies', 63, 'Y' from dual)
+/
+insert into PUR_PO_QT_LST_VNDR_T (select max(po_qt_lst_id), 1011, 0, sys_guid(), 1 from pur_po_qt_lst_t)
+/
+insert into PUR_PO_QT_LST_VNDR_T (select max(po_qt_lst_id), 1020, 2, sys_guid(), 1 from pur_po_qt_lst_t)
+/
+insert into PUR_PO_QT_LST_VNDR_T (select max(po_qt_lst_id), 2021, 0, sys_guid(), 1 from pur_po_qt_lst_t)
+/

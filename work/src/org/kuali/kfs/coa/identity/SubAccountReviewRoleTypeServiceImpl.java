@@ -15,8 +15,35 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kim.util.KimCommonUtils;
 
 public class SubAccountReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
-
+    DocumentTypeService documentTypeService;
+    
+    @Override
+    protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+        if (KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) && KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.ACCOUNT_NUMBER) && KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.SUB_ACCOUNT_NUMBER)) {
+            Set<String> potentialParentDocumentTypeNames = new HashSet<String>(1);
+            if (roleQualifier.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)) {
+                potentialParentDocumentTypeNames.add(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
+            }
+            return potentialParentDocumentTypeNames.isEmpty() || qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)) || (KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)), potentialParentDocumentTypeNames) != null);
+        }
+        return false;
+    }
+    
+    public DocumentTypeService getDocumentTypeService() {
+        if (documentTypeService == null) {
+            documentTypeService = KEWServiceLocator.getDocumentTypeService();
+        }
+        return this.documentTypeService;
+    }
 }

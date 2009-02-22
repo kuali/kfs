@@ -25,80 +25,60 @@ import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimDelegationTypeService;
 
-public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl 
-        extends OrganizationHierarchyReviewRoleTypeServiceImpl implements KimDelegationTypeService {
+public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyReviewRoleTypeServiceImpl implements KimDelegationTypeService {
 
     /**
-     * Create role type service - org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeService 
-     * for KFS-COA/"Organization: Always Hierarchical, Document Type & Accounting"
-
-        Attributes:
-        Chart Code (required)
-        Organization Code
-        Document Type Name
-        From Amount
-        To Amount
-        Override Code
-        - total amount will be passed in as qualification and role type service will need to 
-        compare it to from and to amount qualifier values for assignees
-        
-        Requirements:
-        - Traverse the org hierarchy but not the document type hierarchy - from amount must be null or <= total amount 
-        supplied / to amount must be null or >= total amount supplied, and null override code on assignment matches all override codes
-
-     * @see org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * Create role type service - org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeService for
+     * KFS-COA/"Organization: Always Hierarchical, Document Type & Accounting" Attributes: Chart Code (required) Organization Code
+     * Document Type Name From Amount To Amount Override Code - total amount will be passed in as qualification and role type
+     * service will need to compare it to from and to amount qualifier values for assignees Requirements: - Traverse the org
+     * hierarchy but not the document type hierarchy - from amount must be null or <= total amount supplied / to amount must be null
+     * or >= total amount supplied, and null override code on assignment matches all override codes
+     * 
+     * @see org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
+     *      org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        boolean orgHierarchyDocTypeMatch = super.performMatch(qualification, roleQualifier);
-
-        return orgHierarchyDocTypeMatch 
-                && doesOverrideCodeMatch(qualification, roleQualifier)
-                && isValidTotalAmount(qualification, roleQualifier);
+        return doesOverrideCodeMatch(qualification, roleQualifier) && isValidTotalAmount(qualification, roleQualifier) && super.performMatch(qualification, roleQualifier);
     }
 
-    private boolean doesOverrideCodeMatch(AttributeSet qualification, AttributeSet roleQualifier){
-        String overrideCode = qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
-        String overrideCodeQualifier = roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
-        if(overrideCodeQualifier==null || overrideCode.equals(overrideCodeQualifier))
-            return true;
-        return false;
+    private boolean doesOverrideCodeMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+        return StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) || StringUtils.isBlank(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) || qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE).equals(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
     }
 
-    private boolean isValidTotalAmount(AttributeSet qualification, AttributeSet roleQualifier){
+    private boolean isValidTotalAmount(AttributeSet qualification, AttributeSet roleQualifier) {
         boolean isValidTotalAmount = false;
-        try{
+        try {
             int totalAmount = new Integer(qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT)).intValue();
             String toAmountStr = roleQualifier.get(KfsKimAttributes.TO_AMOUNT);
             String fromAmountStr = roleQualifier.get(KfsKimAttributes.FROM_AMOUNT);
-            if((StringUtils.isEmpty(toAmountStr) || new Integer(toAmountStr).intValue()>totalAmount) &&
-                    (StringUtils.isEmpty(fromAmountStr) || new Integer(fromAmountStr).intValue()<totalAmount)){
+            if ((StringUtils.isEmpty(toAmountStr) || new Integer(toAmountStr).intValue() >= totalAmount) && (StringUtils.isEmpty(fromAmountStr) || new Integer(fromAmountStr).intValue() <= totalAmount)) {
                 isValidTotalAmount = true;
             }
-        } catch(Exception ex){
+        }
+        catch (Exception ex) {
             isValidTotalAmount = false;
         }
         return isValidTotalAmount;
     }
 
-    
-    public boolean doesDelegationQualifierMatchQualification(AttributeSet qualification, AttributeSet delegationQualifier){
+
+    public boolean doesDelegationQualifierMatchQualification(AttributeSet qualification, AttributeSet delegationQualifier) {
         return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
     }
-    
-    public List<DelegateInfo> doDelegationQualifiersMatchQualification(
-            AttributeSet qualification, List<DelegateInfo> delegationMemberList){
+
+    public List<DelegateInfo> doDelegationQualifiersMatchQualification(AttributeSet qualification, List<DelegateInfo> delegationMemberList) {
         AttributeSet translatedQualification = translateInputAttributeSet(qualification);
         List<DelegateInfo> matchingMemberships = new ArrayList<DelegateInfo>();
-        for ( DelegateInfo dmi : delegationMemberList ) {
-            if ( performMatch( translatedQualification, dmi.getQualifier() ) ) {
-                matchingMemberships.add( dmi );
+        for (DelegateInfo dmi : delegationMemberList) {
+            if (performMatch(translatedQualification, dmi.getQualifier())) {
+                matchingMemberships.add(dmi);
             }
         }
         return matchingMemberships;
     }
 
-    public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes){
+    public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes) {
         return qualificationAttributes;
     }
-
 }

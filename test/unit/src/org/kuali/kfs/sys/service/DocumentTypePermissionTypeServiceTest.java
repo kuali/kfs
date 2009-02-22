@@ -21,10 +21,8 @@ import java.util.List;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.impl.NamespacePermissionTypeServiceImpl;
 import org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl;
 
 @ConfigureContext

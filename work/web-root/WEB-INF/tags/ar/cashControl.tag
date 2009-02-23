@@ -99,7 +99,7 @@
 						<kul:htmlControlAttribute
 							attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
 							property="document.referenceFinancialDocumentNumber"
-							readOnly="${not editRefDocNbr}" />
+							readOnly="${not editRefDocNbr}" forceRequired="true" />
 					</td>
 				</tr>
 			</c:if>

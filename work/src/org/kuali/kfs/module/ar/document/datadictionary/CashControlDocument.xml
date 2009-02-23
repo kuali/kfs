@@ -40,7 +40,7 @@
   <bean id="CashControlDocument-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="referenceFinancialDocumentNumber"/>
     <property name="label" value="Reference Document Number"/>
-    <property name="shortLabel" value="Reference Document Number"/>
+    <property name="shortLabel" value="* Reference Document Number"/>
     <property name="required" value="false"/>      
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>

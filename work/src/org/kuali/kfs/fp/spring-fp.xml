@@ -427,6 +427,9 @@
 		<property name="vendorLookupable">
 			<ref bean="vendorLookupable" />
 		</property>	
+		<property name="kimPersonLookupable">
+			<ref bean="kimPersonLookupable" />
+		</property>	
 		<property name="kualiInquirable">
 			<ref bean="disbursementPayeeInquirable" />
 		</property>			

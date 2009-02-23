@@ -49,6 +49,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayeeLookupableHelperServiceImpl.class);
 
     private Lookupable vendorLookupable;
+    private Lookupable kimPersonLookupable;
     private DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService;
 
     /**
@@ -205,9 +206,14 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
 
         Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);
-        List<Person> personList = this.getPersonService().findPeople(fieldsForLookup, true);
-        for (Person person : personList) {
-            DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(person);
+        
+        kimPersonLookupable.setBusinessObjectClass(Person.class);
+        kimPersonLookupable.validateSearchParameters(fieldsForLookup);
+        
+        List<BusinessObject> personList = kimPersonLookupable.getSearchResults(fieldsForLookup);
+        for (BusinessObject person : personList) {
+            Person personDetail = (Person) person;
+            DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(personDetail);
             payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
             payeeList.add(payee);
         }
@@ -224,10 +230,10 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         this.replaceFieldKeys(personFieldValues, fieldConversionMap);
 
         if (fieldConversionMap.containsKey(KIMPropertyConstants.Person.EXTERNAL_ID)) {
-            fieldConversionMap.put(KIMPropertyConstants.Person.EXTERNAL_IDENTIFIER_TYPE_CODE, VendorConstants.TAX_TYPE_SSN);
+            personFieldValues.put(KIMPropertyConstants.Person.EXTERNAL_IDENTIFIER_TYPE_CODE, VendorConstants.TAX_TYPE_SSN);
         }
 
-        fieldConversionMap.put(KIMPropertyConstants.Person.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
+        personFieldValues.put(KIMPropertyConstants.Person.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
 
         return personFieldValues;
     }
@@ -278,5 +284,13 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
      */
     public void setDisbursementVoucherPaymentReasonService(DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService) {
         this.disbursementVoucherPaymentReasonService = disbursementVoucherPaymentReasonService;
+    }
+
+    /**
+     * Sets the kimPersonLookupable attribute value.
+     * @param kimPersonLookupable The kimPersonLookupable to set.
+     */
+    public void setKimPersonLookupable(Lookupable kimPersonLookupable) {
+        this.kimPersonLookupable = kimPersonLookupable;
     }
 }

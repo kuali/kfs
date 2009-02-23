@@ -14,10 +14,31 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<c:set var="generalLedgerPendingEntriesList" value="${KualiForm.document.newMaintainableObject.businessObject.generalLedgerPendingEntries}" />
+<c:set var="generalLedgerPendingEntriesList"
+	value="${KualiForm.document.newMaintainableObject.businessObject.generalLedgerPendingEntries}" />
 <c:if test="${!empty generalLedgerPendingEntriesList}">
-	<gl:generalLedgerPendingEntries 
-	generalLedgerPendingEntries="${generalLedgerPendingEntriesList}"  
-	generalLedgerPendingEntryProperty="document.newMaintainableObject.businessObject.generalLedgerPendingEntries"
-	generalLedgerPendingEntriesProperty="document.newMaintainableObject.businessObject.generalLedgerPendingEntries" />
+	<gl:generalLedgerPendingEntries
+		generalLedgerPendingEntries="${generalLedgerPendingEntriesList}"
+		generalLedgerPendingEntryProperty="document.newMaintainableObject.businessObject.generalLedgerPendingEntries"
+		generalLedgerPendingEntriesProperty="document.newMaintainableObject.businessObject.generalLedgerPendingEntries" />
+</c:if>
+<c:if test="${empty generalLedgerPendingEntriesList}">
+	<kul:tab tabTitle="General Ledger Pending Entries" defaultOpen="false"
+		tabErrorKey="${KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
+		<div class="tab-container" align=center>
+		<h3>General Ledger Pending Entries <kul:lookup
+			boClassName="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry"
+			lookupParameters="document.documentNumber:documentNumber"
+			hideReturnLink="true" suppressActions="true" /></h3>
+		<table cellpadding="0" cellspacing="0" class="datatable"
+			summary="view/edit pending entries">
+			<tr>
+				<td class="datacell" height="50" colspan="12">
+				<div align="center">There are currently no General Ledger
+				Pending Entries associated with this document.</div>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</kul:tab>
 </c:if>

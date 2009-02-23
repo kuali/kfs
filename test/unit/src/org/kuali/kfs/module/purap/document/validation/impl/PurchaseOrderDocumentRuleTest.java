@@ -19,31 +19,36 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.fixture.AmountsLimitsFixture;
 import org.kuali.kfs.module.purap.fixture.ItemAccountsFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 @ConfigureContext(session = UserNameFixture.parke)
 public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
 
-    PurchaseOrderDocumentRule rule;
+    private Map<String, GenericValidation> validations;
     PurchaseOrderDocument po;
 
     protected void setUp() throws Exception {
         super.setUp();
         po = new PurchaseOrderDocument();
-        rule = new PurchaseOrderDocumentRule();
+        validations = SpringContext.getBeansOfType(GenericValidation.class);
     }
 
     protected void tearDown() throws Exception {
-        rule = null;
+        validations = null;
         po = null;
         super.tearDown();
     }
@@ -54,19 +59,28 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
     @ConfigureContext(session = parke)
     public void testValidateEmptyItemWithAccounts_NullItemWithAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.NULL_ITEM_WITH_ACCOUNT.populateItem();
-        assertFalse(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
+        
+        PurchaseOrderEmptyItemWithAccountsValidation validation = (PurchaseOrderEmptyItemWithAccountsValidation)validations.get("PurchaseOrder-emptyItemWithAccountsValidation");
+        validation.setItemForValidation(poItem);
+        assertFalse( validation.validate(new AttributedAddPurchasingAccountsPayableItemEvent("", po, poItem)) );
     }
 
     @ConfigureContext(session = parke)
     public void testValidateEmptyItemWithAccounts_WithItemWithAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.WITH_QUANTITY_WITH_PRICE_WITH_ACCOUNT.populateItem();
-        assertTrue(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
+
+        PurchaseOrderEmptyItemWithAccountsValidation validation = (PurchaseOrderEmptyItemWithAccountsValidation)validations.get("PurchaseOrder-emptyItemWithAccountsValidation");
+        validation.setItemForValidation(poItem);
+        assertTrue( validation.validate(new AttributedAddPurchasingAccountsPayableItemEvent("", po, poItem)) );
     }
 
     @ConfigureContext(session = parke)
     public void testValidateEmptyItemWithAccounts_WithItemWithoutAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.WITH_QUANTITY_WITH_PRICE_NULL_ACCOUNT.populateItem();
-        assertTrue(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
+
+        PurchaseOrderEmptyItemWithAccountsValidation validation = (PurchaseOrderEmptyItemWithAccountsValidation)validations.get("PurchaseOrder-emptyItemWithAccountsValidation");
+        validation.setItemForValidation(poItem);
+        assertTrue( validation.validate(new AttributedAddPurchasingAccountsPayableItemEvent("", po, poItem)) );
     }
 
     /*
@@ -74,17 +88,20 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
      */
     public void testValidateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit_ZeroAmountSmallLimit() {
         po = AmountsLimitsFixture.ZERO_AMOUNT_SMALL_LIMIT.populatePurchaseOrder();
-        assertTrue(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
+        PurchaseOrderDocumentPreRules preRule = new PurchaseOrderDocumentPreRules();        
+        assertTrue(preRule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
     }
 
     public void testValidateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit_SmallAmountSmallLimit() {
         po = AmountsLimitsFixture.SMALL_AMOUNT_SMALL_LIMIT.populatePurchaseOrder();
-        assertTrue(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
+        PurchaseOrderDocumentPreRules preRule = new PurchaseOrderDocumentPreRules();
+        assertTrue(preRule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
     }
 
     public void testValidateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit_LargeAmountSmallLimit() {
         po = AmountsLimitsFixture.LARGE_AMOUNT_SMALL_LIMIT.populatePurchaseOrder();
-        assertFalse(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
+        PurchaseOrderDocumentPreRules preRule = new PurchaseOrderDocumentPreRules();
+        assertFalse(preRule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
     }
 
     /*
@@ -97,7 +114,9 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         List<PurchaseOrderVendorStipulation> stipulations = new ArrayList();
         stipulations.add(stip);
         po.setPurchaseOrderVendorStipulations(stipulations);
-        assertTrue(rule.processVendorStipulationValidation(po));
+
+        PurchaseOrderProcessVendorStipulationValidation validation = (PurchaseOrderProcessVendorStipulationValidation)validations.get("PurchaseOrder-processVendorStipulationValidation-test");
+        assertTrue( validation.validate(new AttributedDocumentEventBase("", "", po)) );
     }
 
     public void testProcessVendorStipulationValidation_Blank() {
@@ -107,7 +126,9 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         List<PurchaseOrderVendorStipulation> stipulations = new ArrayList();
         stipulations.add(stip);
         po.setPurchaseOrderVendorStipulations(stipulations);
-        assertFalse(rule.processVendorStipulationValidation(po));
+
+        PurchaseOrderProcessVendorStipulationValidation validation = (PurchaseOrderProcessVendorStipulationValidation)validations.get("PurchaseOrder-processVendorStipulationValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("", "", po)) );
     }
     
     /*
@@ -116,19 +137,25 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
     public void testValidateSplit_OneMovingOneRemaining() {
         po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         ((PurchaseOrderItem)po.getItems().get(0)).setMovingToSplit(true);
-        assertTrue(rule.validateSplit(po));
+               
+        PurchaseOrderSplitValidation validation = (PurchaseOrderSplitValidation)validations.get("PurchaseOrder-splitValidation-test");
+        assertTrue( validation.validate(new AttributedDocumentEventBase("", "", po)) );        
     }
     
     public void testValidateSplit_NoneMovingTwoRemaining() {
         po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
-        assertFalse(rule.validateSplit(po));
+
+        PurchaseOrderSplitValidation validation = (PurchaseOrderSplitValidation)validations.get("PurchaseOrder-splitValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("", "", po)) );        
     }
     
     public void testValidateSplit_TwoMovingNoneRemaining() {
         po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         ((PurchaseOrderItem)po.getItems().get(0)).setMovingToSplit(true);
         ((PurchaseOrderItem)po.getItems().get(1)).setMovingToSplit(true);
-        assertFalse(rule.validateSplit(po));
+
+        PurchaseOrderSplitValidation validation = (PurchaseOrderSplitValidation)validations.get("PurchaseOrder-splitValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("", "", po)) );        
     }
 }
 

@@ -16,10 +16,7 @@
 package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.module.purap.document.validation.AddPurchasingItemCapitalAssetRule;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Add Purchasing Item Capital Asset Event. 

@@ -1320,7 +1320,11 @@
 				<entry>
 					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingCapitalAssetLocationEvent</value></key>
 					<value>PurchaseOrder-addPurchasingCapitalAssetLocationValidation</value>				
-				</entry>									       
+				</entry>
+				<entry>
+					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCommodityCodesForDistributionEvent</value></key>
+					<value>PurchaseOrder-commodityCodesForDistributionValidation</value>
+				</entry>
 		    </map>
 	    </property>	  
     </bean>

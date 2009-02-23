@@ -40,19 +40,118 @@
 									</bean>
 								</list>
 							</property>
-						</bean>
+						</bean>						
+						
+						<bean parent="PurchasingAccountsPayable-lineItemIndicatorBranchingValidation" scope="prototype">
+							<property name="branchMap">
+								<map>
+									<entry>							
+										<key><value>isLineItemIndicator</value></key>
+										<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
+								  		<property name="validations">
+  										<list>
+										
+											<bean parent="VendorCreditMemo-itemQuantityValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="iterationSubject" />
+															<property name="targetValidationProperty" value="itemForValidation" />
+														</bean>
+													</list>
+												</property>												
+											</bean>
 
-						<bean parent="VendorCreditMemo-processItemValidation" scope="prototype">
-							<property name="parameterProperties">
-								<list>
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="iterationSubject" />
-										<property name="targetValidationProperty" value="itemForValidation" />
-									</bean>
-								</list>
+											<bean parent="VendorCreditMemo-itemUnitPriceValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="iterationSubject" />
+															<property name="targetValidationProperty" value="itemForValidation" />
+														</bean>
+													</list>
+												</property>												
+											</bean>
+
+											<bean parent="VendorCreditMemo-itemExtendedPriceValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="iterationSubject" />
+															<property name="targetValidationProperty" value="itemForValidation" />
+														</bean>
+													</list>
+												</property>												
+											</bean>																															
+										
+											<bean parent="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" scope="prototype">
+											<property name="branchMap">
+												<map>
+													<entry>							
+														<key><value>isExtendedPriceNonZero</value></key>
+														<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+															<property name="parameterProperties">
+													            <list>
+															        <bean parent="validationFieldConversion">
+															            <property name="sourceEventProperty" value="iterationSubject" />
+																		<property name="targetValidationProperty" value="itemForValidation" />
+															        </bean>
+																</list>
+															</property>	                                
+														</bean>
+													</entry>
+												</map>
+											</property>
+											</bean>
+										</list>
+										</property>
+										</bean>																				
+									</entry>		
+									<entry>							
+										<key><value>isNotLineItemIndicator</value></key>
+										<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
+								  		<property name="validations">
+  										<list>
+										
+											<bean parent="PurchasingAccountsPayable-belowTheLineValuesValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="iterationSubject" />
+															<property name="targetValidationProperty" value="itemForValidation" />
+														</bean>
+													</list>
+												</property>																										
+											</bean>																		
+											
+											<bean parent="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" scope="prototype">
+											<property name="branchMap">
+												<map>
+													<entry>							
+														<key><value>isExtendedPriceNonZero</value></key>
+														<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+															<property name="parameterProperties">
+													            <list>
+															        <bean parent="validationFieldConversion">
+															            <property name="sourceEventProperty" value="iterationSubject" />
+																		<property name="targetValidationProperty" value="itemForValidation" />
+															        </bean>
+																</list>
+															</property>	                                
+														</bean>
+													</entry>
+												</map>
+											</property>
+											</bean>
+											
+										</list>
+										</property>
+										</bean>																		
+									</entry>							
+								</map>
 							</property>
 						</bean>
-												
+																				
 						</list>
 					</property>
 				</bean>
@@ -96,17 +195,115 @@
 							</property>
 						</bean>
 
-						<bean parent="VendorCreditMemo-processItemValidation" scope="prototype">
-							<property name="parameterProperties">
-								<list>
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="iterationSubject" />
-										<property name="targetValidationProperty" value="itemForValidation" />
-									</bean>
-								</list>
+						<bean parent="PurchasingAccountsPayable-lineItemIndicatorBranchingValidation" scope="prototype">
+							<property name="branchMap">
+								<map>
+									<entry>							
+										<key><value>isLineItemIndicator</value></key>
+										<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
+								  		<property name="validations">
+  										<list>
+										
+											<bean parent="VendorCreditMemo-itemQuantityValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="iterationSubject" />
+															<property name="targetValidationProperty" value="itemForValidation" />
+														</bean>
+													</list>
+												</property>												
+											</bean>
+
+											<bean parent="VendorCreditMemo-itemUnitPriceValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="iterationSubject" />
+															<property name="targetValidationProperty" value="itemForValidation" />
+														</bean>
+													</list>
+												</property>												
+											</bean>
+
+											<bean parent="VendorCreditMemo-itemExtendedPriceValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="iterationSubject" />
+															<property name="targetValidationProperty" value="itemForValidation" />
+														</bean>
+													</list>
+												</property>												
+											</bean>																															
+										
+											<bean parent="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" scope="prototype">
+											<property name="branchMap">
+												<map>
+													<entry>							
+														<key><value>isExtendedPriceNonZero</value></key>
+														<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+															<property name="parameterProperties">
+													            <list>
+															        <bean parent="validationFieldConversion">
+															            <property name="sourceEventProperty" value="iterationSubject" />
+																		<property name="targetValidationProperty" value="itemForValidation" />
+															        </bean>
+																</list>
+															</property>	                                
+														</bean>
+													</entry>
+												</map>
+											</property>
+											</bean>
+										</list>
+										</property>
+										</bean>																				
+									</entry>		
+									<entry>							
+										<key><value>isNotLineItemIndicator</value></key>
+										<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
+								  		<property name="validations">
+  										<list>
+										
+											<bean parent="PurchasingAccountsPayable-belowTheLineValuesValidation" scope="prototype">
+												<property name="parameterProperties">
+													<list>
+														<bean parent="validationFieldConversion">
+															<property name="sourceEventProperty" value="iterationSubject" />
+															<property name="targetValidationProperty" value="itemForValidation" />
+														</bean>
+													</list>
+												</property>																										
+											</bean>																		
+											
+											<bean parent="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" scope="prototype">
+											<property name="branchMap">
+												<map>
+													<entry>							
+														<key><value>isExtendedPriceNonZero</value></key>
+														<bean parent="PurchasingAccountsPayable-processAccountValidation" scope="prototype">
+															<property name="parameterProperties">
+													            <list>
+															        <bean parent="validationFieldConversion">
+															            <property name="sourceEventProperty" value="iterationSubject" />
+																		<property name="targetValidationProperty" value="itemForValidation" />
+															        </bean>
+																</list>
+															</property>	                                
+														</bean>
+													</entry>
+												</map>
+											</property>
+											</bean>
+											
+										</list>
+										</property>
+										</bean>																		
+									</entry>							
+								</map>
 							</property>
-						</bean>
-												
+						</bean>												
 						</list>
 					</property>
 				</bean>
@@ -257,7 +454,13 @@
 	<bean id="VendorCreditMemo-continuePurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="VendorCreditMemo-continueValidation" scope="prototype" />
+  				<bean parent="VendorCreditMemo-initTabRequiredFieldsValidation" scope="prototype">
+  					<property name="quitOnFail" value="true" />
+  				</bean>
+  				<bean parent="VendorCreditMemo-initTabReferenceNumberValidation" scope="prototype">
+  					<property name="quitOnFail" value="true" />
+  				</bean>
+  				<bean parent="VendorCreditMemo-purchaseOrderForInvoicedItemsValidation" scope="prototype"/>
   			</list>
   		</property>								
 	</bean>
@@ -279,7 +482,25 @@
 	<bean id="VendorCreditMemo-calculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="VendorCreditMemo-calculateValidation" scope="prototype" />
+			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  					<property name="collectionProperty" value="document.items" />
+  					<property name="validations">
+  						<list>  			
+  							<bean parent="VendorCreditMemo-flagLineItemTotalsValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="iterationSubject" />
+											<property name="targetValidationProperty" value="itemForValidation" />
+										</bean>
+									</list>
+								</property>  							
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>  				
+  				<bean parent="VendorCreditMemo-totalMatchesVendorAmountValidation" scope="prototype" />
+  				<bean parent="VendorCreditMemo-totalOverZeroValidation" scope="prototype" />
   			</list>
   		</property>										
 	</bean>

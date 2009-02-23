@@ -919,6 +919,19 @@
 				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedPaymentRequestForEInvoiceEvent</value></key>
 				<value>PaymentRequest-eInvoiceValidation</value>				
 			</entry>																																	
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedExpiredAccountWarningEvent</value></key>
+				<value>PaymentRequest-expiredAccountWarningEvent</value>				
+			</entry>																																	
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedPayDateNotOverThresholdDaysAwayEvent</value></key>
+				<value>PaymentRequest-payDateNotOverThresholdDaysAwayEvent</value>				
+			</entry>																																	
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedTradeInWarningEvent</value></key>
+				<value>PaymentRequest-tradeInWarningEvent</value>
+			</entry>																																	
+
 	   	</map>
 		</property>
 	</bean>  

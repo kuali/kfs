@@ -15,11 +15,16 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
-public class PurchaseOrderAmendmentProcessAccountValidation extends PurchasingProcessAccountValidation {
+public class PurchaseOrderAmendmentProcessAccountValidation extends BranchingValidation {
+    
+    private final String PROCESS_ACCOUNT_VALIDATION="processAccountValidation";
+    private PurApItem itemForValidation;
     
     /**
      * Overrides the method in PurchasingProcessAccountValidation to provide additional
@@ -30,17 +35,26 @@ public class PurchaseOrderAmendmentProcessAccountValidation extends PurchasingPr
      * the user account validation errors.
      * 
      */
-    public boolean validate(AttributedDocumentEvent event) {
+    @Override
+    protected String determineBranch(AttributedDocumentEvent event) {
         PurchaseOrderDocument document = (PurchaseOrderDocument)event.getDocument();
         PurchaseOrderItem itemLine = (PurchaseOrderItem) getItemForValidation();
         if (itemLine.isItemActiveIndicator() && (! (document.getContainsUnpaidPaymentRequestsOrCreditMemos() && itemLine.getItemInvoicedTotalAmount() != null))) {
             //This means the accounts on the item are editable, so we'll call super's processAccountValidation.
-            return super.validate(event);
+            return PROCESS_ACCOUNT_VALIDATION;
         }
         else {
             //This means the accounts on the item are not editable, so we'll return true so that it won't do any further validations on the accounts.
-            return true;
+            return null;
         }
+    }
+
+    public PurApItem getItemForValidation() {
+        return itemForValidation;
+    }
+
+    public void setItemForValidation(PurApItem itemForValidation) {
+        this.itemForValidation = itemForValidation;
     }
     
 }

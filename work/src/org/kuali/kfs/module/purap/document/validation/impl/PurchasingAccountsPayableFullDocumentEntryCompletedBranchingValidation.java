@@ -21,19 +21,29 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
-public class PurchasingAccountsPayabaleFullDocumentEntryCompletedBranchingValidation extends BranchingValidation {
+public class PurchasingAccountsPayableFullDocumentEntryCompletedBranchingValidation extends BranchingValidation {
     
+    public static final String FULL_DOCUMENT_ENTRY = "fullDocumentEntry";
     public static final String NOT_FULL_DOCUMENT_ENTRY = "notFullDocumentEntry";
+    private PurapService purapService;
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
      
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)event.getDocument();
         
-        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument)) {
-            return null;
+        if (purapService.isFullDocumentEntryCompleted(purapDocument)) {
+            return FULL_DOCUMENT_ENTRY;
         }else{
             return NOT_FULL_DOCUMENT_ENTRY;
         }
+    }
+
+    public PurapService getPurapService() {
+        return purapService;
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
     }
 }

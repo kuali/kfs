@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -40,12 +41,17 @@ import org.kuali.kfs.module.purap.fixture.PurchaseOrderAccountingLineFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -54,19 +60,19 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
 
     VendorCreditMemoDocument creditMemo;
-    CreditMemoDocumentRule rule;
+    private Map<String, GenericValidation> validations;
     
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         CreditMemoDocumentTest cmDocTest = new CreditMemoDocumentTest();
         creditMemo = cmDocTest.buildSimpleDocument();
-        rule = new CreditMemoDocumentRule();
+        validations = SpringContext.getBeansOfType(GenericValidation.class);
     }
 
     @Override
     protected void tearDown() throws Exception {
-        rule = null;
+        validations = null;
         creditMemo = null;
         super.tearDown();
     }
@@ -82,7 +88,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         creditMemo = CreditMemoInitTabFixture.WITH_INVOICE_WITH_DATE_WITH_AMOUNT.populateForRequiredness(creditMemo);
         Date today = SpringContext.getBean(PurapService.class).getDateFromOffsetFromToday(0);
         creditMemo.setCreditMemoDate(today);
-        assertTrue(rule.validateInitTabRequiredFields(creditMemo));
+        
+        VendorCreditMemoInitTabRequiredFieldsValidation validation = (VendorCreditMemoInitTabRequiredFieldsValidation)validations.get("VendorCreditMemo-initTabRequiredFieldsValidation-test");        
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -92,7 +100,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         creditMemo = CreditMemoInitTabFixture.WITH_INVOICE_WITH_DATE_WITH_AMOUNT.populateForRequiredness(creditMemo);
         Date yesterday = SpringContext.getBean(PurapService.class).getDateFromOffsetFromToday(-1);
         creditMemo.setCreditMemoDate(yesterday);
-        assertTrue(rule.validateInitTabRequiredFields(creditMemo));
+
+        VendorCreditMemoInitTabRequiredFieldsValidation validation = (VendorCreditMemoInitTabRequiredFieldsValidation)validations.get("VendorCreditMemo-initTabRequiredFieldsValidation-test");        
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -102,7 +112,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         creditMemo = CreditMemoInitTabFixture.WITH_INVOICE_WITH_DATE_WITH_AMOUNT.populateForRequiredness(creditMemo);
         Date tomorrow = SpringContext.getBean(PurapService.class).getDateFromOffsetFromToday(1);
         creditMemo.setCreditMemoDate(tomorrow);
-        assertFalse(rule.validateInitTabRequiredFields(creditMemo));
+
+        VendorCreditMemoInitTabRequiredFieldsValidation validation = (VendorCreditMemoInitTabRequiredFieldsValidation)validations.get("VendorCreditMemo-initTabRequiredFieldsValidation-test");        
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -112,7 +124,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         creditMemo = CreditMemoInitTabFixture.NO_INVOICE_WITH_DATE_WITH_AMOUNT.populateForRequiredness(creditMemo);
         Date tomorrow = SpringContext.getBean(PurapService.class).getDateFromOffsetFromToday(1);
         creditMemo.setCreditMemoDate(tomorrow);
-        assertFalse(rule.validateInitTabRequiredFields(creditMemo));
+
+        VendorCreditMemoInitTabRequiredFieldsValidation validation = (VendorCreditMemoInitTabRequiredFieldsValidation)validations.get("VendorCreditMemo-initTabRequiredFieldsValidation-test");        
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     
@@ -133,7 +147,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         creditMemo = CreditMemoInitTabFixture.WITH_INVOICE_WITH_DATE_NO_AMOUNT.populateForRequiredness(creditMemo);
         Date tomorrow = SpringContext.getBean(PurapService.class).getDateFromOffsetFromToday(1);
         creditMemo.setCreditMemoDate(tomorrow);
-        assertFalse(rule.validateInitTabRequiredFields(creditMemo));
+
+        VendorCreditMemoInitTabRequiredFieldsValidation validation = (VendorCreditMemoInitTabRequiredFieldsValidation)validations.get("VendorCreditMemo-initTabRequiredFieldsValidation-test");        
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /*
@@ -188,7 +204,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         GlobalVariables.getUserSession().clearBackdoorUser();
         
         creditMemo.setPurchaseOrderIdentifier(poID);
-        assertTrue(rule.validateInitTabReferenceNumbers(creditMemo));
+
+        VendorCreditMemoInitTabReferenceNumberValidation validation = (VendorCreditMemoInitTabReferenceNumberValidation)validations.get("VendorCreditMemo-initTabReferenceNumberValidation-test");        
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -199,7 +217,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         // Get the preqId of a PREQ that is validly in the database.
         Integer preqID = prepareAndSavePREQ();
         creditMemo.setPaymentRequestIdentifier(preqID);
-        assertTrue(rule.validateInitTabReferenceNumbers(creditMemo));
+
+        VendorCreditMemoInitTabReferenceNumberValidation validation = (VendorCreditMemoInitTabReferenceNumberValidation)validations.get("VendorCreditMemo-initTabReferenceNumberValidation-test");        
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -214,7 +234,8 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(
                 VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
         if(org.kuali.rice.kns.util.ObjectUtils.isNotNull(vendor)) {
-            assertTrue(rule.validateInitTabReferenceNumbers(creditMemo));
+            VendorCreditMemoInitTabReferenceNumberValidation validation = (VendorCreditMemoInitTabReferenceNumberValidation)validations.get("VendorCreditMemo-initTabReferenceNumberValidation-test");        
+            assertTrue( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
         }
         else {
             assertTrue(true);
@@ -225,7 +246,8 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
      * Should fail with no reference numbers; CM not created from any documents.
      */
     public void testValidateInitTabReferenceNumbers_NoPOIDNoPREQIdNoVendorNum() {
-        assertFalse(rule.validateInitTabReferenceNumbers(creditMemo));
+        VendorCreditMemoInitTabReferenceNumberValidation validation = (VendorCreditMemoInitTabReferenceNumberValidation)validations.get("VendorCreditMemo-initTabReferenceNumberValidation-test");        
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -245,7 +267,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
             GlobalVariables.getUserSession().clearBackdoorUser();
             
             creditMemo.setPurchaseOrderIdentifier(poID);
-            assertFalse(rule.validateInitTabReferenceNumbers(creditMemo));
+
+            VendorCreditMemoInitTabReferenceNumberValidation validation = (VendorCreditMemoInitTabReferenceNumberValidation)validations.get("VendorCreditMemo-initTabReferenceNumberValidation-test");        
+            assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
         }
         else {
             assertTrue(true);
@@ -265,7 +289,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         if(org.kuali.rice.kns.util.ObjectUtils.isNotNull(vendor)) {
             Integer preqID = prepareAndSavePREQ();
             creditMemo.setPaymentRequestIdentifier(preqID);
-            assertFalse(rule.validateInitTabReferenceNumbers(creditMemo));
+            
+            VendorCreditMemoInitTabReferenceNumberValidation validation = (VendorCreditMemoInitTabReferenceNumberValidation)validations.get("VendorCreditMemo-initTabReferenceNumberValidation-test");        
+            assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
         }
         else {
             assertTrue(true);
@@ -285,7 +311,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         creditMemo.setPurchaseOrderIdentifier(poID);
         Integer preqID = prepareAndSavePREQ();
         creditMemo.setPaymentRequestIdentifier(preqID);
-        assertFalse(rule.validateInitTabReferenceNumbers(creditMemo));
+        
+        VendorCreditMemoInitTabReferenceNumberValidation validation = (VendorCreditMemoInitTabReferenceNumberValidation)validations.get("VendorCreditMemo-initTabReferenceNumberValidation-test");        
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /*
@@ -301,7 +329,10 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         item.setPoInvoicedTotalQuantity(new KualiDecimal(1));
         item.setItemQuantity(new KualiDecimal(1));
         String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(1) + "].";
-        assertTrue(rule.validateItemQuantity(creditMemo,item,errorKeyPrefix + PurapPropertyConstants.QUANTITY));
+        
+        VendorCreditMemoItemQuantityValidation validation = (VendorCreditMemoItemQuantityValidation)validations.get("VendorCreditMemo-itemQuantityValidation");
+        validation.setItemForValidation(item);
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -313,7 +344,10 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         item.setPreqInvoicedTotalQuantity(new KualiDecimal(1));
         item.setItemQuantity(new KualiDecimal(1));
         String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(1) + "].";       
-        assertTrue(rule.validateItemQuantity(creditMemo,item,errorKeyPrefix + PurapPropertyConstants.QUANTITY));
+
+        VendorCreditMemoItemQuantityValidation validation = (VendorCreditMemoItemQuantityValidation)validations.get("VendorCreditMemo-itemQuantityValidation");
+        validation.setItemForValidation(item);
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -325,7 +359,10 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         item.setPoInvoicedTotalQuantity(new KualiDecimal(1));
         item.setItemQuantity(null);
         String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(1) + "].";
-        assertFalse(rule.validateItemQuantity(creditMemo,item,errorKeyPrefix + PurapPropertyConstants.QUANTITY));
+        
+        VendorCreditMemoItemQuantityValidation validation = (VendorCreditMemoItemQuantityValidation)validations.get("VendorCreditMemo-itemQuantityValidation");
+        validation.setItemForValidation(item);
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
  
     /**
@@ -337,7 +374,11 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         item.setPreqInvoicedTotalQuantity(new KualiDecimal(1));
         item.setItemQuantity(null);
         String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(1) + "].";
-        assertFalse(rule.validateItemQuantity(creditMemo,item,errorKeyPrefix + PurapPropertyConstants.QUANTITY));
+
+        VendorCreditMemoItemQuantityValidation validation = (VendorCreditMemoItemQuantityValidation)validations.get("VendorCreditMemo-itemQuantityValidation");
+        validation.setItemForValidation(item);
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
+
     }    
     
     /**
@@ -349,7 +390,10 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         item.setPoInvoicedTotalQuantity(new KualiDecimal(1));
         item.setItemQuantity(new KualiDecimal(-1));
         String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(1) + "].";
-        assertFalse(rule.validateItemQuantity(creditMemo,item,errorKeyPrefix + PurapPropertyConstants.QUANTITY));
+
+        VendorCreditMemoItemQuantityValidation validation = (VendorCreditMemoItemQuantityValidation)validations.get("VendorCreditMemo-itemQuantityValidation");
+        validation.setItemForValidation(item);
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -361,7 +405,10 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         item.setPreqInvoicedTotalQuantity(new KualiDecimal(1));
         item.setItemQuantity(new KualiDecimal(-1));
         String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(1) + "].";
-        assertFalse(rule.validateItemQuantity(creditMemo,item,errorKeyPrefix + PurapPropertyConstants.QUANTITY));
+
+        VendorCreditMemoItemQuantityValidation validation = (VendorCreditMemoItemQuantityValidation)validations.get("VendorCreditMemo-itemQuantityValidation");
+        validation.setItemForValidation(item);
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -373,7 +420,10 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         item.setPoInvoicedTotalQuantity(new KualiDecimal(1));
         item.setItemQuantity(new KualiDecimal(2));
         String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(1) + "].";
-        assertFalse(rule.validateItemQuantity(creditMemo,item,errorKeyPrefix + PurapPropertyConstants.QUANTITY));
+
+        VendorCreditMemoItemQuantityValidation validation = (VendorCreditMemoItemQuantityValidation)validations.get("VendorCreditMemo-itemQuantityValidation");
+        validation.setItemForValidation(item);
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /**
@@ -385,7 +435,10 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         item.setPreqInvoicedTotalQuantity(new KualiDecimal(1));
         item.setItemQuantity(new KualiDecimal(2));
         String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(1) + "].";
-        assertFalse(rule.validateItemQuantity(creditMemo,item,errorKeyPrefix + PurapPropertyConstants.QUANTITY));
+
+        VendorCreditMemoItemQuantityValidation validation = (VendorCreditMemoItemQuantityValidation)validations.get("VendorCreditMemo-itemQuantityValidation");
+        validation.setItemForValidation(item);
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }   
     
     // Tests of validateItemUnitPrice
@@ -450,18 +503,20 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         GlobalVariables.getUserSession().setBackdoorUser( "parke" );
         Integer poId = prepareAndSavePOWithChanges(null,null,null);
         GlobalVariables.getUserSession().clearBackdoorUser();
-        
+
         creditMemo.setPurchaseOrderIdentifier(poId);
-        assertFalse(rule.checkPurchaseOrderForInvoicedItems(creditMemo));
+        VendorCreditMemoPurchaseOrderForInvoicedItemsValidation validation = (VendorCreditMemoPurchaseOrderForInvoicedItemsValidation)validations.get("VendorCreditMemo-purchaseOrderForInvoicedItemsValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     public void testCheckPurchaseOrdersForInvoicedItems_NullOutstandingEncumberedAmount() throws Exception {
         GlobalVariables.getUserSession().setBackdoorUser( "parke" );
         Integer poId = prepareAndSavePOWithChanges(null,null,new BigDecimal(1));
         GlobalVariables.getUserSession().clearBackdoorUser();
-        
+                        
         creditMemo.setPurchaseOrderIdentifier(poId);
-        assertFalse(rule.checkPurchaseOrderForInvoicedItems(creditMemo));
+        VendorCreditMemoPurchaseOrderForInvoicedItemsValidation validation = (VendorCreditMemoPurchaseOrderForInvoicedItemsValidation)validations.get("VendorCreditMemo-purchaseOrderForInvoicedItemsValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     public void testCheckPurchaseOrdersForInvoicedItems_NullUnitPrice() throws Exception {
@@ -470,7 +525,8 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         GlobalVariables.getUserSession().clearBackdoorUser();
         
         creditMemo.setPurchaseOrderIdentifier(poId);
-        assertFalse(rule.checkPurchaseOrderForInvoicedItems(creditMemo));
+        VendorCreditMemoPurchaseOrderForInvoicedItemsValidation validation = (VendorCreditMemoPurchaseOrderForInvoicedItemsValidation)validations.get("VendorCreditMemo-purchaseOrderForInvoicedItemsValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     public void testCheckPurchaseOrdersForInvoicedItems_WithUnitPriceLessThanOutstandingEncumberedAmount() throws Exception {
@@ -479,7 +535,8 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         GlobalVariables.getUserSession().clearBackdoorUser();
         
         creditMemo.setPurchaseOrderIdentifier(poId);
-        assertFalse(rule.checkPurchaseOrderForInvoicedItems(creditMemo));
+        VendorCreditMemoPurchaseOrderForInvoicedItemsValidation validation = (VendorCreditMemoPurchaseOrderForInvoicedItemsValidation)validations.get("VendorCreditMemo-purchaseOrderForInvoicedItemsValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     public void testCheckPurchaseOrdersForInvoicedItems_WithUnitPriceEqualToOutstandingEncumberedAmount() throws Exception {
@@ -488,7 +545,8 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         GlobalVariables.getUserSession().clearBackdoorUser();
         
         creditMemo.setPurchaseOrderIdentifier(poId);
-        assertFalse(rule.checkPurchaseOrderForInvoicedItems(creditMemo));
+        VendorCreditMemoPurchaseOrderForInvoicedItemsValidation validation = (VendorCreditMemoPurchaseOrderForInvoicedItemsValidation)validations.get("VendorCreditMemo-purchaseOrderForInvoicedItemsValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /*
@@ -502,13 +560,17 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
     */
     
     public void testValidateTotalMatchesVendorAmount_GrandTotalGreaterThanAmount() {
-        creditMemo = CreditMemoInitTabFixture.LO_AMOUNT_HI_TOTAL.populateForAmounts(creditMemo);
-        assertFalse(rule.validateTotalMatchesVendorAmount(creditMemo));
+        creditMemo = CreditMemoInitTabFixture.LO_AMOUNT_HI_TOTAL.populateForAmounts(creditMemo);        
+
+        VendorCreditMemoTotalMatchesVendorAmountValidation validation = (VendorCreditMemoTotalMatchesVendorAmountValidation)validations.get("VendorCreditMemo-totalMatchesVendorAmountValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     public void testValidateTotalMatchesVendorAmount_AmountGreaterThanGrandTotal() {
         creditMemo = CreditMemoInitTabFixture.HI_AMOUNT_LO_TOTAL.populateForAmounts(creditMemo);
-        assertFalse(rule.validateTotalMatchesVendorAmount(creditMemo));
+
+        VendorCreditMemoTotalMatchesVendorAmountValidation validation = (VendorCreditMemoTotalMatchesVendorAmountValidation)validations.get("VendorCreditMemo-totalMatchesVendorAmountValidation-test");
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
         
     /*
@@ -516,7 +578,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
      */
     public void testValidateTotalOverZero_PositiveTotal() {
         creditMemo = CreditMemoInitTabFixture.HI_AMOUNT_HI_TOTAL.populateForAmounts(creditMemo);
-        assertTrue(rule.validateTotalOverZero(creditMemo));
+
+        VendorCreditMemoTotalOverZeroValidation validation = (VendorCreditMemoTotalOverZeroValidation)validations.get("VendorCreditMemo-totalOverZeroValidation-test");
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", creditMemo)) );        
     }
     
     /*
@@ -534,7 +598,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
                 VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BASIC_ACCOUNT_1,
                 AccountingLineFixture.LINE6);
-        assertTrue(rule.validateObjectCode(creditMemo, accountingLine));
+        
+        VendorCreditMemoObjectCodeValidation validation = (VendorCreditMemoObjectCodeValidation)validations.get("VendorCreditMemo-objectCodeValidation-test");
+        assertTrue( validation.validate(new AddAccountingLineEvent("", creditMemo, accountingLine)) );        
     }
     
     /*
@@ -561,7 +627,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
                 VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BASIC_ACCOUNT_1,
                 AccountingLineFixture.LINE6);
-        assertTrue(rule.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
+                
+        VendorCreditMemoAccountPercentBetween0And100Validation validation = (VendorCreditMemoAccountPercentBetween0And100Validation)validations.get("VendorCreditMemo-accountPercentBetween0And100Validation-test");
+        assertTrue( validation.validate(new AddAccountingLineEvent("", (Document)creditMemo, (AccountingLine)accountingLine)) );                
     }
     
     public void testVerifyAccountingStringsBetween0And100Percent_PercentTooHigh() {
@@ -569,7 +637,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
                 VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BAD_ACCOUNT_PERCENT_TOO_HIGH,
                 AccountingLineFixture.LINE6);
-        assertFalse(rule.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
+
+        VendorCreditMemoAccountPercentBetween0And100Validation validation = (VendorCreditMemoAccountPercentBetween0And100Validation)validations.get("VendorCreditMemo-accountPercentBetween0And100Validation-test");
+        assertFalse( validation.validate(new AddAccountingLineEvent("", (Document)creditMemo, (AccountingLine)accountingLine)) );                
     }
     
     public void testVerifyAccountingStringsBetween0And100Percent_PercentZero() {
@@ -577,7 +647,10 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
                 VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BAD_ACCOUNT_PERCENT_ZERO,
                 AccountingLineFixture.LINE6);
-        assertFalse(rule.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
+
+        VendorCreditMemoAccountPercentBetween0And100Validation validation = (VendorCreditMemoAccountPercentBetween0And100Validation)validations.get("VendorCreditMemo-accountPercentBetween0And100Validation-test");
+        assertFalse( validation.validate(new AddAccountingLineEvent("", (Document)creditMemo, (AccountingLine)accountingLine)) );                
+
     }
     
     public void testVerifyAccountingStringsBetween0And100Percent_PercentNegative() {
@@ -585,7 +658,9 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
                 VendorCreditMemoDocument.class,
                 PurApAccountingLineFixture.BAD_ACCOUNT_PERCENT_NEGATIVE,
                 AccountingLineFixture.LINE6);
-        assertFalse(rule.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
+
+        VendorCreditMemoAccountPercentBetween0And100Validation validation = (VendorCreditMemoAccountPercentBetween0And100Validation)validations.get("VendorCreditMemo-accountPercentBetween0And100Validation-test");
+        assertFalse( validation.validate(new AddAccountingLineEvent("", (Document)creditMemo, (AccountingLine)accountingLine)) );                
     }
 }
 

@@ -24,53 +24,53 @@ public enum PaymentRequestTaxTabFixture {
     // S: successful; F: failing
            
     // for testing tax income class
-    INCOME_EMPTY(null, null, null, null, null, null, null, null, null, null, null), // F
-    INCOME_N_OTHERS_EMPTY("N", null, null, null, null, null, null, null, null, null, null), // S
-    INCOME_N_OTHERS_NOTEMPTY("N", new BigDecimal(1), new BigDecimal(1), "US", "1234567890", null, true, null, null, null, null), // F
-    INCOME_NOTN_TAX_COUNTRY_EMPTY("O", null, null, null, null, null, null, null, null, null, null), // F
+    INCOME_EMPTY(null, null, null, null, null, null, null, null, null, null, null, "ATAX"), // F
+    INCOME_N_OTHERS_EMPTY("N", null, null, null, null, null, null, null, null, null, null, "ATAX"), // S
+    INCOME_N_OTHERS_NOTEMPTY("N", new BigDecimal(1), new BigDecimal(1), "US", "1234567890", null, true, null, null, null, null, "ATAX"), // F
+    INCOME_NOTN_TAX_COUNTRY_EMPTY("O", null, null, null, null, null, null, null, null, null, null, "ATAX"), // F
         
     // for testing tax rates
     
-    INCOME_F_TAX_VALID("F", new BigDecimal(14), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null), // S
-    INCOME_F_FED_INVALID("F", new BigDecimal(15), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null), // F
-    INCOME_F_ST_INVALID("F", new BigDecimal(30), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null), // F
+    INCOME_F_TAX_VALID("F", new BigDecimal(14), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // S
+    INCOME_F_FED_INVALID("F", new BigDecimal(15), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
+    INCOME_F_ST_INVALID("F", new BigDecimal(30), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
     
-    INCOME_I_TAX_VALID("I", new BigDecimal(30), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null), // S
-    INCOME_I_FED_INVALID("I", new BigDecimal(10), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null), // F
-    INCOME_I_ST_INVALID("I", new BigDecimal(30), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null), // F
+    INCOME_I_TAX_VALID("I", new BigDecimal(30), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // S
+    INCOME_I_FED_INVALID("I", new BigDecimal(10), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
+    INCOME_I_ST_INVALID("I", new BigDecimal(30), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
     
-    INCOME_R_TAX_VALID("R", new BigDecimal(10), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null), // S
-    INCOME_R_FED_INVALID("R", new BigDecimal(14), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null), // F
-    INCOME_R_ST_INVALID("R", new BigDecimal(5), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null), // F
+    INCOME_R_TAX_VALID("R", new BigDecimal(10), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // S
+    INCOME_R_FED_INVALID("R", new BigDecimal(14), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
+    INCOME_R_ST_INVALID("R", new BigDecimal(5), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
 
-    INCOME_A_TAX_VALID("A", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null), // S
-    INCOME_A_FED_INVALID("A", new BigDecimal(5), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null), // F
-    INCOME_A_ST_INVALID("A", new BigDecimal(30), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null), // F
+    INCOME_A_TAX_VALID("A", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // S
+    INCOME_A_FED_INVALID("A", new BigDecimal(5), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
+    INCOME_A_ST_INVALID("A", new BigDecimal(30), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
     
-    FED_ZERO_ST_ZERO("O", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null), // S
-    FFD_ZERO_ST_NOTZERO("O", new BigDecimal(0), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null), // F
-    FED_NOTZERO_ST_ZERO("O", new BigDecimal(30), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null), // F
+    FED_ZERO_ST_ZERO("O", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // S
+    FFD_ZERO_ST_NOTZERO("O", new BigDecimal(0), new BigDecimal(3.4), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
+    FED_NOTZERO_ST_ZERO("O", new BigDecimal(30), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
     
     // for testing tax indicators
     
-    TREATY("O", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", null, true, null, null, null, null), // S
+    TREATY("O", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", null, true, null, null, null, null, "ATAX"), // S
     
-    GROSS_TAX_NOTZERO("R", new BigDecimal(30), new BigDecimal(0), "US", "1234567890", null, null, true, null, null, null), // S
-    GROSS_TAX_ZERO("R", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, true, null, null, null), // F
+    GROSS_TAX_NOTZERO("R", new BigDecimal(30), new BigDecimal(0), "US", "1234567890", null, null, true, null, null, null, "ATAX"), // S
+    GROSS_TAX_ZERO("R", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, true, null, null, null, "ATAX"), // F
     
-    FOREIGN_TAX_ZERO("A", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, null, true, null, null), // S
-    FOREIGN_TAX_NOTZERO("A", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", null, null, null, true, null, null), // F
+    FOREIGN_TAX_ZERO("A", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, null, true, null, null, "ATAX"), // S
+    FOREIGN_TAX_NOTZERO("A", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", null, null, null, true, null, null, "ATAX"), // F
     
-    USAID_OTHER_INCOME_F_TAX_ZERO("F", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, null, null, true, true), // S
-    USAID_INCOME_NOTF_TAX_NOTZERO("R", new BigDecimal(15), new BigDecimal(0), "US", "1234567890", null, null, null, null, true, null), // F
+    USAID_OTHER_INCOME_F_TAX_ZERO("F", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, null, null, true, true, "ATAX"), // S
+    USAID_INCOME_NOTF_TAX_NOTZERO("R", new BigDecimal(15), new BigDecimal(0), "US", "1234567890", null, null, null, null, true, null, "ATAX"), // F
     
-    OTHER_TAX_ZERO("I", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, true), // S
-    OTHER_TAX_NOTZERO("I", new BigDecimal(30), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, true), // F
+    OTHER_TAX_ZERO("I", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, true, "ATAX"), // S
+    OTHER_TAX_NOTZERO("I", new BigDecimal(30), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, true, "ATAX"), // F
     
-    SW4_INCOME_F_TAX_ZERO("F", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", new KualiDecimal(1), null, null, null, null, null), // S
-    SW4_NEG_INCOME_NOTF_TAX_NOTZERO("O", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", new KualiDecimal(-1), null, null, null, null, null), // F
+    SW4_INCOME_F_TAX_ZERO("F", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", new KualiDecimal(1), null, null, null, null, null, "ATAX"), // S
+    SW4_NEG_INCOME_NOTF_TAX_NOTZERO("O", new BigDecimal(30), new BigDecimal(3.4), "US", "1234567890", new KualiDecimal(-1), null, null, null, null, null, "ATAX"), // F
     
-    SW4_TREATY_GROSS_FOREIGN_USAID_OTHER("F", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", new KualiDecimal(1), true, true, true, true, true); // F
+    SW4_TREATY_GROSS_FOREIGN_USAID_OTHER("F", new BigDecimal(0), new BigDecimal(0), "US", "1234567890", new KualiDecimal(1), true, true, true, true, true, "ATAX"); // F
     
     private String taxClassificationCode;
     private BigDecimal federalTaxPercent;       // number is in whole form so 5% is 5.00
@@ -83,6 +83,7 @@ public enum PaymentRequestTaxTabFixture {
     private Boolean foreignSourceIndicator;
     private Boolean taxUSAIDPerDiemIndicator;
     private Boolean otherTaxExemptIndicator;
+    private String statusCode;
 
     private PaymentRequestTaxTabFixture( 
             String taxClassificationCode,
@@ -95,7 +96,8 @@ public enum PaymentRequestTaxTabFixture {
             Boolean grossUpIndicator,
             Boolean foreignSourceIndicator,
             Boolean taxUSAIDPerDiemIndicator,
-            Boolean otherTaxExemptIndicator) {
+            Boolean otherTaxExemptIndicator,
+            String statusCode) {
         this.taxClassificationCode = taxClassificationCode;
         this.federalTaxPercent = federalTaxPercent;
         this.stateTaxPercent = stateTaxPercent;
@@ -107,6 +109,7 @@ public enum PaymentRequestTaxTabFixture {
         this.foreignSourceIndicator = foreignSourceIndicator;
         this.taxUSAIDPerDiemIndicator = taxUSAIDPerDiemIndicator;
         this.otherTaxExemptIndicator = otherTaxExemptIndicator;
+        this.statusCode = statusCode;
     }
 
     public PaymentRequestDocument populate(PaymentRequestDocument preqDocument) {
@@ -121,6 +124,7 @@ public enum PaymentRequestTaxTabFixture {
         preqDocument.setTaxForeignSourceIndicator(foreignSourceIndicator);
         preqDocument.setTaxUSAIDPerDiemIndicator(taxUSAIDPerDiemIndicator);
         preqDocument.setTaxOtherExemptIndicator(otherTaxExemptIndicator);
+        preqDocument.setStatusCode(statusCode);
 
         return preqDocument;
     }

@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -26,6 +27,7 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -39,6 +41,8 @@ import org.kuali.kfs.module.purap.fixture.PurchaseOrderAccountingLineFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -47,20 +51,20 @@ import org.kuali.rice.kns.service.ParameterService;
 public class PurchasingAccountsPayableDocumentRuleTest extends
 		PurapRuleTestBase {
 	
-    PurchasingAccountsPayableDocumentRuleBase rules;
+    private Map<String, GenericValidation> validations;
     
     ParameterService parameterService;
 
     protected void setUp() throws Exception {
         super.setUp();
-        rules = new PurchasingAccountsPayableDocumentRuleBase();
+        validations = SpringContext.getBeansOfType(GenericValidation.class);
         if (null == parameterService) {
             parameterService = SpringContext.getBean(ParameterService.class);
         }
     }
 
     protected void tearDown() throws Exception {
-        rules = null;
+        validations = null;
         super.tearDown();
     }
 
@@ -68,12 +72,16 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
     
     public void testProcessAccountSummaryValidation_PositiveAmount() {
         RequisitionDocument doc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
-        assertTrue(rules.processAccountSummaryValidation(doc));
+        
+        PurchasingAccountsPayableProcessAccountSummaryValidation validation = (PurchasingAccountsPayableProcessAccountSummaryValidation)validations.get("PurchasingAccountsPayable-processAccountSummaryValidation-test");                
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", doc)) );        
     }
     
     public void testProcessAccountSummaryValidation_NegativeAmount() {
         RequisitionDocument doc = RequisitionDocumentFixture.REQ_WITH_NEGATIVE_AMOUNT.createRequisitionDocument();
-        assertFalse(rules.processAccountSummaryValidation(doc));
+
+        PurchasingAccountsPayableProcessAccountSummaryValidation validation = (PurchasingAccountsPayableProcessAccountSummaryValidation)validations.get("PurchasingAccountsPayable-processAccountSummaryValidation-test");                
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", doc)) );        
     }   
     
     // Tests of validateBelowTheLineValues
@@ -85,10 +93,17 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
             }
             else if (parameterService.getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), 
                     parameterString, item.getItemTypeCode()).evaluationSucceeds()) {
-                assertTrue(rules.validateBelowTheLineValues(documentType, item));
+                
+                RequisitionDocument doc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+                PurchasingAccountsPayableBelowTheLineValuesValidation validation = (PurchasingAccountsPayableBelowTheLineValuesValidation)validations.get("PurchasingAccountsPayable-belowTheLineValuesValidation");
+                validation.setItemForValidation(item);
+                assertTrue( validation.validate(new AttributedDocumentEventBase("","", doc)));        
             }
             else {
-                assertFalse(rules.validateBelowTheLineValues(documentType, item));
+                RequisitionDocument doc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+                PurchasingAccountsPayableBelowTheLineValuesValidation validation = (PurchasingAccountsPayableBelowTheLineValuesValidation)validations.get("PurchasingAccountsPayable-belowTheLineValuesValidation");
+                validation.setItemForValidation(item);
+                assertFalse( validation.validate(new AttributedDocumentEventBase("","",doc)) );        
             }
         }
         catch (ClassNotFoundException cnfe) {
@@ -188,12 +203,23 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
         PurApAccountingLine purApAcctLine1 = purApAcctLineFixture.createPurApAccountingLine(PaymentRequestAccount.class, 
                 AccountingLineFixture.PURAP_LINE1);      
         purAccounts.add(purApAcctLine1);
-        assertTrue(rules.verifyHasAccounts(purAccounts, "1"));
+        PurchaseOrderItem item = new PurchaseOrderItem();
+        item.setSourceAccountingLines(purAccounts);
+        
+        PurchasingAccountsPayableHasAccountsValidation validation = (PurchasingAccountsPayableHasAccountsValidation)validations.get("PurchasingAccountsPayable-hasAccountsValidation");
+        validation.setItemForValidation(item);
+        assertTrue( validation.validate(null) );                
     }
     
     public void testVerifyHasAccounts_Negative() {
         List<PurApAccountingLine> purAccounts = new ArrayList<PurApAccountingLine>();
-        assertFalse(rules.verifyHasAccounts(purAccounts, "1"));
+
+        PurchaseOrderItem item = new PurchaseOrderItem();
+        item.setSourceAccountingLines(purAccounts);
+        
+        PurchasingAccountsPayableHasAccountsValidation validation = (PurchasingAccountsPayableHasAccountsValidation)validations.get("PurchasingAccountsPayable-hasAccountsValidation");
+        validation.setItemForValidation(item);
+        assertFalse( validation.validate(null) );                
     }   
     
     // Tests of verifyAccountPercent
@@ -202,7 +228,13 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_PRORATION_TWO_ACCOUNTS;
         PurchasingAccountsPayableDocument doc =  fixture.generateRequisitionDocument_OneItem();
         List<PurApAccountingLine> purAccounts = doc.getItems().get(0).getSourceAccountingLines();
-        assertTrue(rules.verifyAccountPercent(doc, purAccounts, "1"));
+                
+        PurchaseOrderItem item = new PurchaseOrderItem();
+        item.setSourceAccountingLines(purAccounts);
+        
+        PurchasingAccountsPayableAccountPercentValidation validation = (PurchasingAccountsPayableAccountPercentValidation)validations.get("PurchasingAccountsPayable-accountPercentValidation");
+        validation.setItemForValidation(item);
+        assertTrue( validation.validate(null) );               
     }
     
     /*public void testVerifyAccountPercent_ThreeWay() {
@@ -222,8 +254,14 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
         purAccounts.add(purApAcctLine1);
         PurApAccountingLine purApAcctLine2 = purApAcctLineFixture.createPurApAccountingLine(PaymentRequestAccount.class, 
                 AccountingLineFixture.PURAP_LINE2);      
-        purAccounts.add(purApAcctLine2);       
-        assertTrue(rules.verifyUniqueAccountingStrings(purAccounts, PurapConstants.ITEM_TAB_ERROR_PROPERTY, "1"));
+        purAccounts.add(purApAcctLine2);     
+                
+        PurchaseOrderItem item = new PurchaseOrderItem();
+        item.setSourceAccountingLines(purAccounts);
+        
+        PurchasingAccountsPayableUniqueAccountingStringsValidation validation = (PurchasingAccountsPayableUniqueAccountingStringsValidation)validations.get("PurchasingAccountsPayable-uniqueAccountingStringsValidation");
+        validation.setItemForValidation(item);
+        assertTrue( validation.validate(null) );                               
     }
     
     public void testVerifyUniqueAccountingStrings_SameStrings() {
@@ -235,7 +273,13 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
         PurApAccountingLine purApAcctLine2 = purApAcctLineFixture.createPurApAccountingLine(PaymentRequestAccount.class, 
                 AccountingLineFixture.PURAP_LINE1);      
         purAccounts.add(purApAcctLine2);       
-        assertFalse(rules.verifyUniqueAccountingStrings(purAccounts, PurapConstants.ITEM_TAB_ERROR_PROPERTY, "1"));
+
+        PurchaseOrderItem item = new PurchaseOrderItem();
+        item.setSourceAccountingLines(purAccounts);
+        
+        PurchasingAccountsPayableUniqueAccountingStringsValidation validation = (PurchasingAccountsPayableUniqueAccountingStringsValidation)validations.get("PurchasingAccountsPayable-uniqueAccountingStringsValidation");
+        validation.setItemForValidation(item);
+        assertFalse( validation.validate(null) );
     }
     
     // Tests of verifyAccountingStringsBetween0And100Percent
@@ -245,7 +289,12 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
                 PurchaseOrderDocument.class,
                 PurApAccountingLineFixture.BASIC_ACCOUNT_1,
                 AccountingLineFixture.PURAP_LINE1);
-        assertTrue(rules.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
+       
+        PurchasingAccountsPayableAccountPercentBetween0And100Validation validation = (PurchasingAccountsPayableAccountPercentBetween0And100Validation)validations.get("PurchasingAccountsPayable-accountPercentBetween0And100Validation-test");
+        validation.setAccountingLine(accountingLine);
+        validation.setErrorPropertyName(PurapPropertyConstants.ACCOUNT_LINE_PERCENT);
+        validation.setItemIdentifier("1");
+        assertTrue( validation.validate(null) );       
     }
     
     public void testVerifyAccountingStringsBetween0And100Percent_PercentTooHigh() {
@@ -253,7 +302,12 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
                 PurchaseOrderDocument.class,
                 PurApAccountingLineFixture.BAD_ACCOUNT_PERCENT_TOO_HIGH,
                 AccountingLineFixture.PURAP_LINE1);
-        assertFalse(rules.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
+
+        PurchasingAccountsPayableAccountPercentBetween0And100Validation validation = (PurchasingAccountsPayableAccountPercentBetween0And100Validation)validations.get("PurchasingAccountsPayable-accountPercentBetween0And100Validation-test");
+        validation.setAccountingLine(accountingLine);
+        validation.setErrorPropertyName(PurapPropertyConstants.ACCOUNT_LINE_PERCENT);
+        validation.setItemIdentifier("1");
+        assertFalse( validation.validate(null) );       
     }
     
     public void testVerifyAccountingStringsBetween0And100Percent_PercentZero() {
@@ -261,7 +315,12 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
                 PurchaseOrderDocument.class,
                 PurApAccountingLineFixture.BAD_ACCOUNT_PERCENT_ZERO,
                 AccountingLineFixture.PURAP_LINE1);
-        assertFalse(rules.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
+        
+        PurchasingAccountsPayableAccountPercentBetween0And100Validation validation = (PurchasingAccountsPayableAccountPercentBetween0And100Validation)validations.get("PurchasingAccountsPayable-accountPercentBetween0And100Validation-test");
+        validation.setAccountingLine(accountingLine);
+        validation.setErrorPropertyName(PurapPropertyConstants.ACCOUNT_LINE_PERCENT);
+        validation.setItemIdentifier("1");
+        assertFalse( validation.validate(null) );       
     }
     
     public void testVerifyAccountingStringsBetween0And100Percent_PercentNegative() {
@@ -269,6 +328,11 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
                 PurchaseOrderDocument.class,
                 PurApAccountingLineFixture.BAD_ACCOUNT_PERCENT_NEGATIVE,
                 AccountingLineFixture.PURAP_LINE1);
-        assertFalse(rules.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
+        
+        PurchasingAccountsPayableAccountPercentBetween0And100Validation validation = (PurchasingAccountsPayableAccountPercentBetween0And100Validation)validations.get("PurchasingAccountsPayable-accountPercentBetween0And100Validation-test");
+        validation.setAccountingLine(accountingLine);
+        validation.setErrorPropertyName(PurapPropertyConstants.ACCOUNT_LINE_PERCENT);
+        validation.setItemIdentifier("1");
+        assertFalse( validation.validate(null) );       
     }
 }

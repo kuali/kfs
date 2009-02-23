@@ -41,18 +41,31 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
 
     private BusinessObjectService businessObjectService;
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
+    private PurchasingUnitOfMeasureValidation unitOfMeasureValidation;
+    private PurchasingItemUnitPriceValidation itemUnitPriceValidation;
+    private PurchasingItemDescriptionValidation itemDescriptionValidation;
+    private PurchasingItemQuantityValidation itemQuantityValidation;
+    private PurchasingBelowTheLineItemNoUnitCostValidation belowTheLineItemNoUnitCostValidation;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         valid &= super.validate(event);
         String recurringPaymentTypeCode = ((PurchasingDocument)event.getDocument()).getRecurringPaymentTypeCode(); 
         valid &= capitalAssetBuilderModuleService.validateItemCapitalAssetWithErrors(recurringPaymentTypeCode, getItemForValidation(), false);
-        valid &= validateUnitOfMeasure(getItemForValidation());       
-        valid &= validateItemUnitPrice(getItemForValidation());      
+        
+        unitOfMeasureValidation.setItemForValidation(getItemForValidation());
+        valid &= unitOfMeasureValidation.validate(event);
+
+        itemUnitPriceValidation.setItemForValidation(getItemForValidation());
+        valid &= itemUnitPriceValidation.validate(event);                     
         
         if (getItemForValidation().getItemType().isLineItemIndicator()) {
-            valid &= validateItemDescription(getItemForValidation());
-            valid &= validateItemQuantity(getItemForValidation());
+            itemDescriptionValidation.setItemForValidation(getItemForValidation());
+            valid &= itemDescriptionValidation.validate(event);
+                        
+            itemQuantityValidation.setItemForValidation(getItemForValidation());
+            valid &= itemQuantityValidation.validate(event);
+
             valid &= validateCommodityCodes(getItemForValidation(), commodityCodeIsRequired());      
             if (((PurchasingDocument)event.getDocument()).isReceivingDocumentRequiredIndicator()){
                 if (getItemForValidation().getItemType().isAmountBasedGeneralLedgerIndicator()){
@@ -63,32 +76,9 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         }
         else {
             // No accounts can be entered on below-the-line items that have no unit cost.
-            valid &= validateBelowTheLineItemNoUnitCost(getItemForValidation()); 
+            belowTheLineItemNoUnitCostValidation.setItemForValidation(getItemForValidation());
+            valid &= belowTheLineItemNoUnitCostValidation.validate(event);                        
         }
-        return valid;
-    }
-
-    /**
-     * Validates that if the item type is quantity based, the unit of measure is required.
-     * 
-     * @param item the item to be validated
-     * @return boolean false if the item type is quantity based and the unit of measure is empty.
-     */
-    public boolean validateUnitOfMeasure(PurApItem item) {
-        boolean valid = true;
-        PurchasingItemBase purItem = (PurchasingItemBase) item;
-        // Validations for quantity based item type
-        if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-            String uomCode = purItem.getItemUnitOfMeasureCode();
-            if (StringUtils.isEmpty(uomCode)) {
-                valid = false;
-                String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
-                                        getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).
-                                        getLabel();
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
-            }
-        }
-
         return valid;
     }
     
@@ -96,23 +86,6 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         return false;
     }
     
-    /**
-     * Validates that if the item unit price is null and the source accounting lines is not empty, add error message and return
-     * false.
-     * 
-     * @param item the item to be validated
-     * @return boolean false if the item unit price is null and the source accounting lines is not empty.
-     */
-    public boolean validateBelowTheLineItemNoUnitCost(PurApItem item) {
-        if (ObjectUtils.isNull(item.getItemUnitPrice()) && ObjectUtils.isNotNull(item.getSourceAccountingLines()) && !item.getSourceAccountingLines().isEmpty()) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE_NO_UNIT_COST, item.getItemIdentifierString());
-
-            return false;
-        }
-
-        return true;
-    }
-
     /**
      * Validates that the document contains at least one item.
      * 
@@ -135,84 +108,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
 
         return valid;
     }
-    
-    /**
-     * Checks that a description was entered for the item.
-     * 
-     * @param item
-     * @return
-     */
-    public boolean validateItemDescription(PurApItem item) {
-        boolean valid = true;      
-        if (StringUtils.isEmpty(item.getItemDescription())) {
-            valid = false;
-            String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
-                                    getAttributeDefinition(PurapPropertyConstants.ITEM_DESCRIPTION).getLabel();
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
-        }
-        return valid;
-    }
-
-    /**
-     * Validates the unit price for all applicable item types. It validates that the unit price field was
-     * entered on the item, and that the price is in the right range for the item type.
-     * 
-     * @param purDocument the purchasing document to be validated
-     * @return boolean false if there is any validation that fails.
-     */
-    public boolean validateItemUnitPrice(PurApItem item) {
-        boolean valid = true;
-        if (item.getItemType().isLineItemIndicator()) {
-            if (ObjectUtils.isNull(item.getItemUnitPrice())) {
-                valid = false;
-                String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
-                                        getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_PRICE).getLabel();
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
-            }
-        }    
-
-        if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
-            if ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice()) > 0) && ((!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
-                // If the item type is not full order discount or trade in items, don't allow negative unit price.
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.UNIT_COST, item.getItemIdentifierString());
-                valid = false;
-            }
-            else if ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice()) < 0) && ((item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) || (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
-                // If the item type is full order discount or trade in items, its unit price must be negative.
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, ItemFields.UNIT_COST, item.getItemIdentifierString());
-                valid = false;
-            }
-        }
-
-        return valid;
-    }
-
-    /**
-     * Validates that if the item type is quantity based, the item quantity is required and if the item type is amount based, the
-     * quantity is not allowed.
-     * 
-     * @param item the item to be validated
-     * @return boolean false if there's any validation that fails.
-     */
-    public boolean validateItemQuantity(PurApItem item) {
-        boolean valid = true;
-        PurchasingItemBase purItem = (PurchasingItemBase) item;
-        if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()))) {
-            valid = false;
-            String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
-                                    getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel();            
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
-        }
-        else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
-            valid = false;
-            String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
-                                    getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel(); 
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, attributeLabel + " in " + item.getItemIdentifierString());
-        }
-
-        return valid;
-    }
-    
+        
     /**
      * Validates whether the commodity code existed on the item, and if existed, whether the
      * commodity code on the item existed in the database, and if so, whether the commodity 
@@ -275,6 +171,46 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
 
     public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
         this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
+    }
+
+    public PurchasingUnitOfMeasureValidation getUnitOfMeasureValidation() {
+        return unitOfMeasureValidation;
+    }
+
+    public void setUnitOfMeasureValidation(PurchasingUnitOfMeasureValidation unitOfMeasureValidation) {
+        this.unitOfMeasureValidation = unitOfMeasureValidation;
+    }
+
+    public PurchasingItemUnitPriceValidation getItemUnitPriceValidation() {
+        return itemUnitPriceValidation;
+    }
+
+    public void setItemUnitPriceValidation(PurchasingItemUnitPriceValidation itemUnitPriceValidation) {
+        this.itemUnitPriceValidation = itemUnitPriceValidation;
+    }
+
+    public PurchasingItemDescriptionValidation getItemDescriptionValidation() {
+        return itemDescriptionValidation;
+    }
+
+    public void setItemDescriptionValidation(PurchasingItemDescriptionValidation itemDescriptionValidation) {
+        this.itemDescriptionValidation = itemDescriptionValidation;
+    }
+
+    public PurchasingItemQuantityValidation getItemQuantityValidation() {
+        return itemQuantityValidation;
+    }
+
+    public void setItemQuantityValidation(PurchasingItemQuantityValidation itemQuantityValidation) {
+        this.itemQuantityValidation = itemQuantityValidation;
+    }
+
+    public PurchasingBelowTheLineItemNoUnitCostValidation getBelowTheLineItemNoUnitCostValidation() {
+        return belowTheLineItemNoUnitCostValidation;
+    }
+
+    public void setBelowTheLineItemNoUnitCostValidation(PurchasingBelowTheLineItemNoUnitCostValidation belowTheLineItemNoUnitCostValidation) {
+        this.belowTheLineItemNoUnitCostValidation = belowTheLineItemNoUnitCostValidation;
     }
     
 

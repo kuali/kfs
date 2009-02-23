@@ -24,11 +24,15 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedExpiredAccountWarningEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedPayDateNotOverThresholdDaysAwayEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedTradeInWarningEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
@@ -120,25 +124,28 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
      * @return - true if threshold has not been surpassed or if user confirmed ok to override, false otherwise
      */
     public boolean confirmPayDayNotOverThresholdDaysAway(PaymentRequestDocument preq) {
-        // If the pay date is more than the threshold number of days in the future, ask for confirmation.
-        PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
-        if (!rule.validatePayDateNotOverThresholdDaysAway(preq)) {
+        // If the pay date is more than the threshold number of days in the future, ask for confirmation.                
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPayDateNotOverThresholdDaysAwayEvent("", preq));
+        
+        if (!rulePassed) {
             return askForConfirmation(PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION, PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);
         }
         return true;
     }
 
     public boolean confirmUnusedTradeIn(PaymentRequestDocument preq) {
-        PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
-        if (!rule.validateWarningTradeIn(preq)) {
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedTradeInWarningEvent("", preq));
+        
+        if (!rulePassed) {
             return askForConfirmation(PREQDocumentsStrings.UNUSED_TRADE_IN_QUESTION, PurapKeyConstants.WARNING_ITEM_TRADE_IN_AMOUNT_UNUSED);
         }
         return true;
     }
     
     public boolean confirmExpiredAccount(PaymentRequestDocument preq) {
-        PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
-        if (!rule.validateWarningExpiredAccount(preq)) {
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedExpiredAccountWarningEvent("", preq));
+        
+        if (!rulePassed) {
             return askForConfirmation(PREQDocumentsStrings.EXPIRED_ACCOUNT_QUESTION, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
         }
         return true;

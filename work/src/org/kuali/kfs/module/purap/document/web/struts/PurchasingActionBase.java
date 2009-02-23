@@ -54,9 +54,9 @@ import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingCapitalAssetLocationEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingItemCapitalAssetEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedCommodityCodesForDistributionEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedUpdateCamsViewPurapEvent;
-import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.sys.KFSConstants;
@@ -595,9 +595,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     public ActionForward doDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-
-        PurchasingDocumentRuleBase purchasingDocumentRule = (PurchasingDocumentRuleBase) (SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(purchasingForm.getDocument(), PurchasingDocumentRuleBase.class));
-
         boolean needToDistributeCommodityCode = false;
 
         if (StringUtils.isNotBlank(purchasingForm.getDistributePurchasingCommodityCode())) {
@@ -636,8 +633,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     if (item.getItemType().isLineItemIndicator() && StringUtils.isBlank(((PurchasingItemBase) item).getPurchasingCommodityCode()) && itemIsActive) {
                         // Ideally we should invoke rules to check whether the commodity code is valid (active, not restricted,
                         // not missing, etc), probably somewhere here or invoke the rule class from here.
-
-                        boolean rulePassed = purchasingDocumentRule.validateCommodityCodesForDistribution(purchasingForm.getDistributePurchasingCommodityCode());
+                        
+                        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCommodityCodesForDistributionEvent("", purchasingForm.getDocument(), purchasingForm.getDistributePurchasingCommodityCode()));
                         if (rulePassed) {
                             ((PurchasingItemBase) item).setPurchasingCommodityCode(purchasingForm.getDistributePurchasingCommodityCode());
                             performedCommodityCodeDistribution = true;

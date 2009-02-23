@@ -15,11 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -30,7 +25,9 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class PurchasingProcessAccountValidation extends PurchasingAccountsPayableProcessAccountValidation {
+public class PurchasingProcessAccountValidation extends GenericValidation {
+    
+    private PurApItem itemForValidation;
     
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to also invoke the validateAccountNotExpired for each of
@@ -44,7 +41,6 @@ public class PurchasingProcessAccountValidation extends PurchasingAccountsPayabl
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED, getItemForValidation().getItemIdentifierString() + " has ", accountingLine.getAccount().getAccountNumber());
             }
         }
-        valid &= super.validate(event);
 
         return valid;
     }
@@ -63,6 +59,14 @@ public class PurchasingProcessAccountValidation extends PurchasingAccountsPayabl
         }
 
         return true;
+    }
+
+    public PurApItem getItemForValidation() {
+        return itemForValidation;
+    }
+
+    public void setItemForValidation(PurApItem itemForValidation) {
+        this.itemForValidation = itemForValidation;
     }
     
 }

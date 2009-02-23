@@ -31,6 +31,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class VendorCreditMemoAccountPercentBetween0And100Validation extends GenericValidation {
 
+    private DataDictionaryService dataDictionaryService;
+    
     public boolean validate(AttributedDocumentEvent event) {
         boolean isValid = true;        
         PurApAccountingLine account = (PurApAccountingLine)((AddAccountingLineEvent)event).getAccountingLine();
@@ -62,12 +64,20 @@ public class VendorCreditMemoAccountPercentBetween0And100Validation extends Gene
 
         Object fieldValue = ObjectUtils.getPropertyValue(businessObject, fieldName);
         if (fieldValue == null || (fieldValue instanceof String && StringUtils.isBlank(fieldName))) {
-            String label = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(businessObject.getClass(), fieldName);
+            String label = dataDictionaryService.getAttributeErrorLabel(businessObject.getClass(), fieldName);
             GlobalVariables.getErrorMap().putError(fieldName, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
 
         return valid;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 }

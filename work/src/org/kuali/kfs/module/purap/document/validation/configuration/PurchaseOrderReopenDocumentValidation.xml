@@ -26,18 +26,7 @@
   	<bean id="PurchaseOrderReopen-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>  				  				
-  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-  					<property name="parameterProperties">
-  						<list>
-  							<bean parent="validationFieldConversion">
-  								<property name="sourceEventProperty" value="iterationSubject" />
-  								<property name="targetValidationProperty" value="businessObjectForValidation" />
-  							</bean>
-  						</list>
-  					</property>
-  				</bean>
-
-  				<bean parent="Purchasing-newProcessItemValidation" scope="prototype">								
+  				<bean parent="Purchasing-newProcessItemValidation-parentBean" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  	
 
@@ -70,18 +59,7 @@
   	<bean id="PurchaseOrderReopen-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-  					<property name="parameterProperties">
-  						<list>
-  							<bean parent="validationFieldConversion">
-  								<property name="sourceEventProperty" value="iterationSubject" />
-  								<property name="targetValidationProperty" value="businessObjectForValidation" />
-  							</bean>
-  						</list>
-  					</property>
-  				</bean>
-
-  				<bean parent="Purchasing-newProcessItemValidation" scope="prototype">								
+  				<bean parent="Purchasing-newProcessItemValidation-parentBean" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  	
 
@@ -118,7 +96,7 @@
   				<bean parent="Purchasing-accountNotExpiredValidation" scope="prototype">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="updatedAccountingLine" />
+							<property name="sourceEventProperty" value="accountingLine" />
 							<property name="targetValidationProperty" value="updatedAccountingLine" />
 						</bean>
 					</property>
@@ -129,7 +107,7 @@
   				<bean parent="Purchasing-accountingLinePercentValidation" scope="prototype">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="updatedAccountingLine" />
+							<property name="sourceEventProperty" value="accountingLine" />
 							<property name="targetValidationProperty" value="updatedAccountingLine" />
 						</bean>
 					</property>
@@ -148,7 +126,7 @@
   				<bean parent="Purchasing-updateAccountingLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="updatedAccountingLine" />
+							<property name="sourceEventProperty" value="accountingLine" />
 							<property name="targetValidationProperty" value="updatedAccountingLine" />
 						</bean>
 					</property>

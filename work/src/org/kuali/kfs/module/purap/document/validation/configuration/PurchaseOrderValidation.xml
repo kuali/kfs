@@ -27,17 +27,6 @@
   	<bean id="PurchaseOrder-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>  				  				  				
-  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-  					<property name="parameterProperties">
-  						<list>
-  							<bean parent="validationFieldConversion">
-  								<property name="sourceEventProperty" value="iterationSubject" />
-  								<property name="targetValidationProperty" value="businessObjectForValidation" />
-  							</bean>
-  						</list>
-  					</property>
-  				</bean>
-
   				<bean parent="PurchaseOrder-newProcessItemValidation-parentBean" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  	
@@ -75,17 +64,6 @@
   	<bean id="PurchaseOrder-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>  				  				
-  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-  					<property name="parameterProperties">
-  						<list>
-  							<bean parent="validationFieldConversion">
-  								<property name="sourceEventProperty" value="iterationSubject" />
-  								<property name="targetValidationProperty" value="businessObjectForValidation" />
-  							</bean>
-  						</list>
-  					</property>
-  				</bean>
-
   				<bean parent="PurchaseOrder-newProcessItemValidation-parentBean" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  	
@@ -432,6 +410,25 @@
 		                </list>
 		            </property>
 				</bean>  			  			
+			</list>
+		</property>
+	</bean>
+
+    <bean id="PurchaseOrder-commodityCodesForDistributionValidation" parent="PurchaseOrder-commodityCodesForDistributionValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrder-commodityCodesForDistributionValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+               <bean parent="Purchasing-commodityCodesForDistributionValidation" scope="prototype">
+                   <property name="parameterProperties">
+                       <list>
+                           <bean parent="validationFieldConversion">
+                               <property name="sourceEventProperty" value="purchasingCommodityCode" />
+                               <property name="targetValidationProperty" value="purchasingCommodityCode" />
+                           </bean>
+                       </list>
+                   </property>
+               </bean>  						  			
 			</list>
 		</property>
 	</bean>

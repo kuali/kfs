@@ -38,7 +38,7 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
-import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
@@ -265,9 +265,9 @@ public class RequisitionServiceImpl implements RequisitionService {
         
         //This is temporary so that unit test won't fail.
         //TODO:  Decide where to put the processCapitalAssetsForAutomaticPurchaseOrderRule after
-        //rule refactoring is done.
-        PurchasingDocumentRuleBase ruleClass = new PurchasingDocumentRuleBase();
-        if (!ruleClass.processCapitalAssetsForAutomaticPurchaseOrderRule(requisition)) {
+        //rule refactoring is done.        
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedValidateCapitalAssetsForAutomaticPurchaseOrderEvent("", requisition));        
+        if (!rulePassed) {
             return "Requisition has failed Capital Asset rules.";
         }
         

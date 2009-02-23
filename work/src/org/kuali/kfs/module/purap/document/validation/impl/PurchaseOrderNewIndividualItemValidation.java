@@ -26,33 +26,27 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PurchaseOrderNewIndividualItemValidation extends PurchasingNewIndividualItemValidation {
     
+    PurchaseOrderEmptyItemWithAccountsValidation emptyItemsWithAccountsValidation;
+    
     public boolean validate(AttributedDocumentEvent event) {
-        boolean valid = super.validate(event);
-        valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) getItemForValidation(), getItemForValidation().getItemIdentifierString());
+        boolean valid = super.validate(event);        
+        emptyItemsWithAccountsValidation.setItemForValidation((PurchaseOrderItem)super.getItemForValidation());
+        valid &= emptyItemsWithAccountsValidation.validate(event);
         
         return valid;
     }
         
-    /**
-     * Validates that the item detail must not be empty if its account is not empty and its item type is ITEM.
-     * 
-     * @param item the item to be validated
-     * @param identifierString the identifier string of the item to be validated
-     * @return boolean false if it is an above the line item and the item detail is empty and the account list is not empty.
-     */
-    boolean validateEmptyItemWithAccounts(PurchaseOrderItem item, String identifierString) {
-        boolean valid = true;
-        if (item.getItemType().isLineItemIndicator() && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
-        }
-
-        return valid;
-    }
-
     @Override
     protected boolean commodityCodeIsRequired() {
         return getParameterService().getIndicatorParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+    }
+
+    public PurchaseOrderEmptyItemWithAccountsValidation getEmptyItemsWithAccountsValidation() {
+        return emptyItemsWithAccountsValidation;
+    }
+
+    public void setEmptyItemsWithAccountsValidation(PurchaseOrderEmptyItemWithAccountsValidation emptyItemsWithAccountsValidation) {
+        this.emptyItemsWithAccountsValidation = emptyItemsWithAccountsValidation;
     }
 
 }

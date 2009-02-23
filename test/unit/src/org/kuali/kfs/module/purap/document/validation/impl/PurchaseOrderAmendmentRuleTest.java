@@ -17,28 +17,33 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
+import java.util.Map;
+
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
+import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
 import org.kuali.rice.kns.service.DocumentService;
 
 @ConfigureContext(session = parke)
 public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
 
-    PurchaseOrderAmendmentDocumentRule amendRule;
+    private Map<String, CompositeValidation> validations;
     PurchaseOrderDocument po;
 
     protected void setUp() throws Exception {
         super.setUp();
         po = new PurchaseOrderDocument();
-        amendRule = new PurchaseOrderAmendmentDocumentRule();
+        validations = SpringContext.getBeansOfType(CompositeValidation.class);
     }
 
     protected void tearDown() throws Exception {
-        amendRule = null;
+        validations = null;
         po = null;
         super.tearDown();
     }
@@ -57,7 +62,10 @@ public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
     public void testAmendmentValidate_Open() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);      
-        assertTrue(amendRule.processValidation(po));
+        
+        CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderAmendment-routeDocumentValidation");
+        
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", po)) );        
     }
 
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
@@ -65,7 +73,8 @@ public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         po.deleteItem(0);
         savePO(po);       
-        assertFalse(amendRule.processValidation(po));
+        CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderAmendment-routeDocumentValidation");        
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", po)) );        
     }
 }
 

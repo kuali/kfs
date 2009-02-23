@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
 
 public final class AttributedPaymentRequestForEInvoiceEvent extends AttributedDocumentEventBase {
 

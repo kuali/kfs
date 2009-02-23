@@ -429,11 +429,40 @@
                            </bean>
                        </list>
                    </property>
-               </bean>  						
+               </bean>  		
+               <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+					        <bean parent="validationFieldConversion">
+					            <property name="sourceEventProperty" value="item" />
+								<property name="targetValidationProperty" value="itemForValidation" />
+					        </bean>
+						</list>
+					</property>	                                
+			  </bean>               				
 			</list>
 		</property>
 	</bean>
-		
+				
+    <bean id="Requisition-commodityCodesForDistributionValidation" parent="Requisition-commodityCodesForDistributionValidation-parentBean" scope="prototype" />
+  
+	<bean id="Requisition-commodityCodesForDistributionValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+               <bean parent="Purchasing-commodityCodesForDistributionValidation" scope="prototype">
+                   <property name="parameterProperties">
+                       <list>
+                           <bean parent="validationFieldConversion">
+                               <property name="sourceEventProperty" value="purchasingCommodityCode" />
+                               <property name="targetValidationProperty" value="purchasingCommodityCode" />
+                           </bean>
+                       </list>
+                   </property>
+               </bean>  						  			
+			</list>
+		</property>
+	</bean>
+			
 	<!-- New Process Item Validation Definitions -->
     <bean id="Requisition-newProcessItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true"> 								
         <property name="quitOnFail" value="false" />
@@ -513,16 +542,32 @@
 				        <map>
 					        <entry>
 						        <key><value>needsAccountValidation</value></key>
-                                <bean parent="Purchasing-processAccountValidation" scope="prototype">
-                                    <property name="parameterProperties">
-                                        <list>
-                                            <bean parent="validationFieldConversion">
-                                                <property name="sourceEventProperty" value="iterationSubject" />
-                                                <property name="targetValidationProperty" value="itemForValidation" />
-                                            </bean>
-                                        </list>
-                                    </property>
-                                </bean>
+								<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
+						        <property name="validations">
+						            <list>    														        
+		                                <bean parent="Purchasing-processAccountValidation" scope="prototype">
+		                                    <property name="parameterProperties">
+		                                        <list>
+		                                            <bean parent="validationFieldConversion">
+		                                                <property name="sourceEventProperty" value="iterationSubject" />
+		                                                <property name="targetValidationProperty" value="itemForValidation" />
+		                                            </bean>
+		                                        </list>
+		                                    </property>
+		                                </bean>
+		                                <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+											<property name="parameterProperties">
+									            <list>
+											        <bean parent="validationFieldConversion">
+											            <property name="sourceEventProperty" value="iterationSubject" />
+														<property name="targetValidationProperty" value="itemForValidation" />
+											        </bean>
+												</list>
+											</property>	                                
+		                                </bean>
+		                           </list>
+		                       </property>		                       
+	                           </bean>
 							</entry>
 						</map>
 					</property>

@@ -30,19 +30,7 @@
 			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
   					<property name="collectionProperty" value="document.items" />
   					<property name="validations">
-  					  <list>
-  					  
-						<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-							<property name="parameterProperties">
-								<list>
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="iterationSubject" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</list>
-							</property>
-						</bean>
-						
+  					  <list>  					  						
 						<bean parent="PaymentRequest-reviewValidation" scope="prototype">
 							<property name="parameterProperties">
 					            <list>
@@ -87,13 +75,17 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  									
 				
-				<bean parent="PurchasingAccountsPayabale-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
 					<property name="branchMap">
 						<map>
 							<entry>							
 								<key><value>notFullDocumentEntry</value></key>
 								<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
 							</entry>		
+							<entry>							
+								<key><value>fullDocumentEntry</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
+							</entry>							
 						</map>
 					</property>
 				</bean>
@@ -126,17 +118,6 @@
   					<property name="collectionProperty" value="document.items" />
   					<property name="validations">
   						<list>
-						<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-							<property name="parameterProperties">
-								<list>
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="iterationSubject" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</list>
-							</property>
-						</bean>
-
 						<bean parent="PaymentRequest-processItemValidation" scope="prototype">
 							<property name="parameterProperties">
 					            <list>
@@ -170,13 +151,17 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  									
 				
-				<bean parent="PurchasingAccountsPayabale-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
 					<property name="branchMap">
 						<map>
 							<entry>
 								<key><value>notFullDocumentEntry</value></key>
 								<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
-							</entry>												
+							</entry>							
+							<entry>							
+								<key><value>fullDocumentEntry</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
+							</entry>														
 						</map>
 					</property>
 				</bean>				
@@ -544,13 +529,17 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  									
 				
-				<bean parent="PurchasingAccountsPayabale-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
 					<property name="branchMap">
 						<map>
 							<entry>							
 								<key><value>notFullDocumentEntry</value></key>
 								<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
 							</entry>		
+							<entry>							
+								<key><value>fullDocumentEntry</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
+							</entry>									
 						</map>
 					</property>
 				</bean>
@@ -569,5 +558,93 @@
 			</list>
 		</property>
 	</bean>
-		       
+
+    <bean id="PaymentRequest-expiredAccountWarningEvent" parent="PaymentRequest-expiredAccountWarningEvent-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-expiredAccountWarningEvent-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>							
+								<key><value>fullDocumentEntry</value></key>								
+								<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  									<property name="collectionProperty" value="document.items" />
+  									<property name="validations">
+	  									<list>	  									
+	  										<bean parent="PaymentRequest-expiredAccountWarningValidation" scope="prototype">
+												<property name="parameterProperties">
+										            <list>
+								  	                    <bean parent="validationFieldConversion">
+									   	                    <property name="sourceEventProperty" value="iterationSubject" />
+												            <property name="targetValidationProperty" value="itemForValidation" />
+											            </bean>
+													</list>
+												</property>
+											</bean>						  									
+	  									</list>
+	  								</property>
+	  							</bean>								
+							</entry>
+							<entry>							
+								<key><value>notFullDocumentEntry</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
+							</entry>		
+						</map>
+					</property>
+				</bean>  			
+			</list>
+		</property>
+	</bean>
+
+    <bean id="PaymentRequest-payDateNotOverThresholdDaysAwayEvent" parent="PaymentRequest-payDateNotOverThresholdDaysAwayEvent-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-payDateNotOverThresholdDaysAwayEvent-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+  				<bean parent="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" scope="prototype"/>  				
+			</list>
+		</property>
+	</bean>
+
+    <bean id="PaymentRequest-tradeInWarningEvent" parent="PaymentRequest-tradeInWarningEvent-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-tradeInWarningEvent-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>							
+								<key><value>notFullDocumentEntry</value></key>								
+								<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  									<property name="collectionProperty" value="document.items" />
+  									<property name="validations">
+	  									<list>	  									  			  			
+								  			<bean parent="PaymentRequest-tradeInWarningValidation" scope="prototype">
+												<property name="parameterProperties">
+										            <list>
+									 	                <bean parent="validationFieldConversion">
+									   	                    <property name="sourceEventProperty" value="iterationSubject" />
+												            <property name="targetValidationProperty" value="itemForValidation" />
+											            </bean>
+													</list>
+												</property>
+								  			</bean>
+								  		</list>
+								  	</property>
+							   </bean>
+							</entry>
+							<entry>							
+								<key><value>fullDocumentEntry</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
+							</entry>									
+						</map>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+    
 </beans>

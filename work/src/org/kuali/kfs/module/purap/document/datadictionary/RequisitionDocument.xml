@@ -1043,7 +1043,11 @@
 			<entry>
 				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedPurchasingAccountsPayableAccountValidationEvent</value></key>
 				<value>Requisition-purchasingAccountsPayableAccountValidation</value>				
-			</entry>												
+			</entry>	
+			<entry>
+				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCommodityCodesForDistributionEvent</value></key>
+				<value>Requisition-commodityCodesForDistributionValidation</value>
+			</entry>																	
     	</map>
     </property>
   </bean>  

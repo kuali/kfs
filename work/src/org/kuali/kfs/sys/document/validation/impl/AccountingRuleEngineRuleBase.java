@@ -61,17 +61,17 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
      * @see org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule#validateForEvent(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     public boolean validateForEvent(AttributedDocumentEvent event) {
-        FinancialSystemTransactionalDocumentEntry documentEntry = getDataDictionaryEntryForDocument((TransactionalDocument)event.getDocument());
-        Map<Class, String> validationMap = documentEntry.getValidationMap();
+        final FinancialSystemTransactionalDocumentEntry documentEntry = getDataDictionaryEntryForDocument((TransactionalDocument)event.getDocument());
+        final Map<Class, String> validationMap = documentEntry.getValidationMap();
         
         if (validationMap == null || !validationMap.containsKey(event.getClass())) {
             return true; // no validation?  just return true
         } else {
-            String beanName = validationMap.get(event.getClass());
-            Map<String, Validation> validationBeans = SpringContext.getBeansOfType(Validation.class);
+            final String beanName = validationMap.get(event.getClass());
+            final Map<String, Validation> validationBeans = SpringContext.getBeansOfType(Validation.class);
             
-            boolean isvalid = validationBeans.get(beanName).stageValidation(event);            
-            return isvalid;
+            final boolean valid = validationBeans.get(beanName).stageValidation(event);            
+            return valid;
         }
     }
     

@@ -1091,6 +1091,8 @@
 	<!-- validations -->
 	<import resource="document/validation/configuration/LaborValidations.xml" />
 	<import resource="document/validation/configuration/SalaryExpenseTransferValidations.xml" />
+	<import resource="document/validation/configuration/BenefitExpenseTransferValidations.xml" />
+	<import resource="document/validation/configuration/KualiLaborJournalVoucherValidations.xml" />
 	
 	<!-- not exist
 	<import resource="document/validation/configuration/YearEndSalaryExpenseTransferValidations.xml" />

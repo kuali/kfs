@@ -34,11 +34,6 @@
         <value>proposalNumber</value>
       </list>
     </property>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="AWRD"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
@@ -306,12 +301,6 @@
 			    	<property name="documentValues">
 			    		<list>
 			    			<value>newMaintainableObject.businessObject.primaryAwardOrganization.chartOfAccountsCode</value>
-			    		</list>
-			    	</property>
-			   	</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-			    	<property name="documentValues">
-			    		<list>
 			    			<value>newMaintainableObject.businessObject.primaryAwardOrganization.organizationCode</value>
 			    		</list>
 			    	</property>

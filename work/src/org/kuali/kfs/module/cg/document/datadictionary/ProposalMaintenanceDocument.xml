@@ -31,11 +31,6 @@
         <value>proposalNumber</value>
       </list>
     </property>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="PRPL"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.ProposalRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ProposalMaintenanceDocumentAuthorizer"/>
@@ -292,12 +287,6 @@
 			    	<property name="documentValues">
 			    		<list>
 			    			<value>newMaintainableObject.businessObject.primaryProposalOrganization.chartOfAccountsCode</value>
-			    		</list>
-			    	</property>
-			   	</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-			    	<property name="documentValues">
-			    		<list>
 			    			<value>newMaintainableObject.businessObject.primaryProposalOrganization.organizationCode</value>
 			    		</list>
 			    	</property>

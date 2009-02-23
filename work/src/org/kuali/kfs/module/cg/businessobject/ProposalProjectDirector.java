@@ -139,7 +139,9 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProjectDirector()
      */
     public Person getProjectDirector() {
-        projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
+        if (principalId != null) {
+            projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
+        }
         return projectDirector;
     }
 

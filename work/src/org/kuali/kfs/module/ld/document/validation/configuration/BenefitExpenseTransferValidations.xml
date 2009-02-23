@@ -79,7 +79,7 @@
 						<list>
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+								<property name="targetValidationProperty" value="documentForValidation" />
 							</bean>						
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="accountingLine" />
@@ -159,7 +159,7 @@
 						<list>
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+								<property name="targetValidationProperty" value="documentForValidation" />
 							</bean>
 						</list>
 					</property>

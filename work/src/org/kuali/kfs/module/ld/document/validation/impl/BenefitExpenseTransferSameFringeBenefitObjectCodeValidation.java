@@ -34,7 +34,8 @@ import org.kuali.rice.kns.document.Document;
  * benefit transfers cannot be made between two different fringe benefit labor object codes 
  */
 public class BenefitExpenseTransferSameFringeBenefitObjectCodeValidation extends GenericValidation {
-    private AccountingDocument accountingDocumentForValidation;    
+    private Document documentForValidation;
+    
     /**
      * Validates that the accounting lines in the accounting document have the same employee id 
      * <strong>Expects an accounting document as the first a parameter</strong>
@@ -43,12 +44,12 @@ public class BenefitExpenseTransferSameFringeBenefitObjectCodeValidation extends
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        Document accountingDocumentForValidation = getAccountingDocumentForValidation();
+        Document documentForValidation = getdocumentForValidation();
         
-        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocumentForValidation;
-
+        AccountingDocument accountingDocument = (AccountingDocument) documentForValidation;
+        
         // benefit transfers cannot be made between two different fringe benefit labor object codes.
-        boolean sameFringeBenefitObjectCodes = hasSameFringeBenefitObjectCodes(expenseTransferDocument);
+        boolean sameFringeBenefitObjectCodes = hasSameFringeBenefitObjectCodes(accountingDocument);
         if (!sameFringeBenefitObjectCodes) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.DISTINCT_OBJECT_CODE_ERROR);
             result = false;
@@ -89,19 +90,15 @@ public class BenefitExpenseTransferSameFringeBenefitObjectCodeValidation extends
      * Gets the accountingDocumentForValidation attribute. 
      * @return Returns the accountingDocumentForValidation.
      */
+    public Document getdocumentForValidation() {
+        return documentForValidation;
+    }
+
     /**
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void AccountingDocument(AccountingDocument accountingDocumentForValidation) {
-        this.accountingDocumentForValidation = accountingDocumentForValidation;
-    }
-    
-    /**
-     * Gets the accountingDocumentForValidation attribute. 
-     * @return Returns the accountingDocumentForValidation.
-     */
-    public AccountingDocument getAccountingDocumentForValidation() {
-        return accountingDocumentForValidation;
-    }
+    public void setdocumentForValidation(Document documentForValidation) {
+        this.documentForValidation = documentForValidation;
+    } 
 }

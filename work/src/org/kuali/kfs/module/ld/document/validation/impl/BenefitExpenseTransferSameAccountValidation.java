@@ -27,13 +27,14 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validates that the given accounting line and source lines are the same
  */
 public class BenefitExpenseTransferSameAccountValidation extends GenericValidation {
-    private AccountingDocument accountingDocumentForValidation;
+    private Document documentForValidation;
     private AccountingLine accountingLineForValidation;
     
     /**
@@ -45,12 +46,12 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        AccountingDocument accountingDocumentForValidation = getAccountingDocumentForValidation() ;
+        Document documentForValidation = getDocumentForValidation() ;
         AccountingLine accountingLine = getAccountingLineForValidation();
         
         boolean isTargetLine = accountingLine.isTargetAccountingLine();
         if (!isTargetLine) {
-            if (!hasSameAccount(accountingDocumentForValidation, accountingLine)) {
+            if (!hasSameAccount(documentForValidation, accountingLine)) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_ACCOUNT_NOT_SAME);
                 result = false;
             }
@@ -61,12 +62,12 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
     /**
      * Determines whether the given accounting line has the same account as the source accounting lines
      * 
-     * @param accountingDocument the given accounting document
+     * @param document the given document
      * @param accountingLine the given accounting line
      * @return true if the given accounting line has the same account as the source accounting lines; otherwise, false
      */  
-    public boolean hasSameAccount(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+    public boolean hasSameAccount(Document document, AccountingLine accountingLine) {
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) document;
         List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
 
         accountingLine.refreshReferenceObject("account");
@@ -91,16 +92,16 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void AccountingDocument(AccountingDocument accountingDocumentForValidation) {
-        this.accountingDocumentForValidation = accountingDocumentForValidation;
+    public void setdocumentForValidation(Document documentForValidation) {
+        this.documentForValidation = documentForValidation;
     }
     
     /**
-     * Gets the accountingDocumentForValidation attribute. 
-     * @return Returns the accountingDocumentForValidation.
+     * Gets the DocumentForValidation attribute. 
+     * @return Returns the documentForValidation.
      */
-    public AccountingDocument getAccountingDocumentForValidation() {
-        return accountingDocumentForValidation;
+    public Document getDocumentForValidation() {
+        return documentForValidation;
     }
 
     /**

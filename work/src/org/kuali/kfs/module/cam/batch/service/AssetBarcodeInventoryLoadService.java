@@ -18,13 +18,12 @@ package org.kuali.kfs.module.cam.batch.service;
 import java.io.File;
 
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
+import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 
 /**
- * 
- * This service interface defines the methods that a ProcurementCardLoadTransactionsService implementation must provide.
- * 
- * Provides methods to load batch files for the procurement card batch job.
+ * This service interface defines the methods that a ProcurementCardLoadTransactionsService implementation must provide. Provides
+ * methods to load batch files for the procurement card batch job.
  */
 public interface AssetBarcodeInventoryLoadService {
     /**
@@ -33,23 +32,38 @@ public interface AssetBarcodeInventoryLoadService {
      * @param fileName Name of file to be uploaded and processed.
      * @return True if the file load and store was successful, false otherwise.
      */
-     public boolean isFileFormatValid(File file);
-     
-     /**
-      * 
-      * This method creates the barcode inventory error document, validates each record, and invokes the 
-      * method that actually stores the record in the tables
-      *  
-      * @param file
-      * @return
-      */
-     public boolean processFile(File file, AssetBarCodeInventoryInputFileForm form);
-     
-     
-     /**
-      * 
-      * This method updates the asset table
-      * @param barcodeInventoryErrorDetail
-      */
-     public void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail);
+    public boolean isFileFormatValid(File file);
+
+    /**
+     * This method creates the barcode inventory error document, validates each record, and invokes the method that actually stores
+     * the record in the tables
+     * 
+     * @param file
+     * @return
+     */
+    public boolean processFile(File file, AssetBarCodeInventoryInputFileForm form);
+
+
+    /**
+     * This method updates the asset table
+     * 
+     * @param barcodeInventoryErrorDetail
+     */
+    public void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail);
+
+    /**
+     * Add initiator as adhoc recipient conditionlly.
+     * 
+     * @param barcodeErrorDocument
+     */
+    void conditionllyAddInitiatorAdhocRecipient(BarcodeInventoryErrorDocument barcodeErrorDocument);
+
+
+    /**
+     * Determines whether or not the BCIE document has all its records corrected or deleted
+     * 
+     * @param document
+     * @return
+     */
+    boolean isFullyProcessed(BarcodeInventoryErrorDocument document);
 }

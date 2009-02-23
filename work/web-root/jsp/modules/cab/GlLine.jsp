@@ -50,9 +50,12 @@
 				</td>			
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true" /></th>
 				<td class="grid" width="25%">
-				<kul:inquiry boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" keyValues="capitalAssetNumber=${KualiForm.capitalAssetInformation.capitalAssetNumber}" render="true">
-				<kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true"/>
-				</kul:inquiry>
+					<c:if test="${!empty KualiForm.capitalAssetInformation.capitalAssetNumber}">
+						<kul:inquiry boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" keyValues="capitalAssetNumber=${KualiForm.capitalAssetInformation.capitalAssetNumber}" render="true">
+							<kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true"/>
+						</kul:inquiry>
+					</c:if>
+					&nbsp;
 				</td>
 			</tr>
 			<tr>

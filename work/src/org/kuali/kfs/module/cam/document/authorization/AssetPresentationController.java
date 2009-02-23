@@ -158,7 +158,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
             if (workflowDocument.stateIsEnroute()) {
                 List<String> nodeNames = assetService.getCurrentRouteLevels(workflowDocument);
 
-                if (nodeNames.contains(CamsConstants.RouteLevelNames.MANAGEMENT)) {
+                if (nodeNames.contains(CamsConstants.RouteLevelNames.MANAGEMENT) && !workflowDocument.isApprovalRequested()) {
                     return false;
                 }
             }

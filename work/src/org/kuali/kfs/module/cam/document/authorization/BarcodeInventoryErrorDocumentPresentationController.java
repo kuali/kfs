@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
+import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 
@@ -30,5 +31,21 @@ public class BarcodeInventoryErrorDocumentPresentationController extends Financi
     @Override
     protected boolean canSave(Document document) {
         return false;
+    }
+
+    @Override
+    protected boolean canBlanketApprove(Document document) {
+        return false;
+    }
+
+    /**
+     * hide submit button if no error exist.
+     * 
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canRoute(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canRoute(Document document) {
+        BarcodeInventoryErrorDocument barcodeInventoryErrorDocument = (BarcodeInventoryErrorDocument) document;
+        return (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || document.getDocumentHeader().getWorkflowDocument().stateIsSaved()) && !barcodeInventoryErrorDocument.getBarcodeInventoryErrorDetail().isEmpty();
     }
 }

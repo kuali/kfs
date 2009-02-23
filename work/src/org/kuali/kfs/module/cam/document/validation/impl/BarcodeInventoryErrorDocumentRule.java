@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetCondition;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
@@ -39,8 +40,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -49,6 +54,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Business rule(s) applicable to Asset Barcode Inventory upload and Barcode inventory error document.
@@ -62,6 +68,60 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         return true;
+    }
+
+    /**
+     * If adhoc recipient not set yet, block submit.
+     * 
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean valid = super.processCustomRouteDocumentBusinessRules(document);
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if ((workflowDocument.stateIsSaved() || workflowDocument.stateIsInitiated())) {
+            if (!getAssetBarcodeInventoryLoadService().isFullyProcessed((BarcodeInventoryErrorDocument)document) && document.getAdHocRoutePersons().isEmpty()) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_ADHOC_RECIPIENT_NOT_FOUND);
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
+    @Override
+    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        boolean valid = super.processCustomApproveDocumentBusinessRules(approveEvent);
+        BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) approveEvent.getDocument();
+        Person initiator = SpringContext.getBean(PersonService.class).getPerson(barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        Person currentPerson = GlobalVariables.getUserSession().getPerson();
+
+        if (!getAssetBarcodeInventoryLoadService().isFullyProcessed(barcodeErrorDocument) && currentPerson.getPrincipalId().equalsIgnoreCase(initiator.getPrincipalId()) && !hasOtherAdhocRecipientExists(barcodeErrorDocument.getAdHocRoutePersons(), initiator.getPrincipalName())) {
+            // if initiator try to approve a document with error, he/she should set at leave one adhoc recipient.
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_ADHOC_RECIPIENT_NOT_FOUND);
+            valid = false;
+        }
+        return valid;
+    }
+
+    /**
+     * check if adhoc recipient exists other than given user principal name
+     * 
+     * @param adHocRoutePersons
+     * @param userPrincipalName
+     * @return
+     */
+    protected boolean hasOtherAdhocRecipientExists(List<AdHocRoutePerson> adHocRoutePersons, String userPrincipalName) {
+        boolean valid = false;
+        if (!adHocRoutePersons.isEmpty()) {
+            for (AdHocRoutePerson adHocRoutePerson : adHocRoutePersons) {
+                if (!adHocRoutePerson.getId().equalsIgnoreCase(userPrincipalName)) {
+                    // user is adhoc recipient
+                    valid = true;
+                    break;
+                }
+            }
+        }
+        return valid;
     }
 
     /**
@@ -190,10 +250,11 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         if (ObjectUtils.isNull(campus)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
             result = false;
-        } else if (!campus.isActive()) {
+        }
+        else if (!campus.isActive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, label);
             result &= false;
-        }        
+        }
         return result;
     }
 
@@ -218,7 +279,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         if (ObjectUtils.isNull(building)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
             result &= false;
-        } else if (!building.isActive()) {
+        }
+        else if (!building.isActive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, label);
             result &= false;
         }
@@ -247,12 +309,13 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         if (ObjectUtils.isNull(room)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
             result = false;
-        } else if (!room.isActive()) {
+        }
+        else if (!room.isActive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, label);
             result &= false;
         }
 
-        
+
         return result;
     }
 
@@ -275,11 +338,12 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         if (ObjectUtils.isNull(condition)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
             result &= false;
-        } else if (!condition.isActive()) {
+        }
+        else if (!condition.isActive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INACTIVE_FIELD, label);
             result &= false;
         }
-        
+
         return result;
     }
 
@@ -394,5 +458,9 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
 
     private DocumentLockingService getDocumentLockingService() {
         return SpringContext.getBean(DocumentLockingService.class);
+    }
+
+    private AssetBarcodeInventoryLoadService getAssetBarcodeInventoryLoadService() {
+        return SpringContext.getBean(AssetBarcodeInventoryLoadService.class);
     }
 }

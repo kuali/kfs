@@ -31,6 +31,6 @@ renderMultipart="true"  showTabButtons="true">
     
     <kul:panelFooter />
     
-    <kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" suppressRoutingControls="true"/>
+    <kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}"/>
     
 </kul:documentPage>

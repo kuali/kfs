@@ -24,11 +24,11 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherDetail;
 import org.kuali.kfs.module.ld.businessobject.PositionData;
-import org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
  * Validates that a labor journal voucher document's accounting lines have valid Position Code 
  */
 public class LaborJournalVoucherPositionCodeExistenceCheckValidation extends GenericValidation {
-    private LaborJournalVoucherDetail accountingLineForValidation;
+    private AccountingLine accountingLineForValidation;   
     
     /**
      * Validates that the accounting line in the labor journal voucher document for valid position code 
@@ -49,7 +49,7 @@ public class LaborJournalVoucherPositionCodeExistenceCheckValidation extends Gen
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        LaborJournalVoucherDetail laborJournalVoucherDetail = getAccountingLineForValidation() ;
+        LaborJournalVoucherDetail laborJournalVoucherDetail = (LaborJournalVoucherDetail) getAccountingLineForValidation();
         String positionNumber = laborJournalVoucherDetail.getPositionNumber();
         
         if (StringUtils.isBlank(positionNumber) || LaborConstants.getDashEmplId().equals(positionNumber)) {
@@ -88,7 +88,7 @@ public class LaborJournalVoucherPositionCodeExistenceCheckValidation extends Gen
      * Gets the accountingLineForValidation attribute. 
      * @return Returns the accountingLineForValidation.
      */
-    public LaborJournalVoucherDetail getAccountingLineForValidation() {
+    public AccountingLine getAccountingLineForValidation() {
         return accountingLineForValidation;
     }
 
@@ -96,7 +96,7 @@ public class LaborJournalVoucherPositionCodeExistenceCheckValidation extends Gen
      * Sets the accountingLineForValidation attribute value.
      * @param accountingLineForValidation The accountingLineForValidation to set.
      */
-    public void setAccountingLineForValidation(LaborJournalVoucherDetail accountingLineForValidation) {
+    public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
         this.accountingLineForValidation = accountingLineForValidation;
     }
 }

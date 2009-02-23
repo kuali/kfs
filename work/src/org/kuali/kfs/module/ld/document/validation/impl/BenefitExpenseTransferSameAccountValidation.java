@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * Validates that the given accounting line and source lines are the same
  */
 public class BenefitExpenseTransferSameAccountValidation extends GenericValidation {
-    private BenefitExpenseTransferDocument accountingDocumentForValidation;
+    private AccountingDocument accountingDocumentForValidation;
     private AccountingLine accountingLineForValidation;
     
     /**
@@ -44,53 +44,62 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
-        BenefitExpenseTransferDocument benefitExpenseTransferDocument = getAccountingDocumentForValidation() ;
+        
+        AccountingDocument accountingDocumentForValidation = getAccountingDocumentForValidation() ;
         AccountingLine accountingLine = getAccountingLineForValidation();
-
         
-        if (!hasSameAccount(benefitExpenseTransferDocument, accountingLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_ACCOUNT_NOT_SAME);
-            result = false;
+        boolean isTargetLine = accountingLine.isTargetAccountingLine();
+        if (!isTargetLine) {
+            if (!hasSameAccount(accountingDocumentForValidation, accountingLine)) {
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_ACCOUNT_NOT_SAME);
+                result = false;
+            }
         }
-        
         return result ;    
     }
 
     /**
-     * Determines whether target accouting lines have the same fringe benefit object codes as source accounting lines
+     * Determines whether the given accounting line has the same account as the source accounting lines
      * 
      * @param accountingDocument the given accounting document
-     * @return true if target accouting lines have the same fringe benefit object codes as source accounting lines; otherwise, false
-     */
-   
+     * @param accountingLine the given accounting line
+     * @return true if the given accounting line has the same account as the source accounting lines; otherwise, false
+     */  
     public boolean hasSameAccount(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        boolean accountSame = true ;
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+
+        accountingLine.refreshReferenceObject("account");
         
-            LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
-            List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+        Account cachedAccount = accountingLine.getAccount();
+        for (AccountingLine sourceAccountingLine : sourceAccountingLines) {
+            Account account = sourceAccountingLine.getAccount();
 
-            Account cachedAccount = accountingLine.getAccount();
-            for (AccountingLine sourceAccountingLine : sourceAccountingLines) {
-                Account account = sourceAccountingLine.getAccount();
+            // account number was not retrieved correctly, so the two statements are used to populate the fields manually
+            account.setChartOfAccountsCode(sourceAccountingLine.getChartOfAccountsCode());
+            account.setAccountNumber(sourceAccountingLine.getAccountNumber());
 
-                // account number was not retrieved correctly, so the two statements are used to populate the fields manually
-                account.setChartOfAccountsCode(sourceAccountingLine.getChartOfAccountsCode());
-                account.setAccountNumber(sourceAccountingLine.getAccountNumber());
-
-                if (!account.equals(cachedAccount)) {
-                    return false;
-                }
+            if (!account.equals(cachedAccount)) {
+                return false;
             }
-       
-        return accountSame;
-    
+        }
+
+        return true;
      }
 
+    /**
+     * Sets the accountingDocumentForValidation attribute value.
+     * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
+     */
+    public void AccountingDocument(AccountingDocument accountingDocumentForValidation) {
+        this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+    
     /**
      * Gets the accountingDocumentForValidation attribute. 
      * @return Returns the accountingDocumentForValidation.
      */
-    public BenefitExpenseTransferDocument getAccountingDocumentForValidation() {
+    public AccountingDocument getAccountingDocumentForValidation() {
         return accountingDocumentForValidation;
     }
 
@@ -103,10 +112,10 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
     }    
     
     /**
-     * Sets the accountingDocumentForValidation attribute value.
+     * Sets the accountingLineForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void setAccountingLineForValidation(BenefitExpenseTransferDocument accountingDocumentForValidation) {
-        this.accountingDocumentForValidation = accountingDocumentForValidation;
+    public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
+        this.accountingLineForValidation = accountingLineForValidation;
     }
 }

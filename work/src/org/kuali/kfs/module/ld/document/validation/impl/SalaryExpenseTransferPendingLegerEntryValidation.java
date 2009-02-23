@@ -21,14 +21,18 @@ import java.util.Map;
 
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -36,7 +40,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * labor ledger entries with the same emplID, periodCode, accountNumber, objectCode 
  */
 public class SalaryExpenseTransferPendingLegerEntryValidation extends GenericValidation {
-    private SalaryExpenseTransferDocument accountingDocumentForValidation;
+    private Document documentForValidation;
     
     /**
      * Validates that the accounting lines in the accounting document does not have 
@@ -46,13 +50,11 @@ public class SalaryExpenseTransferPendingLegerEntryValidation extends GenericVal
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
-        SalaryExpenseTransferDocument salaryExpenseTransferDocument = getAccountingDocumentForValidation() ;
         
-        if (!hasPendingLedgerEntry(salaryExpenseTransferDocument)) {
-            GlobalVariables.getErrorMap().putError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.PENDING_SALARY_TRANSFER_ERROR);
-            result = false ;
-        }
+        Document documentForValidation = getdocumentForValidation();
+        AccountingDocument accountingDocument = (AccountingDocument) documentForValidation;
         
+        result = !hasPendingLedgerEntry(accountingDocument);
         return result ;    
     }
 
@@ -62,58 +64,47 @@ public class SalaryExpenseTransferPendingLegerEntryValidation extends GenericVal
      * @param accountingDocumentForValidation The accounting document from which the amounts by objects codes are checked
      * @return True if the given accounting documents amounts by object code are unchanged, false otherwise.
      */ 
-    private boolean hasPendingLedgerEntry(SalaryExpenseTransferDocument accountingDocument) {
-        boolean entriesExist = true ;
+    private boolean hasPendingLedgerEntry(AccountingDocument accountingDocument) {
+        boolean entriesExist = false ;
         
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
         List<ExpenseTransferAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
 
-        if (sourceAccountingLines.isEmpty())
-            return false ;
-        
         Map<String, String> fieldValues = new HashMap<String, String>();
-        for (ExpenseTransferAccountingLine sourceAccountingLine : sourceAccountingLines)
-        {           
+        for (ExpenseTransferAccountingLine sourceAccountingLine : sourceAccountingLines) {
             String payPeriodCode = sourceAccountingLine.getPayrollEndDateFiscalPeriodCode();
             String accountNumber = sourceAccountingLine.getAccountNumber();
             String objectCode = sourceAccountingLine.getFinancialObjectCode();
-            String emplID = sourceAccountingLine.getEmplid();
-            String documentNumber = sourceAccountingLine.getDocumentNumber();
-            
-            if ((payPeriodCode == null || payPeriodCode.trim().length() == 0) || 
-                 (accountNumber == null || accountNumber.trim().length() == 0) ||
-                 (objectCode == null || objectCode.trim().length() == 0) ||
-                 (emplID == null || emplID.trim().length() == 0) ||
-                 (documentNumber == null || documentNumber.trim().length() == 0))
-                return false ; 
-            
-            fieldValues.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, payPeriodCode);
+            String emplId = sourceAccountingLine.getEmplid();
+            String documentNumber = accountingDocument.getDocumentNumber();
+
+            fieldValues.put(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, payPeriodCode);
             fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
             fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
-            fieldValues.put(KFSPropertyConstants.EMPLID, emplID);
-            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            fieldValues.put(KFSPropertyConstants.EMPLID, emplId);
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, KFSConstants.NOT_LOGICAL_OPERATOR + documentNumber);
             
-            if(!SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(fieldValues)) {
-               return false ;
-            }
-            
+            if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(fieldValues)) {
+                GlobalVariables.getErrorMap().putError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.PENDING_SALARY_TRANSFER_ERROR, emplId, payPeriodCode, accountNumber, objectCode);
+                return true;
+            }                        
         }
         return entriesExist ;
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute. 
-     * @return Returns the accountingDocumentForValidation.
+     * Gets the documentForValidation attribute. 
+     * @return Returns the documentForValidation.
      */
-    public SalaryExpenseTransferDocument getAccountingDocumentForValidation() {
-        return accountingDocumentForValidation;
+    public Document getdocumentForValidation() {
+        return documentForValidation;
     }
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
-     * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
+     * @param documentForValidation The documentForValidation to set.
      */
-    public void setAccountingLineForValidation(SalaryExpenseTransferDocument accountingDocumentForValidation) {
-        this.accountingDocumentForValidation = accountingDocumentForValidation;
-    }
+    public void setdocumentForValidation(Document documentForValidation) {
+        this.documentForValidation = documentForValidation;
+    }    
 }

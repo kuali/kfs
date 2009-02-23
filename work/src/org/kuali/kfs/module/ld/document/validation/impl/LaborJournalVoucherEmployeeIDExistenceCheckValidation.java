@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kim.service.PersonService;
@@ -39,7 +40,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
  * Validates that a labor journal voucher document's accounting lines have valid Employee ID 
  */
 public class LaborJournalVoucherEmployeeIDExistenceCheckValidation extends GenericValidation {
-    private LaborJournalVoucherDetail accountingLineForValidation;
+    private AccountingLine accountingLineForValidation; 
     
     /**
      * Validates that the accounting line in the labor journal voucher document have an existing employee id 
@@ -48,7 +49,7 @@ public class LaborJournalVoucherEmployeeIDExistenceCheckValidation extends Gener
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        LaborJournalVoucherDetail laborJournalVoucherDetail = getAccountingLineForValidation() ;
+        LaborJournalVoucherDetail laborJournalVoucherDetail = (LaborJournalVoucherDetail) getAccountingLineForValidation();
         String emplid = laborJournalVoucherDetail.getEmplid();
         
         if (StringUtils.isBlank(emplid) || LaborConstants.getDashEmplId().equals(emplid)) {
@@ -86,7 +87,7 @@ public class LaborJournalVoucherEmployeeIDExistenceCheckValidation extends Gener
      * Gets the accountingLineForValidation attribute. 
      * @return Returns the accountingLineForValidation.
      */
-    public LaborJournalVoucherDetail getAccountingLineForValidation() {
+    public AccountingLine getAccountingLineForValidation() {
         return accountingLineForValidation;
     }
 
@@ -94,7 +95,7 @@ public class LaborJournalVoucherEmployeeIDExistenceCheckValidation extends Gener
      * Sets the accountingLineForValidation attribute value.
      * @param accountingLineForValidation The accountingLineForValidation to set.
      */
-    public void setAccountingLineForValidation(LaborJournalVoucherDetail accountingLineForValidation) {
+    public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
         this.accountingLineForValidation = accountingLineForValidation;
     }
 }

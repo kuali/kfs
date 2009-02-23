@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.document.validation.impl;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -26,7 +27,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * Validates that an accounting document's balances by object codes are unchanged 
  */
 public class SalaryExpenseTransferUnbalancedObjectCodesValidation extends GenericValidation {
-    private SalaryExpenseTransferDocument accountingDocumentForValidation;
+    private AccountingDocument accountingDocumentForValidation;      
 
     /**
      * Validates that an accounting document's unbalanced object code balances exist 
@@ -36,7 +37,8 @@ public class SalaryExpenseTransferUnbalancedObjectCodesValidation extends Generi
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        if (!getAccountingDocumentForValidation().getUnbalancedObjectCodes().isEmpty()) {
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument =  (SalaryExpenseTransferDocument) getAccountingDocumentForValidation() ;
+        if (!salaryExpenseTransferDocument.getUnbalancedObjectCodes().isEmpty()) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE) ;
                 result = false ;
         }
@@ -48,7 +50,7 @@ public class SalaryExpenseTransferUnbalancedObjectCodesValidation extends Generi
      * Gets the accountingDocumentForValidation attribute. 
      * @return Returns the accountingDocumentForValidation.
      */
-    public SalaryExpenseTransferDocument getAccountingDocumentForValidation() {
+    public AccountingDocument getAccountingDocumentForValidation() {
         return accountingDocumentForValidation;
     }
 
@@ -56,7 +58,7 @@ public class SalaryExpenseTransferUnbalancedObjectCodesValidation extends Generi
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void setAccountingLineForValidation(SalaryExpenseTransferDocument accountingDocumentForValidation) {
+    public void setAccountingLineForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
 }

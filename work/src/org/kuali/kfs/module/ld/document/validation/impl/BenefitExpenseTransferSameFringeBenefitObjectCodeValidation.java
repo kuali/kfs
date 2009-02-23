@@ -16,59 +16,54 @@
 package org.kuali.kfs.module.ld.document.validation.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
-import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
 import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.document.Document;
 
 /**
- * Validates that the target and source lines have the same object code
+ * benefit transfers cannot be made between two different fringe benefit labor object codes 
  */
 public class BenefitExpenseTransferSameFringeBenefitObjectCodeValidation extends GenericValidation {
-    private BenefitExpenseTransferDocument accountingDocumentForValidation;
-    
+    private AccountingDocument accountingDocumentForValidation;    
     /**
-     * Validates that the accounting lines in the accounting document have 
-     * any pending labor ledger entries with the same emplID, periodCode, accountNumber, objectCode 
+     * Validates that the accounting lines in the accounting document have the same employee id 
      * <strong>Expects an accounting document as the first a parameter</strong>
      * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
-        BenefitExpenseTransferDocument benefitExpenseTransferDocument = getAccountingDocumentForValidation() ;
         
-        if (!hasSameFringeBenefitObjectCodes(benefitExpenseTransferDocument)) {
+        Document accountingDocumentForValidation = getAccountingDocumentForValidation();
+        
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocumentForValidation;
+
+        // benefit transfers cannot be made between two different fringe benefit labor object codes.
+        boolean sameFringeBenefitObjectCodes = hasSameFringeBenefitObjectCodes(expenseTransferDocument);
+        if (!sameFringeBenefitObjectCodes) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.DISTINCT_OBJECT_CODE_ERROR);
             result = false;
         }
-        
-        return result ;    
+
+        return result;
     }
 
     /**
-     * Checks whether amounts by object codes are unchanged
-     * 
-     * @param accountingDocumentForValidation The accounting document from which the amounts by objects codes are checked
-     * @return True if the given accounting documents amounts by object code are unchanged, false otherwise.
-     */ 
- 
-    /**
-     * Determines whether target accouting lines have the same fringe benefit object codes as source accounting lines
+     * Determines whether target accounting lines have the same fringe benefit object codes as source accounting lines
      * 
      * @param accountingDocument the given accounting document
-     * @return true if target accouting lines have the same fringe benefit object codes as source accounting lines; otherwise, false
+     * @return true if target accounting lines have the same fringe benefit object codes as source accounting lines; otherwise, false
      */
-   
-    public boolean hasSameFringeBenefitObjectCodes(BenefitExpenseTransferDocument accountingDocument) {
-        boolean entriesSame = true ;
-        
-   
+    protected boolean hasSameFringeBenefitObjectCodes(AccountingDocument accountingDocument) {
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
 
         Set<String> objectCodesFromSourceLine = new HashSet<String>();
@@ -87,23 +82,26 @@ public class BenefitExpenseTransferSameFringeBenefitObjectCodeValidation extends
             return false;
         }
 
-        return entriesSame;
-    
-     }
+        return objectCodesFromSourceLine.containsAll(objectCodesFromTargetLine);
+}
 
     /**
      * Gets the accountingDocumentForValidation attribute. 
      * @return Returns the accountingDocumentForValidation.
      */
-    public BenefitExpenseTransferDocument getAccountingDocumentForValidation() {
-        return accountingDocumentForValidation;
-    }
-
     /**
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void setAccountingLineForValidation(BenefitExpenseTransferDocument accountingDocumentForValidation) {
+    public void AccountingDocument(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+    
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 }

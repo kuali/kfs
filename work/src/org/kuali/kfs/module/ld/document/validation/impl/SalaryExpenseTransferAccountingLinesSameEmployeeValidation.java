@@ -20,17 +20,21 @@ import java.util.List;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
+import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * Validates that an accounting document's accounting lines have the same Employee ID 
  */
 public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends GenericValidation {
-    private SalaryExpenseTransferDocument accountingDocumentForValidation;
+    private Document documentForValidation;
     
     /**
      * Validates that the accounting lines in the accounting document have the same employee id 
@@ -39,30 +43,23 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
-        SalaryExpenseTransferDocument salaryExpenseTransferDocument = getAccountingDocumentForValidation() ;
         
+        Document documentForValidation = getdocumentForValidation();
+        
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument) documentForValidation;
+                
         String employeeID = salaryExpenseTransferDocument.getEmplid() ;
         
         if (employeeID == null || employeeID.trim().length() == 0) {
             GlobalVariables.getErrorMap().putError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.MISSING_EMPLOYEE_ID) ;
             result = false ;
         }
-        else {
-            List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = salaryExpenseTransferDocument.getSourceAccountingLines() ;
-            
-            if (!hasAccountingLinesSameEmployee(sourceAccountingLines, employeeID)) {
-                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME) ;
-                 result = false ;
-            }
-            else {
-                List<ExpenseTransferSourceAccountingLine> targetAccountingLines = salaryExpenseTransferDocument.getTargetAccountingLines() ;
-                
-                if (!hasAccountingLinesSameEmployee(targetAccountingLines, employeeID)) {
-                     GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET) ;
-                     result = false ;
-                }
-            }
-        }        
+        
+        // ensure the employee ids in the source accounting lines are same
+        AccountingDocument accountingDocument = (AccountingDocument) documentForValidation;
+        if (!hasAccountingLinesSameEmployee(accountingDocument)) {
+            return false;
+        }
         
         return result ;    
     }
@@ -73,34 +70,64 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
      * @param accountingDocumentForValidation The accounting document from which the amounts by objects codes are checked
      * @return True if the given accounting documents amounts by object code are unchanged, false otherwise.
      */ 
-    private boolean hasAccountingLinesSameEmployee(List<ExpenseTransferSourceAccountingLine> AccountingLines, String employeeID) {
-        boolean sameEmployee  = true ;
-        String accountingLineEmplID = null;
+    private boolean hasAccountingLinesSameEmployee(AccountingDocument accountingDocument) {
         
-        for (ExpenseTransferSourceAccountingLine accountingLine : AccountingLines)
-        {
-            accountingLineEmplID = accountingLine.getEmplid();
-            if (accountingLineEmplID == null || (!employeeID.equals(accountingLineEmplID))) {
-                return false;
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+        List<ExpenseTransferTargetAccountingLine> targetAccountingLines = expenseTransferDocument.getTargetAccountingLines();
+
+        boolean sourceAccountingLinesValidationResult = true;
+        boolean targetAccountingLinesValidationResult = true;
+
+        String employeeID = expenseTransferDocument.getEmplid();
+        String accountingLineEmplID = null;
+
+        // Source Lines
+        for (ExpenseTransferSourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
+            accountingLineEmplID = sourceAccountingLine.getEmplid();
+            if (accountingLineEmplID == null) {
+                sourceAccountingLinesValidationResult = false;
+            }
+            else if (!employeeID.equals(accountingLineEmplID)) {
+                sourceAccountingLinesValidationResult = false;
             }
         }
-        return sameEmployee ;
-        
+
+        // Target lines
+        for (ExpenseTransferTargetAccountingLine targetAccountingLine : targetAccountingLines) {
+            accountingLineEmplID = targetAccountingLine.getEmplid();
+            if (accountingLineEmplID == null) {
+                targetAccountingLinesValidationResult = false;
+            }
+            else if (!employeeID.equals(accountingLineEmplID)) {
+                targetAccountingLinesValidationResult = false;
+            }
+        }
+
+        if (!sourceAccountingLinesValidationResult) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME);
+        }
+
+        if (!targetAccountingLinesValidationResult) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET);
+        }
+
+        return (sourceAccountingLinesValidationResult && targetAccountingLinesValidationResult);
     }
 
     /**
      * Gets the accountingDocumentForValidation attribute. 
      * @return Returns the accountingDocumentForValidation.
      */
-    public SalaryExpenseTransferDocument getAccountingDocumentForValidation() {
-        return accountingDocumentForValidation;
+    public Document getdocumentForValidation() {
+        return documentForValidation;
     }
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void setAccountingLineForValidation(SalaryExpenseTransferDocument accountingDocumentForValidation) {
-        this.accountingDocumentForValidation = accountingDocumentForValidation;
-    }
+    public void setdocumentForValidation(Document documentForValidation) {
+        this.documentForValidation = documentForValidation;
+    } 
 }

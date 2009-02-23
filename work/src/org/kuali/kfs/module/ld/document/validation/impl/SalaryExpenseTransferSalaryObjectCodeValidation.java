@@ -25,15 +25,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validates that an accounting line has salary object code 
  */
 public class SalaryExpenseTransferSalaryObjectCodeValidation extends GenericValidation {
-    private ParameterService parameterService;
     private AccountingLine accountingLineForValidation;
 
     /**
@@ -59,32 +56,22 @@ public class SalaryExpenseTransferSalaryObjectCodeValidation extends GenericVali
      * @return True if the given accounting line's object code is a salary object code, false otherwise.
      */ 
     private boolean isSalaryObjectCode(AccountingLine accountingLine) {
+        boolean salaryObjectCode = true;
+        
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
-
+        expenseTransferAccountingLine.refreshReferenceObject("laborObject");   
+        
         LaborObject laborObject = expenseTransferAccountingLine.getLaborObject();
         if (laborObject == null) {
             return false;
         }
         
-        String fringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
-        ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE, fringeOrSalaryCode);
-        return evaluator != null ? evaluator.evaluationSucceeds() : false; 
-    }
-
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
+        boolean isItSalaryObjectCode = LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE.equals(laborObject.getFinancialObjectFringeOrSalaryCode());
+        if (!isItSalaryObjectCode) {
+            salaryObjectCode = false ;
+        }
+        
+        return salaryObjectCode ;
     }
 
     /**

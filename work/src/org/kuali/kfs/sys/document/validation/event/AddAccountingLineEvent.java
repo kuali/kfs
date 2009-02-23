@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +15,22 @@
  */
 package org.kuali.kfs.sys.document.validation.event;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.ListIterator;
+import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
-public class AddAccountingLineEvent extends AttributedDocumentEventBase implements AccountingLineEvent {
-    private final AccountingLine accountingLine;
+/**
+ * This class represents the add accounting line event. This could be triggered when a user presses the add button for a given
+ * document's accounting line.
+ */
+public final class AddAccountingLineEvent extends AccountingLineEventBase {
+    private String collectionName;
     
     /**
      * Constructs an AddAccountingLineEvent with the given errorPathPrefix, document, and accountingLine.
@@ -41,81 +39,30 @@ public class AddAccountingLineEvent extends AttributedDocumentEventBase implemen
      * @param document
      * @param accountingLine
      */
-    public AddAccountingLineEvent(String errorPathPrefix, Document document, AccountingLine accountingLine) {
-        super("adding accountingLine to document " + getDocumentId(document), errorPathPrefix, document);
-        this.accountingLine = accountingLine;
+    public AddAccountingLineEvent(String errorPathPrefix, Document document, AccountingLine accountingLine, String collectionName) {
+        super("adding accountingLine to document " + getDocumentId(document), errorPathPrefix, document, accountingLine);
+        this.collectionName = collectionName;
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.AccountingLineEvent#getAccountingLine()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
-    public AccountingLine getAccountingLine() {
-        return accountingLine;
+    public Class getRuleInterfaceClass() {
+        return AddAccountingLineRule.class;
     }
 
     /**
-     * Overridden to call parent and then clean up the error messages.
-     * @see org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
-    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        boolean result = super.invokeRuleMethod(rule);
-        cleanErrorMessages();
-        return result;
+        return ((AddAccountingLineRule) rule).processAddAccountingLineBusinessRules((AccountingDocument) getDocument(), getAccountingLine(), collectionName);
     }
-    
-    /**
-     * Logic to replace generic amount error messages, especially those where extraordinarily large amounts caused format errors
-     */
-    public void cleanErrorMessages() {
-        // create a list of accounting line attribute keys
-        ArrayList linePatterns = new ArrayList();
-        // source patterns: removing wildcards
-        linePatterns.addAll(Arrays.asList(StringUtils.replace(KFSConstants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN, "*", "").split(",")));
-        // target patterns: removing wildcards
-        linePatterns.addAll(Arrays.asList(StringUtils.replace(KFSConstants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN, "*", "").split(",")));
 
-        // see if any lines have errors
-        for (Iterator i = GlobalVariables.getErrorMap().getPropertiesWithErrors().iterator(); i.hasNext();) {
-            String property = (String) i.next();
-            // only concerned about amount field errors
-            if (property.endsWith("." + KFSConstants.AMOUNT_PROPERTY_NAME)) {
-                // check if the amount field is associated with an accounting line
-                boolean isLineProperty = true;
-                for (Iterator linePatternsIterator = linePatterns.iterator(); i.hasNext() && !isLineProperty;) {
-                    isLineProperty = property.startsWith((String) linePatternsIterator.next());
-                }
-                if (isLineProperty) {
-                    // find the specific error messages for the property
-                    for (ListIterator errors = GlobalVariables.getErrorMap().getMessages(property).listIterator(); errors.hasNext();) {
-                        ErrorMessage error = (ErrorMessage) errors.next();
-                        String errorKey = null;
-                        String[] params = new String[2];
-                        if (StringUtils.equals(KFSKeyConstants.ERROR_INVALID_FORMAT, error.getErrorKey())) {
-                            errorKey = KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_FORMAT;
-                            params[1] = accountingLine.getAmount().toString();
-                        }
-                        else {
-                            if (StringUtils.equals(KFSKeyConstants.ERROR_MAX_LENGTH, error.getErrorKey())) {
-                                errorKey = KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
+    public String getCollectionName() {
+        return collectionName;
+    }
 
-                                // String value = ObjectUtils.getPropertyValue(accountingLine,
-                                // KFSConstants.AMOUNT_PROPERTY_NAME)
-
-                            }
-                        }
-                        if (errorKey != null) {
-                            // now replace error message
-                            error.setErrorKey(errorKey);
-                            // replace parameters
-                            params[0] = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(accountingLine.getClass(), KFSConstants.AMOUNT_PROPERTY_NAME);
-                            error.setMessageParameters(params);
-                            // put back where it came form
-                            errors.set(error);
-                        }
-                    }
-                }
-            }
-        }
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
     }
 }

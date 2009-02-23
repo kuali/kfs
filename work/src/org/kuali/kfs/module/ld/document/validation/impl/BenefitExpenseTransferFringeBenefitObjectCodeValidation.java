@@ -15,34 +15,35 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validates that an accounting line has fringe benefit object code 
  */
 public class BenefitExpenseTransferFringeBenefitObjectCodeValidation extends GenericValidation {
-    private ParameterService parameterService;
     private AccountingLine accountingLineForValidation;
 
     /**
-     * Validates that an accounting line does not have a fringe benefit object code
+     * only fringe benefit labor object codes are allowed on the benefit expense transfer document
      * <strong>Expects an accounting line as the first a parameter</strong>
      * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
+        
         AccountingLine accountingLine = getAccountingLineForValidation();
-        if (isFringeBenefitObjectCode(accountingLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, LaborKeyConstants.INVALID_FRINGE_OBJECT_CODE_ERROR );
+        if (!isFringeBenefitObjectCode(accountingLine)) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.INVALID_FRINGE_OBJECT_CODE_ERROR );
             result = false;
         }
         return result;
@@ -55,24 +56,22 @@ public class BenefitExpenseTransferFringeBenefitObjectCodeValidation extends Gen
      * @return True if the given accounting line's object code is a fringe benefit object code, false otherwise.
      */ 
     private boolean isFringeBenefitObjectCode(AccountingLine accountingLine) {
-        ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(BenefitExpenseTransferDocument.class, LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE, accountingLine.getObjectCode().getFinancialObjectCode());
-        return evaluator != null ? evaluator.evaluationSucceeds() : false; 
-    }
+        boolean fringeObjectCode = true ;
+        
+        ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
 
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
+        expenseTransferAccountingLine.refreshReferenceObject("laborObject");
+        LaborObject laborObject = expenseTransferAccountingLine.getLaborObject();
+        if (laborObject == null) {
+            return false;
+        }
 
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
+        boolean isItFringeObjectCode = LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE.equals(laborObject.getFinancialObjectFringeOrSalaryCode());
+        if (!isItFringeObjectCode) {
+            fringeObjectCode = false ;
+        }
+        
+        return fringeObjectCode ;
     }
 
     /**

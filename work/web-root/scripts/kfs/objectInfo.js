@@ -312,7 +312,7 @@ function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
                 DWRUtil.setValue(containerDiv.id, wrapError( "person not found" ));
             }
         };
-        PersonService.getPersonByPersonPayrollIdentifier( userId, dwrReply );
+        PersonService.getPersonByEmployeeId( userId, dwrReply );
     }
 }
 

@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -31,7 +32,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Validates that an accounting document's balances by object codes are unchanged 
  */
 public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends GenericValidation {
-    private SalaryExpenseTransferDocument accountingDocumentForValidation;
+    private AccountingDocument accountingDocumentForValidation;      
 
     /**
      * Validates that an accounting document have balances unchanged for the object codes 
@@ -41,8 +42,10 @@ public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends 
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        if ((getAccountingDocumentForValidation().getApprovalObjectCodeBalances().isEmpty() && !getAccountingDocumentForValidation().getUnbalancedObjectCodes().isEmpty()) ||
-                !isObjectCodeBalancesUnchanged(getAccountingDocumentForValidation())) {
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument =  (SalaryExpenseTransferDocument) getAccountingDocumentForValidation() ;
+
+        if ((salaryExpenseTransferDocument.getApprovalObjectCodeBalances().isEmpty() && !salaryExpenseTransferDocument.getUnbalancedObjectCodes().isEmpty()) ||
+                !isObjectCodeBalancesUnchanged(salaryExpenseTransferDocument)) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE) ;
                 result = false ;
         }
@@ -56,11 +59,11 @@ public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends 
      * @param accountingDocumentForValidation The accounting document from which the amounts by objects codes are checked
      * @return True if the given accounting documents amounts by object code are unchanged, false otherwise.
      */ 
-    private boolean isObjectCodeBalancesUnchanged(SalaryExpenseTransferDocument accountingDocumentForValidation) {
+    private boolean isObjectCodeBalancesUnchanged(SalaryExpenseTransferDocument salaryExpenseTransferDocument) {
         boolean isUnchanged  = true ;
 
-        Map<String, KualiDecimal> initiatedObjectCodeBalances = accountingDocumentForValidation.getApprovalObjectCodeBalances() ;
-        Map<String, KualiDecimal> currentObjectCodeBalances = accountingDocumentForValidation.getUnbalancedObjectCodes() ;  
+        Map<String, KualiDecimal> initiatedObjectCodeBalances = salaryExpenseTransferDocument.getApprovalObjectCodeBalances() ;
+        Map<String, KualiDecimal> currentObjectCodeBalances = salaryExpenseTransferDocument.getUnbalancedObjectCodes() ;  
 
         Set <Entry<String, KualiDecimal>> initiatedObjectCodes = initiatedObjectCodeBalances.entrySet();
         Set <Entry<String, KualiDecimal>> currentObjectCodes = currentObjectCodeBalances.entrySet();
@@ -76,7 +79,7 @@ public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends 
      * Gets the accountingDocumentForValidation attribute. 
      * @return Returns the accountingDocumentForValidation.
      */
-    public SalaryExpenseTransferDocument getAccountingDocumentForValidation() {
+    public AccountingDocument getAccountingDocumentForValidation() {
         return accountingDocumentForValidation;
     }
 
@@ -84,7 +87,7 @@ public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends 
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void setAccountingLineForValidation(SalaryExpenseTransferDocument accountingDocumentForValidation) {
+    public void setAccountingLineForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
 }

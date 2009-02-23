@@ -25,6 +25,44 @@
 	<bean id="BenefitExpenseTransferDocument-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean parent="LaborExpenseTransferDocument-duplicateSourceAccountingLineValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="LaborExpenseTransferDocument-expiredAccountBeUsedValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="LaborExpenseTransferDocument-accountAcceptFringeBenefitValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>				
+			
 				<bean parent="BenefitExpenseTransferDocument-fringeBenefitObjectCodeValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -36,23 +74,16 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="BenefitExpenseTransferDocument-sameFringeBenefitObjectCodeValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
 				<bean parent="BenefitExpenseTransferDocument-sameAccountValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="document" />
 								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>						
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
 							</bean>
 						</list>
 					</property>
@@ -67,7 +98,109 @@
 	<bean id="BenefitExpenseTransferDocument-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean parent="BenefitExpenseTransferDocument-pendingLedgerEntryValidation" scope="prototype">
+				<bean parent="LaborExpenseTransferDocument-accountLineTotalsMatchValidation" scope="prototpye">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="documentForValidation" />
+							</bean>
+						</list>					
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="LaborExpenseTransferDocument-AccountingLineTotalsMatchByPayFYAndPayPeriodValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="documentForValidation" />
+							</bean>
+						</list>					
+					</property>
+					<property name="quitOnFail" value="true" />				
+				</bean>
+				<bean parent="LaborExpenseTransferDocument-negtiveAmountBeTransferredValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="documentForValidation" />
+							</bean>
+						</list>					
+					</property>
+					<property name="quitOnFail" value="true" />				
+				</bean>
+				<bean parent="LaborExpenseTransferDocument-validAmountTransferredByObjectCodeValidationForRouting" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="documentForValidation" />
+							</bean>
+						</list>					
+					</property>
+					<property name="quitOnFail" value="true" />				
+				</bean>
+				<bean parent="LaborExpenseTransferDocument-validTransferAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="documentForValidation" />
+							</bean>
+						</list>					
+					</property>
+					<property name="quitOnFail" value="true" />				
+				</bean>		
+			
+				<bean parent="BenefitExpenseTransferDocument-sameFringeBenefitObjectCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+			</list>
+		</property>	
+	</bean>	
+	
+	<bean id="BenefitExpenseTransferDocument-updateAccountingLineValidation" parent="BenefitExpenseTransferDocument-updateAccountingLineValidation-parentBean" scope="prototype" />
+		
+	<bean id="BenefitExpenseTransferDocument-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>		
+				<bean parent="LaborExpenseTransferDocument-duplicateSourceAccountingLineValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="LaborExpenseTransferDocument-expiredAccountBeUsedValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="LaborExpenseTransferDocument-accountAcceptFringeBenefitValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
@@ -80,5 +213,33 @@
 				</bean>
 			</list>
 		</property>	
-	</bean>	
+	</bean>
+	
+	<bean id="BenefitExpenseTransferDocument-processGenerateLaborLedgerPendingEntries" parent="BenefitExpenseTransferDocument-generateLaborLedgerPendingEntries-parentBean" scope="prototype" />
+		
+	<bean id="BenefitExpenseTransferDocument-generateLaborLedgerPendingEntries-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>		
+				<bean parent="BenefitExpenseTransferDocument-generateLaborLedgerPendingEntries" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>						
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="sequenceHelper" />
+								<property name="targetValidationProperty" value="sequenceHelperForValidation" />
+							</bean>													
+						</list>
+					</property>
+				</bean>			
+			</list>
+		</property>	
+	</bean>
+	
 </beans>

@@ -72,8 +72,6 @@
 			type="org.kuali.kfs.fp.document.web.struts.PreEncumbranceForm" />
 		<form-bean name="DisbursementVoucherForm"
 			type="org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm" />
-		<form-bean name="DisbursementVoucherInitForm"
-			type="org.kuali.kfs.fp.document.web.struts.DisbursementVoucherInitForm" />
 		<form-bean name="CashManagementForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementForm" />
 		<form-bean name="CashManagementStatusForm"
@@ -271,15 +269,6 @@
 				path="/kr/WEB-INF/jsp/core/KualiHelp.jsp" />
 			<forward name="dvPerDiemLinks"
 				path="/jsp/modules/financial/DisbursementVoucherTravelPerDiemLinks.jsp" />
-		</action>
-
-		<action path="/disbursementVoucherInit"
-			name="DisbursementVoucherInitForm" scope="request"
-			attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.fp.document.web.struts.DisbursementVoucherInitAction">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic"
-				path="/jsp/modules/financial/DisbursementVoucherInit.jsp" />
 		</action>
 
 		<!-- KFS Action Mappings -->

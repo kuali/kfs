@@ -192,6 +192,8 @@ public class GeneralLedgerConstants {
         static final public String EXTENSION = ".data";
         static final public String DONE_FILE_EXTENSION = ".done"; 
         
+        //static final public String GL_ENTRY = "";
+        static final public String ENTERPRISE_FEED = "gl_entry_entp";
         //TODO: Shawn - Should I move it to OriginEntrySource??
         static final public String SCRUBBER_ERROR_PREFIX = "SCRBERR1";
         

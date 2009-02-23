@@ -1643,6 +1643,7 @@
 			<ref bean="glOriginEntryEnterpriseFeederNotificationService"/>
 		</property>
 		<property name="directoryName" value="${staging.directory}/gl/enterpriseFeed"/>
+		<property name="glOriginEntryDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reconciliationTableId" value="gl_entry_t"/>
 	</bean>
 

@@ -125,7 +125,7 @@
 				<value>LaborJournalVoucherDocument-addAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 				<value>LaborJournalVoucherDocument-reviewAccountingLineValidation</value>
 			</entry>
 			<entry>

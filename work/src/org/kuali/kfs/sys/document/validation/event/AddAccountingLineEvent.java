@@ -98,10 +98,6 @@ public class AddAccountingLineEvent extends AttributedDocumentEventBase implemen
                         else {
                             if (StringUtils.equals(KFSKeyConstants.ERROR_MAX_LENGTH, error.getErrorKey())) {
                                 errorKey = KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
-
-                                // String value = ObjectUtils.getPropertyValue(accountingLine,
-                                // KFSConstants.AMOUNT_PROPERTY_NAME)
-
                             }
                         }
                         if (errorKey != null) {

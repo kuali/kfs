@@ -50,10 +50,10 @@
 		                    </c:when>
                         <c:when test="${periodAmount.originItem || viewOnly}">
                           <!-- display disabled: 2. origin item -->
-                          <html:checkbox title="Budget Period "${status.index + 1}" disabled="true" property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${KualiForm.currentNonpersonnelCategoryCode}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].${copyIndicatorLabel}" />
+                          <html:checkbox title="Budget Period ${status.index + 1}" disabled="true" property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${KualiForm.currentNonpersonnelCategoryCode}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].${copyIndicatorLabel}" />
 		                    </c:when>
                         <c:otherwise>
-				                  <html:checkbox title="Budget Period "${status.index + 1}" property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${KualiForm.currentNonpersonnelCategoryCode}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].${copyIndicatorLabel}" />
+				                  <html:checkbox title="Budget Period ${status.index + 1}" property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${KualiForm.currentNonpersonnelCategoryCode}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].${copyIndicatorLabel}" />
 		                    </c:otherwise>
 		                  </c:choose>
 		                  </div></td>

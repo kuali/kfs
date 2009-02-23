@@ -1,117 +1,177 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-  <ruleAttribute>
-    <name>NoFyiActionListAttribute</name>
-    <className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>
-    <label>No FYI</label>
-    <description>No FYI Action List Attribute</description>
-    <type>ActionListAttribute</type>
-  </ruleAttribute>
-</ruleAttributes>
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>PO</name>
-      <parent>PurchasingTransactionalDocument</parent>
-      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
-      <attributes>
-        <attribute>
-          <name>NoFyiActionListAttribute</name>
-        </attribute>
-      </attributes>
-      <routePaths>
-        <routePath>
-          <start name="AdHoc" nextNode="RequiresContractManagementReview"/>
-          <split name="RequiresContractManagementReview" nextNode="Commodity">
-            <branch name="True">
-              <requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview"/>
-            </branch>
-            <branch name="False">
-              <requests name="NoOpRequiresContractManagementReview" nextNode="JoinRequiresContractManagementReview"/>
-            </branch>
-            <join name="JoinRequiresContractManagementReview"/>
-          </split>
-          <requests name="Commodity" nextNode="Award"/>
-          <requests name="Award" nextNode="RequiresBudgetReview"/>
-          <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
-            <branch name="True">
-              <requests name="Budget" nextNode="JoinRequiresBudgetReview"/>
-            </branch>
-            <branch name="False">
-              <simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview"/>
-            </branch>
-            <join name="JoinRequiresBudgetReview"/>
-          </split>
-          <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="TransmissionMethodIsPrint">
-            <branch name="True">
-              <requests name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
-            </branch>
-            <branch name="False">
-              <simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
-            </branch>
-            <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
-          </split>
-          <split name="TransmissionMethodIsPrint">
-            <branch name="True">
-              <requests name="PrintTransmission" nextNode="JoinTransmissionMethodIsPrint"/>
-            </branch>
-            <branch name="False">
-              <simple name="NoOpPrint" nextNode="JoinTransmissionMethodIsPrint"/>
-            </branch>
-            <join name="JoinTransmissionMethodIsPrint"/>
-          </split>
-        </routePath>
-      </routePaths>
-      <routeNodes>
-        <start name="AdHoc"/>
-        <role name="ContractManagement">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-        </role>
-        <role name="Commodity">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-        </role>
-        <role name="Award">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-        </role>
-        <role name="Budget">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-        </role>
-        <role name="Tax">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-        </role>
-        <requests name="PrintTransmission">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          <routeModule>org.kuali.kfs.module.purap.document.workflow.PrintRoleRouteModule</routeModule>
-        </requests>
-        <split name="RequiresContractManagementReview">
-          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        </split>
-        <split name="RequiresBudgetReview">
-          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        </split>
-        <split name="TransmissionMethodIsPrint">
-          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        </split>
-        <split name="VendorIsEmployeeOrNonResidentAlien">
-          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        </split>
-        <simple name="NoOpRequiresContractManagementReview">
-          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        </simple>
-        <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
-          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        </simple>
-        <simple name="NoOpBudget">
-          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        </simple>
-        <simple name="NoOpPrint">
-          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        </simple>
-        <join name="JoinRequiresBudgetReview"/>
-        <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
-        <join name="JoinTransmissionMethodIsPrint"/>
-        <join name="JoinRequiresContractManagementReview"/>
-      </routeNodes>
-    </documentType>
-  </documentTypes>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>NoFyiActionListAttribute</name>
+			<className>
+				org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute
+			</className>
+			<label>No FYI</label>
+			<description>No FYI Action List Attribute</description>
+			<type>ActionListAttribute</type>
+		</ruleAttribute>
+	</ruleAttributes>
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>PO</name>
+			<parent>PurchasingTransactionalDocument</parent>
+			<docHandler>
+				${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<attributes>
+				<attribute>
+					<name>FinancialSystemSearchableAttribute</name>
+				</attribute>
+				<attribute>
+					<name>
+						FinancialSystemDocumentSearchResultProcessorAttribute
+					</name>
+				</attribute>
+				<attribute>
+					<name>
+						FinancialSystemDocumentSearchGeneratorAttribute
+					</name>
+				</attribute>
+				<attribute>
+					<name>NoFyiActionListAttribute</name>
+				</attribute>
+			</attributes>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc"
+						nextNode="RequiresContractManagementReview" />
+					<split name="RequiresContractManagementReview"
+						nextNode="Commodity">
+						<branch name="True">
+							<requests name="ContractManagement"
+								nextNode="JoinRequiresContractManagementReview" />
+						</branch>
+						<branch name="False">
+							<requests
+								name="NoOpRequiresContractManagementReview"
+								nextNode="JoinRequiresContractManagementReview" />
+						</branch>
+						<join
+							name="JoinRequiresContractManagementReview" />
+					</split>
+					<requests name="Commodity" nextNode="Award" />
+					<requests name="Award"
+						nextNode="RequiresBudgetReview" />
+					<split name="RequiresBudgetReview"
+						nextNode="VendorIsEmployeeOrNonResidentAlien">
+						<branch name="True">
+							<requests name="Budget"
+								nextNode="JoinRequiresBudgetReview" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpBudget"
+								nextNode="JoinRequiresBudgetReview" />
+						</branch>
+						<join name="JoinRequiresBudgetReview" />
+					</split>
+					<split name="VendorIsEmployeeOrNonResidentAlien"
+						nextNode="TransmissionMethodIsPrint">
+						<branch name="True">
+							<requests name="Tax"
+								nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+						</branch>
+						<branch name="False">
+							<simple
+								name="NoOpVendorIsEmployeeOrNonResidentAlien"
+								nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+						</branch>
+						<join
+							name="JoinVendorIsEmployeeOrNonResidentAlien" />
+					</split>
+					<split name="TransmissionMethodIsPrint">
+						<branch name="True">
+							<requests name="PrintTransmission"
+								nextNode="JoinTransmissionMethodIsPrint" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpPrint"
+								nextNode="JoinTransmissionMethodIsPrint" />
+						</branch>
+						<join name="JoinTransmissionMethodIsPrint" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="ContractManagement">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<role name="Commodity">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<role name="Award">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<role name="Budget">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<role name="Tax">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<requests name="PrintTransmission">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<routeModule>
+						org.kuali.kfs.module.purap.document.workflow.PrintRoleRouteModule
+					</routeModule>
+				</requests>
+				<split name="RequiresContractManagementReview">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="RequiresBudgetReview">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="TransmissionMethodIsPrint">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="VendorIsEmployeeOrNonResidentAlien">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<simple name="NoOpRequiresContractManagementReview">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				</simple>
+				<simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				</simple>
+				<simple name="NoOpBudget">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				</simple>
+				<simple name="NoOpPrint">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				</simple>
+				<join name="JoinRequiresBudgetReview" />
+				<join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+				<join name="JoinTransmissionMethodIsPrint" />
+				<join name="JoinRequiresContractManagementReview" />
+			</routeNodes>
+		</documentType>
+	</documentTypes>
 </data>

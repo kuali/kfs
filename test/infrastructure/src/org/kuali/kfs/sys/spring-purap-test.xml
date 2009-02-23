@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Copyright 2005-2007 The Kuali Foundation. 
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License"); 
+	you may not use this file except in compliance with the License. 
+	You may obtain a copy of the License at 
+	
+	http://www.opensource.org/licenses/ecl1.php 
+	
+	Unless required by applicable law or agreed to in writing, software 
+	distributed under the License is distributed on an "AS IS" BASIS, 
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+	See the License for the specific language governing permissions and 
+	limitations under the License. 
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="VendorCreditMemo-initTabRequiredFieldsValidation-test"
+		parent="VendorCreditMemo-initTabRequiredFieldsValidation" scope="prototype" />
+
+	<bean id="VendorCreditMemo-initTabReferenceNumberValidation-test"
+		parent="VendorCreditMemo-initTabReferenceNumberValidation" scope="prototype" />
+
+	<bean id="VendorCreditMemo-purchaseOrderForInvoicedItemsValidation-test"
+		parent="VendorCreditMemo-purchaseOrderForInvoicedItemsValidation" scope="prototype" />
+
+	<bean id="VendorCreditMemo-flagLineItemTotalsValidation-test"
+		parent="VendorCreditMemo-flagLineItemTotalsValidation" scope="prototype" />
+
+	<bean id="VendorCreditMemo-totalMatchesVendorAmountValidation-test"
+		parent="VendorCreditMemo-totalMatchesVendorAmountValidation" scope="prototype" />
+
+	<bean id="VendorCreditMemo-totalOverZeroValidation-test"
+		parent="VendorCreditMemo-totalOverZeroValidation" scope="prototype" />
+
+	<bean id="VendorCreditMemo-objectCodeValidation-test"
+		parent="VendorCreditMemo-objectCodeValidation" scope="prototype" />
+
+	<bean id="VendorCreditMemo-accountPercentBetween0And100Validation-test"
+		parent="VendorCreditMemo-accountPercentBetween0And100Validation" scope="prototype" />
+
+	<bean id="PaymentRequest-invoiceValidation-test" parent="PaymentRequest-invoiceValidation"
+		scope="prototype" />
+
+	<bean id="PaymentRequest-dateForContinueValidation-test"
+		parent="PaymentRequest-dateForContinueValidation" scope="prototype" />
+
+	<bean id="PaymentRequest-payDateNotPastValidation-test"
+		parent="PaymentRequest-payDateNotPastValidation" scope="prototype" />
+
+	<bean id="TestPaymentRequest-payDateNotPastValidation-test"
+		parent="TestPaymentRequest-payDateNotPastValidation-test-parentBean" scope="prototype" />
+	<bean id="TestPaymentRequest-payDateNotPastValidation-test-parentBean"
+		class="org.kuali.kfs.module.purap.util.TestPaymentRequestPayDateNotPastValidation"
+		abstract="true">
+		<property name="purapService" ref="purapService" />
+		<property name="persistenceService" ref="persistenceService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="PaymentRequest-taxAreaValidation-test" parent="PaymentRequest-taxAreaValidation"
+		scope="prototype" />
+
+	<bean id="PurchaseOrder-assignSensitiveDataValidation-test"
+		parent="PurchaseOrder-assignSensitiveDataValidation" scope="prototype" />
+
+	<bean id="PurchasingAccountsPayable-processAccountSummaryValidation-test"
+		parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype" />
+
+	<bean id="Requisition-processAdditionalValidation-test"
+		parent="Requisition-processAdditionalValidation" scope="prototype" />
+
+	<bean id="Purchasing-processVendorValidation-test" parent="Purchasing-processVendorValidation"
+		scope="prototype" />
+
+	<bean id="Purchasing-paymentInfoValidation-test" parent="Purchasing-paymentInfoValidation"
+		scope="prototype" />
+
+	<bean id="PurchaseOrder-processVendorStipulationValidation-test"
+		parent="PurchaseOrder-processVendorStipulationValidation" scope="prototype" />
+
+	<bean id="PurchaseOrder-splitValidation-test" parent="PurchaseOrder-splitValidation"
+		scope="prototype" />
+
+	<bean id="Purchasing-deliveryValidation-test" parent="Purchasing-deliveryValidation"
+		scope="prototype" />
+
+	<bean id="Requisition-newProcessItemValidation"
+		parent="Requisition-newProcessItemValidation-parentBean" scope="prototype" />
+
+	<bean id="PurchaseOrder-newProcessItemValidation"
+		parent="PurchaseOrder-newProcessItemValidation-parentBean" scope="prototype" />
+
+	<bean id="Purchasing-capitalAssetValidation-test" parent="Purchasing-capitalAssetValidation"
+		scope="prototype" />
+
+	<bean id="PurchasingAccountsPayable-accountPercentBetween0And100Validation-test"
+		parent="PurchasingAccountsPayable-accountPercentBetween0And100Validation" scope="prototype" />
+
+</beans>

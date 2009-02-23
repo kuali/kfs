@@ -1521,14 +1521,14 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * which have been answered positively on this RoutingForm document. 
      * @return a list of questions
      */
-    public List<RoutingFormQuestion> getPositivelyAnsweredQuestions() {
-        List<RoutingFormQuestion> positivelyAnsweredQuestionTypes = new ArrayList<RoutingFormQuestion>();
+    public List<RoutingFormQuestion> getQuestionsForNotification() {
+        List<RoutingFormQuestion> questionsForNotification = new ArrayList<RoutingFormQuestion>();
         for (RoutingFormQuestion question : getRoutingFormQuestions()) {
-            if ("YT1".indexOf(question.getYesNoIndicator()) >= 0) {
-                positivelyAnsweredQuestionTypes.add(question);
+            if (question.getYesNoIndicator().equals(question.getQuestion().getQuestionTypeNotificationValue())) {
+                questionsForNotification.add(question);
             }
         }
-        return positivelyAnsweredQuestionTypes;
+        return questionsForNotification;
     }
 
     /**

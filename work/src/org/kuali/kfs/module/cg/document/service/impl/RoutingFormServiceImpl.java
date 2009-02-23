@@ -65,6 +65,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class RoutingFormServiceImpl implements RoutingFormService {
+    private static final String PROPOSAL_MAINTENANCE_DOCUMENT_TYPE_NAME = "PRPL";
 
     private DocumentService documentService;
     private MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
@@ -284,7 +285,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
     public Long createAndRouteProposalMaintenanceDocument(RoutingFormDocument routingFormDocument) {
 
         try {
-            MaintenanceDocument proposalMaintenanceDocument = (MaintenanceDocument) documentService.getNewDocument("ProposalMaintenanceDocument");
+            MaintenanceDocument proposalMaintenanceDocument = (MaintenanceDocument) documentService.getNewDocument(PROPOSAL_MAINTENANCE_DOCUMENT_TYPE_NAME);
 
             ProposalMaintainableImpl proposalMaintainable = new ProposalMaintainableImpl(this.createProposalFromRoutingForm(routingFormDocument));
             proposalMaintainable.setDocumentNumber(proposalMaintenanceDocument.getDocumentNumber());

@@ -925,7 +925,7 @@
     			<entry key="OrganizationHierarchy" value-ref="RoutingFormDocument-RoutingType-OrganizationHierarchy"/>
     			<entry key="ResearchAdHoc" value-ref="RoutingFormDocument-RoutingType-ResearchAdHoc"/>
     			<entry key="ResearchRisk" value-ref="RoutingFormDocument-RoutingType-ResearchRisks"/>
-    			<entry key="Question" value-ref="RoutingFormDocument-RoutingType-PositivelyAnsweredQuestions"/>
+    			<entry key="QuestionType" value-ref="RoutingFormDocument-RoutingType-QuestionsForNotification"/>
     		</map>
     	</property>
 	</bean>
@@ -1032,7 +1032,7 @@
     	</property>
 	</bean>
 	
-	<bean id="RoutingFormDocument-RoutingType-PositivelyAnsweredQuestions" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="RoutingFormDocument-RoutingType-QuestionsForNotification" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
@@ -1046,7 +1046,7 @@
     			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 			    	<property name="documentCollectionPath">
 			    		<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
-			    			<property name="collectionPath" value="positivelyAnsweredQuestions"/>
+			    			<property name="collectionPath" value="questionsForNotification"/>
 			    			<property name="documentValues">
 			    				<list>
 			    					<value>questionTypeCode</value>

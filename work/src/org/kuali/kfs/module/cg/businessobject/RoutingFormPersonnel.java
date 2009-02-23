@@ -91,14 +91,13 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
         this.personRoleCode = personRoleCode;
         this.principalId = budgetUser.getPrincipalId();
 
-
         this.chartOfAccountsCode = budgetUser.getFiscalCampusCode();
         this.organizationCode = budgetUser.getPrimaryDepartmentCode();
         this.personPrefixText = budgetUser.getPersonNamePrefixText();
         this.personSuffixText = budgetUser.getPersonNameSuffixText();
-        ;
+        
         this.personRoleText = budgetUser.getRole();
-        this.personToBeNamedIndicator = budgetUser.getPrincipalId() == null;
+        this.personToBeNamedIndicator = (budgetUser.getPrincipalId() == null);
     }
 
     /**
@@ -680,7 +679,9 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the user.
      */
     public Person getUser() {
-        user = getKfsUserService().updatePersonIfNecessary(principalId, user);
+        if (principalId != null) {
+            user = getKfsUserService().updatePersonIfNecessary(principalId, user);
+        }
         return user;
     }
 
@@ -692,6 +693,25 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      */
     public void setUser(Person user) {
         this.user = user;
+    }
+    
+    /**
+     * @return the principal name of this Routing Form personnel
+     */
+    public String getPrincipalName() {
+        return (getUser() == null ? null : getUser().getPrincipalName());
+    }
+    
+    /**
+     * Sets the principal name - though in reality, we simply use the principal name to set the user
+     * @param principalName the name of the principal to make as the "Person" of this RoutingFormPersonnel
+     */
+    public void setPrincipalName(String principalName) {
+        user = getKfsUserService().getPersonByPrincipalName(principalName);
+        if (user != null) {
+            principalId = user.getPrincipalId();
+            populateWithUserServiceFields();
+        }
     }
 
     /**

@@ -98,6 +98,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             
             OriginEntryLite entry = new OriginEntryLite(pendingEntry);
             
+            //TODO: Shawn - I think this part is related on KFSMI-2825, let's check it later 
             group.add(entry);
             // copy the pending entry to origin entry table
             //saveAsOriginEntry(pendingEntry, group);

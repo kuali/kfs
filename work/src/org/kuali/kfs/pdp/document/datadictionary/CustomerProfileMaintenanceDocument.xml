@@ -56,7 +56,7 @@
     <property name="title" value="Edit Customer Profile"/>
     <property name="maintainableItems">
       <list>
-          <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true"/>
+          <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.defaultvalue.NextCustomerProfileIdFinder" />
           <bean parent="MaintainableFieldDefinition" p:name="chartCode" p:required="true"/>      
           <bean parent="MaintainableFieldDefinition" p:name="unitCode" p:required="true"/>
           <bean parent="MaintainableFieldDefinition" p:name="subUnitCode" p:required="true"/>      

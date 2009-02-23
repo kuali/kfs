@@ -33,6 +33,7 @@ public class PdpConstants {
     public static final String ACH_TRANSACTION_TYPE_DEFAULT = "22";
     public static final String ACH_BANK_DATA_VIEW_CODE_DEFAULT = "1";
     public static final String ACH_BANK_INSTITUTION_CODE_DEFAULT = "1";
+    public static final String PDP_CUST_ID_SEQUENCE_NAME = "PDP_CUST_ID_SEQ";
     
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
 

@@ -114,8 +114,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
             pendingEntry.setTransactionDate(today);
             
-            //shawn - temporary -- need to back when I committ
-            //generalLedgerPendingEntryService.save(pendingEntry);
+            generalLedgerPendingEntryService.save(pendingEntry);
         }
         
         outputFilePs.close();

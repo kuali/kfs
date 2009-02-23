@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
@@ -63,7 +64,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
      * @see org.kuali.module.gl.service.impl.FileEnterpriseFeederHelperService#feedOnFile(java.io.File, java.io.File, java.io.File,
      *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
-    public void feedOnFile(File doneFile, File dataFile, File reconFile, OriginEntryGroup originEntryGroup, String feederProcessName, String reconciliationTableId, EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors) {
+    public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs, String feederProcessName, String reconciliationTableId, EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors) {
         LOG.info("Processing done file: " + doneFile.getAbsolutePath());
 
         List<Message> errorMessages = statusAndErrors.getErrorMessages();
@@ -115,18 +116,18 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
             }
 
             if (reconciliationProcessSucceeded(errorMessages)) {
-                // exhausted the previous iterator, open a new one up
                 dataFileReader = new BufferedReader(new FileReader(dataFile));
-                Iterator<OriginEntryFull> fileIterator = new OriginEntryFileIterator(dataFileReader, false);
-
+                String line;
                 int count = 0;
-                while (fileIterator.hasNext()) {
-                    OriginEntryFull entry = fileIterator.next();
-                    entry.setGroup(originEntryGroup);
-                    originEntryService.save(entry);
+                while ((line = dataFileReader.readLine()) != null) {
+                    try {
+                        enterpriseFeedPs.printf("%s\n", line);
+                    } catch (Exception e) {
+                        throw new IOException(e.toString());
+                    }
+                    
                     count++;
                 }
-                fileIterator = null;
                 dataFileReader.close();
                 dataFileReader = null;
 

@@ -17,11 +17,15 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 import org.kuali.kfs.gl.batch.service.FileEnterpriseFeederHelperService;
@@ -41,6 +45,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederServiceImpl.class);
 
     private String directoryName;
+    private String glOriginEntryDirectoryName;
 
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -63,8 +68,20 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
             }
             FileFilter doneFileFilter = new SuffixFileFilter(DONE_FILE_SUFFIX);
 
-            OriginEntryGroup originEntryGroup = createNewGroupForFeed(OriginEntrySource.ENTERPRISE_FEED);
-            LOG.info("New group ID created for enterprise feeder service run: " + originEntryGroup.getId());
+            File enterpriseFeedFile = null;
+            String enterpriseFeedFileName = GeneralLedgerConstants.BatchFileSystem.ENTERPRISE_FEED + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+            enterpriseFeedFile = new File(glOriginEntryDirectoryName + File.separator + enterpriseFeedFileName);
+            
+            PrintStream enterpriseFeedPs = null;
+            try {
+                enterpriseFeedPs = new PrintStream(enterpriseFeedFile);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException("enterpriseFeedFile doesn't exist " + enterpriseFeedFileName);
+            }
+            
+            //OriginEntryGroup originEntryGroup = createNewGroupForFeed(OriginEntrySource.ENTERPRISE_FEED);
+            //LOG.info("New group ID created for enterprise feeder service run: " + originEntryGroup.getId());
+            LOG.info("New File created for enterprise feeder service run: " + enterpriseFeedFileName);
 
             File directory = new File(directoryName);
             if (!directory.exists() || !directory.isDirectory()) {
@@ -77,6 +94,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
             for (File doneFile : doneFiles) {
                 File dataFile = null;
                 File reconFile = null;
+                
 
                 EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors = new EnterpriseFeederStatusAndErrorMessagesWrapper();
                 statusAndErrors.setErrorMessages(new ArrayList<Message>());
@@ -84,6 +102,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                 try {
                     dataFile = getDataFile(doneFile);
                     reconFile = getReconFile(doneFile);
+                    
 
                     if (dataFile == null) {
                         LOG.error("Unable to find data file for done file: " + doneFile.getAbsolutePath());
@@ -99,7 +118,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                         LOG.info("Data file: " + dataFile.getAbsolutePath());
                         LOG.info("Reconciliation File: " + reconFile.getAbsolutePath());
 
-                        fileEnterpriseFeederHelperService.feedOnFile(doneFile, dataFile, reconFile, originEntryGroup, processName, reconciliationTableId, statusAndErrors);
+                        fileEnterpriseFeederHelperService.feedOnFile(doneFile, dataFile, reconFile, enterpriseFeedPs, processName, reconciliationTableId, statusAndErrors);
                     }
                 }
                 catch (RuntimeException e) {
@@ -116,8 +135,18 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                     }
                 }
             }
-
-            markGroupReady(originEntryGroup);
+            
+            enterpriseFeedPs.close();
+            String enterpriseFeedDoneFileName = enterpriseFeedFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+            File enterpriseFeedDoneFile = new File (glOriginEntryDirectoryName + File.separator + enterpriseFeedDoneFileName);
+            if (!enterpriseFeedDoneFile.exists()){
+                try {
+                    enterpriseFeedDoneFile.createNewFile();
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
+            }
+            //markGroupReady(originEntryGroup);
         }
     }
 
@@ -301,5 +330,9 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
      */
     public void setReconciliationTableId(String reconciliationTableId) {
         this.reconciliationTableId = reconciliationTableId;
+    }
+
+    public void setGlOriginEntryDirectoryName(String glOriginEntryDirectoryName) {
+        this.glOriginEntryDirectoryName = glOriginEntryDirectoryName;
     }
 }

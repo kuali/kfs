@@ -4,9 +4,13 @@
 
   <bean id="SalaryExpenseTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
+    
+    
+    
+    
     <property name="documentTypeName" value="ST"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
 <!-- the following businessRuleClass should be used for granular validations, if implemented
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferDocumentRule" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>    
@@ -66,12 +70,23 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
 				<value>SalaryExpenseTransferDocument-addAccountingLineValidation</value>
-			</entry>
-						
+			</entry>					
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>SalaryExpenseTransferDocument-routeDocumentValidation</value>
 			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>SalaryExpenseTransferDocument-updateAccountingLineValidation</value>
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerPendingEntriesEvent</value></key>
+				<value>SalaryExpenseTransferDocument-processGenerateLaborLedgerPendingEntries</value>
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent</value></key>
+				<value>SalaryExpenseTransferDocument-processGenerateLaborLedgerBenefitClearingPendingEntries</value>
+			</entry>								
     	</map>
     </property>
   </bean>

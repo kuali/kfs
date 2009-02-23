@@ -4,6 +4,11 @@
 
   <bean id="LaborJournalVoucherDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
+    
+    
+    
+    
+    
     <property name="documentTypeName" value="LLJV"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -112,14 +117,6 @@
   	<property name="sourceMap">
 		<map>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
-				<value>LaborJournalVoucherDocument-approveDocumentValidation</value>
-			</entry>
-			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
-				<value>LaborJournalVoucherDocument-blanketApproveDocumentValidation</value>
-			</entry>
-			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				<value>LaborJournalVoucherDocument-updateAccountLineValidation</value>
 			</entry>
@@ -128,13 +125,13 @@
 				<value>LaborJournalVoucherDocument-addAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
-				<value>LaborJournalVoucherDocument-deleteAccountingLineValidation</value>
-			</entry>
-			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
 				<value>LaborJournalVoucherDocument-reviewAccountingLineValidation</value>
 			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent</value></key>
+				<value>LaborJournalVoucherDocument-processGenerateLaborLedgerBenefitClearingPendingEntries</value>
+			</entry>								
     	</map>
     </property>
   </bean>  

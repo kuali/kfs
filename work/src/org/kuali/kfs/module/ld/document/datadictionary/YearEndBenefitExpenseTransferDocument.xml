@@ -52,12 +52,19 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
 				<value>BenefitExpenseTransferDocument-addAccountingLineValidation</value>
-			</entry>
-						
+			</entry>					
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>BenefitExpenseTransferDocument-routeDocumentValidation</value>
 			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>BenefitExpenseTransferDocument-updateAccountingLineValidation</value>
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerPendingEntriesEvent</value></key>
+				<value>BenefitExpenseTransferDocument-processGenerateLaborLedgerPendingEntries</value>
+			</entry>						
     	</map>
     </property>
   </bean>  

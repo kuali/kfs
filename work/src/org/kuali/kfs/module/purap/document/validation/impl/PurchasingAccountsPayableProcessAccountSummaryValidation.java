@@ -17,33 +17,79 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants.NRATaxParameters;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingAccountsPayableProcessAccountSummaryValidation extends GenericValidation {
 
+    private ParameterService parameterService;    
     private PurapAccountingService purapAccountingService;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        List<SummaryAccount> summaryAccounts = purapAccountingService.generateSummaryAccounts((PurchasingAccountsPayableDocument)event.getDocument());
+        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)event.getDocument();
+        List<SummaryAccount> summaryAccounts = purapAccountingService.generateSummaryAccounts(document);
         for (SummaryAccount summaryAccount : summaryAccounts) {
             //TODO: ctk - do we need all these null checks
-            if(ObjectUtils.isNotNull(summaryAccount) && ObjectUtils.isNotNull(summaryAccount.getAccount()) && ObjectUtils.isNotNull(summaryAccount.getAccount().getAmount()) &&
-                    summaryAccount.getAccount().getAmount().isNegative()) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_SUMMARY_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_ACCOUNT_NEGATIVE,summaryAccount.getAccount().getAccountNumber());
+            if (ObjectUtils.isNotNull(summaryAccount) && ObjectUtils.isNotNull(summaryAccount.getAccount()) && ObjectUtils.isNotNull(summaryAccount.getAccount().getAmount())) {
+                boolean isTaxAccount = false;
+
+                // check if the summary account is for tax withholding
+                if (document instanceof PaymentRequestDocument) {
+                    String incomeClassCode = ((PaymentRequestDocument)document).getTaxClassificationCode();
+                    if (StringUtils.isNotEmpty(incomeClassCode)) {
+                        
+                        String federalChartCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_CHART_SUFFIX);
+                        String federalAccountNumber = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_ACCOUNT_SUFFIX);
+                        String federalObjectCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, incomeClassCode);
+
+                        String stateChartCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_CHART_SUFFIX);
+                        String stateAccountNumber = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_ACCOUNT_SUFFIX);
+                        String stateObjectCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, incomeClassCode);
+
+                        String summaryChartCode = summaryAccount.getAccount().getChartOfAccountsCode();
+                        String summaryAccountNumber = summaryAccount.getAccount().getAccountNumber();
+                        String summaryObjectCode = summaryAccount.getAccount().getFinancialObjectCode();
+
+                        boolean isFederalAccount = StringUtils.equals(federalChartCode, summaryChartCode);
+                        isFederalAccount = isFederalAccount && StringUtils.equals(federalAccountNumber, summaryAccountNumber);
+                        isFederalAccount = isFederalAccount && StringUtils.equals(federalObjectCode, summaryObjectCode);
+                        
+                        boolean isStateAccount = StringUtils.equals(stateChartCode, summaryChartCode);
+                        isStateAccount = isStateAccount && StringUtils.equals(stateAccountNumber, summaryAccountNumber);
+                        isStateAccount = isStateAccount && StringUtils.equals(stateObjectCode, summaryObjectCode);
+                        
+                        isTaxAccount = isFederalAccount || isStateAccount;
+                    }
+                }
+
+                // exclude tax withholding accounts from non-negative requirement
+                if (!isTaxAccount && summaryAccount.getAccount().getAmount().isNegative()) {
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_SUMMARY_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_ACCOUNT_NEGATIVE,summaryAccount.getAccount().getAccountNumber());
+                }
             }
         }
         return valid;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public PurapAccountingService getPurapAccountingService() {

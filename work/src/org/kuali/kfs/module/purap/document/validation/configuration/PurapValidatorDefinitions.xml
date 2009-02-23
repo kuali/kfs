@@ -44,6 +44,7 @@
     </bean>
 
     <bean id="PurchasingAccountsPayable-processAccountSummaryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessAccountSummaryValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
         <property name="purapAccountingService" ref="purapAccountingService" />
     </bean>
 

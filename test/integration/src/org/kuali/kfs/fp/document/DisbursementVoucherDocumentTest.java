@@ -57,7 +57,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class is used to test DisbursementVoucherDocument.
  */
 @ConfigureContext(session = hschrein)
-// @RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class DisbursementVoucherDocumentTest extends KualiTestBase {
     private static Logger LOG = Logger.getLogger(DisbursementVoucherDocumentTest.class);
 
@@ -68,6 +67,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     private static final String ORG_REVIEW = "AccountingOrganizationHierarchy";
     private static final String TAX_REVIEW = "Tax";
     private static final String CAMPUS_CODE = "Campus";
+    private static final String PAYMENT_METHOD = "PaymentMethod";
 
 
     public final void testConvertIntoCopy_clear_additionalCodeInvalidVendor() throws Exception {
@@ -131,7 +131,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
         /*WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
         // now doc should be in Org Review routing to cswinson
-        changeCurrentUser(cswinson);
+        changeCurrentUser(UserNameFixture.cswinson);
         document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
         assertTrue("cswinson should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
@@ -143,15 +143,22 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, TAX_REVIEW));
         assertTrue("dfogle should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as cswinson", null);
+        SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as dfogle", null);
 
         // this is going to skip a bunch of other routing and end up at campus code
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), CAMPUS_CODE);
-
         // doc should be in "Campus Code" routing to mylarge
         changeCurrentUser(mylarge);
         document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, CAMPUS_CODE));
+        assertTrue("Should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        SpringContext.getBean(DocumentService.class).approveDocument(document, "Approve", null);
+        
+        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), PAYMENT_METHOD);
+        // doc should be in "Campus Code" routing to mylarge
+        changeCurrentUser(UserNameFixture.appleton);
+        document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, PAYMENT_METHOD));
         assertTrue("Should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(document, "Approve", null);
 

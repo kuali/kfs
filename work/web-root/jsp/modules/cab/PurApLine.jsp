@@ -17,7 +17,7 @@
 <script>
 <c:if test="${!empty KualiForm.documentNumber}">
 	var popUpurl = '${KualiForm.docHandlerForwardLink}';
-	window.open(popUpurl, popUpurl);
+	window.open(popUpurl, "${KualiForm.documentNumber}");
 </c:if>
 </script>
 

@@ -18,6 +18,8 @@
 <c:set var="bcieDetailAttributes" value="${DataDictionary.BarcodeInventoryErrorDetail.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
+<c:out value="${readOnly}"/>
+
 <!-- kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="${CamsConstants.BarcodeInventoryError.DETAIL_ERRORS}"-->
 <kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" >
 	<div id="barcodeInventoryDetails" class="tab-container" align=center>
@@ -51,10 +53,8 @@
 			
 			<c:set var="lineNumber" value="${0}"/>
 			<logic:iterate id="detail" name="KualiForm" property="document.barcodeInventoryErrorDetail" indexId="ctr">
-				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>					
-            	<c:if test="${(status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR) || readOnly}">
-            		<c:set var="lineNumber" value="${lineNumber + 1}"/>
-            	</c:if>
+				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>	
+           		<c:set var="lineNumber" value="${lineNumber + 1}"/>
 				<cams:barcodeInventoryErrorDetail
 						barcodeInventoryDetailAttributes="${bcieDetailAttributes}"					
 						propertyName="document.barcodeInventoryErrorDetail[${ctr}]"

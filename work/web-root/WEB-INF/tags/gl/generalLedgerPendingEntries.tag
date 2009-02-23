@@ -111,7 +111,7 @@
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.BalanceTyp" keyValues="code=${generalLedgerPendingEntry.financialBalanceTypeCode}" render="true">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.BalanceType" keyValues="code=${generalLedgerPendingEntry.financialBalanceTypeCode}" render="true">
 						<html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].financialBalanceTypeCode" write="true" value="${generalLedgerPendingEntry.financialBalanceTypeCode}" />
 					</kul:inquiry>
 				</td>

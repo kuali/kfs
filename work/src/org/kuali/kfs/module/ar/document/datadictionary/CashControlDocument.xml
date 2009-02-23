@@ -41,7 +41,7 @@
     <property name="name" value="referenceFinancialDocumentNumber"/>
     <property name="label" value="Reference Document Number"/>
     <property name="shortLabel" value="Reference Document Number"/>
-    <property name="required" value="true"/>      
+    <property name="required" value="false"/>      
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>

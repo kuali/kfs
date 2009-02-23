@@ -35,6 +35,7 @@
 <c:set var="isMaintenance" value="${KualiForm.class.name eq 'org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm' || maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}" />
 
 <%-- if we are maintenance, then we need to rename the generalLedgerPendingEntryProperty, where document.newMaintainableObject actually gives us the business object --%>
+<c:set var="realGeneralLedgerPendingEntryProperty" value="${generalLedgerPendingEntryProperty}" />
 <c:if test="${isMaintenance}">
   <c:set var="generalLedgerPendingEntryProperty" value="${kfsfunc:renamePropertyForMaintenanceFramework(generalLedgerPendingEntryProperty)}" />
 </c:if>
@@ -121,7 +122,7 @@
 				</td>
 				<td class="datacell center">
 					<html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].transactionLedgerEntryAmount" value="${generalLedgerPendingEntry.transactionLedgerEntryAmount}" />
-					<bean:write name="KualiForm" property="${generalLedgerPendingEntryProperty}[${ctr}].currencyFormattedTransactionLedgerEntryAmount" />
+					<bean:write name="KualiForm" property="${realGeneralLedgerPendingEntryProperty}[${ctr}].currencyFormattedTransactionLedgerEntryAmount" />
 				</td>
 				<td class="datacell center"><html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].transactionDebitCreditCode" write="true" value="${generalLedgerPendingEntry.transactionDebitCreditCode}" />&nbsp;</td>
 			</tr>

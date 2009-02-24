@@ -43,7 +43,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String LOCK_INTERNAL_PURCHASING_ENTRY = "lockInternalPurchasingEntry";
         public static final String DISPLAY_RETRANSMIT_TAB = "displayRetransmitTab";
         public static final String AMENDMENT_ENTRY = "amendmentEntry";
-        public static final String PRE_ROUTE_CHANGEABLE = "preRoute";
+        public static final String PRE_ROUTE_CHANGEABLE = "preRouteChangeable";
         public static final String DISPLAY_RECEIVING_ADDRESS = "displayReceivingAddress";
         public static final String SPLITTING_ITEM_SELECTION = "splittingItemSelection";
         public static final String UNORDERED_ITEM_ACCOUNT_ENTRY = "unorderedItemAccountEntry";

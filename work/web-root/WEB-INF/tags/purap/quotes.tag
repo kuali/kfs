@@ -22,6 +22,7 @@
 <%@ attribute name="isPurchaseOrderAwarded" required="true" description="has the PO been awarded?" %>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="preRouteChangeMode" value="${!empty KualiForm.editingMode['preRouteChangeable']}" />
 
 <kul:tab tabTitle="Quote" defaultOpen="false"
 	tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
@@ -225,9 +226,9 @@
 
 		</c:if>
 
-		<c:if test="${not quoteOpen && preRouteChangeMode}">
+		<c:if test="${!quoteOpen && preRouteChangeMode}">
 		<tr>
-			<td colspan="5" class="subhead">
+			<td colspan="5" class="subhead"> 
 				<span class="subhead-right">
 					<html:image
 	property="methodToCall.initiateQuote"
@@ -240,6 +241,5 @@
 		</c:if>
 
 	</table>
-
 	</div>
 </kul:tab>

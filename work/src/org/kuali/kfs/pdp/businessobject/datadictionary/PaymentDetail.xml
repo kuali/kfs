@@ -622,8 +622,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="invTotShipAmount" />  
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.paymentStatus.name" />                       
-              <bean parent="FieldDefinition"
                     p:attributeName="invTotOtherDebitAmount" />  
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.combineGroups" />   

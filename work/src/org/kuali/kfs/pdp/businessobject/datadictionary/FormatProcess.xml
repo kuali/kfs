@@ -106,7 +106,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="FormatProcess-lookupDefinition" parent="FormatProcess-lookupDefinition-parentBean" />
 
   <bean id="FormatProcess-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Format Process Lookup" />
+    <property name="title" value="Format Reset" />
     <property name="lookupableID" value="formatProcessLookupable" />
     <property name="instructions" value="Lookup a Format Process" />
     <property name="defaultSort" >

@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>PTAG</name>
-      <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+      <parent>CapitalAssetBuilderComplexMaintenanceDocument</parent>
       <label>Pre-Asset Tagging</label>
     </documentType>
   </documentTypes>

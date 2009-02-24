@@ -121,20 +121,16 @@
    	
    	<bean id="ObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
-    		<bean parent="ObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chart">
-    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
+    		<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.objectCodeGlobalDetails"/>
+    			<property name="documentValues">
+			   		<list>
+			   			<value>chartOfAccountsCode</value>
+			   		</list>
+		   		</property>
     		</bean>
     	</property>
-   	</bean>
-   	
-   	 <bean id="ObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chart" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
-		<property name="documentValues">
-	   		<list>
-	   			<value>chartOfAccountsCode</value>
-	   		</list>
-   		</property>
-   	</bean>
-  
+   	</bean>  
    	
 	<bean id="ObjectCodeGlobalMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">

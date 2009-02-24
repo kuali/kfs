@@ -24,10 +24,12 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
+import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
+import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
@@ -46,6 +48,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument{
@@ -145,6 +148,14 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     
     public BulkReceivingDocument() {
         super();
+    }
+
+    public boolean isPotentiallySensitive() {
+        List<SensitiveData> sensitiveData = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByRelatedDocId(getAccountsPayablePurchasingDocumentLinkIdentifier());
+        if (ObjectUtils.isNotNull(sensitiveData) && !sensitiveData.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     public void initiateDocument(){

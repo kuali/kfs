@@ -390,4 +390,30 @@
 
   <bean id="CorrectionReceivingDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+
+  <!-- workflow attributes -->
+  <bean id="CorrectionReceivingDocument-workflowAttributes" parent="CorrectionReceivingDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="CorrectionReceivingDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+      <property name="searchingTypeDefinitions">
+          <list>
+              <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">                    
+                  <property name="searchingAttribute">
+                      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument"/>
+                          <property name="attributeName" value="potentiallySensitive"/>
+                          <property name="showAttributeInSearchCriteria" value="false"/>
+                          <property name="showAttributeInResultSet" value="false"/>
+                      </bean>
+                  </property>
+                  <property name="documentValues">
+                      <list>
+                          <value>potentiallySensitive</value>
+                      </list>
+                  </property>
+              </bean>
+          </list>  
+      </property>
+  </bean>
+  
 </beans>

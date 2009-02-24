@@ -1349,14 +1349,14 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
-                            <property name="attributeName" value="purchaseOrderSensitiveData"/>
+                            <property name="attributeName" value="potentiallySensitive"/>
 					        <property name="showAttributeInSearchCriteria" value="false"/>
 					        <property name="showAttributeInResultSet" value="false"/>
                         </bean>
                     </property>
                     <property name="documentValues">
                         <list>
-                            <value>purchaseOrderSensitiveData.sensitiveDataCode</value>
+                            <value>potentiallySensitive</value>
                         </list>
                     </property>
                 </bean>

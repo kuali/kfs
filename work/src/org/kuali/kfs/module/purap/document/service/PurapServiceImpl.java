@@ -70,6 +70,7 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -118,10 +119,6 @@ public class PurapServiceImpl implements PurapService {
         this.documentService = documentService;
     }
 
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
@@ -150,10 +147,6 @@ public class PurapServiceImpl implements PurapService {
         this.parameterDao = parameterDao;
     }
     
-    public TaxService getTaxService() {
-        return taxService;
-    }
-
     public void setTaxService(TaxService taxService) {
         this.taxService = taxService;
     }
@@ -175,6 +168,71 @@ public class PurapServiceImpl implements PurapService {
         else {
             return false;
         }
+    }
+
+    public void saveRoutingDataForRelatedDocuments(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        
+        try {
+            //save requisition routing data
+            List reqViews = getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator iterator = reqViews.iterator(); iterator.hasNext();) {
+                RequisitionView view = (RequisitionView) iterator.next();
+                Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
+                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+            }
+            
+            //save purchase order routing data
+            List poViews = getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator iterator = poViews.iterator(); iterator.hasNext();) {
+                PurchaseOrderView view = (PurchaseOrderView) iterator.next();
+                Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
+                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+            }
+            
+            //save payment request routing data
+            List preqViews = getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator iterator = preqViews.iterator(); iterator.hasNext();) {
+                PaymentRequestView view = (PaymentRequestView) iterator.next();
+                Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
+                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+            }
+            
+            //save credit memo routing data
+            List cmViews = getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator iterator = cmViews.iterator(); iterator.hasNext();) {
+                CreditMemoView view = (CreditMemoView) iterator.next();
+                Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
+                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+            }
+            
+            //save line item receiving routing data
+            List lineViews = getRelatedViews(LineItemReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator iterator = lineViews.iterator(); iterator.hasNext();) {
+                LineItemReceivingView view = (LineItemReceivingView) iterator.next();
+                Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
+                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+            }
+
+            //save correction receiving routing data
+            List corrViews = getRelatedViews(CorrectionReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator iterator = corrViews.iterator(); iterator.hasNext();) {
+                CorrectionReceivingView view = (CorrectionReceivingView) iterator.next();
+                Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
+                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+            }
+            
+            //save bulk receiving routing data
+            List bulkViews = getRelatedViews(BulkReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator iterator = bulkViews.iterator(); iterator.hasNext();) {
+                BulkReceivingView view = (BulkReceivingView) iterator.next();
+                Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
+                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+            }
+        }
+        catch (WorkflowException e) {
+            throw new InfrastructureException("unable to save routing data for related docs", e);
+        }
+
     }
 
     /**
@@ -238,7 +296,6 @@ public class PurapServiceImpl implements PurapService {
         return documentIdList;
     }
 
-    
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#getRelatedViews(java.lang.Class, java.lang.Integer)
      */

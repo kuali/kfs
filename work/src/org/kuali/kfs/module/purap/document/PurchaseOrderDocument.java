@@ -296,7 +296,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.purchaseOrderSensitiveData = purchaseOrderSensitiveData;
     }
     
-
     public ContractManager getContractManager() {
         if (ObjectUtils.isNull(contractManager))
             refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);

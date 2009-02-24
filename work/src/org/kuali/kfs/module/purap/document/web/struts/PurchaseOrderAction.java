@@ -650,8 +650,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         SpringContext.getBean(BusinessObjectService.class).save(posds);
 
         // need this to update workflow doc for searching restrictions on sensitive data
-        po.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-                
+        SpringContext.getBean(PurapService.class).saveRoutingDataForRelatedDocuments(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
+
         // reset the sensitive data related fields in the po form
         poForm.setAssigningSensitiveData(false);
         

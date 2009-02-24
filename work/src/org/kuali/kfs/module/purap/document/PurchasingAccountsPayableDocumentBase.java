@@ -32,10 +32,12 @@ import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
@@ -137,6 +139,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return null;
     }
     
+    public boolean isPotentiallySensitive() {
+        List<SensitiveData> sensitiveData = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByRelatedDocId(getAccountsPayablePurchasingDocumentLinkIdentifier());
+        if (ObjectUtils.isNotNull(sensitiveData) && !sensitiveData.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isInquiryRendered()
      */

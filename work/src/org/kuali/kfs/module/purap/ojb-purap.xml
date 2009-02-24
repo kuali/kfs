@@ -3455,7 +3455,7 @@
     <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="creditMemoStatusCode" />
     </reference-descriptor>   
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 </class-descriptor>

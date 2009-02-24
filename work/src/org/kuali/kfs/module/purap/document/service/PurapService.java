@@ -44,6 +44,8 @@ public interface PurapService {
 
     public List<String> getRelatedDocumentIds(Integer accountsPayablePurchasingDocumentLinkIdentifier);
     
+    public void saveRoutingDataForRelatedDocuments(Integer accountsPayablePurchasingDocumentLinkIdentifier);
+    
     /**
      * Retrieve list of views for given identifier
      * 

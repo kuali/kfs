@@ -1089,7 +1089,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
+    public PaymentRequestDocument removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
         documentService.addNoteToDocument(document, noteObj);
@@ -1102,6 +1102,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         // must also save it on the incoming document
         clearRequestCancelFields(document);
+        
+        return preqDoc;
     }
 
     /**

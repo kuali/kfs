@@ -151,7 +151,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param note        The note to be added to the payment request document upon the removal of the request cancel.
      * @throws Exception
      */
-    public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
+    public PaymentRequestDocument removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
 
     /**
      * Resets a Payment Request that had an associated Payment Request or Credit Memo cancelled externally.

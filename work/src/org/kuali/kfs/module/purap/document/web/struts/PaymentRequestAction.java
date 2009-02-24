@@ -278,7 +278,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         PurQuestionCallback callback = new PurQuestionCallback() {
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringContext.getBean(PaymentRequestService.class).removeRequestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
+                document = SpringContext.getBean(PaymentRequestService.class).removeRequestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
                 return document;
             }
         };

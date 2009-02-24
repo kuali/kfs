@@ -71,6 +71,8 @@
         <ref bean="VendorCreditMemoDocument-useTaxIndicator"/>
         <ref bean="VendorCreditMemoDocument-bankCode"/>
         <ref bean="VendorCreditMemoDocument-statusCodeForMultiboxSearching"/>
+        <ref bean="VendorCreditMemoDocument-extractedTimestampForSearching"/>
+        <ref bean="VendorCreditMemoDocument-holdIndicatorForSearching"/>
       </list>
     </property>
     <property name="validationMap" ref="VendorCreditMemoDocument-validations"/>
@@ -179,6 +181,7 @@
     <property name="label" value="AP Processed Date"/>
     <property name="shortLabel" value="Date"/>
   </bean>
+  
   <bean id="VendorCreditMemoDocument-holdIndicator" parent="VendorCreditMemoDocument-holdIndicator-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-holdIndicator-parentBean" abstract="true" parent="AttributeDefinition">
@@ -191,6 +194,15 @@
       <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
+  
+  <bean id="VendorCreditMemoDocument-holdIndicatorForSearching" parent="VendorCreditMemoDocument-holdIndicator-parentBean">
+  	<property name="name" value="holdIndicatorForSearching"/>
+  	<property name="label" value="Hold"/>
+   	<property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapYesNoValuesFinder" p:includeKeyInLabel="false"/>
+    </property> 	
+  </bean>  
+  
   <bean id="VendorCreditMemoDocument-extractedTimestamp" parent="VendorCreditMemoDocument-extractedTimestamp-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-extractedTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
@@ -198,6 +210,15 @@
     <property name="label" value="Extract Date"/>
     <property name="shortLabel" value="Extract Date"/>
   </bean>
+  
+  <bean id="VendorCreditMemoDocument-extractedTimestampForSearching" parent="VendorCreditMemoDocument-extractedTimestamp-parentBean">
+  	<property name="name" value="extractedTimestampForSearching"/>
+  	<property name="label" value="Extracted"/>
+  	<property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapYesNoValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+    
   <bean id="VendorCreditMemoDocument-processingCampusCode" parent="VendorCreditMemoDocument-processingCampusCode-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-processingCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
@@ -713,7 +734,7 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
-    						<property name="attributeName" value="extractedTimestamp"/>
+    						<property name="attributeName" value="extractedTimestampForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -726,7 +747,7 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
-    						<property name="attributeName" value="holdIndicator"/>
+    						<property name="attributeName" value="holdIndicatorForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">

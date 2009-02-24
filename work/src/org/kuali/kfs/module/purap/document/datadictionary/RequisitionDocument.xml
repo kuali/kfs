@@ -1043,7 +1043,7 @@
 			<entry>
 				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedPurchasingAccountsPayableAccountValidationEvent</value></key>
 				<value>Requisition-purchasingAccountsPayableAccountValidation</value>				
-			</entry>	
+			</entry>												
 			<entry>
 				<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedCommodityCodesForDistributionEvent</value></key>
 				<value>Requisition-commodityCodesForDistributionValidation</value>
@@ -1190,7 +1190,6 @@
     					</list>
     				</property>
     			</bean>
-    			<ref bean="SearchingType-PurchasingAccountsPayableDocument-financialDocumentTotalAmount"/>
           		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

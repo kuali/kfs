@@ -77,6 +77,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private boolean generateEncumbranceEntries;
     private String debitCreditCodeForGLEntries;
     protected PurApItemUseTax offsetUseTax;
+    
+    // OTHER NOT PERSISTED IN DB
+    private Timestamp extractedTimestampForSearching;
+    private boolean holdIndicatorForSearching;
 
     // REFERENCE OBJECTS
     private Campus processingCampus;
@@ -448,6 +452,22 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     public void setUnmatchedOverride(boolean unmatchedOverride) {
         this.unmatchedOverride = unmatchedOverride;
+    }
+ 
+    public Timestamp getExtractedTimestampForSearching() {
+        return extractedTimestampForSearching;
+    }
+
+    public void setExtractedTimestampForSearching(Timestamp extractedTimestampForSearching) {
+        this.extractedTimestampForSearching = extractedTimestampForSearching;
+    }
+    
+    public boolean isHoldIndicatorForSearching() {
+        return holdIndicatorForSearching;
+    }
+
+    public void setHoldIndicatorForSearching(boolean holdIndicatorForSearching) {
+        this.holdIndicatorForSearching = holdIndicatorForSearching;
     }
 
     /**

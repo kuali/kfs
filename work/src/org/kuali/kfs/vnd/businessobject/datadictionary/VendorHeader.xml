@@ -144,6 +144,11 @@
             p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.TaxPayerTypeWithNoneValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
+    <property name="attributeSecurity">
+			<bean parent="AttributeSecurity">
+  				<property name="readOnly" value="true" /> 
+  			</bean>
+    </property>
   </bean>
   <bean id="VendorHeader-vendorTypeCode" parent="VendorHeader-vendorTypeCode-parentBean" />
 

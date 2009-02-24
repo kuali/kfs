@@ -22,7 +22,7 @@
 <%@ attribute name="isPurchaseOrderAwarded" required="true" description="has the PO been awarded?" %>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-<c:set var="preRouteChangeMode" value="${!empty KualiForm.editingMode['preRouteChangeable']}" />
+<c:set var="preRouteChangeMode" value="${!empty KualiForm.editingMode['preRoute']}" />
 
 <kul:tab tabTitle="Quote" defaultOpen="false"
 	tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">

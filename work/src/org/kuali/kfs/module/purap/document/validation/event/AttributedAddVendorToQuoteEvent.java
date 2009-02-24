@@ -39,4 +39,14 @@ public final class AttributedAddVendorToQuoteEvent extends AttributedDocumentEve
         super("adding vendor to document " + getDocumentId(document), errorPathPrefix, document);
         this.vendorQuote = vendorQuote;
     }
+
+    public PurchaseOrderVendorQuote getVendorQuote() {
+        return vendorQuote;
+    }
+
+    public void setVendorQuote(PurchaseOrderVendorQuote vendorQuote) {
+        this.vendorQuote = vendorQuote;
+    }
+    
+    
 }

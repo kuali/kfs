@@ -30,7 +30,7 @@
         <c:set var="lockB2BEntry" value="true" scope="request" />
     </c:if>
 
-	<c:if test="${!empty KualiForm.editingMode['preRouteChangeable']}">
+	<c:if test="${!empty KualiForm.editingMode['preRoute']}">
 		<c:set var="preRouteChangeMode" value="true" scope="request" />
 	</c:if>
 

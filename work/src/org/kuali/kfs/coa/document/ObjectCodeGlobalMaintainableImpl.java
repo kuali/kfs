@@ -44,30 +44,23 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     private static String CHANGE_DETAIL_COLLECTION = "objectCodeGlobalDetails";
 
-    /**
-     * This method sets the current fiscal year from the {@link ObjectCodeGlobalDetail} on the {@link ObjectCodeGlobal}
-     * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
-     *      org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        // if our detail objects have a null fiscal year we need to fill these in with the "addLine" fiscal year
-        // otherwise we leave it alone, these should only be null when coming back from a multiple value lookup
-        if (refreshCaller != null && refreshCaller.equals(KFSConstants.MULTIPLE_VALUE)) {
-            ObjectCodeGlobal objectCodeGlobal = (ObjectCodeGlobal) document.getDocumentBusinessObject();
-            ObjectCodeGlobalDetail addLineDetail = (ObjectCodeGlobalDetail) newCollectionLines.get(CHANGE_DETAIL_COLLECTION);
-            int fiscalYear = addLineDetail.getUniversityFiscalYear();
-            for (ObjectCodeGlobalDetail detail : objectCodeGlobal.getObjectCodeGlobalDetails()) {
-                if (detail.getUniversityFiscalYear() == null) {
+    //@Override
+    //public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+    //  if our detail objects have a null fiscal year we need to fill these in with the "addLine" fiscal year
+    //      otherwise we leave it alone, these should only be null when coming back from a multiple value lookup
+    //    if (refreshCaller != null && refreshCaller.equals(KFSConstants.MULTIPLE_VALUE)) {
+    //        ObjectCodeGlobal objectCodeGlobal = (ObjectCodeGlobal) document.getDocumentBusinessObject();
+    //        ObjectCodeGlobalDetail addLineDetail = (ObjectCodeGlobalDetail) newCollectionLines.get(CHANGE_DETAIL_COLLECTION);
+    //        int fiscalYear = addLineDetail.getUniversityFiscalYear();
+    //        for (ObjectCodeGlobalDetail detail : objectCodeGlobal.getObjectCodeGlobalDetails()) {
+    //            if (detail.getUniversityFiscalYear() == null) {
+    //                detail.setUniversityFiscalYear(fiscalYear);
+    //            }
+    //        }
+    //    }
 
-                    detail.setUniversityFiscalYear(fiscalYear);
-                }
-            }
-        }
-
-        super.refresh(refreshCaller, fieldValues, document);
-    }
+    //    super.refresh(refreshCaller, fieldValues, document);
+    //}
 
     //
     // @Override

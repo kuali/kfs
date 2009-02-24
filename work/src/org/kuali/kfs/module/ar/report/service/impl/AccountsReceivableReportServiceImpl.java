@@ -350,7 +350,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         File report = service.generateReport(reportDataHolder, runDate);
 
         invoice.setPrintDate(runDate);
-        invoice.setPrintInvoiceIndicator("Y");
         DocumentService docService = SpringContext.getBean(DocumentService.class);
         try {
             docService.saveDocument(invoice);

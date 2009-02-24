@@ -37,6 +37,10 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
         if (documentActionsFromPresentationController.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT) && canErrorCorrect(document, user)) {
             documentActionsToReturn.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
         }
+        if (documentActionsFromPresentationController.contains(KFSConstants.KFS_ACTION_CAN_EDIT_BANK) && canEditBankCode(document, user)) {
+            documentActionsToReturn.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
+        }
+        
         return documentActionsToReturn;
     }
 
@@ -49,5 +53,16 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
      */
     public boolean canErrorCorrect(Document document, Person user) {
         return isAuthorizedByTemplate(document, KFSConstants.ParameterNamespaces.KFS, PermissionTemplate.ERROR_CORRECT_DOCUMENT.name, user.getPrincipalId());
+    }
+    
+    /**
+     * Determines if the KIM permission is available to error correct the given document
+     * 
+     * @param document the document to correct
+     * @param user the user to check error correction for
+     * @return true if the user can error correct, false otherwise
+     */
+    public boolean canEditBankCode(Document document, Person user) {
+        return isAuthorizedByTemplate(document, KFSConstants.ParameterNamespaces.KFS, PermissionTemplate.EDIT_BANK_CODE.name, user.getPrincipalId());
     }
 }

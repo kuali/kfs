@@ -1222,7 +1222,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public enum PermissionTemplate {
         DEFAULT("Default"), ERROR_CORRECT_DOCUMENT("Error Correct Document"),
         MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment"),
-        MODIFY_BATCH_JOB("Modify Batch Job");
+        MODIFY_BATCH_JOB("Modify Batch Job"), EDIT_BANK_CODE("Edit Bank Code");
 
         public final String name;
         private PermissionTemplate(String name) {
@@ -1240,6 +1240,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";
+    public static final String KFS_ACTION_CAN_EDIT_BANK = "canEditBank";
+    
 
     public static final String AMOUNT_TOTALING_EDITING_MODE = "amountTotaling";
     public static final String BANK_ENTRY_VIEWABLE_EDITING_MODE = "bankEntryViewable";

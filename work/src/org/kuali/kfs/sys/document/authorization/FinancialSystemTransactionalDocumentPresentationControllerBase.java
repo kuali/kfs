@@ -80,6 +80,9 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         if (canErrorCorrect((FinancialSystemTransactionalDocument) document)) {
             documentActions.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
         }
+        if (canHaveBankEntry(document)) {
+            documentActions.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
+        }
         return documentActions;
     }
 
@@ -96,7 +99,6 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
 
         if (this.canHaveBankEntry(document)) {
             editModes.add(KFSConstants.BANK_ENTRY_VIEWABLE_EDITING_MODE);
-            editModes.add(KFSConstants.BANK_ENTRY_EDITABLE_EDITING_MODE);
         }
 
         return editModes;

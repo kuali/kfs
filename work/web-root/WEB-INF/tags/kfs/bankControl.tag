@@ -27,7 +27,7 @@
 
 <c:if test="${KualiForm.editingMode[KFSConstants.BANK_ENTRY_VIEWABLE_EDITING_MODE]}">
 
-  <c:if test="${empty KualiForm.editingMode[KFSConstants.BANK_ENTRY_EDITABLE_EDITING_MODE]}">
+  <c:if test="${empty KualiForm.documentActions[KFSConstants.KFS_ACTION_CAN_EDIT_BANK]}">
     <c:set var="readOnly" value="true" />
   </c:if>
   

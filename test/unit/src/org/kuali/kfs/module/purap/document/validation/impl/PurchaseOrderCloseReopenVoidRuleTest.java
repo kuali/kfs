@@ -39,7 +39,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=true)
-@RelatesTo(JiraIssue.KULPURAP3268)
+@RelatesTo(JiraIssue.KULPURAP3413)
 public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
 
     private Map<String, Validation> validations;

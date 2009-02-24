@@ -60,21 +60,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
                 if (shouldRenderInquiryLink()) {
                     out.write(buildEndInquiryLink());
                 }
-                
-                Boolean isSessionDoc = (Boolean) pageContext.getRequest().getAttribute("sessionDoc");
-                if(isSessionDoc != null && !isSessionDoc.booleanValue()){
-                    persistingTag.setPageContext(pageContext);
-                    persistingTag.setParent(parentTag);
-                    persistingTag.setProperty(getFieldName());
-                    if (getField().isSecure()) {
-                        persistingTag.setValue(getField().getEncryptedValue());
-                    } else {
-                        persistingTag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
-                    }
-                    persistingTag.doStartTag();
-                    persistingTag.doEndTag();
-                }
-                
+                                
                 out.write(buildEndSpan());
             } else {
                 out.write(buildNonBreakingSpace());

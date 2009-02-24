@@ -19,7 +19,7 @@
 <%@ attribute name="excludePostingYear" required="false" %>
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
-<c:set var="sessionDocument" value="${documentEntry.sessionDocument}" />
+
 
 <%-- set default values --%>
 <c:if test="${empty isFinancialDocument}">
@@ -37,14 +37,5 @@
         <html:hidden property="document.postingYear" /> 
     </c:if>
     <html:hidden property="document.postingPeriodCode" /> 	
-    <c:choose>
-	 <c:when test="${KualiForm.document.sessionDocument || sessionDocument}">
-	 </c:when>
-	<c:otherwise>
-    <html:hidden property="document.nextSourceLineNumber" />
-    <html:hidden property="document.nextTargetLineNumber" />
-    <html:hidden property="document.documentHeader.financialDocumentInErrorNumber" />
-    <html:hidden property="document.documentHeader.correctedByDocumentId" />
-</c:otherwise>
- </c:choose>
+
  </c:if>

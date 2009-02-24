@@ -25,7 +25,6 @@
 <%@ attribute name="viewOnly" required="false" %>
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
-<c:set var="sessionDocument" value="${documentEntry.sessionDocument}" />
 
 <kul:documentControls
 transactionalDocument="${transactionalDocument}"

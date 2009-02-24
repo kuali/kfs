@@ -156,18 +156,10 @@ public class OverrideFieldRenderer extends FieldRendererBase {
      * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
-        Boolean isSessionDoc = (Boolean) pageContext.getRequest().getAttribute("sessionDoc");
         if ((readOnly && getField().getPropertyValue().equals("Yes")) || overrideNeededValue.equals("Yes")) {
             renderOverrideAsNonHidden(pageContext, parentTag);
             renderOverridePresent(pageContext, parentTag);
         } else {
-            if(isSessionDoc != null && !isSessionDoc.booleanValue()){
-                renderOverrideAsHidden(pageContext, parentTag);
-                renderOverridePresent(pageContext, parentTag);
-            }
-        }
-        if(isSessionDoc != null && !isSessionDoc.booleanValue()){
-            renderOverrideNeededField(pageContext, parentTag);
         }
    }
     

@@ -236,37 +236,37 @@
 																		<td>
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.sequenceNumber}"
-																				property="customerInvoiceDetail[${ctr}].sequenceNumber"
+																				property="customerInvoiceDetails[${ctr}].sequenceNumber"
 																				readOnly="true" />
 																		</td>
 																		<td>
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode}"
-																				property="customerInvoiceDetail[${ctr}].chartOfAccountsCode"
+																				property="customerInvoiceDetails[${ctr}].chartOfAccountsCode"
 																				readOnly="true" />
 																		</td>
 																		<td>
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.accountNumber}"
-																				property="customerInvoiceDetail[${ctr}].accountNumber"
+																				property="customerInvoiceDetails[${ctr}].accountNumber"
 																				readOnly="true" />
 																		</td>
 																		<td>
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}"
-																				property="customerInvoiceDetail[${ctr}].invoiceItemDescription"
+																				property="customerInvoiceDetails[${ctr}].invoiceItemDescription"
 																				readOnly="true" />
 																		</td>
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.amount}"
-																				property="customerInvoiceDetail[${ctr}].amount"
+																				property="customerInvoiceDetails[${ctr}].amount"
 																				readOnly="true" />
 																		</td>
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.balance}"
-																				property="customerInvoiceDetail[${ctr}].amountOpen"
+																				property="customerInvoiceDetails[${ctr}].amountOpen"
 																				readOnly="true" />
 																		</td>
 																		<td style="text-align: right;">
@@ -275,12 +275,12 @@
 																				readOnly="${readOnly}"
 																				styleClass="amount"
 																				attributeEntry="${customerInvoiceDetailAttributes.amountApplied}"
-																				property="customerInvoiceDetail[${ctr}].amountApplied" />
+																				property="customerInvoiceDetails[${ctr}].amountApplied" />
 																		</td>
 																		<c:if test="${readOnly ne true}">
 																			<td>
 																				<center>
-																					<html:checkbox disabled="${true eq disableQuickApplyToDetails}" title="Apply Full Amount" property="customerInvoiceDetail[${ctr}].fullApply" value="true" />
+																					<html:checkbox disabled="${true eq disableQuickApplyToDetails}" title="Apply Full Amount" property="customerInvoiceDetails[${ctr}].fullApply" value="true" />
 																				</center>
 																			</td>
 																		</c:if>

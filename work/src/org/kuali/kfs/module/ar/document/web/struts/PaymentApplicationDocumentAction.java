@@ -246,7 +246,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     if(null != nonInvoiced) {
                         // add advanceDeposit
                         paymentApplicationDocument.getNonInvoiceds().add(nonInvoiced);
-                        
+    
                         // Set the NonInvoicedItemNumbers properly
                         Integer nonInvoicedItemNumber = 1;
                         for (NonInvoiced n : paymentApplicationDocument.getNonInvoiceds()) {
@@ -546,16 +546,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward goToNextInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
-        String currentInvoiceNumber = paymentApplicationDocumentForm.getNextInvoiceDocumentNumber();
-        if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
-
-            // set entered invoice number to be the current selected invoice number
-            paymentApplicationDocumentForm.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
-            paymentApplicationDocumentForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
-            // load information for the current selected invoice
-            //paymentApplicationDocumentForm.setSelectedInvoiceDocument(customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(currentInvoiceNumber));
-        }
-
+        loadInvoices(paymentApplicationDocumentForm, paymentApplicationDocumentForm.getNextInvoiceDocumentNumber());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -571,16 +562,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward goToPreviousInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
-        String currentInvoiceNumber = paymentApplicationDocumentForm.getPreviousInvoiceDocumentNumber();
-        if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
-
-            // set entered invoice number to be the current selected invoice number
-            paymentApplicationDocumentForm.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
-            paymentApplicationDocumentForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
-            // load information for the current selected invoice
-            //paymentApplicationDocumentForm.setSelectedInvoiceDocument(customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(currentInvoiceNumber));
-        }
-
+        loadInvoices(paymentApplicationDocumentForm, paymentApplicationDocumentForm.getPreviousInvoiceDocumentNumber());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

@@ -43,10 +43,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -543,7 +545,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualCreditUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
             actualCreditUnapplied.setFinancialSubObjectCode(unappliedSubObjectCode);
+            actualCreditUnapplied.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(actualCreditUnapplied);
+            sequenceHelper.increment();
             
             GeneralLedgerPendingEntry actualDebitUnapplied = new GeneralLedgerPendingEntry();
             actualDebitUnapplied.setUniversityFiscalYear(getPostingYear());
@@ -558,7 +562,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             if(null == cashControlDocument) {
                 actualDebitUnapplied.setFinancialSubObjectCode(unappliedSubObjectCode);
             }
+            actualDebitUnapplied.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(actualDebitUnapplied);
+            sequenceHelper.increment();
             
             // Offsets for unapplied entries are just offsets to themselves, same info.
             // So set the values into the offsets based on the values in the actuals.
@@ -571,7 +577,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditUnapplied.setFinancialObjectTypeCode(actualDebitUnapplied.getFinancialObjectTypeCode());
             offsetCreditUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             offsetCreditUnapplied.setTransactionLedgerEntryAmount(actualDebitUnapplied.getTransactionLedgerEntryAmount());
+            offsetCreditUnapplied.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(offsetCreditUnapplied);
+            sequenceHelper.increment();
             
             GeneralLedgerPendingEntry offsetDebitUnapplied = new GeneralLedgerPendingEntry();
             offsetDebitUnapplied.setUniversityFiscalYear(actualCreditUnapplied.getUniversityFiscalYear());
@@ -582,7 +590,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitUnapplied.setFinancialObjectTypeCode(actualCreditUnapplied.getFinancialObjectTypeCode());
             offsetDebitUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             offsetDebitUnapplied.setTransactionLedgerEntryAmount(actualCreditUnapplied.getTransactionLedgerEntryAmount());
+            offsetDebitUnapplied.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(offsetDebitUnapplied);
+            sequenceHelper.increment();
         }
         
         // Generate glpes for non-ar
@@ -598,7 +608,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setFinancialObjectTypeCode(nonInvoiced.getFinancialObject().getFinancialObjectTypeCode());
             actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            actualCreditEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(actualCreditEntry);
+            sequenceHelper.increment();
             
             GeneralLedgerPendingEntry actualDebitEntry = new GeneralLedgerPendingEntry();
             actualDebitEntry.setUniversityFiscalYear(getPostingYear());
@@ -609,7 +621,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitEntry.setFinancialObjectTypeCode(nonInvoiced.getFinancialObject().getFinancialObjectTypeCode());
             actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            actualDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(actualDebitEntry);
+            sequenceHelper.increment();
 
             // Offset entries
             GeneralLedgerPendingEntry offsetDebitEntry = new GeneralLedgerPendingEntry();
@@ -627,7 +641,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             offsetDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
             offsetDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            offsetDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(offsetDebitEntry);
+            sequenceHelper.increment();
             
             GeneralLedgerPendingEntry offsetCreditEntry = new GeneralLedgerPendingEntry();
             offsetCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
@@ -645,8 +661,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             offsetCreditEntry.setFinancialDocumentTypeCode(cashControlDocumentTypeCode);
             offsetCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            offsetCreditEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(offsetCreditEntry);
-            
+            sequenceHelper.increment();
         }
         
         // Generate GLPEs for applied payments
@@ -675,6 +692,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitEntry.setFinancialObjectTypeCode(unappliedCashObjectCode.getFinancialObjectTypeCode());
             actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            actualDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(actualDebitEntry);
             sequenceHelper.increment();
             
@@ -689,6 +707,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), actualDebitEntry, sequenceHelper, actualCreditEntry);
+            actualCreditEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(actualCreditEntry);
             sequenceHelper.increment();
             
@@ -702,6 +721,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
             offsetDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             offsetDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            offsetDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(offsetDebitEntry);
             sequenceHelper.increment();
 
@@ -719,6 +739,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), offsetDebitEntry, sequenceHelper, offsetCreditEntry);
             generatedEntries.add(offsetCreditEntry);
             sequenceHelper.increment();
+        }
+        
+        // Set the origination code for all entries.
+        for(GeneralLedgerPendingEntry entry : generatedEntries) {
+            entry.setFinancialSystemOriginationCode("01");
         }
         
         return generatedEntries;

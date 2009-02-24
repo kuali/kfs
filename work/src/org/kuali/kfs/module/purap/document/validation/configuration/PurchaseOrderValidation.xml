@@ -262,7 +262,7 @@
 								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
 							</bean>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="purchaseOrderVendorQuote" />
+								<property name="sourceEventProperty" value="vendorQuote" />
 								<property name="targetValidationProperty" value="vendorQuote" />
 							</bean>							
 						</list>

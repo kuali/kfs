@@ -25,12 +25,19 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer;
+import org.kuali.kfs.module.cam.document.authorization.AssetPaymentDocumentAuthorizer;
+import org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -66,8 +73,6 @@ public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelp
             anchorHtmlDataList.add(super.getViewAssetUrl(asset));
         }
         else {
-            //anchorHtmlDataList.add(super.getUrlData(asset, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, assetPrimaryKey));            
-
             anchorHtmlDataList.add(this.getAssetUrl(asset));
             anchorHtmlDataList.add(super.getLoanUrl(asset));
             anchorHtmlDataList.add(super.getMergeUrl(asset));
@@ -94,46 +99,58 @@ public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelp
         }
         return super.getInquiryUrl(businessObject, propertyName);
     }
-    
+
     protected HtmlData getPaymentUrl(Asset asset) {
-        // Only active capital assets will have the payment link.
-        if (assetService.isCapitalAsset(asset)) {
+        AssetPaymentDocumentAuthorizer assetPaymentAuhorizer =new AssetPaymentDocumentAuthorizer();
+        boolean isAuhtorize = assetPaymentAuhorizer.canInitiate(CamsConstants.DocumentTypeName.PAYMENT, GlobalVariables.getUserSession().getPerson());
+        
+        if (assetService.isCapitalAsset(asset) && isAuhtorize) {
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
             parameters.put(CamsPropertyConstants.AssetPaymentDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
             parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
             parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, CamsConstants.DocumentTypeName.PAYMENT);
-    
+
             String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.PAYMENT, parameters);
-    
+
             return new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.PAYMENT);
         } else {
             return new AnchorHtmlData("", "", CamsConstants.AssetActions.PAYMENT);
         }
     }
 
+    
     protected HtmlData getSeparateUrl(AssetPayment assetPayment) {
-        Properties parameters = getSeparateParameters(assetPayment.getAsset());
+        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.RETIREMENT);
+        boolean isAuthorized = documentAuthorizer.isAuthorized(new Asset(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.SEPARATE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
-        parameters.put(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER, assetPayment.getPaymentSequenceNumber().toString());
-
-        String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
-
-        return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
-    }
+        if (isAuthorized) {
+            Properties parameters = getSeparateParameters(assetPayment.getAsset());
+            parameters.put(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER, assetPayment.getPaymentSequenceNumber().toString());
+            String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
+            return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
+        } else {
+                return new AnchorHtmlData("", "", CamsConstants.AssetActions.SEPARATE);
+            }
+        }
         
     protected HtmlData getAssetUrl(Asset asset) {
+        AssetAuthorizer assetAuthorizer = new AssetAuthorizer();
+        boolean isAuthorized = assetAuthorizer.canMaintain(asset, GlobalVariables.getUserSession().getPerson());
+        
+        if (isAuthorized) {
             Properties parameters = new Properties();            
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
             parameters.put(CamsPropertyConstants.AssetPaymentDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
             parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Asset.class.getName());
     
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
-    
-            
             return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+        } else {
+            return new AnchorHtmlData("", "", KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+        }
     }
-    
+
     /**
      * Gets the businessObjectService attribute.
      * 

@@ -34,6 +34,7 @@ import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -332,7 +333,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     
     public ActionForward route (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
-        
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(preq);
         if (preq.isClosePurchaseOrderIndicator()) {
             PurchaseOrderDocument po = preq.getPurchaseOrderDocument();
             if (po.canClosePOForTradeIn()) {
@@ -353,6 +354,17 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         }
     }
 
+    /**
+     * Overrides to invoke the updateAccountAmounts so that the account percentage will be 
+     * correctly updated before validation for account percent is called.
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward approve (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(preq);
+        return super.approve(mapping, form, request, response);
+    }
+    
     /**
      * Checks if tax calculation is required. 
      * Currently it is required when preq is awaiting for tax approval and tax has not already been calculated. 

@@ -123,7 +123,12 @@ public class ReconciliationServiceImpl implements ReconciliationService {
         for (GlAccountLineGroup glAccountLineGroup : glKeySet) {
             PurApAccountLineGroup purapAccountLineGroup = this.purapAcctGroupMap.get(glAccountLineGroup);
             KualiDecimal glAmt = this.glEntryGroupMap.get(glAccountLineGroup).getAmount();
-            if (purapAccountLineGroup == null || !glAmt.equals(purapAccountLineGroup.getAmount())) {
+            /** ******************************* */
+            // FIXME - this is hack for now, amounts are halved to match GL duplication
+            KualiDecimal halfGlAmt = glAmt.divide(new KualiDecimal(2));
+            /** ******************************* */
+            if (purapAccountLineGroup == null || (!glAmt.equals(purapAccountLineGroup.getAmount()) && !halfGlAmt.equals(purapAccountLineGroup.getAmount()))) {
+                /** ******************************* */
                 LOG.debug("GL account line " + glAccountLineGroup.toString() + " did not find a matching purchasing account line group");
                 misMatchedGroups.add(glAccountLineGroup);
             }

@@ -97,6 +97,9 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
     public KualiDecimal getExtendedPrice() {
         if (ObjectUtils.isNotNull(this.getItemUnitPrice()) && this.getItemType().isAmountBasedGeneralLedgerIndicator()) {
             extendedPrice = new KualiDecimal(this.getItemUnitPrice().toString());
+        }else if (ObjectUtils.isNull(this.getItemUnitPrice()) && this.getItemType().isAmountBasedGeneralLedgerIndicator()){
+            // extendedPrice should be null if the unit price is null - KULPURAP-3274
+            extendedPrice = null;
         }
         return extendedPrice;
     }

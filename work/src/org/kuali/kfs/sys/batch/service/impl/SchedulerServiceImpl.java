@@ -436,6 +436,9 @@ public class SchedulerServiceImpl implements SchedulerService {
             }
             for (String dependencyJobName : getJobDependencies(jobDetail.getName()).keySet()) {
                 JobDetail dependencyJobDetail = getScheduledJobDetail(dependencyJobName);
+                if ( dependencyJobDetail == null ) {
+                    LOG.error( "Unable to get JobDetail for dependency of " + jobDetail.getName() + " : " + dependencyJobName );
+                }
                 if (!isDependencySatisfiedPositively(jobDetail, dependencyJobDetail)) {
                     return false;
                 }
@@ -505,7 +508,11 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     private JobDetail getScheduledJobDetail(String jobName) {
         try {
-            return scheduler.getJobDetail(jobName, SCHEDULED_GROUP);
+            JobDetail jobDetail = scheduler.getJobDetail(jobName, SCHEDULED_GROUP);
+            if ( jobDetail == null ) {
+                LOG.error( "Unable to obtain the job details for the scheduled version of: " + jobName );
+            }
+            return jobDetail;
         }
         catch (SchedulerException e) {
             throw new RuntimeException("Caught scheduler exception while getting job detail: " + jobName, e);

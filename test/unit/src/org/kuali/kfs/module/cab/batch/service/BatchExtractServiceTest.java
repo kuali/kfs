@@ -34,8 +34,6 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.DateUtils;
@@ -71,7 +69,7 @@ public class BatchExtractServiceTest extends BatchTestBase {
         batchExtractService.saveFPLines(fpLines, processLog);
         Collection<GeneralLedgerEntry> fpGls = boService.findAll(GeneralLedgerEntry.class);
         assertEquals(2, fpGls.size());
-        Timestamp ts = new Timestamp(DateUtils.parseDate("01/01/1970 23:59:59", new String[] { CabConstants.DATE_FORMAT_TS }).getTime());
+        Timestamp ts = new Timestamp(DateUtils.parseDate("01/01/1970 23:59:59", new String[] { CabConstants.DateFormats.MONTH_DAY_YEAR + " " + CabConstants.DateFormats.MILITARY_TIME }).getTime());
         // Test updating the last extract time stamp
         batchExtractService.updateLastExtractTime(ts);
         Map<String, String> primaryKeys = new LinkedHashMap<String, String>();

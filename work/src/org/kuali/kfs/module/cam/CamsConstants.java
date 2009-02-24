@@ -37,6 +37,15 @@ public class CamsConstants extends JSTLConstants {
     public static final String INQUIRY_URL = "inquiry.do";
     public static final Currency CURRENCY_USD = Currency.getInstance("USD");
 
+    public static class DateFormats {
+        public static final String MONTH_DAY_YEAR = "MM/dd/yyyy";
+        public static final String YEAR_MONTH_DAY = "yyyy-MM-dd";
+        public static final String MILITARY_TIME = "HH:mm:ss";
+        public static final String STANDARD_TIME = "hh:mm:ss";
+        public static final String YEAR_MONTH_DAY_NO_DELIMITER = "yyyyMMdd";
+        public static final String MILITARY_TIME_NO_DELIMITER = "HHmmss";
+    }    
+    
     public static class PermissionNames {
         public static final String ADD_NEGATIVE_PAYMENTS = "Add Negative Payments";
         public static final String RETIRE_MULTIPLE = "Retire Multiple";

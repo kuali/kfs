@@ -117,8 +117,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         Calendar currentDate = Calendar.getInstance();
 
         String depreciationDateParameter = null;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+        DateFormat dateFormat = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY);
+        
         try {
             LOG.info("*******" + CamsConstants.Depreciation.DEPRECIATION_BATCH + " HAS BEGUN *******");
 
@@ -369,7 +369,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 KualiDecimal transactionAmount = accumulatedDepreciationAmount.subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount());
 
 
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");                
+                DateFormat dateFormat = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY);                
                 LOG.info("Asset#: "+assetPayment.getCapitalAssetNumber()+
                         " - Payment sequence#:"+assetPayment.getPaymentSequenceNumber()+
                         " - Asset Depreciation date:"+dateFormat.format(assetDepreciationDate.getTime())+

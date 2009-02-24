@@ -300,7 +300,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         String seconds;
         boolean isValid = true;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat(CamsConstants.DateFormats.MONTH_DAY_YEAR + " " + CamsConstants.DateFormats.STANDARD_TIME, Locale.US);
 
         BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();

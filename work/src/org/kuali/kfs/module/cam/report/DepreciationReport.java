@@ -68,7 +68,7 @@ public class DepreciationReport {
 
             String destinationDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+            SimpleDateFormat sdf = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY_NO_DELIMITER + "_" + CamsConstants.DateFormats.MILITARY_TIME_NO_DELIMITER);
 
             String filename = destinationDirectory + "/" + CamsConstants.Report.FILE_PREFIX + "_" + CamsConstants.Depreciation.REPORT_FILE_NAME + "_" + sdf.format(dateTimeService.getCurrentDate()) + "." + CamsConstants.Report.REPORT_EXTENSION;
 
@@ -289,7 +289,7 @@ public class DepreciationReport {
                 int[] widths = { 15, 70, 15 };
                 head.setWidths(widths);
 
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat(CamsConstants.DateFormats.MONTH_DAY_YEAR + " " + CamsConstants.DateFormats.MILITARY_TIME);
 
                 PdfPCell cell = new PdfPCell(new Phrase(sdf.format(runDate), font));
                 cell.setBorder(Rectangle.NO_BORDER);

@@ -120,7 +120,9 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        m.put("generalLedgerAccountIdentifier", this.generalLedgerAccountIdentifier.toString());
+        if (this.generalLedgerAccountIdentifier != null) {
+            m.put("generalLedgerAccountIdentifier", this.generalLedgerAccountIdentifier.toString());
+        }
         m.put("universityFiscalYear", this.universityFiscalYear.toString());
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
@@ -681,7 +683,8 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCode attribute. 
+     * Gets the financialSystemDocumentTypeCode attribute.
+     * 
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
@@ -690,6 +693,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialSystemDocumentTypeCode attribute value.
+     * 
      * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      */
     public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {

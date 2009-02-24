@@ -60,7 +60,7 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
         SensitiveData newSensitiveData = (SensitiveData)getNewBo();
         if (oldSensitiveData.isActive() && !newSensitiveData.isActive()) {
             if (hasABlockingRecord(newSensitiveData.getSensitiveDataCode())) {
-                String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newSensitiveData.getClass());
+                String documentLabel = "SensitiveData"; //SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newSensitiveData.getClass());
                 putGlobalError(PurapKeyConstants.ERROR_CANNOT_INACTIVATE_USED_BY_ACTIVE_RECORDS, documentLabel);
                 return false;
             }

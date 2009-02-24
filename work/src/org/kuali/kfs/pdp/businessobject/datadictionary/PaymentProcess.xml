@@ -135,7 +135,7 @@
   <bean id="PaymentProcess-lookupDefinition" parent="PaymentProcess-lookupDefinition-parentBean" />
 
   <bean id="PaymentProcess-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Payment Process Lookup" />
+    <property name="title" value="Format Summary" />
     <property name="lookupableID" value="paymentProcessLookupable" />
     <property name="instructions" value="Look up a Payment Process" />
     <property name="defaultSort" >

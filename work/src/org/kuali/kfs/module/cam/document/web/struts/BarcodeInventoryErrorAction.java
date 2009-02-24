@@ -181,16 +181,16 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
             }
 
-            if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && document.getUploaderUniversalIdentifier().equals(currentUserID)) {
+          //  if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && document.getUploaderUniversalIdentifier().equals(currentUserID)) {
                 //TODO: review if we still need this blacketapprove feature
                 // If the same person that uploaded the bcie is the one processing it, then....
                // if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-                    this.blanketApprove(mapping, form, request, response);
+          //          this.blanketApprove(mapping, form, request, response);
                // }
-            }
-            else {
+          //  }
+          //  else {
                 getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
-            }
+          //  }
         }
 
         // Loading changes on page
@@ -235,16 +235,15 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
             }
 
-            if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && document.getUploaderUniversalIdentifier().equals(currentUserID)) {
+         //   if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && document.getUploaderUniversalIdentifier().equals(currentUserID)) {
                 //TODO: review if we still need this blacketapprove feature
                 // If the same person that uploaded the bcie is the one processing it, then....
-                //if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-                    this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
+          //          this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
                 //}
-            }
-            else {
+          //  }
+          //  else {
                 this.save(mapping, barcodeInventoryErrorForm, request, response);
-            }
+          //  }
         }
         barcodeInventoryErrorForm.resetCheckBoxes();
         this.loadDocument((KualiDocumentFormBase) form);

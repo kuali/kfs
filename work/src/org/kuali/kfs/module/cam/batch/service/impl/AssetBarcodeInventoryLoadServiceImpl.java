@@ -105,8 +105,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     public void conditionllyAddInitiatorAdhocRecipient(BarcodeInventoryErrorDocument barcodeErrorDocument) {
         String initiatorPrincipalId = barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         Person initiator = SpringContext.getBean(PersonService.class).getPerson(barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        if (!this.isFullyProcessed(barcodeErrorDocument) && !GlobalVariables.getUserSession().getPerson().getPrincipalId().equalsIgnoreCase(initiatorPrincipalId) && !isUserAdhocRecipient(barcodeErrorDocument.getAdHocRoutePersons(), initiator.getPrincipalName())) {
-            // add the initiator as adhoc for final processing if current user is not initiator and error still exist.
+        if (!this.isFullyProcessed(barcodeErrorDocument) && !GlobalVariables.getUserSession().getPerson().getPrincipalId().equalsIgnoreCase(initiatorPrincipalId) && barcodeErrorDocument.getAdHocRoutePersons().isEmpty()) {
+            // add the initiator as adhoc for final processing if error still exist and no adhoc recipients.
             AdHocRoutePerson adHocRoutePerson = buildAdhocApproveRecipient(barcodeErrorDocument, initiator.getPrincipalName());
             barcodeErrorDocument.getAdHocRoutePersons().add(adHocRoutePerson);
         }
@@ -119,6 +119,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param userPrincipalId
      * @return
      */
+    
+    //TODO: remove it?
     protected boolean isUserAdhocRecipient(List<AdHocRoutePerson> adHocRoutePersons, String userPrincipalName) {
         boolean valid = false;
         if (!adHocRoutePersons.isEmpty()) {

@@ -72,12 +72,13 @@ public class LaborJournalVoucherExternalEncumbranceValidation extends GenericVal
     private boolean externalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLineForValidation) {
         boolean externalEncumbranceValid  = true ;
         
+        accountingLineForValidation.refreshReferenceObject(KFSPropertyConstants.BALANCE_TYP);
         BalanceType balanceTyp = accountingLineForValidation.getBalanceTyp();
         AccountingDocumentRuleHelperService journalVoucherRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class) ;
         if (!journalVoucherRuleUtil.isValidBalanceType(balanceTyp, GENERIC_CODE_PROPERTY_NAME)) {
             externalEncumbranceValid = false ;
         }
-        else if (!balanceTyp.isFinBalanceTypeEncumIndicator() && !KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(accountingLineForValidation.getEncumbranceUpdateCode())) {
+        else if (balanceTyp.isFinBalanceTypeEncumIndicator() && KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(accountingLineForValidation.getEncumbranceUpdateCode())) {
             externalEncumbranceValid = this.isRequiredReferenceFieldsValid(accountingLineForValidation);
         }
             

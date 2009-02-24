@@ -46,6 +46,16 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="AccountingLineView-field"
+					p:name="financialSubObjectCode" p:useShortLabel="true" p:unconditionallyReadOnly="true" 
+					p:webUILeaveFieldFunction="loadSubObjectInfo"
+					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
+				<bean parent="AccountingLineView-field"
+					p:name="projectCode"  p:useShortLabel="true" p:unconditionallyReadOnly="true" 
+				    p:webUILeaveFieldFunction="loadProjectInfo"
+					p:dynamicLabelProperty="project.projectDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="organizationReferenceId" p:useShortLabel="true" p:unconditionallyReadOnly="true" />				
 			</list>
 		</property>
 	</bean>
@@ -92,6 +102,16 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="AccountingLineView-field"
+					p:name="financialSubObjectCode" p:useShortLabel="true" p:unconditionallyReadOnly="false" 
+					p:webUILeaveFieldFunction="loadSubObjectInfo"
+					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
+				<bean parent="AccountingLineView-field"
+					p:name="projectCode" p:useShortLabel="true" p:unconditionallyReadOnly="false" 
+					p:webUILeaveFieldFunction="loadProjectInfo"
+					p:dynamicLabelProperty="project.projectDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="organizationReferenceId" p:useShortLabel="true" p:unconditionallyReadOnly="false" />
 			</list>
 		</property>
 	</bean>
@@ -104,16 +124,6 @@
 		<property name="elementName" value="accountingInformation" />
 		<property name="fields">
 			<list>
-				<bean parent="AccountingLineView-field"
-					p:name="financialSubObjectCode" p:useShortLabel="true" p:unconditionallyReadOnly="true" 
-					p:webUILeaveFieldFunction="loadSubObjectInfo"
-					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
-				<bean parent="AccountingLineView-field"
-					p:name="projectCode" p:useShortLabel="true" p:unconditionallyReadOnly="true" 
-					p:webUILeaveFieldFunction="loadProjectInfo"
-					p:dynamicLabelProperty="project.projectDescription" />
-				<bean parent="AccountingLineView-field"
-					p:name="organizationReferenceId" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="payrollEndDateFiscalYear" p:required="true" p:useShortLabel="true" p:unconditionallyReadOnly="true" />
 				<bean parent="AccountingLineView-field"

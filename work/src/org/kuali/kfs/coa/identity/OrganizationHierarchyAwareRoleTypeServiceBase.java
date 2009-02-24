@@ -15,9 +15,12 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.util.List;
+
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
@@ -54,4 +57,13 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;
     }
+    
+    @Override
+    public List<RoleMembershipInfo> sortRoleMembers(List<RoleMembershipInfo> roleMembers) {
+        for ( RoleMembershipInfo rmi : roleMembers ) {
+            rmi.setRoleSortingCode( rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)+"-"+rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE));
+        }
+        return roleMembers;
+    }
+
 }

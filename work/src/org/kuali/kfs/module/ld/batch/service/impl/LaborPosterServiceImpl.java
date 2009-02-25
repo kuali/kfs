@@ -183,7 +183,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                         if (loadedCount % 1000 == 0) {
                             LOG.info(loadedCount + " " + laborOriginEntry.toString());
                         }
-                        if (postSingleEntryIntoLaborLedger(laborOriginEntry, reportSummary, validGroup, invalidGroup, runDate)) {
+                        if (postSingleEntryIntoLaborLedger(laborOriginEntry, reportSummary, validGroup, invalidGroup, runDate, currentLine)) {
                             numberOfSelectedOriginEntry++;
                             laborOriginEntry = null;
                         }
@@ -239,7 +239,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     // private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, List<Summary> reportSummary, Map<Transaction,
     // List<Message>> errorMap, OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate) {
-    private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, List<Summary> reportSummary, OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate) {
+    private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, List<Summary> reportSummary, OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate, String line) {
         // reject the entry that is not postable
         if (!isPostableEntry(originEntry)) {
             return false;
@@ -256,12 +256,12 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
         if (errors != null && !errors.isEmpty()) {
             errorMap.put(originEntry, errors);
-            postAsProcessedOriginEntry(originEntry, GROUP_TYPE.ERROR, runDate);
+            postAsProcessedOriginEntry(line, GROUP_TYPE.ERROR, runDate);
             return false;
         }
 
         // post the current origin entry as a valid origin entry, ledger entry and ledger balance
-        postAsProcessedOriginEntry(originEntry, GROUP_TYPE.VALID, runDate);
+        postAsProcessedOriginEntry(line, GROUP_TYPE.VALID, runDate);
 
          //commented out from Jeff's request
          String operationOnLedgerEntry = postAsLedgerEntry(originEntry, runDate);
@@ -307,9 +307,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param entryGroup the origin entry group that the transaction will be assigned
      * @param postDate the data when the transaction is processes
      */
-    private void postAsProcessedOriginEntry(LaborOriginEntry originEntry, GROUP_TYPE groupCode, Date postDate) {
+    private void postAsProcessedOriginEntry(String line, GROUP_TYPE groupCode, Date postDate) {
         try {
-            createOutputEntry(originEntry, groupCode);
+            createOutputEntry(line, groupCode);
         }
         catch (IOException ioe) {
             LOG.error("postAsProcessedOriginEntry stopped due to: " + ioe.getMessage(), ioe);
@@ -597,7 +597,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
 
-    private void createOutputEntry(LaborOriginEntry entry, GROUP_TYPE groupCode) throws IOException {
+    private void createOutputEntry(String entry, GROUP_TYPE groupCode) throws IOException {
         OriginEntryGroup group = null;
         PrintStream ps = null;
         try {
@@ -611,7 +611,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                     ps = POSTER_OUTPUT_ERR_FILE_ps;
                     break;
             }
-            ps.printf("%s\n", entry.getLine());
+            ps.printf("%s\n", entry);
 
         }
         catch (Exception e) {

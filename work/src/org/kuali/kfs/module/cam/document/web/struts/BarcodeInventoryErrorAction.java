@@ -57,10 +57,8 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
      */
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (form != null) {
-            BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) ((KualiDocumentFormBase) form).getDocument();
-            getAssetBarcodeInventoryLoadService().conditionllyAddInitiatorAdhocRecipient(barcodeErrorDocument);
-        }
+        BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) ((KualiDocumentFormBase) form).getDocument();
+        getAssetBarcodeInventoryLoadService().conditionllyAddInitiatorAdhocRecipient(barcodeErrorDocument);
         return super.approve(mapping, form, request, response);
     }
 
@@ -181,16 +179,18 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
             }
 
-          //  if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-                //TODO: review if we still need this blacketapprove feature
-                // If the same person that uploaded the bcie is the one processing it, then....
-               // if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-          //          this.blanketApprove(mapping, form, request, response);
-               // }
-          //  }
-          //  else {
-                getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
-          //  }
+            // if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) &&
+            // document.getUploaderUniversalIdentifier().equals(currentUserID)) {
+            // TODO: review if we still need this blacketapprove feature
+            // If the same person that uploaded the bcie is the one processing it, then....
+            // if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
+            // Take it off cause the KFS-CAM Manager will run into exception when call blankApprove. They maybe have no permission?
+            // this.blanketApprove(mapping, form, request, response);
+            // }
+            // }
+            // else {
+            getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
+            // }
         }
 
         // Loading changes on page
@@ -235,15 +235,19 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
             }
 
-         //   if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-                //TODO: review if we still need this blacketapprove feature
-                // If the same person that uploaded the bcie is the one processing it, then....
-          //          this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
-                //}
-          //  }
-          //  else {
-                this.save(mapping, barcodeInventoryErrorForm, request, response);
-          //  }
+            // if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) &&
+            // document.getUploaderUniversalIdentifier().equals(currentUserID)) {
+            // TODO: review if we still need this blacketapprove feature,
+            // Take it off cause the KFS-CAM Manager will run into exception when call blankApprove. They maybe have no permission?
+            // If the same person that uploaded the bcie is the one processing it, then....
+            // this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
+            // }
+            // }
+            // else {
+            // TODO: replace save action by boservice.save to keep consistency with validate.
+            // this.save(mapping, barcodeInventoryErrorForm, request, response);
+            getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
+            // }
         }
         barcodeInventoryErrorForm.resetCheckBoxes();
         this.loadDocument((KualiDocumentFormBase) form);

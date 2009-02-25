@@ -46,6 +46,8 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
+import org.kuali.rice.kns.bo.AdHocRouteRecipient;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -103,13 +105,19 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#conditionllyAddInitiatorAdhocRecipient(org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument)
      */
     public void conditionllyAddInitiatorAdhocRecipient(BarcodeInventoryErrorDocument barcodeErrorDocument) {
-        String initiatorPrincipalId = barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         Person initiator = SpringContext.getBean(PersonService.class).getPerson(barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        if (!this.isFullyProcessed(barcodeErrorDocument) && !GlobalVariables.getUserSession().getPerson().getPrincipalId().equalsIgnoreCase(initiatorPrincipalId) && barcodeErrorDocument.getAdHocRoutePersons().isEmpty()) {
+        if (!this.isFullyProcessed(barcodeErrorDocument) && !isCurrentUserInitiator(barcodeErrorDocument) && barcodeErrorDocument.getAdHocRoutePersons().isEmpty()) {
             // add the initiator as adhoc for final processing if error still exist and no adhoc recipients.
             AdHocRoutePerson adHocRoutePerson = buildAdhocApproveRecipient(barcodeErrorDocument, initiator.getPrincipalName());
             barcodeErrorDocument.getAdHocRoutePersons().add(adHocRoutePerson);
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#isCurrentUserInitiator(org.kuali.rice.kns.document.Document)
+     */
+    public boolean isCurrentUserInitiator(Document document) {
+        return GlobalVariables.getUserSession().getPerson().getPrincipalId().equalsIgnoreCase(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
     }
 
     /**
@@ -119,8 +127,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param userPrincipalId
      * @return
      */
-    
-    //TODO: remove it?
+
+    // TODO: remove it?
     protected boolean isUserAdhocRecipient(List<AdHocRoutePerson> adHocRoutePersons, String userPrincipalName) {
         boolean valid = false;
         if (!adHocRoutePersons.isEmpty()) {
@@ -559,6 +567,9 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
             // Saving....
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
+            List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
+            adHocRouteRecipients.add(buildApprovePersonRecipient(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
+            documentService.routeDocument(document,"Routed Update Barcode Inventory Document", adHocRouteRecipients);
         }
         catch (Exception e) {
             LOG.error("Error persisting document # " + document.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
@@ -566,6 +577,18 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         }
     }
 
+    /**
+     * 
+     * This method builds a recipient for Approval.
+     * @param userId
+     * @return
+     */
+    private AdHocRouteRecipient buildApprovePersonRecipient(String userId) {
+        AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
+        adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_APPROVE_REQ);
+        adHocRouteRecipient.setId(userId);
+        return adHocRouteRecipient;
+    }
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

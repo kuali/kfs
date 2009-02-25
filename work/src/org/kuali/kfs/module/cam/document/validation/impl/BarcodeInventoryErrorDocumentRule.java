@@ -78,25 +78,27 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean valid = super.processCustomRouteDocumentBusinessRules(document);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if ((workflowDocument.stateIsSaved() || workflowDocument.stateIsInitiated())) {
-            if (!getAssetBarcodeInventoryLoadService().isFullyProcessed((BarcodeInventoryErrorDocument)document) && document.getAdHocRoutePersons().isEmpty()) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_ADHOC_RECIPIENT_NOT_FOUND);
-                valid = false;
-            }
-        }
+        //TODO: review it once sendAdhocRequest works fine
+//        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+//        if ((workflowDocument.stateIsSaved() || workflowDocument.stateIsInitiated())) {
+//            if (!getAssetBarcodeInventoryLoadService().isFullyProcessed((BarcodeInventoryErrorDocument)document) && document.getAdHocRoutePersons().isEmpty()) {
+//                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_ADHOC_RECIPIENT_NOT_FOUND);
+//                valid = false;
+//            }
+//        }
         return valid;
     }
 
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        //TODO: Review it once sendAdhocRequest works fine
         boolean valid = super.processCustomApproveDocumentBusinessRules(approveEvent);
         BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) approveEvent.getDocument();
         Person initiator = SpringContext.getBean(PersonService.class).getPerson(barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        Person currentPerson = GlobalVariables.getUserSession().getPerson();
+        AssetBarcodeInventoryLoadService barcodeService = getAssetBarcodeInventoryLoadService();
 
-        if (!getAssetBarcodeInventoryLoadService().isFullyProcessed(barcodeErrorDocument) && currentPerson.getPrincipalId().equalsIgnoreCase(initiator.getPrincipalId()) && !hasOtherAdhocRecipientExists(barcodeErrorDocument.getAdHocRoutePersons(), initiator.getPrincipalName())) {
-            // if initiator try to approve a document with error, he/she should set at leave one adhoc recipient.
+        if (!barcodeService.isFullyProcessed(barcodeErrorDocument) && barcodeService.isCurrentUserInitiator(barcodeErrorDocument) && !hasOtherAdhocRecipientExists(barcodeErrorDocument.getAdHocRoutePersons(), initiator.getPrincipalName())) {
+            // if initiator try to approve a document with error, he/she should set at least one adhoc recipient.
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_ADHOC_RECIPIENT_NOT_FOUND);
             valid = false;
         }

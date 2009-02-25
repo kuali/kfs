@@ -59,7 +59,7 @@ public class SalaryExpenseTransferSalaryObjectCodeValidation extends GenericVali
         boolean salaryObjectCode = true;
         
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
-        expenseTransferAccountingLine.refreshReferenceObject("laborObject");   
+        expenseTransferAccountingLine.refreshReferenceObject(KFSPropertyConstants.LABOR_OBJECT);   
         
         LaborObject laborObject = expenseTransferAccountingLine.getLaborObject();
         if (laborObject == null) {

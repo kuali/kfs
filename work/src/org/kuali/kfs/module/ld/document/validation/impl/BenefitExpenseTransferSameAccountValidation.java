@@ -70,7 +70,7 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) document;
         List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
 
-        accountingLine.refreshReferenceObject("account");
+        accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         
         Account cachedAccount = accountingLine.getAccount();
         for (AccountingLine sourceAccountingLine : sourceAccountingLines) {

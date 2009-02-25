@@ -60,7 +60,7 @@ public class BenefitExpenseTransferFringeBenefitObjectCodeValidation extends Gen
         
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
 
-        expenseTransferAccountingLine.refreshReferenceObject("laborObject");
+        expenseTransferAccountingLine.refreshReferenceObject(KFSPropertyConstants.LABOR_OBJECT); 
         LaborObject laborObject = expenseTransferAccountingLine.getLaborObject();
         if (laborObject == null) {
             return false;

@@ -78,7 +78,7 @@ public class LaborExpenseTransferAccountAcceptFringeBenefitValidation extends Ge
     protected boolean isAccountAcceptFringeBenefit(AccountingLine accountingLine) {
         boolean acceptsFringeBenefits = true;
 
-        accountingLine.refreshReferenceObject("account");
+        accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         Account account = accountingLine.getAccount();
         if (account != null && !account.isAccountsFringesBnftIndicator()) {
             String overrideCode = accountingLine.getOverrideCode();

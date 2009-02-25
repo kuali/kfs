@@ -36,7 +36,7 @@ public class PaymentStatusValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair("", ""));
         for (PaymentStatus element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getCode() + " - " +element.getName()));
+            keyValues.add(new KeyLabelPair(element.getCode(), element.getCode() ));
         }
 
         return keyValues;

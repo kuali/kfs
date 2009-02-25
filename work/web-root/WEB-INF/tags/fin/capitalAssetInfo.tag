@@ -49,9 +49,8 @@
 <br/><br/>
 		
 <table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);"  cellpadding="0" cellspacing="0" summary="Capital Asset Information">
-   <c:set var="colspan" value="${readOnly ? 5 : 6 }"/>
    <tr>
-   		<td colspan="${colspan}" class="tab-subhead" style="border-top: medium;">Create New Assets</td>
+   		<td colspan="5" class="tab-subhead" style="border-top: medium;">Create New Assets</td>
    </tr>
    
    <tr> 
@@ -60,9 +59,7 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.vendorName}" labelFor="${capitalAssetInfoName}.vendorName"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerName}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerName"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerModelNumber}" labelFor="${capitalAssetInfoName}.capitalAssetManufacturerModelNumber"/>
-		<c:if test="${!readOnly}">
-			<kul:htmlAttributeHeaderCell literalLabel="Action"/>
-		</c:if>
+		
    </tr>
    
    <tr>
@@ -92,30 +89,36 @@
 			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="capitalAssetManufacturerModelNumber" lookup="false" inquiry="false"/>
 		
+																								 
+   </tr>
+   <tr>
+ 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetDescription}" rowspan="${readOnly ? 1 : 2 }"/>
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+			field="capitalAssetDescription" lookup="false" inquiry="false" colSpan="${readOnly ? 4 : 3 }" rowSpan="${readOnly ? 1 : 2 }"/>
 		<c:if test="${!readOnly}">
-		<td rowspan="2" class="infoline">  
+			<kul:htmlAttributeHeaderCell literalLabel="Action"/>
+		</c:if>
+   </tr>
+	<c:if test="${!readOnly}">
+	<tr>
+		<td class="infoline">  
 			<div style="text-align: center;">	
 				<html:image property="methodToCall.addCapitalAssetInfo" 
 					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
 					title="Add the capital Asset Information"
 					alt="Add the capital Asset Information" styleClass="tinybutton" />	
-				<br/>	 
+				<br /><br />	 
 				<html:image property="methodToCall.clearCapitalAssetInfo" 
 					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
 					title="Clear the capital Asset Information"
 					alt="Clear the capital Asset Information" styleClass="tinybutton" />
 			</div>
 		</td>
-		</c:if>																										 
-   </tr>
-   <tr>
- 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetDescription}"/>
-		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
-			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-			field="capitalAssetDescription" lookup="false" inquiry="false" colSpan="4"/>
-   </tr>   		
+	</tr>
+	</c:if>				  		
 
-   <tr><td colSpan="${colspan}"><center><br/>
+   <tr><td colSpan="5"><center><br/>
 		<fin:capitalAssetInfoDetail capitalAssetInfoDetails="${capitalAssetInfo.capitalAssetInformationDetails}" 
 			capitalAssetInfoDetailsName="${capitalAssetInfoName}.capitalAssetInformationDetails" readOnly="${readOnly}"/>
 	<br/></center></td></tr>

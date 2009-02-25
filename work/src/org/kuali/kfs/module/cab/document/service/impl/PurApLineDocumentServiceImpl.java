@@ -473,22 +473,21 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      */
     protected List<GeneralLedgerEntry> getGlEntryInActivedList(PurchasingAccountsPayableItemAsset selectedItem) {
         List<GeneralLedgerEntry> glEntryUpdateList = new ArrayList<GeneralLedgerEntry>();
-
         for (PurchasingAccountsPayableLineAssetAccount selectedAccount : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
             GeneralLedgerEntry glEntry = selectedAccount.getGeneralLedgerEntry();
-            boolean glEntryHasActiveAccount = false;
+            KualiDecimal relatedAccountAmount = KualiDecimal.ZERO;
+            
             // get persistent account list which should be save before hand
             glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
             // check if all accounts are inactive status
             for (PurchasingAccountsPayableLineAssetAccount account : glEntry.getPurApLineAssetAccounts()) {
-                if (account.isActive()) {
-                    glEntryHasActiveAccount = true;
-                    break;
+                if (!account.isActive()) {
+                    relatedAccountAmount = relatedAccountAmount.add(account.getItemAccountTotalAmount());
                 }
             }
 
             // if one account shows active, won't in-activate this general ledger entry.
-            if (!glEntryHasActiveAccount) {
+            if (relatedAccountAmount.compareTo(glEntry.getAmount()) == 0) {
                 glEntry.setActive(false);
                 glEntryUpdateList.add(glEntry);
             }

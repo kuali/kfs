@@ -313,7 +313,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         super.getExtraButtons();        
         Map buttonsMap = createButtonsMap();                    
         
-        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA)){
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA)) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData"));
 
             if (isAssigningSensitiveData()) {
@@ -329,7 +329,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PREVIEW_PRINT_PURCHASE_ORDER)) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo"));
         }
-        
+
         if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PRINT_PURCHASE_ORDER)) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo"));
         }
@@ -337,11 +337,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.RESEND_PURCHASE_ORDER)) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.resendPoCxml"));
         }
-        
+
         if (canRetransmit()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.retransmitPo"));
         }
-        
+
         if (canPrintRetransmit()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo"));
         }
@@ -353,45 +353,45 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         if (canClose()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.closePo"));
         }
-        
+
         if (canHoldPayment()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.paymentHoldPo"));
         }
 
         if (canAmend()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.amendPo"));             
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.amendPo"));
         }
-        
+
         if (canVoid()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.voidPo"));
         }
-        
+
         if (canRemoveHold()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.removeHoldPo"));
         }
-        
-        if (canCreateReceiving()){
+
+        if (canCreateReceiving()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.createReceivingLine"));
         }
-        
-        if (canSplitPo()){
+
+        if (canSplitPo()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.splitPo"));
         }
-        
-        if (canContinuePoSplit()){
+
+        if (canContinuePoSplit()) {
+            extraButtons.clear();
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.continuePurchaseOrderSplit"));
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelPurchaseOrderSplit"));
         }
         
         return extraButtons;
-    }        
+    }
     
     /**
-     * Determines whether to display the amend button for the purchase order document.
-     * The document status must be open, and the purchase order must be current and not pending, 
-     * and the user must be in purchasing group. 
-     * These are same as the conditions for displaying the payment hold button. 
-     * In addition to these conditions, we also have to check that there is no In Process Payment Requests nor Credit Memos associated with the PO.
+     * Determines whether to display the amend button for the purchase order document. The document status must be open, and the
+     * purchase order must be current and not pending, and the user must be in purchasing group. These are same as the conditions
+     * for displaying the payment hold button. In addition to these conditions, we also have to check that there is no In Process
+     * Payment Requests nor Credit Memos associated with the PO.
      * 
      * @return boolean true if the amend button can be displayed.
      */

@@ -61,7 +61,7 @@ public interface AccountingLineAuthorizer {
      * @param accountingGroupProperty the property of this accounting group
      * @return true if new lines should be displayed, false otherwise
      */
-    public abstract boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, Person currentUser);
+    public abstract boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty);
 
     /**
      * Determines if any entire group is rendered as editable, which means that a new line will appear

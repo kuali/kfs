@@ -397,7 +397,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         Criteria criteria = new Criteria();
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
-//        criteria.addEqualTo("status", PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING);
+        criteria.addEqualTo("statusCode", PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW);
 
         Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         Iterator<PaymentRequestDocument> documents = (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);

@@ -30,23 +30,15 @@ public class CustomerInvoiceItemCodeAuthorizer extends FinancialSystemMaintenanc
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
-        
-        //   we only add the role qualifiers on the edit
-        FinancialSystemMaintenanceDocument maintDoc = (FinancialSystemMaintenanceDocument) businessObject;
-        if (maintDoc.isEdit()) {
-            Maintainable newMaintainable = maintDoc.getNewMaintainableObject();
-            if (newMaintainable != null) {
-                CustomerInvoiceItemCode itemCode = (CustomerInvoiceItemCode) newMaintainable.getBusinessObject();
-                if (itemCode != null) {
-                    attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, itemCode.getChartOfAccountsCode());
-                    attributes.put(KfsKimAttributes.ORGANIZATION_CODE, itemCode.getOrganizationCode());
-                    
-                    //TODO should we also pull the processing org of this billing org, and then all
-                    //     the billing orgs for that processing org, and add all of them to the 
-                    //     role qualification?  Note sure yet.
-                    
-                }
-            }
+        CustomerInvoiceItemCode itemCode = (CustomerInvoiceItemCode) businessObject;
+        if (itemCode != null) {
+            attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, itemCode.getChartOfAccountsCode());
+            attributes.put(KfsKimAttributes.ORGANIZATION_CODE, itemCode.getOrganizationCode());
+            
+            //TODO should we also pull the processing org of this billing org, and then all
+            //     the billing orgs for that processing org, and add all of them to the 
+            //     role qualification?  Note sure yet.
+            
         }
     }
 

@@ -432,6 +432,8 @@
 		<property name="runDateService">
 			<ref bean="glRunDateService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
 	</bean>
 	
 	<bean id="glCollectorHelperService" class="org.kuali.kfs.gl.batch.service.impl.CollectorHelperServiceImpl">
@@ -465,6 +467,7 @@
 		<property name="collectorInputFileType">
 			<ref bean="collectorInputFileType" />
 		</property>
+		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
 	</bean>
 
 	<bean id="glCollectorScrubberService" class="org.kuali.kfs.gl.batch.service.impl.CollectorScrubberServiceImpl">

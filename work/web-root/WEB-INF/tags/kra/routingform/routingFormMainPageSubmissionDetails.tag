@@ -172,6 +172,7 @@
 		              <c:forEach items = "${KualiForm.document.routingFormKeywords}" var="routingFormKeyword" varStatus="status"  >
 					  <tr>
 		                <td class="nobord"> <div align="left">
+		               		 ${KualiForm.document.routingFormKeywords[status.index].routingFormKeywordDescription} 
 		                </div></td>
 		                <td class="nobord"><div align="center">
 		                  <c:if test="${!viewOnly}">

@@ -34,7 +34,7 @@
 			summary="view/edit pending entries">
 			<tr>
 				<td class="datacell" height="50" colspan="12">
-				<div align="center">No General Ledger Pending Entries were required for this document.</div>
+				<div align="center">There are currently no General Ledger Pending Entries associated with this Transaction Processing document.</div>
 				</td>
 			</tr>
 		</table>

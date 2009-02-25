@@ -133,7 +133,6 @@ public class LaborConstants {
     public static class Scrubber {
         public static final String ACCOUNT_FRINGE_EXCLUSION_PARAMETER = "ACCOUNTS_NOT_ACCEPTING_FRINGES_IND";
         public static final String CONTINUATION_ACCOUNT_LOGIC_PARAMETER = "CONTINUATION_ACCOUNT_LOGIC_IND";
-        public static final String PARAMETER_GROUP = "LaborScrubberStep";
         public static final String SUBFUND_WAGE_EXCLUSION_PARAMETER = "SUB_FUND_GROUPS_NOT_ACCEPTING_WAGES_IND";
         public static final String SUSPENSE_ACCOUNT_LOGIC_PARAMETER = "SUSPENSE_ACCOUNT_LOGIC_IND";
         public static final String SUSPENSE_ACCOUNT = "SUSPENSE_ACCOUNT";

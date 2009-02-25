@@ -49,13 +49,11 @@ public class EffortConstants extends JSTLConstants {
      */
     public class SystemParameters {
         public static final String ACCOUNT_TYPE_CODE_BALANCE_SELECT = "ACCOUNT_TYPE_CODE_BALANCE_SELECT";
-        public static final String CG_DENOTING_VALUE = ChartApcParms.ACCOUNT_CG_DENOTING_VALUE;
         public static final String CREATE_FISCAL_YEAR = "CREATE_FISCAL_YEAR";
         public static final String CREATE_REPORT_NUMBER = "CREATE_REPORT_NUMBER";
         public static final String FEDERAL_AGENCY_TYPE_CODE = "FEDERAL_AGENCY_TYPE_CODE";
 
         public static final String FEDERAL_ONLY_BALANCE_IND = "FEDERAL_ONLY_BALANCE_IND";
-        public static final String FUND_GROUP_DENOTES_CG_IND = ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG;
         public static final String RUN_FISCAL_YEAR = "RUN_FISCAL_YEAR";
 
         public static final String RUN_IND = "RUN_IND";

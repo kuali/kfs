@@ -31,7 +31,6 @@ import org.kuali.kfs.gl.service.NightlyOutService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
-import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -77,7 +76,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
         
         Iterator pendingEntries = generalLedgerPendingEntryService.findApprovedPendingLedgerEntries();
-        String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE;
+        String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE;
         PrintStream outputFilePs;
         
         try {
@@ -164,12 +163,5 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
-    
-    private void createOutputEntry(LaborOriginEntry entry, PrintStream ps) throws IOException {
-        try {
-            ps.printf("%s\n", entry.getLine());
-        } catch (Exception e) {
-            throw new IOException(e.toString());
-        }
-    }
+
 }

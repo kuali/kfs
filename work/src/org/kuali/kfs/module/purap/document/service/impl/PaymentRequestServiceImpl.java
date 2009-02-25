@@ -1089,21 +1089,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    public PaymentRequestDocument removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
+    public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
         documentService.addNoteToDocument(document, noteObj);
         noteService.save(noteObj);
 
-        // retrieve and save with hold indicator set to false
-        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
-        clearRequestCancelFields(preqDoc);
-        purapService.saveDocumentNoValidation(preqDoc);
-
-        // must also save it on the incoming document
         clearRequestCancelFields(document);
         
-        return preqDoc;
+        purapService.saveDocumentNoValidation(document);
+
     }
 
     /**

@@ -1932,7 +1932,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public String getLookup() {
         if (this.getCapitalAssetNumber() == null)
             return "";
-        
+
         Properties params = new Properties();
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
@@ -1943,19 +1943,8 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
-    
-    public String getDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-        
-        Properties params = new Properties();
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "doDocSearch");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put("capitalAssetNumber", this.getCapitalAssetNumber().toString());
-        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put("criteria.docTypeFullName", "CASM");
 
-        String url = UrlFactory.parameterizeUrl("/en/DocumentSearch.do", params);
-        return "http://localhost:8080/kuali-dev/portal.do?channelTitle=asset docs&channelUrl=http://localhost:8080/kuali-dev" + url;
+    public String getDocumentLookup() {
+        return null;
     }
 }

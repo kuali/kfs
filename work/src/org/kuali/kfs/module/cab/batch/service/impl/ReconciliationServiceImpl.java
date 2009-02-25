@@ -133,6 +133,10 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                 misMatchedGroups.add(glAccountLineGroup);
             }
             else {
+                // FIXME
+                if (halfGlAmt.equals(purapAccountLineGroup.getAmount())) {
+                    glAccountLineGroup.setAmount(halfGlAmt);
+                }
                 LOG.debug("GL account line " + glAccountLineGroup.toString() + " found a matching Purchasing account line group ");
                 glAccountLineGroup.setMatchedPurApAcctLines(purapAccountLineGroup.getSourceEntries());
                 matchedGroups.add(glAccountLineGroup);
@@ -140,7 +144,6 @@ public class ReconciliationServiceImpl implements ReconciliationService {
             }
         }
     }
-
 
     /**
      * Groups GL entries by fields by univ_fiscal_yr, fin_coa_cd, account_nbr, sub_acct_nbr, fin_object_cd, fin_sub_obj_cd,

@@ -77,7 +77,7 @@
 
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
-					property="chartOfAccountsCode" forceRequired="true" readOnly="${disabled}" />
+					property="chartOfAccountsCode" forceRequired="true" readOnly="${readOnly}" />
 					<c:if test="${!disabled}">
 						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.Chart"
 						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"
@@ -94,7 +94,7 @@
 					
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.accountNumber}"
-					property="accountNumber" forceRequired="true" readOnly="${disabled}" />
+					property="accountNumber" forceRequired="true" readOnly="${readOnly}" />
 					<c:if test="${!disabled}">
 						 <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account"
 						lookupParameters="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
@@ -110,7 +110,7 @@
 					
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
-					property="subAccountNumber" forceRequired="true" readOnly="${disabled}" /> 
+					property="subAccountNumber" forceRequired="true" readOnly="${readOnly}" /> 
 					<c:if test="${!disabled}">
 						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
 						lookupParameters="accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode"

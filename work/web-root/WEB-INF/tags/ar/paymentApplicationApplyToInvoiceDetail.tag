@@ -266,12 +266,12 @@
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.balance}"
-																				property="customerInvoiceDetails[${ctr}].amountOpen"
+																				property="customerInvoiceDetails[${ctr}].amountOpenPerCurrentPaymentApplicationDocument"
 																				readOnly="true" />
 																		</td>
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
-																				disabled="${true eq disableQuickApplyToDetails}"
+																				disabled="${disableQuickApplyToDetails or customerInvoiceDetail.fullApply}"
 																				readOnly="${readOnly}"
 																				styleClass="amount"
 																				attributeEntry="${customerInvoiceDetailAttributes.amountApplied}"

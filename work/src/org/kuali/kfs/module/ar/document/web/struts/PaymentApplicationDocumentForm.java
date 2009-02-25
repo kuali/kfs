@@ -64,6 +64,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     private Map<String, Boolean> previouslyQuickAppliedInvoices;
     private Integer nextNonInvoicedLineNumber;
 
+    private Map<String, Boolean> quickApplyToInvoiceDetails;
     private KualiDecimal nonAppliedHoldingAmount;
     private String nonAppliedHoldingCustomerNumber;
 
@@ -81,6 +82,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         selectedInvoiceDocument = new CustomerInvoiceDocument();
         appliedPaymentsPerCustomerInvoiceDetail = new HashMap<String, Collection>();
         previouslyQuickAppliedInvoices = new HashMap<String,Boolean>();
+        quickApplyToInvoiceDetails = new HashMap<String,Boolean>();
     }
 
     @Override

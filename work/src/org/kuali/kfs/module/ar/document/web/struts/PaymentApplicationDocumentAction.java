@@ -274,7 +274,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             
             KualiDecimal amountToApply = KualiDecimal.ZERO;
             
-            String fieldName = "customerInvoiceDetail[" + (simpleCustomerInvoiceDetailCounter) + "]";
+            String fieldName = "customerInvoiceDetails[" + (simpleCustomerInvoiceDetailCounter) + "]";
             // Increment now because we don't want the continue below to skip the increment.
             simpleCustomerInvoiceDetailCounter += 1;
 
@@ -390,7 +390,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
                     // I just pass in a paidAppliedItemNumber of 0 and set the paidAppliedItemNumber to the correct value after adding all
                     // InvoicePaidApplieds to the document.
-                    invoicePaidApplieds.add(applyToCustomerInvoiceDetail(customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmount(), "invoice[" + (customerInvoiceDocumentNumber) + "].quickApply", false, 0));
+                    invoicePaidApplieds.add(applyToCustomerInvoiceDetail(customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpen(), "invoice[" + (customerInvoiceDocumentNumber) + "].quickApply", false, 0));
                 }
             }
 

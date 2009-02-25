@@ -68,7 +68,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
         String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
-        String financialSystemDocumentTypeCodeCode = qualification.get(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
+        String financialSystemDocumentTypeCodeCode = qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
         String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
         String fiscalOfficerPrincipalID = qualification.get(FISCAL_OFFICER_PRINCIPAL_ID);
         String accountSupervisorPrincipalID = qualification.get(ACCOUNT_SUPERVISOR_PRINCIPAL_ID);

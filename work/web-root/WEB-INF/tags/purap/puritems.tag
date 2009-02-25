@@ -131,31 +131,30 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 				<c:choose>
 				    <c:when test="${displayCommodityCodeFields}">
-				        <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" nowrap="true" />
+				        <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
 				    </c:when>
 				    <c:otherwise>
 				        <kul:htmlAttributeHeaderCell literalLabel="" nowrap="true" />
 				    </c:otherwise>
 				</c:choose>
 				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
-				<kul:htmlAttributeHeaderCell nowrap="true"> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>				
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" nowrap="true" />
+				<kul:htmlAttributeHeaderCell > * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>				
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
 
 				<c:if test="${purapTaxEnabled}">
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" nowrap="true" />				
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" nowrap="true" />
+				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />				
+				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
 				</c:if>
 
 				<c:if test="${displayRequisitionFields}">
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" nowrap="true" />
+				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
 				</c:if>
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" nowrap="true"/>
-				<!-- TODO: PHASE 2B -->
-				<kul:htmlAttributeHeaderCell literalLabel="Actions" colspan="2" nowrap="true"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" />
+				<kul:htmlAttributeHeaderCell literalLabel="Actions" colspan="2" />
 			</tr>
 			<tr>
                 <td class="infoline">
-                    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newPurchasingItemLine.itemLineNumber" readOnly="${true}"/>
+                    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newPurchasingItemLine.itemLineNumber" readOnly="true"/>
                 </td>
 				<td class="infoline">
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="newPurchasingItemLine.itemTypeCode" />
@@ -262,7 +261,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 				<c:choose>
 				    <c:when test="${displayCommodityCodeFields}">
-				        <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" nowrap="true" />
+				        <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
 				    </c:when>
 				    <c:otherwise>
 				        <kul:htmlAttributeHeaderCell literalLabel="" nowrap="true" />

@@ -129,14 +129,11 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}"/>
 				<kul:htmlAttributeHeaderCell><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<c:choose>
-				    <c:when test="${displayCommodityCodeFields}">
-				        <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
-				    </c:when>
-				    <c:otherwise>
-				        <kul:htmlAttributeHeaderCell literalLabel="" nowrap="true" />
-				    </c:otherwise>
-				</c:choose>
+
+				<c:if test="${displayCommodityCodeFields}">
+	                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" nowrap="true" />
+				</c:if>
+
 				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell > * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>				
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
@@ -168,26 +165,23 @@
 				<td class="infoline">
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newPurchasingItemLine.itemCatalogNumber" />
 			    </td>
-			    <c:choose>
-			        <c:when test = "${displayCommodityCodeFields}">
-                        <td class="infoline">
-                            <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
-                            <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
-                            <kul:htmlControlAttribute attributeEntry="${itemAttributes.purchasingCommodityCode}" 
-                                property="${commodityCodeField}" 
-                                onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" />
-                            <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
-                                fieldConversions="purchasingCommodityCode:newPurchasingItemLine.purchasingCommodityCode"
-                                lookupParameters="'Y':active"/>     
-                            <div id="newPurchasingItemLine.commodityCode.commodityDescription.div" class="fineprint">
-                                <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
-                            </div>                     
-                        </td>		
-                    </c:when>
-                    <c:otherwise>
-                        <td class="infoline"/>
-                    </c:otherwise>
-                </c:choose>	    
+
+			    <c:if test = "${displayCommodityCodeFields}">
+                    <td class="infoline">
+                        <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
+                        <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
+                        <kul:htmlControlAttribute attributeEntry="${itemAttributes.purchasingCommodityCode}" 
+                            property="${commodityCodeField}" 
+                            onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" />
+                        <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
+                            fieldConversions="purchasingCommodityCode:newPurchasingItemLine.purchasingCommodityCode"
+                            lookupParameters="'Y':active"/>     
+                        <div id="newPurchasingItemLine.commodityCode.commodityDescription.div" class="fineprint">
+                            <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
+                        </div>                     
+                    </td>		
+                </c:if>
+
 				<td class="infoline">
 				   <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" />
 			    </td>
@@ -259,14 +253,11 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<c:choose>
-				    <c:when test="${displayCommodityCodeFields}">
-				        <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
-				    </c:when>
-				    <c:otherwise>
-				        <kul:htmlAttributeHeaderCell literalLabel="" nowrap="true" />
-				    </c:otherwise>
-				</c:choose>
+
+				<c:if test="${displayCommodityCodeFields}">
+				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" nowrap="true" />
+				</c:if>
+
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
@@ -384,28 +375,24 @@
 						    property="document.item[${ctr}].itemCatalogNumber"
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" />
 				    </td>
-				    <c:choose>
-				        <c:when test="${displayCommodityCodeFields}">
-                            <td class="infoline">
-                                <kul:htmlControlAttribute 
-                                    attributeEntry="${itemAttributes.purchasingCommodityCode}" 
-                                    property="document.item[${ctr}].purchasingCommodityCode"
-                                    onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
-                                    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}"/>
-                                <c:if test="${fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
-                                    <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
-                                        fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"
-                                        lookupParameters="'Y':active"/>    
-                                </c:if>
-                                <div id="document.item[${ctr}].commodityCode.commodityDescription.div" class="fineprint">
-                                    <html:hidden write="true" property="document.item[${ctr}].commodityCode.commodityDescription"/>&nbsp;  
-                                </div>                        
-                            </td>
-                        </c:when>
-                        <c:otherwise>
-                            <td class="infoline"/>
-                        </c:otherwise>
-                    </c:choose>				    
+				    <c:if test="${displayCommodityCodeFields}">
+                        <td class="infoline">
+                            <kul:htmlControlAttribute 
+                                attributeEntry="${itemAttributes.purchasingCommodityCode}" 
+                                property="document.item[${ctr}].purchasingCommodityCode"
+                                onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
+                                readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}"/>
+                            <c:if test="${fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
+                                <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
+                                    fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"
+                                    lookupParameters="'Y':active"/>    
+                            </c:if>
+                            <div id="document.item[${ctr}].commodityCode.commodityDescription.div" class="fineprint">
+                                <html:hidden write="true" property="document.item[${ctr}].commodityCode.commodityDescription"/>&nbsp;  
+                            </div>                        
+                        </td>
+                    </c:if>
+			    
 					<td class="infoline">
 						 <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemDescription}"

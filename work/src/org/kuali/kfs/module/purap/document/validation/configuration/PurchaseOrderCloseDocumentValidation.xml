@@ -212,6 +212,10 @@
 									            </property>
 									       	</bean>							                                
 					                    </entry>
+					                    <entry>
+						                    <key><value>isNotLineItemIndicator</value></key>
+											<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+					                    </entry>					                    
 				                    </map>
 					            </property>
 			                    <property name="parameterProperties">

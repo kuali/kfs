@@ -244,7 +244,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @param explicitEntry
      */
     public void populateExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
-        LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
+        }
 
         explicitEntry.setFinancialDocumentTypeCode(glpeSource.getFinancialDocumentTypeCode());
         explicitEntry.setVersionNumber(new Long(1));
@@ -288,7 +290,75 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         // explicitEntry.setBudgetYear(accountingLine.getBudgetYear());
         // explicitEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
 
-        LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
+        }
+    }
+    
+    /**
+     * Convenience method to build a GLPE without a generalLedgerPendingEntrySourceDetail
+     * @param document a GeneralLedgerPostingDocument
+     * @param account the account for use in the GLPE
+     * @param objectCode the object code for use in the GLPE
+     * @param subAccountNumber the sub account number for use in the GLPE
+     * @param subObjectCode the subobject code for use in the GLPE
+     * @param organizationReferenceId the organization reference id to use in the GLPE
+     * @param projectCode the project code to use in the GLPE
+     * @param referenceNumber the reference number to use in the GLPE
+     * @param referenceTypeCode the reference type code to use in the GLPE
+     * @param referenceOriginCode the reference origin code to use in the GLPE
+     * @param description the description to put in the GLPE
+     * @param isDebit true if the GLPE represents a debit, false if it represents a credit
+     * @param amount the amount of the GLPE
+     * @param sequenceHelper the sequence helper to use
+     * @return a populated general ledger pending entry
+     */
+    public GeneralLedgerPendingEntry buildGeneralLedgerPendingEntry(GeneralLedgerPostingDocument document, Account account, ObjectCode objectCode, String subAccountNumber, String subObjectCode, String organizationReferenceId, String projectCode, String referenceNumber, String referenceTypeCode, String referenceOriginCode, String description, boolean isDebit, KualiDecimal amount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
+        }
+
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
+        explicitEntry.setFinancialDocumentTypeCode(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        explicitEntry.setVersionNumber(new Long(1));
+        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+        explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
+        explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
+        explicitEntry.setAccountNumber(account.getAccountNumber());
+        if (account.getAccountSufficientFundsCode() == null) {
+            account.setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
+        }
+        explicitEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(objectCode, account.getAccountSufficientFundsCode()));
+        explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
+        explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
+        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
+        explicitEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());
+        explicitEntry.setTransactionDebitCreditCode(isDebit ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
+        explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
+        explicitEntry.setDocumentNumber(document.getDocumentNumber());
+        explicitEntry.setFinancialObjectCode(objectCode.getFinancialObjectCode());
+        explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+        explicitEntry.setOrganizationDocumentNumber(document.getDocumentHeader().getOrganizationDocumentNumber());
+        explicitEntry.setOrganizationReferenceId(organizationReferenceId);
+        explicitEntry.setProjectCode(getEntryValue(projectCode, GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
+        explicitEntry.setReferenceFinancialDocumentNumber(getEntryValue(referenceNumber, BLANK_SPACE));
+        explicitEntry.setReferenceFinancialDocumentTypeCode(getEntryValue(referenceTypeCode, BLANK_SPACE));
+        explicitEntry.setReferenceFinancialSystemOriginationCode(getEntryValue(referenceOriginCode, BLANK_SPACE));
+        explicitEntry.setSubAccountNumber(getEntryValue(subAccountNumber, GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
+        explicitEntry.setFinancialSubObjectCode(getEntryValue(subObjectCode, GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
+        explicitEntry.setTransactionEntryOffsetIndicator(false);
+        explicitEntry.setTransactionLedgerEntryAmount(amount);
+        explicitEntry.setTransactionLedgerEntryDescription(getEntryValue(description, document.getDocumentHeader().getDocumentDescription()));
+        explicitEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
+        // classes
+        explicitEntry.setUniversityFiscalYear(document.getPostingYear());
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
+        }
+        
+        return explicitEntry;
     }
 
     /**

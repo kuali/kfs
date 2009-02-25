@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -235,6 +236,26 @@ public interface GeneralLedgerPendingEntryService {
      * @param explicitEntry
      */
     public void populateExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry);
+    
+    /**
+     * Convenience method to build a GLPE without a generalLedgerPendingEntrySourceDetail
+     * @param document a GeneralLedgerPostingDocument
+     * @param account the account for use in the GLPE
+     * @param objectCode the object code for use in the GLPE
+     * @param subAccountNumber the sub account number for use in the GLPE
+     * @param subObjectCode the subobject code for use in the GLPE
+     * @param organizationReferenceId the organization reference id to use in the GLPE
+     * @param projectCode the project code to use in the GLPE
+     * @param referenceNumber the reference number to use in the GLPE
+     * @param referenceTypeCode the reference type code to use in the GLPE
+     * @param referenceOriginCode the reference origin code to use in the GLPE
+     * @param description the description to put in the GLPE
+     * @param isDebit true if the GLPE represents a debit, false if it represents a credit
+     * @param amount the amount of the GLPE
+     * @param sequenceHelper the sequence helper to use
+     * @return a populated general ledger pending entry
+     */
+    public GeneralLedgerPendingEntry buildGeneralLedgerPendingEntry(GeneralLedgerPostingDocument document, Account account, ObjectCode objectCode, String subAccountNumber, String subObjectCode, String organizationReferenceId, String projectCode, String referenceNumber, String referenceTypeCode, String referenceOriginCode, String description, boolean isDebit, KualiDecimal amount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
     
     /**
      * This populates an GeneralLedgerPendingEntry offsetEntry object instance with values that differ from the values supplied in

@@ -69,15 +69,7 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				<value>SalaryExpenseTransferDocument-updateAccountingLineValidation</value>
-			</entry>			
-			<entry>
-				<key><value>org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerPendingEntriesEvent</value></key>
-				<value>SalaryExpenseTransferDocument-processGenerateLaborLedgerPendingEntries</value>
-			</entry>			
-			<entry>
-				<key><value>org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent</value></key>
-				<value>SalaryExpenseTransferDocument-processGenerateLaborLedgerBenefitClearingPendingEntries</value>
-			</entry>								
+			</entry>											
     	</map>
     </property>
   </bean>

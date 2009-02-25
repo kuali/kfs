@@ -15,17 +15,49 @@
  */
 package org.kuali.kfs.module.ld.document;
 
+import java.util.List;
+
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+
 /**
  * Labor Document class for the Benefit Expense Transfer Document and a base class for the year end benefit expense transfer
  * document
  */
 
 public class BenefitExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BenefitExpenseTransferDocument.class);
 
     /**
      * Default Constructor.
      */
     public BenefitExpenseTransferDocument() {
         super();
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase#generateLaborLedgerPendingEntries(org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public boolean generateLaborLedgerPendingEntries(AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.info("started processGenerateLaborLedgerPendingEntries()");
+        boolean isSuccessful = true;
+        ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
+        
+        List<LaborLedgerPendingEntry> expensePendingEntries = LaborPendingEntryGenerator.generateExpensePendingEntries(this, expenseTransferAccountingLine, sequenceHelper);
+        if (expensePendingEntries != null && !expensePendingEntries.isEmpty()) {
+            isSuccessful &= this.getLaborLedgerPendingEntries().addAll(expensePendingEntries);
+        }
+        
+        return isSuccessful;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase#generateLaborLedgerBenefitClearingPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public boolean generateLaborLedgerBenefitClearingPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        return true;
     }
 }

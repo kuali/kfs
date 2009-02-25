@@ -24,8 +24,6 @@ import java.util.Map;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
-import org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent;
-import org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerPendingEntriesEvent;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -44,7 +42,6 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryServiceImpl.class);
 
     private LaborLedgerPendingEntryDao laborLedgerPendingEntryDao;
-    private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
 
     /**
@@ -96,60 +93,18 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
 
         // process accounting lines, generate labor ledger pending entries
-        List<AccountingLine> sourceAccountingLines = getSourceLines(document);
-        if (sourceAccountingLines != null) {
-            for (AccountingLine line : sourceAccountingLines) {
-                success &= processLaborLedgerPendingEntryForAccountingLine(document, sequenceHelper, line);
-            }
+        List<AccountingLine> sourceAccountingLines = document.getSourceAccountingLines();
+        for (AccountingLine accountingLine : sourceAccountingLines) {
+            success &= document.generateLaborLedgerPendingEntries(accountingLine, sequenceHelper);
         }
 
-        List<AccountingLine> targetAccountingLines = getTargetLines(document);
-        if (targetAccountingLines != null) {
-            for (AccountingLine line : targetAccountingLines) {
-                success &= processLaborLedgerPendingEntryForAccountingLine(document, sequenceHelper, line);
-            }
+        List<AccountingLine> targetAccountingLines = document.getTargetAccountingLines();
+        for (AccountingLine accountingLine : targetAccountingLines) {
+            success &= document.generateLaborLedgerPendingEntries(accountingLine, sequenceHelper);
         }
 
         // compare source and target accounting lines, and generate benefit clearing lines as needed
-        success &= processGenerateLaborLedgerBenefitClearingEntries(document, sequenceHelper);
-
-        return success;
-    }
-
-    private List<AccountingLine> getSourceLines(LaborLedgerPostingDocument document) {
-        return (List<AccountingLine>) document.getSourceAccountingLines();
-    }
-
-    private List<AccountingLine> getTargetLines(LaborLedgerPostingDocument document) {
-        return (List<AccountingLine>) document.getTargetAccountingLines();
-    }
-
-    /**
-     * This method handles generically taking an accounting line, doing a deep copy on it so that we have a new instance without
-     * reference to the original (won't affect the tran doc's acct lines), performing a retrieveNonKeyFields on the line to make
-     * sure it's populated properly, and then calling the rule framework driven GLPE generation code.
-     * 
-     * @param document
-     * @param sequenceHelper
-     * @param iter
-     * @return whether the business rules succeeded
-     */
-    private boolean processLaborLedgerPendingEntryForAccountingLine(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine line) {
-        LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
-        boolean success = true;
-
-        GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, line, sequenceHelper);
-        success &= kualiRuleService.applyRules(event);
-
-        return success;
-    }
-
-    private boolean processGenerateLaborLedgerBenefitClearingEntries(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
-        boolean success = true;
-
-        GenerateLaborLedgerBenefitClearingPendingEntriesEvent event = new GenerateLaborLedgerBenefitClearingPendingEntriesEvent(document, sequenceHelper);
-        success &= kualiRuleService.applyRules(event);
+        success &= document.generateLaborLedgerBenefitClearingPendingEntries(sequenceHelper);
 
         return success;
     }
@@ -189,14 +144,18 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         laborLedgerPendingEntryDao.deleteByFinancialDocumentApprovedCode(financialDocumentApprovedCode);
     }
 
+    /**
+     * Sets the laborLedgerPendingEntryDao attribute value.
+     * @param laborLedgerPendingEntryDao The laborLedgerPendingEntryDao to set.
+     */
     public void setLaborLedgerPendingEntryDao(LaborLedgerPendingEntryDao laborLedgerPendingEntryDao) {
         this.laborLedgerPendingEntryDao = laborLedgerPendingEntryDao;
     }
 
-    public void setKualiRuleService(KualiRuleService kualiRuleService) {
-        this.kualiRuleService = kualiRuleService;
-    }
-
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

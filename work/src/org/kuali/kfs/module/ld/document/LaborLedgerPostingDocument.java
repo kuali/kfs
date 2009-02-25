@@ -18,6 +18,8 @@ package org.kuali.kfs.module.ld.document;
 import java.util.List;
 
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
@@ -44,4 +46,21 @@ public interface LaborLedgerPostingDocument extends AccountingDocument {
      * @return the pending entry with the given index in the list of labor ledger pending entries
      */
     public LaborLedgerPendingEntry getLaborLedgerPendingEntry(int index);
+    
+    /**
+     * creating a list of Expense Pending entries and Benefit pending Entries
+     * 
+     * @param accountingLine the accounting line being used to generate pending entries
+     * @param sequenceHelper the sequence number generator
+     * @return true after creating a list of Expense Pending entries and Benefit pending Entries
+     */
+    public boolean generateLaborLedgerPendingEntries(AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+
+    /**
+     * creating a list of benefit clearing Pending entries
+     * 
+     * @param sequenceHelper the sequence number generator
+     * @return true after creating a list of benefit clearing Pending entries
+     */
+    public boolean generateLaborLedgerBenefitClearingPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 }

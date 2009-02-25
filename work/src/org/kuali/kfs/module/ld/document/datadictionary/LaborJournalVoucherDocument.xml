@@ -5,10 +5,6 @@
   <bean id="LaborJournalVoucherDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
     
-    
-    
-    
-    
     <property name="documentTypeName" value="LLJV"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -111,8 +107,7 @@
   
   <!-- Validations -->
   
-  <bean id="LaborJournalVoucherDocument-validations" parent="LaborJournalVoucherDocument-validations-parentBean"/>
-  
+  <bean id="LaborJournalVoucherDocument-validations" parent="LaborJournalVoucherDocument-validations-parentBean"/> 
   <bean id="LaborJournalVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
@@ -147,10 +142,6 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 				<value>LaborJournalVoucherDocument-reviewAccountingLineValidation</value>
-			</entry>
-			<entry>
-				<key><value>org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent</value></key>
-				<value>LaborJournalVoucherDocument-processGenerateLaborLedgerBenefitClearingPendingEntries</value>
 			</entry>								
     	</map>
     </property>

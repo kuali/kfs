@@ -20,8 +20,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="LaborJournalVoucherDocument-saveDocumentValidation" parent="LaborJournalVoucherDocument-saveDocumentValidation-parent" scope="prototype" />
-	
+	<bean id="LaborJournalVoucherDocument-saveDocumentValidation" parent="LaborJournalVoucherDocument-saveDocumentValidation-parent" scope="prototype" />	
 	<bean id="LaborJournalVoucherDocument-saveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
@@ -51,7 +50,6 @@
 	</bean>
 
 	<bean id="LaborJournalVoucherDocument-routeDocumentValidation" parent="LaborJournalVoucherDocument-routeDocumentValidation-parent" scope="prototype" />
-	
 	<bean id="LaborJournalVoucherDocument-routeDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
@@ -70,8 +68,7 @@
 		</property>
 	</bean>
 
-	<bean id="LaborJournalVoucherDocument-blanketApproveDocumentValidation" parent="LaborJournalVoucherDocument-blanketApproveDocumentValidation-parent" scope="prototype" />
-	
+	<bean id="LaborJournalVoucherDocument-blanketApproveDocumentValidation" parent="LaborJournalVoucherDocument-blanketApproveDocumentValidation-parent" scope="prototype" />	
 	<bean id="LaborJournalVoucherDocument-blanketApproveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
@@ -80,8 +77,7 @@
 		</property>
 	</bean>
 
-	<bean id="LaborJournalVoucherDocument-deleteAccountingLineValidation" parent="LaborJournalVoucherDocument-deleteAccountingLineValidation-parent" scope="prototype" />
-	
+	<bean id="LaborJournalVoucherDocument-deleteAccountingLineValidation" parent="LaborJournalVoucherDocument-deleteAccountingLineValidation-parent" scope="prototype" />	
 	<bean id="LaborJournalVoucherDocument-deleteAccountingLineValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
@@ -90,9 +86,8 @@
 		</property>
 	</bean>
 
-	<bean id="LaborJournalVoucherDocument-updateAccountLineValidation" parent="LaborJournalVoucherDocument-updateAccountLineValidation-parentBean" scope="prototype" />
-		
-	<bean id="LaborJournalVoucherDocument-updateAccountLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="LaborJournalVoucherDocument-updateAccountingLineValidation" parent="LaborJournalVoucherDocument-updateAccountingLineValidation-parentBean" scope="prototype" />		
+	<bean id="LaborJournalVoucherDocument-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
@@ -201,23 +196,11 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="LaborJournalVoucherDocument-laborJournalVoucherExternalEncumbranceValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
 			</list>
 		</property>	
 	</bean>
 		
-	<bean id="LaborJournalVoucherDocument-addAccountingLineValidation" parent="LaborJournalVoucherDocument-addAccountingLineValidation-parentBean" scope="prototype" />
-		
+	<bean id="LaborJournalVoucherDocument-addAccountingLineValidation" parent="LaborJournalVoucherDocument-addAccountingLineValidation-parentBean" scope="prototype" />		
 	<bean id="LaborJournalVoucherDocument-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
@@ -326,24 +309,12 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>
-				<bean parent="LaborJournalVoucherDocument-laborJournalVoucherExternalEncumbranceValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>								
+				</bean>							
 			</list>
 		</property>	
 	</bean>
 
-	<bean id="LaborJournalVoucherDocument-reviewAccountingLineValidation" parent="LaborJournalVoucherDocument-reviewAccountingLineValidation-parentBean" scope="prototype" />
-		
+	<bean id="LaborJournalVoucherDocument-reviewAccountingLineValidation" parent="LaborJournalVoucherDocument-reviewAccountingLineValidation-parentBean" scope="prototype" />		
 	<bean id="LaborJournalVoucherDocument-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
@@ -369,46 +340,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="LaborJournalVoucherDocument-laborJournalVoucherExternalEncumbranceValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
 			</list>
 		</property>	
 	</bean>
-	
-	<bean id="LaborJournalVoucherDocument-processGenerateLaborLedgerPendingEntries" parent="LaborJournalVoucherDocument-generateLaborLedgerPendingEntries-parentBean" scope="prototype" />
-		
-	<bean id="LaborJournalVoucherDocument-generateLaborLedgerPendingEntries-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>		
-				<bean parent="LaborJournalVoucherDocument-generateLaborLedgerPendingEntries" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>						
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="sequenceHelper" />
-								<property name="targetValidationProperty" value="sequenceHelperForValidation" />
-							</bean>													
-						</list>
-					</property>
-				</bean>			
-			</list>
-		</property>	
-	</bean>
-	
 </beans>

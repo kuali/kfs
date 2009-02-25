@@ -191,6 +191,7 @@
     			<ref bean="RoutingAttribute-financialDocumentTotalAmount"/>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
 		        <ref bean="RoutingAttribute-accountNumber"/>
+		        <ref bean="RoutingAttribute-contractsAndGrantsAccountResponsibilityId"/>
     		</list>
     	</property>    	
     	<property name="documentValuePathGroups">

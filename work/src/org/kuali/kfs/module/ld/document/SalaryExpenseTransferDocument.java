@@ -16,14 +16,25 @@
 package org.kuali.kfs.module.ld.document;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor Document Class for the Salary Expense Transfer Document.
  */
 public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SalaryExpenseTransferDocument.class);
+
     private Map<String, KualiDecimal> approvalObjectCodeBalances;
 
     /**
@@ -50,5 +61,46 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
      */
     public void setApprovalObjectCodeBalances(Map<String, KualiDecimal> approvalObjectCodeBalances) {
         this.approvalObjectCodeBalances = approvalObjectCodeBalances;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase#generateLaborLedgerPendingEntries(org.kuali.kfs.sys.businessobject.AccountingLine,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public boolean generateLaborLedgerPendingEntries(AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.info("started generateLaborLedgerPendingEntries()");
+        
+        boolean isSuccessful = true;
+        ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
+
+        List<LaborLedgerPendingEntry> expensePendingEntries = LaborPendingEntryGenerator.generateExpensePendingEntries(this, expenseTransferAccountingLine, sequenceHelper);
+        if (expensePendingEntries != null && !expensePendingEntries.isEmpty()) {
+            isSuccessful &= this.getLaborLedgerPendingEntries().addAll(expensePendingEntries);
+        }
+
+        List<LaborLedgerPendingEntry> benefitPendingEntries = LaborPendingEntryGenerator.generateBenefitPendingEntries(this, expenseTransferAccountingLine, sequenceHelper);
+        if (benefitPendingEntries != null && !benefitPendingEntries.isEmpty()) {
+            isSuccessful &= this.getLaborLedgerPendingEntries().addAll(benefitPendingEntries);
+        }
+
+        return isSuccessful;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase#generateLaborLedgerBenefitClearingPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public boolean generateLaborLedgerBenefitClearingPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.info("started generateLaborLedgerBenefitClearingPendingEntries()");
+
+        String chartOfAccountsCode = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_CHART_PARM_NM);
+        String accountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_ACCOUNT_PARM_NM);
+
+        List<LaborLedgerPendingEntry> benefitClearingPendingEntries = LaborPendingEntryGenerator.generateBenefitClearingPendingEntries(this, sequenceHelper, accountNumber, chartOfAccountsCode);
+
+        if (benefitClearingPendingEntries != null && !benefitClearingPendingEntries.isEmpty()) {
+            return this.getLaborLedgerPendingEntries().addAll(benefitClearingPendingEntries);
+        }
+
+        return true;
     }
 }

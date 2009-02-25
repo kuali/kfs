@@ -213,33 +213,5 @@
 				</bean>
 			</list>
 		</property>	
-	</bean>
-	
-	<bean id="BenefitExpenseTransferDocument-processGenerateLaborLedgerPendingEntries" parent="BenefitExpenseTransferDocument-generateLaborLedgerPendingEntries-parentBean" scope="prototype" />
-		
-	<bean id="BenefitExpenseTransferDocument-generateLaborLedgerPendingEntries-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>		
-				<bean parent="BenefitExpenseTransferDocument-generateLaborLedgerPendingEntries" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>						
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="sequenceHelper" />
-								<property name="targetValidationProperty" value="sequenceHelperForValidation" />
-							</bean>													
-						</list>
-					</property>
-				</bean>			
-			</list>
-		</property>	
-	</bean>
-	
+	</bean>	
 </beans>

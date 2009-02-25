@@ -404,7 +404,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-        <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>

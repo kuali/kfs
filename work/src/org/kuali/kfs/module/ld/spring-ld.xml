@@ -94,9 +94,6 @@
 		</property>
 		<property name="laborLedgerPendingEntryDao">
 			<ref bean="laborLedgerPendingEntryDao" />
-		</property>
-		<property name="kualiRuleService">
-			<ref bean="kualiRuleService" />
 		</property>	
 	</bean>
 
@@ -1092,7 +1089,7 @@
 	<import resource="document/validation/configuration/LaborValidations.xml" />
 	<import resource="document/validation/configuration/SalaryExpenseTransferValidations.xml" />
 	<import resource="document/validation/configuration/BenefitExpenseTransferValidations.xml" />
-	<import resource="document/validation/configuration/KualiLaborJournalVoucherValidations.xml" />
+	<import resource="document/validation/configuration/LaborJournalVoucherValidations.xml" />
 	
 	<!-- not exist
 	<import resource="document/validation/configuration/YearEndSalaryExpenseTransferValidations.xml" />

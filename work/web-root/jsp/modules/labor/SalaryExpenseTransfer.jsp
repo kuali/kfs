@@ -76,7 +76,7 @@
                                  lookupParameters="emplid:employeeId,universityFiscalYear:universityFiscalYear"
                                  hasErrors="${hasErrors}"
                                  onblur="${onblur}"
-                                 highlight="${addHighlighting}" readOnly="${disabled}" >
+                                 highlight="${addHighlighting}" readOnly="${readOnly}" >
                      </kfs:employee>
                </td>
              </tr>

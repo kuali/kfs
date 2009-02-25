@@ -306,6 +306,7 @@
 
   <bean id="PaymentDetail-paymentGroup.process.processUser.principalName-parentBean" abstract="true" parent="PaymentGroup-process.processUser.principalName">
     <property name="name" value="paymentGroup.process.processUser.principalName" />
+    <property name="label" value="Processor Name" />
   </bean>
   <bean id="PaymentDetail-paymentGroup.batch.fileProcessTimestamp" parent="PaymentDetail-paymentGroup.batch.fileProcessTimestamp-parentBean" />
 

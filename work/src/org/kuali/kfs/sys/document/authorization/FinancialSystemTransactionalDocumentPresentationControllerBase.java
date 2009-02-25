@@ -77,11 +77,13 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     @Override
     public Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = super.getDocumentActions(document);
-        if (canErrorCorrect((FinancialSystemTransactionalDocument) document)) {
-            documentActions.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
-        }
-        if (canHaveBankEntry(document)) {
-            documentActions.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
+        if (document instanceof FinancialSystemTransactionalDocument) {
+            if (canErrorCorrect((FinancialSystemTransactionalDocument) document)) {
+                documentActions.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
+            }
+            if (canHaveBankEntry(document)) {
+                documentActions.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
+            }
         }
         return documentActions;
     }
@@ -96,7 +98,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         if (document instanceof AmountTotaling) {
             editModes.add(KFSConstants.AMOUNT_TOTALING_EDITING_MODE);
         }
-
+        
         if (this.canHaveBankEntry(document)) {
             editModes.add(KFSConstants.BANK_ENTRY_VIEWABLE_EDITING_MODE);
         }

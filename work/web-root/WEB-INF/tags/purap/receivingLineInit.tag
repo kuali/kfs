@@ -18,7 +18,7 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
-<kul:tabTop tabTitle="Receving Line Initiation" defaultOpen="true" tabErrorKey="${PurapConstants.RECEIVING_LINE_INIT_TAB_ERRORS}">
+<kul:tabTop tabTitle="Receiving Line Initiation" defaultOpen="true" tabErrorKey="${PurapConstants.RECEIVING_LINE_INIT_TAB_ERRORS}">
 	
     <div class="tab-container" align=center>
             <h3>Receiving Line Initiation</h3>

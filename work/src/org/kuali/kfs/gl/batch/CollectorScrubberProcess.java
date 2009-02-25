@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,11 +26,11 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
@@ -47,10 +48,10 @@ import org.kuali.rice.kns.service.PersistenceService;
  */
 public class CollectorScrubberProcess {
     protected CollectorBatch batch;
-    protected OriginEntryGroup inputGroup;
-    protected OriginEntryGroup validGroup;
-    protected OriginEntryGroup errorGroup;
-    protected OriginEntryGroup expiredGroup;
+    protected String inputFileName;
+    protected String validFileName;
+    protected String errorFileName;
+    protected String expiredFileName;
     protected OriginEntryService originEntryService;
     protected OriginEntryGroupService originEntryGroupService;
     protected KualiConfigurationService kualiConfigurationService;
@@ -59,7 +60,8 @@ public class CollectorScrubberProcess {
     protected ScrubberService scrubberService;
 
     protected Set<DocumentGroupData> errorDocumentGroups;
-
+    protected String collectorFileDirectoryName;
+    
     /**
      * Constructs a CollectorScrubberProcess.java.
      * 
@@ -78,7 +80,7 @@ public class CollectorScrubberProcess {
      * @param kualiConfigurationService the config service
      * @param persistenceService the persistence service
      */
-    public CollectorScrubberProcess(CollectorBatch batch, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, KualiConfigurationService kualiConfigurationService, PersistenceService persistenceService, ScrubberService scrubberService, CollectorReportData collectorReportData) {
+    public CollectorScrubberProcess(CollectorBatch batch, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, KualiConfigurationService kualiConfigurationService, PersistenceService persistenceService, ScrubberService scrubberService, CollectorReportData collectorReportData, String collectorFileDirectoryName) {
         this.batch = batch;
         this.originEntryService = originEntryService;
         this.originEntryGroupService = originEntryGroupService;
@@ -86,6 +88,7 @@ public class CollectorScrubberProcess {
         this.persistenceService = persistenceService;
         this.collectorReportData = collectorReportData;
         this.scrubberService = scrubberService;
+        this.collectorFileDirectoryName = collectorFileDirectoryName;
     }
 
     /**
@@ -96,39 +99,45 @@ public class CollectorScrubberProcess {
     public CollectorScrubberStatus scrub() {
         // for the collector origin entry group scrub, we make sure that we're using a custom impl of the origin entry service and
         // group service.
-        ScrubberStatus scrubberStatus = scrubberService.scrubCollectorBatch(batch, collectorReportData, originEntryService, originEntryGroupService);
+        ScrubberStatus scrubberStatus = scrubberService.scrubCollectorBatch(batch, collectorReportData, originEntryService, originEntryGroupService, collectorFileDirectoryName);
+        
         CollectorScrubberStatus collectorScrubberStatus = new CollectorScrubberStatus();
 
         // extract the group BOs form the scrubber
 
-        // the group that contains all of the origin entries from the collector file
-        inputGroup = scrubberStatus.getInputGroup();
-        collectorScrubberStatus.setInputGroup(inputGroup);
+        //TODO: Shawn - need to change for file name here....instead of groups... 
+        // the FileName that contains all of the origin entries from the collector file
+        inputFileName = scrubberStatus.getInputFileName();
+        collectorScrubberStatus.setInputFileName(inputFileName);
 
-        // the group that contains all of the origin entries from the scrubber valid group
-        validGroup = scrubberStatus.getValidGroup();
-        collectorScrubberStatus.setValidGroup(validGroup);
+        // the FileName that contains all of the origin entries from the scrubber valid FileName
+        validFileName = scrubberStatus.getValidFileName();
+        collectorScrubberStatus.setValidFileName(validFileName);
 
-        // the group that contains all of the origin entries from the scrubber error group
-        errorGroup = scrubberStatus.getErrorGroup();
-        collectorScrubberStatus.setErrorGroup(errorGroup);
+        // the FileName that contains all of the origin entries from the scrubber error FileName
+        errorFileName = scrubberStatus.getErrorFileName();
+        collectorScrubberStatus.setErrorFileName(errorFileName);
 
-        // the group that contains all of the origin entries from the scrubber expired group (expired accounts)
-        expiredGroup = scrubberStatus.getExpiredGroup();
-        collectorScrubberStatus.setExpiredGroup(expiredGroup);
+        // the FileName that contains all of the origin entries from the scrubber expired FileName (expired accounts)
+        expiredFileName = scrubberStatus.getExpiredFileName();
+        collectorScrubberStatus.setExpiredFileName(expiredFileName);
 
         collectorScrubberStatus.setOriginEntryGroupService(originEntryGroupService);
         collectorScrubberStatus.setOriginEntryService(originEntryService);
 
+        // TODO: Shawn - I will have scrberr1, so run with this file
         retrieveErrorDocumentGroups();
-
-        retrieveTotalsOnInputOriginEntriesAssociatedWithErrorGroup();
-
+        
+        // TODO: -- Jeff
+        //retrieveTotalsOnInputOriginEntriesAssociatedWithErrorGroup();
+        
+        //TODO: Shawn - need to change using file -- scrberr1 file 
         removeInterDepartmentalBillingAssociatedWithErrorGroup();
 
         applyChangesToDetailsFromScrubberEdits(scrubberStatus.getUnscrubbedToScrubbedEntries());
-
-        retainBatchValidEntriesOnly();
+        
+        //TODO: Shawn - don't need this method
+        //retainBatchValidEntriesOnly();
 
         return collectorScrubberStatus;
     }
@@ -263,28 +272,31 @@ public class CollectorScrubberProcess {
     /**
      * Updates the origin entries read in by the collector are only the entries the scrubber declared valid
      */
-    protected void retainBatchValidEntriesOnly() {
-        Iterator<OriginEntryFull> validEntriesIter = originEntryService.getEntriesByGroup(validGroup);
-        List<OriginEntryFull> validEntries = new ArrayList<OriginEntryFull>();
-        while (validEntriesIter.hasNext()) {
-            OriginEntryFull entry = validEntriesIter.next();
-
-            // clear out the entry ID, (which is the PK) because the origin entry service we're using for the scrubber
-            // may not assign a correct entry ID that should be used to persist in the DB, causing optimistic locking
-            // exceptions.
-            entry.setEntryId(null);
-            validEntries.add(entry);
-        }
-        batch.setOriginEntries(validEntries);
-    }
+//    protected void retainBatchValidEntriesOnly() {
+//        Iterator<OriginEntryFull> validEntriesIter = originEntryService.getEntriesByGroup(validGroup);
+//        List<OriginEntryFull> validEntries = new ArrayList<OriginEntryFull>();
+//        while (validEntriesIter.hasNext()) {
+//            OriginEntryFull entry = validEntriesIter.next();
+//
+//            // clear out the entry ID, (which is the PK) because the origin entry service we're using for the scrubber
+//            // may not assign a correct entry ID that should be used to persist in the DB, causing optimistic locking
+//            // exceptions.
+//            entry.setEntryId(null);
+//            validEntries.add(entry);
+//        }
+//        batch.setOriginEntries(validEntries);
+//    }
 
     /**
      * Based on the origin entries in the origin entry scrubber-produced error group, creates a set of all {@link DocumentGroupData}s
      * represented by those origin entries and initializes the {@link #errorDocumentGroups} variable
      */
     protected void retrieveErrorDocumentGroups() {
-        List<OriginEntryFull> errorEntries = originEntryService.getEntriesByGroupId(errorGroup.getId());
-        errorDocumentGroups = DocumentGroupData.getDocumentGroupDatasForTransactions(errorEntries.iterator());
+        //List<OriginEntryFull> errorEntries = originEntryService.getEntriesByGroupId(errorGroup.getId());
+        File errorFile = new File(collectorFileDirectoryName + File.separator + errorFileName);
+        OriginEntryFileIterator entryIterator = new OriginEntryFileIterator(errorFile);
+        //errorDocumentGroups = DocumentGroupData.getDocumentGroupDatasForTransactions(errorEntries.iterator());
+        errorDocumentGroups = DocumentGroupData.getDocumentGroupDatasForTransactions(entryIterator);
     }
 
     /**
@@ -294,16 +306,16 @@ public class CollectorScrubberProcess {
      * that the input origin entry and the error origin entry have equal doc number, doc type, and origination code. These totals
      * are reflected in the collector report data object.
      */
-    protected void retrieveTotalsOnInputOriginEntriesAssociatedWithErrorGroup() {
-        Map<DocumentGroupData, OriginEntryTotals> inputDocumentTotals = new HashMap<DocumentGroupData, OriginEntryTotals>();
-
-        for (DocumentGroupData errorDocumentGroupData : errorDocumentGroups) {
-            Iterator<OriginEntryFull> associatedInputEntries = originEntryService.getEntriesByDocument(inputGroup, errorDocumentGroupData.getDocumentNumber(), errorDocumentGroupData.getFinancialDocumentTypeCode(), errorDocumentGroupData.getFinancialSystemOriginationCode());
-            OriginEntryTotals originEntryTotals = new OriginEntryTotals();
-            originEntryTotals.addToTotals(associatedInputEntries);
-            inputDocumentTotals.put(errorDocumentGroupData, originEntryTotals);
-        }
-
-        collectorReportData.setTotalsOnInputOriginEntriesAssociatedWithErrorGroup(batch, inputDocumentTotals);
-    }
+//    protected void retrieveTotalsOnInputOriginEntriesAssociatedWithErrorGroup() {
+//        Map<DocumentGroupData, OriginEntryTotals> inputDocumentTotals = new HashMap<DocumentGroupData, OriginEntryTotals>();
+//
+//        for (DocumentGroupData errorDocumentGroupData : errorDocumentGroups) {
+//            Iterator<OriginEntryFull> associatedInputEntries = originEntryService.getEntriesByDocument(inputGroup, errorDocumentGroupData.getDocumentNumber(), errorDocumentGroupData.getFinancialDocumentTypeCode(), errorDocumentGroupData.getFinancialSystemOriginationCode());
+//            OriginEntryTotals originEntryTotals = new OriginEntryTotals();
+//            originEntryTotals.addToTotals(associatedInputEntries);
+//            inputDocumentTotals.put(errorDocumentGroupData, originEntryTotals);
+//        }
+//
+//        collectorReportData.setTotalsOnInputOriginEntriesAssociatedWithErrorGroup(batch, inputDocumentTotals);
+//    }
 }

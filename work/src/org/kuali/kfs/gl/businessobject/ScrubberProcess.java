@@ -41,8 +41,11 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
+import org.kuali.kfs.gl.batch.BatchSortUtil;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.ScrubberStep;
+import org.kuali.kfs.gl.batch.DemergerSortStep.DemergerSortComparator;
+import org.kuali.kfs.gl.batch.ScrubberSortStep.ScrubberSortComparator;
 import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride;
@@ -230,11 +233,11 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE;
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE;
-        
-        //TODO: should move to new step
-        //sortGlBackupFile();
+
         scrubEntries(false, null);
     }
+    
+    
 
     /**
      * Scrubs the origin entry and ID billing details if the given batch. Store all scrubber output into the collectorReportData
@@ -247,14 +250,25 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData) {
         collectorMode = true;
 
-        // first, scrub the origin entries
-        //TODO: Shawn - ask to Jeff
-        //this.inputFile = batch.getGlFileName();
-        this.inputFile = "temp";
-        this.validFile = inputFile + "_scrbout1";
-        this.errorFile = inputFile + "_scrberr1";
-        this.expiredFile = inputFile + "_expaccts";
+        this.inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE;
+        this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE;
+        this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE;
+        this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE;
+       
+        // sort input file
+        String scrubberSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE;
+        String scrubberSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE;
+        BatchSortUtil.sortTextFileWithFields(scrubberSortInputFile, scrubberSortOutputFile, new ScrubberSortComparator());
+        
         scrubEntries(false, null);
+        
+        //sort scrubber error file for demerger
+        String demergerSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE; 
+        String demergerSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE; 
+        BatchSortUtil.sortTextFileWithFields(demergerSortInputFile, demergerSortOutputFile, new DemergerSortComparator());
+        
+        performDemerger();
+        
         // the scrubber process has just updated several member variables of this class. Store these values for the collector report
         collectorReportData.setBatchOriginEntryScrubberErrors(batch, scrubberReportErrors);
         collectorReportData.setScrubberReportData(batch, scrubberReport);
@@ -262,6 +276,14 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
         ScrubberStatus scrubberStatus = new ScrubberStatus();
         scrubberStatus.setUnscrubbedToScrubbedEntries(unscrubbedToUnscrubbedEntries);
+        
+        // report purpose - commented out.  If we need, the put string values for fileNames.
+        scrubberStatus.setInputFileName(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE);
+        scrubberStatus.setValidFileName(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE);
+        scrubberStatus.setErrorFileName(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE);
+        scrubberStatus.setExpiredFileName(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE);
+        scrubberStatus.setUnscrubbedToScrubbedEntries(unscrubbedToUnscrubbedEntries);
+
         return scrubberStatus;
     }
 

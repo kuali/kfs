@@ -56,8 +56,8 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
      * @see org.kuali.kfs.gl.batch.service.CollectorScrubberService#scrub(org.kuali.kfs.gl.batch.CollectorBatch,
      *      org.kuali.kfs.gl.report.CollectorReportData)
      */
-    public CollectorScrubberStatus scrub(CollectorBatch batch, CollectorReportData collectorReportData) {
-        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, SpringContext.getBean(OriginEntryService.class), SpringContext.getBean(OriginEntryGroupService.class), kualiConfigurationService, persistenceService, scrubberService, collectorReportData);
+    public CollectorScrubberStatus scrub(CollectorBatch batch, CollectorReportData collectorReportData, String collectorFileDirectoryName) {
+        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, SpringContext.getBean(OriginEntryService.class), SpringContext.getBean(OriginEntryGroupService.class), kualiConfigurationService, persistenceService, scrubberService, collectorReportData, collectorFileDirectoryName);
         return collectorScrubberProcess.scrub();
     }
 
@@ -69,27 +69,29 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
 
      * @see org.kuali.kfs.gl.batch.service.CollectorScrubberService#removeTempGroups(java.util.Collection)
      */
+    
+    //TODO: Shawn - need to delete couple files
     public void removeTempGroups(Collection<CollectorScrubberStatus> allStatusObjectsFromCollectorExecution) {
-        for (CollectorScrubberStatus collectorScrubberStatus : allStatusObjectsFromCollectorExecution) {
-            OriginEntryGroupService originEntryGroupService = collectorScrubberStatus.getOriginEntryGroupService();
-            Collection<OriginEntryGroup> groupsToDelete = new ArrayList<OriginEntryGroup>();
-
-            if (collectorScrubberStatus.getInputGroup() != null && collectorScrubberStatus.getInputGroup().getId() != null) {
-                groupsToDelete.add(collectorScrubberStatus.getInputGroup());
-            }
-            if (collectorScrubberStatus.getValidGroup() != null && collectorScrubberStatus.getValidGroup().getId() != null) {
-                groupsToDelete.add(collectorScrubberStatus.getValidGroup());
-            }
-            if (collectorScrubberStatus.getExpiredGroup() != null && collectorScrubberStatus.getExpiredGroup().getId() != null) {
-                groupsToDelete.add(collectorScrubberStatus.getExpiredGroup());
-            }
-            if (collectorScrubberStatus.getErrorGroup() != null && collectorScrubberStatus.getErrorGroup().getId() != null) {
-                groupsToDelete.add(collectorScrubberStatus.getErrorGroup());
-            }
-            if (!groupsToDelete.isEmpty()) {
-                originEntryGroupService.deleteGroups(groupsToDelete);
-            }
-        }
+//        for (CollectorScrubberStatus collectorScrubberStatus : allStatusObjectsFromCollectorExecution) {
+//            OriginEntryGroupService originEntryGroupService = collectorScrubberStatus.getOriginEntryGroupService();
+//            Collection<OriginEntryGroup> groupsToDelete = new ArrayList<OriginEntryGroup>();
+//
+//            if (collectorScrubberStatus.getInputGroup() != null && collectorScrubberStatus.getInputGroup().getId() != null) {
+//                groupsToDelete.add(collectorScrubberStatus.getInputGroup());
+//            }
+//            if (collectorScrubberStatus.getValidGroup() != null && collectorScrubberStatus.getValidGroup().getId() != null) {
+//                groupsToDelete.add(collectorScrubberStatus.getValidGroup());
+//            }
+//            if (collectorScrubberStatus.getExpiredGroup() != null && collectorScrubberStatus.getExpiredGroup().getId() != null) {
+//                groupsToDelete.add(collectorScrubberStatus.getExpiredGroup());
+//            }
+//            if (collectorScrubberStatus.getErrorGroup() != null && collectorScrubberStatus.getErrorGroup().getId() != null) {
+//                groupsToDelete.add(collectorScrubberStatus.getErrorGroup());
+//            }
+//            if (!groupsToDelete.isEmpty()) {
+//                originEntryGroupService.deleteGroups(groupsToDelete);
+//            }
+//        }
     }
 
     /**

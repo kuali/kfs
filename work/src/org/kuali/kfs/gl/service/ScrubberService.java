@@ -40,7 +40,7 @@ public interface ScrubberService {
      * @param overrideOriginEntryGroupService the implementation of origin entry group service to use for this specific Collector scrub
      * @return the status returned by the Scrubber
      */
-    public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData, OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService);
+    public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData, OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService, String collectorFileDirectoryName);
 
     /**
      * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin

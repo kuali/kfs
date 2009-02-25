@@ -193,28 +193,29 @@ public class GeneralLedgerConstants {
         static final public String DONE_FILE_EXTENSION = ".done"; 
         
         //static final public String GL_ENTRY = "";
-        static final public String ENTERPRISE_FEED = "gl_entry_entp";
+        static final public String ENTERPRISE_FEED = "gl_glentry_entp";
+        static final public String COLLECTOR_OUTPUT = "gl_glentry_coll";
         //TODO: Shawn - Should I move it to OriginEntrySource??
-        static final public String SCRUBBER_ERROR_PREFIX = "SCRBERR1";
+        static final public String SCRUBBER_ERROR_PREFIX = "scrberr1";
         
-        static final public String BACKUP_FILE = "GL_GLBACKUP";
-        static final public String PRE_SCRUBBER_FILE = "GL_PRESCRUB";
-        static final public String SCRUBBER_INPUT_FILE = "GL_SORTSCRB";
-        static final public String SCRUBBER_VALID_OUTPUT_FILE = "GL_SCRBOUT1";
-        static final public String SCRUBBER_ERROR_OUTPUT_FILE = "GL_SCRBERR1";
-        static final public String SCRUBBER_EXPIRED_OUTPUT_FILE = "GL_EXPACCTS";
-        static final public String SCRUBBER_ERROR_SORTED_FILE = "GL_SORTERR1";
-        static final public String DEMERGER_VAILD_OUTPUT_FILE = "GL_SCRBOUT2";
-        static final public String DEMERGER_ERROR_OUTPUT_FILE = "GL_SCRBERR2";
+        static final public String BACKUP_FILE = "gl_glbackup";
+        static final public String PRE_SCRUBBER_FILE = "gl_prescrub";
+        static final public String SCRUBBER_INPUT_FILE = "gl_sortscrb";
+        static final public String SCRUBBER_VALID_OUTPUT_FILE = "gl_scrbout1";
+        static final public String SCRUBBER_ERROR_OUTPUT_FILE = "gl_scrberr1";
+        static final public String SCRUBBER_EXPIRED_OUTPUT_FILE = "gl_expaccts";
+        static final public String SCRUBBER_ERROR_SORTED_FILE = "gl_sorterr1";
+        static final public String DEMERGER_VAILD_OUTPUT_FILE = "gl_scrbout2";
+        static final public String DEMERGER_ERROR_OUTPUT_FILE = "gl_scrberr2";
         
-        static final public String POSTER_INPUT_FILE = "GL_SORTPOST";
-        static final public String REVERSAL_POSTER_VALID_OUTPUT_FILE = "GL_WORKFILE";
-        static final public String REVERSAL_POSTER_ERROR_OUTPUT_FILE = "GL_WORKERRS";
-        static final public String POSTER_VALID_OUTPUT_FILE = "GL_POSTOUT";
+        static final public String POSTER_INPUT_FILE = "gl_sortpost";
+        static final public String REVERSAL_POSTER_VALID_OUTPUT_FILE = "gl_workfile";
+        static final public String REVERSAL_POSTER_ERROR_OUTPUT_FILE = "gl_workerrs";
+        static final public String POSTER_VALID_OUTPUT_FILE = "gl_postout";
         
-        static final public String POSTER_ERROR_OUTPUT_FILE = "GL_POSTERRS";
-        static final public String ICR_TRANSACTIONS_OUTPUT_FILE = "GL_ICRTRANS";
-        static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "GL_ICRERRS";
+        static final public String POSTER_ERROR_OUTPUT_FILE = "gl_posterrs";
+        static final public String ICR_TRANSACTIONS_OUTPUT_FILE = "gl_icrtrans";
+        static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "gl_icrerrs";
 
     }
 

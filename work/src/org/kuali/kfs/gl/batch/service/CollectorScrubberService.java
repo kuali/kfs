@@ -39,7 +39,7 @@ public interface CollectorScrubberService {
      *         {@link #removeTempGroups(Collection)} method.. The service definitions are needed because the collector may choose to
      *         store temporary origin entries and origin entry groups in another service segregated from the database.
      */
-    public CollectorScrubberStatus scrub(CollectorBatch batch, CollectorReportData collectorReportData);
+    public CollectorScrubberStatus scrub(CollectorBatch batch, CollectorReportData collectorReportData, String collectorFileDirectoryName);
 
     /**
      * Removes any temporarily created origin entries and origin entry groups so that they won't be persisted after the transaction

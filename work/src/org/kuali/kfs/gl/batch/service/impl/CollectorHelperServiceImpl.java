@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,12 +30,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorStep;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.gl.batch.service.CollectorScrubberService;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.CollectorHeader;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.report.CollectorReportData;
@@ -77,6 +81,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType collectorInputFileType;
     private CollectorScrubberService collectorScrubberService;
+    private String collectorFileDirectoryName;
 
     /**
      * Parses the given file, validates the batch, stores the entries, and sends email.
@@ -99,7 +104,23 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         ErrorMap errorMap = collectorReportData.getErrorMapForBatchName(fileName);
 
         CollectorBatch batch = doCollectorFileParse(fileName, errorMap);
-
+        
+        // create a input file for scrubber
+        String collectorInputFileNameForScrubber = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE;
+        PrintStream inputFilePs; 
+        try {
+            inputFilePs = new PrintStream(collectorInputFileNameForScrubber);
+            
+            for (OriginEntryFull entry : batch.getOriginEntries()){
+                inputFilePs.printf("%s\n", entry.getLine());    
+            }
+            
+            inputFilePs.close();
+        } catch (IOException e) {
+            throw new RuntimeException("loadCollectorFile Stopped: " + e.getMessage(), e);
+        }
+        
+        
         // terminate if there were parse errors
         if (!errorMap.isEmpty()) {
             isValid = false;
@@ -120,7 +141,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
 
         if (isValid) {
-            CollectorScrubberStatus collectorScrubberStatus = collectorScrubberService.scrub(batch, collectorReportData);
+            CollectorScrubberStatus collectorScrubberStatus = collectorScrubberService.scrub(batch, collectorReportData, collectorFileDirectoryName);
             collectorScrubberStatuses.add(collectorScrubberStatus);
             processInterDepartmentalBillingAmounts(batch);
 
@@ -545,5 +566,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setCollectorFileDirectoryName(String collectorFileDirectoryName) {
+        this.collectorFileDirectoryName = collectorFileDirectoryName;
     }
 }

@@ -270,16 +270,17 @@ public class CollectorBatch implements Serializable {
             // update the version number to prevent OptimisticLockingExceptions
             persistHeader.setVersionNumber(foundHeader.getVersionNumber());
         }
-        SpringContext.getBean(BusinessObjectService.class).save(persistHeader);
-
-        OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
-        for (OriginEntryFull entry : this.originEntries) {
-            entry.setGroup(originEntryGroup);
-
-            // don't need to worry about previous origin entries existing in the DB because there'll never be a
-            // duplicate record because a sequence # is a key
-            originEntryService.save(entry);
-        }
+        //TODO: Shawn - we don't need this part here becuase we already created a file and ran scrubber. 
+//        SpringContext.getBean(BusinessObjectService.class).save(persistHeader);
+//
+//        OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
+//        for (OriginEntryFull entry : this.originEntries) {
+//            entry.setGroup(originEntryGroup);
+//
+//            // don't need to worry about previous origin entries existing in the DB because there'll never be a
+//            // duplicate record because a sequence # is a key
+//            originEntryService.save(entry);
+//        }
 
         CollectorDetailService collectorDetailService = SpringContext.getBean(CollectorDetailService.class);
         int numSavedDetails = 0;

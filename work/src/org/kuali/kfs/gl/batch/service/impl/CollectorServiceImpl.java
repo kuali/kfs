@@ -15,7 +15,12 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +28,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.gl.batch.service.CollectorScrubberService;
 import org.kuali.kfs.gl.batch.service.CollectorService;
@@ -53,6 +59,9 @@ public class CollectorServiceImpl implements CollectorService {
     private DateTimeService dateTimeService;
     private CollectorScrubberService collectorScrubberService;
     private RunDateService runDateService;
+    private String batchFileDirectoryName;
+    private String collectorFileDirectoryName;
+    
 
     /**
      * performs collection
@@ -70,6 +79,39 @@ public class CollectorServiceImpl implements CollectorService {
         CollectorReportData collectorReportData = new CollectorReportData();
         List<CollectorScrubberStatus> collectorScrubberStatuses = new ArrayList<CollectorScrubberStatus>();
 
+        
+        
+// ****************************************************************        
+//        dataFileReader = new BufferedReader(new FileReader(dataFile));
+//        String line;
+//        int count = 0;
+//        while ((line = dataFileReader.readLine()) != null) {
+//            try {
+//                enterpriseFeedPs.printf("%s\n", line);
+//            } catch (Exception e) {
+//                throw new IOException(e.toString());
+//            }
+//            
+//            count++;
+//        }
+//        dataFileReader.close();
+//        dataFileReader = null;
+
+     // ****************************************************************        
+        
+        String collectorEachInputFileName = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE;
+        String collectorFinalOutputFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_OUTPUT + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        //File collectorFinalOutputFile = new File(collectorFinalOutputFileName);
+        PrintStream collectorFinalOutputFilePs = null;
+        BufferedReader inputFileReader = null;
+        
+        try {
+            collectorFinalOutputFilePs = new PrintStream(collectorFinalOutputFileName);
+                
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("writing all collector result files to output file process Stopped: " + e.getMessage(), e);
+        }
+
         try {
             for (String inputFileName : fileNamesToLoad) {
                 boolean processSuccess = false;
@@ -81,14 +123,46 @@ public class CollectorServiceImpl implements CollectorService {
                     LOG.error("Caught exception trying to load collector file: " + inputFileName, e);
                 }
                 processedFiles.add(inputFileName);
+                
+                if (processSuccess) {
+                    
+                    //concatenate all output(scrbout2) file. 
+                    inputFileReader = new BufferedReader(new FileReader(collectorEachInputFileName));
+                    String line = null;
+                        while ((line = inputFileReader.readLine()) != null) {
+                            try {
+                                collectorFinalOutputFilePs.printf("%s\n", line);
+                            } catch (Exception e) {
+                                throw new IOException(e.toString());
+                            }
+                        }    
+                        inputFileReader.close();
+                        inputFileReader = null;  
+                      
+                    //create done file    
+                    String doneFileName = collectorFinalOutputFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+                    File doneFile = new File (doneFileName);
+                    if (!doneFile.exists()){
+                        try {
+                            doneFile.createNewFile();
+                        } catch (IOException e) {
+                            throw new RuntimeException();
+                        }
+                    }
+                }
+                
             }
             updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
+        }
+        catch (IOException e) {
+            throw new RuntimeException("writing all collector result files to output file process Stopped: " + e.getMessage(), e); 
         }
         finally {
             collectorScrubberService.removeTempGroups(collectorScrubberStatuses);
             group.setProcess(true);
             originEntryGroupService.save(group);
             removeDoneFiles(processedFiles);
+            collectorFinalOutputFilePs.close();
         }
         return collectorReportData;
     }
@@ -179,18 +253,20 @@ public class CollectorServiceImpl implements CollectorService {
      * @param collectorScrubberStatuses a List of CollectorScrubberStatus records
      */
     protected void updateCollectorReportDataWithExecutionStatistics(CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
-        Collection<OriginEntryGroup> inputGroups = new ArrayList<OriginEntryGroup>();
-
-        // NOTE: this implementation does not support the use of multiple origin entry group service/origin entry services
-        for (CollectorScrubberStatus collectorScrubberStatus : collectorScrubberStatuses) {
-            inputGroups.add(collectorScrubberStatus.getValidGroup());
-        }
-
-        if (inputGroups.size() > 0 && collectorScrubberStatuses.size() > 0) {
-            OriginEntryService collectorScrubberOriginEntryService = collectorScrubberStatuses.get(0).getOriginEntryService();
-            LedgerEntryHolder ledgerEntryHolder = collectorScrubberOriginEntryService.getSummaryByGroupId(inputGroups);
-            collectorReportData.setLedgerEntryHolder(ledgerEntryHolder);
-        }
+        //TODO: Shawn - Jeff might do
+        
+        //        Collection<OriginEntryGroup> inputGroups = new ArrayList<OriginEntryGroup>();
+//
+//        // NOTE: this implementation does not support the use of multiple origin entry group service/origin entry services
+//        for (CollectorScrubberStatus collectorScrubberStatus : collectorScrubberStatuses) {
+//            inputGroups.add(collectorScrubberStatus.getValidGroup());
+//        }
+//
+//        if (inputGroups.size() > 0 && collectorScrubberStatuses.size() > 0) {
+//            OriginEntryService collectorScrubberOriginEntryService = collectorScrubberStatuses.get(0).getOriginEntryService();
+//            LedgerEntryHolder ledgerEntryHolder = collectorScrubberOriginEntryService.getSummaryByGroupId(inputGroups);
+//            collectorReportData.setLedgerEntryHolder(ledgerEntryHolder);
+//        }
     }
 
     public RunDateService getRunDateService() {
@@ -199,5 +275,13 @@ public class CollectorServiceImpl implements CollectorService {
 
     public void setRunDateService(RunDateService runDateService) {
         this.runDateService = runDateService;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+
+    public void setCollectorFileDirectoryName(String collectorFileDirectoryName) {
+        this.collectorFileDirectoryName = collectorFileDirectoryName;
     }
 }

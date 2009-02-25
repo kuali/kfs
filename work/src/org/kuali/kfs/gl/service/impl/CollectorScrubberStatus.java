@@ -23,70 +23,70 @@ import org.kuali.kfs.gl.service.OriginEntryService;
  * This class represents the status for origin entries through the different origin entry groups (i.e. input, valid, error, and expired) 
  */
 public class CollectorScrubberStatus {
-    private OriginEntryGroup inputGroup;
-    private OriginEntryGroup validGroup;
-    private OriginEntryGroup errorGroup;
-    private OriginEntryGroup expiredGroup;
+    private String inputFileName;
+    private String validFileName;
+    private String errorFileName;
+    private String expiredFileName;
 
     private OriginEntryGroupService originEntryGroupService;
     private OriginEntryService originEntryService;
 
     /**
-     * Gets the errorGroup attribute.
+     * Gets the errorFileName attribute.
      * 
-     * @return Returns the errorGroup.
+     * @return Returns the errorFileName.
      */
-    public OriginEntryGroup getErrorGroup() {
-        return errorGroup;
+    public String getErrorFileName() {
+        return errorFileName;
     }
 
     /**
-     * Sets the errorGroup attribute value.
+     * Sets the errorFileName attribute value.
      * 
-     * @param errorGroup The errorGroup to set.
+     * @param errorFileName The errorFileName to set.
      */
-    public void setErrorGroup(OriginEntryGroup errorGroup) {
-        this.errorGroup = errorGroup;
+    public void setErrorFileName(String errorFileName) {
+        this.errorFileName = errorFileName;
     }
 
     /**
-     * Gets the expiredGroup attribute.
+     * Gets the expiredFileName attribute.
      * 
-     * @return Returns the expiredGroup.
+     * @return Returns the expiredFileName.
      */
-    public OriginEntryGroup getExpiredGroup() {
-        return expiredGroup;
+    public String getExpiredFileName() {
+        return expiredFileName;
     }
 
     /**
-     * Sets the expiredGroup attribute value.
+     * Sets the expiredFileName attribute value.
      * 
-     * @param expiredGroup The expiredGroup to set.
+     * @param expiredFileName The expiredFileName to set.
      */
-    public void setExpiredGroup(OriginEntryGroup expiredGroup) {
-        this.expiredGroup = expiredGroup;
+    public void setExpiredFileName(String expiredFileName) {
+        this.expiredFileName = expiredFileName;
     }
 
     /**
-     * Gets the inputGroup attribute.
+     * Gets the inputFileName attribute.
      * 
-     * @return Returns the inputGroup.
+     * @return Returns the inputFileName.
      */
-    public OriginEntryGroup getInputGroup() {
-        return inputGroup;
+    public String getInputFileName() {
+        return inputFileName;
     }
 
     /**
-     * Sets the inputGroup attribute value.
+     * Sets the inputFileName attribute value.
      * 
-     * @param inputGroup The inputGroup to set.
+     * @param inputFileName The inputFileName to set.
      */
-    public void setInputGroup(OriginEntryGroup inputGroup) {
-        this.inputGroup = inputGroup;
+    public void setInputFileName(String inputFileName) {
+        this.inputFileName = inputFileName;
     }
 
     /**
-     * Gets the originEntryGroupService attribute.
+     * Gets the StringService attribute.
      * 
      * @return Returns the originEntryGroupService.
      */
@@ -122,20 +122,20 @@ public class CollectorScrubberStatus {
     }
 
     /**
-     * Gets the validGroup attribute.
+     * Gets the validFileName attribute.
      * 
-     * @return Returns the validGroup.
+     * @return Returns the validFileName.
      */
-    public OriginEntryGroup getValidGroup() {
-        return validGroup;
+    public String getValidFileName() {
+        return validFileName;
     }
 
     /**
-     * Sets the validGroup attribute value.
+     * Sets the validFileName attribute value.
      * 
-     * @param validGroup The validGroup to set.
+     * @param validFileName The validFileName to set.
      */
-    public void setValidGroup(OriginEntryGroup validGroup) {
-        this.validGroup = validGroup;
+    public void setValidFileName(String validFileName) {
+        this.validFileName = validFileName;
     }
 }

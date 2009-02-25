@@ -34,8 +34,8 @@
   <bean id="PaymentStatusMaintenanceDocument-EditPaymentStatus" parent="PaymentStatusMaintenanceDocument-EditPaymentStatus-parentBean"/>
 
   <bean id="PaymentStatusMaintenanceDocument-EditPaymentStatus-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Payment Type"/>
-    <property name="title" value="Edit Payment Type"/>
+    <property name="id" value="Edit Payment Status"/>
+    <property name="title" value="Edit Payment Status"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="code" p:unconditionallyReadOnly="true"/>

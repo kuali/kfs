@@ -216,6 +216,7 @@ public class GeneralLedgerConstants {
         static final public String POSTER_ERROR_OUTPUT_FILE = "gl_posterrs";
         static final public String ICR_TRANSACTIONS_OUTPUT_FILE = "gl_icrtrans";
         static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "gl_icrerrs";
+        static final public String NIGHTLY_OUT_FILE = "gl_nightlyout";
 
     }
 

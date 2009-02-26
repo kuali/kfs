@@ -67,6 +67,7 @@ public class GenesisBatchStep extends AbstractStep {
            runIndicatorParameter.setParameterNamespaceCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
            runIndicatorParameter.setParameterDetailTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
            runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
+           runIndicatorParameter.setParameterDescription(GenesisBatchStep.RUN_INDICATOR_PARAMETER_DESCRIPTION);
            runIndicatorParameter.setParameterConstraintCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
            runIndicatorParameter.setParameterTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
         }

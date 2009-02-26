@@ -131,11 +131,11 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 
 				<c:if test="${displayCommodityCodeFields}">
-	                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" nowrap="true" />
+	                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
 				</c:if>
 
-				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
-				<kul:htmlAttributeHeaderCell > * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>				
+                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" forceRequired="true"/>
+                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" forceRequired="true"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
 
 				<c:if test="${purapTaxEnabled}">
@@ -167,7 +167,7 @@
 			    </td>
 
 			    <c:if test = "${displayCommodityCodeFields}">
-                    <td class="infoline">
+                    <td class="infoline" nowrap="nowrap" >
                         <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
                         <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
                         <kul:htmlControlAttribute attributeEntry="${itemAttributes.purchasingCommodityCode}" 
@@ -249,13 +249,13 @@
         <c:if test="${!((!lockB2BEntry and !(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))) or (lockB2BEntry and !(fn:length(KualiForm.document.items) > 0)))}">
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" hideRequiredAsterisk="true" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 
 				<c:if test="${displayCommodityCodeFields}">
-				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" nowrap="true" />
+				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
 				</c:if>
 
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
@@ -376,7 +376,7 @@
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" />
 				    </td>
 				    <c:if test="${displayCommodityCodeFields}">
-                        <td class="infoline">
+                        <td class="infoline" nowrap="nowrap" >
                             <kul:htmlControlAttribute 
                                 attributeEntry="${itemAttributes.purchasingCommodityCode}" 
                                 property="document.item[${ctr}].purchasingCommodityCode"

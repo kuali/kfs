@@ -61,11 +61,11 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         List<HtmlData> anchorHtmlDataList = super.getCustomActionUrls(bo, pkNames);
-        
         Asset asset = (Asset) bo;
-        
+
         // For retired asset, all action link will be hidden.
         if (assetService.isAssetRetired(asset)) {
+            anchorHtmlDataList.clear();
             anchorHtmlDataList.add(getViewAssetUrl(asset));
         }
         else {
@@ -85,7 +85,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CapitalAssetManagementAsset.class.getName());
 
         String href = UrlFactory.parameterizeUrl(CamsConstants.INQUIRY_URL, parameters);
-        
+
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, CamsConstants.AssetActions.VIEW);
         anchorHtmlData.setTarget("blank");
         return anchorHtmlData;
@@ -94,7 +94,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     protected HtmlData getMergeUrl(Asset asset) {
         AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.RETIREMENT);
         boolean isAuthorized = documentAuthorizer.isAuthorized(asset, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MERGE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        
+
         if (isAuthorized) {
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
@@ -102,12 +102,13 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             parameters.put(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
             parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
             parameters.put(CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsConstants.AssetRetirementReasonCode.MERGED);
-            parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE+"::"+CamsConstants.AssetRetirementReasonCode.MERGED);
+            parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + "::" + CamsConstants.AssetRetirementReasonCode.MERGED);
 
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
 
             return new AnchorHtmlData(href, CamsConstants.AssetActions.MERGE, CamsConstants.AssetActions.MERGE);
-        } else {
+        }
+        else {
             return new AnchorHtmlData("", "", CamsConstants.AssetActions.MERGE);
         }
     }
@@ -171,17 +172,17 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     protected HtmlData getSeparateUrl(Asset asset) {
         AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.RETIREMENT);
         boolean isAuthorized = documentAuthorizer.isAuthorized(asset, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.SEPARATE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        
+
         if (isAuthorized) {
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, getSeparateParameters(asset));
-            
+
             return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
         }
         else {
             return new AnchorHtmlData("", "", CamsConstants.AssetActions.SEPARATE);
         }
     }
-    
+
     protected Properties getSeparateParameters(Asset asset) {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
@@ -215,6 +216,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     /**
      * Generates the list of search results on campusTagNumber that meet the string range search criteria.
+     * 
      * @param fieldValues the field values of the query to carry out
      * @return List the search results returned by the lookup
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
@@ -222,15 +224,16 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         boolean stringRangeCriteria = false;
-        
+
         String searchTagNumber = fieldValues.get(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
-        
-        // the following "if" statement is modified from rice/kns/src/main/java/org/kuali/core/dao/ojb/LookupDaoOjb.java addCriteria() addStringRangeCriteria()
+
+        // the following "if" statement is modified from rice/kns/src/main/java/org/kuali/core/dao/ojb/LookupDaoOjb.java
+        // addCriteria() addStringRangeCriteria()
         if (StringUtils.isNotBlank(searchTagNumber) && (StringUtils.contains(searchTagNumber, "..") || StringUtils.contains(searchTagNumber, ">") || StringUtils.contains(searchTagNumber, "<") || StringUtils.contains(searchTagNumber, ">=") || StringUtils.contains(searchTagNumber, "<="))) {
             stringRangeCriteria = true;
             fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, null);
         }
-        
+
         List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
         if (searchResults == null || searchResults.isEmpty() || StringUtils.isBlank(searchTagNumber) || !stringRangeCriteria) {
             return searchResults;
@@ -261,23 +264,27 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private boolean isInStringRangeCriteria(String searchTagNumber, String checkValue) {
         boolean isInStringRangeCriteria = false;
 
-        if (StringUtils.contains(searchTagNumber, "..")) { 
-            String[] rangeValues = StringUtils.split(searchTagNumber, ".."); 
-            if (rangeValues[0].compareTo(checkValue) <= 0 && rangeValues[1].compareTo(checkValue) >= 0) 
-                isInStringRangeCriteria = true; 
-        } else if (searchTagNumber.startsWith(">=")) {
+        if (StringUtils.contains(searchTagNumber, "..")) {
+            String[] rangeValues = StringUtils.split(searchTagNumber, "..");
+            if (rangeValues[0].compareTo(checkValue) <= 0 && rangeValues[1].compareTo(checkValue) >= 0)
+                isInStringRangeCriteria = true;
+        }
+        else if (searchTagNumber.startsWith(">=")) {
             if (searchTagNumber.substring(2).compareTo(checkValue) <= 0) {
                 isInStringRangeCriteria = true;
             }
-        } else if (searchTagNumber.startsWith("<=")) {
+        }
+        else if (searchTagNumber.startsWith("<=")) {
             if (searchTagNumber.substring(2).compareTo(checkValue) >= 0)
                 isInStringRangeCriteria = true;
-        }else if (searchTagNumber.startsWith(">")) {
+        }
+        else if (searchTagNumber.startsWith(">")) {
             if (searchTagNumber.substring(1).compareTo(checkValue) < 0)
                 isInStringRangeCriteria = true;
-        } else if (searchTagNumber.startsWith("<")) {
+        }
+        else if (searchTagNumber.startsWith("<")) {
             if (searchTagNumber.substring(1).compareTo(checkValue) > 0)
-                        isInStringRangeCriteria = true;
+                isInStringRangeCriteria = true;
         }
 
         return isInStringRangeCriteria;

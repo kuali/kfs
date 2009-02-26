@@ -20,12 +20,14 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -344,12 +346,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             }
         }
         else {
-            // if tax is not yet calculated, return and prompt user to calculate
-            if (requiresCalculateTax((PaymentRequestForm)form)) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-            }
-
             return super.route(mapping, form, request, response);
         }
     }
@@ -360,6 +356,12 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward approve (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // if tax is required but not yet calculated, return and prompt user to calculate
+        if (requiresCalculateTax((PaymentRequestForm)form)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
         PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(preq);
         return super.approve(mapping, form, request, response);
@@ -373,9 +375,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @return true if calculation is required, false otherwise
      */
     protected boolean requiresCalculateTax(PaymentRequestForm preqForm) {
-        boolean requiresCalculateTax = true;
         PaymentRequestDocument preq = (PaymentRequestDocument) preqForm.getDocument();
-        requiresCalculateTax = !preqForm.isCalculatedTax() && preq.getStatusCode().equalsIgnoreCase("ATAX");
+        boolean requiresCalculateTax = StringUtils.equals(preq.getStatusCode(), PaymentRequestStatuses.AWAITING_TAX_REVIEW) && !preqForm.isCalculatedTax(); 
         return requiresCalculateTax;
     }
     

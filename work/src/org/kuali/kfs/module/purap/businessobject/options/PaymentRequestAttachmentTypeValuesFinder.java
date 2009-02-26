@@ -28,6 +28,7 @@ public class PaymentRequestAttachmentTypeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List keyValues = new ArrayList();
         
+        keyValues.add(new KeyLabelPair("", ""));
         keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER));
         keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_INVOICE_IMAGE, AttachmentTypeCodes.ATTACHMENT_TYPE_INVOICE_IMAGE));
 

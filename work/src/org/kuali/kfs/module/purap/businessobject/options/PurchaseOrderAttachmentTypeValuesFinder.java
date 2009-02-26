@@ -27,7 +27,8 @@ public class PurchaseOrderAttachmentTypeValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        
+
+        keyValues.add(new KeyLabelPair("", ""));
         keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACTS, AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACTS));
         keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_QUOTE, AttachmentTypeCodes.ATTACHMENT_TYPE_QUOTE));
         keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_RFP, AttachmentTypeCodes.ATTACHMENT_TYPE_RFP));

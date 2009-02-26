@@ -24,9 +24,11 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -191,6 +193,25 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         super.handleRouteStatusChange(documentHeader);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
 
+        //display a message for asset not generating ledger entries when it is federally owned 
+        if (documentHeader.getWorkflowDocument().stateIsSaved() ||documentHeader.getWorkflowDocument().stateIsEnroute()) {
+            //display a message for asset not generating ledger entries when it is federally owned 
+            
+            boolean allPaymentsFederalOwned = true;
+            List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
+            for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
+                for (AssetPayment assetPayment : assetRetirementGlobalDetail.getAsset().getAssetPayments()) {
+                    if (!getAssetPaymentService().isPaymentFederalOwned(assetPayment)) {
+                        allPaymentsFederalOwned =  false;
+                    }
+                }
+            }
+     
+            if (allPaymentsFederalOwned) {
+                GlobalVariables.getMessageList().add(CamsKeyConstants.Retirement.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_RETIREMENT);
+            }
+        }
+        
         // all approvals have been processed, the retirement date is set to the approval date
         if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
             assetRetirementGlobal.setRetirementDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
@@ -200,9 +221,9 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
                 assetRetirementGlobal.getMergedTargetCapitalAsset().setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());
                 SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal.getMergedTargetCapitalAsset());
             }
+            
         }
         new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
-
     }
 
     /**
@@ -223,6 +244,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         return Asset.class;
     }
 
+    
     private AssetRetirementService getAssetRetirementService() {
         return SpringContext.getBean(AssetRetirementService.class);
     }
@@ -230,4 +252,9 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     private AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
+    
+    private AssetPaymentService getAssetPaymentService() {
+        return SpringContext.getBean(AssetPaymentService.class);
+    }
+
 }

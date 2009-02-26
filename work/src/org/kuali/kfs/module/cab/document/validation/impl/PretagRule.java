@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cab.document.validation.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,9 @@ import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PretagDetail;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
@@ -35,8 +39,10 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 
 /**
@@ -76,16 +82,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = processPretagValidation();
 
-        return true; // always return true on save
-    }
-
-    /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-
-        return processPretagValidation();
+        return success & super.processCustomSaveDocumentBusinessRules(document); // always return true on save
     }
 
     /**
@@ -94,7 +91,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
-        return processPretagValidation();
+        return processPretagValidation() & super.processCustomRouteDocumentBusinessRules(document);
     }
 
     /**
@@ -107,6 +104,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
         boolean newDetailLine = false;
 
         setupConvenienceObjects();
+        success &= checkPurchaseOrderItemExists();
         if (newPretag.isActive()) {
             success &= checkTotalDetailCount(newPretag, newDetailLine);
             success &= isAllCampusBuildingRoomValid(newPretag.getPretagDetails());
@@ -116,6 +114,47 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
         }
 
         return success;
+    }
+
+    /**
+     * validate the purchase order item existence in PurAp.
+     * 
+     * @return
+     */
+    protected boolean checkPurchaseOrderItemExists() {
+        boolean valid = true;
+        if (StringUtils.isNotBlank(newPretag.getPurchaseOrderNumber()) && newPretag.getItemLineNumber() != null) {
+            PurchaseOrderDocument purchaseOrderDoc = getPurchaseOrderService().getCurrentPurchaseOrder(Integer.valueOf(newPretag.getPurchaseOrderNumber()));
+            if (purchaseOrderDoc == null) {
+                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(Pretag.class.getName()).getAttributeDefinition(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER).getLabel();
+                putFieldError(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, label);
+                valid = false;
+            }
+            else if (getItemByLineNumber(purchaseOrderDoc, newPretag.getItemLineNumber()) == null) {
+                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(Pretag.class.getName()).getAttributeDefinition(CabPropertyConstants.Pretag.ITEM_LINE_NUMBER).getLabel();
+                putFieldError(CabPropertyConstants.Pretag.ITEM_LINE_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, label);
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
+    /**
+     * Get PurchaseOrderItem by given item line number
+     * 
+     * @param items
+     * @param lineNumber
+     * @return
+     */
+    protected PurApItem getItemByLineNumber(PurchaseOrderDocument purchaseOrderDocument, int lineNumber) {
+        List items = purchaseOrderDocument.getItems();
+        for (Iterator iter = items.iterator(); iter.hasNext();) {
+            PurApItem item = (PurApItem) iter.next();
+            if (item.getItemLineNumber() != null && item.getItemLineNumber().intValue() == lineNumber) {
+                return item;
+            }
+        }
+        return null;
     }
 
     /**
@@ -340,4 +379,12 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
         }
     }
 
+    /**
+     * Gets the purchaseOrderService attribute.
+     * 
+     * @return Returns the purchaseOrderService.
+     */
+    protected PurchaseOrderService getPurchaseOrderService() {
+        return SpringContext.getBean(PurchaseOrderService.class);
+    }
 }

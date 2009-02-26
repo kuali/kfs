@@ -204,6 +204,11 @@
   
   <bean id="Pretag-vendorName" parent="Pretag-vendorName-parentBean" />
   <bean id="Pretag-vendorName-parentBean" abstract="true" parent="Asset-vendorName">
+   	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="Pretag-campusTagNumbers" parent="Pretag-campusTagNumbers-parentBean" />

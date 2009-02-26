@@ -153,6 +153,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
     protected boolean canEdit(Document document) {
         AssetService assetService = SpringContext.getBean(AssetService.class);
 
+        // for fabrication document, disallow edit when document routing to the 'Management' FYI users.
         if (assetService.isAssetFabrication((MaintenanceDocument) document)) {
             KualiWorkflowDocument workflowDocument = (KualiWorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
             if (workflowDocument.stateIsEnroute()) {
@@ -163,12 +164,33 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
                 }
             }
         }
-        return super.canEdit(document);
+        // for retired asset, disable edit.
+        MaintenanceDocument maitDocument = (MaintenanceDocument) document;
+        Asset asset = (Asset) maitDocument.getOldMaintainableObject().getBusinessObject();
+        return !getAssetService().isAssetRetired(asset) & super.canEdit(document);
     }
     
     
     @Override
     protected boolean canBlanketApprove(Document document) {
         return true;
+    }
+    
+    @Override
+    protected boolean canRoute(Document document) {
+        MaintenanceDocument maitDocument = (MaintenanceDocument) document;
+        Asset asset = (Asset) maitDocument.getOldMaintainableObject().getBusinessObject();
+        return !getAssetService().isAssetRetired(asset) & super.canRoute(document);
+    }
+    
+    @Override
+    protected boolean canSave(Document document) {
+        MaintenanceDocument maitDocument = (MaintenanceDocument) document;
+        Asset asset = (Asset) maitDocument.getOldMaintainableObject().getBusinessObject();
+        return !getAssetService().isAssetRetired(asset) & super.canSave(document);
+    }
+    
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
     }
 }

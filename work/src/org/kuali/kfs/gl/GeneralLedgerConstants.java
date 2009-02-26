@@ -197,7 +197,7 @@ public class GeneralLedgerConstants {
         static final public String COLLECTOR_OUTPUT = "gl_glentry_coll";
         //TODO: Shawn - Should I move it to OriginEntrySource??
         static final public String SCRUBBER_ERROR_PREFIX = "scrberr1";
-        
+
         static final public String BACKUP_FILE = "gl_glbackup";
         static final public String PRE_SCRUBBER_FILE = "gl_prescrub";
         static final public String SCRUBBER_INPUT_FILE = "gl_sortscrb";
@@ -216,7 +216,7 @@ public class GeneralLedgerConstants {
         static final public String POSTER_ERROR_OUTPUT_FILE = "gl_posterrs";
         static final public String ICR_TRANSACTIONS_OUTPUT_FILE = "gl_icrtrans";
         static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "gl_icrerrs";
-        static final public String NIGHTLY_OUT_FILE = "gl_nightlyout";
+		static final public String NIGHTLY_OUT_FILE = "gl_glentry_kfs";
 
     }
 

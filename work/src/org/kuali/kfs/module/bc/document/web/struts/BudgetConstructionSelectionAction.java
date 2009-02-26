@@ -389,16 +389,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         this.flagBCInProgress();
 
         Map<String, String> urlParms = new HashMap<String, String>();
-
-        // check if current user has permission to unlock
-        String[] rootOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
-        AttributeSet qualification = new AttributeSet();
-        qualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, rootOrg[0]);
-        qualification.put(KfsKimAttributes.ORGANIZATION_CODE, rootOrg[1]);
         
-        boolean canUnlock = SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.UNLOCK_PERMISSION_NAME, null, qualification);
-        urlParms.put(KFSConstants.SUPPRESS_ACTIONS, Boolean.toString(!canUnlock));
-
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, budgetConstructionSelectionForm, BCConstants.TempListLookupMode.LOCK_MONITOR, BudgetConstructionLockSummary.class.getName(), urlParms);
 

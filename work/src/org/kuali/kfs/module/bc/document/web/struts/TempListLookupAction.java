@@ -30,6 +30,7 @@ import org.apache.commons.lang.text.StrTokenizer;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -50,6 +51,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -82,6 +86,17 @@ public class TempListLookupAction extends KualiLookupAction {
             // we want the actions in actions column to show when in position or incumbent lookup mode
             // regardless of what KIM thinks
             tempListLookupForm.setSuppressActions(false);
+        }
+        else if (tempListLookupForm.getTempListLookupMode() == BCConstants.TempListLookupMode.LOCK_MONITOR) {
+            // check if current user has permission to unlock
+            String[] rootOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
+            AttributeSet qualification = new AttributeSet();
+            qualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, rootOrg[0]);
+            qualification.put(KfsKimAttributes.ORGANIZATION_CODE, rootOrg[1]);
+            
+            boolean canUnlock = SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.UNLOCK_PERMISSION_NAME, null, qualification);
+            tempListLookupForm.setSuppressActions(!canUnlock);
+            tempListLookupForm.setSupplementalActionsEnabled(canUnlock);
         }
         else {
             super.supressActionsIfNeeded(form);
@@ -440,13 +455,16 @@ public class TempListLookupAction extends KualiLookupAction {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward doUnlockConfirmation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String lockType, String lockKeyMessage) throws Exception {
+        TempListLookupForm lookupForm = (TempListLookupForm) form;
+        
         String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-
         if (question == null) { // question hasn't been asked
             String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.MSG_UNLOCK_CONFIRMATION);
             message = MessageFormat.format(message, lockType, lockKeyMessage);
+            
+            String context = KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE + "=" + lookupForm.getBusinessObjectClassName();
 
-            return this.performQuestionWithoutInput(mapping, form, request, response, BCConstants.UNLOCK_CONFIRMATION_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, BCConstants.TEMP_LIST_UNLOCK_METHOD, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, BCConstants.UNLOCK_CONFIRMATION_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, BCConstants.TEMP_LIST_UNLOCK_METHOD, context);
         }
         else {
             // get result of confirmation, if yes return null which will indicate the unlock can continue

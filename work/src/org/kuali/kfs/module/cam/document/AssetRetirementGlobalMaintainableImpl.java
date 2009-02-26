@@ -125,8 +125,10 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
             }
         }
         
-        // populate doc header description with the doc type
-        document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION);
+        // add doc header description if retirement reason is "MERGED"
+        if (CamsConstants.AssetRetirementReasonCode.MERGED.equals(assetRetirementGlobal.getRetirementReasonCode())) {
+            document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION);
+        }
     }
 
     /**

@@ -25,15 +25,23 @@ public class PurchasingAccountsPayableLineItemIndicatorBranchingValidation exten
 
     private static final String IS_LINE_ITEM_INDICATOR = "isLineItemIndicator";
     private static final String IS_NOT_LINE_ITEM_INDICATOR = "isNotLineItemIndicator";
-    private PurApItem item;
+    private PurApItem itemForValidation;
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
-        if (item.getItemType().isLineItemIndicator()) {
+        if (itemForValidation.getItemType().isLineItemIndicator()) {
             return IS_LINE_ITEM_INDICATOR;
         } else {
             return IS_NOT_LINE_ITEM_INDICATOR;
         }
+    }
+
+    public PurApItem getItemForValidation() {
+        return itemForValidation;
+    }
+
+    public void setItemForValidation(PurApItem itemForValidation) {
+        this.itemForValidation = itemForValidation;
     }
 
 }

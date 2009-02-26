@@ -85,6 +85,7 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_USER_AUTH_ID = "error.representative.user.invalid";
         public static final String ERROR_PAYMENT_OBJECT_CODE_NOT_FOUND = "error.transfer.document.payment.objectcode.doesnt.exists";
         public static final String ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET = "error.invalid.user.group.for.transfer.nonmoveable.asset";
+        public static final String MESSAGE_NO_LEDGER_ENTRY_REQUIRED_TRANSFER = "message.no.ledger.entry.required.transfer";
     }
 
     public static class GLPosting {
@@ -135,6 +136,7 @@ public class CamsKeyConstants {
         public static final String ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE = "error.disallowed.merge.separate.reason.code";
         public static final String ERROR_DISALLOWED_RAZE_REASON_CODE = "error.disallowed.raze.reason.code";
         public static final String ERROR_MULTIPLE_ASSET_RETIRED = "error.multiple.asset.retired";
+        public static final String MESSAGE_NO_LEDGER_ENTRY_REQUIRED_RETIREMENT = "message.no.ledger.entry.required.retirement";
     }
 
     public static class AssetLocationGlobal {

@@ -23,17 +23,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.bidimap.DualHashBidiMap;
-import org.apache.commons.collections.map.MultiValueMap;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
+import org.kuali.kfs.module.purap.PurapParameterConstants.NRATaxParameters;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
-import org.kuali.kfs.module.purap.businessobject.PurApItemUseTaxBase;
 import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -47,6 +46,7 @@ import org.kuali.kfs.module.purap.util.UseTaxContainer;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -60,9 +60,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceImpl.class);
 
     private static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
-
     private static final int SCALE = 340;
-
     private static final int BIG_DECIMAL_ROUNDING_MODE = BigDecimal.ROUND_HALF_UP;
 
     // local constants
@@ -75,6 +73,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static final Boolean USE_TAX_INCLUDED = Boolean.TRUE;
     private static final Boolean USE_TAX_EXCLUDED = Boolean.FALSE;
 
+    private ParameterService parameterService;    
     private PurApAccountingDao purApAccountingDao;
     private PurapService purapService;
     
@@ -834,7 +833,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
     
     /**
-     * 
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateUseTaxAccount(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public List<UseTaxContainer> generateUseTaxAccount(PurchasingAccountsPayableDocument document) {
@@ -938,6 +936,48 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 //        MultiValueMap useTaxItemMap = new MultiValueMap();
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#isTaxAccount(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument, org.kuali.kfs.sys.businessobject.SourceAccountingLine)
+     */
+    public boolean isTaxAccount(PurchasingAccountsPayableDocument document, SourceAccountingLine account) {
+        boolean isTaxAccount = false;
+
+        // check if the summary account is for tax withholding
+        if (document instanceof PaymentRequestDocument) {
+            String incomeClassCode = ((PaymentRequestDocument)document).getTaxClassificationCode();
+            if (StringUtils.isNotEmpty(incomeClassCode)) {
+                
+                String federalChartCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_CHART_SUFFIX);
+                String federalAccountNumber = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_ACCOUNT_SUFFIX);
+                String federalObjectCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, incomeClassCode);
+
+                String stateChartCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_CHART_SUFFIX);
+                String stateAccountNumber = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_ACCOUNT_SUFFIX);
+                String stateObjectCode = parameterService.getParameterValue(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, incomeClassCode);
+
+                String chartCode = account.getChartOfAccountsCode();
+                String accountNumber = account.getAccountNumber();
+                String objectCode = account.getFinancialObjectCode();
+
+                boolean isFederalAccount = StringUtils.equals(federalChartCode, chartCode);
+                isFederalAccount = isFederalAccount && StringUtils.equals(federalAccountNumber, accountNumber);
+                isFederalAccount = isFederalAccount && StringUtils.equals(federalObjectCode, objectCode);
+                
+                boolean isStateAccount = StringUtils.equals(stateChartCode, chartCode);
+                isStateAccount = isStateAccount && StringUtils.equals(stateAccountNumber, accountNumber);
+                isStateAccount = isStateAccount && StringUtils.equals(stateObjectCode, objectCode);
+                
+                isTaxAccount = isFederalAccount || isStateAccount;
+            }
+        }
+
+        return isTaxAccount;
+    }
+    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
     public void setPurApAccountingDao(PurApAccountingDao purApAccountingDao) {
         this.purApAccountingDao = purApAccountingDao;
     }
@@ -945,6 +985,5 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
-
 
 }

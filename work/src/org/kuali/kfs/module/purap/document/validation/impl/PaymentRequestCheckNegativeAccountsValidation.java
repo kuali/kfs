@@ -36,13 +36,17 @@ public class PaymentRequestCheckNegativeAccountsValidation extends GenericValida
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)event.getDocument();
         
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        //GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // if this was set somewhere on the doc(for later use) in prepare for save we could avoid this call
         List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummary(paymentRequestDocument.getItems());
 
         for (SourceAccountingLine sourceAccountingLine : sourceLines) {
-            if (sourceAccountingLine.getAmount().isNegative()) {
+            // check if the summary account is for tax withholding
+            boolean isTaxAccount = purapAccountingService.isTaxAccount(paymentRequestDocument, sourceAccountingLine);
+                        
+            // exclude tax withholding accounts from non-negative requirement
+            if (!isTaxAccount && sourceAccountingLine.getAmount().isNegative()) {
                 String accountString = sourceAccountingLine.getChartOfAccountsCode() + " - " + sourceAccountingLine.getAccountNumber() + " - " + sourceAccountingLine.getFinancialObjectCode();
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ACCOUNT_AMOUNT_TOTAL, accountString, sourceAccountingLine.getAmount() + "");
                 valid &= false;

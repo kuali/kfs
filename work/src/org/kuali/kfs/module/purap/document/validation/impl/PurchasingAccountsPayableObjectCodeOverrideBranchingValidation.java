@@ -21,6 +21,8 @@ import java.util.Queue;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
@@ -49,9 +51,18 @@ public class PurchasingAccountsPayableObjectCodeOverrideBranchingValidation exte
             refreshByPath(accountingLineForValidation);
         }
         
-        if(isAccountingLineValueAllowed(accountingDocumentForValidation.getClass(), accountingLineForValidation, parameterToCheckAgainst, propertyPath, (responsibleProperty != null ? responsibleProperty : propertyPath))){
+        boolean isTaxApproval = false;
+        if (accountingDocumentForValidation instanceof PaymentRequestDocument) {
+            PaymentRequestDocument preq = (PaymentRequestDocument)accountingDocumentForValidation;
+            if (StringUtils.equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW, preq.getStatusCode())) 
+                isTaxApproval = true;
+        }
+        
+        if (isTaxApproval) {
+            return null;
+        } else if (isAccountingLineValueAllowed(accountingDocumentForValidation.getClass(), accountingLineForValidation, parameterToCheckAgainst, propertyPath, (responsibleProperty != null ? responsibleProperty : propertyPath))){
             return OBJECT_CODE_OVERRIDEN;
-        }else{
+        } else {
             return OBJECT_CODE_NOT_OVERRIDEN;
         }                
     }

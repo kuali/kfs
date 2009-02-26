@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -27,9 +27,12 @@ public class PaymentRequestAccountingLineAccessibleBranchingValidation extends B
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
-        if (StringUtils.equals(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, ((PaymentRequestDocument)event.getDocument()).getStatusCode())) {
+        String status = ((PaymentRequestDocument)event.getDocument()).getStatusCode();
+        if (StringUtils.equals(PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, status)) {
             return null;
-        }else{
+        } else if (StringUtils.equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW, status)) {
+                return null;
+        } else{
             return USE_DEFAULT_ACCOUNTING_LINE_ACCESSIBLE; 
         }
     }

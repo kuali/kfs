@@ -194,6 +194,7 @@
     </bean>
     
 	<bean id="purapAccountingService" class="org.kuali.kfs.module.purap.service.impl.PurapAccountingServiceImpl">
+		<property name="parameterService" ref="parameterService"/>
 		<property name="purApAccountingDao" ref="purApAccountingDao"/>
 		<property name="purapService" ref="purapService"/>
 	</bean>

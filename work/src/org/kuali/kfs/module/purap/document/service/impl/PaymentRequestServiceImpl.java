@@ -29,8 +29,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -773,10 +771,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             PurApItem federalTaxItem = addTaxItem(preq, ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE, taxableAmount);
         }
 
-        //FIXME update account summary?
-        
-        //FIXME update GL entries?
-        
         //FIXME if user request to add zero tax lines and remove them after tax approval,
         // then remove the conditions above when adding the tax lines, and
         // add a branch in PaymentRequestDocument.processNodeChange to call PurapService.deleteUnenteredItems         

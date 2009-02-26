@@ -229,10 +229,19 @@ public interface PurapAccountingService {
     public void convertMoneyToPercent(PaymentRequestDocument pr);
     
     /**
-     * 
      * Generates use tax helper class for a purap document
      * @param document
      * @return useTaxContainer
      */
     public List<UseTaxContainer> generateUseTaxAccount(PurchasingAccountsPayableDocument document);
+    
+    /**
+     * Checks whether the specified accounting line in the specified PurAP document is used for tax withholding. 
+     * This applies only to PaymentRequestDocument; otherwise it always returns false. 
+     * @param document the specified PurAP document
+     * @param account the specified accounting line
+     * @return true if the accounting line is a tax account
+     */
+    public boolean isTaxAccount(PurchasingAccountsPayableDocument document, SourceAccountingLine account);
+    
 }

@@ -214,7 +214,10 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     protected void repopulateOverrides(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {
         AccountingLineOverride.determineNeededOverrides(line);
         if (line.getAccountExpiredOverrideNeeded()) {
-            if (parameterMap.containsKey(accountingLinePropertyName+".accountingExpiredOverride.present")) {
+            if (LOG.isDebugEnabled()) {
+                StringUtils.join(parameterMap.keySet(), "\n");
+            }
+            if (parameterMap.containsKey(accountingLinePropertyName+".accountExpiredOverride.present")) {
                 line.setAccountExpiredOverride(parameterMap.containsKey(accountingLinePropertyName+".accountExpiredOverride"));
             }
         } else {

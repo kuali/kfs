@@ -27,8 +27,8 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="AffiliationType-affiliationTypeCode" parent="AffiliationType-emailTypeCode-parentBean" />
-  <bean id="AffiliationType-emailTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AffiliationType-affiliationTypeCode" parent="AffiliationType-affiliationTypeCode-parentBean" />
+  <bean id="AffiliationType-affiliationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="affiliationTypeCode" />
     <property name="label" value="Affiliation Type Code" />
     <property name="shortLabel" value="Affiliation Type Code" />

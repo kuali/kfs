@@ -17,34 +17,25 @@ package org.kuali.kfs.module.ld.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.module.ld.LaborConstants ;
-import org.kuali.kfs.module.ld.LaborKeyConstants; 
+import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
-import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
-import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -99,8 +90,6 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
         for (Entry<String, ExpenseTransferAccountingLine> entry : entrySet) {
             ExpenseTransferAccountingLine accountingLine = entry.getValue();
             Map<String, Object> fieldValues = this.buildFieldValueMap(accountingLine);
-            
-            LOG.info("++++++++++" + fieldValues);
 
             KualiDecimal balanceAmount = getBalanceAmount(fieldValues, accountingLine.getPayrollEndDateFiscalPeriodCode());
             KualiDecimal transferAmount = accountingLine.getAmount();
@@ -125,8 +114,6 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
      */
     protected Map<String, Object> buildFieldValueMap(ExpenseTransferAccountingLine accountingLine) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        
-        LOG.info("******************" + accountingLine.getPostingYear());
 
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingLine.getPayrollEndDateFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());

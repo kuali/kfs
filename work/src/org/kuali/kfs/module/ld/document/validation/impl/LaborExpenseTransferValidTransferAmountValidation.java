@@ -99,6 +99,8 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
         for (Entry<String, ExpenseTransferAccountingLine> entry : entrySet) {
             ExpenseTransferAccountingLine accountingLine = entry.getValue();
             Map<String, Object> fieldValues = this.buildFieldValueMap(accountingLine);
+            
+            LOG.info("++++++++++" + fieldValues);
 
             KualiDecimal balanceAmount = getBalanceAmount(fieldValues, accountingLine.getPayrollEndDateFiscalPeriodCode());
             KualiDecimal transferAmount = accountingLine.getAmount();
@@ -123,8 +125,10 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
      */
     protected Map<String, Object> buildFieldValueMap(ExpenseTransferAccountingLine accountingLine) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
+        
+        LOG.info("******************" + accountingLine.getPostingYear());
 
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingLine.getPostingYear());
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingLine.getPayrollEndDateFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
 
@@ -135,7 +139,7 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
 
-        SystemOptions options = SpringContext.getBean(OptionsService.class).getOptions(accountingLine.getPostingYear());
+        SystemOptions options = SpringContext.getBean(OptionsService.class).getOptions(accountingLine.getPayrollEndDateFiscalYear());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
 
         String subObjectCode = accountingLine.getFinancialSubObjectCode();

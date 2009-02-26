@@ -1,0 +1,161 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AffiliationType" parent="AffiliationType-parentBean" />
+
+  <bean id="AffiliationType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.kim.bo.reference.impl.AffiliationTypeImpl" />
+    <property name="inquiryDefinition" >
+      <ref bean="AffiliationType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AffiliationType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="affiliationTypeCode" />
+    <property name="objectLabel" value="Affiliation Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AffiliationType-affiliationTypeCode" />
+        <ref bean="AffiliationType-affiliationTypeName" />
+        <ref bean="AffiliationType-active" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AffiliationType-affiliationTypeCode" parent="AffiliationType-affiliationTypeCode-parentBean" />
+
+  <bean id="AffiliationType-affiliationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="affiliationTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Affiliation Type Code" />
+    <property name="shortLabel" value="Affiliation Type Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern"
+            p:exactLength="7" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="AffiliationType-affiliationTypeName" parent="AffiliationType-affiliationTypeName-parentBean" />
+
+  <bean id="AffiliationType-affiliationTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="affiliationTypeName" />
+    <property name="label" value="Affiliation Type Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="AffiliationType-displaySortCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="displaySortCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Display Sort Code" />
+    <property name="shortLabel" value="Displ Sort Cd" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Display sort code." />
+    <property name="description" value="Display sort code." />
+  </bean>
+  <bean id="AffiliationType-active" parent="AffiliationType-active-parentBean" />
+
+  <bean id="AffiliationType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="AffiliationType-inquiryDefinition" parent="AffiliationType-inquiryDefinition-parentBean" />
+
+  <bean id="AffiliationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Affiliation Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="affiliationTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="affiliationTypeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="displaySortCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="AffiliationType-lookupDefinition" parent="AffiliationType-lookupDefinition-parentBean" />
+
+  <bean id="AffiliationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Affiliation Type Lookup" />
+    <property name="instructions" value="Lookup an Affiliation Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>affiliationTypeCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="affiliationTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="affiliationTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="affiliationTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="affiliationTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="displaySortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

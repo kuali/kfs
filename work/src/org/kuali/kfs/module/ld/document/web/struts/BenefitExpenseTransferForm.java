@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 /**
@@ -136,6 +137,9 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
             this.setChartOfAccountsCode(sourceAccountingLine.getChartOfAccountsCode());
             this.setAccountNumber(sourceAccountingLine.getAccountNumber());
             this.setSubAccountNumber(sourceAccountingLine.getSubAccountNumber());
+            if (sourceAccountingLine.getSubAccountNumber() == null) {
+                this.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            }
         }
     }
 }

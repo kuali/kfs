@@ -60,8 +60,29 @@
 		<property name="password" value="${rice.workflow.datasource.password}" />
 	</bean>
 
-    <alias name="kewDataSource" alias="registryDataSource"/>
+  <bean id="registryDataSource" class="org.kuali.rice.database.XAPoolDataSource">
+    <property name="transactionManager" ref="jotm" />
+    <property name="driverClassName" value="${rice.ksb.datasource.driver.class}" />
+    <property name="maxSize" value="${rice.ksb.datasource.pool.size}" />
+    <property name="minSize" value="5" />
+    <property name="maxWait" value="${rice.ksb.datasource.connection.timeout}" />
+    <property name="validationQuery" value="${rice.ksb.datasource.validating.query}" />
+    <property name="url" value="${rice.ksb.datasource.url}" />
+    <property name="username" value="${rice.ksb.datasource.username}" />
+    <property name="password" value="${rice.ksb.datasource.password}" />
+  </bean>
 
+  <bean id="kimDataSource" class="org.kuali.rice.database.XAPoolDataSource">
+    <property name="transactionManager" ref="jotm" />
+    <property name="driverClassName" value="${rice.kim.datasource.driver.class}" />
+    <property name="maxSize" value="${rice.kim.datasource.pool.size}" />
+    <property name="minSize" value="5" />
+    <property name="maxWait" value="${rice.kim.datasource.connection.timeout}" />
+    <property name="validationQuery" value="${rice.kim.datasource.validating.query}" />
+    <property name="url" value="${rice.kim.datasource.url}" />
+    <property name="username" value="${rice.kim.datasource.username}" />
+    <property name="password" value="${rice.kim.datasource.password}" />
+  </bean>
 
   <bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
     <property name="dataSource" ref="dataSource" />
@@ -95,7 +116,8 @@
       </bean>
     </property>
     <property name="kimConfigurer">
-      <bean class="org.kuali.rice.kim.config.KIMConfigurer" />
+      <bean class="org.kuali.rice.kim.config.KIMConfigurer"
+        p:runMode="${kim.mode}" />
     </property>
     <property name="modules">
       <list>

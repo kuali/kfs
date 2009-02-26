@@ -52,6 +52,7 @@
     </bean>
 
     <alias name="dataSource" alias="kewDataSource"/>
+    <alias name="dataSource" alias="kimDataSource"/>
     <alias name="dataSource" alias="registryDataSource"/>
                            
 </beans>

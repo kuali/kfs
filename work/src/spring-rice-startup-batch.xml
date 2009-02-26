@@ -80,7 +80,8 @@
       </bean>
     </property>
     <property name="kimConfigurer">
-      <bean class="org.kuali.rice.kim.config.KIMConfigurer" />
+      <bean class="org.kuali.rice.kim.config.KIMConfigurer"
+        p:runMode="${kim.mode}" />
     </property>
     <property name="modules">
       <list>

@@ -82,7 +82,8 @@
       </bean>
     </property>
     <property name="kimConfigurer">
-      <bean class="org.kuali.rice.kim.config.KIMConfigurer" />
+      <bean class="org.kuali.rice.kim.config.KIMConfigurer"
+            p:runMode="local" />
     </property>
     <property name="modules">
       <list>

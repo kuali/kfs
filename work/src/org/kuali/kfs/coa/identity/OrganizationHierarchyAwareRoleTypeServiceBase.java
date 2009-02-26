@@ -15,11 +15,15 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -59,10 +63,46 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
     
     @Override
     public List<RoleMembershipInfo> sortRoleMembers(List<RoleMembershipInfo> roleMembers) {
+        List<SortableRoleMembershipHolder> listToSort = new ArrayList<SortableRoleMembershipHolder>( roleMembers.size() );
+        // build the sortable list
         for ( RoleMembershipInfo rmi : roleMembers ) {
-            rmi.setRoleSortingCode( rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)+"-"+rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE));
+            listToSort.add( new SortableRoleMembershipHolder( rmi ) );
+        }
+        // sort it
+        Collections.sort(listToSort);
+        // restore them to the list in their sorted order
+        roleMembers.clear();
+        for ( SortableRoleMembershipHolder srmh : listToSort ) {
+            roleMembers.add( srmh.rmi );
         }
         return roleMembers;
     }
 
+    private class SortableRoleMembershipHolder implements Comparable<SortableRoleMembershipHolder> {
+        
+        public String chart;
+        public String org;
+        public RoleMembershipInfo rmi;
+        
+        public SortableRoleMembershipHolder( RoleMembershipInfo rmi ) {
+            this.rmi = rmi;
+            chart = rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+            org = rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE);
+            rmi.setRoleSortingCode( chart+"-"+org );
+        }
+        
+        public int compareTo(SortableRoleMembershipHolder o) {
+            if ( o.chart == chart && o.org == org ) {
+                return 0;
+            }
+            if ( organizationService.isParentOrganization(o.chart, o.org, chart, org) ) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+    }
+    
+    
+    
 }

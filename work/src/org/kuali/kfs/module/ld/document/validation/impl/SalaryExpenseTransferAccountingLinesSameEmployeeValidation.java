@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ld.document.validation.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
@@ -50,7 +51,7 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
                 
         String employeeID = salaryExpenseTransferDocument.getEmplid() ;
         
-        if (employeeID == null || employeeID.trim().length() == 0) {
+        if (StringUtils.isBlank(employeeID)) {
             GlobalVariables.getErrorMap().putError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.MISSING_EMPLOYEE_ID) ;
             result = false ;
         }
@@ -64,12 +65,6 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
         return result ;    
     }
 
-    /**
-     * Checks whether amounts by object codes are unchanged
-     * 
-     * @param accountingDocumentForValidation The accounting document from which the amounts by objects codes are checked
-     * @return True if the given accounting documents amounts by object code are unchanged, false otherwise.
-     */ 
     private boolean hasAccountingLinesSameEmployee(AccountingDocument accountingDocument) {
         
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
@@ -85,22 +80,18 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
         // Source Lines
         for (ExpenseTransferSourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
             accountingLineEmplID = sourceAccountingLine.getEmplid();
-            if (accountingLineEmplID == null) {
+            if (accountingLineEmplID == null || !StringUtils.equals(employeeID, accountingLineEmplID)) {
                 sourceAccountingLinesValidationResult = false;
-            }
-            else if (!employeeID.equals(accountingLineEmplID)) {
-                sourceAccountingLinesValidationResult = false;
+                break;
             }
         }
 
         // Target lines
         for (ExpenseTransferTargetAccountingLine targetAccountingLine : targetAccountingLines) {
             accountingLineEmplID = targetAccountingLine.getEmplid();
-            if (accountingLineEmplID == null) {
+            if (accountingLineEmplID == null || !StringUtils.equals(employeeID, accountingLineEmplID)) {
                 targetAccountingLinesValidationResult = false;
-            }
-            else if (!employeeID.equals(accountingLineEmplID)) {
-                targetAccountingLinesValidationResult = false;
+                break;
             }
         }
 

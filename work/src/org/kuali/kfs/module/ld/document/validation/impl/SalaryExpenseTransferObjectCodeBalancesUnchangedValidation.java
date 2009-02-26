@@ -29,27 +29,33 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * Validates that an accounting document's balances by object codes are unchanged 
+ * Validates that an accounting document's balances by object codes are unchanged
  */
 public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends GenericValidation {
-    private AccountingDocument accountingDocumentForValidation;      
+    private AccountingDocument accountingDocumentForValidation;
 
     /**
-     * Validates that an accounting document have balances unchanged for the object codes 
-     * <strong>Expects an accounting document as the first a parameter</strong>
+     * Validates that an accounting document have balances unchanged for the object codes <strong>Expects an accounting document as
+     * the first a parameter</strong>
+     * 
      * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
-        
-        SalaryExpenseTransferDocument salaryExpenseTransferDocument =  (SalaryExpenseTransferDocument) getAccountingDocumentForValidation() ;
 
-        if ((salaryExpenseTransferDocument.getApprovalObjectCodeBalances().isEmpty() && !salaryExpenseTransferDocument.getUnbalancedObjectCodes().isEmpty()) ||
-                !isObjectCodeBalancesUnchanged(salaryExpenseTransferDocument)) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE) ;
-                result = false ;
-        }
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument) accountingDocumentForValidation;
         
+        Map<String, KualiDecimal> approvalObjectCodeBalances = salaryExpenseTransferDocument.getApprovalObjectCodeBalances();
+        boolean unBalanced = approvalObjectCodeBalances != null && approvalObjectCodeBalances.isEmpty();
+        
+        Map<String, KualiDecimal> unbalancedObjectCodes = salaryExpenseTransferDocument.getUnbalancedObjectCodes();
+        unBalanced &= (unbalancedObjectCodes ==null || !unbalancedObjectCodes.isEmpty());
+        
+        if (unBalanced || !isObjectCodeBalancesUnchanged(salaryExpenseTransferDocument)) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE);
+            result = false;
+        }
+
         return result;
     }
 
@@ -58,33 +64,26 @@ public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends 
      * 
      * @param accountingDocumentForValidation The accounting document from which the amounts by objects codes are checked
      * @return True if the given accounting documents amounts by object code are unchanged, false otherwise.
-     */ 
+     */
     private boolean isObjectCodeBalancesUnchanged(SalaryExpenseTransferDocument salaryExpenseTransferDocument) {
-        boolean isUnchanged  = true ;
+        boolean isUnchanged = true;
 
-        Map<String, KualiDecimal> initiatedObjectCodeBalances = salaryExpenseTransferDocument.getApprovalObjectCodeBalances() ;
-        Map<String, KualiDecimal> currentObjectCodeBalances = salaryExpenseTransferDocument.getUnbalancedObjectCodes() ;  
+        Map<String, KualiDecimal> initiatedObjectCodeBalances = salaryExpenseTransferDocument.getApprovalObjectCodeBalances();
+        Map<String, KualiDecimal> currentObjectCodeBalances = salaryExpenseTransferDocument.getUnbalancedObjectCodes();
 
-        Set <Entry<String, KualiDecimal>> initiatedObjectCodes = initiatedObjectCodeBalances.entrySet();
-        Set <Entry<String, KualiDecimal>> currentObjectCodes = currentObjectCodeBalances.entrySet();
+        Set<Entry<String, KualiDecimal>> initiatedObjectCodes = initiatedObjectCodeBalances.entrySet();
+        Set<Entry<String, KualiDecimal>> currentObjectCodes = currentObjectCodeBalances.entrySet();
 
         if (!initiatedObjectCodes.equals(currentObjectCodes))
-            isUnchanged =  false ;
-        
-        return isUnchanged ;
-        
-    }
+            isUnchanged = false;
 
-    /**
-     * Gets the accountingDocumentForValidation attribute. 
-     * @return Returns the accountingDocumentForValidation.
-     */
-    public AccountingDocument getAccountingDocumentForValidation() {
-        return accountingDocumentForValidation;
+        return isUnchanged;
+
     }
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
+     * 
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
     public void setAccountingLineForValidation(AccountingDocument accountingDocumentForValidation) {

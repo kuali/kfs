@@ -4,17 +4,10 @@
 
   <bean id="SalaryExpenseTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    
-    
-    
-    
+
     <property name="documentTypeName" value="ST"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-<!-- the following businessRuleClass should be used for granular validations, if implemented
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferDocumentRule" />
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>    
--->        
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>       
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase"/>
     <property name="sessionDocument" value="true"/>    
     <property name="allowsCopy" value="true"/>
@@ -60,32 +53,39 @@
   	<property name="sourceMap">
 		<map>
 			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>SalaryExpenseTransferDocument-blanketApproveDocumentValidation</value>
+			</entry>		
+			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
-				<value>SalaryExpenseTransferDocument-validAmountTransferredByObjectCodeValidation</value>
-			</entry>
-			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
-				<value>SalaryExpenseTransferDocument-saveDocumentValidation</value>
-			</entry>
-			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
-				<value>SalaryExpenseTransferDocument-addAccountingLineValidation</value>
+				<value>SalaryExpenseTransferDocument-approveDocumentValidation</value>
 			</entry>					
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>SalaryExpenseTransferDocument-routeDocumentValidation</value>
 			</entry>
 			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>SalaryExpenseTransferDocument-saveDocumentValidation</value>
+			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>SalaryExpenseTransferDocument-addAccountingLineValidation</value>
+			</entry>			
+			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				<value>SalaryExpenseTransferDocument-updateAccountingLineValidation</value>
-			</entry>											
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<value>SalaryExpenseTransferDocument-reviewAccountingLineValidation</value>
+			</entry>
     	</map>
     </property>
   </bean>
     
     <!-- accounting line groups -->
-    <bean id="SalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean"/>
-    
+    <bean id="SalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean"/> 
     <bean id="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-Source-accountingLineView"/>
    	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
@@ -98,7 +98,6 @@
     </bean>
 
     <bean id="SalaryExpenseTransferDocument-targetAccountingLineGroup" parent="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean"/>
-    
     <bean id="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-Target-accountingLineView"/>
    	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine"/>

@@ -20,42 +20,35 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="SalaryExpenseTransferDocument-validAmountTransferredByObjectCodeValidation" parent="SalaryExpenseTransferDocument-validAmountTransferredByObjectCodeValidation-parentBean" scope="prototype" />
-	
-	<bean id="SalaryExpenseTransferDocument-validAmountTransferredByObjectCodeValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="SalaryExpenseTransferDocument-blanketApproveDocumentValidation" parent="SalaryExpenseTransferDocument-blanketApproveDocumentValidation-parentBean" scope="prototype" />        
+  	<bean id="SalaryExpenseTransferDocument-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" /> 
+  			</list>
+  		</property>
+	</bean>        
+
+	<bean id="SalaryExpenseTransferDocument-approveDocumentValidation" parent="SalaryExpenseTransferDocument-approveDocumentValidation-parentBean" scope="prototype" />
+	<bean id="SalaryExpenseTransferDocument-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean parent="SalaryExpenseTransferDocument-objectCodeBalancesUnchangedValidation" scope="prototpye">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>					
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
-				<bean parent="SalaryExpenseTransferDocument-unbalancedObjectCodesValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>					
-					</property>
-					<property name="quitOnFail" value="true" />				
-				</bean>
+				<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="SalaryExpenseTransferDocument-reviewAccountingLineValidation" parent="SalaryExpenseTransferDocument-reviewAccountingLineValidation-parentBean" scope="prototype" /> 
+	<bean id="SalaryExpenseTransferDocument-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype" />
+  		</property>
+	</bean>	
 		
-	<bean id="SalaryExpenseTransferDocument-saveDocumentValidation" parent="SalaryExpenseTransferDocument-saveDocumentValidation-parentBean" scope="prototype" />
-		
+	<bean id="SalaryExpenseTransferDocument-saveDocumentValidation" parent="SalaryExpenseTransferDocument-saveDocumentValidation-parentBean" scope="prototype" />		
 	<bean id="SalaryExpenseTransferDocument-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
-			<list>
+			<list>		
 				<bean parent="SalaryExpenseTransferDocument-accountingLinesSameEmployeeValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -66,16 +59,16 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>
+				</bean>				
 			</list>
 		</property>	
 	</bean>
 		
-	<bean id="SalaryExpenseTransferDocument-addAccountingLineValidation" parent="SalaryExpenseTransferDocument-addAccountingLineValidation-parentBean" scope="prototype" />
-		
+	<bean id="SalaryExpenseTransferDocument-addAccountingLineValidation" parent="SalaryExpenseTransferDocument-addAccountingLineValidation-parentBean" scope="prototype" />	
 	<bean id="SalaryExpenseTransferDocument-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
-			<list>		
+			<list>
+				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />	
 				<bean parent="LaborExpenseTransferDocument-duplicateSourceAccountingLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -124,16 +117,27 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>
+				</bean>			
 			</list>
 		</property>	
 	</bean>
 	
-	<bean id="SalaryExpenseTransferDocument-updateAccountingLineValidation" parent="SalaryExpenseTransferDocument-updateAccountingLineValidation-parentBean" scope="prototype" />
-		
+	<bean id="SalaryExpenseTransferDocument-updateAccountingLineValidation" parent="SalaryExpenseTransferDocument-updateAccountingLineValidation-parentBean" scope="prototype" />		
 	<bean id="SalaryExpenseTransferDocument-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
-			<list>		
+			<list>
+				<bean parent="SalaryExpenseTransferDocument-accountingLinesSameEmployeeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="documentForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>				
+				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
 				<bean parent="LaborExpenseTransferDocument-duplicateSourceAccountingLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -170,13 +174,24 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>
+				</bean>				
+				
+				<bean parent="SalaryExpenseTransferDocument-salaryObjectCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>				
 			</list>
 		</property>	
 	</bean>
 
-	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation" parent="SalaryExpenseTransferDocument-routeDocumentValidation-parentBean" scope="prototype" />
-	
+	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation" parent="SalaryExpenseTransferDocument-routeDocumentValidation-parentBean" scope="prototype" />	
 	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>

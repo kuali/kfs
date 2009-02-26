@@ -1,0 +1,130 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="EmploymentStatus" parent="EmploymentStatus-parentBean" />
+  <bean id="EmploymentStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.kim.bo.reference.impl.EmploymentStatusImpl" />
+    <property name="inquiryDefinition" >
+      <ref bean="EmploymentStatus-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="EmploymentStatus-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Employment Status" />
+    <property name="attributes" >
+      <list>
+        <ref bean="EmploymentStatus-employmentStatusCode" />
+        <ref bean="EmploymentStatus-employmentStatusName" />
+        <ref bean="EmploymentStatus-active" />
+        <ref bean="EmploymentStatus-displaySortCode" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="EmploymentStatus-employmentStatusCode" parent="EmploymentStatus-employmentStatusCode-parentBean" />
+  <bean id="EmploymentStatus-employmentStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="employmentStatusCode" />
+    <property name="label" value="Employment Status Code" />
+    <property name="shortLabel" value="Type Code" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="The entity type code." />
+    <property name="description" value="The entity type code." />
+  </bean>
+
+  <bean id="EmploymentStatus-employmentStatusName" parent="EmploymentStatus-employmentStatusName-parentBean" />
+  <bean id="EmploymentStatus-employmentStatusName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="employmentStatusName" />
+    <property name="label" value="Employment Status Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Descriptive text." />
+    <property name="description" value="Descriptive text." />
+  </bean>
+
+  <bean id="EmploymentStatus-active" parent="EmploymentStatus-active-parentBean" />
+  <bean id="EmploymentStatus-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
+  <bean id="EmploymentStatus-displaySortCode" parent="EmploymentStatus-displaySortCode-parentBean" />
+  <bean id="EmploymentStatus-displaySortCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="displaySortCode" />
+    <property name="label" value="Display Sort Code" />
+    <property name="shortLabel" value="Sort" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Descriptive text." />
+    <property name="description" value="Descriptive text." />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="EmploymentStatus-inquiryDefinition" parent="EmploymentStatus-inquiryDefinition-parentBean" />
+  <bean id="EmploymentStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Employment Status" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Employment Status" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="employmentStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="employmentStatusName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+  <bean id="EmploymentStatus-lookupDefinition" parent="EmploymentStatus-lookupDefinition-parentBean" />
+  <bean id="EmploymentStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Employment Status Lookup" />
+    <property name="instructions" value="Look up Employment Status. Click &quot;Return Results&quot; to  them." />
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="employmentStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employmentStatusName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="employmentStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employmentStatusName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+        <bean parent="FieldDefinition"
+              p:attributeName="displaySortCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

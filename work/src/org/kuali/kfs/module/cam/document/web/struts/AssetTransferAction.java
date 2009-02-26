@@ -24,15 +24,19 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final Logger LOG = Logger.getLogger(AssetTransferAction.class);
@@ -128,5 +132,53 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
         
         return actionForward;
     }
+
+    
+    /**
+     * Save the document when they click the save button
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.save(mapping, form, request, response);
+
+        allPaymentsFederalOwnedMessage(form);
+
+        return actionForward;
+    }
+
+    
+    /**
+     * Route the document
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.route(mapping, form, request, response);
+
+        allPaymentsFederalOwnedMessage(form);
+
+        return actionForward;
+    }
+    
+    private void allPaymentsFederalOwnedMessage(ActionForm form){
+        boolean allPaymentsFederalOwned = true;
+        
+        AssetTransferDocument assetTransferDocument = ((AssetTransferForm) form).getAssetTransferDocument();
+
+        for (AssetPayment assetPayment : assetTransferDocument.getAsset().getAssetPayments()) {
+            if (!getAssetPaymentService().isPaymentFederalOwned(assetPayment)) {
+                allPaymentsFederalOwned =  false;
+            }
+        }
+        
+        //display a message for asset not generating ledger entries when it is federally owned 
+        if (allPaymentsFederalOwned) {
+            GlobalVariables.getMessageList().add(CamsKeyConstants.Transfer.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_TRANSFER);        
+        }
+    }
+    
+    private AssetPaymentService getAssetPaymentService() {
+        return SpringContext.getBean(AssetPaymentService.class);
+    }
+        
 }
 

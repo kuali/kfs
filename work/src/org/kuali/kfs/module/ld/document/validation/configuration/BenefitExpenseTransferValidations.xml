@@ -25,6 +25,7 @@
 	<bean id="BenefitExpenseTransferDocument-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
 				<bean parent="LaborExpenseTransferDocument-duplicateSourceAccountingLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -98,6 +99,7 @@
 	<bean id="BenefitExpenseTransferDocument-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
 				<bean parent="LaborExpenseTransferDocument-accountLineTotalsMatchValidation" scope="prototpye">
 					<property name="parameterProperties">
 						<list>
@@ -173,7 +175,8 @@
 		
 	<bean id="BenefitExpenseTransferDocument-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
-			<list>		
+			<list>
+			 	<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
 				<bean parent="LaborExpenseTransferDocument-duplicateSourceAccountingLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

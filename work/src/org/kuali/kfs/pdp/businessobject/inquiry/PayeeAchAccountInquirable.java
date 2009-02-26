@@ -22,6 +22,7 @@ import java.util.Properties;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -52,7 +53,8 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
 
             Map<String, String> fieldList = new HashMap<String, String>();
             fieldList.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, generatedIdentifier.toString());
-
+            fieldList.put(KFSPropertyConstants.PRINCIPAL_ID, ( (PayeeACHAccount)businessObject).getPrincipalId());
+            
             return getHyperLink(PayeeACHAccount.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
         }
 

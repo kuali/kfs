@@ -5,9 +5,6 @@
   <bean id="BenefitExpenseTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
     
-    
-    
-    
     <property name="documentTypeName" value="BT"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -56,17 +53,29 @@
   	<property name="sourceMap">
 		<map>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
-				<value>BenefitExpenseTransferDocument-addAccountingLineValidation</value>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>BenefitExpenseTransferDocument-blanketApproveDocumentValidation</value>
+			</entry>		
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>BenefitExpenseTransferDocument-approveDocumentValidation</value>
 			</entry>					
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>BenefitExpenseTransferDocument-routeDocumentValidation</value>
 			</entry>
 			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>BenefitExpenseTransferDocument-addAccountingLineValidation</value>
+			</entry>			
+			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				<value>BenefitExpenseTransferDocument-updateAccountingLineValidation</value>
-			</entry>									
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<value>BenefitExpenseTransferDocument-reviewAccountingLineValidation</value>
+			</entry>
     	</map>
     </property>
   </bean>  

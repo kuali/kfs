@@ -139,6 +139,11 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
         this.setPayrollEndDateFiscalPeriodCode(transaction.getPayrollEndDateFiscalPeriodCode());
         this.setPayrollEndDateFiscalYear(transaction.getPayrollEndDateFiscalYear());
         this.setPositionNumber(transaction.getPositionNumber());
+        this.setRunIdentifier(transaction.getRunIdentifier());
+        this.setProjectCode(transaction.getProjectCode());
+        this.setSetid(transaction.getSetid());
+        this.setSalaryAdministrationPlan(transaction.getSalaryAdministrationPlan());
+        this.setTransactionTotalHours(transaction.getTransactionTotalHours());
     }
 
     /**

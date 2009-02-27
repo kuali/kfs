@@ -18,20 +18,13 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -41,6 +34,11 @@ public class CustomerInvoiceRecurrenceBeginDateValidation extends GenericValidat
     private CustomerInvoiceDocument customerInvoiceDocument;
 
     public boolean validate(AttributedDocumentEvent event) {
+        
+        // short circuit if no recurrence object at all
+        if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails())) {
+            return true;
+        }
         
         if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) &&
             ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) &&

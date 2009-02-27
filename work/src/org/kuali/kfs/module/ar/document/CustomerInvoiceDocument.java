@@ -1069,7 +1069,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                     throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
                 }
             }
-            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier())) {
+            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails()) || 
+                    (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) 
+                    && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) 
+                    && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) 
+                    && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) 
+                    && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier()))) {
             }
             else {
                 try {
@@ -1190,6 +1195,21 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             setCustomerShipToAddress(null);
             setCustomerShipToAddressOnInvoice(null);
         }
+        
+        //  get rid of the child object if there's not enough information there to make a recurrence
+        if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails())) {
+            boolean removeRecurrence = false;
+            CustomerInvoiceRecurrenceDetails rec = this.getCustomerInvoiceRecurrenceDetails();
+            removeRecurrence |= (null == rec.getDocumentRecurrenceBeginDate());
+            removeRecurrence |= (null == rec.getCustomerNumber());
+            removeRecurrence |= (null == rec.getDocumentInitiatorUserIdentifier());
+            removeRecurrence |= (null == rec.getDocumentRecurrenceIntervalCode());
+            removeRecurrence |= (!rec.isActive());
+            if (removeRecurrence) {
+                this.setCustomerInvoiceRecurrenceDetails(null);
+            }
+        }
+
     }
 
 

@@ -35,6 +35,11 @@ public class CustomerInvoiceBothEndDateAndTotalRecurrenceNumberValidation extend
 
     public boolean validate(AttributedDocumentEvent event) {
         
+        // short circuit if no recurrence object at all
+        if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails())) {
+            return true;
+        }
+        
         if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) || 
             ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) ||
             ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) ||

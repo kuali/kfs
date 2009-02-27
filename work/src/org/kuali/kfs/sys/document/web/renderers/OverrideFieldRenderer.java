@@ -158,7 +158,9 @@ public class OverrideFieldRenderer extends FieldRendererBase {
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         if ((readOnly && getField().getPropertyValue().equals("Yes")) || overrideNeededValue.equals("Yes")) {
             renderOverrideAsNonHidden(pageContext, parentTag);
-            renderOverridePresent(pageContext, parentTag);
+            if (!readOnly) {
+                renderOverridePresent(pageContext, parentTag);
+            }
         } else {
         }
    }

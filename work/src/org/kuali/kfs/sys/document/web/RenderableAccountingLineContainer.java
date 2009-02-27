@@ -18,7 +18,6 @@ package org.kuali.kfs.sys.document.web;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -36,6 +35,7 @@ import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**
@@ -351,7 +351,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     public boolean isFieldModifyable(AccountingLineViewField field) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        return accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, field.getName(), currentUser) || isLineInError();
+        return (getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, field.getName(), currentUser)) || isLineInError();
     }
     
     /**

@@ -156,6 +156,10 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             Double totalHistoricalCost = new Double(document.getAssetsTotalHistoricalCost().toString());
             // Creating a new payment record for each asset that has payments.
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
+                
+                if (assetPaymentAssetDetail.getPreviousTotalCostAmount() == null)
+                    assetPaymentAssetDetail.setPreviousTotalCostAmount(new KualiDecimal(0));
+                
                 maxSequenceNo = getMaxSequenceNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
 
                 // Doing the re-distribution of the cost based on the previous total cost of each asset compared with the total

@@ -68,7 +68,7 @@ public enum SystemParameterBelowTheLineItemPaymentRequestFixture {
             new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_WITH_ZERO_RSTO_ITEM} // requisitionItemMultiFixtures
     ),
     PREQ_WITH_BELOW_LINE_ITEMS_WITHOUT_DESCRIPTION(
-            new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_WITH_MISC_ITEM_NO_DESC} // requisitionItemMultiFixtures
+            new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_WITH_FREIGHT_ITEM_NO_DESC} // requisitionItemMultiFixtures
     ),
     PREQ_WITH_BELOW_LINE_ITEMS_WITH_DESCRIPTION(
             new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_VALID_MISC_ITEM} // requisitionItemMultiFixtures

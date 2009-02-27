@@ -43,8 +43,9 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         RequisitionDocument reqDocument = (RequisitionDocument)document;
         if (!RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode()) &&
                 !RequisitionStatuses.AWAIT_CONTENT_REVIEW.equals(reqDocument.getStatusCode()) &&
+                !RequisitionStatuses.AWAIT_HAS_ACCOUNTING_LINES.equals(reqDocument.getStatusCode()) &&
                 !RequisitionStatuses.AWAIT_FISCAL_REVIEW.equals(reqDocument.getStatusCode())) {
-            //unless the Requisition is in process, awaiting content, or awaiting fiscal, editing is not allowed
+            //unless the Requisition is in process, awaiting content, awaiting accounting lines or awaiting fiscal, editing is not allowed
             return false;
         }
         return super.canEdit(document);

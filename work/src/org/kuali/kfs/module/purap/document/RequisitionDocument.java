@@ -119,12 +119,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.HAS_ACCOUNTING_LINES)) return hasAccountingLines();
+        if (nodeName.equals(PurapWorkflowConstants.HAS_ACCOUNTING_LINES)) return isMissingAccountingLines();
         if (nodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) return isSeparationOfDutiesReviewRequired();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
 
-    private boolean hasAccountingLines() {
+    private boolean isMissingAccountingLines() {
         for (Iterator iterator = getItems().iterator(); iterator.hasNext();) {
             RequisitionItem item = (RequisitionItem) iterator.next();
             if (item.isConsideredEntered() && !item.isAccountListEmpty()) {

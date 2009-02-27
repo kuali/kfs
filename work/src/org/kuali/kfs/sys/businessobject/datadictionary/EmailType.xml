@@ -28,7 +28,7 @@
 
   <bean id="EmailType-emailTypeCode" parent="EmailType-emailTypeCode-parentBean" />
   <bean id="EmailType-emailTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="emailTypeCode" />
+    <property name="name" value="code" />
     <property name="label" value="Email Type Code" />
     <property name="shortLabel" value="Type Code" />
     <property name="maxLength" value="2" />
@@ -42,7 +42,7 @@
 
   <bean id="EmailType-emailTypeName" parent="EmailType-emailTypeName-parentBean" />
   <bean id="EmailType-emailTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="emailTypeName" />
+    <property name="name" value="name" />
     <property name="label" value="Email Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="10" />
@@ -86,9 +86,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="emailTypeCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="emailTypeName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -107,9 +107,9 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="emailTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="emailTypeName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -117,13 +117,13 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="emailTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="emailTypeName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="displaySortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

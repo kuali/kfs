@@ -29,7 +29,7 @@
 
   <bean id="PhoneType-phoneTypeCode" parent="PhoneType-phoneTypeCode-parentBean" />
   <bean id="PhoneType-phoneTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="phoneTypeCode" />
+    <property name="name" value="code" />
     <property name="label" value="Phone Type Code" />
     <property name="shortLabel" value="Phone Type Code" />
     <property name="maxLength" value="7" />
@@ -43,7 +43,7 @@
 
   <bean id="PhoneType-phoneTypeName" parent="PhoneType-phoneTypeName-parentBean" />
   <bean id="PhoneType-phoneTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="phoneTypeName" />
+    <property name="name" value="name" />
     <property name="label" value="Phone Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -87,9 +87,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="phoneTypeCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="phoneTypeName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
                     p:attributeName="displaySortCode" />
               <bean parent="FieldDefinition"
@@ -110,9 +110,9 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="phoneTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="phoneTypeName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -120,9 +120,9 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="phoneTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="phoneTypeName" />
+              p:attributeName="name" />
 		<bean parent="FieldDefinition"
               p:attributeName="displaySortCode" />
         <bean parent="FieldDefinition"

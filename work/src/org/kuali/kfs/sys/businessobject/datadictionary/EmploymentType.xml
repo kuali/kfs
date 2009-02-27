@@ -28,7 +28,7 @@
 
   <bean id="EmploymentType-employmentTypeCode" parent="EmploymentType-employmentTypeCode-parentBean" />
   <bean id="EmploymentType-employmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="employmentTypeCode" />
+    <property name="name" value="code" />
     <property name="label" value="Employment Type Code" />
     <property name="shortLabel" value="Type Code" />
     <property name="maxLength" value="2" />
@@ -42,7 +42,7 @@
 
   <bean id="EmploymentType-employmentTypeName" parent="EmploymentType-employmentTypeName-parentBean" />
   <bean id="EmploymentType-employmentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="employmentTypeName" />
+    <property name="name" value="name" />
     <property name="label" value="Employment Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="10" />
@@ -86,9 +86,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="employmentTypeCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="employmentTypeName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -107,9 +107,9 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="employmentTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="employmentTypeName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -117,13 +117,13 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="employmentTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="employmentTypeName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="displaySortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

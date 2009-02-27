@@ -18,9 +18,8 @@
       <list>
         <ref bean="AddressType-addressTypeCode" />
         <ref bean="AddressType-addressTypeName" />
-        <ref bean="AddressType-displaySortCode" />
         <ref bean="AddressType-active" />
-        
+        <ref bean="AddressType-displaySortCode" />
       </list>
     </property>
   </bean>
@@ -29,13 +28,13 @@
 
   <bean id="AddressType-addressTypeCode" parent="AddressType-addressTypeCode-parentBean" />
   <bean id="AddressType-addressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="addressTypeCode" />
+    <property name="name" value="code" />
     <property name="label" value="Address Type Code" />
-    <property name="shortLabel" value="Address Type Code" />
-    <property name="maxLength" value="7" />
+    <property name="shortLabel" value="Type Code" />
+    <property name="maxLength" value="2" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="9" />
+            p:size="10" />
     </property>
     <property name="summary" value="The address type code." />
     <property name="description" value="The address type code." />
@@ -43,27 +42,13 @@
 
   <bean id="AddressType-addressTypeName" parent="AddressType-addressTypeName-parentBean" />
   <bean id="AddressType-addressTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="addressTypeName" />
+    <property name="name" value="name" />
     <property name="label" value="Address Type Name" />
     <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="50" />
+    <property name="maxLength" value="10" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="52" />
-    </property>
-    <property name="summary" value="Descriptive text." />
-    <property name="description" value="Descriptive text." />
-  </bean>
-  
-  <bean id="AddressType-displaySortCode" parent="AddressType-displaySortCode-parentBean" />
-  <bean id="AddressType-displaySortCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="displaySortCode" />
-    <property name="label" value="Display Sort Code" />
-    <property name="shortLabel" value="Sort" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+            p:size="10" />
     </property>
     <property name="summary" value="Descriptive text." />
     <property name="description" value="Descriptive text." />
@@ -72,6 +57,20 @@
   <bean id="AddressType-active" parent="AddressType-active-parentBean" />
   <bean id="AddressType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+
+  <bean id="AddressType-displaySortCode" parent="AddressType-displaySortCode-parentBean" />
+  <bean id="AddressType-displaySortCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="displaySortCode" />
+    <property name="label" value="Display Sort Code" />
+    <property name="shortLabel" value="Sort" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Descriptive text." />
+    <property name="description" value="Descriptive text." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -87,11 +86,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="addressTypeCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="addressTypeName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="displaySortCode" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -106,13 +103,13 @@
   <bean id="AddressType-lookupDefinition" parent="AddressType-lookupDefinition-parentBean" />
   <bean id="AddressType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Address Type Lookup" />
-    <property name="instructions" value="Look up Address Types." />
+    <property name="instructions" value="Look up Address Types. Click &quot;Return Results&quot; to  them." />
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="addressTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="addressTypeName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -120,10 +117,10 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="addressTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="addressTypeName" />
-		<bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
               p:attributeName="displaySortCode" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />

@@ -28,7 +28,7 @@
 
   <bean id="EntityType-entityTypeCode" parent="EntityType-entityTypeCode-parentBean" />
   <bean id="EntityType-entityTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="entityTypeCode" />
+    <property name="name" value="code" />
     <property name="label" value="Entity Type Code" />
     <property name="shortLabel" value="Type Code" />
     <property name="maxLength" value="2" />
@@ -42,7 +42,7 @@
 
   <bean id="EntityType-entityTypeName" parent="EntityType-entityTypeName-parentBean" />
   <bean id="EntityType-entityTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="entityTypeName" />
+    <property name="name" value="name" />
     <property name="label" value="Entity Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="10" />
@@ -86,9 +86,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="entityTypeCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="entityTypeName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -107,9 +107,9 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="entityTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="entityTypeName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -117,13 +117,13 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="entityTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="entityTypeName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="displaySortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

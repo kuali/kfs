@@ -218,6 +218,7 @@
             <ref bean="businessObjectService" />
         </property>
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
+        <property name="batchGlFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>
 
 	<bean id="laborScrubberService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborScrubberServiceImpl">

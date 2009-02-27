@@ -116,6 +116,16 @@ public class YearEndServiceImpl implements YearEndService {
 
         boolean nonFatalErrorFlag = false;
 
+        //create files
+        File nominalClosingFile = new File(batchFileDirectoryName + File.separator + nominalClosingFileName);
+        PrintStream nominalClosingPs = null;
+        
+        try {
+            nominalClosingPs = new PrintStream(nominalClosingFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("nominalClosingFile Files doesn't exist " + nominalClosingFileName);
+        }
+        
         while (balanceIterator.hasNext()) {
 
             Balance balance = balanceIterator.next();
@@ -164,15 +174,6 @@ public class YearEndServiceImpl implements YearEndService {
                 // 1053 007310 MOVE WS-AMT-X TO TRN-AMT-RED-X.
                 // 1054 007320 WRITE GLE-DATA FROM GLEN-RECORD.
                 
-                //create files
-                File nominalClosingFile = new File(batchFileDirectoryName + File.separator + nominalClosingFileName);
-                PrintStream nominalClosingPs = null;
-                
-                try {
-                    nominalClosingPs = new PrintStream(nominalClosingFile);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException("nominalClosingFile Files doesn't exist " + nominalClosingFileName);
-                }
                 originEntryService.createEntry(activityEntry, nominalClosingPs);
 
                 // 1055 007330 MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
@@ -277,6 +278,7 @@ public class YearEndServiceImpl implements YearEndService {
         // 784 004670 2000-DRIVER-EXIT.
         // 785 004680 EXIT.
 
+        nominalClosingPs.close();
     }
 
     /**
@@ -451,6 +453,16 @@ public class YearEndServiceImpl implements YearEndService {
         counts.put("encumbrancesSelected", new Integer(0));
         counts.put("originEntriesWritten", new Integer(0));
 
+        //create files
+        File encumbranceForwardFile = new File(batchFileDirectoryName + File.separator + encumbranceForwardFileName);
+        PrintStream encumbranceForwardPs = null;
+        
+        try {
+            encumbranceForwardPs = new PrintStream(encumbranceForwardFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("nominalClosingFile Files doesn't exist " + encumbranceForwardFileName);
+        }
+
         // encumbranceDao will return all encumbrances for the fiscal year sorted properly by all of the appropriate keys.
         Iterator encumbranceIterator = encumbranceDao.getEncumbrancesToClose((Integer) jobParameters.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
         while (encumbranceIterator.hasNext()) {
@@ -458,16 +470,6 @@ public class YearEndServiceImpl implements YearEndService {
             Encumbrance encumbrance = (Encumbrance) encumbranceIterator.next();
             incrementCount(counts, "encumbrancesRead");
             
-            //create files
-            File encumbranceForwardFile = new File(batchFileDirectoryName + File.separator + encumbranceForwardFileName);
-            PrintStream encumbranceForwardPs = null;
-            
-            try {
-                encumbranceForwardPs = new PrintStream(encumbranceForwardFile);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException("nominalClosingFile Files doesn't exist " + encumbranceForwardFileName);
-            }
-
             // if the encumbrance is not completely relieved
             if (encumbranceClosingRuleHelper.anEntryShouldBeCreatedForThisEncumbrance(encumbrance)) {
 
@@ -536,6 +538,8 @@ public class YearEndServiceImpl implements YearEndService {
                 persistenceService.clearCache();
             }
         }
+        
+        encumbranceForwardPs.close();
     }
 
     /**

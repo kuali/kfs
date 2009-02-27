@@ -260,6 +260,8 @@ public class OrganizationReversionProcess {
                 LOG.info(fee.getMessage());
             }
         }
+        
+        outputPs.close();
     }
 
     /**

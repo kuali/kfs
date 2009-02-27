@@ -57,6 +57,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private String batchFileDirectoryName;
+    private String batchGlFileDirectoryName;
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#deleteCopiedPendingLedgerEntries()
@@ -83,7 +84,6 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         }
         
         String reportDirectory = ReportRegistry.getReportsDirectory();
-        //OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_EDOC, true, true, true);
         //TODO: Shawn - might need to change this part to use file not collection
         Collection<OriginEntryLite> group = new ArrayList();
         Iterator<LaborLedgerPendingEntry> pendingEntries = laborLedgerPendingEntryService.findApprovedPendingLedgerEntries();
@@ -132,19 +132,38 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
      * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#copyLaborGenerealLedgerEntries()
      */
     public void copyLaborGenerealLedgerEntries() {
+        
+        //TODO: Shawn - need to create a file in gl originEntry Directory
+        
         Date runDate = dateTimeService.getCurrentSqlDate();
         String reportDirectory = ReportRegistry.getReportsDirectory();
-        OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_LEDGER_GENERAL_LEDGER, true, true, true);
 
+        String outputFile = batchGlFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE;
+        PrintStream outputFilePs;
+        
+        try {
+            outputFilePs  = new PrintStream(outputFile);
+        }
+        catch (IOException e) {
+            // FIXME: do whatever is supposed to be done here
+            throw new RuntimeException(e);
+        }
+        
         // copy the labor general ledger entry to origin entry table
         Collection<LaborGeneralLedgerEntry> generalLedgerEntries = businessObjectService.findAll(LaborGeneralLedgerEntry.class);
         int numberOfGLEntries = generalLedgerEntries.size();
 
         for (LaborGeneralLedgerEntry entry : generalLedgerEntries) {
-            boolean isSaved = saveAsGLOriginEntry(entry, group);
+            //write to file
+            try {
+                outputFilePs.printf("%s\n", entry.getLine());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            //boolean isSaved = saveAsGLOriginEntry(entry, group);
         }
-
-        laborReportService.generateGLSummaryReport(group, ReportRegistry.LABOR_GL_SUMMARY, reportDirectory, runDate);
+        //TODO: Shawn - commented out for report
+        //laborReportService.generateGLSummaryReport(group, ReportRegistry.LABOR_GL_SUMMARY, reportDirectory, runDate);
     }
 
     /*
@@ -252,5 +271,9 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
 
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+
+    public void setBatchGlFileDirectoryName(String batchGlFileDirectoryName) {
+        this.batchGlFileDirectoryName = batchGlFileDirectoryName;
     }
 }

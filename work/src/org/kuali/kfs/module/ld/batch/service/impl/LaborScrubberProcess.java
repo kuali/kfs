@@ -211,7 +211,7 @@ public class LaborScrubberProcess {
 
     public void scrubEntries() {
         
-        this.inputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE;
+        this.inputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE;
         this.validFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE; 
         this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE; 
         this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE; 

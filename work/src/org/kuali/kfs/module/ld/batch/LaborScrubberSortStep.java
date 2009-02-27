@@ -43,7 +43,7 @@ public class LaborScrubberSortStep extends AbstractStep {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
         String inputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BACKUP_FILE;
-        String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE;
+        String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE;
         BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new LaborScrubberSortComparator());
 
 

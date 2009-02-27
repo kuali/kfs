@@ -618,41 +618,6 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         return laborOriginEntryDao.getLaborBackupGroups(backupDate);
     }
 
-    /**
-     * @see org.kuali.kfs.module.ld.service.LaborOriginEntryService#createLaborBackupGroup()
-     */
-    public void createLaborBackupGroup() {
-        LOG.debug("createBackupGroup() started");
-
-        // Get the groups that need to be added
-        Date today = dateTimeService.getCurrentSqlDate();
-        Collection<OriginEntryGroup> originEntryGroups = laborOriginEntryDao.getLaborGroupsToBackup(today);
-
-        // Create the new group
-        OriginEntryGroup backupGroup = originEntryGroupService.createGroup(today, OriginEntrySource.LABOR_BACKUP, true, true, true);
-
-        for (OriginEntryGroup group : originEntryGroups) {
-
-            // Get only LaborOriginEntryGroup
-            if (group.getSourceCode().startsWith("L")) { // TODO: the hard-coded constant is a problem
-                Iterator<LaborOriginEntry> laborOriginEntries = laborOriginEntryDao.getLaborEntriesByGroup(group, 0);
-
-                while (laborOriginEntries != null && laborOriginEntries.hasNext()) {
-                    LaborOriginEntry entry = laborOriginEntries.next();
-
-                    entry.setEntryId(null);
-                    entry.setObjectId(new Guid().toString());
-                    entry.setGroup(backupGroup);
-                    laborOriginEntryDao.saveOriginEntry(entry);
-                }
-
-                group.setProcess(false);
-                group.setScrub(false);
-                originEntryGroupService.save(group);
-            }
-        }
-    }
-    
     public  Iterator<LaborOriginEntry> getEntriesIteratorByGroupIdWithoutErrorChecking(String fileName) {
         File file = new File(batchFileDirectoryName + File.separator + fileName);
         

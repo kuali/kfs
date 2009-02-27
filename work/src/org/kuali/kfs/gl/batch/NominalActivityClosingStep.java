@@ -64,15 +64,18 @@ public class NominalActivityClosingStep extends AbstractStep {
             throw new IllegalArgumentException("Unable to parse transaction date");
         }
         Integer varFiscalYear = new Integer(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
-        OriginEntryGroup nominalClosingOriginEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_CLOSE_NOMINAL_BALANCES, true, false, true);
+        //OriginEntryGroup nominalClosingOriginEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_CLOSE_NOMINAL_BALANCES, true, false, true);
+        String nominalClosingFileName = GeneralLedgerConstants.BatchFileSystem.CLOSE_NOMINAL_ACTIVITY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        
+        
         Map nominalClosingJobParameters = new HashMap();
         nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.UNIV_DT, varTransactionDate);
         nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
         Map<String, Integer> nominalActivityClosingCounts = new HashMap<String, Integer>();
 
-        yearEndService.closeNominalActivity(nominalClosingOriginEntryGroup, nominalClosingJobParameters, nominalActivityClosingCounts);
-
-        yearEndService.generateCloseNominalActivityReports(nominalClosingOriginEntryGroup, nominalClosingJobParameters, nominalActivityClosingCounts);
+        yearEndService.closeNominalActivity(nominalClosingFileName, nominalClosingJobParameters, nominalActivityClosingCounts);
+        //TODO: Shawn - report
+        //yearEndService.generateCloseNominalActivityReports(nominalClosingFileName, nominalClosingJobParameters, nominalActivityClosingCounts);
 
         stopWatch.stop();
         LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");

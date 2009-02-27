@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
 import org.kuali.kfs.gl.batch.service.YearEndService;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -48,7 +49,8 @@ public class OrganizationReversionBeginningOfYearStep extends AbstractStep {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
 
-        OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
+        //OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
+        String organizationReversionPreClosingFileName = GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_PRE_CLOSING_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         Map jobParameters = organizationReversionProcessService.getJobParameters();
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
@@ -56,9 +58,10 @@ public class OrganizationReversionBeginningOfYearStep extends AbstractStep {
         yearEndService.logAllMissingPriorYearAccounts((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
         yearEndService.logAllMissingSubFundGroups((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
 
-        organizationReversionProcessService.organizationReversionProcessBeginningOfYear(outputGroup, jobParameters, organizationReversionCounts);
-
-        organizationReversionProcessService.generateOrganizationReversionProcessReports(outputGroup, jobParameters, organizationReversionCounts);
+        organizationReversionProcessService.organizationReversionProcessBeginningOfYear(organizationReversionPreClosingFileName, jobParameters, organizationReversionCounts);
+        
+        //TODO: Shawn - report
+        //organizationReversionProcessService.generateOrganizationReversionProcessReports(outputGroup, jobParameters, organizationReversionCounts);
 
         stopWatch.stop();
         LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");

@@ -77,12 +77,12 @@ public class EncumbranceForwardStep extends AbstractStep {
         jobParameters.put(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
         jobParameters.put(GeneralLedgerConstants.ColumnNames.UNIV_DT, varTransactionDate);
 
-        OriginEntryGroup originEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, true, false, true);
+        //OriginEntryGroup originEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, true, false, true);
+        String encumbranceForwardFileName = GeneralLedgerConstants.BatchFileSystem.ENCUMBRANCE_FORWARD_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         Map<String, Integer> forwardEncumbranceCounts = new HashMap<String, Integer>();
 
-        yearEndService.forwardEncumbrances(originEntryGroup, jobParameters, forwardEncumbranceCounts);
+        yearEndService.forwardEncumbrances(encumbranceForwardFileName, jobParameters, forwardEncumbranceCounts);
 
-        yearEndService.generateForwardEncumbrancesReports(originEntryGroup, jobParameters, forwardEncumbranceCounts);
 
         stopWatch.stop();
         LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");

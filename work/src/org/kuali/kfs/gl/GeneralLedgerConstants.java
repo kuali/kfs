@@ -223,8 +223,8 @@ public class GeneralLedgerConstants {
 		static final public String ORGANIZATION_REVERSION_CLOSING_FILE = "gl_org_reversion_closing";
 		static final public String ENCUMBRANCE_FORWARD_FILE = "gl_encumbrance_forward";
 		static final public String CLOSE_NOMINAL_ACTIVITY_FILE = "gl_close_nominal_activity";
-		static final public String BALANCE_FORWARDS_FILE = "gl_balance_Forwards";
-		static final public String BALANCE_FORWARDS_CLOSED_FILE = "gl_balance_Forwards_closed";
+		static final public String BALANCE_FORWARDS_FILE = "gl_balance_forwards";
+		static final public String BALANCE_FORWARDS_CLOSED_FILE = "gl_balance_forwards_closed";
     }
 
     public static class PosterOutputSummaryEntry {

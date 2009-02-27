@@ -408,6 +408,7 @@
 		<property name="orgReversionUnitOfWorkService">
 			<ref bean="glOrgReversionUnitOfWorkService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
 	<bean id="glCollectorService" class="org.kuali.kfs.gl.batch.service.impl.CollectorServiceImpl">

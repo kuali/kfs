@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.sys.batch.AbstractStep;
@@ -45,13 +46,14 @@ public class OrganizationReversionEndOfYearStep extends AbstractStep {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
 
-        OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
+        //OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
+        String organizationReversionClosingFileName = GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_CLOSING_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         Map jobParameters = organizationReversionProcessService.getJobParameters();
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
-        organizationReversionProcessService.organizationReversionProcessEndOfYear(outputGroup, jobParameters, organizationReversionCounts);
-
-        organizationReversionProcessService.generateOrganizationReversionProcessReports(outputGroup, jobParameters, organizationReversionCounts);
+        organizationReversionProcessService.organizationReversionProcessEndOfYear(organizationReversionClosingFileName, jobParameters, organizationReversionCounts);
+        //TODO: Shawn - report
+        //organizationReversionProcessService.generateOrganizationReversionProcessReports(outputGroup, jobParameters, organizationReversionCounts);
 
         stopWatch.stop();
         LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");

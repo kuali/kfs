@@ -81,7 +81,7 @@ public class LaborExpenseTransferExpiredAccountBeUsedValidation extends GenericV
     protected boolean canExpiredAccountBeUsed(AccountingLine accountingLine) {
 
         Account account = accountingLine.getAccount();
-        if (account != null && account.isExpired()) {
+        if (account != null && account.isExpired() && !account.isClosed()) {
             String overrideCode = accountingLine.getOverrideCode();
             boolean canExpiredAccountUsed = EXPIRED_ACCOUNT.equals(overrideCode);
             canExpiredAccountUsed = canExpiredAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);

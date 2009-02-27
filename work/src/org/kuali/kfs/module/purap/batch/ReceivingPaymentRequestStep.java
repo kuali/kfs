@@ -17,12 +17,14 @@ package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 
 
 public class ReceivingPaymentRequestStep extends AbstractStep {
 
+    private static final Logger log = Logger.getLogger(ReceivingPaymentRequestStep.class);
     private PaymentRequestService paymentRequestService;
     
     public ReceivingPaymentRequestStep() {
@@ -32,6 +34,7 @@ public class ReceivingPaymentRequestStep extends AbstractStep {
     public boolean execute(String jobName, 
                            Date jobRunDate) 
     throws InterruptedException {
+        log.info("Started executing the batch job.....");
         paymentRequestService.processPaymentRequestInReceivingStatus();
         return true;
     }

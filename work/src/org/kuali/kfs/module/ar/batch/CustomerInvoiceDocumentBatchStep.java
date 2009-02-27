@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.Lockbox;
@@ -49,6 +50,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
+    
+    private static final long MAX_SEQ_NBR_OFFSET = 1000;
     
     CustomerInvoiceDocumentService customerInvoiceDocumentService; 
     BusinessObjectService businessObjectService;
@@ -90,17 +93,16 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
 
         // create non-random data
         if (customernames.size() > 1) {
-        for (int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++) {
-
-            billingDate = DateUtils.addDays(billingDate, -30);
-
-            createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $10 entries
-            createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $20 entries
-            createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $30 entries
-
-            Thread.sleep(500);
-
-        }
+            for (int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++) {
+    
+                billingDate = DateUtils.addDays(billingDate, -30);
+    
+                createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $10 entries
+                createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $20 entries
+                createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $30 entries
+    
+                Thread.sleep(500);
+            }
         }
 
         // easy dynamic data creation
@@ -111,14 +113,18 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
 
         // create lockboxes for the non-random invoices
-        int seqNbr = 2300;
+        Long seqNbr = findAvailableLockboxBaseSeqNbr();
         int scenarioNbr =1;
         for (String createdInvoice : createdInvoices){
-          createLockboxesForFunctionalTesting(createdInvoice, String.valueOf(seqNbr), scenarioNbr);
+          createLockboxesForFunctionalTesting(createdInvoice, seqNbr, scenarioNbr);
           Thread.sleep(500);
           seqNbr++;
-          if (scenarioNbr<=6) scenarioNbr++;
-            else scenarioNbr = 1;
+          if (scenarioNbr<=6) {
+              scenarioNbr++;
+          }
+          else {
+              scenarioNbr = 1;
+          }
         }
 
         // create random data
@@ -144,6 +150,18 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         return true;
     }
    
+    private long findAvailableLockboxBaseSeqNbr() {
+        LockboxService lockboxService = SpringContext.getBean(LockboxService.class);
+        Long maxSeqNbr = lockboxService.getMaxLockboxSequenceNumber() + MAX_SEQ_NBR_OFFSET;
+        return maxSeqNbr;
+    }
+    
+    private boolean dupLockboxRecordExists(Long seqNbr) {
+        Map<String,Long> pks = new HashMap<String,Long>();
+        pks.put("invoiceSequenceNumber", seqNbr);
+        Lockbox dupLockBox = (Lockbox) businessObjectService.findByPrimaryKey(Lockbox.class, pks);
+        return (dupLockBox != null);
+    }
     
     /**
      * This method sets a parameter that tells the step that it has already run and it does not need to run again.
@@ -190,7 +208,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
        return (pkMapForParameter);
     }
 
-    public void createLockboxesForFunctionalTesting(String invoiceNumber, String seqNbr, int testtype) throws InterruptedException {
+    public void createLockboxesForFunctionalTesting(String invoiceNumber, Long seqNbr, int testtype) throws InterruptedException {
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceNumber);
 
         Lockbox newLockbox = new Lockbox();
@@ -205,7 +223,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setCustomerPaymentMediumCode("CK");
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
-            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setInvoiceSequenceNumber(seqNbr);
             newLockbox.setLockboxNumber("66249");
         }
 
@@ -219,7 +237,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setCustomerPaymentMediumCode("CK");
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
-            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setInvoiceSequenceNumber(seqNbr);
             newLockbox.setLockboxNumber("66249");
         }
 
@@ -233,7 +251,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setCustomerPaymentMediumCode("CK");
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
-            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setInvoiceSequenceNumber(seqNbr);
             newLockbox.setLockboxNumber("66249");
         }
 
@@ -247,7 +265,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setCustomerPaymentMediumCode("CK");
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
-            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setInvoiceSequenceNumber(seqNbr);
             newLockbox.setLockboxNumber("66249");
         }
 
@@ -261,7 +279,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setCustomerPaymentMediumCode("CK");
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
-            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setInvoiceSequenceNumber(seqNbr);
             newLockbox.setLockboxNumber("66249");
         }
 
@@ -275,7 +293,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setCustomerPaymentMediumCode("CK");
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
-            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setInvoiceSequenceNumber(seqNbr);
             newLockbox.setLockboxNumber("66249");
         }
 
@@ -289,17 +307,17 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             newLockbox.setCustomerPaymentMediumCode("CK");
             newLockbox.setBankCode("1003");
             newLockbox.setBatchSequenceNumber(8004);
-            newLockbox.setInvoiceSequenceNumber(new Long(seqNbr));
+            newLockbox.setInvoiceSequenceNumber(seqNbr);
             newLockbox.setLockboxNumber("66249");
         }
 
-
+        LOG.info("Creating customer LOCKBOX [" + seqNbr.toString() + "] for invoice " + invoiceNumber);
+        if (dupLockboxRecordExists(seqNbr)) {
+            throw new RuntimeException("Trying to enter duplicate Lockbox.invoiceSequenceNumber, which will fail, and should never happen.");
+        }
         businessObjectService.save(newLockbox);
-        LOG.info("Created customer LOCKBOX for invoice " + invoiceNumber);
-  
-        
     }
-
+    
     public String createPaidOffCustomerInvoice() throws InterruptedException {
         CustomerCreditMemoDetailService customerCreditMemoDetailService = SpringContext.getBean(CustomerCreditMemoDetailService.class);
         CustomerCreditMemoDocument customerCreditMemoDocument;

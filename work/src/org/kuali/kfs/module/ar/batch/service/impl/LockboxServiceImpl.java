@@ -172,6 +172,10 @@ public class LockboxServiceImpl implements LockboxService {
 
     }
 
+    public Long getMaxLockboxSequenceNumber() {
+        return lockboxDao.getMaxLockboxSequenceNumber();
+    }
+    
     public LockboxDao getLockboxDao() {
         return lockboxDao;
     }

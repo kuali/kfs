@@ -21,4 +21,13 @@ public interface LockboxService {
 
     public boolean processLockbox() throws WorkflowException;
     
+    /**
+     * 
+     * Returns the highest (numerically) value for the Lockbox 
+     * invoiceSequenceNumber.
+     * 
+     * @return The max Lockbox.invoiceSequenceNumber
+     */
+    public Long getMaxLockboxSequenceNumber();
+    
 }

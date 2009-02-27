@@ -32,4 +32,14 @@ public interface LockboxDao {
     public Iterator<Lockbox> getByLockboxNumber(String lockboxNumber);
     
     public Iterator<Lockbox> getAllLockboxes();
+    
+    /**
+     * 
+     * Returns the highest (numerically) value for the Lockbox 
+     * invoiceSequenceNumber.
+     * 
+     * @return The max Lockbox.invoiceSequenceNumber
+     */
+    public Long getMaxLockboxSequenceNumber();
+    
 }

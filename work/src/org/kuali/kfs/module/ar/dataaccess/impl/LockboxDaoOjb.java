@@ -15,13 +15,17 @@
  */
 package org.kuali.kfs.module.ar.dataaccess.impl;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.ar.businessobject.Lockbox;
 import org.kuali.kfs.module.ar.dataaccess.LockboxDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 public class LockboxDaoOjb extends PlatformAwareDaoBaseOjb implements LockboxDao {
 
@@ -67,4 +71,26 @@ public class LockboxDaoOjb extends PlatformAwareDaoBaseOjb implements LockboxDao
         
     }
 
+    public Long getMaxLockboxSequenceNumber() {
+        Criteria crit = new Criteria();
+        ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(Lockbox.class, crit);
+        reportQuery.setAttributes(new String[] { "MAX(AR_INV_SEQ_NBR)" });
+
+        Iterator<?> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
+        if (iter.hasNext()) {
+            Object[] data = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iter);
+            BigDecimal max = (BigDecimal) data[0]; // Don't know why OJB returns a BigDecimal, but it does
+
+            if (max == null) {
+                return new Long(0);
+            }
+            else {
+                return new Long(max.longValue());
+            }
+        }
+        else {
+            return new Long(0);
+        }
+    }
+    
 }

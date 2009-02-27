@@ -1,0 +1,133 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PhoneType" parent="PhoneType-parentBean" />
+  <bean id="PhoneType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.kim.bo.reference.impl.PhoneTypeImpl" />
+    <property name="inquiryDefinition" >
+      <ref bean="PhoneType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PhoneType-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Phone Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PhoneType-phoneTypeCode" />
+        <ref bean="PhoneType-phoneTypeName" />
+        <ref bean="PhoneType-displaySortCode" />
+        <ref bean="PhoneType-active" />
+        
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="PhoneType-phoneTypeCode" parent="PhoneType-phoneTypeCode-parentBean" />
+  <bean id="PhoneType-phoneTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="phoneTypeCode" />
+    <property name="label" value="Phone Type Code" />
+    <property name="shortLabel" value="Phone Type Code" />
+    <property name="maxLength" value="7" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="The phone type code." />
+    <property name="description" value="The phone type code." />
+  </bean>
+
+  <bean id="PhoneType-phoneTypeName" parent="PhoneType-phoneTypeName-parentBean" />
+  <bean id="PhoneType-phoneTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="phoneTypeName" />
+    <property name="label" value="Phone Type Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="Descriptive text." />
+    <property name="description" value="Descriptive text." />
+  </bean>
+  
+  <bean id="PhoneType-displaySortCode" parent="PhoneType-displaySortCode-parentBean" />
+  <bean id="PhoneType-displaySortCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="displaySortCode" />
+    <property name="label" value="Display Sort Code" />
+    <property name="shortLabel" value="Sort" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Descriptive text." />
+    <property name="description" value="Descriptive text." />
+  </bean>
+
+  <bean id="PhoneType-active" parent="PhoneType-active-parentBean" />
+  <bean id="PhoneType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="PhoneType-inquiryDefinition" parent="PhoneType-inquiryDefinition-parentBean" />
+  <bean id="PhoneType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Phone Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Phone Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="phoneTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="phoneTypeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="displaySortCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+  <bean id="PhoneType-lookupDefinition" parent="PhoneType-lookupDefinition-parentBean" />
+  <bean id="PhoneType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Phone Type Lookup" />
+    <property name="instructions" value="Look up Phone Types." />
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="phoneTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="phoneTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="phoneTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="phoneTypeName" />
+		<bean parent="FieldDefinition"
+              p:attributeName="displaySortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

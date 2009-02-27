@@ -400,7 +400,6 @@
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
         </property>        
-
         <property name="optionsService">
             <ref bean="optionsService" />
         </property>
@@ -414,10 +413,10 @@
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
-
         <property name="laborReportService">
             <ref bean="laborReportService" />
         </property>
+        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>
         	
 	<bean id="laborNightlyOutStep" class="org.kuali.kfs.module.ld.batch.LaborNightlyOutStep" parent="step">

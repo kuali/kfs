@@ -163,6 +163,7 @@ public class LaborConstants {
         static final public String POSTER_ERROR_OUTPUT_FILE = "ld_posterrs";
         
         static final public String LABOR_GL_ENTRY_FILE = "gl_glentry_lab";
+        static final public String BALANCE_FORWARDS_FILE = "ld_balance_forwards";
         
     }
 

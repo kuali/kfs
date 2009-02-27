@@ -112,7 +112,7 @@
     <property name="knsConfigurer">
       <bean class="org.kuali.rice.kns.config.KNSConfigurer">
         <property name="loadDataDictionary" value="true" />
-        <property name="validateDataDictionary" value="false" />
+        <property name="validateDataDictionary" value="${data.dictionary.validate}" />
       </bean>
     </property>
     <property name="kimConfigurer">

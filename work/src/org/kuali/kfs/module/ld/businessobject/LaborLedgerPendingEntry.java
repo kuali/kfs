@@ -559,7 +559,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
      * 
      * @see org.kuali.kfs.module.ld.businessobject.LaborTransaction#getTransactionEntryProcessedTimestamp()
      */
-    public Date getTransactionEntryProcessedTimestamp() {
+    public Timestamp getTransactionEntryProcessedTimestamp() {
         return super.getTransactionEntryProcessedTs();
     }
 }

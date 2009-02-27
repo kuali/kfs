@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -44,7 +45,7 @@ public interface LaborTransaction extends Transaction {
 
     public String getTransactionEntryOffsetCode();
 
-    public Date getTransactionEntryProcessedTimestamp();
+    public Timestamp getTransactionEntryProcessedTimestamp();
 
     public String getEmplid();
 

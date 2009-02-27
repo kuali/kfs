@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     private String payrollEndDateFiscalPeriodCode;
     private String financialDocumentApprovedCode;
     private String transactionEntryOffsetCode;
-    private Date transactionEntryProcessedTimestamp;
+    private Timestamp transactionEntryProcessedTimestamp;
     private String emplid;
     private Integer employeeRecord;
     private String earnCode;
@@ -351,7 +352,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @return Returns the transactionEntryProcessedTimestamp
      */
-    public Date getTransactionEntryProcessedTimestamp() {
+    public Timestamp getTransactionEntryProcessedTimestamp() {
         return transactionEntryProcessedTimestamp;
     }
 
@@ -360,7 +361,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @param transactionEntryProcessedTimestamp The transactionEntryProcessedTimestamp to set.
      */
-    public void setTransactionEntryProcessedTimestamp(Date transactionEntryProcessedTimestamp) {
+    public void setTransactionEntryProcessedTimestamp(Timestamp transactionEntryProcessedTimestamp) {
         this.transactionEntryProcessedTimestamp = transactionEntryProcessedTimestamp;
     }
 

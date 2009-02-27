@@ -548,7 +548,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     explicitEntry.setFinancialDocumentTypeCode(financialSystemDocumentTypeCodeCode);
                     explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.YES);
                     explicitEntry.setVersionNumber(new Long(1));
-                    explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
+                    explicitEntry.setTransactionEntryProcessedTs(new java.sql.Timestamp(transactionTimestamp.getTime()));
 
                     LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Saving GLPE entries for asset:" + t.getCapitalAssetNumber());
                     this.generalLedgerPendingEntryService.save(explicitEntry);

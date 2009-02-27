@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
@@ -71,7 +72,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private String financialDocumentApprovedCode;
     private String acctSufficientFundsFinObjCd;
     private boolean transactionEntryOffsetIndicator;
-    private Date transactionEntryProcessedTs;
+    private Timestamp transactionEntryProcessedTs;
 
     private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
     private FinancialSystemDocumentHeader documentHeader;
@@ -692,7 +693,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      * 
      * @return Returns the transactionEntryProcessedTs
      */
-    public Date getTransactionEntryProcessedTs() {
+    public Timestamp getTransactionEntryProcessedTs() {
         return transactionEntryProcessedTs;
     }
 
@@ -701,7 +702,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      * 
      * @param transactionEntryProcessedTs The transactionEntryProcessedTs to set.
      */
-    public void setTransactionEntryProcessedTs(Date transactionEntryProcessedTs) {
+    public void setTransactionEntryProcessedTs(Timestamp transactionEntryProcessedTs) {
         this.transactionEntryProcessedTs = transactionEntryProcessedTs;
     }
 

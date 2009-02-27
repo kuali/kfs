@@ -127,12 +127,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private boolean hasAccountingLines() {
         for (Iterator iterator = getItems().iterator(); iterator.hasNext();) {
             RequisitionItem item = (RequisitionItem) iterator.next();
-            if (item.isConsideredEntered() && !SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPurchasingAccountsPayableAccountValidationEvent("", "", this, item))) {
-                return false;
+            if (item.isConsideredEntered() && !item.isAccountListEmpty()) {
+                return true;
             }
         }
         
-        return true;
+        return false;
     }
     
     private boolean isSeparationOfDutiesReviewRequired() {

@@ -64,6 +64,8 @@ public interface OriginEntryGroupService {
      */
     public void createBackupGroup();
 
+    public void createLaborBackupGroup();
+    
     /**
      * Delete all the groups (and entries) where the group is this many days old or older
      * 

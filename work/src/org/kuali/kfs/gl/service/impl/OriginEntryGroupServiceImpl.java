@@ -15,8 +15,13 @@
  */
 package org.kuali.kfs.gl.service.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -35,6 +41,8 @@ import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
 import org.kuali.kfs.gl.dataaccess.OriginEntryGroupDao;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.integration.ld.LaborModuleService;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -242,26 +250,98 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         // Get the groups that need to be added
         Date today = dateTimeService.getCurrentSqlDate();
-        Collection groups = originEntryGroupDao.getGroupsToBackup(today);
+        
+        //check file from nightly out 
+        String nightlyOutFileName = GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        File nightlyOutFile = new File(batchFileDirectoryName + File.separator + nightlyOutFileName);
+        if (!nightlyOutFile.exists()){
+            throw new RuntimeException("nightlyOutFile doesn't exist :" + nightlyOutFileName);
+        }
+        
+        //check laborGlEntryFileName 
+        //TODO: Shawn - I need to get some kind of flag for labor module installation  
+        String laborGlEntryFileName = LaborConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        File laborGlEntryFile = new File(batchFileDirectoryName + File.separator + laborGlEntryFileName);
+        if (!laborGlEntryFile.exists()){
+            throw new RuntimeException("laborGlEntryFile doesn't exist :" + laborGlEntryFileName);
+        }
+        
+        String backupFileName = GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;    
+        File backupFile = new File(batchFileDirectoryName + File.separator + backupFileName);
+         
+        PrintStream backupPs = null;
+        try {
+            backupPs = new PrintStream(backupFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("backupFile doesn't exist " + backupFile);
+        }
+        
+        //get all done files from originEntry Directory 
+        File[] doneFileList = new File(batchFileDirectoryName).listFiles(new DoneFileFilter());
+        //build output file with doneFileList and print stream
+        buildBackupFileOutput(doneFileList, backupPs);
+        backupPs.close();
+    }
+    
+    public void createLaborBackupGroup() {
+        LOG.debug("createLaborBackupGroup() started");
 
-        // Create the new group
-        OriginEntryGroup backupGroup = this.createGroup(today, OriginEntrySource.BACKUP, true, true, true);
+        // Get the groups that need to be added
+        Date today = dateTimeService.getCurrentSqlDate();
 
-        for (Iterator<OriginEntryGroup> iter = groups.iterator(); iter.hasNext();) {
-            OriginEntryGroup group = iter.next();
+        //check file from nightly out 
+        String laborNightlyOutFileName = LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        File laborNightlyOutFile = new File(batchLaborFileDirectoryName + File.separator + laborNightlyOutFileName);
+        if (!laborNightlyOutFile.exists()){
+            throw new RuntimeException("laborNightlyOutFile doesn't exist :" + laborNightlyOutFileName);
+        }
+        
+        String laborBackupFileName = LaborConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;    
+        File laborBackupFile = new File(batchLaborFileDirectoryName + File.separator + laborBackupFileName);
+         
+        PrintStream laborBackupPs = null;
+        try {
+            laborBackupPs = new PrintStream(laborBackupFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("laborBackupFile doesn't exist " + laborBackupFile);
+        }
+        
+        //get all done files from originEntry Directory 
+        File[] doneFileList = new File(batchLaborFileDirectoryName).listFiles(new DoneFileFilter());
+        //build output file with doneFileList and print stream
+        buildBackupFileOutput(doneFileList, laborBackupPs);
+        laborBackupPs.close();
+    }
 
-            for (Iterator<OriginEntryFull> entry_iter = originEntryDao.getEntriesByGroup(group, 0); entry_iter.hasNext();) {
-                OriginEntryFull entry = entry_iter.next();
-
-                entry.setEntryId(null);
-                entry.setObjectId(new Guid().toString());
-                entry.setGroup(backupGroup);
-                originEntryDao.saveOriginEntry(entry);
+    /*
+     * buildBackupFileOuput with doneFileList and PrintStream
+     */
+    private void buildBackupFileOutput(File[] doneFileList, PrintStream ps){
+        BufferedReader inputFileReader = null;
+        
+        for (File doneFile : doneFileList) {
+            //get data file with done file
+            File dataFile = getDataFile(doneFile);
+            if (dataFile != null){
+                try{
+                    inputFileReader = new BufferedReader(new FileReader(dataFile.getPath()));
+                    String line = null;
+                    while ((line = inputFileReader.readLine()) != null) {
+                        try {
+                            ps.printf("%s\n", line);
+                        } catch (Exception e) {
+                            throw new IOException(e.toString());
+                        }
+                    }    
+                    inputFileReader.close();
+                    inputFileReader = null;
+                    
+                } catch (Exception e) {
+                    throw new RuntimeException(e.toString());
+                }
+                
+                doneFile.delete();
             }
-
-            group.setProcess(false);
-            group.setScrub(false);
-            originEntryGroupDao.save(group);
         }
     }
 
@@ -570,7 +650,33 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
             return name.contains(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_PREFIX);
         }
     }
+    
+    final class DoneFileFilter implements FilenameFilter {
+        /**
+         * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+         */
+        public boolean accept(File dir, String name) {
+            return name.contains(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+        }
+    }
 
+    
+    private File getDataFile(File doneFile) {
+        String doneFileAbsPath = doneFile.getAbsolutePath();
+        if (!doneFileAbsPath.endsWith(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)) {
+            throw new IllegalArgumentException("DOne file name must end with " + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+        }
+        String dataFileAbsPath = StringUtils.removeEnd(doneFileAbsPath, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION) + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        File dataFile = new File(dataFileAbsPath);
+        if (!dataFile.exists() || !dataFile.canRead()) {
+            LOG.error("Cannot find/read data file " + dataFileAbsPath);
+            return null;
+        }
+        return dataFile;
+    }
+    
+    
+    
     public void setBatchLaborFileDirectoryName(String batchLaborFileDirectoryName) {
         this.batchLaborFileDirectoryName = batchLaborFileDirectoryName;
     }

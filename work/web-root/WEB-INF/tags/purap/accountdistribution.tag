@@ -34,7 +34,7 @@
 		<html:image
 		property="methodToCall.setupAccountDistribution"
 		src="${ConfigProperties.externalizable.images.url}tinybutton-setdist.gif"
-		alt="setup account distribution" title="setup account distribution"
+		alt="setup distribution" title="setup distribution"
 		styleClass="tinybutton" />
 	</c:if>
 	<c:if test="${!KualiForm.hideDistributeAccounts}">

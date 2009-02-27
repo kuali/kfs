@@ -186,22 +186,28 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     return loadElectronicInvoice(invoiceFile);
     
   }
-  
-  public ElectronicInvoice loadElectronicInvoice(File invoiceFile)
-  throws CxmlParseException {
+
+  public ElectronicInvoice loadElectronicInvoice(File invoiceFile) throws CxmlParseException {
+      ElectronicInvoice electronicInvoice = null;
+
+      BufferedInputStream fileStream = null;
+      try {
+          fileStream = new BufferedInputStream(new FileInputStream(invoiceFile));
+          electronicInvoice = loadElectronicInvoice(fileStream, invoiceFile.getName());
+      }catch (FileNotFoundException e) {
+          /**
+           * This never happen since we're getting this file name from the existing file
+           */
+          throw new RuntimeException(invoiceFile.getAbsolutePath() + " not available");
+      }
+      
+      return electronicInvoice;
+  }
+
+  public ElectronicInvoice loadElectronicInvoice(BufferedInputStream fileStream, String fileName) throws CxmlParseException {
       
     LOG.debug("loadElectronicInvoice() started");
     
-    BufferedInputStream fileStream = null;
-    try {
-        fileStream = new BufferedInputStream(new FileInputStream(invoiceFile));
-    }catch (FileNotFoundException e) {
-        /**
-         * This never happen since we're getting this file name from the existing file
-         */
-        throw new RuntimeException(invoiceFile.getAbsolutePath() + " not available");
-    }
-
     ElectronicInvoice electronicInvoice = null;
     
     try {
@@ -219,7 +225,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         }
     }
     
-    electronicInvoice.setFileName(invoiceFile.getName());
+    electronicInvoice.setFileName(fileName);
     
     //Currently we do not accept Header Invoices as our CXML is not setup
     // to parse them correctly therefor the data will be completely wrong so

@@ -3,6 +3,7 @@
  */
 package org.kuali.kfs.module.purap.service;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.util.Map;
 
@@ -40,6 +41,8 @@ public interface ElectronicInvoiceService {
 
   public ElectronicInvoice loadElectronicInvoice(String filename) throws CxmlParseException;
   
+  public ElectronicInvoice loadElectronicInvoice(BufferedInputStream fileStream, String fileName) throws CxmlParseException;
+
   public ElectronicInvoice loadElectronicInvoice(File file) throws CxmlParseException;
   
   public void findVendorDUNSNumber(ElectronicInvoice ei);

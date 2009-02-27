@@ -187,6 +187,10 @@
         <form-bean name="B2BForm"
             type="org.kuali.kfs.module.purap.web.struts.B2BForm" />
 
+        <form-bean name="ElectronicInvoiceTestForm"
+            type="org.kuali.kfs.module.purap.document.web.struts.ElectronicInvoiceTestForm" />
+
+
 		<!-- CG Module Bean Definitions -->
 		<form-bean name="CloseForm"
 			type="org.kuali.kfs.module.cg.web.struts.CloseForm" />
@@ -664,6 +668,14 @@
 		<action path="/purapPrint"
 			type="org.kuali.kfs.module.purap.document.web.struts.PrintAction"
 			scope="request" />
+
+		<action path="/purapElectronicInvoiceTest"
+			name="ElectronicInvoiceTestForm"
+			input="/jsp/modules/purap/ElectronicInvoiceTest.jsp"
+			type="org.kuali.kfs.module.purap.document.web.struts.ElectronicInvoiceTestAction"
+			scope="request">
+			<forward name="basic" path="/jsp/modules/purap/ElectronicInvoiceTest.jsp" />
+		</action>
 
 		<action path="/b2b" 
             name="B2BForm" scope="request"

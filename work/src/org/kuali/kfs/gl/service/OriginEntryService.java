@@ -17,6 +17,8 @@ package org.kuali.kfs.gl.service;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
@@ -147,6 +149,8 @@ public interface OriginEntryService {
      */
     public void createEntry(Transaction tran, OriginEntryGroup group);
 
+    public void createEntry(OriginEntryFull originEntry, PrintStream ps);
+    
     /**
      * Save an origin entry
      * 

@@ -68,14 +68,17 @@ public class BalanceForwardStep extends AbstractStep {
         yearEndService.logAllMissingPriorYearAccounts(varFiscalYear);
         yearEndService.logAllMissingSubFundGroups(varFiscalYear);
 
-        OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE, true, false, true);
-        OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR, true, false, true);
+//        OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE, true, false, true);
+//        OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR, true, false, true);
 
-        BalanceForwardRuleHelper balanceForwardRuleHelper = new BalanceForwardRuleHelper(varFiscalYear, varTransactionDate, balanceForwardsClosedPriorYearAccountGroup, balanceForwardsUnclosedPriorYearAccountGroup);
+        String balanceForwardsUnclosedFileName = GeneralLedgerConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+        String balanceForwardsclosedFileName = GeneralLedgerConstants.BatchFileSystem.BALANCE_FORWARDS_CLOSED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        
+        BalanceForwardRuleHelper balanceForwardRuleHelper = new BalanceForwardRuleHelper(varFiscalYear, varTransactionDate, balanceForwardsclosedFileName, balanceForwardsUnclosedFileName);
 
-        yearEndService.forwardBalances(balanceForwardsUnclosedPriorYearAccountGroup, balanceForwardsClosedPriorYearAccountGroup, balanceForwardRuleHelper);
-
-        yearEndService.generateForwardBalanceReports(balanceForwardsUnclosedPriorYearAccountGroup, balanceForwardsClosedPriorYearAccountGroup, balanceForwardRuleHelper);
+        yearEndService.forwardBalances(balanceForwardsUnclosedFileName, balanceForwardsclosedFileName, balanceForwardRuleHelper);
+        //TODO: Shawn - report
+        //yearEndService.generateForwardBalanceReports(balanceForwardsUnclosedFileName, balanceForwardsclosedFileName, balanceForwardRuleHelper);
 
         stopWatch.stop();
         LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");

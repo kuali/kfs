@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,9 +148,13 @@ public class BalanceForwardRuleHelper {
     private Integer closingFiscalYear;
     private Date transactionDate;
 
-    private OriginEntryGroup closedPriorYearAccountGroup;
-    private OriginEntryGroup unclosedPriorYearAccountGroup;
+//    private OriginEntryGroup closedPriorYearAccountGroup;
+//    private OriginEntryGroup unclosedPriorYearAccountGroup;
 
+    
+    private String balanceForwardsUnclosedFileName; 
+    private String balanceForwardsclosedFileName;
+    
     private PriorYearAccountService priorYearAccountService;
     private SubFundGroupService subFundGroupService;
     private OriginEntryService originEntryService;
@@ -213,12 +219,13 @@ public class BalanceForwardRuleHelper {
      * @param closedPriorYearAccountGroup the group to put balance forwarding origin entries with closed accounts into
      * @param unclosedPriorYearAccountGroup the group to put balance forwarding origin entries with open accounts into
      */
-    public BalanceForwardRuleHelper(Integer closingFiscalYear, Date transactionDate, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) {
+    public BalanceForwardRuleHelper(Integer closingFiscalYear, Date transactionDate, String balanceForwardsclosedFileName, String balanceForwardsUnclosedFileName) {
         this(closingFiscalYear);
         setTransactionDate(transactionDate);
         setClosingFiscalYear(closingFiscalYear);
-        setClosedPriorYearAccountGroup(closedPriorYearAccountGroup);
-        setUnclosedPriorYearAccountGroup(unclosedPriorYearAccountGroup);
+        
+        setBalanceForwardsclosedFileName(balanceForwardsclosedFileName);
+        setBalanceForwardsUnclosedFileName(balanceForwardsUnclosedFileName);
         currentYearOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
 
         balanceTypeEncumbranceIndicators = new HashMap<String, Boolean>();
@@ -237,7 +244,7 @@ public class BalanceForwardRuleHelper {
      * @param unclosedPriorYearAccountGroup the group to put balance forwarding origin entries with open accounts into
      * @throws FatalErrorException
      */
-    public void processGeneralForwardBalance(Balance balance, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) throws FatalErrorException {
+    public void processGeneralForwardBalance(Balance balance, PrintStream closedPs, PrintStream unclosedPs) throws FatalErrorException {
         if (ObjectUtils.isNull(balance.getPriorYearAccount())) {
             throw new FatalErrorException("COULD NOT RETRIEVE INFORMATION ON ACCOUNT " + balance.getChartOfAccountsCode() + "-" + balance.getAccountNumber());
         }
@@ -262,7 +269,7 @@ public class BalanceForwardRuleHelper {
         state.incrementGlobalSelectCount();
 
         OriginEntryFull entry = generateGeneralForwardOriginEntry(balance);
-        saveForwardingEntry(balance, entry, closedPriorYearAccountGroup, unclosedPriorYearAccountGroup);
+        saveForwardingEntry(balance, entry, closedPs, unclosedPs);
     }
 
     /**
@@ -272,7 +279,7 @@ public class BalanceForwardRuleHelper {
      * @param closedPriorYearAccountGroup the origin entry group where forwarding origin entries with closed prior year accounts go
      * @param unclosedPriorYearAcocuntGroup the origin entry group where forwarding origin entries with open prior year accounts go
      */
-    public void processCumulativeForwardBalance(Balance balance, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) {
+    public void processCumulativeForwardBalance(Balance balance, PrintStream closedPs, PrintStream unclosedPs) {
         if ((null == balance.getAccountNumber() && null == state.getAccountNumberHold()) || (null != balance.getAccountNumber() && balance.getAccountNumber().equals(state.getAccountNumberHold()))) {
 
             // 954 004770 ADD 1 TO WS-SEQ-NBR
@@ -293,7 +300,7 @@ public class BalanceForwardRuleHelper {
         state.incrementGlobalSelectCount();
 
         OriginEntryFull activeEntry = generateCumulativeForwardOriginEntry(balance);
-        saveForwardingEntry(balance, activeEntry, closedPriorYearAccountGroup, unclosedPriorYearAccountGroup);
+        saveForwardingEntry(balance, activeEntry, closedPs, unclosedPs);
     }
 
     /**
@@ -932,7 +939,7 @@ public class BalanceForwardRuleHelper {
      * @param closedPriorYearAccountGroup the group to put balance forwarding origin entries with closed accounts into
      * @param unclosedPriorYearAccountGroup the group to put balance forwarding origin entries with open accounts into
      */
-    private void saveForwardingEntry(Balance balance, OriginEntryFull entry, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) {
+    private void saveForwardingEntry(Balance balance, OriginEntryFull entry, PrintStream closedPs, PrintStream unclosedPs) {
         if (ObjectUtils.isNotNull(balance.getPriorYearAccount()) && !balance.getPriorYearAccount().isActive()) {
 
             // 1410 009320 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
@@ -940,8 +947,9 @@ public class BalanceForwardRuleHelper {
             // 1412 009340 MOVE WS-AMT-X TO TRN-AMT-RED-X
 
             // 1413 009350 WRITE GLE-DATA FROM GLEN-RECORD
-
-            originEntryService.createEntry(entry, unclosedPriorYearAccountGroup);
+            
+            originEntryService.createEntry(entry, unclosedPs);
+            
 
             // 1414 009360 MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT
 
@@ -990,7 +998,7 @@ public class BalanceForwardRuleHelper {
 
             // 1430 009470 WRITE CLOSE-DATA FROM GLEN-RECORD
 
-            originEntryService.createEntry(entry, closedPriorYearAccountGroup);
+            originEntryService.createEntry(entry, closedPs);
 
             // 1431 009480 MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT
 
@@ -1059,20 +1067,20 @@ public class BalanceForwardRuleHelper {
         this.transactionDate = transactionDate;
     }
 
-    public OriginEntryGroup getClosedPriorYearAccountGroup() {
-        return closedPriorYearAccountGroup;
+    public String getBalanceForwardsUnclosedFileName() {
+        return balanceForwardsUnclosedFileName;
     }
 
-    public void setClosedPriorYearAccountGroup(OriginEntryGroup closedPriorYearAccountGroup) {
-        this.closedPriorYearAccountGroup = closedPriorYearAccountGroup;
+    public void setBalanceForwardsUnclosedFileName(String balanceForwardsUnclosedFileName) {
+        this.balanceForwardsUnclosedFileName = balanceForwardsUnclosedFileName;
     }
 
-    public OriginEntryGroup getUnclosedPriorYearAccountGroup() {
-        return unclosedPriorYearAccountGroup;
+    public String getBalanceForwardsclosedFileName() {
+        return balanceForwardsclosedFileName;
     }
 
-    public void setUnclosedPriorYearAccountGroup(OriginEntryGroup unclosedPriorYearAccountGroup) {
-        this.unclosedPriorYearAccountGroup = unclosedPriorYearAccountGroup;
+    public void setBalanceForwardsclosedFileName(String balanceForwardsclosedFileName) {
+        this.balanceForwardsclosedFileName = balanceForwardsclosedFileName;
     }
 
     public BalanceForwardProcessState getState() {

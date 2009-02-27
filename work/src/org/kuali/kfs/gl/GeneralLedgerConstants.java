@@ -217,7 +217,14 @@ public class GeneralLedgerConstants {
         static final public String ICR_TRANSACTIONS_OUTPUT_FILE = "gl_icrtrans";
         static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "gl_icrerrs";
 		static final public String NIGHTLY_OUT_FILE = "gl_glentry_kfs";
-
+		
+		//year end part
+		static final public String ORGANIZATION_REVERSION_PRE_CLOSING_FILE = "gl_org_reversion_pre_closing";
+		static final public String ORGANIZATION_REVERSION_CLOSING_FILE = "gl_org_reversion_closing";
+		static final public String ENCUMBRANCE_FORWARD_FILE = "gl_encumbrance_forward";
+		static final public String CLOSE_NOMINAL_ACTIVITY_FILE = "gl_close_nominal_activity";
+		static final public String BALANCE_FORWARDS_FILE = "gl_balance_Forwards";
+		static final public String BALANCE_FORWARDS_CLOSED_FILE = "gl_balance_Forwards_closed";
     }
 
     public static class PosterOutputSummaryEntry {

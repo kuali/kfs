@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -306,6 +307,17 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
         // add 1 to the rows in the origin entry group, so we can unit test against that
         originEntryGroup.setRows(originEntryGroup.getRows().intValue() + 1);
+    }
+    
+    public void createEntry(OriginEntryFull originEntry, PrintStream ps) {
+        LOG.debug("createEntry() with PrintStream started");   
+        
+        try {
+            ps.printf("%s\n", originEntry.getLine());
+        } catch (Exception e) {
+            throw new RuntimeException(e.toString());
+        }
+        
     }
 
     /**

@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -72,6 +75,7 @@ public class YearEndServiceImpl implements YearEndService {
     private ReportService reportService;
     private PersistenceService persistenceService;
     private YearEndDao yearEndDao;
+    private String batchFileDirectoryName;
 
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
@@ -325,7 +329,7 @@ public class YearEndServiceImpl implements YearEndService {
      * @param balanceForwardRuleHelper the BalanceForwardRuleHelper which holds the important state - the job parameters and
      *        statistics - for the job to run
      */
-    public void forwardBalances(OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup, OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup, BalanceForwardRuleHelper balanceForwardRuleHelper) {
+    public void forwardBalances(String balanceForwardsUnclosedFileName, String balanceForwardsclosedFileName, BalanceForwardRuleHelper balanceForwardRuleHelper) {
         LOG.debug("forwardBalances() started");
 
         // The rule helper maintains the state of the overall processing of the entire
@@ -339,12 +343,25 @@ public class YearEndServiceImpl implements YearEndService {
 
         Balance balance;
 
+        //create files
+        File unclosedOutputFile = new File(batchFileDirectoryName + File.separator + balanceForwardsUnclosedFileName);
+        File closedOutputFile = new File(batchFileDirectoryName + File.separator + balanceForwardsclosedFileName);
+        PrintStream unclosedPs = null;
+        PrintStream closedPs = null;
+        
+        try {
+            unclosedPs = new PrintStream(unclosedOutputFile);
+            closedPs = new PrintStream(closedOutputFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("balanceForwards Files don't exist " + balanceForwardsUnclosedFileName + " and " + balanceForwardsclosedFileName);
+        }
+        
         // do the general forwards
         Iterator<Balance> generalBalances = balanceService.findGeneralBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
         while (generalBalances.hasNext()) {
             balance = generalBalances.next();
             try {
-                balanceForwardRuleHelper.processGeneralForwardBalance(balance, balanceForwardsClosedPriorYearAccountGroup, balanceForwardsUnclosedPriorYearAccountGroup);
+                balanceForwardRuleHelper.processGeneralForwardBalance(balance, closedPs, unclosedPs);
                 if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
                     persistenceService.clearCache();
                 }
@@ -358,7 +375,7 @@ public class YearEndServiceImpl implements YearEndService {
         Iterator<Balance> cumulativeBalances = balanceService.findCumulativeBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
         while (cumulativeBalances.hasNext()) {
             balance = cumulativeBalances.next();
-            balanceForwardRuleHelper.processCumulativeForwardBalance(balance, balanceForwardsClosedPriorYearAccountGroup, balanceForwardsUnclosedPriorYearAccountGroup);
+            balanceForwardRuleHelper.processCumulativeForwardBalance(balance, closedPs, unclosedPs);
             if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
                 persistenceService.clearCache();
             }
@@ -644,6 +661,10 @@ public class YearEndServiceImpl implements YearEndService {
 
     public void setConfigurationService(KualiConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
 }

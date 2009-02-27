@@ -570,6 +570,7 @@
 		<property name="yearEndDao">
 			<bean class="org.kuali.kfs.gl.batch.dataaccess.impl.YearEndDaoJdbc" parent="platformAwareDaoJdbc" />
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 
 	<bean id="glScrubberService" class="org.kuali.kfs.gl.service.impl.ScrubberServiceImpl">

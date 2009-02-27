@@ -520,7 +520,9 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             balanceService.save(bal);
         }
         OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
-        orgRevProcess.setOutputGroup(outputGroup);
+        
+        //TODO: Shawn - fix 
+        //orgRevProcess.setOutputGroup(outputGroup);
         orgRevProcess.setHoldGeneratedOriginEntries(true);
         orgRevProcess.organizationReversionProcess();
 

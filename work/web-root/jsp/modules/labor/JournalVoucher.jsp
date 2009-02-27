@@ -125,16 +125,6 @@
 				</tr>
 				<tr>
 					<kul:htmlAttributeHeaderCell
-						attributeEntry="${journalVoucherAttributes.reversalDate}"
-						horizontal="true" width="35%" />
-					<td class="datacell-nowrap"><kul:htmlControlAttribute
-						attributeEntry="${journalVoucherAttributes.reversalDate}"
-						datePicker="true" property="document.reversalDate"
-						readOnly="${readOnly}"
-						readOnlyAlternateDisplay="${KualiForm.formattedReversalDate}" /></td>
-				</tr>
-				<tr>
-					<kul:htmlAttributeHeaderCell
 						attributeEntry="${journalVoucherAttributes.offsetTypeCode}"
 						horizontal="true" width="35%" />
 					<td class="datacell-nowrap"><kul:htmlControlAttribute

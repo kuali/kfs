@@ -51,7 +51,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     private DocumentService documentService;
     private NoteService noteService;
     private KualiConfigurationService kualiConfigurationService;
-    private PersonService personService;
+    private PersonService<Person> personService;
 
     /**
      * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService#validateTransfers(org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument)
@@ -349,7 +349,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
      * 
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService personService) {
+    public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
     }
 

@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentRequestPayDateNotOverThresholdDaysAwayValidation extends GenericValidation {
@@ -45,7 +46,7 @@ public class PaymentRequestPayDateNotOverThresholdDaysAwayValidation extends Gen
         int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
         if ((document.getPaymentRequestPayDate() != null) && purapService.isDateMoreThanANumberOfDaysAway(document.getPaymentRequestPayDate(), thresholdDays)) {
             if (ObjectUtils.isNull(GlobalVariables.getMessageList())) {
-                GlobalVariables.setMessageList(new ArrayList());
+                GlobalVariables.setMessageList(new MessageList());
             }
             if (!GlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS)) {
                 GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);

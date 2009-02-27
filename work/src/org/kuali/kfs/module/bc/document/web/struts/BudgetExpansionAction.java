@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -112,7 +113,7 @@ public class BudgetExpansionAction extends KualiAction {
      * move the callback messages and error messages in place
      */
     public void moveCallBackMessagesInPlace() {
-        List<String> messagesList = (List<String>) GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_MESSAGES);
+        MessageList messagesList = (MessageList) GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_MESSAGES);
         if (messagesList != null) {
             GlobalVariables.getMessageList().addAll(messagesList);
         }

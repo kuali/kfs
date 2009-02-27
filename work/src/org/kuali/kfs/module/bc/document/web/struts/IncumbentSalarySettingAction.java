@@ -37,6 +37,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 
 /**
  * the struts action for the salary setting for incumbent
@@ -138,7 +139,7 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
      * @param incumbentSalarySettingForm
      * @param warnings
      */
-    public void sendWarnings(IncumbentSalarySettingForm incumbentSalarySettingForm, List<String> warnings){
+    public void sendWarnings(IncumbentSalarySettingForm incumbentSalarySettingForm, MessageList warnings){
         List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings = incumbentSalarySettingForm.getActiveFundingLines();
         if (activeAppointmentFundings == null || activeAppointmentFundings.isEmpty()) {
             return;

@@ -48,6 +48,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 
 /**
  * This class contains tests of the rule validation methods present in PurchasingDocumentRuleBase. These should include any tests
@@ -60,7 +61,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setMessageList(new ArrayList<String>());
+        GlobalVariables.setMessageList(new MessageList());
         validations = SpringContext.getBeansOfType(Validation.class);
     }
 

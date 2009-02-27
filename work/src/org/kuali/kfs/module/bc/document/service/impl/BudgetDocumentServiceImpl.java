@@ -79,6 +79,7 @@ import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -137,7 +138,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // that is PostProcessorServiceImpl.doActionTaken(ActionTakenEventDTO), establishGlobalVariables(), which does
         // GlobalVariables.clear()
         // not sure why this doesn't trash the GlobalVariables.getErrorMap()
-        List<String> messagesSoFar = GlobalVariables.getMessageList();
+        MessageList messagesSoFar = GlobalVariables.getMessageList();
 
         budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
 

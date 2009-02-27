@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 
 /**
  * the struts action for the salary setting for position
@@ -148,7 +149,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
      * @param positionSalarySettingForm the given position salary setting form
      * @param warnings the warning list that can hold the warning messages if any
      */
-    public void sendWarnings(PositionSalarySettingForm positionSalarySettingForm, List<String> warnings) {
+    public void sendWarnings(PositionSalarySettingForm positionSalarySettingForm, MessageList warnings) {
         List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings = positionSalarySettingForm.getActiveFundingLines();
         if (activeAppointmentFundings == null || activeAppointmentFundings.isEmpty()) {
             return;

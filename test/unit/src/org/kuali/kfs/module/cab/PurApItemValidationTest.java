@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageList;
 
 @ConfigureContext(session = khuntley)
 public class PurApItemValidationTest extends MaintenanceRuleTestBase {
@@ -42,7 +43,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setMessageList(new ArrayList<String>());
+        GlobalVariables.setMessageList(new MessageList());
         if( null == cabModuleService ) {
             cabModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
         }

@@ -28,7 +28,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.PreRulesContinuationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class PurapDocumentPreRulesBase extends PreRulesContinuationBase {
@@ -64,10 +66,10 @@ public abstract class PurapDocumentPreRulesBase extends PreRulesContinuationBase
                 proceed &= false;
                 questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
                         PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS)+"<br/><br/>";
-                List<String> warnings =  (List<String>)GlobalVariables.getMessageList();
+                MessageList warnings =  GlobalVariables.getMessageList();
                 if ( !warnings.isEmpty() ) {
                     questionText += "<table class=\"datatable\">";
-                    for ( String warning :  warnings ) {
+                    for ( ErrorMessage warning :  warnings ) {
                         questionText += "<tr><td align=left valign=middle class=\"datacell\">"+warning+"</td></tr>";
                     }
                     questionText += "</table>";

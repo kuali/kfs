@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -46,7 +47,7 @@ public class RoutingFormDocumentPresentationController extends FinancialSystemTr
 
             // TODO: find a good place for the following code
             if (!GlobalVariables.getMessageList().contains(CGKeyConstants.BUDGET_OVERRIDE)) {
-                GlobalVariables.getMessageList().add(0, CGKeyConstants.BUDGET_OVERRIDE);
+                GlobalVariables.getMessageList().add(0, new ErrorMessage(CGKeyConstants.BUDGET_OVERRIDE));
             }
         }
 

@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.util.ArrayList;
 
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,7 +33,7 @@ public class PurchasingAccountsPayableDocumentBaseTest extends KualiTestBase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setMessageList(new ArrayList<String>());
+        GlobalVariables.setMessageList(new MessageList());
         purapDoc = new PurchaseOrderDocument();
         currentFY = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     }

@@ -52,6 +52,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageList;
 
 /**
  * This class is used to test DisbursementVoucherDocument.
@@ -71,7 +72,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
 
     public final void testConvertIntoCopy_clear_additionalCodeInvalidVendor() throws Exception {
-        GlobalVariables.setMessageList(new ArrayList());
+        GlobalVariables.setMessageList(new MessageList());
         DisbursementVoucherDocument dvParameter = (DisbursementVoucherDocument) getDocumentParameterFixture();
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) getDocumentParameterFixture();
         document.getDvPayeeDetail().setDisbVchrPayeeIdNumber("1234-0");

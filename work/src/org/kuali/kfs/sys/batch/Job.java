@@ -29,6 +29,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 import org.quartz.InterruptableJob;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -137,7 +138,7 @@ public class Job implements StatefulJob, InterruptableJob {
         }
         else {
             GlobalVariables.setErrorMap(new ErrorMap());
-            GlobalVariables.setMessageList(new ArrayList());
+            GlobalVariables.setMessageList(new MessageList());
             String stepUserName = KFSConstants.SYSTEM_USER;
             if (parameterService.parameterExists(step.getClass(), STEP_USER_PARM_NM)) {
                 stepUserName = parameterService.getParameterValue(step.getClass(), STEP_USER_PARM_NM);

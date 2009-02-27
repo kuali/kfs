@@ -61,23 +61,8 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="ledgerPerson.principalId"
-                    p:targetName="principalId" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
                     p:sourceName="emplid"
                     p:targetName="employeeId" />
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="ledgerPerson.principalName"
-                    p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="ledgerPerson.name"
-                    p:targetName="name" />
             </list>
           </property>
         </bean>

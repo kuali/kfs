@@ -145,6 +145,7 @@
 		<property name="itemDescriptionValidation" ref="Purchasing-itemDescriptionValidation" />
 		<property name="itemQuantityValidation" ref="Purchasing-itemQuantityValidation" />
 		<property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />
+		<property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />
 	</bean>
 
 	<bean id="Purchasing-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true">
@@ -341,7 +342,8 @@
 		<property name="itemUnitPriceValidation" ref="Purchasing-itemUnitPriceValidation" />
 		<property name="itemDescriptionValidation" ref="Purchasing-itemDescriptionValidation" />
 		<property name="itemQuantityValidation" ref="Purchasing-itemQuantityValidation" />
-		<property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />				
+		<property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />
+		<property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />				
 	</bean>
 
 	<bean id="Requisition-processAdditionalValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionProcessAdditionalValidation" abstract="true"/>
@@ -369,7 +371,8 @@
 		<property name="itemUnitPriceValidation" ref="Purchasing-itemUnitPriceValidation" />
 		<property name="itemDescriptionValidation" ref="Purchasing-itemDescriptionValidation" />
 		<property name="itemQuantityValidation" ref="Purchasing-itemQuantityValidation" />
-		<property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />		
+		<property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />
+		<property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />		
 	</bean>
 
     <bean id="PurchaseOrder-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderProcessVendorValidation" abstract="true">
@@ -535,7 +538,8 @@
 		<property name="itemUnitPriceValidation" ref="Purchasing-itemUnitPriceValidation" />
 		<property name="itemDescriptionValidation" ref="Purchasing-itemDescriptionValidation" />
 		<property name="itemQuantityValidation" ref="Purchasing-itemQuantityValidation" />
-		<property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />		
+		<property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />
+		<property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />		
 	</bean>
 		
     <bean id="PurchaseOrderAmendment-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentAccountingLineAccessibleValidation" abstract="true">

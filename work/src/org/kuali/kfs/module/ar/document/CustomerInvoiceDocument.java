@@ -47,6 +47,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -1206,13 +1207,18 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             removeRecurrence |= (null == rec.getDocumentRecurrenceIntervalCode());
             removeRecurrence |= (!rec.isActive());
             if (removeRecurrence) {
+                deleteChildRecurrenceObject();
                 this.setCustomerInvoiceRecurrenceDetails(null);
             }
         }
 
     }
 
-
+    private void deleteChildRecurrenceObject() {
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        boService.delete(this.getCustomerInvoiceRecurrenceDetails());
+    }
+    
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
      */

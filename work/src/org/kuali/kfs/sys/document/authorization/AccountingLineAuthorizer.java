@@ -16,14 +16,13 @@
 package org.kuali.kfs.sys.document.authorization;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
-import org.kuali.kfs.sys.document.web.AccountingLineViewField;
-import org.kuali.kfs.sys.document.web.RenderableAccountingLineContainer;
 import org.kuali.rice.kim.bo.Person;
 
 /**
@@ -59,9 +58,10 @@ public interface AccountingLineAuthorizer {
      * 
      * @param accountingDocument the document that has accounting lines being authorized
      * @param accountingGroupProperty the property of this accounting group
+     * @param documentActions the actions currently available on the whole document
      * @return true if new lines should be displayed, false otherwise
      */
-    public abstract boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty);
+    public abstract boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, Map documentActions);
 
     /**
      * Determines if any entire group is rendered as editable, which means that a new line will appear

@@ -1210,13 +1210,28 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                 deleteChildRecurrenceObject();
                 this.setCustomerInvoiceRecurrenceDetails(null);
             }
+            else {
+                //   need to make sure the fk/pk for the recurrence is wired up, this is 
+                // necessary if the person repeatedly adds a recurrence, saves, deletes a 
+                // recurrence, saves, and then adds one again.
+                if (ObjectUtils.isNotNull(customerInvoiceRecurrenceDetails)) {
+                    customerInvoiceRecurrenceDetails.setInvoiceNumber(getDocumentNumber());
+                }
+            }
         }
 
     }
 
+    //  since the fk for this child object is also the pk of the parent object, we cant do the normal way of doing this,
+    // and just clear the fk primitive field on the parent object, and we have to get all explicit about it.
     private void deleteChildRecurrenceObject() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        boService.delete(this.getCustomerInvoiceRecurrenceDetails());
+        Map<String,String> pks = new HashMap<String,String>();
+        pks.put("invoiceNumber", getDocumentNumber());
+        CustomerInvoiceRecurrenceDetails dbRecurrence = (CustomerInvoiceRecurrenceDetails) boService.findByPrimaryKey(CustomerInvoiceRecurrenceDetails.class, pks);
+        if (dbRecurrence != null) {
+            boService.delete(dbRecurrence);
+        }
     }
     
     /**

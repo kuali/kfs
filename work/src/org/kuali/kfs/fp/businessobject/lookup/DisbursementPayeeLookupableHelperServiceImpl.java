@@ -39,9 +39,9 @@ import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
@@ -65,8 +65,8 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
 
         this.filterReturnUrl((List<ResultRow>) resultTable, displayList, paymentReasonCode);
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        disbursementVoucherPaymentReasonService.postPaymentReasonCodeUsage(paymentReasonCode, errorMap);
+        MessageList messageList = GlobalVariables.getMessageList();
+        disbursementVoucherPaymentReasonService.postPaymentReasonCodeUsage(paymentReasonCode, messageList);
 
         return displayList;
     }

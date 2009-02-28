@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.MessageList;
 
 /**
  * define a set of service methods related to payment reason code
@@ -123,9 +124,9 @@ public interface DisbursementVoucherPaymentReasonService {
      * post the usage of the given payment reason code into error map
      * 
      * @param paymentReasonCode the given payment reason code
-     * @param errorMap the error map that will hold the usage of the given payment reason
+     * @param messageList the message list that will hold the usage of the given payment reason
      */
-    public void postPaymentReasonCodeUsage(String paymentReasonCode, ErrorMap errorMap);
+    public void postPaymentReasonCodeUsage(String paymentReasonCode, MessageList messageList);
     
     /**
      * determine whether the given payment reason is required for tax review

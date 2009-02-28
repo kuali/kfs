@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.MessageList;
 
 /**
  * implementing the service methods defined in DisbursementVoucherPaymentReasonService
@@ -171,9 +172,9 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#postPaymentReasonCodeUsage(java.lang.String,
-     *      org.kuali.rice.kns.util.ErrorMap)
+     *      org.kuali.rice.kns.util.MessageList)
      */
-    public void postPaymentReasonCodeUsage(String paymentReasonCode, ErrorMap errorMap) {
+    public void postPaymentReasonCodeUsage(String paymentReasonCode, MessageList messageList) {
         List<String> payeeTypeCodes = this.getPayeeTypesByPaymentReason(paymentReasonCode);
         if (payeeTypeCodes == null || payeeTypeCodes.isEmpty()) {
             return;
@@ -183,11 +184,11 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         String descriptivePaymentReason = this.getPaymentReasonByPrimaryId(paymentReasonCode).getCodeAndDescription();
         if (payeeTypeCodes.size() > 1) {
             String messageKey = KFSKeyConstants.WARNING_DV_PAYMENT_REASON_VALID_FOR_MULTIPLE_PAYEE_TYPES;
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey, descriptivePaymentReason, descriptivePayeeTypes);
+            messageList.add(messageKey, descriptivePaymentReason, descriptivePayeeTypes);
         }
         else if (payeeTypeCodes.size() == 1) {
             String messageKey = KFSKeyConstants.WARNING_DV_PAYMENT_REASON_VALID_FOR_SINGEL_PAYEE_TYPE;
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey, descriptivePaymentReason, descriptivePayeeTypes);
+            messageList.add(messageKey, descriptivePaymentReason, descriptivePayeeTypes);
         }
 
         if (this.isResearchPaymentReason(paymentReasonCode)) {
@@ -199,7 +200,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
             vendorTypeCodes.remove(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
             String vendorTypes = this.getDescriptivePayeeTypesAsString(vendorTypeCodes);
 
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey, descriptivePaymentReason, descriptivePayeeTypes, vendorTypes, payLimit);
+            messageList.add(messageKey, descriptivePaymentReason, descriptivePayeeTypes, vendorTypes, payLimit);
         }
 
         if (this.isMovingPaymentReason(paymentReasonCode)) {
@@ -207,12 +208,12 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
             String ownerShipTypeAsString = this.convertListToString(individualOwnerShipTypeCodes);
 
             String messageKey = KFSKeyConstants.WARNING_DV_MOVING_PAYMENT_REASON;
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey, ownerShipTypeAsString);
+            messageList.add(messageKey, ownerShipTypeAsString);
         }
 
         if (this.isPrepaidTravelPaymentReason(paymentReasonCode)) {
             String messageKey = KFSKeyConstants.WARNING_DV_PREPAID_TRAVEL_PAYMENT_REASON;
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, messageKey, descriptivePaymentReason, descriptivePayeeTypes);
+            messageList.add(messageKey, descriptivePaymentReason, descriptivePayeeTypes);
         }
     }
 

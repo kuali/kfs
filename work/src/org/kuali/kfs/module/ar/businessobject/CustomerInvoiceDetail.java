@@ -113,10 +113,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         KualiDecimal applied = getAmountAppliedFromDatabase();
         KualiDecimal a = amount.subtract(applied);
         CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
-        if(ObjectUtils.isNotNull(discount)) {
-            // Add the discount amount (instead of subtracting) because it's negative.
-            a = a.add(discount.getAmount());
-        }
         return a;
     }
 
@@ -639,9 +635,14 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         Map<String,Object> criteria = new HashMap<String,Object>();
         if(null != paymentApplicationDocumentNumber) {
             criteria.put("documentNumber", paymentApplicationDocumentNumber);
+            criteria.put("invoiceItemNumber", getSequenceNumber());
+            criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
         }
-        criteria.put("invoiceItemNumber", getSequenceNumber());
-        criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
+        else {
+            criteria.put("invoiceItemNumber", getSequenceNumber());
+            criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
+            criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        }
         List<InvoicePaidApplied> invoicePaidApplieds = (List<InvoicePaidApplied>) businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
         if(ObjectUtils.isNull(invoicePaidApplieds)) {
             invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();

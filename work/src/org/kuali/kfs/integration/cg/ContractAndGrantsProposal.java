@@ -16,9 +16,8 @@
 package org.kuali.kfs.integration.cg;
 
 import java.sql.Date;
-import java.util.List;
+import java.sql.Timestamp;
 
-import org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -89,7 +88,7 @@ public interface ContractAndGrantsProposal extends ExternalizableBusinessObject 
      * 
      * @return Returns the proposalLastUpdateDate
      */
-    public Date getProposalLastUpdateDate();
+    public Timestamp getProposalLastUpdateDate();
 
     /**
      * Gets the proposalDueDate attribute.

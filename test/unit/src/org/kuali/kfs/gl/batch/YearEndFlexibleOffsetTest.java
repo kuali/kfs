@@ -16,6 +16,7 @@
 package org.kuali.kfs.gl.batch;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,10 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.A21SubAccountService;
@@ -59,6 +56,10 @@ import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /*
  * Unit tests to verify that flexible offsets are being added to year end origin entries correctly
@@ -192,7 +193,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             encumbrance.setAccountLineEncumbranceAmount(DEFAULT_FIXTURE_AMOUNT);
             encumbrance.setAccountLineEncumbranceClosedAmount(KualiDecimal.ZERO);
             encumbrance.setAccountLineEncumbrancePurgeCode(" ");
-            encumbrance.setTimestamp(getEncumbranceDate());
+            encumbrance.setTimestamp(new Timestamp(getEncumbranceDate().getTime()));
             return encumbrance;
         }
         

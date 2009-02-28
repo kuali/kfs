@@ -390,7 +390,7 @@
     <field-descriptor name="accountLineEncumbranceClosedAmount" column="ACLN_ENCUM_CLS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <!--  A space is a valid entry in this field so it can't be converted to boolean -->
     <field-descriptor name="accountLineEncumbrancePurgeCode" column="ACLN_ENCUM_PRG_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="DATE" />
+    <field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
 
     <reference-descriptor name="originationCode" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="originCode" />

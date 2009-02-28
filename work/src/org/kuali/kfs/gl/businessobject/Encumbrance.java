@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -26,8 +27,8 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -58,7 +59,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
     private KualiDecimal accountLineEncumbranceClosedAmount;
     private KualiDecimal accountLineEncumbranceOutstandingAmount;
     private String accountLineEncumbrancePurgeCode;
-    private Date timestamp;
+    private Timestamp timestamp;
 
     private SubAccount subAccount;
     private Chart chart;
@@ -298,14 +299,14 @@ public class Encumbrance extends PersistableBusinessObjectBase {
     /**
      * @return Returns the timestamp.
      */
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
     /**
      * @param timestamp The timestamp to set.
      */
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

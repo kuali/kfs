@@ -60,7 +60,7 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     private KualiDecimal agencyFuture2Amount;
     private KualiDecimal agencyFuture3Amount;
     private String awardDocumentNumber;
-    private Date awardLastUpdateDate;
+    private Timestamp awardLastUpdateDate;
     private boolean federalPassThroughIndicator;
     private String oldProposalNumber;
     private KualiDecimal awardDirectCostAmount;
@@ -461,7 +461,7 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      * 
      * @return Returns the awardLastUpdateDate
      */
-    public Date getAwardLastUpdateDate() {
+    public Timestamp getAwardLastUpdateDate() {
         return awardLastUpdateDate;
     }
 
@@ -470,7 +470,7 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
      * 
      * @param awardLastUpdateDate The awardLastUpdateDate to set.
      */
-    public void setAwardLastUpdateDate(Date awardLastUpdateDate) {
+    public void setAwardLastUpdateDate(Timestamp awardLastUpdateDate) {
         this.awardLastUpdateDate = awardLastUpdateDate;
     }
 

@@ -17,6 +17,7 @@
 package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
     private KualiDecimal proposalDirectCostAmount;
     private KualiDecimal proposalIndirectCostAmount;
     private Date proposalRejectedDate;
-    private Date proposalLastUpdateDate;
+    private Timestamp proposalLastUpdateDate;
     private Date proposalDueDate;
     private KualiDecimal proposalTotalProjectAmount;
     private Date proposalSubmissionDate;
@@ -299,7 +300,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * 
      * @return Returns the proposalLastUpdateDate
      */
-    public Date getProposalLastUpdateDate() {
+    public Timestamp getProposalLastUpdateDate() {
         return proposalLastUpdateDate;
     }
 
@@ -308,7 +309,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * 
      * @param proposalLastUpdateDate The proposalLastUpdateDate to set.
      */
-    public void setProposalLastUpdateDate(Date proposalLastUpdateDate) {
+    public void setProposalLastUpdateDate(Timestamp proposalLastUpdateDate) {
         this.proposalLastUpdateDate = proposalLastUpdateDate;
     }
 

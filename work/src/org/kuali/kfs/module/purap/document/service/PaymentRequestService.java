@@ -226,6 +226,25 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     public void calculatePaymentRequest(PaymentRequestDocument pr, boolean updateDiscount);
 
     /**
+     * Performs calculations on the tax edit area, generates and adds NRA tax charge items as below the line items, with their accounting lines; 
+     * the calculation will activate updates on the account summary tab and the general ledger entries as well.
+     *
+     * The non-resident alien (NRA) tax lines consist of four possible sets of tax lines: 
+     * - Federal tax lines
+     * - Federal Gross up tax lines
+     * - State tax lines
+     * - State Gross up tax lines
+     * 
+     * Federal tax lines are generated if the federal tax rate in the payment request is not zero.
+     * State tax lines are generated if the state tax rate in the payment request is not zero.
+     * Gross up tax lines are generated if the tax gross up indicator is set on the payment request and the tax rate is not zero.
+     * 
+     * @param preq The payment request the NRA tax lines will be added to.
+     * 
+     */
+    public void calculateTaxArea(PaymentRequestDocument preq);
+    
+    /**
      * Populate payment request.
      * 
      * @param preq  The payment request document to be populated.

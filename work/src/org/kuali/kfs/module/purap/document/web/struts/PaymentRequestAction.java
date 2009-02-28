@@ -36,6 +36,7 @@ import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedPreCalculateAccountsPayableEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
@@ -102,7 +103,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             throw buildAuthorizationException("initiate document", paymentRequestDocument);
         }
         
-        // preform duplicate check which will forward to a question prompt if one is found
+        // perform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicatePaymentRequestCheck(mapping, form, request, response, paymentRequestDocument);
         if (forward != null) {
             return forward;
@@ -296,13 +297,20 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     @Override
     protected void customCalculate(PurchasingAccountsPayableDocument apDoc) {
         PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
+
+        // calculation just for the tax area, only at tax review stage
+        // by now, the general calculation shall have been done.
+        if (preqDoc.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+            SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
+            return;
+        }
+        
         // set amounts on any empty
         preqDoc.updateExtendedPriceOnItems();
 
         // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
         SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(preqDoc));
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
-
     }
 
     /**
@@ -355,16 +363,27 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * correctly updated before validation for account percent is called.
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward approve (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // if tax is required but not yet calculated, return and prompt user to calculate
         if (requiresCalculateTax((PaymentRequestForm)form)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        // enforce calculating tax again upon approval, just in case user changes tax data without calculation
+        // other wise there will be a loophole, because the taxCalculated indicator is already set upon first calculation
+        // and thus system wouldn't know it's not re-calculated after tax data are changed
         PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(preq);
-        return super.approve(mapping, form, request, response);
+        if (SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPreCalculateAccountsPayableEvent(preq))) {
+            // pre-calculation rules succeed, calculate tax again and go ahead with approval
+            customCalculate(preq);
+            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(preq);
+            return super.approve(mapping, form, request, response);
+        }
+        else { 
+            // pre-calculation rules fail, go back to same page with error messages            
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }        
     }
     
     /**

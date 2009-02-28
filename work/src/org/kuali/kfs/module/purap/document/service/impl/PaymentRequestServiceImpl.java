@@ -666,13 +666,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void calculatePaymentRequest(PaymentRequestDocument paymentRequest, boolean updateDiscount) {
         LOG.debug("calculatePaymentRequest() started");
 
-        // calculation just for the tax area, only at tax review stage
-        // by now, the general calculation shall have been done.
-        if (paymentRequest.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
-            calculateTaxArea(paymentRequest);
-            return;
-        }
-        
         // general calculation, i.e. for the whole preq document
         if (ObjectUtils.isNull(paymentRequest.getPaymentRequestPayDate())) {
             paymentRequest.setPaymentRequestPayDate(calculatePayDate(paymentRequest.getInvoiceDate(), paymentRequest.getVendorPaymentTerms()));
@@ -724,23 +717,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
     
     /**
-     * Performs calculations on the tax edit area, generates and adds NRA tax charge items as below the line items, with their accounting lines; 
-     * the calculation will activate updates on the account summary tab and the general ledger entries as well.
-     *
-     * The non-resident alien (NRA) tax lines consist of four possible sets of tax lines: 
-     * - Federal tax lines
-     * - Federal Gross up tax lines
-     * - State tax lines
-     * - State Gross up tax lines
-     * 
-     * Federal tax lines are generated if the federal tax rate in the payment request is not zero.
-     * State tax lines are generated if the state tax rate in the payment request is not zero.
-     * Gross up tax lines are generated if the tax gross up indicator is set on the payment request and the tax rate is not zero.
-     * 
-     * @param preq The payment request the NRA tax lines will be added to.
-     * 
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#calculateTaxArea(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
-    private void calculateTaxArea(PaymentRequestDocument preq) {
+    public void calculateTaxArea(PaymentRequestDocument preq) {
+        LOG.debug("calculateTaxArea() started");
 
         // remove all existing tax items added by previous calculation
         removeTaxItems(preq);

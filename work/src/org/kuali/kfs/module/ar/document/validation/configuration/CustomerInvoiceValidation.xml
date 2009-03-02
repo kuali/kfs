@@ -24,7 +24,18 @@
 	
 	<bean id="CustomerInvoice-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
-			<list></list>
+			<list>
+				<bean parent="CustomerInvoice-customerNumberValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceDocument" />
+							</bean>
+						</list>
+					</property>
+				</bean>				
+			</list>
 		</property>
 	</bean>
   

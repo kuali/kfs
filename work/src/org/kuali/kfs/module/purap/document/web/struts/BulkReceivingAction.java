@@ -48,6 +48,7 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -197,6 +198,9 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
+        // retain error messages after a lookup
+        WebUtils.reuseErrorMapFromPreviousRequest(blkRecForm);
+        
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
         String refreshCaller = blkRecForm.getRefreshCaller();
         PhoneNumberService phoneNumberService = SpringContext.getBean(PhoneNumberService.class);

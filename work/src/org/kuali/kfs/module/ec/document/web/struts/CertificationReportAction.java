@@ -51,6 +51,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -172,7 +173,10 @@ public class CertificationReportAction extends EffortCertificationAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
-
+        
+        // retain error messages after a lookup
+        WebUtils.reuseErrorMapFromPreviousRequest(certificationReportForm);
+        
         for (EffortCertificationDetail detailLine : certificationReportForm.getDetailLines()) {
             //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
             //EffortCertificationDetail does not have any updatable references

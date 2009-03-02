@@ -81,6 +81,7 @@ import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 
@@ -97,6 +98,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase baseForm = (PurchasingAccountsPayableFormBase) form;
+        // retain error messages after a lookup
+        WebUtils.reuseErrorMapFromPreviousRequest(baseForm);
+        
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
         String refreshCaller = baseForm.getRefreshCaller();
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);

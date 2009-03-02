@@ -434,6 +434,9 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
 
+        // retain error messages after a lookup
+        WebUtils.reuseErrorMapFromPreviousRequest(dvForm);
+        
         ActionForward actionAfterPayeeLookup = this.refreshAfterPayeeSelection(mapping, dvForm, request);
         if (actionAfterPayeeLookup != null) {
             return actionAfterPayeeLookup;

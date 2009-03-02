@@ -81,6 +81,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.BlankFormFile;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -99,6 +100,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        
+        // retain error messages after a lookup
+        WebUtils.reuseErrorMapFromPreviousRequest(poForm);
+        
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 

@@ -73,6 +73,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -1204,9 +1205,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
-
+        // retain error messages after a lookup
+        WebUtils.reuseErrorMapFromPreviousRequest(budgetConstructionForm);
+        
         // Do specific refresh stuff here based on refreshCaller parameter
         // typical refresh callers would be monthlyBudget or salarySetting or lookupable
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);

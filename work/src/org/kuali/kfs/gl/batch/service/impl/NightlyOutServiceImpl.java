@@ -76,7 +76,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
         
         Iterator pendingEntries = generalLedgerPendingEntryService.findApprovedPendingLedgerEntries();
-        String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE;
+        String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION ;
         PrintStream outputFilePs;
         
         try {

@@ -154,6 +154,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      * Gets the postingYear attribute. 
      * @return Returns the postingYear.
      */
+    @Override
     public Integer getPostingYear() {
         return postingYear;
     }
@@ -162,6 +163,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      * Sets the postingYear attribute value. 
      * @param postingYear The postingYear to set.
      */
+    @Override
     public void setPostingYear(Integer postingYear) {
         this.postingYear = postingYear;
     }
@@ -281,6 +283,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      * This method gets the glpes
      * @return a list of glpes
      */
+     @Override
     public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
         return generalLedgerPendingEntries;
     }
@@ -289,6 +292,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      * This method sets the glpes
      * @return a list of glpes
      */
+     @Override
     public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
         this.generalLedgerPendingEntries = generalLedgerPendingEntries;
     }

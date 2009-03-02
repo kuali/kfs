@@ -50,8 +50,10 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         }
         else {
             if (organizationLevelCode.intValue() != 0) {
-                accountNumber = UNMATCHABLE_QUALIFICATION; 
-            }        
+                if (DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) || Boolean.TRUE.toString().equals(accountReportExists)) {
+                    accountNumber = UNMATCHABLE_QUALIFICATION; 
+                }        
+            }
         }
 
         String descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_FALSE_VALUE;

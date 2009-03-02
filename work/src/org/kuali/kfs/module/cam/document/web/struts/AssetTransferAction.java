@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
@@ -133,20 +134,7 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
         return actionForward;
     }
 
-    
-    /**
-     * Save the document when they click the save button
-     */
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.save(mapping, form, request, response);
 
-        allPaymentsFederalOwnedMessage(form);
-
-        return actionForward;
-    }
-
-    
     /**
      * Route the document
      */
@@ -172,7 +160,7 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
         
         //display a message for asset not generating ledger entries when it is federally owned 
         if (allPaymentsFederalOwned) {
-            GlobalVariables.getMessageList().add(CamsKeyConstants.Transfer.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_TRANSFER);        
+            GlobalVariables.getMessageList().add(0, new ErrorMessage(CamsKeyConstants.Transfer.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_TRANSFER));        
         }
     }
     

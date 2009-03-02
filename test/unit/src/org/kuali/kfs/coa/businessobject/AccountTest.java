@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 
@@ -53,12 +54,16 @@ public class AccountTest extends KualiTestBase {
         }
         return timestamp;
     }
+    
+    private Date getDate(String dateString){
+        return new Date (getTimestamp(dateString).getTime());
+    }
 
     // since all the tests are doing the same thing, this is centralized
     private void doTest(String expirationDateString, String testDateString, boolean expectedResult) {
 
-        Timestamp expirationDate = getTimestamp(expirationDateString);
-        Timestamp testDate = getTimestamp(testDateString);
+        Date expirationDate = getDate(expirationDateString);
+        Date testDate = getDate(testDateString);
 
         // setup the account, and set its expiration date
         Account account = new Account();

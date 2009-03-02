@@ -15,15 +15,14 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kim.bo.Person;
 
 
 public interface AccountIntf {
@@ -82,14 +81,14 @@ public interface AccountIntf {
      * 
      * @return Returns the accountRestrictedStatusDate
      */
-    public Timestamp getAccountRestrictedStatusDate();
+    public Date getAccountRestrictedStatusDate();
 
     /**
      * Sets the accountRestrictedStatusDate attribute.
      * 
      * @param accountRestrictedStatusDate The accountRestrictedStatusDate to set.
      */
-    public void setAccountRestrictedStatusDate(Timestamp accountRestrictedStatusDate);
+    public void setAccountRestrictedStatusDate(Date accountRestrictedStatusDate);
 
     /**
      * Gets the accountCityName attribute.
@@ -152,42 +151,42 @@ public interface AccountIntf {
      * 
      * @return Returns the accountCreateDate
      */
-    public Timestamp getAccountCreateDate();
+    public Date getAccountCreateDate();
 
     /**
      * Sets the accountCreateDate attribute.
      * 
      * @param accountCreateDate The accountCreateDate to set.
      */
-    public void setAccountCreateDate(Timestamp accountCreateDate);
+    public void setAccountCreateDate(Date accountCreateDate);
 
     /**
      * Gets the accountEffectiveDate attribute.
      * 
      * @return Returns the accountEffectiveDate
      */
-    public Timestamp getAccountEffectiveDate();
+    public Date getAccountEffectiveDate();
 
     /**
      * Sets the accountEffectiveDate attribute.
      * 
      * @param accountEffectiveDate The accountEffectiveDate to set.
      */
-    public void setAccountEffectiveDate(Timestamp accountEffectiveDate);
+    public void setAccountEffectiveDate(Date accountEffectiveDate);
 
     /**
      * Gets the accountExpirationDate attribute.
      * 
      * @return Returns the accountExpirationDate
      */
-    public Timestamp getAccountExpirationDate();
+    public Date getAccountExpirationDate();
 
     /**
      * Sets the accountExpirationDate attribute.
      * 
      * @param accountExpirationDate The accountExpirationDate to set.
      */
-    public void setAccountExpirationDate(Timestamp accountExpirationDate);
+    public void setAccountExpirationDate(Date accountExpirationDate);
 
     /**
      * This method determines whether the account is expired or not. Note that if Expiration Date is the same as today, then this

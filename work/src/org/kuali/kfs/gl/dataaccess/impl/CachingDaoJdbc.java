@@ -500,7 +500,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                     account = new Account();
                     account.setChartOfAccountsCode(chartCode);
                     account.setAccountNumber(accountNumber);
-                    account.setAccountExpirationDate(rs.getTimestamp(1));
+                    account.setAccountExpirationDate(rs.getDate(1));
                     account.setActive(rs.getString(2).equals("Y") ? false : true);
                     account.setSubFundGroupCode(rs.getString(3));
                     account.setOrganizationCode(rs.getString(4));

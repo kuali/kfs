@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -321,13 +321,13 @@ public class AccountingLineOverrideTest extends KualiTestBase {
 
     private Account getExpiredAccount() {
         Account account = new Account();
-        account.setAccountExpirationDate(new Timestamp(42)); // this account expired near the beginning of the era (1970)
+        account.setAccountExpirationDate(new Date(42)); // this account expired near the beginning of the era (1970)
         return account;
     }
 
     private Account getUnexpiredAccount() {
         Account account = new Account();
-        account.setAccountExpirationDate(new Timestamp(Long.MAX_VALUE / 2)); // this account expires far in the future
+        account.setAccountExpirationDate(new Date(Long.MAX_VALUE / 2)); // this account expires far in the future
         return account;
     }
 }

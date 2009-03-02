@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -47,14 +47,14 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private String accountNumber;
     private String accountName;
     private boolean accountsFringesBnftIndicator;
-    private Timestamp accountRestrictedStatusDate;
+    private Date accountRestrictedStatusDate;
     private String accountCityName;
     private String accountStateCode;
     private String accountStreetAddress;
     private String accountZipCode;
-    private Timestamp accountCreateDate;
-    private Timestamp accountEffectiveDate;
-    private Timestamp accountExpirationDate;
+    private Date accountCreateDate;
+    private Date accountEffectiveDate;
+    private Date accountExpirationDate;
     private String acctIndirectCostRcvyTypeCd;
     private String acctCustomIndCstRcvyExclCd;
     private String financialIcrSeriesIdentifier;
@@ -196,7 +196,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the accountRestrictedStatusDate
      */
-    public Timestamp getAccountRestrictedStatusDate() {
+    public Date getAccountRestrictedStatusDate() {
         return accountRestrictedStatusDate;
     }
 
@@ -205,7 +205,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @param accountRestrictedStatusDate The accountRestrictedStatusDate to set.
      */
-    public void setAccountRestrictedStatusDate(Timestamp accountRestrictedStatusDate) {
+    public void setAccountRestrictedStatusDate(Date accountRestrictedStatusDate) {
         this.accountRestrictedStatusDate = accountRestrictedStatusDate;
     }
 
@@ -286,7 +286,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the accountCreateDate
      */
-    public Timestamp getAccountCreateDate() {
+    public Date getAccountCreateDate() {
         return accountCreateDate;
     }
 
@@ -295,7 +295,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @param accountCreateDate The accountCreateDate to set.
      */
-    public void setAccountCreateDate(Timestamp accountCreateDate) {
+    public void setAccountCreateDate(Date accountCreateDate) {
         this.accountCreateDate = accountCreateDate;
     }
 
@@ -304,7 +304,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the accountEffectiveDate
      */
-    public Timestamp getAccountEffectiveDate() {
+    public Date getAccountEffectiveDate() {
         return accountEffectiveDate;
     }
 
@@ -313,7 +313,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @param accountEffectiveDate The accountEffectiveDate to set.
      */
-    public void setAccountEffectiveDate(Timestamp accountEffectiveDate) {
+    public void setAccountEffectiveDate(Date accountEffectiveDate) {
         this.accountEffectiveDate = accountEffectiveDate;
     }
 
@@ -322,7 +322,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the accountExpirationDate
      */
-    public Timestamp getAccountExpirationDate() {
+    public Date getAccountExpirationDate() {
         return accountExpirationDate;
     }
 
@@ -331,7 +331,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @param accountExpirationDate The accountExpirationDate to set.
      */
-    public void setAccountExpirationDate(Timestamp accountExpirationDate) {
+    public void setAccountExpirationDate(Date accountExpirationDate) {
         this.accountExpirationDate = accountExpirationDate;
     }
 

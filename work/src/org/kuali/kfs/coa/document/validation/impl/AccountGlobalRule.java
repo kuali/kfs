@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -451,7 +452,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         LOG.info("checkExpirationDate called");
 
         boolean success = true;
-        Timestamp newExpDate = newAccountGlobal.getAccountExpirationDate();
+        Date newExpDate = newAccountGlobal.getAccountExpirationDate();
 
         // If creating a new account if acct_expiration_dt is set and the fund_group is not "CG" then
         // the acct_expiration_dt must be changed to a date that is today or later
@@ -484,12 +485,12 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      */
     protected boolean checkExpirationDate(MaintenanceDocument maintenanceDocument, AccountGlobalDetail detail) {
         boolean success = true;
-        Timestamp newExpDate = newAccountGlobal.getAccountExpirationDate();
+        Date newExpDate = newAccountGlobal.getAccountExpirationDate();
 
         // load the object by keys
         Account account = (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, detail.getPrimaryKeys());
         if (account != null) {
-            Timestamp oldExpDate = account.getAccountExpirationDate();
+            Date oldExpDate = account.getAccountExpirationDate();
 
             // When updating an account expiration date, the date must be today or later
             // (except for C&G accounts). Only run this test if this maint doc
@@ -512,7 +513,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
                 }
             }
             // acct_expiration_dt can not be before acct_effect_dt
-            Timestamp effectiveDate = account.getAccountEffectiveDate();
+            Date effectiveDate = account.getAccountEffectiveDate();
             if (ObjectUtils.isNotNull(effectiveDate) && ObjectUtils.isNotNull(newExpDate)) {
                 if (newExpDate.before(effectiveDate)) {
                     putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_CANNOT_BE_BEFORE_EFFECTIVE_DATE);
@@ -545,8 +546,8 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      */
     protected boolean isUpdatedExpirationDateInvalid(Account oldAccount, AccountGlobal newAccountGlobal) {
 
-        Timestamp oldExpDate = oldAccount.getAccountExpirationDate();
-        Timestamp newExpDate = newAccountGlobal.getAccountExpirationDate();
+        Date oldExpDate = oldAccount.getAccountExpirationDate();
+        Date newExpDate = newAccountGlobal.getAccountExpirationDate();
 
         // When updating an account expiration date, the date must be today or later
         // (except for C&G accounts). Only run this test if this maint doc
@@ -736,7 +737,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      * @param newExpDate The expiration date assigned to the account being validated for submission.
      * @return True if the continuation account values are valid for the associated account, false otherwise.
      */
-    protected boolean checkContinuationAccount(MaintenanceDocument document, Timestamp newExpDate) {
+    protected boolean checkContinuationAccount(MaintenanceDocument document, Date newExpDate) {
         LOG.info("checkContinuationAccount called");
 
         boolean result = true;

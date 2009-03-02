@@ -16,11 +16,10 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,20 +34,19 @@ import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 
 /**
  * 
@@ -60,14 +58,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private String accountNumber;
     private String accountName;
     private boolean accountsFringesBnftIndicator;
-    private Timestamp accountRestrictedStatusDate;
+    private Date accountRestrictedStatusDate;
     private String accountCityName;
     private String accountStateCode;
     private String accountStreetAddress;
     private String accountZipCode;
-    private Timestamp accountCreateDate;
-    private Timestamp accountEffectiveDate;
-    private Timestamp accountExpirationDate;
+    private Date accountCreateDate;
+    private Date accountEffectiveDate;
+    private Date accountExpirationDate;
     private String acctIndirectCostRcvyTypeCd;
     private String acctCustomIndCstRcvyExclCd;
     private String financialIcrSeriesIdentifier;
@@ -241,7 +239,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the accountRestrictedStatusDate
      */
-    public Timestamp getAccountRestrictedStatusDate() {
+    public Date getAccountRestrictedStatusDate() {
         return accountRestrictedStatusDate;
     }
 
@@ -250,7 +248,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @param accountRestrictedStatusDate The accountRestrictedStatusDate to set.
      */
-    public void setAccountRestrictedStatusDate(Timestamp accountRestrictedStatusDate) {
+    public void setAccountRestrictedStatusDate(Date accountRestrictedStatusDate) {
         this.accountRestrictedStatusDate = accountRestrictedStatusDate;
     }
 
@@ -331,7 +329,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the accountCreateDate
      */
-    public Timestamp getAccountCreateDate() {
+    public Date getAccountCreateDate() {
         return accountCreateDate;
     }
 
@@ -340,7 +338,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @param accountCreateDate The accountCreateDate to set.
      */
-    public void setAccountCreateDate(Timestamp accountCreateDate) {
+    public void setAccountCreateDate(Date accountCreateDate) {
         this.accountCreateDate = accountCreateDate;
     }
 
@@ -349,7 +347,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the accountEffectiveDate
      */
-    public Timestamp getAccountEffectiveDate() {
+    public Date getAccountEffectiveDate() {
         return accountEffectiveDate;
     }
 
@@ -358,7 +356,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @param accountEffectiveDate The accountEffectiveDate to set.
      */
-    public void setAccountEffectiveDate(Timestamp accountEffectiveDate) {
+    public void setAccountEffectiveDate(Date accountEffectiveDate) {
         this.accountEffectiveDate = accountEffectiveDate;
     }
 
@@ -367,7 +365,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the accountExpirationDate
      */
-    public Timestamp getAccountExpirationDate() {
+    public Date getAccountExpirationDate() {
         return accountExpirationDate;
     }
 
@@ -376,7 +374,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @param accountExpirationDate The accountExpirationDate to set.
      */
-    public void setAccountExpirationDate(Timestamp accountExpirationDate) {
+    public void setAccountExpirationDate(Date accountExpirationDate) {
         this.accountExpirationDate = accountExpirationDate;
     }
 

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.document;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
         Account account = (Account) this.getBusinessObject();
         account.setAccountCreateDate(null); // account's pre-rules will fill this field in
-        account.setAccountEffectiveDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+        account.setAccountEffectiveDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
         account.setActive(true);
         super.processAfterCopy(document, parameters);
     }

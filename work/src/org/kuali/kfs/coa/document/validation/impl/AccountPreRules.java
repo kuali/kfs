@@ -15,17 +15,17 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -185,9 +185,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
          */
 
         // TODO: this is not needed any more, is in maintdoc xml defaults
-        Timestamp ts = maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
-        // Set nano as zero, to prevent an error related on maximum character numbers.
-        ts.setNanos(0);
+        Date ts = new Date(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate().getTime());
         if (ts != null) {
             // On new Accounts AccountCreateDate is defaulted to the doc creation date
             if (newAccount.getAccountCreateDate() == null) {

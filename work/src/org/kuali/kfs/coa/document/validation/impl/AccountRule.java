@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -40,15 +41,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -619,12 +616,12 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkAccountExpirationDateValidTodayOrEarlier(Account newAccount) {
 
         // get today's date, with no time component
-        Timestamp todaysDate = getDateTimeService().getCurrentTimestamp();
+        Date todaysDate = new Date(getDateTimeService().getCurrentDate().getTime());
         todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
         // TODO: convert this to using Wes' Kuali DateUtils once we're using Date's instead of Timestamp
         
         // get the expiration date, if any
-        Timestamp expirationDate = newAccount.getAccountExpirationDate();
+        Date expirationDate = newAccount.getAccountExpirationDate();
         if (ObjectUtils.isNull(expirationDate)) {
             putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
             return false;
@@ -805,9 +802,9 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        Timestamp oldExpDate = oldAccount.getAccountExpirationDate();
-        Timestamp newExpDate = newAccount.getAccountExpirationDate();
-        Timestamp today = getDateTimeService().getCurrentTimestamp();
+        Date oldExpDate = oldAccount.getAccountExpirationDate();
+        Date newExpDate = newAccount.getAccountExpirationDate();
+        Date today = new Date(getDateTimeService().getCurrentTimestamp().getTime());
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
 
         // When updating an account expiration date, the date must be today or later
@@ -841,7 +838,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         }
 
         // acct_expiration_dt can not be before acct_effect_dt
-        Timestamp effectiveDate = newAccount.getAccountEffectiveDate();
+        Date effectiveDate = newAccount.getAccountEffectiveDate();
         if (ObjectUtils.isNotNull(effectiveDate) && ObjectUtils.isNotNull(newExpDate)) {
             if (newExpDate.before(effectiveDate)) {
                 putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_CANNOT_BE_BEFORE_EFFECTIVE_DATE);
@@ -866,9 +863,9 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             return false;
         }
 
-        Timestamp oldExpDate = oldAccount.getAccountExpirationDate();
-        Timestamp newExpDate = newAccount.getAccountExpirationDate();
-        Timestamp today = getDateTimeService().getCurrentTimestamp();
+        Date oldExpDate = oldAccount.getAccountExpirationDate();
+        Date newExpDate = newAccount.getAccountExpirationDate();
+        Date today = new Date(getDateTimeService().getCurrentDate().getTime());
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
 
         // When updating an account expiration date, the date must be today or later

@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpt
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -330,7 +331,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         Calendar testDate = Calendar.getInstance();
         testDate.clear();
         testDate.set(1900, 1, 1);
-        account.setAccountExpirationDate(new Timestamp(testDate.getTimeInMillis()));
+        account.setAccountExpirationDate(new Date(testDate.getTimeInMillis()));
         result = rule.areGuidelinesRequired(account);
         assertEquals("Guidelines should not be required for Account with prior ExpirationDate", false, result);
     }
@@ -343,7 +344,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
         // setup a var with today's date
-        Timestamp today = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+        Date today = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
         account.setAccountExpirationDate(today);
         result = rule.areGuidelinesRequired(account);
@@ -362,7 +363,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         Calendar testDate = Calendar.getInstance();
         testDate.clear();
         testDate.set(2100, 1, 1);
-        account.setAccountExpirationDate(new Timestamp(testDate.getTimeInMillis()));
+        account.setAccountExpirationDate(new Date(testDate.getTimeInMillis()));
         result = rule.areGuidelinesRequired(account);
         assertEquals("Guidelines should be required for Account with future ExpirationDate", true, result);
 
@@ -543,7 +544,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // restricted status code == T, date set
         newAccount.setAccountRestrictedStatusCode("T");
-        newAccount.setAccountRestrictedStatusDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+        newAccount.setAccountRestrictedStatusDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         result = rule.hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount);
         assertEquals("No error should be thrown if code is T but date is null.", false, result);
 
@@ -942,13 +943,13 @@ public class AccountRuleTest extends ChartRuleTestBase {
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
         Calendar testCalendar;
-        Timestamp testTimestamp;
+        Date testTimestamp;
 
         // get an arbitrarily early date
         testCalendar = Calendar.getInstance();
         testCalendar.clear();
         testCalendar.set(1900, 1, 1);
-        testTimestamp = new Timestamp(testCalendar.getTimeInMillis());
+        testTimestamp = new Date(testCalendar.getTimeInMillis());
 
         // past expiration date - pass
         newAccount.setAccountExpirationDate(testTimestamp);
@@ -965,13 +966,13 @@ public class AccountRuleTest extends ChartRuleTestBase {
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
         Calendar testCalendar;
-        Timestamp testTimestamp;
+        Date testTimestamp;
 
         // get today's date (or whatever's provided by the DateTimeService)
         testCalendar = Calendar.getInstance();
         testCalendar.setTime(SpringContext.getBean(DateTimeService.class).getCurrentDate());
         testCalendar = DateUtils.truncate(testCalendar, Calendar.DAY_OF_MONTH);
-        testTimestamp = new Timestamp(testCalendar.getTimeInMillis());
+        testTimestamp = new Date(testCalendar.getTimeInMillis());
 
         // current date - pass
         newAccount.setAccountExpirationDate(testTimestamp);
@@ -988,13 +989,13 @@ public class AccountRuleTest extends ChartRuleTestBase {
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
         Calendar testCalendar;
-        Timestamp testTimestamp;
+        Date testTimestamp;
 
         // get an arbitrarily late date - fail
         testCalendar = Calendar.getInstance();
         testCalendar.clear();
         testCalendar.set(2100, 1, 1);
-        testTimestamp = new Timestamp(testCalendar.getTimeInMillis());
+        testTimestamp = new Date(testCalendar.getTimeInMillis());
 
         // past or today expiration date - pass
         newAccount.setAccountExpirationDate(testTimestamp);
@@ -1024,7 +1025,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // account must be being closed
         oldAccount.setActive(true);
         newAccount.setActive(false);
-        newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+        newAccount.setAccountExpirationDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
 
         // continuation coa code null
         newAccount.setContinuationFinChrtOfAcctCd(null);
@@ -1049,7 +1050,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // account must be being closed
         oldAccount.setActive(true);
         newAccount.setActive(false);
-        newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+        newAccount.setAccountExpirationDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
 
         // continuation coa code null
         newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
@@ -1072,7 +1073,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // account must be being closed
         oldAccount.setActive(false);
         newAccount.setActive(false);
-        newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+        newAccount.setAccountExpirationDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
 
         // continuation coa code null
         newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
@@ -1462,7 +1463,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // get today's date
-        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+        Date todaysDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
 
         // set both expiration dates to null
         oldAccount.setAccountExpirationDate(todaysDate);
@@ -1482,7 +1483,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // get today's date
-        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+        Date todaysDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
 
         // set both expiration dates to null
         oldAccount.setAccountExpirationDate(todaysDate);
@@ -1504,15 +1505,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // get today's date
         Calendar calendar;
-        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+        Date todaysDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp().getTime());
 
         // old exp date
         calendar = Calendar.getInstance();
         calendar.set(1900, 1, 1);
-        Timestamp oldDate = new Timestamp(calendar.getTimeInMillis());
+        Date oldDate = new Date(calendar.getTimeInMillis());
 
         // new exp date
-        Timestamp newDate = todaysDate;
+        Date newDate = todaysDate;
 
         // set both expiration dates to null
         oldAccount.setAccountExpirationDate(oldDate);
@@ -1539,17 +1540,17 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // get today's date
         Calendar calendar;
-        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+        Date todaysDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp().getTime());
 
         // old exp date
         calendar = Calendar.getInstance();
         calendar.set(1900, 1, 1);
-        Timestamp oldDate = new Timestamp(calendar.getTimeInMillis());
+        Date oldDate = new Date(calendar.getTimeInMillis());
 
         // new exp date
         calendar = Calendar.getInstance();
         calendar.set(2000, 1, 1);
-        Timestamp newDate = new Timestamp(calendar.getTimeInMillis());
+        Date newDate = new Date(calendar.getTimeInMillis());
 
         // set both expiration dates to null
         oldAccount.setAccountExpirationDate(oldDate);
@@ -1581,17 +1582,17 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // get today's date
         Calendar calendar;
-        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+        Date todaysDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
 
         // old exp date
         calendar = Calendar.getInstance();
         calendar.set(1900, 1, 1);
-        Timestamp oldDate = new Timestamp(calendar.getTimeInMillis());
+        Date oldDate = new Date(calendar.getTimeInMillis());
 
         // new exp date
         calendar = Calendar.getInstance();
         calendar.set(2000, 1, 1);
-        Timestamp newDate = new Timestamp(calendar.getTimeInMillis());
+        Date newDate = new Date(calendar.getTimeInMillis());
 
         // set both expiration dates to null
         oldAccount.setAccountExpirationDate(oldDate);

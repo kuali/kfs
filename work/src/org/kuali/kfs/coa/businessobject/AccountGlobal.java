@@ -16,27 +16,26 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -55,7 +54,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     private String accountStateCode;
     private String accountStreetAddress;
     private String accountZipCode;
-    private Timestamp accountExpirationDate;
+    private Date accountExpirationDate;
     private String continuationFinChrtOfAcctCd;
     private String continuationAccountNumber;
     private String incomeStreamFinancialCoaCode;
@@ -166,7 +165,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
                 // EXPIRATION DATE
                 if (accountExpirationDate != null) {
-                    account.setAccountExpirationDate(new Timestamp(accountExpirationDate.getTime()));
+                    account.setAccountExpirationDate(new Date(accountExpirationDate.getTime()));
                 }
 
                 // CONTINUATION CHART OF ACCOUNTS CODE
@@ -369,7 +368,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @return Returns the accountExpirationDate
      */
-    public Timestamp getAccountExpirationDate() {
+    public Date getAccountExpirationDate() {
         return accountExpirationDate;
     }
 
@@ -378,7 +377,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @param accountExpirationDate The accountExpirationDate to set.
      */
-    public void setAccountExpirationDate(Timestamp accountExpirationDate) {
+    public void setAccountExpirationDate(Date accountExpirationDate) {
         this.accountExpirationDate = accountExpirationDate;
     }
 

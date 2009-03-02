@@ -65,7 +65,9 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
         // For retired asset, all action link will be hidden.
         if (assetService.isAssetRetired(asset)) {
+            // clear 'edit' link
             anchorHtmlDataList.clear();
+            // add 'view' link instead
             anchorHtmlDataList.add(getViewAssetUrl(asset));
         }
         else {

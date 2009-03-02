@@ -686,9 +686,9 @@ public class PurApLineServiceImpl implements PurApLineService {
         if (oldQty.isLessThan(newQty)) {
             itemAsset.setAccountsPayableItemQuantity(newQty);
             setLineItemCost(itemAsset);
+            // add to action history
+            addPercentPaymentHistory(actionsTakenHistory, itemAsset, oldQty);
         }
-        // add to action history
-        addPercentPaymentHistory(actionsTakenHistory, itemAsset, oldQty);
     }
 
 

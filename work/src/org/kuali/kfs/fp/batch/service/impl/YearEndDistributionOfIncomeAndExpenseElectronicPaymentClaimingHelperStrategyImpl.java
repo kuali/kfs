@@ -30,4 +30,12 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
     public String getClaimingDocumentWorkflowDocumentType() {
         return "YEDI";
     }
+
+    /**
+     * @see org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl#getClaimingDocumentClass()
+     */
+    @Override
+    protected Class getClaimingDocumentClass() {
+        return YearEndDistributionOfIncomeAndExpenseDocument.class;
+    }
 }

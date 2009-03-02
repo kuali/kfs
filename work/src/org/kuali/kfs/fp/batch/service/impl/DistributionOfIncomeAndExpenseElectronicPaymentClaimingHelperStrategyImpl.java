@@ -48,7 +48,6 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      * we don't save the document, there's a chance that electronic payment claims will go to limbo
      */
     private final static String DOCUMENT_DESCRIPTION_PARAM_NAME = "ELECTRONIC_FUNDS_DOCUMENT_DESCRIPTION";
-    //private final static String DI_WORKFLOW_DOCUMENT_TYPE = "DistributionOfIncomeAndExpenseDocument";
     private final static String URL_PREFIX = "financial";
     private final static String URL_MIDDLE = ".do?methodToCall=docHandler&command=";
     private final static String URL_SUFFIX = "&docId=";
@@ -82,7 +81,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     protected String getURLForDocument(DistributionOfIncomeAndExpenseDocument doc) {
         StringBuilder url = new StringBuilder();
         url.append(URL_PREFIX);
-        url.append(getClaimingDocumentWorkflowDocumentType().replace("Document", ""));
+        url.append(getClaimingDocumentClass().getName().substring(getClaimingDocumentClass().getName().lastIndexOf('.')+1).replace("Document", ""));
         url.append(URL_MIDDLE);
         url.append(KEWConstants.ACTIONLIST_COMMAND);
         url.append(URL_SUFFIX);
@@ -182,6 +181,13 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      */
     public String getClaimingDocumentWorkflowDocumentType() {
         return "DI";
+    }
+    
+    /**
+     * @return the class of the document which claims these electronic payments
+     */
+    protected Class getClaimingDocumentClass() {
+        return DistributionOfIncomeAndExpenseDocument.class;
     }
 
     /**

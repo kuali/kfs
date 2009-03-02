@@ -72,7 +72,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     public void copyApprovedPendingLedgerEntries() {
         Date runDate = dateTimeService.getCurrentSqlDate();
 
-        String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BACKUP_FILE;
+        String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         PrintStream outputFilePs;
         
         try {

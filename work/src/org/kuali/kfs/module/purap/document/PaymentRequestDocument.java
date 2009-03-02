@@ -226,10 +226,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
         this.vendorPaymentTermsCode = vendorPaymentTermsCode;
+        refreshReferenceObject("vendorPaymentTerms");
     }
 
     public PaymentTermType getVendorPaymentTerms() {
-        if (ObjectUtils.isNull(vendorPaymentTerms)) {
+        if (ObjectUtils.isNull(vendorPaymentTerms) ||
+            !StringUtils.equalsIgnoreCase(getVendorPaymentTermsCode(),vendorPaymentTerms.getVendorPaymentTermsCode())) {
             refreshReferenceObject(VendorPropertyConstants.VENDOR_PAYMENT_TERMS);
         }
         return vendorPaymentTerms;

@@ -698,15 +698,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 purapService.addBelowLineItems(paymentRequestDocument);
                 discountItem = findDiscountItem(paymentRequestDocument);
             }
-            // discount item should no longer be null, update if necessary
-            if (discountItem.getExtendedPrice()==null || 
-                discountItem.getExtendedPrice().isZero()) {
-                KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
-                BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
-                // do we really need to set both, not positive, but probably won't hurt
-                discountItem.setItemUnitPrice(discountAmount.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
-                discountItem.setExtendedPrice(new KualiDecimal(discountAmount));
-            }
+
+            // Deleted the discountItem.getExtendedPrice() null and isZero check for KULPURAP-3311 - venkat
+            KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
+            BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
+            
+            // do we really need to set both, not positive, but probably won't hurt
+            discountItem.setItemUnitPrice(discountAmount.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
+            discountItem.setExtendedPrice(new KualiDecimal(discountAmount));
         }
         else { // no discount
             if (discountItem != null) {

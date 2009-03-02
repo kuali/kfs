@@ -210,9 +210,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Bank Zip Code" />
     <property name="shortLabel" value="Bank Zip Code" />
     <property name="maxLength" value="20" />
-    <property name="validationPattern" >
+    <!--property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
-    </property>
+    </property-->
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"

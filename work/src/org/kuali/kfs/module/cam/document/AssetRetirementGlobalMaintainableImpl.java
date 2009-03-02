@@ -39,6 +39,7 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -192,11 +193,9 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     public void handleRouteStatusChange(DocumentHeader documentHeader) {
         super.handleRouteStatusChange(documentHeader);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-
-        //display a message for asset not generating ledger entries when it is federally owned 
-        if (documentHeader.getWorkflowDocument().stateIsSaved() ||documentHeader.getWorkflowDocument().stateIsEnroute()) {
+        
+        if(documentHeader.getWorkflowDocument().stateIsEnroute()){
             //display a message for asset not generating ledger entries when it is federally owned 
-            
             boolean allPaymentsFederalOwned = true;
             List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
             for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
@@ -210,8 +209,8 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
             if (allPaymentsFederalOwned) {
                 GlobalVariables.getMessageList().add(CamsKeyConstants.Retirement.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_RETIREMENT);
             }
+           
         }
-        
         // all approvals have been processed, the retirement date is set to the approval date
         if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
             assetRetirementGlobal.setRetirementDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());

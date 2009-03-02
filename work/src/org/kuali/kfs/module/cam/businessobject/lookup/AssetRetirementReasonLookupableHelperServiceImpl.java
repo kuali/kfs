@@ -25,9 +25,9 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementReason;
-import org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -64,7 +64,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         
         if (initializingAssetRetirement) {
-            AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.RETIREMENT);
+            FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.RETIREMENT);
             
             if (assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
                 boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.USE_RESTRICTED_RETIREMENT_REASON, GlobalVariables.getUserSession().getPerson().getPrincipalId());

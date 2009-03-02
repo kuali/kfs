@@ -42,10 +42,6 @@
         <value>capitalAssetNumber</value>
       </list>
     </property>
-    
-    
-    
-    
     <property name="documentTypeName" value="CASM"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer"/>

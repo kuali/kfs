@@ -4,7 +4,7 @@
     <property name="documentTypeName" value="DEPR"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetDepreciationDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetDepreciationDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetDepreciationDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
       <ref bean="AssetDepreciationDocument-workflowAttributes"/>
     </property>

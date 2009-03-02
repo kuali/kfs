@@ -32,7 +32,7 @@
     
     <property name="documentTypeName" value="AR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRetirementGlobalRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementPresentationController"/>
     <property name="workflowAttributes">
       <ref bean="AssetRetirementGlobalMaintenanceDocument-workflowAttributes"/>

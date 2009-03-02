@@ -2,14 +2,10 @@
 
   <bean id="AssetTransferDocument" parent="AssetTransferDocument-parentBean"/>
   <bean id="AssetTransferDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">  
-    
-    
-    
-    
     <property name="documentTypeName" value="AT"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetTransferDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetTransferDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetTransferDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
       <ref bean="AssetTransferDocument-workflowAttributes"/>
     </property>

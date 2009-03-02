@@ -35,7 +35,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetStatus;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
-import org.kuali.kfs.module.cam.document.authorization.AssetTransferDocumentAuthorizer;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
@@ -44,6 +43,7 @@ import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -375,7 +375,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(finObjectSubTypeCode);
         
-        AssetTransferDocumentAuthorizer documentAuthorizer = (AssetTransferDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(assetTransferDocument);
+        FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(assetTransferDocument);
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         if(!assetMovable && !isAuthorizedTransferMovable) {

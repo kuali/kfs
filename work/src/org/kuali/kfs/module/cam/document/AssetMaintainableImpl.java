@@ -32,13 +32,14 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.ui.Section;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.
  */
-public class AssetMaintainableImpl extends KualiMaintainableImpl {
 
+public class AssetMaintainableImpl extends KualiMaintainableImpl {
     private Asset newAsset;
     private Asset copyAsset;
 

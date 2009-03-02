@@ -31,7 +31,6 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
-import org.kuali.kfs.module.cam.document.authorization.AssetGlobalAuthorizer;
 import org.kuali.kfs.module.cam.document.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetAcquisitionTypeService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
@@ -45,6 +44,7 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.Campus;
@@ -430,7 +430,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkNegativePayment(MaintenanceDocument maintenanceDocument, AssetPaymentDetail assetPaymentDetail) {
         boolean success = true;
-        AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument);
+        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.ADD_NEGATIVE_PAYMENTS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (!isAuthorized && assetPaymentDetail.getAmount() != null && assetPaymentDetail.getAmount().isNegative()) {
@@ -640,7 +640,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         if (!getAssetService().isDocumentEnrouting(document)) {
             // run threshold checking before routing 
-            AssetGlobalAuthorizer documentAuthorizer = (AssetGlobalAuthorizer) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
+            FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
             boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
             String capitalizationThresholdAmount = getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);

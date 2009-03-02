@@ -29,7 +29,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
-import org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
@@ -385,7 +385,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateNonMoveableAsset(Asset asset, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
-        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(maintenanceDocument);
+        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.RETIRE_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (!getAssetService().isAssetMovableCheckByAsset(asset) && !isAuthorized) {

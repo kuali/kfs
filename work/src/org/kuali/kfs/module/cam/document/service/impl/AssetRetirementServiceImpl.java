@@ -32,7 +32,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
-import org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer;
 import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
@@ -42,6 +41,7 @@ import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -266,7 +266,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAllowedRetireMultipleAssets(java.lang.String)
      */
     public boolean isAllowedRetireMultipleAssets(String retirementReasonCode, MaintenanceDocument maintenanceDocument) {
-        AssetRetirementAuthorizer documentAuthorizer = (AssetRetirementAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(maintenanceDocument);
+        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.RETIRE_MULTIPLE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         

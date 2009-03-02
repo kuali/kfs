@@ -38,6 +38,8 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final Logger LOG = Logger.getLogger(AssetTransferAction.class);

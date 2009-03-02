@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
-
   <bean id="EquipmentLoanOrReturnDocument" parent="EquipmentLoanOrReturnDocument-parentBean"/>
-
   <bean id="EquipmentLoanOrReturnDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-    
-    
     <property name="documentTypeName" value="ELR"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.EquipmentLoanOrReturnDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.EquipmentLoanOrReturnDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.EquipmentLoanOrReturnDocumentPresentationController"/>
     <property name="workflowAttributes">
       <ref bean="EquipmentLoanOrReturnDocument-workflowAttributes"/>

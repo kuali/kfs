@@ -13,6 +13,7 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     
 	private String documentNumber;
 	private String uploaderUniversalIdentifier;
+    private String hiddenFieldForError;
 
 	
     //global replace	- search fields
@@ -214,6 +215,14 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
         this.newConditionCode = newConditionCode;
     }
 
+    public String getHiddenFieldForError() {
+        return hiddenFieldForError;
+    }
+
+    public void setHiddenFieldForError(String hiddenFieldForError) {
+        this.hiddenFieldForError = hiddenFieldForError;
+    }
+    
     public void resetSearchFields() {
         currentTagNumber="";
         currentScanCode="";

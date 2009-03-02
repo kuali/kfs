@@ -34,7 +34,6 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAsse
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableProcessingReport;
 import org.kuali.kfs.module.cab.service.PurchasingAccountsPayableReportService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.impl.KimAttributes;

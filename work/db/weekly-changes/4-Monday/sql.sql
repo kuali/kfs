@@ -1,3 +1,6 @@
+update krim_role_mbr_t set mbr_id = '4034202067' where mbr_id = '4034202607' and mbr_typ_cd = 'P'
+/
+
 -- make org hierarchy nodes run in parallel
 UPDATE KREW_RTE_NODE_T
     SET ACTVN_TYP = 'P'

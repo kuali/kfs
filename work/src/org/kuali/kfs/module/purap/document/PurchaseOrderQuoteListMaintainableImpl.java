@@ -49,20 +49,13 @@ public class PurchaseOrderQuoteListMaintainableImpl extends KualiMaintainableImp
         return super.populateNewCollectionLines(fieldValues);    
     }
     
-    private void resetPreviousVendorInformationOnAddLine(Map fieldValues, Integer headerId, Integer detailId) {
-        
+    private void resetPreviousVendorInformationOnAddLine(Map fieldValues, Integer headerId, Integer detailId) {        
         if (fieldValues.get("quoteListVendors.vendorHeaderGeneratedIdentifier") != null) {
-            //fieldValues.remove("quoteListVendors.vendorHeaderGeneratedIdentifier");   
             fieldValues.put("quoteListVendors.vendorHeaderGeneratedIdentifier", headerId);
         }
         
         if (fieldValues.get("quoteListVendors.vendorDetailAssignedIdentifier") != null) {
-            //fieldValues.remove("quoteListVendors.vendorDetailAssignedIdentifier");    
             fieldValues.put("quoteListVendors.vendorDetailAssignedIdentifier", detailId);
-        }
-        
-        if (fieldValues.get("quoteListVendors.vendorDetail.vendorName") != null) {
-            fieldValues.remove("quoteListVendors.vendorDetail.vendorName");    
         }
         
     }

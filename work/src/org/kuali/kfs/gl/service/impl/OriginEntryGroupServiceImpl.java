@@ -34,7 +34,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
@@ -42,11 +41,10 @@ import org.kuali.kfs.gl.dataaccess.OriginEntryGroupDao;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -61,6 +59,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private DateTimeService dateTimeService;
     private String batchFileDirectoryName;
     private String batchLaborFileDirectoryName;
+    private KualiModuleService kualiModuleService;
 
     /**
      * Constructs a OriginEntryGroupServiceImpl instance
@@ -257,13 +256,13 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         if (!nightlyOutFile.exists()){
             throw new RuntimeException("nightlyOutFile doesn't exist :" + nightlyOutFileName);
         }
-        
-        //check laborGlEntryFileName 
-        //TODO: Shawn - I need to get some kind of flag for labor module installation  
-        String laborGlEntryFileName = LaborConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        File laborGlEntryFile = new File(batchFileDirectoryName + File.separator + laborGlEntryFileName);
-        if (!laborGlEntryFile.exists()){
-            throw new RuntimeException("laborGlEntryFile doesn't exist :" + laborGlEntryFileName);
+        //check laborGlEntryFileName
+        if (kualiModuleService.isModuleServiceInstalled(KFSConstants.LABOR_MODULE_CODE)){
+            String laborGlEntryFileName = GeneralLedgerConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+            File laborGlEntryFile = new File(batchFileDirectoryName + File.separator + laborGlEntryFileName);
+            if (!laborGlEntryFile.exists()){
+                throw new RuntimeException("laborGlEntryFile doesn't exist :" + laborGlEntryFileName);
+            }
         }
         
         String backupFileName = GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;    
@@ -679,5 +678,9 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     
     public void setBatchLaborFileDirectoryName(String batchLaborFileDirectoryName) {
         this.batchLaborFileDirectoryName = batchLaborFileDirectoryName;
+    }
+
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 }

@@ -225,6 +225,8 @@ public class GeneralLedgerConstants {
 		static final public String CLOSE_NOMINAL_ACTIVITY_FILE = "gl_close_nominal_activity";
 		static final public String BALANCE_FORWARDS_FILE = "gl_balance_forwards";
 		static final public String BALANCE_FORWARDS_CLOSED_FILE = "gl_balance_forwards_closed";
+		
+		static final public String LABOR_GL_ENTRY_FILE = "gl_glentry_lab";
     }
 
     public static class PosterOutputSummaryEntry {

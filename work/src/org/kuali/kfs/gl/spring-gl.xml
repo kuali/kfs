@@ -858,6 +858,9 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="kualiModuleService">
+            <ref bean="kualiModuleService" />
+        </property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="batchLaborFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>

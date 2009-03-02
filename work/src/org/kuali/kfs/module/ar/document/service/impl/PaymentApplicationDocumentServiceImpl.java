@@ -73,7 +73,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
             InvoicePaidApplied invoicePaidApplied = 
                 createInvoicePaidAppliedForInvoiceDetail(
-                    customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpenFromDatabase(),paidAppliedItemNumber);
+                    customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpenFromDatabaseDiscounted(),paidAppliedItemNumber);
             // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
             if (invoicePaidApplied != null) {
                 // add it to the payment application document list of applied payments

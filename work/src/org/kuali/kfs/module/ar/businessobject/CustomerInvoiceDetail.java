@@ -98,7 +98,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     // ---- BEGIN OPEN AMOUNTS
     
     public KualiDecimal getAmountOpen() { 
-        return getAmountOpenFromDatabase();
+        return getAmountOpenFromDatabaseDiscounted();
     }
     
     /**
@@ -108,11 +108,14 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * 
      * @return
      */
-    public KualiDecimal getAmountOpenFromDatabase() {
+    public KualiDecimal getAmountOpenFromDatabaseDiscounted() {
         KualiDecimal amount = getAmount();
         KualiDecimal applied = getAmountAppliedFromDatabase();
         KualiDecimal a = amount.subtract(applied);
         CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
+        if(ObjectUtils.isNotNull(discount)) {
+            a = a.add(discount.getAmount());
+        }
         return a;
     }
 
@@ -120,12 +123,22 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return getAmountOpenExcludingAnyAmountFrom(getCurrentPaymentApplicationDocument());
     }
     
+    public KualiDecimal getAmountDiscounted() {
+        KualiDecimal a = getAmount();
+        CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
+        if(ObjectUtils.isNotNull(discount)) {
+            KualiDecimal d = discount.getAmount();
+            a = a.add(d);
+        }
+        return a;
+    }
+    
     public KualiDecimal getAmountOpenExcludingAnyAmountFrom(PaymentApplicationDocument paymentApplicationDocument) {
-        return getAmount().subtract(getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument));
+        return getAmountDiscounted().subtract(getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument));
     }
     
     public KualiDecimal getAmountOpenPerCurrentPaymentApplicationDocument() {
-        return getAmount().subtract(getAmountAppliedByCurrentPaymentApplicationDocument());
+        return getAmountDiscounted().subtract(getAmountAppliedByCurrentPaymentApplicationDocument());
     }
     
     /**
@@ -246,7 +259,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         if (isDiscountLine()) {
             return getAmount().negated();
         } else {
-            return getAmountOpenFromDatabase();
+            return getAmountOpenFromDatabaseDiscounted();
         }
     }
 
@@ -262,7 +275,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
             return super.getAmount(); // using the accounting line amount ... see comments at top of class
         }
         else {
-            return getAmountOpenFromDatabase();
+            return getAmountOpenFromDatabaseDiscounted();
         }
     }
     

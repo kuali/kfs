@@ -484,7 +484,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 if (ObjectUtils.isNotNull(itemTaxAmount))
                     taxAmount = taxAmount.add(itemTaxAmount);
                             
-                KualiDecimal openItemAmount = ((CustomerInvoiceDetail)invoiceDetail).getAmountOpenFromDatabase();
+                KualiDecimal openItemAmount = ((CustomerInvoiceDetail)invoiceDetail).getAmountOpenFromDatabaseDiscounted();
                 if (ObjectUtils.isNotNull(openItemAmount))
                     openAmount = openAmount.add(openItemAmount);
             }

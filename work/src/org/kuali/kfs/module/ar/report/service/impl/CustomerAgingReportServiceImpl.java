@@ -87,7 +87,7 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
                 continue;
             }
 
-            if(custInvoice!=null && cid.getAmountOpenFromDatabase().isNonZero()) {
+            if(custInvoice!=null && cid.getAmountOpenFromDatabaseDiscounted().isNonZero()) {
 
                 Customer customerobj = custInvoice.getCustomer();                        
                 String customerNumber = customerobj.getCustomerNumber();    // tested and works

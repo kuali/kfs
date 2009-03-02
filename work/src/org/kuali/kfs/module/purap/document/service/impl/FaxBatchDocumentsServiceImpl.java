@@ -51,6 +51,8 @@ public class FaxBatchDocumentsServiceImpl implements FaxBatchDocumentsService {
 
    private PurchaseOrderService purchaseOrderService;
    private FaxService faxService;
+   private PurapService purapService;
+   
 
    /**
     * Faxes pending documents.  Currently only PO documents set to Pending Fax
@@ -84,7 +86,7 @@ public class FaxBatchDocumentsServiceImpl implements FaxBatchDocumentsService {
              po.setStatusCode(PurapConstants.PurchaseOrderStatuses.OPEN);
              po.setPurchaseOrderInitialOpenTimestamp(new Timestamp(new Date().getTime()));
              po.setPurchaseOrderLastTransmitTimestamp(new Timestamp(new Date().getTime()));
-             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
+             purapService.saveDocumentNoValidation(po);
          }else{
              result = false;
          }
@@ -100,4 +102,9 @@ public class FaxBatchDocumentsServiceImpl implements FaxBatchDocumentsService {
    public void setFaxService(FaxService faxService) {
        this.faxService = faxService;
    }
+
+   public void setPurapService(PurapService purapService) {
+       this.purapService = purapService;
+   }
+    
 }

@@ -538,6 +538,7 @@
 	<bean id="faxBatchDocumentsService" class="org.kuali.kfs.module.purap.document.service.impl.FaxBatchDocumentsServiceImpl">
 		<property name="faxService" ref="faxService"/>
 		<property name="purchaseOrderService" ref="purchaseOrderService"/>
+		<property name="purapService" ref="purapService"/>
 	</bean>
 	
 	<bean id="purapRunDateService" class="org.kuali.kfs.module.purap.batch.service.impl.PurapRunDateServiceImpl">

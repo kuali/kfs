@@ -53,7 +53,6 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
 
     private String statusCode;
-    private Integer postingYear;
     private String financialDocumentReferenceInvoiceNumber;
 
     private KualiDecimal crmTotalItemAmount = KualiDecimal.ZERO;
@@ -66,17 +65,15 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
     private List<CustomerCreditMemoDetail> creditMemoDetails;
-
-    protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
     
     private transient TaxService taxService;
     private transient AccountsReceivableTaxService arTaxService;
 
     public CustomerCreditMemoDocument() {
         super();
-        this.postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
         creditMemoDetails = new TypedArrayList(CustomerCreditMemoDetail.class);
-        generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
+        setGeneralLedgerPendingEntries(new ArrayList<GeneralLedgerPendingEntry>());
     }
 
     /**
@@ -148,24 +145,6 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      */
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
-    }
-
-    /**
-     * Gets the postingYear attribute. 
-     * @return Returns the postingYear.
-     */
-    @Override
-    public Integer getPostingYear() {
-        return postingYear;
-    }
-
-    /**
-     * Sets the postingYear attribute value. 
-     * @param postingYear The postingYear to set.
-     */
-    @Override
-    public void setPostingYear(Integer postingYear) {
-        this.postingYear = postingYear;
     }
 
     /**
@@ -277,24 +256,6 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      */
     public void setInvOutstandingDays(Integer invOutstandingDays) {
         this.invOutstandingDays = invOutstandingDays;
-    }
-
-    /**
-     * This method gets the glpes
-     * @return a list of glpes
-     */
-     @Override
-    public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
-        return generalLedgerPendingEntries;
-    }
-
-    /**
-     * This method sets the glpes
-     * @return a list of glpes
-     */
-     @Override
-    public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
-        this.generalLedgerPendingEntries = generalLedgerPendingEntries;
     }
 
     public void recalculateTotalsBasedOnChangedItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail) {

@@ -242,6 +242,7 @@
 	<field-descriptor name="paymentProjectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentOrganizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="printDate" column="AR_PRNT_DT" jdbc-type="DATE"/>	
+	<field-descriptor name="nextSourceLineNumber" column="NXT_INV_ITEM_NBR" jdbc-type="INTEGER"/>
 	
 	<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR" />
 	<field-descriptor name="billingAddressName" column="BILL_ADDR_NM" jdbc-type="VARCHAR" />

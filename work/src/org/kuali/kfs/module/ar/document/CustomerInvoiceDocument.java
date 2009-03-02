@@ -63,7 +63,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable, Comparable<CustomerInvoiceDocument> {
 
     private static final String HAS_RECCURENCE_NODE = "HasReccurence";
-    protected Integer nextInvoiceItemNumber;
     private String invoiceHeaderText;
     private String invoiceAttentionLineText;
     private Date invoiceDueDate;
@@ -138,7 +137,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public CustomerInvoiceDocument() {
         super();
-        this.nextInvoiceItemNumber = new Integer(1);
     }
 
     /**
@@ -872,15 +870,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return m;
     }
 
-    public Integer getNextInvoiceItemNumber() {
-        return nextInvoiceItemNumber;
-    }
-
-    public void setNextInvoiceItemNumber(Integer nextInvoiceItemNumber) {
-        this.nextInvoiceItemNumber = nextInvoiceItemNumber;
-    }
-
-
     /**
      * This method returns true if this document is a reversal for another document
      * 
@@ -1233,7 +1222,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             boService.delete(dbRecurrence);
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
      */

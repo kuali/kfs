@@ -37,6 +37,9 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class LaborExpenseTransferAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
    
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnField(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.String)
+     */
     @Override
     public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName) {
         
@@ -47,6 +50,7 @@ public class LaborExpenseTransferAccountingLineAuthorizer extends AccountingLine
         if (fieldName.equals(LaborPropertyConstants.PAYROLL_TOTAL_HOURS)) {
             return true;
         }
+        
         return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName);
     }
     

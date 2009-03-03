@@ -62,9 +62,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
         // check for closed or open reporting period(s) ... closed periods result in error, open periods require more validation
         List<ExpenseTransferAccountingLine> allLines = new ArrayList<ExpenseTransferAccountingLine>(document.getSourceAccountingLines());
         allLines.addAll(document.getTargetAccountingLines());
-        for (Object line : allLines) {
-            ExpenseTransferAccountingLine transferLine = (ExpenseTransferAccountingLine) line;
-
+        for (ExpenseTransferAccountingLine transferLine : allLines) {
             // check we have enough data for validation, if not business rules will report error
             if (!containsNecessaryData(transferLine)) {
                 continue;

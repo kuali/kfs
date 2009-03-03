@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.document.web.renderers.GroupTitleLineRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
 import org.kuali.kfs.sys.document.web.renderers.RepresentedCellCurious;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This represents an accounting line group in renderable state
@@ -141,7 +142,7 @@ public class AccountingLineGroup {
 
             boolean isGroupEditable = groupDefinition.getAccountingLineAuthorizer().isGroupEditable(accountingDocument, containers, GlobalVariables.getUserSession().getPerson());            
             groupTitleLineRenderer.overrideCanUpload(groupDefinition.isImportingAllowed() && isGroupEditable);
-            groupTitleLineRenderer.setGroupActionsRendered(isGroupEditable);
+            groupTitleLineRenderer.setGroupActionsRendered(!this.isDocumentEnrouted() && isGroupEditable);
 
             groupTitleLineRenderer.render(pageContext, parentTag);
             groupTitleLineRenderer.clear();
@@ -299,10 +300,19 @@ public class AccountingLineGroup {
     }
 
     /**
+     * Determines if the current document is enrouted
+     */
+    private boolean isDocumentEnrouted() {
+        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+
+        return !workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved();
+    }
+    
+    /**
      * Determines if there is more than one editable line in this group; if so, then it allows deleting
      */
     public void updateDeletabilityOfAllLines() {
-        if (!accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() && !accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+        if (this.isDocumentEnrouted()) {
             if (hasEnoughAccountingLinesForDelete()) {
                 for (AccountingLineRenderingContext accountingLineRenderingContext : containers) {
                     if (accountingLineRenderingContext.isEditableLine()) {

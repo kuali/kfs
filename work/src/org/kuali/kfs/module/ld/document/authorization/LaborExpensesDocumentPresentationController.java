@@ -15,22 +15,21 @@
  */
 package org.kuali.kfs.module.ld.document.authorization;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 
 /**
- * Document Presentation Controller for the Effort Certification document.
- * allowsErrorCorrection property has been set to false in data dictionary entry
- * setHasAmountTotal property has been set to true in data dictionary entry
+ * Document Presentation Controller for the Effort Certification document. allowsErrorCorrection property has been set to false in
+ * data dictionary entry setHasAmountTotal property has been set to true in data dictionary entry
  */
 
 public class LaborExpensesDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
-    
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.kns.document.Document)
+     */
     @Override
     public boolean canCopy(Document document) {
-            return false;
+        return false;
     }
 }

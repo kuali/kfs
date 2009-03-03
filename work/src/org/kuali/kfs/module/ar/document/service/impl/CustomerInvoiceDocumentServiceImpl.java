@@ -253,6 +253,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         }
 
         if (0 < documentHeaderIds.size()) {
+            //TODO using the documentDao here causes exceptions/problems later on, should use documentService
             invoices = documentDao.findByDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
         }
         return invoices;

@@ -17,8 +17,6 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.velocity.runtime.parser.node.MathUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -81,7 +78,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
     private DateTimeService dateTimeService;
     private PersonService personService;
-
+    private DocumentService documentService;
+    
     private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
 
     private CurrencyFormatter currencyFormatter = new CurrencyFormatter();
@@ -93,7 +91,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public File generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException{
         CustomerCreditMemoReportDataHolder reportDataHolder = new CustomerCreditMemoReportDataHolder();
         String invoiceNumber = creditMemo.getFinancialDocumentReferenceInvoiceNumber();
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceNumber);
         String custID = invoice.getAccountsReceivableDocumentHeader().getCustomerNumber();
 
@@ -350,13 +347,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         File report = service.generateReport(reportDataHolder, runDate);
 
         invoice.setPrintDate(runDate);
-        DocumentService docService = SpringContext.getBean(DocumentService.class);
-        try {
-            docService.saveDocument(invoice);
-        }
-        catch (WorkflowException e) {
-            LOG.error(e);
-        }
+        documentService.updateDocument(invoice);
         return report;
     }
 
@@ -760,6 +751,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
     
 }

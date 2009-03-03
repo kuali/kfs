@@ -684,6 +684,9 @@
 		<property name="personService">
 			<ref bean="personService" />
 		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
 	</bean>	
 
 

@@ -1113,71 +1113,82 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         if (this.isInvoiceReversal()) {
             setOpenInvoiceIndicator(false);
         }
-        if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber())) {
-            this.getCustomerInvoiceRecurrenceDetails().setCustomerNumber(this.getAccountsReceivableDocumentHeader().getCustomerNumber());
-        }
-        if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) && ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate())) {
+        
+        //  invoice recurrence stuff, if there is a recurrence object
+        if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails())) {
 
-            Calendar beginCalendar = Calendar.getInstance();
-            beginCalendar.setTime(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate());
-            Date beginDate = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate();
-            Calendar endCalendar = Calendar.getInstance();
-
-            endCalendar.setTime(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate());
-            Date endDate = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate();
-            Calendar nextCalendar = Calendar.getInstance();
-            Date nextDate = beginDate;
-
-            int totalRecurrences = 0;
-            int addCounter = 0;
-            String intervalCode = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode();
-            if (intervalCode.equals("M")) {
-                addCounter = 1;
+            //  wire up the recurrence customer number if one exists
+            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber())) {
+                this.getCustomerInvoiceRecurrenceDetails().setCustomerNumber(this.getAccountsReceivableDocumentHeader().getCustomerNumber());
             }
-            if (intervalCode.equals("Q")) {
-                addCounter = 3;
-            }
-            /* perform this loop while begin_date is less than or equal to end_date */
-            while (!(beginDate.after(endDate))) {
-                beginCalendar.setTime(beginDate);
-                beginCalendar.add(Calendar.MONTH, addCounter);
-                beginDate = DateUtils.convertToSqlDate(beginCalendar.getTime());
-                totalRecurrences++;
 
-                nextDate = beginDate;
-                nextCalendar.setTime(nextDate);
-                nextCalendar.add(Calendar.MONTH, addCounter);
-                nextDate = DateUtils.convertToSqlDate(nextCalendar.getTime());
-                if (endDate.after(beginDate) && endDate.before(nextDate)) {
+            // calc recurrence number if only end-date specified
+            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) && ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate())) {
+
+                Calendar beginCalendar = Calendar.getInstance();
+                beginCalendar.setTime(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate());
+                Date beginDate = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate();
+                Calendar endCalendar = Calendar.getInstance();
+
+                endCalendar.setTime(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate());
+                Date endDate = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate();
+                Calendar nextCalendar = Calendar.getInstance();
+                Date nextDate = beginDate;
+
+                int totalRecurrences = 0;
+                int addCounter = 0;
+                String intervalCode = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode();
+                if (intervalCode.equals("M")) {
+                    addCounter = 1;
+                }
+                if (intervalCode.equals("Q")) {
+                    addCounter = 3;
+                }
+                /* perform this loop while begin_date is less than or equal to end_date */
+                while (!(beginDate.after(endDate))) {
+                    beginCalendar.setTime(beginDate);
+                    beginCalendar.add(Calendar.MONTH, addCounter);
+                    beginDate = DateUtils.convertToSqlDate(beginCalendar.getTime());
                     totalRecurrences++;
-                    break;
+
+                    nextDate = beginDate;
+                    nextCalendar.setTime(nextDate);
+                    nextCalendar.add(Calendar.MONTH, addCounter);
+                    nextDate = DateUtils.convertToSqlDate(nextCalendar.getTime());
+                    if (endDate.after(beginDate) && endDate.before(nextDate)) {
+                        totalRecurrences++;
+                        break;
+                    }
+                }
+                if (totalRecurrences > 0) {
+                    this.getCustomerInvoiceRecurrenceDetails().setDocumentTotalRecurrenceNumber(totalRecurrences);
                 }
             }
-            if (totalRecurrences > 0) {
-                this.getCustomerInvoiceRecurrenceDetails().setDocumentTotalRecurrenceNumber(totalRecurrences);
+            
+            //  calc end-date if only recurrence-number is specified
+            if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate())) {
+
+                Calendar beginCalendar = Calendar.getInstance();
+                beginCalendar.setTime(new Timestamp(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate().getTime()));
+                Calendar endCalendar = Calendar.getInstance();
+                endCalendar = beginCalendar;
+
+                int addCounter = 0;
+                Integer documentTotalRecurrenceNumber = this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber();
+                String intervalCode = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode();
+                if (intervalCode.equals("M")) {
+                    addCounter = -1;
+                    addCounter += documentTotalRecurrenceNumber * 1;
+                }
+                if (intervalCode.equals("Q")) {
+                    addCounter = -3;
+                    addCounter += documentTotalRecurrenceNumber * 3;
+                }
+                endCalendar.add(Calendar.MONTH, addCounter);
+                this.getCustomerInvoiceRecurrenceDetails().setDocumentRecurrenceEndDate(DateUtils.convertToSqlDate(endCalendar.getTime()));
             }
         }
-        if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate())) {
-
-            Calendar beginCalendar = Calendar.getInstance();
-            beginCalendar.setTime(new Timestamp(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate().getTime()));
-            Calendar endCalendar = Calendar.getInstance();
-            endCalendar = beginCalendar;
-
-            int addCounter = 0;
-            Integer documentTotalRecurrenceNumber = this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber();
-            String intervalCode = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode();
-            if (intervalCode.equals("M")) {
-                addCounter = -1;
-                addCounter += documentTotalRecurrenceNumber * 1;
-            }
-            if (intervalCode.equals("Q")) {
-                addCounter = -3;
-                addCounter += documentTotalRecurrenceNumber * 3;
-            }
-            endCalendar.add(Calendar.MONTH, addCounter);
-            this.getCustomerInvoiceRecurrenceDetails().setDocumentRecurrenceEndDate(DateUtils.convertToSqlDate(endCalendar.getTime()));
-        }
+        
         // Force upper case
         setBilledByOrganizationCode(getBilledByOrganizationCode().toUpperCase());
 

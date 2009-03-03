@@ -19,6 +19,7 @@ import java.io.File;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 
 /**
@@ -35,10 +36,6 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
         return PurapConstants.ELECTRONIC_INVOICE_FILE_TYPE_INDENTIFIER;
     }
 
-    public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
-        return null;
-    }
-
     public boolean validate(Object parsedFileContents) {
         return true;
     }
@@ -49,6 +46,17 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
 
     public String getAuthorPrincipalName(File file) {
         return null;
+    }
+
+    public String getFileName(String principalName, 
+                              Object parsedFileContents, 
+                              String fileUserIdentifer) {
+        
+        if (!(parsedFileContents instanceof ElectronicInvoice)){
+            throw new RuntimeException("Invalid object type.");
+        }
+        
+        return ((ElectronicInvoice)parsedFileContents).getFileName();
     }
 }
 

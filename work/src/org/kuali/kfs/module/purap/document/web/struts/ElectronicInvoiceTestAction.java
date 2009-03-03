@@ -15,24 +15,29 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.StringBufferInputStream;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
@@ -53,9 +58,24 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             if (xmlFile != null) {
                 if (!StringUtils.isEmpty(xmlFile.getFileName())) {
                     if (xmlFile.getFileName().endsWith(".xml")) {
-                        ElectronicInvoiceService eInvoiceService = (ElectronicInvoiceService) SpringContext.getBean(ElectronicInvoiceService.class);
-                        eInvoiceService.loadElectronicInvoice(new BufferedInputStream(xmlFile.getInputStream()), xmlFile.getFileName());
-                        // show message saying it completed and where to check log file
+                        
+                        BatchInputFileService batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
+                        ElectronicInvoiceInputFileType batchType = SpringContext.getBean(ElectronicInvoiceInputFileType.class);
+                        
+                        byte[] fileByteContent = IOUtils.toByteArray(xmlFile.getInputStream());
+
+                        Object parsedObject = batchInputFileService.parse(batchType, fileByteContent);
+                        ElectronicInvoice eInvoice = (ElectronicInvoice)parsedObject;
+                        eInvoice.setFileName(xmlFile.getFileName());
+                        
+                        if (parsedObject != null) {
+                            boolean validateSuccessful = batchInputFileService.validate(batchType, parsedObject);
+
+                            if (validateSuccessful) {
+                                InputStream saveStream = new ByteArrayInputStream(fileByteContent);
+                                batchInputFileService.save(GlobalVariables.getUserSession().getPerson(), batchType, eInvoice.getFileName(), saveStream, parsedObject);
+                            }
+                        }
                     } else {
                         // show error
                     }

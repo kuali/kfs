@@ -222,26 +222,6 @@ public class AssetLocationServiceImpl implements AssetLocationService {
                 valid &= false;
             }
         }
-
-/* The postal code is not validate, if it is off campus. KULCAP-690
-        if (!isBlank(fieldMap, LocationField.ZIP_CODE, zipCode)) {
-            Map assetLocationMap = new HashMap();
-            assetLocationMap.put(KFSPropertyConstants.POSTAL_ZIP_CODE, zipCode);
-            PostalCode assetLocationZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(zipCode);
-            if (ObjectUtils.isNull(assetLocationZipCode)) {
-                putError(fieldMap, LocationField.ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_ZIP_CODE, zipCode);
-                valid &= false;
-            }
-            else {
-                // validate postal zip code against state code
-                if (!isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
-                    if (!stateCode.equals(assetLocationZipCode.getPostalStateCode())) {
-                        putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_STATE_ZIP_CODE, stateCode, zipCode);
-                        valid &= false;
-                    }
-                }
-            }
-*/ 
         
         if (isCountryUS) {
             if (isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {

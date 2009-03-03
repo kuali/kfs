@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
  */
 public class RequisitionAccountingLineAuthorizer extends PurapAccountingLineAuthorizer {
     private static final String INITIATOR_NODE = "Initiator";
+    private static final String CONTENT_REVIEW_NODE = "Organization";
 
     /**
      * Allow new lines to be rendered at Initiator node
@@ -31,7 +32,7 @@ public class RequisitionAccountingLineAuthorizer extends PurapAccountingLineAuth
      */
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, Map documentActions) {
-        if (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.INITIATOR_NODE)) return true;
+        if (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.INITIATOR_NODE) || accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.CONTENT_REVIEW_NODE)) return true;
         return super.renderNewLine(accountingDocument, accountingGroupProperty, documentActions);
     }
     

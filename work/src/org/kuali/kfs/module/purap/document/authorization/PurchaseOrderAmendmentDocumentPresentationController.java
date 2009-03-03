@@ -30,11 +30,6 @@ import org.kuali.rice.kns.document.Document;
 public class PurchaseOrderAmendmentDocumentPresentationController extends PurchaseOrderDocumentPresentationController {
     
     @Override
-    protected boolean canSave(Document document) {
-        return false;
-    }
-
-    @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;

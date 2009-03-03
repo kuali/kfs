@@ -165,7 +165,7 @@ public class PosterServiceImpl implements PosterService {
             else {
                 OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE);
             }
-            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_VALID_OUTPUT_FILE);
+            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE);
         }
         catch (FileNotFoundException e1) {
             e1.printStackTrace();

@@ -30,10 +30,8 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableProcessingReport;
 import org.kuali.kfs.module.cab.service.PurchasingAccountsPayableReportService;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
@@ -46,10 +44,11 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 
 /**
@@ -121,12 +120,37 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
             Collection purApDocs = purApReportService.findPurchasingAccountsPayableDocuments(purapDocumentLookupFields);
 
-            Map<String, String> purApDocNumberMap = buildDocumentNumberMap(purApDocs);
+            Map<String, Integer> purApDocNumberMap = buildDocumentNumberMap(purApDocs);
 
             updatePurApReportCollectionByPurApDocs(purApReportCollection, purApDocNumberMap);
         }
+        else {
+            addPurapDocumentIdentifier(purApReportCollection);
+        }
+
 
         return buildSearchResultList(purApReportCollection);
+    }
+
+    /**
+     * Get PurapDocumentIdentifier from PurchasingAccountsPayableDocument and add it to the search result.
+     * 
+     * @param purApReportCollection
+     */
+    private void addPurapDocumentIdentifier(Collection purApReportCollection) {
+        BusinessObjectService boService = this.getBusinessObjectService();
+        Map pKeys = new HashMap<String, Object>();
+
+        for (Iterator iterator = purApReportCollection.iterator(); iterator.hasNext();) {
+            PurchasingAccountsPayableProcessingReport report = (PurchasingAccountsPayableProcessingReport) iterator.next();
+            pKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, report.getDocumentNumber());
+            PurchasingAccountsPayableDocument purApDocument = (PurchasingAccountsPayableDocument) boService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, pKeys);
+            if (ObjectUtils.isNotNull(purApDocument)) {
+                report.setPurapDocumentIdentifier(purApDocument.getPurapDocumentIdentifier());
+            }
+            pKeys.clear();
+        }
+
     }
 
     /**
@@ -151,11 +175,11 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @param purApDocs
      * @return
      */
-    private Map<String, String> buildDocumentNumberMap(Collection purApDocs) {
-        Map<String, String> purApDocNumbers = new HashMap<String, String>();
+    private Map<String, Integer> buildDocumentNumberMap(Collection purApDocs) {
+        Map<String, Integer> purApDocNumbers = new HashMap<String, Integer>();
         for (Iterator iterator = purApDocs.iterator(); iterator.hasNext();) {
             PurchasingAccountsPayableDocument purApdoc = (PurchasingAccountsPayableDocument) iterator.next();
-            purApDocNumbers.put(purApdoc.getDocumentNumber(), "");
+            purApDocNumbers.put(purApdoc.getDocumentNumber(), purApdoc.getPurapDocumentIdentifier());
         }
         return purApDocNumbers;
     }
@@ -181,13 +205,16 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @param purApReportCollection
      * @param purApDocNumbers
      */
-    private void updatePurApReportCollectionByPurApDocs(Collection<PurchasingAccountsPayableProcessingReport> purApReportCollection, Map purApDocNumberMap) {
+    private void updatePurApReportCollectionByPurApDocs(Collection<PurchasingAccountsPayableProcessingReport> purApReportCollection, Map<String, Integer> purApDocNumberMap) {
         Collection removedReports = new ArrayList<PurchasingAccountsPayableProcessingReport>();
 
         for (Iterator iterator = purApReportCollection.iterator(); iterator.hasNext();) {
             PurchasingAccountsPayableProcessingReport report = (PurchasingAccountsPayableProcessingReport) iterator.next();
             if (!purApDocNumberMap.containsKey(report.getDocumentNumber())) {
                 removedReports.add(report);
+            }
+            else {
+                report.setPurapDocumentIdentifier((Integer) purApDocNumberMap.get(report.getDocumentNumber()));
             }
 
         }
@@ -341,5 +368,9 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      */
     public void setPurApReportService(PurchasingAccountsPayableReportService purApReportService) {
         this.purApReportService = purApReportService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
     }
 }

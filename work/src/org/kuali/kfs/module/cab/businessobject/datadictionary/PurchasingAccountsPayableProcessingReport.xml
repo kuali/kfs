@@ -243,6 +243,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentTypeCode" />
         <bean parent="FieldDefinition"
+              p:attributeName="purapDocumentIdentifier" /> 
+        <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="reportAmount" />

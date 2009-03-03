@@ -202,7 +202,7 @@
   </bean>
   
   <bean id="DocumentValuePathGroup-EffortCertificationDocument-Account-detailLines" parent="DocumentValuePathGroup-EffortCertificationDocument-Account-detailLines-parentBean"/>  
-  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Account-detailLines-parentBean" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup" abstract="true">
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Account-detailLines-parentBean" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount" abstract="true">
     	<property name="documentCollectionPath">
     		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
     			<property name="collectionPath" value="effortCertificationDetailLines"/>

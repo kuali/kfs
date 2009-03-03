@@ -47,7 +47,6 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
      * Constructs an AssetLocationGlobalRule
      */
     public AssetLocationGlobalRule() {
-        // LOG.info("AssetLocationGlobalRule constructor");
     }
 
     /**

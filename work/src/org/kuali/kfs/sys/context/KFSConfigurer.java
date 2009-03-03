@@ -18,13 +18,14 @@ package org.kuali.kfs.sys.context;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.kuali.rice.core.config.BaseModuleConfigurer;
+import org.kuali.rice.core.config.ModuleConfigurer;
 import org.kuali.rice.core.lifecycle.Lifecycle;
 
-public class KFSConfigurer extends BaseModuleConfigurer {
+public class KFSConfigurer extends ModuleConfigurer {
 
     public KFSConfigurer() {
-        super( "KFS" );
+        super();
+        setModuleName( "KFS" );
         VALID_RUN_MODES.remove( EMBEDDED_RUN_MODE );
         VALID_RUN_MODES.remove( REMOTE_RUN_MODE );
     }

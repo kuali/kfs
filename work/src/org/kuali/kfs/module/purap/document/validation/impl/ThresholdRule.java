@@ -271,6 +271,8 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         
         if (StringUtils.isNotBlank(newThreshold.getAccountTypeCode())){
             fieldValues.put(ThresholdField.ACCOUNT_TYPE_CODE.getName(), newThreshold.getAccountTypeCode());
+        }else if (StringUtils.isNotBlank(newThreshold.getSubFundGroupCode())){
+                fieldValues.put(ThresholdField.SUBFUND_GROUP_CODE.getName(), newThreshold.getSubFundGroupCode());    
         }else if (StringUtils.isNotBlank(newThreshold.getPurchasingCommodityCode())){
             fieldValues.put(ThresholdField.COMMODITY_CODE.getName(), newThreshold.getPurchasingCommodityCode());
         }else if (StringUtils.isNotBlank(newThreshold.getFinancialObjectCode())){

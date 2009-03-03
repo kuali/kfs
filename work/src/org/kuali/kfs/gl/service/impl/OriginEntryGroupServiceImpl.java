@@ -265,14 +265,14 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
             }
         }
         
-        String backupFileName = GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;    
-        File backupFile = new File(batchFileDirectoryName + File.separator + backupFileName);
+        String backupFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;    
+        //File backupFile = new File(batchFileDirectoryName + File.separator + backupFileName);
          
         PrintStream backupPs = null;
         try {
-            backupPs = new PrintStream(backupFile);
+            backupPs = new PrintStream(backupFileName);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("backupFile doesn't exist " + backupFile);
+            throw new RuntimeException("backupFile doesn't exist " + backupFileName);
         }
         
         //get all done files from originEntry Directory 

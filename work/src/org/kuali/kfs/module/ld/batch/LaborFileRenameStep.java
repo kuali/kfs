@@ -37,6 +37,7 @@ public class LaborFileRenameStep extends AbstractStep {
         stopWatch.start(jobName);
         String filePath = batchFileDirectoryName + File.separator;
         List<String> fileNameList = new ArrayList();
+        fileNameList.add(LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.BACKUP_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE);
@@ -61,7 +62,7 @@ public class LaborFileRenameStep extends AbstractStep {
         
         for (String fileName : fileNameList){
             
-            File file = new File(filePath + fileName);
+            File file = new File(filePath + fileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
             if (file.exists()) {
                 String changedFileName = filePath + fileName + "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec;
                 file.renameTo(new File(changedFileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION));

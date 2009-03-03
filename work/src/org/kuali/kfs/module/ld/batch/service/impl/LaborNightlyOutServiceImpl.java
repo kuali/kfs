@@ -114,6 +114,17 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         
         outputFilePs.close();
         
+        //create done file    
+        String doneFileName = outputFile.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+        File doneFile = new File (doneFileName);
+        if (!doneFile.exists()){
+            try {
+                doneFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
+        }
+        
         //TODO: Shawn - need to change to use file
         //laborReportService.generateInputSummaryReport(group, ReportRegistry.LABOR_PENDING_ENTRY_SUMMARY, reportDirectory, runDate);
     }
@@ -138,7 +149,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         Date runDate = dateTimeService.getCurrentSqlDate();
         String reportDirectory = ReportRegistry.getReportsDirectory();
 
-        String outputFile = batchGlFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE;
+        String outputFile = batchGlFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         PrintStream outputFilePs;
         
         try {
@@ -162,6 +173,20 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             }
             //boolean isSaved = saveAsGLOriginEntry(entry, group);
         }
+        
+        outputFilePs.close();
+        
+        //create done file    
+        String doneFileName = outputFile.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+        File doneFile = new File (doneFileName);
+        if (!doneFile.exists()){
+            try {
+                doneFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
+        }
+        
         //TODO: Shawn - commented out for report
         //laborReportService.generateGLSummaryReport(group, ReportRegistry.LABOR_GL_SUMMARY, reportDirectory, runDate);
     }

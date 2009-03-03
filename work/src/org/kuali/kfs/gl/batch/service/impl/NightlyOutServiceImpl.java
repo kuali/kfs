@@ -119,6 +119,17 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         
         outputFilePs.close();
         
+        //create done file    
+        String doneFileName = outputFile.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+        File doneFile = new File (doneFileName);
+        if (!doneFile.exists()){
+            try {
+                doneFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
+        }
+        
         // Print reports
         // shawn - we need to change this to make it use file system?
         reportService.generatePendingEntryReport(today, group);

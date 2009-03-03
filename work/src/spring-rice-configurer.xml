@@ -26,28 +26,6 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"
 >
-
-  <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
-
-  <bean id="securityProperties"
-    class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean">
-    <property name="secureMode" value="true" />
-  </bean>
-
-  <bean id="propertyPlaceholderConfigurer"
-    class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
-    <property name="ignoreUnresolvablePlaceholders" value="true"></property>
-    <property name="propertiesArray">
-      <list>
-        <ref bean="properties" />
-        <ref bean="securityProperties" />
-      </list>
-    </property>
-  </bean>
-
-  <import resource="spring-jta.xml" />
-  <import resource="spring-datasources.xml" />
-
   <bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
     <property name="dataSource" ref="dataSource" />
     <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
@@ -57,31 +35,33 @@
     <property name="environment" value="${build.environment}" />
     <property name="properties" ref="properties" />
     <property name="ksbConfigurer">
-      <bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-        <property name="messageDataSource" ref="dataSource" />
-        <property name="registryDataSource" ref="registryDataSource" />
-        <property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
-        <property name="serviceServletUrl" value="${workflow.url}/remote" />
+      <bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"
+          p:serviceServletUrl="${workflow.url}/remote"
+              p:runMode="${ksb.mode}"
+              p:webModuleConfigurationFiles="${rice.ksb.struts.config.files}"
+              p:messageDataSource-ref="dataSource"
+              p:registryDataSource-ref="registryDataSource"
+              p:nonTransactionalMessageDataSource-ref="nonTransactionalDataSource" />
         <!-- 
         <property name="exceptionMessagingScheduler" ref="scheduler" />
          -->
-      </bean>
     </property>
     <property name="kewConfigurer">
-      <bean class="org.kuali.rice.kew.config.KEWConfigurer">
-        <property name="clientProtocol" value="local" />
-        <property name="dataSource" ref="kewDataSource" />
-      </bean>
+      <bean class="org.kuali.rice.kew.config.KEWConfigurer"
+                p:runMode="${kew.mode}" 
+                p:webModuleConfigurationFiles="${rice.kew.struts.config.files}" 
+                p:dataSource-ref="kewDataSource" />
     </property>
     <property name="knsConfigurer">
-      <bean class="org.kuali.rice.kns.config.KNSConfigurer">
-        <property name="loadDataDictionary" value="true" />
-        <property name="validateDataDictionary" value="false" />
-      </bean>
+          <bean class="org.kuali.rice.kns.config.KNSConfigurer"
+                  p:loadDataDictionary="true"
+                  p:validateDataDictionary="true" 
+                  p:webModuleConfigurationFiles="${rice.kns.struts.config.files}"/>
     </property>
     <property name="kimConfigurer">
       <bean class="org.kuali.rice.kim.config.KIMConfigurer"
-        p:runMode="${kim.mode}" />
+                  p:runMode="${kim.mode}"
+                  p:webModuleConfigurationFiles="${rice.kim.struts.config.files}" />
     </property>
     <property name="modules">
       <list>
@@ -94,7 +74,7 @@
     </property>
     <property name="additionalSpringFiles">
       <list>
-        <value>spring-kfs-rice-overrides.xml</value>
+        <value>${kfs.rice.override.spring.files}</value>
       </list>
     </property>
   </bean>

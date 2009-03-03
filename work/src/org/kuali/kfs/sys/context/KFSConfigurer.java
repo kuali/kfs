@@ -25,6 +25,8 @@ public class KFSConfigurer extends BaseModuleConfigurer {
 
     public KFSConfigurer() {
         super( "KFS" );
+        VALID_RUN_MODES.remove( EMBEDDED_RUN_MODE );
+        VALID_RUN_MODES.remove( REMOTE_RUN_MODE );
     }
     
     /**

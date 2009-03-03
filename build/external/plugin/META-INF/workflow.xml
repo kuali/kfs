@@ -1,3 +1,0 @@
-<plugin>
-    <resourceLoader class="org.kuali.kfs.sys.context.KFSPluginResourceLoader"/>
-</plugin>

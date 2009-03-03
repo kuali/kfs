@@ -361,20 +361,6 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
-	<target name="dist-plugin" depends="make-source" description="Generates a plugin for standalone KEW">
-		<copy todir="${plugin.classes.directory}">
-			<fileset dir="${war.classes.directory}"/>
-		</copy>
-		<copy todir="${plugin.lib.directory}">
-			<fileset dir="${lib.directory}" excludes="${plugin.lib.excludes}" />
-		</copy>
-		<copy todir="${plugin.directory}">
-			<fileset dir="${build.plugin.directory}"/>
-		</copy>
-		<zip basedir="${plugin.directory}" destfile="en-plugins.zip"/>
-		<delete dir="${all.temp.directory}" failonerror="false" />
-	</target>
-
 	<target name="continuous-integration" depends="clean,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
@@ -426,8 +412,7 @@
 			--- TARGETS ---
 
 			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
-			- this target should be run each time you update the project, change property values in ${user.home}/${ant.project.name}-build.properties,
-			or make a change that you want to apply to the application workflow plugin
+			- this target should be run each time you update the project or change property values in ${user.home}/${ant.project.name}-build.properties
 			- tomcat should not be running when you are executing this target
 
 			test-local: runs all project tests and generates results

@@ -197,7 +197,7 @@
 
 	<servlet>
 		<servlet-name>action</servlet-name>
-		<servlet-class>org.kuali.kfs.sys.web.struts.FinancialsActionServlet</servlet-class>
+		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
 		<init-param>
 			<param-name>convertNull</param-name>
 			<param-value>true</param-value>
@@ -206,26 +206,6 @@
 			<param-name>config</param-name>
 			<param-value>${struts.config.files}</param-value>
 		</init-param>
-		<init-param>
-			<param-name>config/kr</param-name>
-			<param-value>${rice.struts.config.files}</param-value>
-		</init-param>
-		<init-param>
-			<param-name>config/en</param-name>
-			<param-value>${rice.workflow.struts.config.files}</param-value>
-		</init-param>
-		<init-param>
-			<param-name>config/kew</param-name>
-			<param-value>${rice.kew.struts.config.files}</param-value>
-		</init-param>
-        <init-param>
-            <param-name>config/ksb</param-name>
-            <param-value>${rice.ksb.struts.config.files}</param-value>
-        </init-param>
-        <init-param>
-            <param-name>config/kim</param-name>
-            <param-value>${rice.kim.struts.config.files}</param-value>
-        </init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>

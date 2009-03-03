@@ -42,11 +42,9 @@ import uk.ltd.getahead.dwr.create.SpringCreator;
 public class SpringContext {
     protected static final Logger LOG = Logger.getLogger(SpringContext.class);
     protected static final String APPLICATION_CONTEXT_DEFINITION = "spring-rice-startup.xml";
-    protected static final String BATCH_CONTEXT_DEFINITION = "spring-rice-startup-batch.xml";
     protected static final String TEST_CONTEXT_DEFINITION = "spring-rice-startup-test.xml";
-    protected static final String STANDALONE_RICE_DATASOURCE_CONTEXT_DEFINITION = "spring-rice-startup-standalone-rice.xml";
-    protected static final String PLUGIN_CONTEXT_DEFINITION = "spring-rice-startup-standalone-rice.xml";
     protected static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
+    protected static final String USE_QUARTZ_SCHEDULING_KEY = "use.quartz.scheduling";
     protected static ConfigurableApplicationContext applicationContext;
     protected static Set<Class<? extends Object>> SINGLETON_TYPES = new HashSet<Class<? extends Object>>();
     protected static Set<String> SINGLETON_NAMES = new HashSet<String>();
@@ -209,15 +207,11 @@ public class SpringContext {
     }
 
     protected static void initializeBatchApplicationContext() {
-        initializeApplicationContext(BATCH_CONTEXT_DEFINITION, true);
+        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
     }
 
     protected static void initializeTestApplicationContext() {
         initializeApplicationContext(TEST_CONTEXT_DEFINITION, false);
-    }
-
-    protected static void initializePluginApplicationContext() {
-        initializeApplicationContext(PLUGIN_CONTEXT_DEFINITION, false);
     }
 
     protected static void close() {
@@ -265,7 +259,7 @@ public class SpringContext {
                 }
             });
         }
-        if (getBean(KualiConfigurationService.class).getPropertyAsBoolean("use.quartz.scheduling")) {
+        if (getBean(KualiConfigurationService.class).getPropertyAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
             try {
                 if (initializeSchedule) {
                     LOG.info("Attempting to initialize the scheduler");

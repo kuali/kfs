@@ -42,8 +42,9 @@
 
 	<kul:panelFooter />
 
-    <%-- add another copy of the global errors since this screen can get long --%>
+    <%-- add another copy of the errors since this screen can get long --%>
     <kul:errors keyMatch="${Constants.GLOBAL_ERRORS}" errorTitle=" " />
+    <kul:errors keyMatch="${BCConstants.ErrorKey.RETURNED_DETAIL_SALARY_SETTING_TAB_ERRORS}" errorTitle=" " />
     
     <div id="globalbuttons" class="globalbuttons">
         <c:if test="${not readOnly}">

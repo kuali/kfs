@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.authorization;
 import java.util.Map;
 
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Accounting line authorizer for Requisition document which allows adding accounting lines at specified nodes
@@ -32,7 +33,7 @@ public class RequisitionAccountingLineAuthorizer extends PurapAccountingLineAuth
      */
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, Map documentActions) {
-        if (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.INITIATOR_NODE) || accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.CONTENT_REVIEW_NODE)) return true;
+        if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.INITIATOR_NODE) || accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.CONTENT_REVIEW_NODE))) return true;
         return super.renderNewLine(accountingDocument, accountingGroupProperty, documentActions);
     }
     

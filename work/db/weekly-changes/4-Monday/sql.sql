@@ -37,3 +37,12 @@ UPDATE KRIM_ROLE_MBR_ATTR_DATA_T
     WHERE attr_val = 'RequisitionDocument'
       AND KIM_ATTR_DEFN_ID = (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T WHERE nm = 'documentTypeName')
 /
+update krns_parm_t t
+   set t.txt = 'ACLO;TF;YETF;AA;SACH'
+ where t.nmspc_cd = 'KFS-CAB'
+   and t.parm_dtl_typ_cd = 'Batch'
+   and t.parm_nm = 'DOCUMENT_TYPES'; 
+/
+delete from krns_parm_t
+where parm_nm in ('INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE','VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE')
+/

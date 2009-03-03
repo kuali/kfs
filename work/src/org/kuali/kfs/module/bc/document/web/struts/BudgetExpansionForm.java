@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -37,9 +38,9 @@ public class BudgetExpansionForm extends KualiForm {
     private Integer universityFiscalYear;
 
     // form messages
-    private List<String> messages;
+    private MessageList messages;
     
-    private List<String> callBackMessages = new ArrayList<String>();
+    private MessageList callBackMessages = new MessageList();
     private ErrorMap callBackErrors = new ErrorMap();
     
     private Map<String, String> editingMode;
@@ -50,7 +51,7 @@ public class BudgetExpansionForm extends KualiForm {
      */
     public BudgetExpansionForm() {
         super();
-        messages = new ArrayList<String>();
+        messages = new MessageList();
         editingMode = new HashMap<String, String>();
         documentActions = new HashMap<String, String>();
     }
@@ -132,7 +133,7 @@ public class BudgetExpansionForm extends KualiForm {
      * 
      * @return Returns the messages.
      */
-    public List<String> getMessages() {
+    public MessageList getMessages() {
         return messages;
     }
 
@@ -141,7 +142,7 @@ public class BudgetExpansionForm extends KualiForm {
      * 
      * @param messages The messages to set.
      */
-    public void setMessages(List<String> messages) {
+    public void setMessages(MessageList messages) {
         this.messages = messages;
     }
 
@@ -152,7 +153,7 @@ public class BudgetExpansionForm extends KualiForm {
      */
     public void addMessage(String message) {
         if (this.messages == null) {
-            messages = new ArrayList<String>();
+            messages = new MessageList();
         }
 
         this.messages.add(message);
@@ -162,7 +163,7 @@ public class BudgetExpansionForm extends KualiForm {
      * Gets the callBackMessages attribute. 
      * @return Returns the callBackMessages.
      */
-    public List<String> getCallBackMessages() {
+    public MessageList getCallBackMessages() {
         return callBackMessages;
     }
 

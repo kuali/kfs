@@ -1128,7 +1128,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
         m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
         m.put("paymentSequenceNumber", this.paymentSequenceNumber.toString());
         m.put("objectId", this.getObjectId());
-        m.put("versionNumber" ,this.getVersionNumber().toString() );
+        m.put("versionNumber" ,(this.getVersionNumber() == null ? "" : this.getVersionNumber().toString()) );
         m.put("chartOfAccountsCode" , this.getChartOfAccountsCode());
         m.put("accountNumber",getAccountNumber());
         m.put("subAccountNumber",getSubAccountNumber());

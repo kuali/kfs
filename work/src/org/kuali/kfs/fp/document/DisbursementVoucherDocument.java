@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.fp.FpConstants;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
@@ -1560,7 +1561,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return true if the campus is taxed for moving reimbursements, false otherwise
      */
     protected boolean taxedCampusForMovingReimbursements() {
-        return this.getCampusCode().equals("BL") || this.getCampusCode().equals("SB") || this.getCampusCode().equals("NW") || this.getCampusCode().equals("KO") || this.getCampusCode().equals("SE") || this.getCampusCode().equals("EA") || this.getCampusCode().equals("IN");
+        return this.getCampusCode().equals(FpConstants.CAMPUS_CODE_BL) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_SB) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_NW) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_KO) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_SE) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_EA) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_IN);
     }
     
     /**

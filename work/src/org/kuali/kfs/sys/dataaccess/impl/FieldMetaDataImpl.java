@@ -106,6 +106,7 @@ public class FieldMetaDataImpl implements DatabaseMetaDataCallback, FieldMetaDat
             decimalPlaces = resultSet.getInt("DECIMAL_DIGITS");
             encrypted = classDescriptor.getFieldDescriptorByName(workingPropertyName).getFieldConversion() instanceof OjbKualiEncryptDecryptFieldConversion;
         }
+        resultSet.close();
         return this;
     }
     

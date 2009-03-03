@@ -306,8 +306,7 @@
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-AccountGlobalDetails"/>
-    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-SubObjCdGlobalDetails"/>
+    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-Chart"/>
     		</list>
     	</property>
     </bean>

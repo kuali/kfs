@@ -35,7 +35,6 @@ import org.springframework.web.util.HtmlUtils;
  * Renderer which displays a read only field
  */
 public class ReadOnlyRenderer extends FieldRendererBase {
-    private HiddenTag persistingTag = new HiddenTag();
     private boolean shouldRenderInquiry = true;
     
     private final static String APPLICATION_URL_PROPERTY = "application.url";
@@ -78,10 +77,6 @@ public class ReadOnlyRenderer extends FieldRendererBase {
     @Override
     public void clear() {
         super.clear();
-        persistingTag.setPageContext(null);
-        persistingTag.setParent(null);
-        persistingTag.setProperty(null);
-        persistingTag.setValue(null);
     }
 
     /**
@@ -180,11 +175,6 @@ public class ReadOnlyRenderer extends FieldRendererBase {
         String value = getField().getPropertyValue();
         if (getField().getFieldType().equals(Field.DROPDOWN) && !StringUtils.isEmpty(value)) {
             value = getValueForDropDown();
-        }
-        else if (getField().isSecure()) {
-            // TODO um...what if you're in the workgroup that gets to see this field?
-            // well, james, it's a KIM perm anyway
-            value = getField().getDisplayMaskValue();
         }
         
         return value;

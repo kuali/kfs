@@ -48,6 +48,7 @@ import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -175,6 +176,9 @@ public class CertificationReportAction extends EffortCertificationAction {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
         
         // retain error messages after a lookup
+        if(GlobalVariables.getErrorMap() == null) {
+            GlobalVariables.setErrorMap(new ErrorMap());
+        }
         WebUtils.reuseErrorMapFromPreviousRequest(certificationReportForm);
         
         for (EffortCertificationDetail detailLine : certificationReportForm.getDetailLines()) {

@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.document;
 
 import java.security.GeneralSecurityException;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
     protected void setStartDateDefault() {
         if (this.businessObject != null && this.businessObject instanceof AccountDelegate) {
             AccountDelegate delegate = (AccountDelegate) this.businessObject;
-            delegate.setAccountDelegateStartDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+            delegate.setAccountDelegateStartDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
         }
     }
 

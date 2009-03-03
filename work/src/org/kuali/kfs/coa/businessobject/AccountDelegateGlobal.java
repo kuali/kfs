@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -211,7 +211,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
 
                 // START DATE
                 if (changeDocument.getAccountDelegateStartDate() != null) {
-                    delegate.setAccountDelegateStartDate(new Timestamp(changeDocument.getAccountDelegateStartDate().getTime()));
+                    delegate.setAccountDelegateStartDate(new Date(changeDocument.getAccountDelegateStartDate().getTime()));
                 }
 
                 persistables.add(delegate);

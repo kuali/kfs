@@ -239,7 +239,7 @@
      <field-descriptor name="description" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR"/>
      <field-descriptor name="amount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
      <field-descriptor name="debitCrdtCd" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR"/>
-     <field-descriptor name="transactionDt" column="TRANSACTION_DT" jdbc-type="TIMESTAMP"/>
+     <field-descriptor name="transactionDt" column="TRANSACTION_DT" jdbc-type="DATE"/>
      <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="orgDocNbr" column="ORG_DOC_NBR" jdbc-type="VARCHAR"/>
      <field-descriptor name="projectCd" column="PROJECT_CD" jdbc-type="VARCHAR"/>
@@ -247,7 +247,7 @@
      <field-descriptor name="fdocRefTypCd" column="FDOC_REF_TYP_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="fsRefOriginCd" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="fdocRefNbr" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
-     <field-descriptor name="fdocReversalDt" column="FDOC_REVERSAL_DT" jdbc-type="TIMESTAMP"/>
+     <field-descriptor name="fdocReversalDt" column="FDOC_REVERSAL_DT" jdbc-type="DATE"/>
      <field-descriptor name="trnEncumUpdtCd" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="fdocApprovedCd" column="FDOC_APPROVED_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="acctSfFinObjCd" column="ACCT_SF_FINOBJ_CD" jdbc-type="VARCHAR"/>

@@ -54,7 +54,7 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
     private String description; // TRN_LDGR_ENTR_DESC VARCHAR2 40
     private KualiDecimal amount; // TRN_LDGR_ENTR_AMT NUMBER 19 2
     private String debitCrdtCd; // TRN_DEBIT_CRDT_CD VARCHAR2 1
-    private Timestamp transactionDt; // TRANSACTION_DT DATE 7
+    private Date transactionDt; // TRANSACTION_DT DATE 7
     private String financialDocumentTypeCode; // FDOC_TYP_CD VARCHAR2 4
     private String orgDocNbr; // ORG_DOC_NBR VARCHAR2 10
     private String projectCd; // PROJECT_CD VARCHAR2 10
@@ -62,7 +62,7 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
     private String fdocRefTypCd; // FDOC_REF_TYP_CD VARCHAR2 4
     private String fsRefOriginCd; // FS_REF_ORIGIN_CD VARCHAR2 2
     private String fdocRefNbr; // FDOC_REF_NBR VARCHAR2 9
-    private Timestamp fdocReversalDt; // FDOC_REVERSAL_DT DATE 7
+    private Date fdocReversalDt; // FDOC_REVERSAL_DT DATE 7
     private String trnEncumUpdtCd; // TRN_ENCUM_UPDT_CD VARCHAR2 1
     private String fdocApprovedCd; // FDOC_APPROVED_CD VARCHAR2 1
     private String acctSfFinObjCd; // ACCT_SF_FINOBJ_CD VARCHAR2 4
@@ -185,11 +185,11 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
         this.fdocRefTypCd = fdocRefTypCd;
     }
 
-    public Timestamp getFdocReversalDt() {
+    public Date getFdocReversalDt() {
         return fdocReversalDt;
     }
 
-    public void setFdocReversalDt(Timestamp fdocReversalDt) {
+    public void setFdocReversalDt(Date fdocReversalDt) {
         this.fdocReversalDt = fdocReversalDt;
     }
 
@@ -323,11 +323,11 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
         this.subAccountNumber = subAccountNbr;
     }
 
-    public Timestamp getTransactionDt() {
+    public Date getTransactionDt() {
         return transactionDt;
     }
 
-    public void setTransactionDt(Timestamp transactionDt) {
+    public void setTransactionDt(Date transactionDt) {
         this.transactionDt = transactionDt;
     }
 

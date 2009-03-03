@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
@@ -48,7 +49,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
     private KualiDecimal finDocApprovalFromThisAmt;
     private boolean accountsDelegatePrmrtIndicator;
     private boolean accountDelegateActiveIndicator;
-    private Timestamp accountDelegateStartDate;
+    private Date accountDelegateStartDate;
     private KualiDecimal finDocApprovalToThisAmount;
 
     private Chart chart;
@@ -189,7 +190,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
      * 
      * @return Returns the accountDelegateStartDate
      */
-    public Timestamp getAccountDelegateStartDate() {
+    public Date getAccountDelegateStartDate() {
         return accountDelegateStartDate;
     }
 
@@ -198,7 +199,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
      * 
      * @param accountDelegateStartDate The accountDelegateStartDate to set.
      */
-    public void setAccountDelegateStartDate(Timestamp accountDelegateStartDate) {
+    public void setAccountDelegateStartDate(Date accountDelegateStartDate) {
         this.accountDelegateStartDate = accountDelegateStartDate;
     }
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptFamilyBase.class);
     private String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this
-    private Timestamp depositDate;
+    private Date depositDate;
 
     /**
      * Constructs a CashReceiptFamilyBase
@@ -80,7 +80,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      * 
      * @return Returns the depositDate.
      */
-    public Timestamp getDepositDate() {
+    public Date getDepositDate() {
         return depositDate;
     }
 
@@ -89,7 +89,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      * 
      * @param depositDate The depositDate to set.
      */
-    public void setDepositDate(Timestamp depositDate) {
+    public void setDepositDate(Date depositDate) {
         this.depositDate = depositDate;
     }
 

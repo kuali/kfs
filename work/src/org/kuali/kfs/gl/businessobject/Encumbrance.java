@@ -16,7 +16,7 @@
 package org.kuali.kfs.gl.businessobject;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;

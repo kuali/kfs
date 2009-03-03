@@ -19,13 +19,9 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapCont
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Calendar;
 
-import org.apache.commons.lang.time.DateUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -114,7 +110,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
         delegate.setAccountDelegateSystemId(USERID_GOOD_1);
 
-        Timestamp today = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+        Date today = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         delegate.setAccountDelegateStartDate(today);
 
         delegate.refresh();
@@ -269,17 +265,6 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private Timestamp newTimestamp(int year, int month, int day) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(year, month, day);
-        calendar = DateUtils.truncate(calendar, Calendar.DAY_OF_MONTH);
-
-        return new Timestamp(calendar.getTimeInMillis());
-    }
-
-
     /**
      * This method tests a Delegate that we have setup with all known good values for the required fields, and nothing or the
      * default for the other fields. This test should always pass, if it does not, then none of the following tests are meaningful,
@@ -330,7 +315,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         DelegateRule rule = new DelegateRule();
         Calendar cal = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         cal.add(Calendar.DATE, 1);
-        Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+        Date ts = new Date(cal.getTimeInMillis());
 
         newDelegate = goodDelegate2();
         newDelegate.setAccountDelegateStartDate(ts);
@@ -356,7 +341,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         DelegateRule rule = new DelegateRule();
         Calendar cal = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         cal.add(Calendar.DATE, -1);
-        Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+        Date ts = new Date(cal.getTimeInMillis());
 
         newDelegate = goodDelegate2();
         newDelegate.setAccountDelegateStartDate(ts);

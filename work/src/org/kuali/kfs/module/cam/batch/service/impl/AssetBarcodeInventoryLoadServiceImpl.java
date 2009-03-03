@@ -114,6 +114,16 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     }
 
     /**
+     * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#conditionllyAddInitiatorAdhocRecipient(org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument)
+     */
+    public void addInitiatorAdhocRecipient(BarcodeInventoryErrorDocument barcodeErrorDocument) {
+        Person initiator = SpringContext.getBean(PersonService.class).getPerson(barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        // add the initiator as adhoc for final processing if error still exist and no adhoc recipients.
+        AdHocRoutePerson adHocRoutePerson = buildAdhocApproveRecipient(barcodeErrorDocument, initiator.getPrincipalName());
+        barcodeErrorDocument.getAdHocRoutePersons().add(adHocRoutePerson);
+    }
+
+    /**
      * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#isCurrentUserInitiator(org.kuali.rice.kns.document.Document)
      */
     public boolean isCurrentUserInitiator(Document document) {
@@ -567,9 +577,10 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
             // Saving....
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-            List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
-            adHocRouteRecipients.add(buildApprovePersonRecipient(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
-            documentService.routeDocument(document,"Routed Update Barcode Inventory Document", adHocRouteRecipients);
+            // TODO using parallel adhoc routing instead
+            // List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
+            // adHocRouteRecipients.add(buildApprovePersonRecipient(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
+            // documentService.routeDocument(document,"Routed Update Barcode Inventory Document", adHocRouteRecipients);
         }
         catch (Exception e) {
             LOG.error("Error persisting document # " + document.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
@@ -578,8 +589,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     }
 
     /**
-     * 
      * This method builds a recipient for Approval.
+     * 
      * @param userId
      * @return
      */
@@ -589,6 +600,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         adHocRouteRecipient.setId(userId);
         return adHocRouteRecipient;
     }
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

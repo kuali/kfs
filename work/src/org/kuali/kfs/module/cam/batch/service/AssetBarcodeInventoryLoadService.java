@@ -27,6 +27,7 @@ import org.kuali.rice.kns.document.Document;
  * methods to load batch files for the procurement card batch job.
  */
 public interface AssetBarcodeInventoryLoadService {
+    void addInitiatorAdhocRecipient(BarcodeInventoryErrorDocument barcodeErrorDocument);
     /**
      * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.
      * 

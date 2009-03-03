@@ -561,7 +561,7 @@ public class PurApLineAction extends CabActionBase {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
         }
         // For line item, we need to check...
-        if (!allocateSourceLine.isAdditionalChargeNonTradeInIndicator() & !allocateSourceLine.isTradeInAllowance()) {
+        if (!allocateSourceLine.isAdditionalChargeNonTradeInIndicator() && !allocateSourceLine.isTradeInAllowance()) {
             allocateTargetLines.add(allocateSourceLine);
             // Pending additional charges(non trade-in) can't associate with either source line or target lines.
             if (purApLineService.isAdditionalChargePending(allocateTargetLines)) {

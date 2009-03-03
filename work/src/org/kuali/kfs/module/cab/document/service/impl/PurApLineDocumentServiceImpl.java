@@ -48,6 +48,8 @@ import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -476,7 +478,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         for (PurchasingAccountsPayableLineAssetAccount selectedAccount : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
             GeneralLedgerEntry glEntry = selectedAccount.getGeneralLedgerEntry();
             KualiDecimal relatedAccountAmount = KualiDecimal.ZERO;
-            
+
             // get persistent account list which should be save before hand
             glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
             // check if all accounts are inactive status
@@ -516,6 +518,11 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         assetGlobal.setConditionCode(CamsConstants.Asset.CONDITION_CODE_E);
         assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE);
         assetGlobal.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE);
+        // set vendor name from Purchase Order Document
+        PurchaseOrderDocument purApdocument = (PurchaseOrderDocument) this.getPurchaseOrderService().getCurrentPurchaseOrder(selectedItem.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier());
+        if (purApdocument != null) {
+            assetGlobal.setVendorName(purApdocument.getVendorName());
+        }
         // set origin code in the Asset Payment Document
         assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
 
@@ -694,5 +701,12 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         this.purApLineService = purApLineService;
     }
 
-
+    /**
+     * Gets the purchaseOrderService attribute.
+     * 
+     * @return Returns the purchaseOrderService.
+     */
+    public PurchaseOrderService getPurchaseOrderService() {
+        return SpringContext.getBean(PurchaseOrderService.class);
+    }
 }

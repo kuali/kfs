@@ -49,6 +49,14 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
 
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) ((KualiDocumentFormBase) form).getDocument();
+        barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_APPROVE_REQ, "AdHoc", "annotation1", barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), "respdesc", false);
+        //getAssetBarcodeInventoryLoadService().addInitiatorAdhocRecipient(barcodeErrorDocument);
+        return super.route(mapping, form, request, response);
+    }
+
     /**
      * Add initiator as adhoc recipient if error exists and current user is not initiator.
      * 
@@ -58,22 +66,9 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) ((KualiDocumentFormBase) form).getDocument();
-        getAssetBarcodeInventoryLoadService().conditionllyAddInitiatorAdhocRecipient(barcodeErrorDocument);
+        //getAssetBarcodeInventoryLoadService().conditionllyAddInitiatorAdhocRecipient(barcodeErrorDocument);
         return super.approve(mapping, form, request, response);
     }
-
-
-    /**
-     * Adds handling for cash control detail amount updates.
-     * 
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
-     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     * @Override public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-     *           HttpServletResponse response) throws Exception { BarcodeInventoryErrorForm apForm = (BarcodeInventoryErrorForm)
-     *           form; String command = ((BarcodeInventoryErrorForm) form).getCommand(); String docID = ((BarcodeInventoryErrorForm)
-     *           form).getDocId(); LOG.info("***BarcodeInventoryErrorAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " -
-     *           Command:" + command + " - DocId:" + docID); return super.execute(mapping, form, request, response); }
-     */
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,

@@ -15,8 +15,12 @@
  */
 package org.kuali.kfs.module.ld.document.authorization;
 
+import java.util.Set;
+
+import org.kuali.kfs.module.LaborAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Presentation Controller for the Effort Certification document. allowsErrorCorrection property has been set to false in
@@ -32,4 +36,24 @@ public class LaborExpensesDocumentPresentationController extends FinancialSystem
     public boolean canCopy(Document document) {
         return false;
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
+        
+        System.out.println("1====" + editModes);
+        
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if(workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            editModes.add(LaborAuthorizationConstants.ExpenseTransaferEditMode.LEDGER_BALANCE_IMPORTING);
+            System.out.println("2====" + editModes);
+        }
+        
+        return editModes;
+    }
+    
+    
 }

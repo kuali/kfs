@@ -20,15 +20,7 @@
 	value="${DataDictionary.LedgerBalanceForBenefitExpenseTransfer.attributes}" />
 
 <c:set var="readOnly"
-	value="${empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-	
-<c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
-	<c:set var="disabled" value="true"/>
-</c:if>	
-
-<c:if test="${fn:length(KualiForm.document.targetAccountingLines)>0 || readOnly}">
-	<c:set var="targetDisabled" value="true"/>
-</c:if>
+	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] || !KualiForm.editingMode['ledgerBalanceImporting']}" }" />	
 
 <c:set var="documentTypeName" value="BenefitExpenseTransferDocument"/>
 <c:set var="htmlFormAction" value="laborBenefitExpenseTransfer"/>
@@ -45,7 +37,6 @@
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-	<c:if test="${!readOnly}">
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
 		tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
 		<div class="tab-container" align=center>
@@ -78,7 +69,7 @@
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
 					property="chartOfAccountsCode" forceRequired="true" readOnly="${readOnly}" />
-					<c:if test="${!disabled}">
+					<c:if test="${!readOnly}">
 						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.Chart"
 						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" />
@@ -95,7 +86,7 @@
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.accountNumber}"
 					property="accountNumber" forceRequired="true" readOnly="${readOnly}" />
-					<c:if test="${!disabled}">
+					<c:if test="${!readOnly}">
 						 <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account"
 						lookupParameters="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.accountNumber.label}" />
@@ -111,7 +102,7 @@
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
 					property="subAccountNumber" forceRequired="true" readOnly="${readOnly}" /> 
-					<c:if test="${!disabled}">
+					<c:if test="${!readOnly}">
 						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
 						lookupParameters="accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.subAccountNumber.label}" />
@@ -136,7 +127,6 @@
 		</table>
 		</div>
 	</kul:tab>
-	</c:if>
 		
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true">
 

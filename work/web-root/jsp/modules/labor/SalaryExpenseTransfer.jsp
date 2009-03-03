@@ -20,7 +20,7 @@
 	value="${DataDictionary.LedgerBalanceForBenefitExpenseTransfer.attributes}" />
 	
 <c:set var="readOnly"
-	value="${empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] || !KualiForm.editingMode['ledgerBalanceImporting']}"/>
 
 <c:set var="documentTypeName" value="SalaryExpenseTransferDocument"/>
 <c:set var="htmlFormAction" value="laborSalaryExpenseTransfer"/>

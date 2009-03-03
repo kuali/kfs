@@ -1,3 +1,13 @@
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
     VALUES('611', sys_guid(), 1, '62', '95', 'Y')
 /
+
+INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD) 
+    VALUES('329', sys_guid(), 1, '29', null, null, 'Y', 'KFS-FP')
+/
+INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_KEY, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) 
+    VALUES('475', sys_guid(), 1, '329', '12', '2', 'org.kuali.kfs.fp.document.web.struts.CashManagementStatusAction')
+/
+INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
+    VALUES('612', sys_guid(), 1, '11', '329', 'Y')
+/

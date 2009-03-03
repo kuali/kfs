@@ -29,6 +29,7 @@ import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.B2BInformation;
 import org.kuali.kfs.module.purap.businessobject.B2BShoppingCartItem;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
+import org.kuali.kfs.module.purap.businessobject.DefaultPrincipalAddress;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.dataaccess.B2BDao;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -165,6 +166,24 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
+            req.setDeliveryToName(user.getName());
+            req.setDeliveryToEmailAddress(user.getEmailAddress());
+            req.setDeliveryToPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(user.getPhoneNumber()));
+            
+            DefaultPrincipalAddress defaultPrincipalAddress = new DefaultPrincipalAddress(user.getPrincipalId());
+            Map addressKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(defaultPrincipalAddress);
+            defaultPrincipalAddress = (DefaultPrincipalAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DefaultPrincipalAddress.class, addressKeys);
+            if (ObjectUtils.isNotNull(defaultPrincipalAddress) && ObjectUtils.isNotNull(defaultPrincipalAddress.getBuilding())) {
+                if (defaultPrincipalAddress.getBuilding().isActive()) {
+                    req.setDeliveryCampusCode(defaultPrincipalAddress.getCampusCode());
+                    req.templateBuildingToDeliveryAddress(defaultPrincipalAddress.getBuilding());
+                    req.setDeliveryBuildingRoomNumber(defaultPrincipalAddress.getBuildingRoomNumber());
+                }
+                else {
+                    //since building is now inactive, delete default building record
+                    SpringContext.getBean(BusinessObjectService.class).delete(defaultPrincipalAddress);
+                }
+            }
             
             ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(user, PurapConstants.PURAP_NAMESPACE);
             if (ObjectUtils.isNotNull(purapChartOrg)) {

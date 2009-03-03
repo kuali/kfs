@@ -24,7 +24,6 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PurchaseOrderEditMode;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -61,7 +60,18 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
 //  }
 //}
 
-    
+    @Override
+    protected boolean canEdit(Document document) {
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        if (!PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) &&
+                !PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()) &&
+                !PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getStatusCode()) &&
+                !PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
+            return false;
+        }
+        return super.canEdit(document);
+    }
+
     @Override
     protected boolean canCancel(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;

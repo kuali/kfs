@@ -17,32 +17,49 @@ package org.kuali.kfs.module.purap.batch;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
+import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
+import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class PurapMassRequisitionStep extends AbstractStep {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapMassRequisitionStep.class);
     
     private DocumentService documentService;
+    private RequisitionService requisitionService;
     private final int NUM_DOCS_TO_CREATE = 25; // number of each document type to create
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.info("Starting execution of PurapMassRequisitionStep");
+        if( documentService == null) {
+            documentService = SpringContext.getBean(DocumentService.class);
+        }
+        if( requisitionService == null) {
+            requisitionService = SpringContext.getBean(RequisitionService.class);
+        }
+        
         for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
                         
             try {
@@ -77,6 +94,42 @@ public class PurapMassRequisitionStep extends AbstractStep {
             }
             Thread.sleep(5000);
         }
+        
+        for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
+            
+            try {
+                LOG.info("Setting user session for routing of non-quantity document.");
+                GlobalVariables.setUserSession(new UserSession("khuntley"));
+                // create document
+                RequisitionDocument reqDoc = populateCapitalAsset_Individual_WithAddresses_Document();
+                Thread.sleep(10000);
+                LOG.info("Blanket approving non-quantity requisition document.");
+                // route it
+                documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
+            }
+            catch (WorkflowException e) {
+                e.printStackTrace();
+            }
+            Thread.sleep(5000);
+        }
+        
+        for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
+            
+            try {
+                LOG.info("Setting user session for routing of non-quantity document.");
+                GlobalVariables.setUserSession(new UserSession("khuntley"));
+                // create document
+                RequisitionDocument reqDoc = populateCapitalAsset_Individual_Unfilled_Document();
+                Thread.sleep(10000);
+                LOG.info("Blanket approving non-quantity requisition document.");
+                // route it
+                documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
+            }
+            catch (WorkflowException e) {
+                e.printStackTrace();
+            }
+            Thread.sleep(5000);
+        }       
 
         Thread.sleep(60000);
         return true;
@@ -243,6 +296,232 @@ public class PurapMassRequisitionStep extends AbstractStep {
         }
         return reqDoc;
     }
+    
+    public RequisitionDocument populateCapitalAsset_Individual_WithAddresses_Document() {
+        RequisitionDocument reqDoc = null;
+        try {            
+            reqDoc = (RequisitionDocument) documentService.getNewDocument(RequisitionDocument.class);
+            
+            // set doc attributes
+            reqDoc.getDocumentHeader().setExplanation("batch created quantity document for cams");
+            DocumentHeader documentHeader = reqDoc.getDocumentHeader();
+            documentHeader.setDocumentDescription("batch created quantity document for cams");
+            reqDoc.setFundingSourceCode("INST");
+            reqDoc.setRequisitionSourceCode(RequisitionSources.STANDARD_ORDER);
+            reqDoc.setPurchaseOrderTransmissionMethodCode(POTransmissionMethods.NOPRINT);
+            reqDoc.setPurchaseOrderCostSourceCode(POCostSources.ESTIMATE);
+            reqDoc.setChartOfAccountsCode("UA");
+            reqDoc.setOrganizationCode("VPIT");
+            reqDoc.setDeliveryCampusCode("KO");
+            reqDoc.setRequestorPersonName("WATSON,TERRENCE G");
+            reqDoc.setRequestorPersonEmailAddress("tw@kuali.org");
+            reqDoc.setRequestorPersonPhoneNumber("812-555-5555");
+            reqDoc.setDeliveryBuildingCode("ADMN");
+            reqDoc.setDeliveryBuildingName("Administration");
+            reqDoc.setDeliveryBuildingRoomNumber("100");
+            reqDoc.setDeliveryBuildingLine1Address("98 smart street");
+            reqDoc.setDeliveryCityName("brainy");
+            reqDoc.setDeliveryStateCode("CA");
+            reqDoc.setDeliveryPostalCode("46202");
+            reqDoc.setDeliveryToName("front desk");
+            reqDoc.setBillingName("THE UNIVERSITY");
+            reqDoc.setBillingLine1Address("ACCOUNTS PAYABLE");
+            reqDoc.setBillingCityName("BUTTER NUT");
+            reqDoc.setBillingStateCode("SC");
+            reqDoc.setBillingPostalCode("47402");
+            reqDoc.setBillingCountryCode("US");
+            reqDoc.setBillingPhoneNumber("111-111-1111");
+            reqDoc.setPurchaseOrderAutomaticIndicator(false);
+            reqDoc.setStatusCode(RequisitionStatuses.IN_PROCESS);
+            reqDoc.setVendorHeaderGeneratedIdentifier(1002);
+            reqDoc.setVendorDetailAssignedIdentifier(0);
+            reqDoc.setVendorName("MK CORPORATION ACTIVE");
+            reqDoc.setVendorLine1Address("3984 SOUTH ST");
+            reqDoc.setVendorCityName("SPRINGFIELD");
+            reqDoc.setVendorStateCode("IL");
+            reqDoc.setVendorPostalCode("33555");
+            reqDoc.setVendorCountryCode("US");
+            reqDoc.setUseTaxIndicator(false);
+            
+            // set item attributes
+            RequisitionItem item1 = new RequisitionItem();
+            item1.setItemLineNumber(new Integer(1));
+            item1.setItemUnitOfMeasureCode("EA");
+            item1.setItemCatalogNumber("P10M980");
+            item1.setItemDescription("Gas Chromatograph");
+            item1.setItemUnitPrice(new BigDecimal(5000));
+            item1.setItemTypeCode("ITEM");
+            item1.setItemQuantity(new KualiDecimal(2.00));
+            item1.setExtendedPrice(new KualiDecimal(10000));
+            item1.setItemAssignedToTradeInIndicator(false);
+            item1.refreshReferenceObject("itemType");
+            
+            // set accounting line attributes
+            RequisitionAccount account1 = new RequisitionAccount();
+            account1.setPostingYear(2004);
+            account1.setChartOfAccountsCode("BL");
+            account1.setAccountNumber("1023200");
+            account1.setFinancialObjectCode("7000");
+            account1.setDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            account1.setAmount(new KualiDecimal("10000"));
+            account1.setAccountLinePercent(new BigDecimal("100"));
+
+            item1.getSourceAccountingLines().add(account1);
+            reqDoc.getItems().add(item1);
+            reqDoc.fixItemReferences();
+            
+            reqDoc.setCapitalAssetSystemStateCode("NEW");
+            reqDoc.setCapitalAssetSystemTypeCode("IND");
+            
+            documentService.saveDocument(reqDoc);
+            List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems = new TypedArrayList(reqDoc.getPurchasingCapitalAssetItemClass());            
+            RequisitionCapitalAssetItem capitalAssetItem = (RequisitionCapitalAssetItem)requisitionService.createCamsItem(reqDoc, item1);
+            capitalAssetItem.setCapitalAssetTransactionTypeCode("NEW");            
+            
+            RequisitionCapitalAssetSystem system = (RequisitionCapitalAssetSystem)capitalAssetItem.getPurchasingCapitalAssetSystem();
+            system.setCapitalAssetNoteText("CA Notes go here");
+            system.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(false);
+            system.setCapitalAssetManufacturerName("MK CORPORATION ACTIVE");
+            system.setCapitalAssetTypeCode("07034");
+            system.setCapitalAssetModelDescription("XXYYZZ");
+            
+            List<CapitalAssetLocation> locations = new TypedArrayList(system.getCapitalAssetLocationClass());
+            
+            RequisitionCapitalAssetLocation loc1 = new RequisitionCapitalAssetLocation();
+            loc1.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
+            loc1.setItemQuantity(new KualiDecimal("1.00"));
+            loc1.setCampusCode("BL");
+            loc1.setBuildingCode("BL001");
+            loc1.setCapitalAssetLine1Address("211 S Indiana Ave");
+            loc1.setBuildingRoomNumber("001");
+            loc1.setCapitalAssetCityName("Bloomington");
+            loc1.setCapitalAssetStateCode("IN");
+            loc1.setCapitalAssetPostalCode("47405-7001");
+            loc1.setCapitalAssetCountryCode("US");
+            locations.add(loc1);
+            
+            RequisitionCapitalAssetLocation loc2 = new RequisitionCapitalAssetLocation();
+            loc2.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
+            loc2.setItemQuantity(new KualiDecimal("1.00"));
+            loc2.setCampusCode("BL");
+            loc2.setBuildingCode("BL001");
+            loc2.setCapitalAssetLine1Address("211 S Indiana Ave");
+            loc2.setBuildingRoomNumber("001A");
+            loc2.setCapitalAssetCityName("Bloomington");
+            loc2.setCapitalAssetStateCode("IN");
+            loc2.setCapitalAssetPostalCode("47405-7001");
+            loc2.setCapitalAssetCountryCode("US");
+            locations.add(loc2);           
+            
+            system.setCapitalAssetLocations(locations);
+                      
+            purchasingCapitalAssetItems.add(capitalAssetItem);
+            reqDoc.setPurchasingCapitalAssetItems(purchasingCapitalAssetItems);
+        }
+        catch (WorkflowException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        return reqDoc;       
+    }
+    
+    private RequisitionDocument populateCapitalAsset_Individual_Unfilled_Document() {
+        RequisitionDocument reqDoc = null;
+        try {
+            reqDoc = (RequisitionDocument)documentService.getNewDocument(RequisitionDocument.class);
+            
+            // set doc attributes
+            reqDoc.getDocumentHeader().setExplanation("batch created quantity document BAS");
+            DocumentHeader documentHeader = reqDoc.getDocumentHeader();
+            documentHeader.setDocumentDescription("batch created quantity document BAS");
+            reqDoc.setFundingSourceCode("INST");
+            reqDoc.setRequisitionSourceCode(RequisitionSources.STANDARD_ORDER);
+            reqDoc.setPurchaseOrderTransmissionMethodCode(POTransmissionMethods.NOPRINT);
+            reqDoc.setPurchaseOrderCostSourceCode(POCostSources.ESTIMATE);
+            reqDoc.setChartOfAccountsCode("UA");
+            reqDoc.setOrganizationCode("VPIT");
+            reqDoc.setDeliveryCampusCode("KO");
+            reqDoc.setRequestorPersonName("WATSON,TERRENCE G");
+            reqDoc.setRequestorPersonEmailAddress("tw@kuali.org");
+            reqDoc.setRequestorPersonPhoneNumber("812-555-5555");
+            reqDoc.setDeliveryBuildingCode("ADMN");
+            reqDoc.setDeliveryBuildingName("Administration");
+            reqDoc.setDeliveryBuildingRoomNumber("100");
+            reqDoc.setDeliveryBuildingLine1Address("98 smart street");
+            reqDoc.setDeliveryCityName("brainy");
+            reqDoc.setDeliveryStateCode("CA");
+            reqDoc.setDeliveryPostalCode("46202");
+            reqDoc.setDeliveryToName("front desk");
+            reqDoc.setBillingName("THE UNIVERSITY");
+            reqDoc.setBillingLine1Address("ACCOUNTS PAYABLE");
+            reqDoc.setBillingCityName("BUTTER NUT");
+            reqDoc.setBillingStateCode("SC");
+            reqDoc.setBillingPostalCode("47402");
+            reqDoc.setBillingCountryCode("US");
+            reqDoc.setBillingPhoneNumber("111-111-1111");
+            reqDoc.setPurchaseOrderAutomaticIndicator(false);
+            reqDoc.setStatusCode(RequisitionStatuses.IN_PROCESS);
+            reqDoc.setVendorHeaderGeneratedIdentifier(1002);
+            reqDoc.setVendorDetailAssignedIdentifier(0);
+            reqDoc.setVendorName("MK CORPORATION ACTIVE");
+            reqDoc.setVendorLine1Address("3984 SOUTH ST");
+            reqDoc.setVendorCityName("SPRINGFIELD");
+            reqDoc.setVendorStateCode("IL");
+            reqDoc.setVendorPostalCode("33555");
+            reqDoc.setVendorCountryCode("US");
+            reqDoc.setUseTaxIndicator(false);
+            
+            // set item attributes
+            RequisitionItem item1 = new RequisitionItem();
+            item1.setItemLineNumber(new Integer(1));
+            item1.setItemUnitOfMeasureCode("EA");
+            item1.setItemCatalogNumber("");
+            item1.setItemDescription("Gas Chromatograph");
+            item1.setItemUnitPrice(new BigDecimal(6000));
+            item1.setItemTypeCode("ITEM");
+            item1.setItemQuantity(new KualiDecimal(1.00));
+            item1.setExtendedPrice(new KualiDecimal(6000));
+            item1.setItemAssignedToTradeInIndicator(false);           
+            
+            // set accounting line attributes
+            RequisitionAccount account1 = new RequisitionAccount();
+            account1.setPostingYear(2004);
+            account1.setChartOfAccountsCode("BL");
+            account1.setAccountNumber("1023200");
+            account1.setFinancialObjectCode("7000");
+            account1.setDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            account1.setAmount(new KualiDecimal("10000"));
+            account1.setAccountLinePercent(new BigDecimal("100"));
+
+            item1.getSourceAccountingLines().add(account1);
+            reqDoc.getItems().add(item1);
+            reqDoc.fixItemReferences();
+            
+            reqDoc.setCapitalAssetSystemStateCode("NEW");
+            reqDoc.setCapitalAssetSystemTypeCode("IND");
+            
+            documentService.saveDocument(reqDoc);
+            List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems = new TypedArrayList(reqDoc.getPurchasingCapitalAssetItemClass());            
+            RequisitionCapitalAssetItem capitalAssetItem = (RequisitionCapitalAssetItem)requisitionService.createCamsItem(reqDoc, item1);
+            capitalAssetItem.setCapitalAssetTransactionTypeCode("NEW");            
+            
+            RequisitionCapitalAssetSystem system = (RequisitionCapitalAssetSystem)capitalAssetItem.getPurchasingCapitalAssetSystem();
+            system.setCapitalAssetNoteText("");
+            system.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(false);
+            system.setCapitalAssetManufacturerName("");
+            system.setCapitalAssetTypeCode("");
+            system.setCapitalAssetModelDescription("");
+                                  
+            purchasingCapitalAssetItems.add(capitalAssetItem);
+            reqDoc.setPurchasingCapitalAssetItems(purchasingCapitalAssetItems);
+        }
+        catch (WorkflowException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        return reqDoc;       
+    }
+   
 
     /**
      * Sets the documentService attribute value. For use by Spring.

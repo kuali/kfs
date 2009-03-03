@@ -773,10 +773,6 @@
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="reportsToOrganization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="reportsToChartOfAccountsCode" />
-		<foreignkey field-ref="reportsToOrganizationCode" />
-	</reference-descriptor>
 	<reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="reportsToChartOfAccountsCode" />
 	</reference-descriptor>

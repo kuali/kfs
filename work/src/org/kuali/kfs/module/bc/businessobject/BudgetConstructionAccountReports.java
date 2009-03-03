@@ -36,7 +36,6 @@ public class BudgetConstructionAccountReports extends PersistableBusinessObjectB
 
     private Account account;
     private Chart chartOfAccounts;
-    private Organization reportsToOrganization;
     private Chart reportsToChartOfAccounts;
     private BudgetConstructionOrganizationReports budgetConstructionOrganizationReports;
 
@@ -161,25 +160,6 @@ public class BudgetConstructionAccountReports extends PersistableBusinessObjectB
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
-    }
-
-    /**
-     * Gets the reportsToOrganization attribute.
-     * 
-     * @return Returns the reportsToOrganization
-     */
-    public Organization getReportsToOrganization() {
-        return reportsToOrganization;
-    }
-
-    /**
-     * Sets the reportsToOrganization attribute.
-     * 
-     * @param reportsToOrganization The reportsToOrganization to set.
-     * @deprecated
-     */
-    public void setReportsToOrganization(Organization reportsToOrganization) {
-        this.reportsToOrganization = reportsToOrganization;
     }
 
     /**

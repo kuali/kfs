@@ -15,7 +15,7 @@
         <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode" p:displayFieldName="Chart Of Accounts Code"/>
         <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber" p:displayFieldName="Account Number"/>
         <bean parent="ReferenceDefinition" p:attributeName="reportsToChartOfAccounts" p:attributeToHighlightOnFail="reportsToChartOfAccountsCode" p:displayFieldName="Reports To Chart Of Accounts Code"/>
-        <bean parent="ReferenceDefinition" p:attributeName="reportsToOrganization" p:attributeToHighlightOnFail="reportsToOrganizationCode" p:displayFieldName="Reports To Organization Code"/>
+        <bean parent="ReferenceDefinition" p:attributeName="budgetConstructionOrganizationReports" p:attributeToHighlightOnFail="reportsToOrganizationCode" p:displayFieldName="Reports To Organization Code"/>
       </list>
     </property>
     <property name="lockingKeys">

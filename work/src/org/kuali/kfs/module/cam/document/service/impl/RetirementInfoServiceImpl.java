@@ -112,7 +112,6 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
         List<AssetRetirementGlobal> retirementGlobals = asset.getRetirementGlobals();
         List<AssetRetirementGlobalDetail> mergeHistory = new ArrayList<AssetRetirementGlobalDetail>();
 
-        // TODO Auto-generated method stub
         for (AssetRetirementGlobal retirementGlobal : retirementGlobals) {
             if (CamsConstants.AssetRetirementReasonCode.MERGED.equalsIgnoreCase(retirementGlobal.getRetirementReasonCode())) {
                 List<AssetRetirementGlobalDetail> retirementDetails = retirementGlobal.getAssetRetirementGlobalDetails();
@@ -127,6 +126,4 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
             asset.setMergeHistory(mergeHistory);
         }
     }
-
-
 }

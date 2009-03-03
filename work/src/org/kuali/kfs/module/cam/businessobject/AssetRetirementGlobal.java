@@ -238,7 +238,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     }
 
     public boolean isPersistable() {
-        // TODO Auto-generated method stub
         return true;
     }
 

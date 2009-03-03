@@ -88,7 +88,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
     private static final Logger LOG = Logger.getLogger(AssetGlobalServiceImpl.class);
 
-    // ***********
     /**
      * Creates an instance of AssetGlpeSourceDetail depending on the source flag
      * 

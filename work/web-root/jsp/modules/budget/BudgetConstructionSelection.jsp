@@ -318,7 +318,7 @@
             <td class="grid" valign="center" rowspan="1" colspan="3">
             <c:if test="${showTheDetail}" >
             <kul:htmlControlAttribute
-                property="${accountRptsPropString}.reportsToOrganization.organizationName"
+                property="${accountRptsPropString}.budgetConstructionOrganizationReports.organization.organizationName"
                 attributeEntry="${orgAttributes.organizationName}"
                 readOnly="true"/>
             </td>

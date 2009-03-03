@@ -310,11 +310,11 @@
 	      </td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
-	      	    property="document.budgetConstructionAccountReports.reportsToOrganization.organizationName"
+	      	    property="document.budgetConstructionAccountReports.budgetConstructionOrganizationReports.organization.organizationName"
 	      	    attributeEntry="${orgAttributes.organizationName}"
 	      	    readOnly="${true}"
 	      	    readOnlyBody="true">
-			    ${KualiForm.document.budgetConstructionAccountReports.reportsToOrganization.organizationName}
+			    ${KualiForm.document.budgetConstructionAccountReports.budgetConstructionOrganizationReports.organization.organizationName}
 	      	</kul:htmlControlAttribute>
 	      </td>
 		</tr>

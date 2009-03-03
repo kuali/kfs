@@ -50,26 +50,13 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
 
     @Override
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) ((KualiDocumentFormBase) form).getDocument();
-        barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_APPROVE_REQ, "AdHoc", "annotation1", barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), "respdesc", false);
-        //getAssetBarcodeInventoryLoadService().addInitiatorAdhocRecipient(barcodeErrorDocument);
-        return super.route(mapping, form, request, response);
-    }
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) form;
+        BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
 
-    /**
-     * Add initiator as adhoc recipient if error exists and current user is not initiator.
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) ((KualiDocumentFormBase) form).getDocument();
-        //getAssetBarcodeInventoryLoadService().conditionllyAddInitiatorAdhocRecipient(barcodeErrorDocument);
-        return super.approve(mapping, form, request, response);
+        this.invokeRules(document, false);
+        return super.blanketApprove(mapping, form, request, response);
     }
-
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

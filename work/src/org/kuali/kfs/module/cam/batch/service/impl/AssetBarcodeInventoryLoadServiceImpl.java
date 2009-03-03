@@ -102,71 +102,11 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     }
 
     /**
-     * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#conditionllyAddInitiatorAdhocRecipient(org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument)
-     */
-    public void conditionllyAddInitiatorAdhocRecipient(BarcodeInventoryErrorDocument barcodeErrorDocument) {
-        Person initiator = SpringContext.getBean(PersonService.class).getPerson(barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        if (!this.isFullyProcessed(barcodeErrorDocument) && !isCurrentUserInitiator(barcodeErrorDocument) && barcodeErrorDocument.getAdHocRoutePersons().isEmpty()) {
-            // add the initiator as adhoc for final processing if error still exist and no adhoc recipients.
-            AdHocRoutePerson adHocRoutePerson = buildAdhocApproveRecipient(barcodeErrorDocument, initiator.getPrincipalName());
-            barcodeErrorDocument.getAdHocRoutePersons().add(adHocRoutePerson);
-        }
-    }
-
-    /**
-     * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#conditionllyAddInitiatorAdhocRecipient(org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument)
-     */
-    public void addInitiatorAdhocRecipient(BarcodeInventoryErrorDocument barcodeErrorDocument) {
-        Person initiator = SpringContext.getBean(PersonService.class).getPerson(barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        // add the initiator as adhoc for final processing if error still exist and no adhoc recipients.
-        AdHocRoutePerson adHocRoutePerson = buildAdhocApproveRecipient(barcodeErrorDocument, initiator.getPrincipalName());
-        barcodeErrorDocument.getAdHocRoutePersons().add(adHocRoutePerson);
-    }
-
-    /**
      * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#isCurrentUserInitiator(org.kuali.rice.kns.document.Document)
      */
     public boolean isCurrentUserInitiator(Document document) {
         return GlobalVariables.getUserSession().getPerson().getPrincipalId().equalsIgnoreCase(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
     }
-
-    /**
-     * Check if user principal name exists in give list
-     * 
-     * @param adHocRoutePersons
-     * @param userPrincipalId
-     * @return
-     */
-
-    // TODO: remove it?
-    protected boolean isUserAdhocRecipient(List<AdHocRoutePerson> adHocRoutePersons, String userPrincipalName) {
-        boolean valid = false;
-        if (!adHocRoutePersons.isEmpty()) {
-            for (AdHocRoutePerson adHocRoutePerson : adHocRoutePersons) {
-                if (adHocRoutePerson.getId().equalsIgnoreCase(userPrincipalName)) {
-                    // user is adhoc recipient
-                    valid = true;
-                    break;
-                }
-            }
-        }
-        return valid;
-    }
-
-    /**
-     * return AdHocRoutePerson instance for given initiator Id.
-     * 
-     * @param barcodeErrorDocument
-     * @param initiatorId
-     * @return
-     */
-    protected AdHocRoutePerson buildAdhocApproveRecipient(BarcodeInventoryErrorDocument barcodeErrorDocument, String initiatorId) {
-        AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
-        adHocRoutePerson.setActionRequested(KEWConstants.ACTION_REQUEST_APPROVE_REQ);
-        adHocRoutePerson.setId(initiatorId);
-        return adHocRoutePerson;
-    }
-
 
     /**
      * @see org.kuali.module.cams.service.AssetBarcodeInventoryLoadService#isFileFormatValid(java.io.File)
@@ -577,10 +517,11 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
             // Saving....
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-            // TODO using parallel adhoc routing instead
-            // List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
-            // adHocRouteRecipients.add(buildApprovePersonRecipient(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
-            // documentService.routeDocument(document,"Routed Update Barcode Inventory Document", adHocRouteRecipients);
+            
+            // add document initiator as adhoc user
+             List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
+             adHocRouteRecipients.add(buildApprovePersonRecipient(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
+             documentService.routeDocument(document,"Routed Update Barcode Inventory Document", adHocRouteRecipients);
         }
         catch (Exception e) {
             LOG.error("Error persisting document # " + document.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);

@@ -161,7 +161,7 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_LOCKED = "error.document.locked.asset";
         public static final String ERROR_INVALID_FILE_TYPE = "error.uploadFile.invalid.type";
         public static final String ERROR_INACTIVE_FIELD = "error.document.inactive.field";
-        public static final String ERROR_ADHOC_RECIPIENT_NOT_FOUND = "error.adhoc.recipient.not.found";
+        public static final String ERROR_APPROVE_DOCUMENT_WITH_ERROR_EXIST = "error.approve.document.with.error.exist";
     }
 
     public static class EquipmentLoanOrReturn {

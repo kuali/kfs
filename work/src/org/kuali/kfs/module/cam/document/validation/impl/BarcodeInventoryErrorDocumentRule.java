@@ -70,38 +70,19 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         return true;
     }
 
-    /**
-     * If adhoc recipient not set yet, block submit.
-     * 
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean valid = super.processCustomRouteDocumentBusinessRules(document);
-        //TODO: review it once sendAdhocRequest works fine
-//        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-//        if ((workflowDocument.stateIsSaved() || workflowDocument.stateIsInitiated())) {
-//            if (!getAssetBarcodeInventoryLoadService().isFullyProcessed((BarcodeInventoryErrorDocument)document) && document.getAdHocRoutePersons().isEmpty()) {
-//                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_ADHOC_RECIPIENT_NOT_FOUND);
-//                valid = false;
-//            }
-//        }
-        return valid;
-    }
 
+    
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        //TODO: Review it once sendAdhocRequest works fine
+        //TODO: no need to override this one since blanketApprove action override.
         boolean valid = super.processCustomApproveDocumentBusinessRules(approveEvent);
-        BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) approveEvent.getDocument();
-        Person initiator = SpringContext.getBean(PersonService.class).getPerson(barcodeErrorDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        AssetBarcodeInventoryLoadService barcodeService = getAssetBarcodeInventoryLoadService();
-
-        if (!barcodeService.isFullyProcessed(barcodeErrorDocument) && barcodeService.isCurrentUserInitiator(barcodeErrorDocument) && !hasOtherAdhocRecipientExists(barcodeErrorDocument.getAdHocRoutePersons(), initiator.getPrincipalName())) {
-            // if initiator try to approve a document with error, he/she should set at least one adhoc recipient.
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_ADHOC_RECIPIENT_NOT_FOUND);
-            valid = false;
-        }
+//        BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) approveEvent.getDocument();
+//
+//        if (!getAssetBarcodeInventoryLoadService().isFullyProcessed(barcodeErrorDocument)) {
+//            // document disallow approve with error exists.
+//            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_APPROVE_DOCUMENT_WITH_ERROR_EXIST);
+//            valid = false;
+//        }
         return valid;
     }
 

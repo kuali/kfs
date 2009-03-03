@@ -18,14 +18,12 @@
 <c:set var="bcieDetailAttributes" value="${DataDictionary.BarcodeInventoryErrorDetail.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
-<c:out value="${readOnly}"/>
 
-<!-- kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="${CamsConstants.BarcodeInventoryError.DETAIL_ERRORS}"-->
-<kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" >
+<kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="document.hiddenFieldForError">
 	<div id="barcodeInventoryDetails" class="tab-container" align=center>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Barcode Inventory Error(s)">
 			<tr>
-				<td colspan="11" class="subhead">Barcode Inventory Error(s)</td>
+				<td colspan="11" class="subhead">Barcode Inventory Error(s)</td><html:hidden property="document.hiddenFieldForError"/>
 			</tr>
 			<tr>
 			    <!-- Columns Header -->
@@ -76,6 +74,7 @@
 		              </c:forEach>
 				  </c:if>
 				</c:forEach>
+				
 <!--  ********************************************************************************************************************************** -->
             	
 			</logic:iterate>

@@ -843,6 +843,4 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     public void setTransactionLedgerSubmitAmount(KualiDecimal transactionLedgerSubmitAmount) {
         this.transactionLedgerSubmitAmount = transactionLedgerSubmitAmount;
     }
-
-
 }

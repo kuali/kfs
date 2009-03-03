@@ -151,13 +151,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
         assetPayment.setAccumulatedPrimaryDepreciationAmount(accumulatedDepreciationAmount);
 
-        /*
-         * try { String setterMethodName="setPeriod"+fiscalMonth+"Depreciation1Amount"; LOG.debug("Invoking method
-         * :"+setterMethodName+" in class AssetPayment."); Method method = AssetPayment.class.getMethod(setterMethodName, new
-         * Class[] { KualiDecimal.class }); method.invoke(assetPayment, new Object[] {transactionAmount}); } catch (Exception re) {
-         * LOG.info("***Reflection error:"+re.getMessage()); throw re; }
-         */
-
         if (fiscalMonth == 1)
             assetPayment.setPeriod1Depreciation1Amount(transactionAmount);
         else if (fiscalMonth == 2)
@@ -946,19 +939,3 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         this.businessObjectService = businessObjectService;
     }
 } // end of class
-
-/*
- * A.cptlast_nbr = P.cptlast_nbr // foreign key AND A.cptlast_origin_cd = P.cptlast_origin_cd // ?? AND P.cptlast_origin_cd = '01'
- * // done AND ( P.ast_depr1_base_amt != 0.00 OR P.ast_depr1_base_amt IS NOT NULL ) //done AND ( P.ast_trnfr_pmt_cd IN ( 'N', ' ')
- * OR P.ast_trnfr_pmt_cd IS NULL) //done AND ( ( A.ast_depr_mthd1_cd = 'SL'OR A.ast_depr_mthd1_cd IS NULL ) OR ( A.ast_depr_mthd1_cd
- * = 'SV' ) ) //Done AND A.cptl_ast_int_srvc_dt IS NOT NULL // done AND A.cptl_ast_crt_dt != '01/01/1900' // done AND
- * A.cptl_ast_crt_dt <= v_depr_date // done AND ( ( A.ast_retir_fscl_yr > v_fiscal_yr ) OR ( A.ast_retir_fscl_yr = v_fiscal_yr AND
- * TO_NUMBER( A.ast_retir_prd_cd ) > v_fiscal_prd ) OR A.ast_retir_fscl_yr IS NULL OR A.ast_retir_prd_cd IS NULL ) AND
- * A.ast_invn_stat_cd NOT IN ( 'N', 'O' ) // done AND A.cptlast_typ_cd = T.cptlast_typ_cd //done AND T.cptlast_deprlf_lmt > 0 //done
- * and p.fin_object_cd not in ( -- Exclusing all the federally-owned object sub type codes. Select ca_object_code_t From
- * ca_object_code_t o, cm_cptlast_obj_t a Where o.univ_fiscal_yr = a.univ_fiscal_yr and a.univ_fiscal_yr = v_fiscal_year And
- * o.fin_coa_cd = a.fin_coa_cd And o.fin_obj_sub_typ_cd = a.fin_obj_sub_typ_cd And fin_obj_sub_typ_cd IN ('CO', 'CP', 'UO', 'AM',
- * 'AF', 'LA', 'BY' ) ) and Excluding retired and transferd assets P.cptlast_nbr + cptlast_origin_cd not in ( Select c.cptlast_nbr +
- * c.cptlast_origin_cd FROM krns_doc_hdr_t, H cm_cptlast_hdr_t T WHERE H.fs_origin_cd = C.fs_origin_cd and H.fdoc_nbr = C.fdoc_nbr
- * and H.fdoc_typ_cd IN ('AR', 'AT') AND H.fdoc_status_cd NOT IN ('A', 'C') GROUP BY P.cptlast_nbr, P.cptlast_origin_cd )
- */

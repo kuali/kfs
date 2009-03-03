@@ -93,7 +93,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_PRINCIPAL_NAME, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);
         }
         // validate campus tag number
-        // Asset asset = SpringContext.getBean(Asset.class);
         valid &= validateTagNumber(equipmentLoanOrReturnDocument);
 
         // validate both loan return date and expected loan return date

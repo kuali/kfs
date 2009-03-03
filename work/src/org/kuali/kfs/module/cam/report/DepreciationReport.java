@@ -85,7 +85,6 @@ public class DepreciationReport {
             this.document.open();
 
             // Generate body of document.
-            // this.generateDepreciationDateLabel(sDepreciationDate);
             this.generateReportLogBody(reportLog);
             this.generateReportErrorLog(errorMsg);
 
@@ -307,8 +306,6 @@ public class DepreciationReport {
 
                 head.setTotalWidth(page.width() - document.leftMargin() - document.rightMargin());
                 head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
-                // head.writeSelectedRows(1, -1, document.leftMargin(), page.height() - document.topMargin() +
-                // head.getTotalHeight(), writer.getDirectContent());
             }
             catch (Exception e) {
                 throw new ExceptionConverter(e);

@@ -106,6 +106,4 @@ public class AssetTransactionType extends PersistableBusinessObjectBase implemen
         m.put("capitalAssetTransactionTypeCode", this.capitalAssetTransactionTypeCode);
         return m;
     }
-
-
 }

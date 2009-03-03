@@ -342,6 +342,4 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
     public void setPurApReportService(PurchasingAccountsPayableReportService purApReportService) {
         this.purApReportService = purApReportService;
     }
-
-
 }

@@ -642,7 +642,6 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
                 e.printStackTrace();
             }
             catch (UnknownDocumentIdException unknownIdE) {
-                //throw new RuntimeException( "Error retrieving documentId: " + this.getCapitalAssetManagementDocumentNumber() + " with KualiWorkflowDocument.", unknownIdE );
             }
         }
         return assetNumbers;

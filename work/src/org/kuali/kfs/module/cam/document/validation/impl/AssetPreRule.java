@@ -79,8 +79,6 @@ public class AssetPreRule extends MaintenancePreRulesBase {
     }
     
     private void setFederalContribution(MaintenanceDocument document) {
-        //newAsset.setFederalContributionAmount(new KualiDecimal(1000.00));
-        
     }
 
     

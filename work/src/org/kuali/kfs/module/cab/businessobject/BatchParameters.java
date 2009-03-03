@@ -211,6 +211,4 @@ public class BatchParameters {
     public void setLastRunDate(Date lastRunDate) {
         this.lastRunDate = lastRunDate;
     }
-
-
 }

@@ -73,15 +73,6 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         return SpringContext.getBean(AssetSegmentedLookupResultsService.class);
     }
 
-    // @Override
-    // public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response)
-    // throws Exception {
-    // String command = ((AssetPaymentForm) form).getCommand(); String docID = ((AssetPaymentForm)form).getDocId();
-    // LOG.info("***AssetPaymentAction.execute() - menthodToCall: " + ((AssetPaymentForm) form).getMethodToCall() + " - Command:" +
-    // command + " - DocId:" + docID);
-    // return super.execute(mapping, form, request, response);
-    // }
-
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.docHandler(mapping, form, request, response);

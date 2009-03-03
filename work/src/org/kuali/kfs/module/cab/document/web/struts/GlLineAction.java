@@ -182,7 +182,6 @@ public class GlLineAction extends CabActionBase {
         if (!pendingList.isEmpty()) {
             glLineForm.reset(mapping, request);
             glLineForm.setPrimaryGlAccountId(pendingList.get(0).getGeneralLedgerAccountIdentifier());
-            // glLineForm.setRelatedGlEntries(pendingList);
             glLineForm.setCurrDocNumber(maintDoc.getDocumentNumber());
             GeneralLedgerEntry entry = findGeneralLedgerEntry(pendingList.get(0).getGeneralLedgerAccountIdentifier());
             prepareRecordsForDisplay(glLineForm, entry);

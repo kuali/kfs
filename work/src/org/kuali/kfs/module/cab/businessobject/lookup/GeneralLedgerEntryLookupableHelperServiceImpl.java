@@ -48,10 +48,10 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerEntryLookupableHelperServiceImpl.class);
     private BusinessObjectService businessObjectService;
 
-    /*******************************************************************************************************************************
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
-     *      java.util.List)
-     */
+/**
+ * 
+ * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+ */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         AttributeSet permissionDetails = new AttributeSet();
@@ -139,5 +139,4 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
 }

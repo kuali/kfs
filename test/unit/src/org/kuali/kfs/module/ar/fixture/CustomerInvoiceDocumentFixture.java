@@ -74,7 +74,7 @@ public enum CustomerInvoiceDocumentFixture {
             "VPIT" //billedByOrganizationCode
     ),            
 
-    REVERSAL_CIDOC(null, // customerNumber
+    REVERSAL_CIDOC("ABB2", // customerNumber
             "UA", // processingChartOfAccountsCode
             "VPIT", // processingOrganizationCode
             null, // paymentChartOfAccountsCode

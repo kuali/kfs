@@ -34,7 +34,7 @@ public class CustomerInvoiceDetailParentLessThanDiscountValidationTest extends K
         super.setUp();
         validation = new CustomerInvoiceDetailParentLessThanDiscountValidation();
         validation.setCustomerInvoiceDetailService(SpringContext.getBean(CustomerInvoiceDetailService.class));
-        validation.setCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_NO_CUSTOMER.createCustomerInvoiceDocument(null));
+        validation.setCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER.createCustomerInvoiceDocument(null));
     }
 
     @Override

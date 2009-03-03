@@ -308,7 +308,7 @@
     <property name="shortLabel" value="Bill Of Lading #"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="47"/>
@@ -333,7 +333,7 @@
     <property name="maxLength" value="45"/>
     <property name="required" value="false"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="47"/>
@@ -358,7 +358,7 @@
     <property name="shortLabel" value="Reference #"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="47"/>
@@ -374,7 +374,7 @@
     <property name="shortLabel" value="Tracking #"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="47"/>

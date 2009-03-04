@@ -101,4 +101,41 @@ public class KualiDecimalUtils {
         
         return amountsArray;
     }
+
+    /**
+     * Makes sure no null pointer exception occurs on fields that can accurately be null when multiplying. If either field are null
+     * the value is returned.
+     * 
+     * @param value
+     * @param multiplier
+     * @return
+     */
+    public KualiDecimal safeMultiply(KualiDecimal value, double multiplier) {
+        if (value == null) {
+            return value;
+        }
+        else {
+            return new KualiDecimal(value.doubleValue() * multiplier);
+        }
+    }
+
+    /**
+     * Makes sure no null pointer exception occurs on fields that can accurately be null when subtracting. If either field are null
+     * the value is returned.
+     * 
+     * @param value
+     * @param subtrahend
+     * @return
+     */
+    public KualiDecimal safeSubtract(KualiDecimal value, KualiDecimal subtrahend) {
+        if (subtrahend == null) {
+            return value;
+        }
+
+        if (value == null) {
+            value = KualiDecimal.ZERO;
+        }
+
+        return value.subtract(subtrahend);
+    }
 }

@@ -449,7 +449,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      */
     protected Asset setupAsset(AssetGlobal assetGlobal, AssetGlobalDetail assetGlobalDetail, boolean separate) {
         Asset asset = new Asset(assetGlobal, assetGlobalDetail, separate);
-
+        KualiDecimalUtils kualiDecimalUtils = new KualiDecimalUtils();
+        
         // set financialObjectSubTypeCode per first payment entry if one exists
         if (!assetGlobal.getAssetPaymentDetails().isEmpty() && ObjectUtils.isNotNull(assetGlobal.getAssetPaymentDetails().get(0).getObjectCode())) {
             asset.setFinancialObjectSubTypeCode(assetGlobal.getAssetPaymentDetails().get(0).getObjectCode().getFinancialObjectSubTypeCode());
@@ -465,7 +466,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         if (separate) {
             double separateRatio = assetGlobalDetail.getSeparateSourceAmount().doubleValue() / assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount().doubleValue();
 
-            asset.setSalvageAmount(safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getSalvageAmount(), separateRatio));
+            asset.setSalvageAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getSalvageAmount(), separateRatio));
         }
 
         return asset;
@@ -543,6 +544,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      * @return payment for an asset in separate
      */
     protected AssetPayment setupSeparateAssetPayment(Long capitalAssetNumber, String acquisitionTypeCode, KualiDecimal separateSourceAmount, KualiDecimal totalCostToAllocate, AssetPaymentDetail assetPaymentDetail, List<AssetPayment> separateSourceCapitalAssetPayments, HashMap<String, AssetPayment> offsetAssetPayments) {
+        KualiDecimalUtils kualiDecimalUtils = new KualiDecimalUtils();  
+        
         AssetPayment assetPayment = new AssetPayment(assetPaymentDetail, acquisitionTypeCode);
         assetPayment.setCapitalAssetNumber(capitalAssetNumber);
         assetPayment.setPaymentSequenceNumber(assetPaymentDetail.getSequenceNumber());
@@ -569,85 +572,46 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         double separateRatio = separateSourceAmount.doubleValue() / totalCostToAllocate.doubleValue();
 
         // account amount from current payment source asset * target total cost / source total cost
-        assetPayment.setAccountChargeAmount(safeMultiply(assetPaymentDetail.getAmount(), separateRatio));
+        assetPayment.setAccountChargeAmount(kualiDecimalUtils.safeMultiply(assetPaymentDetail.getAmount(), separateRatio));
 
-        assetPayment.setPrimaryDepreciationBaseAmount(safeMultiply(sourceAssetPayment.getPrimaryDepreciationBaseAmount(), separateRatio));
-        assetPayment.setAccumulatedPrimaryDepreciationAmount(safeMultiply(sourceAssetPayment.getAccumulatedPrimaryDepreciationAmount(), separateRatio));
-        assetPayment.setPreviousYearPrimaryDepreciationAmount(safeMultiply(sourceAssetPayment.getPreviousYearPrimaryDepreciationAmount(), separateRatio));
-        assetPayment.setPeriod1Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod1Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod2Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod2Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod3Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod3Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod4Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod4Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod5Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod5Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod6Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod6Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod7Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod7Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod8Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod8Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod9Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod9Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod10Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod10Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod11Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod11Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod12Depreciation1Amount(safeMultiply(sourceAssetPayment.getPeriod12Depreciation1Amount(), separateRatio));
+        assetPayment.setPrimaryDepreciationBaseAmount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPrimaryDepreciationBaseAmount(), separateRatio));
+        assetPayment.setAccumulatedPrimaryDepreciationAmount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getAccumulatedPrimaryDepreciationAmount(), separateRatio));
+        assetPayment.setPreviousYearPrimaryDepreciationAmount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPreviousYearPrimaryDepreciationAmount(), separateRatio));
+        assetPayment.setPeriod1Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod1Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod2Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod2Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod3Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod3Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod4Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod4Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod5Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod5Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod6Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod6Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod7Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod7Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod8Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod8Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod9Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod9Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod10Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod10Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod11Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod11Depreciation1Amount(), separateRatio));
+        assetPayment.setPeriod12Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod12Depreciation1Amount(), separateRatio));
 
         // Reduce the amounts of the original assets payments by what was added to the newly created asset. Note
         // separateSourceAmount may vary by asset, and each payment may have a different value. So we need to do
         // this for each
         AssetPayment offsetAssetPayment = offsetAssetPayments.get(sourceAssetPayment.getObjectId());
 
-        offsetAssetPayment.setAccountChargeAmount(safeSubtract(offsetAssetPayment.getAccountChargeAmount(), assetPayment.getAccountChargeAmount()));
-        offsetAssetPayment.setPrimaryDepreciationBaseAmount(safeSubtract(offsetAssetPayment.getPrimaryDepreciationBaseAmount(), assetPayment.getPrimaryDepreciationBaseAmount()));
-        offsetAssetPayment.setAccumulatedPrimaryDepreciationAmount(safeSubtract(offsetAssetPayment.getAccumulatedPrimaryDepreciationAmount(), assetPayment.getAccumulatedPrimaryDepreciationAmount()));
-        offsetAssetPayment.setPreviousYearPrimaryDepreciationAmount(safeSubtract(offsetAssetPayment.getPreviousYearPrimaryDepreciationAmount(), assetPayment.getPreviousYearPrimaryDepreciationAmount()));
-        offsetAssetPayment.setPeriod1Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod1Depreciation1Amount(), assetPayment.getPeriod1Depreciation1Amount()));
-        offsetAssetPayment.setPeriod2Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod2Depreciation1Amount(), assetPayment.getPeriod2Depreciation1Amount()));
-        offsetAssetPayment.setPeriod3Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod3Depreciation1Amount(), assetPayment.getPeriod3Depreciation1Amount()));
-        offsetAssetPayment.setPeriod4Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod4Depreciation1Amount(), assetPayment.getPeriod4Depreciation1Amount()));
-        offsetAssetPayment.setPeriod5Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod5Depreciation1Amount(), assetPayment.getPeriod5Depreciation1Amount()));
-        offsetAssetPayment.setPeriod6Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod6Depreciation1Amount(), assetPayment.getPeriod6Depreciation1Amount()));
-        offsetAssetPayment.setPeriod7Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod7Depreciation1Amount(), assetPayment.getPeriod7Depreciation1Amount()));
-        offsetAssetPayment.setPeriod8Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod8Depreciation1Amount(), assetPayment.getPeriod8Depreciation1Amount()));
-        offsetAssetPayment.setPeriod9Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod9Depreciation1Amount(), assetPayment.getPeriod9Depreciation1Amount()));
-        offsetAssetPayment.setPeriod10Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod10Depreciation1Amount(), assetPayment.getPeriod10Depreciation1Amount()));
-        offsetAssetPayment.setPeriod11Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod11Depreciation1Amount(), assetPayment.getPeriod11Depreciation1Amount()));
-        offsetAssetPayment.setPeriod12Depreciation1Amount(safeSubtract(offsetAssetPayment.getPeriod12Depreciation1Amount(), assetPayment.getPeriod12Depreciation1Amount()));
+        offsetAssetPayment.setAccountChargeAmount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getAccountChargeAmount(), assetPayment.getAccountChargeAmount()));
+        offsetAssetPayment.setPrimaryDepreciationBaseAmount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPrimaryDepreciationBaseAmount(), assetPayment.getPrimaryDepreciationBaseAmount()));
+        offsetAssetPayment.setAccumulatedPrimaryDepreciationAmount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getAccumulatedPrimaryDepreciationAmount(), assetPayment.getAccumulatedPrimaryDepreciationAmount()));
+        offsetAssetPayment.setPreviousYearPrimaryDepreciationAmount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPreviousYearPrimaryDepreciationAmount(), assetPayment.getPreviousYearPrimaryDepreciationAmount()));
+        offsetAssetPayment.setPeriod1Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod1Depreciation1Amount(), assetPayment.getPeriod1Depreciation1Amount()));
+        offsetAssetPayment.setPeriod2Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod2Depreciation1Amount(), assetPayment.getPeriod2Depreciation1Amount()));
+        offsetAssetPayment.setPeriod3Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod3Depreciation1Amount(), assetPayment.getPeriod3Depreciation1Amount()));
+        offsetAssetPayment.setPeriod4Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod4Depreciation1Amount(), assetPayment.getPeriod4Depreciation1Amount()));
+        offsetAssetPayment.setPeriod5Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod5Depreciation1Amount(), assetPayment.getPeriod5Depreciation1Amount()));
+        offsetAssetPayment.setPeriod6Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod6Depreciation1Amount(), assetPayment.getPeriod6Depreciation1Amount()));
+        offsetAssetPayment.setPeriod7Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod7Depreciation1Amount(), assetPayment.getPeriod7Depreciation1Amount()));
+        offsetAssetPayment.setPeriod8Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod8Depreciation1Amount(), assetPayment.getPeriod8Depreciation1Amount()));
+        offsetAssetPayment.setPeriod9Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod9Depreciation1Amount(), assetPayment.getPeriod9Depreciation1Amount()));
+        offsetAssetPayment.setPeriod10Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod10Depreciation1Amount(), assetPayment.getPeriod10Depreciation1Amount()));
+        offsetAssetPayment.setPeriod11Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod11Depreciation1Amount(), assetPayment.getPeriod11Depreciation1Amount()));
+        offsetAssetPayment.setPeriod12Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod12Depreciation1Amount(), assetPayment.getPeriod12Depreciation1Amount()));
 
         return assetPayment;
-    }
-
-    /**
-     * TODO this should move to some more central location if it doesn't exist already somewhere...<br>
-     * Makes sure no null pointer exception occurs on fields that can accurately be null when multiplying. If either field are null
-     * the value is returned.
-     * 
-     * @param value
-     * @param multiplier
-     * @return
-     */
-    protected KualiDecimal safeMultiply(KualiDecimal value, double multiplier) {
-        if (value == null) {
-            return value;
-        }
-        else {
-            return new KualiDecimal(value.doubleValue() * multiplier);
-        }
-    }
-
-    /**
-     * TODO this should move to some more central location if it doesn't exist already somewhere...<br>
-     * Makes sure no null pointer exception occurs on fields that can accurately be null when subtracting. If either field are null
-     * the value is returned.
-     * 
-     * @param value
-     * @param subtrahend
-     * @return
-     */
-    protected KualiDecimal safeSubtract(KualiDecimal value, KualiDecimal subtrahend) {
-        if (subtrahend == null) {
-            return value;
-        }
-
-        if (value == null) {
-            value = KualiDecimal.ZERO;
-        }
-
-        return value.subtract(subtrahend);
     }
 }

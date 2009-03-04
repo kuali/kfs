@@ -15,25 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import java.util.Set;
-
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class CustomerInvoiceItemCodePresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
-
-    @Override
-    public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
-        Set<String> readOnlyPropNames = super.getConditionallyReadOnlyPropertyNames(document);
-        
-        //  On an edit of an existing ItemCode, the billing org is always readonly
-        if (document.isEdit()) {
-            readOnlyPropNames.add(ArPropertyConstants.CustomerInvoiceItemCodes.CHART_OF_ACCOUNTS_CODE);
-            readOnlyPropNames.add(ArPropertyConstants.CustomerInvoiceItemCodes.ORGANIZATION_CODE);
-        }
-        
-        return readOnlyPropNames;
-    }
 
 }

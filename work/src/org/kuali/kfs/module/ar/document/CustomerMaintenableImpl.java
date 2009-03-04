@@ -58,11 +58,12 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         Customer oldCustomer = (Customer) oldMaintainable.getBusinessObject();
         Customer newCustomer = (Customer) newMaintainable.getBusinessObject();
 
+        Date currentDate = getDateTimeService().getCurrentSqlDate();
+
         // when we create new customer set the customerRecordAddDate to current date
         if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {
-            Date currentDate = getDateTimeService().getCurrentSqlDate();
             newCustomer.setCustomerRecordAddDate(currentDate);
-
+            newCustomer.setCustomerLastActivityDate(currentDate);
         }
 
         List oldAddresses = oldCustomer.getCustomerAddresses();
@@ -71,17 +72,16 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         // if new address was added or one of the old addresses was changes set customerAddressChangeDate to the current date
         if (oldAddresses != null && newAddresses != null) {
             if (oldAddresses.size() != newAddresses.size()) {
-                Date currentDate = getDateTimeService().getCurrentSqlDate();
                 newCustomer.setCustomerAddressChangeDate(currentDate);
+                newCustomer.setCustomerLastActivityDate(currentDate);
             }
             else {
                 for (int i = 0; i < oldAddresses.size(); i++) {
                     CustomerAddress oldAddress = (CustomerAddress) oldAddresses.get(i);
                     CustomerAddress newAddress = (CustomerAddress) newAddresses.get(i);
                     if (oldAddress.compareTo(newAddress) != 0) {
-                        Date currentDate = getDateTimeService().getCurrentSqlDate();
                         newCustomer.setCustomerAddressChangeDate(currentDate);
-
+                        newCustomer.setCustomerLastActivityDate(currentDate);
                         break;
                     }
                 }

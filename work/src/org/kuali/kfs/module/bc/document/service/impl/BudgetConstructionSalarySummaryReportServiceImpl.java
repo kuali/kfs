@@ -368,7 +368,8 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             totalsHolder.salaryFte = BigDecimal.ZERO;
         }
         else {
-            totalsHolder.salaryFte = new BigDecimal(totalsHolder.salaryPercent.intValue() * totalsHolder.salaryNormalMonths.intValue() * 1.0 / (totalsHolder.salaryPayMonth * 100.0));
+            BigDecimal salaryFte = totalsHolder.salaryPercent.multiply(new BigDecimal(totalsHolder.salaryNormalMonths * 1.0 / (totalsHolder.salaryPayMonth * 100.0)));
+            totalsHolder.salaryFte = BudgetConstructionReportHelper.setDecimalDigit(salaryFte, 5, false);
         }
 
         if (totalsHolder.salaryPayMonth != totalsHolder.csfPayMonths) {

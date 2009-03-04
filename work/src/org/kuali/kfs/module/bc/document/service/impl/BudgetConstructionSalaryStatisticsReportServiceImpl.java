@@ -47,39 +47,39 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
-
     public void updateSalaryStatisticsReport(String principalName, Integer universityFiscalYear) {
         budgetConstructionSalaryStatisticsReportDao.updateReportsSalaryStatisticsTable(principalName, universityFiscalYear);
-
     }
 
     public Collection<BudgetConstructionOrgSalaryStatisticsReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgSalaryStatisticsReport> reportSet = new ArrayList();
 
-
-        BudgetConstructionOrgSalaryStatisticsReport orgSalaryStatisticsReportEntry;
         // build searchCriteria
-        Map searchCriteria = new HashMap();
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
         searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
 
         // build order list
         List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionSalaryTotal> salaryStatisticsList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalaryTotal.class, searchCriteria, orderList);
+        
         // get object codes
         searchCriteria.clear();
         searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         Collection<BudgetConstructionObjectPick> objectPickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
+        
         String objectCodes = "";
         for (BudgetConstructionObjectPick objectPick : objectPickList) {
             objectCodes += objectPick.getFinancialObjectCode() + " ";
         }
+        
         // build reports
         for (BudgetConstructionSalaryTotal salaryStatisticsEntry : salaryStatisticsList) {
-            orgSalaryStatisticsReportEntry = new BudgetConstructionOrgSalaryStatisticsReport();
+            BudgetConstructionOrgSalaryStatisticsReport orgSalaryStatisticsReportEntry = new BudgetConstructionOrgSalaryStatisticsReport();
             buildReportsHeader(universityFiscalYear, objectCodes, orgSalaryStatisticsReportEntry, salaryStatisticsEntry);
             buildReportsBody(orgSalaryStatisticsReportEntry, salaryStatisticsEntry);
             reportSet.add(orgSalaryStatisticsReportEntry);
         }
+        
         return reportSet;
     }
 
@@ -124,10 +124,11 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
 
     public void buildReportsBody(BudgetConstructionOrgSalaryStatisticsReport orgSalaryStatisticsReportEntry, BudgetConstructionSalaryTotal salaryTotalEntry) {
         orgSalaryStatisticsReportEntry.setInitialRequestedFteQuantity(salaryTotalEntry.getInitialRequestedFteQuantity());
+        
         BigDecimal requestedAmount = BudgetConstructionReportHelper.calculateDivide(salaryTotalEntry.getInitialRequestedAmount().bigDecimalValue(), salaryTotalEntry.getInitialRequestedFteQuantity());
         orgSalaryStatisticsReportEntry.setTotalInitialRequestedAmount(new Integer(BudgetConstructionReportHelper.setDecimalDigit(requestedAmount, 0, false).intValue()));
         
-        orgSalaryStatisticsReportEntry.setAppointmentRequestedFteQuantity(salaryTotalEntry.getAppointmentRequestedFteQuantity());
+        orgSalaryStatisticsReportEntry.setAppointmentRequestedFteQuantity(salaryTotalEntry.getAppointmentRequestedFteQuantity().setScale(5));
         orgSalaryStatisticsReportEntry.setTotalCsfAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getCsfAmount()));
         orgSalaryStatisticsReportEntry.setTotalAppointmentRequestedAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getAppointmentRequestedAmount()));
 

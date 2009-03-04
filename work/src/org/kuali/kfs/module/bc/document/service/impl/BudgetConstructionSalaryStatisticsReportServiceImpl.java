@@ -48,7 +48,7 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
     BusinessObjectService businessObjectService;
 
     public void updateSalaryStatisticsReport(String principalName, Integer universityFiscalYear) {
-        budgetConstructionSalaryStatisticsReportDao.updateReportsSalaryStatisticsTable(principalName, universityFiscalYear);
+        budgetConstructionSalaryStatisticsReportDao.updateReportsSalaryStatisticsTable(principalName, universityFiscalYear-1);
     }
 
     public Collection<BudgetConstructionOrgSalaryStatisticsReport> buildReports(Integer universityFiscalYear, String principalName) {

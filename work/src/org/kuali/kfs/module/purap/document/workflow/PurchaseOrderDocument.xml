@@ -6,9 +6,7 @@
 		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>NoFyiActionListAttribute</name>
-			<className>
-				org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute
-			</className>
+			<className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>
 			<label>No FYI</label>
 			<description>No FYI Action List Attribute</description>
 			<type>ActionListAttribute</type>
@@ -19,22 +17,16 @@
 		<documentType>
 			<name>PO</name>
 			<parent>PurchasingTransactionalDocument</parent>
-			<docHandler>
-				${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
-			</docHandler>
+			<docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
 			<attributes>
 				<attribute>
 					<name>FinancialSystemSearchableAttribute</name>
 				</attribute>
 				<attribute>
-					<name>
-						FinancialSystemDocumentSearchResultProcessorAttribute
-					</name>
+					<name>FinancialSystemDocumentSearchResultProcessorAttribute</name>
 				</attribute>
 				<attribute>
-					<name>
-						FinancialSystemDocumentSearchGeneratorAttribute
-					</name>
+					<name>FinancialSystemDocumentSearchGeneratorAttribute</name>
 				</attribute>
 				<attribute>
 					<name>NoFyiActionListAttribute</name>
@@ -58,9 +50,19 @@
 						<join
 							name="JoinRequiresContractManagementReview" />
 					</split>
-					<requests name="Commodity" nextNode="Award" />
-					<requests name="Award"
-						nextNode="RequiresBudgetReview" />
+					<requests name="Commodity" nextNode="RequiresAwardReview" />
+					<split name="RequiresAwardReview" nextNode="RequiresBudgetReview">
+						<branch name="True">
+							<requests name="Award"
+								nextNode="JoinRequiresAwardReview" />
+						</branch>
+						<branch name="False">
+							<requests
+								name="NoOpRequiresAwardReview"
+								nextNode="JoinRequiresAwardReview" />
+						</branch>
+						<join name="JoinRequiresAwardReview" />
+					</split>
 					<split name="RequiresBudgetReview"
 						nextNode="VendorIsEmployeeOrNonResidentAlien">
 						<branch name="True">
@@ -140,6 +142,9 @@
 						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
 					</type>
 				</split>
+				<split name="RequiresAwardReview">
+					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+				</split>
 				<split name="RequiresBudgetReview">
 					<type>
 						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
@@ -155,6 +160,9 @@
 						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
 					</type>
 				</split>
+				<simple name="NoOpRequiresAwardReview">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				</simple>
 				<simple name="NoOpRequiresContractManagementReview">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
@@ -167,6 +175,7 @@
 				<simple name="NoOpPrint">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
+				<join name="JoinRequiresAwardReview" />
 				<join name="JoinRequiresBudgetReview" />
 				<join name="JoinVendorIsEmployeeOrNonResidentAlien" />
 				<join name="JoinTransmissionMethodIsPrint" />

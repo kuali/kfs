@@ -131,8 +131,8 @@
   <bean id="CustomerProfile-customerShortName" parent="CustomerProfile-customerShortName-parentBean" />
   <bean id="CustomerProfile-customerShortName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerShortName" />
-    <property name="label" value="Chart - Organization - Sub-Unit" />
-    <property name="shortLabel" value="Chart - Organization - Sub-Unit" />
+    <property name="label" value="Chart - Unit - Sub Unit" />
+    <property name="shortLabel" value="Chart - Unit - Sub Unit" />
     <property name="maxLength" value="50" />
     <property name="required" value="false" />
     <property name="control" >

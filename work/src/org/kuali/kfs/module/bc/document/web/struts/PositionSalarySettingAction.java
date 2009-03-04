@@ -105,6 +105,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             
             boolean accessModeUpdated = positionSalarySettingForm.updateAccessMode(errorMap);
             if (!accessModeUpdated) {
+                this.cleanupAnySessionForm(mapping, request);
                 if (positionSalarySettingForm.isBudgetByAccountMode()){
                     return this.returnToCaller(mapping, form, request, response);
                 }
@@ -115,6 +116,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
 
             boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks(errorMap);
             if (!gotLocks) {
+                this.cleanupAnySessionForm(mapping, request);
                 if (positionSalarySettingForm.isBudgetByAccountMode()){
                     return this.returnToCaller(mapping, form, request, response);
                 }

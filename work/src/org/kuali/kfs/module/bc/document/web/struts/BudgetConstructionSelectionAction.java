@@ -276,6 +276,10 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         // this handles the lock monitor no refreshCaller return case
         GlobalVariables.getUserSession().removeObject(BCConstants.BC_IN_PROGRESS_SESSIONFLAG);
 
+        // clear out any session object form attribute
+        HttpSession sess = request.getSession(Boolean.FALSE);
+        sess.removeAttribute(BCConstants.MAPPING_ATTRIBUTE_KUALI_FORM);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

@@ -97,6 +97,7 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
             
             boolean accessModeUpdated = incumbentSalarySettingForm.updateAccessMode(errorMap);
             if (!accessModeUpdated) {
+                this.cleanupAnySessionForm(mapping, request);
                 if (incumbentSalarySettingForm.isBudgetByAccountMode()){
                     return this.returnToCaller(mapping, form, request, response);
                 }
@@ -107,6 +108,7 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
 
             boolean gotLocks = incumbentSalarySettingForm.acquirePositionAndFundingLocks(errorMap);
             if (!gotLocks) {
+                this.cleanupAnySessionForm(mapping, request);
                 if (incumbentSalarySettingForm.isBudgetByAccountMode()){
                     return this.returnToCaller(mapping, form, request, response);
                 }

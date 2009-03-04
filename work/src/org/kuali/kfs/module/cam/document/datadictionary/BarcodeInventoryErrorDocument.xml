@@ -68,6 +68,11 @@
   <bean id="BarcodeInventoryErrorDocument-currentTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
     <property name="name" value="currentTagNumber"/>
     <property name="required" value="false"/>    
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentScanCode" parent="BarcodeInventoryErrorDocument-currentScanCode-parentBean"/>
@@ -125,7 +130,12 @@
   <bean id="BarcodeInventoryErrorDocument-newTagNumber" parent="BarcodeInventoryErrorDocument-newTagNumber-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
     <property name="name" value="newTagNumber"/>
-    <property name="required" value="false"/>    
+    <property name="required" value="false"/>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>    
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-newScanCode" parent="BarcodeInventoryErrorDocument-newScanCode-parentBean"/>

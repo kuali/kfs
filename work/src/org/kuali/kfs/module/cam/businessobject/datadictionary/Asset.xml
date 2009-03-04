@@ -340,6 +340,11 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="true" />
+       </bean>
+	</property> 
   </bean>
   
   <bean id="Asset-capitalAssetDescription" parent="Asset-capitalAssetDescription-parentBean" />
@@ -358,6 +363,11 @@
             p:rows="10"
             p:cols="40" />
     </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="true" />
+       </bean>
+	</property> 
   </bean>
   
   <bean id="Asset-capitalAssetNumber" parent="Asset-capitalAssetNumber-parentBean" />
@@ -859,6 +869,11 @@
   <bean id="Asset-capitalAssetTypeCode" parent="Asset-capitalAssetTypeCode-parentBean" />
   <bean id="Asset-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
     <property name="label" value="Asset Type Code" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="true" />
+       </bean>
+	</property> 
   </bean>
   
   <bean id="Asset-campusCode" parent="Asset-campusCode-parentBean" />

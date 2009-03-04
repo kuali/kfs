@@ -85,6 +85,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription">
     <property name="name" value="mergedTargetCapitalAssetDescription" />
     <property name="label" value="Asset Description" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
 
   <bean id="AssetRetirementGlobal-documentNumber" parent="AssetRetirementGlobal-documentNumber-parentBean" />
@@ -127,11 +132,21 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetDescription" parent="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetDescription-parentBean" />
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription">
     <property name="name" value="mergedTargetCapitalAsset.capitalAssetDescription" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
 
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetTypeCode" parent="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetTypeCode-parentBean" />
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetTypeCode-parentBean" abstract="true" parent="Asset-capitalAssetTypeCode">
     <property name="name" value="mergedTargetCapitalAsset.capitalAssetTypeCode" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
 
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetType.depreciableLifeLimit" parent="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetType.depreciableLifeLimit-parentBean" />
@@ -147,6 +162,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetInServiceDate" parent="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetInServiceDate-parentBean" />
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAsset.capitalAssetInServiceDate-parentBean" abstract="true" parent="Asset-capitalAssetInServiceDate">
     <property name="name" value="mergedTargetCapitalAsset.capitalAssetInServiceDate" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
 
   <bean id="AssetRetirementGlobal-retirementChartOfAccountsCode" parent="AssetRetirementGlobal-retirementChartOfAccountsCode-parentBean" />

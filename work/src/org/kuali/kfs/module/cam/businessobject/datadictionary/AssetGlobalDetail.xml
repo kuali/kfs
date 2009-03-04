@@ -108,6 +108,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="AssetGlobalDetail-campusTagNumber" parent="AssetGlobalDetail-campusTagNumber-parentBean" />
   <bean id="AssetGlobalDetail-campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
   
   <bean id="AssetGlobalDetail-capitalAssetNumber" parent="AssetGlobalDetail-capitalAssetNumber-parentBean" />

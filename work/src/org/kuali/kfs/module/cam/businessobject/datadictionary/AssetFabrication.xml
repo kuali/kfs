@@ -13,8 +13,8 @@
         <ref bean="AssetFabrication-agencyNumber" />       
         <ref bean="Asset-buildingSubRoomNumber" />
         <ref bean="Asset-campusPoliceDepartmentCaseNumber" />
-        <ref bean="Asset-campusTagNumber" />
-        <ref bean="Asset-capitalAssetDescription" />
+        <ref bean="AssetFabrication-campusTagNumber" />
+        <ref bean="AssetFabrication-capitalAssetDescription" />
         <ref bean="Asset-capitalAssetNumber" />
         <ref bean="Asset-cashReceiptFinancialDocumentNumber" />
         <ref bean="Asset-createDate" />
@@ -24,7 +24,7 @@
         <ref bean="Asset-capitalAssetInServiceDate" />
         <ref bean="Asset-estimatedFabricationCompletionDate" />
         <ref bean="Asset-fabricationEstimatedRetentionYears" />
-        <ref bean="Asset-estimatedSellingPrice" />
+        <ref bean="AssetFabrication-estimatedSellingPrice" />
         <ref bean="Asset-expectedReturnDate" />
         <ref bean="Asset-fabricationEstimatedTotalAmount" />
         <ref bean="Asset-financialDocumentPostingPeriodCode" />
@@ -38,11 +38,11 @@
         <ref bean="Asset-loanReturnDate" />
         <ref bean="Asset-manufacturerModelNumber" />
         <ref bean="Asset-manufacturerName" />
-        <ref bean="Asset-oldTagNumber" />
+        <ref bean="AssetFabrication-oldTagNumber" />
         <ref bean="Asset-organizationInventoryName" />
         <ref bean="Asset-primaryDepreciationMethodCode" />
         <ref bean="Asset-receiveDate" />
-        <ref bean="Asset-replacementAmount" />
+        <ref bean="AssetFabrication-replacementAmount" />
         <ref bean="Asset-retirementAccountNumber" />
         <ref bean="Asset-retirementChartOfAccountsCode" />
         <ref bean="Asset-retirementFiscalYear" />
@@ -64,14 +64,14 @@
         <ref bean="AssetFabrication-organizationOwnerChartOfAccountsCode" />
         <ref bean="AssetFabrication-organizationOwnerAccountNumber" />  
         <ref bean="Asset-organizationOwnerAccount.organizationCode" />
-        <ref bean="Asset-capitalAssetTypeCode" />
+        <ref bean="AssetFabrication-capitalAssetTypeCode" />
         <ref bean="Asset-campusCode" />
         <ref bean="Asset-buildingCode" />
         <ref bean="Asset-buildingRoomNumber" />
         <ref bean="Asset-assetOrganization.organizationText" />
         <ref bean="Asset-assetOrganization.organizationTagNumber" /> 
         <ref bean="Asset-assetOrganization.organizationAssetTypeIdentifier" />
-        <ref bean="Asset-conditionCode" />
+        <ref bean="AssetFabrication-conditionCode" />
         <ref bean="Asset-landCountyName" />
         <ref bean="Asset-landAcreageSize" />
         <ref bean="Asset-landParcelNumber" />
@@ -188,7 +188,7 @@
   </bean>
   <bean id="AssetFabrication-nationalStockNumber" parent="AssetFabrication-nationalStockNumber-parentBean" />
   <bean id="AssetFabrication-nationalStockNumber-parentBean" abstract="true" parent="Asset-nationalStockNumber">
-  <property name="attributeSecurity">
+  	<property name="attributeSecurity">
         <bean parent="AttributeSecurity">
            <property name="readOnly" value="false" />
        </bean>
@@ -196,7 +196,64 @@
   </bean>
   <bean id="AssetFabrication-financialObjectSubTypeCode" parent="AssetFabrication-financialObjectSubTypeCode-parentBean" />
   <bean id="AssetFabrication-financialObjectSubTypeCode-parentBean" abstract="true" parent="Asset-financialObjectSubTypeCode">
-  <property name="attributeSecurity">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>
+  <bean id="AssetFabrication-estimatedSellingPrice" parent="AssetFabrication-estimatedSellingPrice-parentBean" />
+  <bean id="AssetFabrication-estimatedSellingPrice-parentBean" abstract="true" parent="Asset-estimatedSellingPrice">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="hide" value="false" />
+       </bean>
+    </property>
+  </bean>  
+  <bean id="AssetFabrication-oldTagNumber" parent="AssetFabrication-oldTagNumber-parentBean" />
+  <bean id="AssetFabrication-oldTagNumber-parentBean" abstract="true" parent="Asset-oldTagNumber">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="hide" value="false" />
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>
+  <bean id="AssetFabrication-replacementAmount" parent="AssetFabrication-replacementAmount-parentBean" />
+  <bean id="AssetFabrication-replacementAmount-parentBean" abstract="true" parent="Asset-replacementAmount">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="hide" value="false" />
+       </bean>
+    </property>
+  </bean>
+  <bean id="AssetFabrication-conditionCode" parent="AssetFabrication-conditionCode-parentBean" />
+  <bean id="AssetFabrication-conditionCode-parentBean" abstract="true" parent="Asset-conditionCode">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="hide" value="false" />
+       </bean>
+    </property>
+  </bean> 
+  <bean id="AssetFabrication-capitalAssetTypeCode" parent="AssetFabrication-capitalAssetTypeCode-parentBean" />
+  <bean id="AssetFabrication-capitalAssetTypeCode-parentBean" abstract="true" parent="Asset-capitalAssetTypeCode">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>
+  <bean id="AssetFabrication-capitalAssetDescription" parent="AssetFabrication-capitalAssetDescription-parentBean" />
+  <bean id="AssetFabrication-capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
+  </bean>
+  <bean id="AssetFabrication-campusTagNumber" parent="AssetFabrication-campusTagNumber-parentBean" />
+  <bean id="AssetFabrication-campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
+  	<property name="attributeSecurity">
         <bean parent="AttributeSecurity">
            <property name="readOnly" value="false" />
        </bean>

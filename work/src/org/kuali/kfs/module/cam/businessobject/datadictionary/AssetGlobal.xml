@@ -164,7 +164,13 @@
   </bean>
   
   <bean id="AssetGlobal-capitalAssetDescription" parent="AssetGlobal-capitalAssetDescription-parentBean" />
-  <bean id="AssetGlobal-capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription" />
+  <bean id="AssetGlobal-capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
+  </bean>
 
   <bean id="AssetGlobal-capitalAssetTypeCode" parent="AssetGlobal-capitalAssetTypeCode-parentBean" />
   <bean id="AssetGlobal-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
@@ -230,6 +236,11 @@
   
   <bean id="AssetGlobal-capitalAssetInServiceDate" parent="AssetGlobal-capitalAssetInServiceDate-parentBean" />
   <bean id="AssetGlobal-capitalAssetInServiceDate-parentBean" abstract="true" parent="Asset-capitalAssetInServiceDate">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="AssetGlobal-capitalAssetDepreciationDate" parent="AssetGlobal-capitalAssetDepreciationDate-parentBean" />

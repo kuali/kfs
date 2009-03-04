@@ -90,6 +90,11 @@
     <property name="name" value="campusTagNumber" />
     <property name="shortLabel" value="Number" />
     <property name="required" value="true" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
   
   <bean id="PretagDetail-organizationTagNumber" parent="PretagDetail-organizationTagNumber-parentBean" />
@@ -106,6 +111,11 @@
   <bean id="PretagDetail-nationalStockNumber-parentBean" abstract="true" parent="Asset-nationalStockNumber">
     <property name="label" value="National Stock Number" />
     <property name="shortLabel" value="Number" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
   
   <bean id="PretagDetail-serialNumber" parent="PretagDetail-serialNumber-parentBean" />

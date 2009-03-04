@@ -50,6 +50,11 @@
   
   <bean id="AssetLocationGlobalDetail-campusTagNumber" parent="AssetLocationGlobalDetail-campusTagNumber-parentBean" />
   <bean id="AssetLocationGlobalDetail-campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
+  	<property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
   
   <bean id="AssetLocationGlobalDetail-capitalAssetNumber" parent="AssetLocationGlobalDetail-capitalAssetNumber-parentBean" />

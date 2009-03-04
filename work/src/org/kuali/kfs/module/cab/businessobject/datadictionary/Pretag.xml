@@ -88,6 +88,11 @@
             p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.AssetTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
   <bean id="Pretag-organizationCode" parent="Pretag-organizationCode-parentBean" />
 

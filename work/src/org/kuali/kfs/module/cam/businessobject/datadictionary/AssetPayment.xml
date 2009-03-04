@@ -79,6 +79,11 @@
   <bean id="AssetPayment-asset.campusTagNumber" parent="AssetPayment-asset.campusTagNumber-parentBean" />
   <bean id="AssetPayment-asset.campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
     <property name="name" value="asset.campusTagNumber" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
 
   <bean id="AssetPayment-asset.totalCostAmount" parent="AssetPayment-asset.totalCostAmount-parentBean" />
@@ -89,11 +94,21 @@
   <bean id="AssetPayment-asset.capitalAssetInServiceDate" parent="AssetPayment-asset.capitalAssetInServiceDate-parentBean" />
   <bean id="AssetPayment-asset.capitalAssetInServiceDate-parentBean" abstract="true" parent="Asset-capitalAssetInServiceDate">
     <property name="name" value="asset.capitalAssetInServiceDate" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+    </property>
   </bean>
 
   <bean id="AssetPayment-asset.capitalAssetDescription" parent="AssetPayment-asset.capitalAssetDescription-parentBean" />
   <bean id="AssetPayment-asset.capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription">
     <property name="name" value="asset.capitalAssetDescription" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
 
   <bean id="AssetPayment-asset.campusCode" parent="AssetPayment-asset.campusCode-parentBean" />
@@ -118,6 +133,11 @@
   <bean id="AssetPayment-asset.capitalAssetTypeCode" parent="AssetPayment-asset.capitalAssetTypeCode-parentBean" />
   <bean id="AssetPayment-asset.capitalAssetTypeCode-parentBean" abstract="true" parent="Asset-capitalAssetTypeCode">
     <property name="name" value="asset.capitalAssetTypeCode" />
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
 
   <bean id="AssetPayment-account.organizationCode" parent="AssetPayment-account.organizationCode-parentBean" />

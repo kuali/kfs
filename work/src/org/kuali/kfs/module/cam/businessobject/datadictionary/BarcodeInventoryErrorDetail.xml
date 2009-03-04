@@ -66,6 +66,11 @@
     <property name="name" value="assetTagNumber" />
     <property name="shortLabel" value="Tag#" />
     <property name="required" value="true" />  
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false" />
+       </bean>
+	</property>
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-buildingCode" parent="BarcodeInventoryErrorDetail-buildingCode-parentBean" />

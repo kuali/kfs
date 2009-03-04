@@ -75,6 +75,7 @@ public class CloseServiceImpl implements CloseService {
             return true;
         }
 
+        boolean result = true;
         String noteText = null;
         if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), 
                 CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)){
@@ -107,10 +108,10 @@ public class CloseServiceImpl implements CloseService {
                 String messageProperty = kualiConfigurationService.getPropertyString(CGKeyConstants.ERROR_CLOSE_JOB_FAILED);
                 noteText = MessageFormat.format(messageProperty, e.getMessage(), e.getCause().getMessage());
             } finally {
-               return this.addDocumentNoteAfterClosing(max, noteText);
+               result = this.addDocumentNoteAfterClosing(max, noteText);
             }
-        } else
-            return true;
+        }
+        return result;
     }
     
     public CFDAClose getMostRecentClose() {

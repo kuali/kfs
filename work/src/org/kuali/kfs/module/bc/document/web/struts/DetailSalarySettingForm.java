@@ -434,6 +434,10 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * determine whether the editing mode for detail salary setting is in single account mode or not
      */
     private boolean resetSingleAccountModeFlag() {
+
+        List<Organization> processorOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(this.getPerson());
+        Boolean isOrgApprover = processorOrgs != null && !processorOrgs.isEmpty();
+
         if (this.isBudgetByAccountMode()) {
 
             Account account = new Account();
@@ -458,12 +462,14 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             List<String> roleId = new ArrayList<String>();
             roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
 
-            return roleService.principalHasRole(getPerson().getPrincipalId(), roleId, qualification);
+            Boolean isFiscalOfficerOrDelegate = roleService.principalHasRole(getPerson().getPrincipalId(), roleId, qualification);
+
+            return (isFiscalOfficerOrDelegate && !isOrgApprover);
         }
 
         // instruct the detail salary setting by multiple account mode if current user is an organization level approver
-        List<Organization> processorOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(this.getPerson());
-        if (processorOrgs != null && !processorOrgs.isEmpty()) {
+//        List<Organization> processorOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(this.getPerson());
+        if (isOrgApprover) {
             return false;
         }
         else {

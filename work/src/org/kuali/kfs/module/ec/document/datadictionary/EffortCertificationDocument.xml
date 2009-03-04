@@ -108,9 +108,8 @@
   <bean id="EffortCertificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 	  <property name="searchingTypeDefinitions">
 	  		<list>
-    			<ref bean="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode"/>
-    			<ref bean="EffortCertificationDocument-SearchingTypeDefinition-organizationCode"/>	  		
-
+  				<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
+    			<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -162,26 +161,6 @@
   	  		</map>
   	  </property>	
   </bean>
-  
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean"/> 
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
-	  <property name="documentValues">
-	  	<list>
-	  		<value>effortCertificationDetailLines.account.chartOfAccountsCode</value>
-	   	</list>
-	</property>
-  </bean>
-
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode" parent="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean"/> 
-  <bean id="EffortCertificationDocument-SearchingTypeDefinition-organizationCode-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode"/>
-	  <property name="documentValues">
-	  	<list>
-	  		<value>effortCertificationDetailLines.account.organizationCode</value>
-	   	</list>
-	</property>
-  </bean>   
 
 	<!-- define the routing types -->    
   <bean id="RoutingType-EffortCertificationDocument-Account" parent="RoutingType-EffortCertificationDocument-Account-parentBean"/>

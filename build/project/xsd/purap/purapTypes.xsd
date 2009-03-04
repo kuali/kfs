@@ -95,6 +95,12 @@
         </xsd:restriction>
     </xsd:simpleType>
     
+    <xsd:simpleType name="twoHundredCharsType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="200"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
     <xsd:simpleType name="eInvoiceDescriptionType">
         <xsd:restriction base="xsd:string">
             <xsd:maxLength value="300"/>

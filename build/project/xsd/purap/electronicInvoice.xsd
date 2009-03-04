@@ -24,7 +24,7 @@
   <xsd:element name="Name">
   	<xsd:complexType>
   		<xsd:simpleContent>
-  			<xsd:extension base="kfs:zeroToFiftyFiveCharType"> <!--  since barnesandnoble.xml contains empty name in contact, we need minLen=0 insteadof 1 -->
+  			<xsd:extension base="purap:twoHundredCharsType"> <!--  since barnesandnoble.xml contains empty name in contact, we need minLen=0 insteadof 1 -->
   				<xsd:attribute ref="xml:lang" use="required" />
   			</xsd:extension>
   		</xsd:simpleContent>

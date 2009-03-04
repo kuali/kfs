@@ -55,7 +55,7 @@ public class BudgetConstructionDocumentPresentationController extends FinancialS
     protected boolean canSave(Document document) {
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) document;
 
-        return SpringContext.getBean(FiscalYearFunctionControlService.class).isBudgetUpdateAllowed(bcDocument.getUniversityFiscalYear());
+        return SpringContext.getBean(BudgetDocumentService.class).isAccountReportsExist(bcDocument.getChartOfAccountsCode(), bcDocument.getAccountNumber()) && SpringContext.getBean(FiscalYearFunctionControlService.class).isBudgetUpdateAllowed(bcDocument.getUniversityFiscalYear());
     }
 
     /**

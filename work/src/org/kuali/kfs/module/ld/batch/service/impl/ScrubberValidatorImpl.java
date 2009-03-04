@@ -204,11 +204,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             laborWorkingEntry.setPayrollEndDateFiscalYear(payrollEndDateFiscalYear);
         }
 
-        SystemOptions options = optionsService.getOptions(laborWorkingEntry.getUniversityFiscalYear());
-        if (ObjectUtils.isNull(options)) {
-            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, "" + payrollEndDateFiscalYear, Message.TYPE_FATAL);
-        }
-
         return null;
     }
 
@@ -224,10 +219,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         else {
             laborWorkingEntry.setPayrollEndDateFiscalPeriodCode(laborOriginEntry.getUniversityFiscalPeriodCode());
-        }
-
-        if (ObjectUtils.isNull(laborOriginEntry.getAccountingPeriod())) {
-            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND, payrollEndDateFiscalPeriodCode, Message.TYPE_FATAL);
         }
 
         return null;

@@ -56,6 +56,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     private final static String URL_PREFIX = "ar";
     private final static String URL_MIDDLE = "Document.do?methodToCall=docHandler&command=";
     private final static String URL_SUFFIX = "&docId=";
+    private final static String URL_DOC_TYPE = "CashControl";
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List,
@@ -74,9 +75,9 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
             accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
             document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
-            addCashControlDetailsToDocument(document, electronicPayments);
             addDescriptionToDocument(document);
             addNotesToDocument(document, electronicPayments, user);
+            addCashControlDetailsToDocument(document, electronicPayments);
             documentService.saveDocument(document);
             electronicPaymentClaimingService.claimElectronicPayments(electronicPayments, document.getDocumentNumber());
         }
@@ -142,7 +143,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     protected String getURLForDocument(CashControlDocument doc) {
         StringBuilder url = new StringBuilder();
         url.append(URL_PREFIX);
-        url.append(getClaimingDocumentWorkflowDocumentType().replace("Document", ""));
+        url.append(URL_DOC_TYPE);
         url.append(URL_MIDDLE);
         url.append(KEWConstants.ACTIONLIST_COMMAND);
         url.append(URL_SUFFIX);

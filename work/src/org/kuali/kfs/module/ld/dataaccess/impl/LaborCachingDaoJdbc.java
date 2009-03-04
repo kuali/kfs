@@ -26,6 +26,7 @@ import org.kuali.kfs.gl.dataaccess.impl.CachingDaoJdbc;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborCachingDao;
+import org.kuali.rice.kns.util.Guid;
 
 public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCachingDaoJdbc.class);
@@ -54,7 +55,7 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingD
             ledgerEntryInsert.setString(12, ledgerEntry.getDocumentNumber());
             ledgerEntryInsert.setInt(13, ledgerEntry.getTransactionLedgerEntrySequenceNumber());
             if (ledgerEntry.getObjectId() == null) {
-                ledgerEntryInsert.setString(14, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                ledgerEntryInsert.setString(14, new Guid().toString());
             }
             else
             {

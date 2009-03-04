@@ -7,7 +7,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="SystemInformation" parent="SystemInformation-parentBean" />
-
   <bean id="SystemInformation-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.SystemInformation" />
     <property name="inquiryDefinition" >
@@ -85,7 +84,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
   <bean id="SystemInformation-systemInformationViewer" parent="SystemInformation-systemInformationViewer-parentBean" />
-
   <bean id="SystemInformation-systemInformationViewer-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="systemInformationViewer" />
     <property name="forceUppercase" value="false" />
@@ -99,7 +97,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="SystemInformation-active" parent="SystemInformation-active-parentBean" />
-
   <bean id="SystemInformation-active-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="active" />
     <property name="forceUppercase" value="true" />
@@ -112,7 +109,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
 
   <bean id="SystemInformation-lockboxNumber" parent="SystemInformation-lockboxNumber-parentBean" />
-
   <bean id="SystemInformation-lockboxNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="lockboxNumber" />
     <property name="forceUppercase" value="true" />
@@ -129,9 +125,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
   
-<bean id="SystemInformation-financialDocumentInitiatorIdentifier" parent="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" />  
-  
-<bean id="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="SystemInformation-financialDocumentInitiatorIdentifier" parent="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" />  
+  <bean id="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="financialDocumentInitiatorIdentifier" />
     <property name="label" value="Lockbox Document Initiator ID" />
     <property name="shortLabel" value="Initiator ID" />
@@ -142,8 +137,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="SystemInformation-financialDocumentInitiator.principalName" parent="SystemInformation-financialDocumentInitiator.principalName-parentBean" />
 
+  <bean id="SystemInformation-financialDocumentInitiator.principalName" parent="SystemInformation-financialDocumentInitiator.principalName-parentBean" />
   <bean id="SystemInformation-financialDocumentInitiator.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="financialDocumentInitiator.principalName" />
     <property name="label" value="Lockbox Document Initiator" />
@@ -156,8 +151,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:userIdAttributeName="financialDocumentInitiator.principalName" />
     </property>
   </bean>
-  <bean id="SystemInformation-financialDocumentInitiator.name" parent="SystemInformation-financialDocumentInitiator.name-parentBean" />
 
+  <bean id="SystemInformation-financialDocumentInitiator.name" parent="SystemInformation-financialDocumentInitiator.name-parentBean" />
   <bean id="SystemInformation-financialDocumentInitiator.name-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="financialDocumentInitiator.name" />
     <property name="label" value="Lockbox Document Initiator Name" />
@@ -166,7 +161,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="SystemInformation-creditCardObjectCode" parent="SystemInformation-creditCardObjectCode-parentBean" />
-
   <bean id="SystemInformation-creditCardObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="creditCardObjectCode" />
     <property name="forceUppercase" value="true" />
@@ -182,8 +176,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="required" value="true" />
   </bean>
-  <bean id="SystemInformation-processingChartOfAccountCode" parent="SystemInformation-processingChartOfAccountCode-parentBean" />
 
+  <bean id="SystemInformation-processingChartOfAccountCode" parent="SystemInformation-processingChartOfAccountCode-parentBean" />
   <bean id="SystemInformation-processingChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="processingChartOfAccountCode" />
     <property name="forceUppercase" value="true" />
@@ -198,8 +192,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="4" />
     </property>
   </bean>
-  <bean id="SystemInformation-processingOrganizationCode" parent="SystemInformation-processingOrganizationCode-parentBean" />
 
+  <bean id="SystemInformation-processingOrganizationCode" parent="SystemInformation-processingOrganizationCode-parentBean" />
   <bean id="SystemInformation-processingOrganizationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="processingOrganizationCode" />
     <property name="forceUppercase" value="true" />
@@ -216,14 +210,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="SystemInformation-processingOrganization.codeAndDescription" parent="SystemInformation-processingOrganization.codeAndDescription-parentBean" />
-  
   <bean id="SystemInformation-processingOrganization.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription-parentBean">
   	<property name="name" value="processingOrganization.codeAndDescription" />
   	<property name="label" value="Processing Organization Code" />
   </bean>    
   
   <bean id="SystemInformation-discountObjectCode" parent="SystemInformation-discountObjectCode-parentBean" />
-
   <bean id="SystemInformation-discountObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="discountObjectCode" />
     <property name="forceUppercase" value="true" />
@@ -238,8 +230,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="6" />
     </property>
   </bean>
-  <bean id="SystemInformation-universityClearingSubAccountNumber" parent="SystemInformation-universityClearingSubAccountNumber-parentBean" />
 
+  <bean id="SystemInformation-universityClearingSubAccountNumber" parent="SystemInformation-universityClearingSubAccountNumber-parentBean" />
   <bean id="SystemInformation-universityClearingSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityClearingSubAccountNumber" />
     <property name="forceUppercase" value="true" />
@@ -256,7 +248,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="SystemInformation-universityFiscalYear" parent="SystemInformation-universityFiscalYear-parentBean" />
-
   <bean id="SystemInformation-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="shortLabel" value="University Fiscal Year" />
@@ -268,20 +259,20 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Chart Of Account" />
     <property name="shortLabel" value="University Clearing Chart Of Accounts Code" />
   </bean>
-  <bean id="SystemInformation-universityClearingAccountNumber" parent="SystemInformation-universityClearingAccountNumber-parentBean" />
 
+  <bean id="SystemInformation-universityClearingAccountNumber" parent="SystemInformation-universityClearingAccountNumber-parentBean" />
   <bean id="SystemInformation-universityClearingAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="name" value="universityClearingAccountNumber" />
     <property name="shortLabel" value="University Clearing Account Number" />
   </bean>
-  <bean id="SystemInformation-universityClearingObjectCode" parent="SystemInformation-universityClearingObjectCode-parentBean" />
 
+  <bean id="SystemInformation-universityClearingObjectCode" parent="SystemInformation-universityClearingObjectCode-parentBean" />
   <bean id="SystemInformation-universityClearingObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="universityClearingObjectCode" />
     <property name="shortLabel" value="University Clearing Object Code" />
   </bean>
-  <bean id="SystemInformation-universityClearingSubObjectCode" parent="SystemInformation-universityClearingSubObjectCode-parentBean" />
 
+  <bean id="SystemInformation-universityClearingSubObjectCode" parent="SystemInformation-universityClearingSubObjectCode-parentBean" />
   <bean id="SystemInformation-universityClearingSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="universityClearingSubObjectCode" />
     <property name="label" value="Unapplied Payment Sub Object Code" />
@@ -343,38 +334,36 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>  
   
   <bean id="SystemInformation-organizationCheckPayableToName" parent="SystemInformation-organizationCheckPayableToName-parentBean" />
-
   <bean id="SystemInformation-organizationCheckPayableToName-parentBean" abstract="true" parent="OrganizationOptions-organizationCheckPayableToName">
     <property name="label" value="Remit to" />
   </bean>
-  <bean id="SystemInformation-organizationRemitToAddressName" parent="SystemInformation-organizationRemitToAddressName-parentBean" />
 
+  <bean id="SystemInformation-organizationRemitToAddressName" parent="SystemInformation-organizationRemitToAddressName-parentBean" />
   <bean id="SystemInformation-organizationRemitToAddressName-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToAddressName">
   </bean>
-  <bean id="SystemInformation-organizationRemitToLine1StreetAddress" parent="SystemInformation-organizationRemitToLine1StreetAddress-parentBean" />
 
+  <bean id="SystemInformation-organizationRemitToLine1StreetAddress" parent="SystemInformation-organizationRemitToLine1StreetAddress-parentBean" />
   <bean id="SystemInformation-organizationRemitToLine1StreetAddress-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToLine1StreetAddress">
   </bean>
-  <bean id="SystemInformation-organizationRemitToLine2StreetAddress" parent="SystemInformation-organizationRemitToLine2StreetAddress-parentBean" />
 
+  <bean id="SystemInformation-organizationRemitToLine2StreetAddress" parent="SystemInformation-organizationRemitToLine2StreetAddress-parentBean" />
   <bean id="SystemInformation-organizationRemitToLine2StreetAddress-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToLine2StreetAddress">
   </bean>
-  <bean id="SystemInformation-organizationRemitToCityName" parent="SystemInformation-organizationRemitToCityName-parentBean" />
 
+  <bean id="SystemInformation-organizationRemitToCityName" parent="SystemInformation-organizationRemitToCityName-parentBean" />
   <bean id="SystemInformation-organizationRemitToCityName-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToCityName">
   </bean>
-  <bean id="SystemInformation-organizationRemitToStateCode" parent="SystemInformation-organizationRemitToStateCode-parentBean" />
 
+  <bean id="SystemInformation-organizationRemitToStateCode" parent="SystemInformation-organizationRemitToStateCode-parentBean" />
   <bean id="SystemInformation-organizationRemitToStateCode-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToStateCode">
     <property name="label" value="State" />
   </bean>
-  <bean id="SystemInformation-organizationRemitToZipCode" parent="SystemInformation-organizationRemitToZipCode-parentBean" />
 
+  <bean id="SystemInformation-organizationRemitToZipCode" parent="SystemInformation-organizationRemitToZipCode-parentBean" />
   <bean id="SystemInformation-organizationRemitToZipCode-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToZipCode">
   </bean>
   
 <!-- Business Object Inquiry Definition -->
-
 
   <bean id="SystemInformation-inquiryDefinition" parent="SystemInformation-inquiryDefinition-parentBean" />
 
@@ -399,6 +388,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                     p:attributeName="financialDocumentInitiatorIdentifier" />                    
               <bean parent="FieldDefinition"
                     p:attributeName="lockboxNumber" />        	  
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
              </list>
           </property>
         </bean>                     

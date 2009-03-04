@@ -55,7 +55,6 @@
       </list>
     </property>
     
-    
     <property name="documentTypeName" value="ARSI"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.SystemInformationRule"/>
     <property name="workflowAttributes">
@@ -65,27 +64,26 @@
 
 <!-- Maintenance Section Definitions -->
 
-
   <bean id="SystemInformationMaintenanceDocument-EditSystemInformation" parent="SystemInformationMaintenanceDocument-EditSystemInformation-parentBean"/>
-
   <bean id="SystemInformationMaintenanceDocument-EditSystemInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit System Information"/>
     <property name="title" value="Edit System Information"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>         
-        <bean parent="MaintainableFieldDefinition" p:name="universityFederalEmployerIdentificationNumber" p:required="true"/>              
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="universityFederalEmployerIdentificationNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="processingChartOfAccountCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="processingOrganizationCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentInitiatorIdentifier" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.DefaultSystemUserValueFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentInitiator.principalName" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.DefaultSystemUserValueFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentInitiator.name"/>              
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentInitiator.name"/>
         <bean parent="MaintainableFieldDefinition" p:name="lockboxNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
       </list>
     </property>
   </bean>
-  <bean id="SystemInformationMaintenanceDocument-EditObjectCodes" parent="SystemInformationMaintenanceDocument-EditObjectCodes-parentBean"/>
 
+  <bean id="SystemInformationMaintenanceDocument-EditObjectCodes" parent="SystemInformationMaintenanceDocument-EditObjectCodes-parentBean"/>
   <bean id="SystemInformationMaintenanceDocument-EditObjectCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Object Codes"/>
     <property name="title" value="Edit Object Codes"/>
@@ -96,8 +94,8 @@
       </list>
     </property>
   </bean>
-  <bean id="SystemInformationMaintenanceDocument-EditUniversityClearingAccount" parent="SystemInformationMaintenanceDocument-EditUniversityClearingAccount-parentBean"/>
 
+  <bean id="SystemInformationMaintenanceDocument-EditUniversityClearingAccount" parent="SystemInformationMaintenanceDocument-EditUniversityClearingAccount-parentBean"/>
   <bean id="SystemInformationMaintenanceDocument-EditUniversityClearingAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit University Clearing Account"/>
     <property name="title" value="Edit University Clearing Account"/>
@@ -112,9 +110,7 @@
     </property>
   </bean>
 
-  
   <bean id="SystemInformationMaintenanceDocument-EditWireAccount" parent="SystemInformationMaintenanceDocument-EditWireAccount-parentBean"/>
-
   <bean id="SystemInformationMaintenanceDocument-EditWireAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Wire Account"/>
     <property name="title" value="Edit Wire Account"/>
@@ -129,9 +125,7 @@
     </property>
   </bean>
   
-  
   <bean id="SystemInformationMaintenanceDocument-EditRemitToInformation" parent="SystemInformationMaintenanceDocument-EditRemitToInformation-parentBean"/>
-
   <bean id="SystemInformationMaintenanceDocument-EditRemitToInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Remit To Information"/>
     <property name="title" value="Edit Remit To Information"/>
@@ -150,7 +144,6 @@
   
   <!-- workflow attributes -->
   <bean id="SystemInformationMaintenanceDocument-workflowAttributes" parent="SystemInformationMaintenanceDocument-workflowAttributes-parentBean"/>
-	
   <bean id="SystemInformationMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
   </bean>
 </beans>

@@ -59,6 +59,9 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         Customer newCustomer = (Customer) newMaintainable.getBusinessObject();
 
         Date currentDate = getDateTimeService().getCurrentSqlDate();
+        if(!oldCustomer.equals(newCustomer)) {
+            newCustomer.setCustomerLastActivityDate(currentDate);
+        }
 
         // when we create new customer set the customerRecordAddDate to current date
         if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {

@@ -329,7 +329,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         }
         catch (Exception ex) {
             LOG.error("Error reading file", ex);
-            throw new IllegalArgumentException("Error reading file: " + ex.getMessage());
+            throw new IllegalArgumentException("Error reading file: " + ex.getMessage(), ex);
         }
         finally {
             LOG.debug("processFile(File file) - End");
@@ -460,7 +460,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         }
         catch (Exception e) {
             LOG.error("Error creating BCIE documents", e);
-            throw new IllegalArgumentException("Error creating BCIE documents: " + e.getMessage());
+            throw new IllegalArgumentException("Error creating BCIE documents: " + e.getMessage(), e);
         }
         return documentsCreated;
     }
@@ -528,7 +528,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         }
         catch (Exception e) {
             LOG.error("Error persisting document # " + document.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
-            throw new RuntimeException("Error persisting document # " + document.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+            throw new RuntimeException("Error persisting document # " + document.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
         }
     }
 

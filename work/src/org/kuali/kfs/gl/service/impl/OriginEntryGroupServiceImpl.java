@@ -257,13 +257,14 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
             throw new RuntimeException("nightlyOutFile doesn't exist :" + nightlyOutFileName);
         }
         //check laborGlEntryFileName
-        if (kualiModuleService.isModuleServiceInstalled(KFSConstants.LABOR_MODULE_CODE)){
-            String laborGlEntryFileName = GeneralLedgerConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-            File laborGlEntryFile = new File(batchFileDirectoryName + File.separator + laborGlEntryFileName);
-            if (!laborGlEntryFile.exists()){
-                throw new RuntimeException("laborGlEntryFile doesn't exist :" + laborGlEntryFileName);
-            }
-        }
+        //TODO: Shawn - commented out for a while 
+//        if (kualiModuleService.isModuleServiceInstalled(KFSConstants.LABOR_MODULE_CODE)){
+//            String laborGlEntryFileName = GeneralLedgerConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+//            File laborGlEntryFile = new File(batchFileDirectoryName + File.separator + laborGlEntryFileName);
+//            if (!laborGlEntryFile.exists()){
+//                throw new RuntimeException("laborGlEntryFile doesn't exist :" + laborGlEntryFileName);
+//            }
+//        }
         
         String backupFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;    
         //File backupFile = new File(batchFileDirectoryName + File.separator + backupFileName);

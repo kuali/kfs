@@ -5,15 +5,40 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 >
 
+    <bean id="SearchingAttribute-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="attributeName" value="customerNumber" />
+         <property name="showAttributeInSearchCriteria" value="true"/>
+         <property name="showAttributeInResultSet" value="true"/>
+    </bean>
+    <bean id="RoutingAttribute-customerNumber" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+  		<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
+    	<property name="attributeName" value="customerNumber" />
+    </bean>
 
+    <bean id="SearchingAttribute-customerName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
+    	<property name="attributeName" value="customerName" />
+        <property name="showAttributeInSearchCriteria" value="true"/>
+        <property name="showAttributeInResultSet" value="true"/>
+    </bean>
+    <bean id="RoutingAttribute-customerName" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+  		<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
+    	<property name="attributeName" value="customerName" />
+    </bean>
+
+<!-- 
     <bean id="WorkflowAttributeMetaData-customerNumber" abstract="true">
     	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
     	<property name="attributeName" value="customerNumber" />
     </bean>
+
     <bean id="WorkflowAttributeMetaData-customerName" abstract="true">
     	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
     	<property name="attributeName" value="customerName" />
     </bean>
+ -->    
+    
     <bean id="WorkflowAttributeMetaData-processingChartOfAccountsCode" abstract="true">
     	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
     	<property name="attributeName" value="processingChartOfAccountCode" />
@@ -57,21 +82,29 @@
 
 
 
+<!-- 
     <bean id="SearchingAttribute-customerNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerNumber">
          <property name="showAttributeInSearchCriteria" value="true"/>
          <property name="showAttributeInResultSet" value="true"/>
 	</bean>
-    <bean id="SearchingAttribute-customerNumber-criteriaOnly" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerNumber">
-         <property name="showAttributeInSearchCriteria" value="true"/>
-         <property name="showAttributeInResultSet" value="false"/>
+ -->
+    <bean id="SearchingAttribute-customerNumber-criteriaOnly" class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="attributeName" value="customerNumber" />
+        <property name="showAttributeInSearchCriteria" value="true"/>
+        <property name="showAttributeInResultSet" value="false"/>
 	</bean>
+<!-- 
     <bean id="SearchingAttribute-customerName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerName">
          <property name="showAttributeInSearchCriteria" value="true"/>
          <property name="showAttributeInResultSet" value="true"/>
 	</bean>
-    <bean id="SearchingAttribute-customerName-criteriaOnly" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-customerName">
-         <property name="showAttributeInSearchCriteria" value="true"/>
-         <property name="showAttributeInResultSet" value="false"/>
+ -->
+    <bean id="SearchingAttribute-customerName-criteriaOnly" class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+    	<property name="attributeName" value="customerName" />
+        <property name="showAttributeInSearchCriteria" value="true"/>
+        <property name="showAttributeInResultSet" value="false"/>
 	</bean>
     <bean id="SearchingAttribute-processingChartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" parent="WorkflowAttributeMetaData-processingChartOfAccountsCode">
          <property name="showAttributeInSearchCriteria" value="true"/>

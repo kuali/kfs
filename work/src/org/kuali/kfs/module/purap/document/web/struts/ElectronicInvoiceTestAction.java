@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -73,7 +74,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
 
                             if (validateSuccessful) {
                                 InputStream saveStream = new ByteArrayInputStream(fileByteContent);
-                                batchInputFileService.save(GlobalVariables.getUserSession().getPerson(), batchType, eInvoice.getFileName(), saveStream, parsedObject);
+                                batchInputFileService.save(GlobalVariables.getUserSession().getPerson(), batchType, ""+RandomUtils.nextInt(), saveStream, parsedObject);
                             }
                         }
                     } else {
@@ -143,9 +144,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "              invoiceDate=\"2008-07-25T00:00:00-08:00\" invoiceID=\"133\"\n" +
                 "              operation=\"new\" purpose=\"standard\" isInformationOnly='yes'>\n" +
                 "              <InvoiceDetailHeaderIndicator isHeaderInvoice=\"yes\"/>\n" +
-                "              <InvoiceDetailLineIndicator isTaxInLine='no'\n" +
-                "                  isSpecialHandlingInLine='no' isShippingInLine='no'\n" +
-                "                  isDiscountInLine='no' />\n" +
+                "              <InvoiceDetailLineIndicator/>\n" +
                 "              <InvoicePartner>\n" +
                 "                  <Contact addressID=\"\" role=\"billTo\">\n" +
                 "                      <Name xml:lang=\"en\">INDIANA UNIV@INDPLS</Name>\n" +

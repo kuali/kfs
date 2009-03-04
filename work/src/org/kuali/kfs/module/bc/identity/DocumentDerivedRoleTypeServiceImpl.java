@@ -70,6 +70,9 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         newQualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
         newQualification.put(KfsKimAttributes.DESCEND_HIERARCHY, descendHierarchy);
         newQualification.put(BCPropertyConstants.ACCOUNT_REPORTS_EXIST, accountReportExists);
+        if (qualification.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)) {
+            newQualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
+        }
 
         return newQualification;
     }

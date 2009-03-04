@@ -284,10 +284,9 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         // validate customer number and line amount
         if (isValid) {
             String customerNumber = cashControlDetail.getCustomerNumber();
-            // if customer number is not empty check that it is valid and not inactive
+            // if customer number is not empty check that it is valid
             if (customerNumber != null && !customerNumber.equals("")) {
                 isValid &= checkCustomerNumber(customerNumber);
-                isValid &= checkCustomerIsActive(customerNumber);
             }
             // check if line amount is valid
             isValid &= checkLineAmount(document, cashControlDetail);
@@ -342,32 +341,6 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
             if (customer == null) {
                 GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
-                isValid = false;
-            }
-        }
-
-        return isValid;
-    }
-
-    /**
-     * This method checks if the customer is active
-     * 
-     * @param customerNumber
-     * @return true if customer is active, false otherwise
-     */
-    private boolean checkCustomerIsActive(String customerNumber) {
-        boolean isValid = true;
-
-        if (customerNumber != null && !customerNumber.equals("")) {
-
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("customerNumber", customerNumber);
-
-            Customer customer = (Customer) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
-
-            if (customer != null && !customer.isActive()) {
-
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_IS_INACTIVE);
                 isValid = false;
             }
         }

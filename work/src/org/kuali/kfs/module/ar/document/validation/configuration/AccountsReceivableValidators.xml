@@ -201,7 +201,6 @@
     <!-- Cash Control -->   	
    	<bean id="CashControl-checkGLPEsNotGeneratedValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlCheckGLPEsNotGeneratedValidation" abstract="true" /> 
    	<bean id="CashControl-customerNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlCustomerNumberValidation" abstract="true" />
-   	<bean id="CashControl-customerNumberActiveValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlCustomerNumberActiveValidation" abstract="true" /> 
    	<bean id="CashControl-refDocNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CashControlRefDocNumberValidation" abstract="true" >
    		<property name="documentService">
    			<ref bean="documentService" />

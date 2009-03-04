@@ -61,16 +61,6 @@
 									</list>
 								</property>
 							</bean>
-							<bean parent="CashControl-customerNumberActiveValidation">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="iterationSubject" />
-											<property name="targetValidationProperty" value="cashControlDetail" />
-										</bean>
-									</list>
-								</property>				
-							</bean>
 							<bean parent="CashControl-lineAmountValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
@@ -159,20 +149,6 @@
 					</property>
 				</bean>
 				<bean parent="CashControl-customerNumberValidation">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="cashControlDocument" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="cashControlDetail" />
-								<property name="targetValidationProperty" value="cashControlDetail" />
-							</bean>						
-						</list>
-					</property>
-				</bean>
-				<bean parent="CashControl-customerNumberActiveValidation">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
@@ -316,16 +292,6 @@
 										</bean>
 									</list>
 								</property>
-							</bean>
-							<bean parent="CashControl-customerNumberActiveValidation">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="iterationSubject" />
-											<property name="targetValidationProperty" value="cashControlDetail" />
-										</bean>
-									</list>
-								</property>				
 							</bean>
 							<bean parent="CashControl-lineAmountValidation" scope="prototype">
 								<property name="parameterProperties">

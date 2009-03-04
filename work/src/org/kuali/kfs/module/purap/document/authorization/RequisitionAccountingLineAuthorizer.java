@@ -32,9 +32,9 @@ public class RequisitionAccountingLineAuthorizer extends PurapAccountingLineAuth
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#renderNewLine(org.kuali.kfs.sys.document.AccountingDocument, java.lang.String)
      */
     @Override
-    public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, Map documentActions) {
-        if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.INITIATOR_NODE) || accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.CONTENT_REVIEW_NODE))) return true;
-        return super.renderNewLine(accountingDocument, accountingGroupProperty, documentActions);
+    public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
+        if (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.INITIATOR_NODE) || accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(RequisitionAccountingLineAuthorizer.CONTENT_REVIEW_NODE)) return true;
+        return super.renderNewLine(accountingDocument, accountingGroupProperty);
     }
     
     

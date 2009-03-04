@@ -277,7 +277,7 @@ public class AccountingLineGroupTag extends TagSupport {
         }
         
         // add the new line
-        if (StringUtils.isNotBlank(newLinePropertyName) && ((groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, getForm().getDocumentActions())) || anyEditableLines)) {
+        if (StringUtils.isNotBlank(newLinePropertyName) && ((getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName)) || anyEditableLines)) {
             containers.add(0, buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null, true));
         }
         

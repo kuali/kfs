@@ -95,8 +95,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#renderNewLine(org.kuali.kfs.sys.document.AccountingDocument,
      *      java.lang.String)
      */
-    public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, Map documentActions) {
-        return (accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+    public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
+        return (accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved());
     }
 
     /**

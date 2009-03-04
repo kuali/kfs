@@ -24,15 +24,23 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 public class PurchasingAccountsPayableExtendedPriceNonZeroBranchingValidation extends BranchingValidation{
 
     private static final String IS_EXTENDED_PRICE_NON_ZERO = "isExtendedPriceNonZero";
-    private PurApItem item;
+    private PurApItem itemForValidation;
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
-        if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
+        if (itemForValidation.getExtendedPrice() != null && itemForValidation.getExtendedPrice().isNonZero()) {
             return IS_EXTENDED_PRICE_NON_ZERO;
         } else {
             return null;
         }
+    }
+
+    public PurApItem getItemForValidation() {
+        return itemForValidation;
+    }
+
+    public void setItemForValidation(PurApItem itemForValidation) {
+        this.itemForValidation = itemForValidation;
     }
 
 }

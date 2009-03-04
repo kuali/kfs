@@ -102,6 +102,14 @@
 													</entry>
 												</map>
 											</property>
+											<property name="parameterProperties">
+												<list>
+													<bean parent="validationFieldConversion">
+														<property name="sourceEventProperty" value="iterationSubject" />
+														<property name="targetValidationProperty" value="itemForValidation" />
+													</bean>
+												</list>
+											</property>																														
 											</bean>
 										</list>
 										</property>
@@ -142,6 +150,14 @@
 													</entry>
 												</map>
 											</property>
+											<property name="parameterProperties">
+												<list>
+													<bean parent="validationFieldConversion">
+														<property name="sourceEventProperty" value="iterationSubject" />
+														<property name="targetValidationProperty" value="itemForValidation" />
+													</bean>
+												</list>
+											</property>																																									
 											</bean>
 											
 										</list>
@@ -150,6 +166,14 @@
 									</entry>							
 								</map>
 							</property>
+							<property name="parameterProperties">
+								<list>
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="iterationSubject" />
+										<property name="targetValidationProperty" value="itemForValidation" />
+									</bean>
+								</list>
+							</property>												
 						</bean>
 																				
 						</list>
@@ -255,6 +279,14 @@
 													</entry>
 												</map>
 											</property>
+											<property name="parameterProperties">
+												<list>
+													<bean parent="validationFieldConversion">
+														<property name="sourceEventProperty" value="iterationSubject" />
+														<property name="targetValidationProperty" value="itemForValidation" />
+													</bean>
+												</list>
+											</property>																																									
 											</bean>
 										</list>
 										</property>
@@ -295,6 +327,14 @@
 													</entry>
 												</map>
 											</property>
+											<property name="parameterProperties">
+												<list>
+													<bean parent="validationFieldConversion">
+														<property name="sourceEventProperty" value="iterationSubject" />
+														<property name="targetValidationProperty" value="itemForValidation" />
+													</bean>
+												</list>
+											</property>																																									
 											</bean>
 											
 										</list>
@@ -303,6 +343,14 @@
 									</entry>							
 								</map>
 							</property>
+							<property name="parameterProperties">
+								<list>
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="iterationSubject" />
+										<property name="targetValidationProperty" value="itemForValidation" />
+									</bean>
+								</list>
+							</property>																			
 						</bean>												
 						</list>
 					</property>

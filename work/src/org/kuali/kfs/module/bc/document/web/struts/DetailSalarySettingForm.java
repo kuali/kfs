@@ -445,19 +445,11 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             account.setChartOfAccountsCode(this.getChartOfAccountsCode());
             account = (Account) businessObjectService.retrieve(account);
 
-            // TODO this is old check, not sure new KIM check checks for delegate, need to verify this
-            // also, this should also check that the user is not an org approver anywhere AND is a FO
-            // or delegate when returning true
-            // // instruct the detail salary setting by single account mode if current user is an account approver or delegate
-            // if (permissionService.isAccountManagerOrDelegate(account, this.getPerson())) {
-            // return true;
-            // }
-
-
             RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
             AttributeSet qualification = new AttributeSet();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, getAccountNumber());
+            qualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
 
             List<String> roleId = new ArrayList<String>();
             roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
@@ -468,7 +460,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
 
         // instruct the detail salary setting by multiple account mode if current user is an organization level approver
-//        List<Organization> processorOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(this.getPerson());
         if (isOrgApprover) {
             return false;
         }

@@ -808,7 +808,7 @@
   <bean id="PaymentDetail-lookupDefinition" parent="PaymentDetail-lookupDefinition-parentBean" />
 
   <bean id="PaymentDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Payment Detail Lookup" />
+    <property name="title" value="Search for Payment" />
     <property name="lookupableID" value="paymentDetailLookupable" />
     <property name="instructions" value="Look up a Payment Detail" />
     <property name="defaultSort" >

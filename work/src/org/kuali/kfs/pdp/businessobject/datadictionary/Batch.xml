@@ -178,7 +178,7 @@
   <bean id="Batch-lookupDefinition" parent="Batch-lookupDefinition-parentBean" />
 
   <bean id="Batch-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Batch Lookup" />
+    <property name="title" value="Search For Batch" />
     <property name="lookupableID" value="batchLookupable" />
     <property name="instructions" value="Look up a Batch" />
     <property name="defaultSort" >

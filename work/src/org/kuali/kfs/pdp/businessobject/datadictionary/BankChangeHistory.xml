@@ -137,7 +137,7 @@
   <bean id="BankChangeHistory-lookupDefinition" parent="BankChangeHistory-lookupDefinition-parentBean" />
 
   <bean id="BankChangeHistory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Bank Change History" />
+    <property name="title" value="Payment Bank History" />
     <property name="lookupableID" value="bankChangeHistoryLookupable" />
     <property name="instructions" value="Search for Payments with Bank changes" />
     <property name="defaultSort" >

@@ -419,6 +419,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         appointmentFunding.setAppointmentRequestedAmount(appointmentRequestedAmount);
 
         if (appointmentFunding.isHourlyPaid()) {
+            appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
             this.normalizePayRateAndAmount(appointmentFunding);
         }
     }
@@ -440,6 +441,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         if (appointmentFunding.isHourlyPaid()) {
+            appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
             this.normalizePayRateAndAmount(appointmentFunding);
         }
     }

@@ -26,7 +26,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
                                                      
-  <bean id="kewDataSource" class="org.kuali.rice.database.XAPoolDataSource">
+  <bean id="kewDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
     <property name="transactionManager" ref="jotm" />
     <property name="driverClassName" value="${rice.workflow.datasource.driver.class}" />
     <property name="maxSize" value="${rice.workflow.datasource.pool.size}" />
@@ -38,7 +38,7 @@
     <property name="password" value="${rice.workflow.datasource.password}" />
   </bean>
 
-  <bean id="registryDataSource" class="org.kuali.rice.database.XAPoolDataSource">
+  <bean id="registryDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
     <property name="transactionManager" ref="jotm" />
     <property name="driverClassName" value="${rice.ksb.datasource.driver.class}" />
     <property name="maxSize" value="${rice.ksb.datasource.pool.size}" />
@@ -50,7 +50,7 @@
     <property name="password" value="${rice.ksb.datasource.password}" />
   </bean>
 
-  <bean id="kimDataSource" class="org.kuali.rice.database.XAPoolDataSource">
+  <bean id="kimDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
     <property name="transactionManager" ref="jotm" />
     <property name="driverClassName" value="${rice.kim.datasource.driver.class}" />
     <property name="maxSize" value="${rice.kim.datasource.pool.size}" />

@@ -503,13 +503,12 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateInvoicesByInitiator(java.lang.String)
      */
     public List<File> generateInvoicesByInitiator(String initiator) {
-
         List<File> reports = new ArrayList<File>();
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getAllCustomerInvoiceDocuments();
         for (CustomerInvoiceDocument invoice : invoices) {
             if (ArConstants.PrintInvoiceOptions.PRINT_BY_USER.equalsIgnoreCase(invoice.getPrintInvoiceIndicator())) {
-                if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equals(initiator)) {
+                if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equalsIgnoreCase(initiator)) {
                     reports.add(generateInvoice(invoice));
                 }
             }

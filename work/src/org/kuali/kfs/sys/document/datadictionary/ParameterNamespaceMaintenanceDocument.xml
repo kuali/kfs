@@ -53,6 +53,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="applicationNamespaceCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
     </property>

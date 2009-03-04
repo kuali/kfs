@@ -176,11 +176,10 @@ public class CertificationReportAction extends EffortCertificationAction {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
         
         // retain error messages after a lookup
-        if(GlobalVariables.getErrorMap() == null) {
-            GlobalVariables.setErrorMap(new ErrorMap());
+        if(certificationReportForm.getErrorMapFromPreviousRequest() != null) {
+            WebUtils.reuseErrorMapFromPreviousRequest(certificationReportForm);
         }
-        WebUtils.reuseErrorMapFromPreviousRequest(certificationReportForm);
-        
+
         for (EffortCertificationDetail detailLine : certificationReportForm.getDetailLines()) {
             //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
             //EffortCertificationDetail does not have any updatable references

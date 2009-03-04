@@ -105,7 +105,10 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#isCurrentUserInitiator(org.kuali.rice.kns.document.Document)
      */
     public boolean isCurrentUserInitiator(Document document) {
-        return GlobalVariables.getUserSession().getPerson().getPrincipalId().equalsIgnoreCase(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        if (document != null) {
+            return GlobalVariables.getUserSession().getPerson().getPrincipalId().equalsIgnoreCase(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        }
+        return false;
     }
 
     /**
@@ -517,11 +520,11 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
             // Saving....
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-            
+
             // add document initiator as adhoc user
-             List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
-             adHocRouteRecipients.add(buildApprovePersonRecipient(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
-             documentService.routeDocument(document,"Routed Update Barcode Inventory Document", adHocRouteRecipients);
+            List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
+            adHocRouteRecipients.add(buildApprovePersonRecipient(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
+            documentService.routeDocument(document, "Routed Update Barcode Inventory Document", adHocRouteRecipients);
         }
         catch (Exception e) {
             LOG.error("Error persisting document # " + document.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);

@@ -15,7 +15,6 @@
 package org.kuali.kfs.module.cam.document.web.struts;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,10 +34,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -57,6 +52,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         this.invokeRules(document, false);
         return super.blanketApprove(mapping, form, request, response);
     }
+
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -161,18 +157,14 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
             }
 
-            // if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) &&
-            // document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-            // TODO: review if we still need this blacketapprove feature
-            // If the same person that uploaded the bcie is the one processing it, then....
-            // if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-            // Take it off cause the KFS-CAM Manager will run into exception when call blankApprove. They maybe have no permission?
-            // this.blanketApprove(mapping, form, request, response);
-            // }
-            // }
-            // else {
-            getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
-            // }
+            // TODO: grant KFS-CAM Manager blanket approve permission for BCIE
+            if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && this.getAssetBarcodeInventoryLoadService().isCurrentUserInitiator(document)) {
+                // If the same person that uploaded the bcie is the one processing it, then....
+                return this.blanketApprove(mapping, form, request, response);
+            }
+            else {
+                getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
+            }
         }
 
         // Loading changes on page
@@ -217,19 +209,15 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
             }
 
-            // if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) &&
-            // document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-            // TODO: review if we still need this blacketapprove feature,
-            // Take it off cause the KFS-CAM Manager will run into exception when call blankApprove. They maybe have no permission?
-            // If the same person that uploaded the bcie is the one processing it, then....
-            // this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
-            // }
-            // }
-            // else {
-            // TODO: replace save action by boservice.save to keep consistency with validate.
-            // this.save(mapping, barcodeInventoryErrorForm, request, response);
-            getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
-            // }
+            // TODO: grant KFS-CAM Manager blanket approve permission for BCIE
+            if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && this.getAssetBarcodeInventoryLoadService().isCurrentUserInitiator(document)) {
+                // If the same person that uploaded the bcie is the one processing it, then blanket approve and surpress other adhoc
+                // recipients.
+                return this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
+            }
+            else {
+                getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
+            }
         }
         barcodeInventoryErrorForm.resetCheckBoxes();
         this.loadDocument((KualiDocumentFormBase) form);

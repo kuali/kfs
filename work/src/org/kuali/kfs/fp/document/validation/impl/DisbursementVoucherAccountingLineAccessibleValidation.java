@@ -26,12 +26,12 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -93,7 +93,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
      */
     private boolean hasRequiredEditMode(AccountingDocument accountingDocument, Person financialSystemUser, List<String> candidateEditModes) {
         DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
-        AccountingDocumentAuthorizer documentAuthorizer = (AccountingDocumentAuthorizer) documentHelperService.getDocumentAuthorizer(accountingDocument);
+        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) documentHelperService.getDocumentAuthorizer(accountingDocument);
         TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentHelperService.getDocumentPresentationController(accountingDocument);
 
         Set<String> presentationControllerEditModes = presentationController.getEditModes(accountingDocument);

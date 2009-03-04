@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.document.authorization;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +26,7 @@ import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -34,26 +36,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(CashReceiptDocumentAuthorizer.class);
 
-    /**
-     * Overrides parent to return an empty Map since FO routing doesn't apply to the CR doc.
-     * 
-     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public Map getEditableAccounts(TransactionalDocument document, Person user) {
-        return new HashMap();
-    }
-
-    /**
-     * Overrides parent to return an empty Map since FO routing doesn't apply to the CR doc.
-     * 
-     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
-     *      org.kuali.module.chart.bo.ChartUser)
-     */
-    @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
-        return new HashMap();
-    }
+    
 }
 

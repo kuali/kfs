@@ -41,7 +41,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * DocumentAuthorizer containing common, reusable document-level authorization code for financial (i.e. Transactional) documents
  */
-public class AccountingDocumentAuthorizerBase extends FinancialSystemTransactionalDocumentAuthorizerBase implements AccountingDocumentAuthorizer {
+public class AccountingDocumentAuthorizerBase extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(AccountingDocumentAuthorizerBase.class);
 
     /**
@@ -56,50 +56,6 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
         if (ObjectUtils.isNull(acct)) return true;
         if (accountService.hasResponsibilityOnAccount(currentUser, acct)) return true;
         return false;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument, org.kuali.rice.kim.bo.Person)
-     */
-    public Map getEditableAccounts(TransactionalDocument document, Person user) {
-
-        Map editableAccounts = new HashMap();
-        AccountingDocument acctDoc = (AccountingDocument) document;
-        AccountService accountService = SpringContext.getBean(AccountService.class);
-
-        // for every source accounting line, decide if account should be in map
-        for (Object acctLineAsObj: acctDoc.getSourceAccountingLines()) {
-            if (determineLineEditability((AccountingLine)acctLineAsObj, user, accountService)) {
-                editableAccounts.put(((AccountingLine)acctLineAsObj).getAccountKey(), "TRUE");
-            }
-        }
-
-        // for every target accounting line, decide if account should be in map
-        for (Object acctLineAsObj: acctDoc.getTargetAccountingLines()) {
-            AccountingLine acctLine = (AccountingLine)acctLineAsObj;
-            if (determineLineEditability((AccountingLine)acctLineAsObj, user, accountService)) {
-                editableAccounts.put(((AccountingLine)acctLineAsObj).getAccountKey(), "TRUE");
-            }
-        }
-
-        return editableAccounts;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer#getEditableAccounts(java.util.List,
-     *      org.kuali.module.chart.bo.KfsUser)
-     */
-    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
-        Map editableAccounts = new HashMap();
-        AccountService accountService = SpringContext.getBean(AccountService.class);
-        
-        for (AccountingLine line: lines) {
-            if (determineLineEditability(line, user, accountService)) {
-                editableAccounts.put(line.getAccountKey(), "TRUE");
-            }
-        }
-
-        return editableAccounts;
     }
     
     @Override

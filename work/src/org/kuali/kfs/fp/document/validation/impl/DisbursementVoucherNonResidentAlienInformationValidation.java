@@ -30,11 +30,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentHelperService;
@@ -158,7 +158,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
      */
     private boolean hasRequiredEditMode(AccountingDocument accountingDocument, Person financialSystemUser, List<String> candidateEditModes) {
         DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
-        AccountingDocumentAuthorizer documentAuthorizer = (AccountingDocumentAuthorizer) documentHelperService.getDocumentAuthorizer(accountingDocument);
+        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) documentHelperService.getDocumentAuthorizer(accountingDocument);
         TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentHelperService.getDocumentPresentationController(accountingDocument);
 
         Set<String> presentationControllerEditModes = presentationController.getEditModes(accountingDocument);

@@ -26,26 +26,5 @@ import org.kuali.rice.kns.document.TransactionalDocument;
 
 
 public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-    /**
-     * Overrides parent to return an empty Map since FO routing doesn't apply to the AD doc.
-     * 
-     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    @Override
-    public Map getEditableAccounts(TransactionalDocument document, Person user) {
-        return new HashMap();
-    }
-
-    /**
-     * Overrides parent to return an empty Map since FO routing doesn't apply to the AD doc.
-     * 
-     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
-     *      org.kuali.module.chart.bo.ChartUser)
-     */
-    @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
-        return new HashMap();
-    }
 }
 

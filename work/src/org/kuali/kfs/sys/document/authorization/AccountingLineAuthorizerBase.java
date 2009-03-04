@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -247,7 +248,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     private boolean hasEditPermission(AccountingDocument accountingDocument, Person currentUser, AttributeSet permissionDetails, AttributeSet roleQualifiers) {
         String pricipalId = currentUser.getPrincipalId();
-        AccountingDocumentAuthorizer accountingDocumentAuthorizer = this.getAccountingDocumentAuthorizer(accountingDocument);
+        DocumentAuthorizer accountingDocumentAuthorizer = this.getDocumentAuthorizer(accountingDocument);
         
         return accountingDocumentAuthorizer.isAuthorizedByTemplate(accountingDocument, KFSConstants.ParameterNamespaces.KFS, KFSConstants.PermissionTemplate.MODIFY_ACCOUNTING_LINES.name, pricipalId, permissionDetails, roleQualifiers);
     }
@@ -487,7 +488,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param accountingDocument the given accounting document
      * @return the document authorizer of the given accounting document
      */
-    private AccountingDocumentAuthorizer getAccountingDocumentAuthorizer(AccountingDocument accountingDocument) {
-        return (AccountingDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(accountingDocument);
+    private DocumentAuthorizer getDocumentAuthorizer(AccountingDocument accountingDocument) {
+        return SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(accountingDocument);
     }
 }

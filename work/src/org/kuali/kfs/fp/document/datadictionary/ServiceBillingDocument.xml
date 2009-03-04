@@ -12,7 +12,7 @@
     <property name="documentTypeName" value="SB"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.ServiceBillingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentPresentationController"/>
     
     <property name="sessionDocument" value="true"/>

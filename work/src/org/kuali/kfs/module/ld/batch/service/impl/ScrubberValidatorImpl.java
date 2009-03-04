@@ -303,7 +303,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (continuationAccountLogicInd && isAccountExpiredOrClosed) {
             // special checks for origination codes that have override ability
             boolean isOverrideOriginCode = continuationAccountBypassOriginationCodes.contains(laborOriginEntry.getFinancialSystemOriginationCode());
-            if (isOverrideOriginCode && account.isActive()) {
+            if (isOverrideOriginCode && !account.isActive()) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT, laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber(), Message.TYPE_FATAL);
             }
 

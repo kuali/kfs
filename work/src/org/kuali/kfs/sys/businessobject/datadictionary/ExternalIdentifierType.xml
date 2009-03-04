@@ -29,7 +29,8 @@
 
   <bean id="ExternalIdentifierType-externalIdentifierTypeCode" parent="ExternalIdentifierType-externalIdentifierTypeCode-parentBean" />
   <bean id="ExternalIdentifierType-externalIdentifierTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="externalIdentifierTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="name" value="code" />
     <property name="label" value="External Identifier Type Code" />
     <property name="shortLabel" value="External Identifier Type Code" />
     <property name="maxLength" value="7" />
@@ -43,7 +44,7 @@
 
   <bean id="ExternalIdentifierType-externalIdentifierTypeName" parent="ExternalIdentifierType-externalIdentifierTypeName-parentBean" />
   <bean id="ExternalIdentifierType-externalIdentifierTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="externalIdentifierTypeName" />
+    <property name="name" value="name" />
     <property name="label" value="External Identifier Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -87,9 +88,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="externalIdentifierTypeCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="externalIdentifierTypeName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
                     p:attributeName="displaySortCode" />
               <bean parent="FieldDefinition"
@@ -110,9 +111,9 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="externalIdentifierTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="externalIdentifierTypeName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -120,9 +121,9 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="externalIdentifierTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="externalIdentifierTypeName" />
+              p:attributeName="name" />
 		<bean parent="FieldDefinition"
               p:attributeName="displaySortCode" />
         <bean parent="FieldDefinition"

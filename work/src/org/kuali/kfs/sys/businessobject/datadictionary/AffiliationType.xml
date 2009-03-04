@@ -29,7 +29,8 @@
 
   <bean id="AffiliationType-affiliationTypeCode" parent="AffiliationType-affiliationTypeCode-parentBean" />
   <bean id="AffiliationType-affiliationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="affiliationTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="name" value="code" />
     <property name="label" value="Affiliation Type Code" />
     <property name="shortLabel" value="Affiliation Type Code" />
     <property name="maxLength" value="7" />
@@ -43,7 +44,7 @@
 
   <bean id="AffiliationType-affiliationTypeName" parent="AffiliationType-affiliationTypeName-parentBean" />
   <bean id="AffiliationType-affiliationTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="affiliationTypeName" />
+    <property name="name" value="name" />
     <property name="label" value="Affiliation Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -87,9 +88,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="affiliationTypeCode" />
+                    p:attributeName="code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="affiliationTypeName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
                     p:attributeName="displaySortCode" />
               <bean parent="FieldDefinition"
@@ -110,9 +111,9 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="affiliationTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="affiliationTypeName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -120,9 +121,9 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="affiliationTypeCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="affiliationTypeName" />
+              p:attributeName="name" />
 		<bean parent="FieldDefinition"
               p:attributeName="displaySortCode" />
         <bean parent="FieldDefinition"

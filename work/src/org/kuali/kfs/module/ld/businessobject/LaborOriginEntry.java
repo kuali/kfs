@@ -196,7 +196,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      */
     public LaborOriginEntry(String line) {
         try {
-            setFromTextFile(line, 0);
+            setFromTextFileForBatch(line, 0);
         }
         catch (LoadException e) {
             LOG.error("OriginEntryFull() Error loading line", e);

@@ -556,7 +556,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             String line;
             while ((line = reader.readLine()) != null) {
                 OriginEntryFull entry = new OriginEntryFull();
-                entry.setFromTextFile(line, lineNumber);
+                entry.setFromTextFileForBatch(line, lineNumber);
                 if (abortThreshold != UNLIMITED_ABORT_THRESHOLD && lineNumber >= abortThreshold) {
                     return null;
                 }

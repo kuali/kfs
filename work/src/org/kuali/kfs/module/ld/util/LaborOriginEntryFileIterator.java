@@ -153,7 +153,7 @@ public class LaborOriginEntryFileIterator implements Iterator<LaborOriginEntry> 
             else {
                 nextEntry = new LaborOriginEntry();
                 try {
-                    nextEntry.setFromTextFile(line, lineNumber - 1);
+                    nextEntry.setFromTextFileForBatch(line, lineNumber - 1);
                 }
                 catch (LoadException e) {
                     // wipe out the next entry so that the next call to hasNext or next will force a new row to be fetched

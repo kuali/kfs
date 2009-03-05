@@ -330,7 +330,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             String line;
             while ((line = reader.readLine()) != null) {
                 LaborOriginEntry entry = new LaborOriginEntry();
-                entry.setFromTextFile(line, lineNumber);
+                entry.setFromTextFileForBatch(line, lineNumber);
                 if (abortThreshold != UNLIMITED_ABORT_THRESHOLD && lineNumber >= abortThreshold) {
                     return null;
                 }

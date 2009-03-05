@@ -1060,7 +1060,7 @@ public class LaborScrubberProcess {
                 if (!StringUtils.isEmpty(currentLine)) {
                     try {
                         laborOriginEntry = new LaborOriginEntry();
-                        laborOriginEntry.setFromTextFile(currentLine, lineNumber);
+                        laborOriginEntry.setFromTextFileForBatch(currentLine, lineNumber);
                     }
                     catch (LoadException e) {
                         errorsLoading = true;
@@ -1127,7 +1127,7 @@ public class LaborScrubberProcess {
                 if (!StringUtils.isEmpty(currentLine)) {
                     try {
                         laborOriginEntry = new LaborOriginEntry();
-                        laborOriginEntry.setFromTextFile(currentLine, lineNumber);
+                        laborOriginEntry.setFromTextFileForBatch(currentLine, lineNumber);
                     }
                     catch (LoadException e) {
                         errorsLoading = true;

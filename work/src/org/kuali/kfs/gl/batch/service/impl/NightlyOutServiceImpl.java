@@ -132,7 +132,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         
         // Print reports
         // shawn - we need to change this to make it use file system?
-        reportService.generatePendingEntryReport(today, group);
+        //reportService.generatePendingEntryReport(today, group);
         
         // shawn - temporary commented out  
         //reportService.generatePendingEntryLedgerSummaryReport(today, group);

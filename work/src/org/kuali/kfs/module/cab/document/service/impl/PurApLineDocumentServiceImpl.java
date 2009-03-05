@@ -43,6 +43,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -50,8 +51,11 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -287,7 +291,6 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetDetailsList
      */
     protected void setAssetGlobalDetailFromPurAp(PurchaseOrderCapitalAssetSystem capitalAssetSystem, List<AssetGlobalDetail> assetSharedDetail) {
-        // capitalAssetSystem.refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_LOCATIONS);
         List<CapitalAssetLocation> capitalAssetLocations = capitalAssetSystem.getCapitalAssetLocations();
 
         if (ObjectUtils.isNotNull(capitalAssetLocations) && !capitalAssetLocations.isEmpty()) {
@@ -333,20 +336,84 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetDetail
      */
     protected void setNewAssetByPurApLocation(CapitalAssetLocation assetLocation, AssetGlobalDetail assetDetail) {
-        assetDetail.setCampusCode(assetLocation.getCampusCode());
-        if (assetLocation.isOffCampusIndicator()) {
-            // off-campus
-            assetDetail.setOffCampusCityName(assetLocation.getCapitalAssetCityName());
-            assetDetail.setOffCampusAddress(assetLocation.getCapitalAssetLine1Address());
-            assetDetail.setOffCampusCountryCode(assetLocation.getCapitalAssetCountryCode());
-            assetDetail.setOffCampusStateCode(assetLocation.getCapitalAssetStateCode());
-            assetDetail.setOffCampusZipCode(assetLocation.getCapitalAssetPostalCode());
+        String campusCode = assetLocation.getCampusCode();
+        // Set campus code only when it is a valid value. Otherwise, when save document, invalid data will violate data integrity
+        // and block save.
+        if (!StringUtils.isBlank(campusCode) && checkCampusCodeValid(campusCode)) {
+            assetDetail.setCampusCode(campusCode);
+
+            // for on-campus
+            if (!assetLocation.isOffCampusIndicator()) {
+                String buildingCode = assetLocation.getBuildingCode();
+                // Set building code only when it is a valid value. Otherwise, when save document, invalid data will violate data
+                // integrity and block save.
+                if (!StringUtils.isBlank(buildingCode) && checkBuildingCodeValid(campusCode, buildingCode)) {
+                    assetDetail.setBuildingCode(buildingCode);
+
+                    String buildingRoomNumber = assetLocation.getBuildingRoomNumber();
+                    // Set building room number only when it is a valid value. Otherwise, when save document, invalid data will
+                    // violate data integrity and block save.
+                    if (!StringUtils.isBlank(buildingRoomNumber) && checkBuildingRoomNumberValid(campusCode, buildingCode, buildingRoomNumber)) {
+                        assetDetail.setBuildingRoomNumber(buildingRoomNumber);
+                    }
+                }
+            }
+            else {
+                // off-campus
+                assetDetail.setOffCampusCityName(assetLocation.getCapitalAssetCityName());
+                assetDetail.setOffCampusAddress(assetLocation.getCapitalAssetLine1Address());
+                assetDetail.setOffCampusCountryCode(assetLocation.getCapitalAssetCountryCode());
+                assetDetail.setOffCampusStateCode(assetLocation.getCapitalAssetStateCode());
+                assetDetail.setOffCampusZipCode(assetLocation.getCapitalAssetPostalCode());
+            }
         }
-        else {
-            // on-campus
-            assetDetail.setBuildingCode(assetLocation.getBuildingCode());
-            assetDetail.setBuildingRoomNumber(assetLocation.getBuildingRoomNumber());
-        }
+    }
+
+
+    /**
+     * Check the given buildingCode and campusCode valid.
+     * 
+     * @param campusCode
+     * @param buildingCode
+     * @param buildingRoomNumber
+     * @return
+     */
+    private boolean checkBuildingRoomNumberValid(String campusCode, String buildingCode, String buildingRoomNumber) {
+        Map<String, Object> pKeys = new HashMap<String, Object>();
+        pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
+        pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.BUILDING_CODE, buildingCode);
+        pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.BUILDING_ROOM_NUMBER, buildingRoomNumber);
+        Room room = (Room) this.getBusinessObjectService().findByPrimaryKey(Room.class, pKeys);
+        return ObjectUtils.isNotNull(room) && room.isActive();
+    }
+
+
+    /**
+     * Check the given buildingCode and campusCode valid.
+     * 
+     * @param buildingCode
+     * @return
+     */
+    private boolean checkBuildingCodeValid(String campusCode, String buildingCode) {
+        Map<String, Object> pKeys = new HashMap<String, Object>();
+        pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
+        pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.BUILDING_CODE, buildingCode);
+        Building building = (Building) this.getBusinessObjectService().findByPrimaryKey(Building.class, pKeys);
+        return ObjectUtils.isNotNull(building) && building.isActive();
+    }
+
+
+    /**
+     * check the given campus code existing and active status.
+     * 
+     * @param campusCode
+     * @return
+     */
+    private boolean checkCampusCodeValid(String campusCode) {
+        Map<String, Object> pKeys = new HashMap<String, Object>();
+        pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
+        Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(Campus.class, pKeys);
+        return ObjectUtils.isNotNull(campus) && campus.isActive();
     }
 
 
@@ -573,7 +640,24 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     protected void setAssetGlobalFromPurAp(AssetGlobal assetGlobal, PurchaseOrderCapitalAssetSystem capitalAssetSystem) {
         assetGlobal.setManufacturerName(capitalAssetSystem.getCapitalAssetManufacturerName());
         assetGlobal.setManufacturerModelNumber(capitalAssetSystem.getCapitalAssetModelDescription());
-        assetGlobal.setCapitalAssetTypeCode(capitalAssetSystem.getCapitalAssetTypeCode());
+        String capitalAssetTypeCode = capitalAssetSystem.getCapitalAssetTypeCode();
+        if (!StringUtils.isBlank(capitalAssetTypeCode) && checkCapitalAssetTypeCodeExist(capitalAssetTypeCode)) {
+            assetGlobal.setCapitalAssetTypeCode(capitalAssetSystem.getCapitalAssetTypeCode());
+        }
+    }
+
+
+    /**
+     * check the given capital asset type code exists in CAM
+     * 
+     * @param capitalAssetTypeCode
+     * @return
+     */
+    private boolean checkCapitalAssetTypeCodeExist(String capitalAssetTypeCode) {
+        Map<String, Object> pKeys = new HashMap<String, Object>();
+        pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAPITAL_ASSET_TYPE_CODE, capitalAssetTypeCode);
+        AssetType assetType = (AssetType) this.getBusinessObjectService().findByPrimaryKey(AssetType.class, pKeys);
+        return ObjectUtils.isNotNull(assetType);
     }
 
 

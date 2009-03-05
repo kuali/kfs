@@ -94,21 +94,21 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         if (ObjectUtils.isNull(purApdocument)) {
             return;
         }
-        
+
         String capitalAssetSystemTypeCode = purApdocument.getCapitalAssetSystemTypeCode();
         String capitalAssetSystemStateCode = purApdocument.getCapitalAssetSystemStateCode();
-        
+
         if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
-            // If PurAp sets the CAMS as INDIVIDUAL system 
+            // If PurAp sets the CAMS as INDIVIDUAL system
             setIndividualAssetsFromPurAp(poId, purApDocs, capitalAssetSystemStateCode);
         }
         else if (PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
-            // If PurAp sets the CAMS as ONE system 
+            // If PurAp sets the CAMS as ONE system
             setOneSystemFromPurAp(poId, purApDocs, capitalAssetSystemStateCode);
 
         }
         else if (PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
-            // If PurAp sets the CAMS as MULTIPLE system 
+            // If PurAp sets the CAMS as MULTIPLE system
             setMultipleSystemFromPurAp(poId, purApDocs, capitalAssetSystemStateCode);
         }
     }
@@ -132,11 +132,9 @@ public class PurApInfoServiceImpl implements PurApInfoService {
                     purApCapitalAssets = getAssetsFromItemCapitalAsset(capitalAssetSystem.getItemCapitalAssets());
                 }
 
-                if (StringUtils.isNotBlank(capitalAssetTransactionType) || (purApCapitalAssets != null && !purApCapitalAssets.isEmpty())) {
-                    // set TransactionTypeCode, itemCapitalAssets and system identifier for each item
-                    for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
-                        setItemAssetsCamsTransaction(capitalAssetSystem.getCapitalAssetSystemIdentifier(), capitalAssetTransactionType, purApCapitalAssets, purApDoc.getPurchasingAccountsPayableItemAssets());
-                    }
+                // set TransactionTypeCode, itemCapitalAssets and system identifier for each item
+                for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
+                    setItemAssetsCamsTransaction(capitalAssetSystem.getCapitalAssetSystemIdentifier(), capitalAssetTransactionType, purApCapitalAssets, purApDoc.getPurchasingAccountsPayableItemAssets());
                 }
             }
         }
@@ -157,11 +155,9 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             purApCapitalAssets = getAssetsFromItemCapitalAsset(capitalAssetSystem.getItemCapitalAssets());
         }
 
-        if (StringUtils.isNotBlank(capitalAssetTransactionTypeCode) || (purApCapitalAssets != null && !purApCapitalAssets.isEmpty())) {
-            for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
-                // set TransactionTypeCode, itemCapitalAssets and system identifier for each item
-                setItemAssetsCamsTransaction(capitalAssetSystem.getCapitalAssetSystemIdentifier(), capitalAssetTransactionTypeCode, purApCapitalAssets, purApDoc.getPurchasingAccountsPayableItemAssets());
-            }
+        for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
+            // set TransactionTypeCode, itemCapitalAssets and system identifier for each item
+            setItemAssetsCamsTransaction(capitalAssetSystem.getCapitalAssetSystemIdentifier(), capitalAssetTransactionTypeCode, purApCapitalAssets, purApDoc.getPurchasingAccountsPayableItemAssets());
         }
     }
 
@@ -198,7 +194,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             List<PurchasingCapitalAssetItem> capitalAssetItems = poDoc.getPurchasingCapitalAssetItems();
 
             if (ObjectUtils.isNotNull(capitalAssetItems) && capitalAssetItems.get(0) != null) {
-                capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
+                return capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
             }
         }
         return null;

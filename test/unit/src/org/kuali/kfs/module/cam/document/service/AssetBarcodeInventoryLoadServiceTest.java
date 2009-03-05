@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -34,13 +35,9 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
-
-import edu.yale.its.tp.cas.util.StringUtil;
 
 // @ConfigureContext(session = UserNameFixture.kfs)
 @ConfigureContext(session = UserNameFixture.bomiddle)
@@ -119,7 +116,7 @@ public class AssetBarcodeInventoryLoadServiceTest extends KualiTestBase {
         File[] listOfFiles;
         try {
             Class<AssetBarcodeInventoryLoadServiceTest> THIS_CLASS = AssetBarcodeInventoryLoadServiceTest.class;
-            String childPath = StringUtil.substituteAll(THIS_CLASS.getPackage().getName(), ".", "/");
+            String childPath = THIS_CLASS.getPackage().getName().replace( '.', '/');
 
             File directory = new File(new File(THIS_CLASS.getProtectionDomain().getCodeSource().getLocation().toURI()), childPath);
             if (!onlyValid) {

@@ -31,8 +31,7 @@
 		<div class="tab-container" align=center>
 		<h3>Labor Distribution Journal Voucher Details</h3>
 		
-		<table cellpadding=0 class="datatable"
-			summary="view/edit ad hoc recipients">
+		<table cellpadding=0 class="datatable" summary="Labor Distribution Journal Voucher Details">
 			<tbody>
 				<tr>
 					<th width="35%" class="bord-l-b">
@@ -40,9 +39,11 @@
 						labelFor="selectedAccountingPeriod" attributeEntry="${journalVoucherAttributes.accountingPeriod}"
 						useShortLabel="false" /></div>
 					</th>
-					<td class="datacell-nowrap"><c:if test="${readOnly}">
-                        ${KualiForm.accountingPeriod.universityFiscalPeriodName}
-					</c:if> <c:if test="${!readOnly}">
+					<td class="datacell-nowrap">
+						<c:if test="${readOnly}">
+                        	${KualiForm.accountingPeriod.universityFiscalPeriodName}
+						</c:if> 
+					<c:if test="${!readOnly}">
 						<SCRIPT type="text/javascript">
 						<!--
 						    function submitForChangedAccountingPeriod() {
@@ -50,8 +51,7 @@
 						    }
 						//-->
 						</SCRIPT>
-						<select id="selectedAccountingPeriod" name="selectedAccountingPeriod"
-							onchange="submitForChangedAccountingPeriod()">
+						<html:select property="selectedAccountingPeriod" onchange="submitForChangedAccountingPeriod()">
 							<c:forEach items="${KualiForm.accountingPeriods}"
 								var="accountingPeriod">
 								<c:set var="accountingPeriodCompositeValue"
@@ -59,34 +59,32 @@
 								<c:choose>
 									<c:when
 										test="${KualiForm.selectedAccountingPeriod==accountingPeriodCompositeValue}">
-										<option
-											value='<c:out value="${accountingPeriodCompositeValue}"/>'
-											selected="selected"><c:out
-											value="${accountingPeriod.universityFiscalPeriodName}" /></option>
+										<html:option value="${accountingPeriodCompositeValue}">${accountingPeriod.universityFiscalPeriodName}</html:option>
 									</c:when>
 									<c:otherwise>
-										<option
-											value='<c:out value="${accountingPeriodCompositeValue}" />'><c:out
-											value="${accountingPeriod.universityFiscalPeriodName}" /></option>
+										<html:option value="${accountingPeriodCompositeValue}" >${accountingPeriod.universityFiscalPeriodName}</html:option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-						</select>
+						</html:select>
+						
 						<NOSCRIPT><html:submit value="refresh"
-							alt="press this button to refresh the page after changing the accounting period" />
+							title="press this button to refresh the page after changing the accounting period" alt="press this button to refresh the page after changing the accounting period" />
 						</NOSCRIPT>
 					</c:if></td>
 				</tr>
 				<tr>
 					<th width="35%" class="bord-l-b">
 					<div align="right"><kul:htmlAttributeLabel
-						labelFor="selectedBalanceType.code" attributeEntry="${journalVoucherAttributes.balanceTypeCode}"
+						labelFor="" attributeEntry="${journalVoucherAttributes.balanceTypeCode}"
 						useShortLabel="false" /></div>
 					</th>
 					<td class="datacell-nowrap">
 					<c:if test="${readOnly}">
                         ${KualiForm.selectedBalanceType.financialBalanceTypeName}
-					</c:if> <c:if test="${!readOnly}">
+					</c:if> 
+					
+					<c:if test="${!readOnly}">
 						<SCRIPT type="text/javascript">
 						<!--
 						    function submitForChangedBalanceType() {
@@ -94,32 +92,28 @@
 						    }
 						//-->
 						</SCRIPT>
-						<select id="selectedBalanceType.code" name="selectedBalanceType.code"
-							onchange="submitForChangedBalanceType()">
-							<c:forEach items="${KualiForm.balanceTypes}" var="balanceType">
+						<html:select property="selectedBalanceType.code" onchange="submitForChangedBalanceType()">
+						<c:forEach items="${KualiForm.balanceTypes}" var="balanceType">
 								<c:choose>
 									<c:when
 										test="${KualiForm.selectedBalanceType.code==balanceType.code}">
-										<option value='<c:out value="${balanceType.code}"/>'
-											selected="selected"><c:out
-											value="${balanceType.code}" /> - <c:out
-											value="${balanceType.name}" /></option>
+										<html:option value="${balanceType.code}">${balanceType.code} - ${balanceType.name}</html:option>
 									</c:when>
 									<c:otherwise>
-										<option value='<c:out value="${balanceType.code}" />'><c:out
-											value="${balanceType.code}" /> - <c:out
-											value="${balanceType.name}" /></option>
+										<html:option value="${balanceType.code}" >${balanceType.code} - ${balanceType.name}</html:option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-						</select>
-						<NOSCRIPT><html:submit value="refresh"
-							alt="press this button to refresh the page after changing the balance type" />
+						</html:select>
+						<NOSCRIPT>
+							<html:submit value="refresh"
+								title="press this button to refresh the page after changing the balance type" 
+								alt="press this button to refresh the page after changing the balance type" />
 						</NOSCRIPT>
 						<kul:lookup
 							boClassName="org.kuali.kfs.coa.businessobject.BalanceTyp"
 							fieldConversions="code:selectedBalanceType.code"
-							lookupParameters="selectedBalanceType.code:code"
+							lookupParameters="selectedBalanceType.code:code" 
 							fieldLabel="${journalVoucherAttributes.balanceTypeCode.label}" />
 					</c:if></td>
 				</tr>

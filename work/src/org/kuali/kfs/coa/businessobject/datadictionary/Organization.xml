@@ -840,7 +840,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="active" />
         <bean parent="FieldDefinition"
-              p:attributeName="organizationManagerUniversal.name" />
+              p:attributeName="organizationManagerUniversal.principalName" />
       </list>
     </property>
   </bean>

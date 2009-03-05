@@ -216,8 +216,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="accountDelegate.principalName" />
         <bean parent="FieldDefinition"
-              p:attributeName="accountDelegate.name" />
-        <bean parent="FieldDefinition"
               p:defaultValue="Y"
               p:attributeName="accountDelegateActiveIndicator" />
       </list>

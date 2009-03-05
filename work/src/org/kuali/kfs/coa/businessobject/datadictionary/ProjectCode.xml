@@ -75,7 +75,7 @@
   </bean>
   <bean id="ProjectCode-projectManagerUniversalId" parent="ProjectCode-projectManagerUniversalId-parentBean" />
 
-  <bean id="ProjectCode-projectManagerUniversalId-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
+  <bean id="ProjectCode-projectManagerUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="projectManagerUniversalId" />
     <property name="label" value="Project Manager UserID" />
     <property name="shortLabel" value="Mgr" />
@@ -182,7 +182,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="projectManagerUniversal.name"
+                    p:attributeName="projectManagerUniversal.principalName"
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="projectDescription" />
@@ -218,13 +218,13 @@
         <bean parent="FieldDefinition"
               p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="projectManagerUniversal.name" />
-        <bean parent="FieldDefinition"
               p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectManagerUniversal.principalName" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -242,7 +242,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="active" />
         <bean parent="FieldDefinition"
-              p:attributeName="projectManagerUniversal.name"
+              p:attributeName="projectManagerUniversal.principalName"
               p:forceInquiry="true" />
       </list>
     </property>

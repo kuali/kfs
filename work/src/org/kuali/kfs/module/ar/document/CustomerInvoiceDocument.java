@@ -1041,60 +1041,72 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            if (ObjectUtils.isNull(getBillingDate())) {
-                setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
+        
+        //  fast-exit if status != P
+        if (!getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            return;
+        }
+        
+        //  wire up the billing date
+        if (ObjectUtils.isNull(getBillingDate())) {
+            setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
+        }
+        
+        // apply amounts
+        InvoicePaidAppliedService paidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);
+        List<CustomerInvoiceDetail> discounts = this.getDiscounts();
+        paidAppliedService.saveInvoicePaidApplieds(discounts, documentNumber);
+
+        //  handle a Correction/Reversal document
+        if (this.isInvoiceReversal()) {
+            try {
+                CustomerInvoiceDocument correctedCustomerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+
+                // if reversal, close both this reversal invoice and the original invoice
+                SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(correctedCustomerInvoiceDocument);
+                SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(this);
             }
-            // apply amounts
-            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(this.getDiscounts(), documentNumber);
-            if (this.isInvoiceReversal()) {
-                try {
-                    CustomerInvoiceDocument correctedCustomerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
-
-                    // if reversal, close both this reversal invoice and the original invoice
-                    SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(correctedCustomerInvoiceDocument);
-                    SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(this);
-                }
-                catch (WorkflowException e) {
-                    throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
-                }
+            catch (WorkflowException e) {
+                throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
             }
-            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails()) || 
-                    (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) 
-                    && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) 
-                    && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) 
-                    && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) 
-                    && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier()))) {
+        }
+        
+        //  handle Recurrence 
+        if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails()) || 
+                (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) 
+                && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) 
+                && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) 
+                && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) 
+                && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier()))) {
+        }
+        else {
+            try {
+                // set new user session to recurrence initiator
+                String initiator = this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserPersonUserIdentifier();
+                GlobalVariables.setUserSession(new UserSession(initiator));
+
+                // populate InvoiceRecurrence business object
+                InvoiceRecurrence newInvoiceRecurrence = new InvoiceRecurrence();
+                newInvoiceRecurrence.setInvoiceNumber(this.getCustomerInvoiceRecurrenceDetails().getInvoiceNumber());
+                newInvoiceRecurrence.setCustomerNumber(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber());
+                newInvoiceRecurrence.setDocumentRecurrenceBeginDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate());
+                newInvoiceRecurrence.setDocumentRecurrenceEndDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate());
+                newInvoiceRecurrence.setDocumentRecurrenceIntervalCode(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode());
+                newInvoiceRecurrence.setDocumentTotalRecurrenceNumber(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber());
+                newInvoiceRecurrence.setDocumentInitiatorUserIdentifier(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier());
+                newInvoiceRecurrence.setActive(this.getCustomerInvoiceRecurrenceDetails().isActive());
+
+                // create a new InvoiceRecurrenceMaintenanceDocument
+                MaintenanceDocument invoiceRecurrenceMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(getInvoiceRecurrenceMaintenanceDocumentTypeName());
+                invoiceRecurrenceMaintDoc.getDocumentHeader().setDocumentDescription("Automatically created from Invoice");
+                invoiceRecurrenceMaintDoc.getNewMaintainableObject().setBusinessObject(newInvoiceRecurrence);
+
+                // route InvoiceRecurrenceMaintenanceDocument
+                SpringContext.getBean(DocumentService.class).routeDocument(invoiceRecurrenceMaintDoc, null, null);
+
             }
-            else {
-                try {
-                    // set new user session to recurrence initiator
-                    String initiator = this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserPersonUserIdentifier();
-                    GlobalVariables.setUserSession(new UserSession(initiator));
-
-                    // populate InvoiceRecurrence business object
-                    InvoiceRecurrence newInvoiceRecurrence = new InvoiceRecurrence();
-                    newInvoiceRecurrence.setInvoiceNumber(this.getCustomerInvoiceRecurrenceDetails().getInvoiceNumber());
-                    newInvoiceRecurrence.setCustomerNumber(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber());
-                    newInvoiceRecurrence.setDocumentRecurrenceBeginDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate());
-                    newInvoiceRecurrence.setDocumentRecurrenceEndDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate());
-                    newInvoiceRecurrence.setDocumentRecurrenceIntervalCode(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode());
-                    newInvoiceRecurrence.setDocumentTotalRecurrenceNumber(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber());
-                    newInvoiceRecurrence.setDocumentInitiatorUserIdentifier(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier());
-                    newInvoiceRecurrence.setActive(this.getCustomerInvoiceRecurrenceDetails().isActive());
-
-                    // create a new InvoiceRecurrenceMaintenanceDocument
-                    MaintenanceDocument invoiceRecurrenceMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(getInvoiceRecurrenceMaintenanceDocumentTypeName());
-                    invoiceRecurrenceMaintDoc.getDocumentHeader().setDocumentDescription("Automatically created from Invoice");
-                    invoiceRecurrenceMaintDoc.getNewMaintainableObject().setBusinessObject(newInvoiceRecurrence);
-
-                    // route InvoiceRecurrenceMaintenanceDocument
-                    SpringContext.getBean(DocumentService.class).routeDocument(invoiceRecurrenceMaintDoc, null, null);
-
-                }
-                catch (WorkflowException e) {
-                    throw new RuntimeException("Cannot find Invoice Recurrence Maintenance Document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
-                }
+            catch (WorkflowException e) {
+                throw new RuntimeException("Cannot find Invoice Recurrence Maintenance Document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
             }
         }
     }
@@ -1549,6 +1561,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return KualiDecimal.ZERO.isGreaterEqual(openAmount.subtract(totalAmountAppliedByDocument));
     }
 
+    @Override
     public KualiDecimal getTotalDollarAmount() {
         return getSourceTotal();
     }

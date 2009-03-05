@@ -948,7 +948,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         
         String periodCode = originEntry.getUniversityFiscalPeriodCode();
         if (!StringUtils.hasText(periodCode)) {
-            if (!originEntry.getFinancialBalanceTypeCode().equals(KFSConstants.BALANCE_TYPE_A21)){
+            //commented out for KULLAB-627 
+            //if (!originEntry.getFinancialBalanceTypeCode().equals(KFSConstants.BALANCE_TYPE_A21)){
                 if (universityRunDate.getAccountingPeriod().isOpen()) {
                     
                     workingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
@@ -962,9 +963,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 else {
                     return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_CLOSED, " (year " + universityRunDate.getUniversityFiscalYear() + ", period " + universityRunDate.getUniversityFiscalAccountingPeriod(), Message.TYPE_FATAL);
                 }
-            } else {
-                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_FISCAL_PERIOD_CANNOT_BE_NULL_BALANCE_TYPE_A2, Message.TYPE_FATAL);
-            }
+                
+                //commented out for KULLAB-627 
+//            } else {
+//                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_FISCAL_PERIOD_CANNOT_BE_NULL_BALANCE_TYPE_A2, Message.TYPE_FATAL);
+//            }
 
 
         }

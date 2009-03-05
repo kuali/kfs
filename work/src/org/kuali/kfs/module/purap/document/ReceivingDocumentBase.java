@@ -607,4 +607,36 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.lineItemReceivingStatusDescription = lineItemReceivingStatusDescription;
     }
     
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsATypeOfPurDoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsATypeOfPODoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsPODoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsReqsDoc() {
+        return false;
+    }       
+    
 }

@@ -1796,6 +1796,39 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public void setVendorNumber(String vendorNumber) {
         this.vendorNumber = vendorNumber;
     }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsATypeOfPurDoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsATypeOfPODoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsPODoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsReqsDoc() {
+        return false;
+    }       
+    
 }
 /*
  * Copyright (c) 2004, 2005 The National Association of College and University Business Officers, Cornell University, Trustees of

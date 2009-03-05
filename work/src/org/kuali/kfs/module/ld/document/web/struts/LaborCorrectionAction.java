@@ -225,7 +225,6 @@ public class LaborCorrectionAction extends CorrectionAction {
 
         FormFile sourceFile = laborCorrectionForm.getSourceFile();
         String fullFileName = sourceFile.getFileName();
-        sourceFile.getInputStream();
 
         List<LaborOriginEntry> originEntryList = new ArrayList();
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
@@ -295,13 +294,13 @@ public class LaborCorrectionAction extends CorrectionAction {
         int loadedCount = originEntryList.size();
         
         //need to change file name?
-        String uploadedFileName = OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC + "_uploaded_file";
+        //String uploadedFileName = OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC + "_uploaded_file";
         
         //build file name with time information
-        uploadedFileName += buildFileExtensionWithDate(today);
+        fullFileName += buildFileExtensionWithDate(today);
         
         //create a group
-        File uploadedFile = originEntryGroupService.createLaborGroup(uploadedFileName);
+        File uploadedFile = originEntryGroupService.createLaborGroup(fullFileName);
         PrintStream uploadedFilePrintStream;
         try {
             uploadedFilePrintStream = new PrintStream(uploadedFile);
@@ -325,7 +324,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         if (CorrectionDocumentUtils.isRestrictedFunctionalityMode(loadedCount, recordCountFunctionalityLimit)) {
             laborCorrectionForm.setRestrictedFunctionalityMode(true);
             laborCorrectionForm.setDataLoadedFlag(false);
-            document.setCorrectionInputFileName(uploadedFileName);
+            document.setCorrectionInputFileName(fullFileName);
             laborCorrectionForm.setInputFileName(fullFileName);
 
             if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(laborCorrectionForm.getEditMethod())) {
@@ -344,7 +343,7 @@ public class LaborCorrectionAction extends CorrectionAction {
                 // Set all the data that we know
                 laborCorrectionForm.setDataLoadedFlag(true);
                 laborCorrectionForm.setInputFileName(fullFileName);
-                document.setCorrectionInputFileName(uploadedFileName);
+                document.setCorrectionInputFileName(fullFileName);
                 List<OriginEntryFull> originEntryFullList = new ArrayList();
                 originEntryFullList.addAll(originEntryList);
                 loadAllEntries(originEntryFullList, laborCorrectionForm);

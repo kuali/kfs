@@ -132,7 +132,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                 LOG.debug("GL account line " + glAccountLineGroup.toString() + " did not find a matching purchasing account line group");
                 misMatchedGroups.add(glAccountLineGroup);
             }
-            else {
+            else if (!KualiDecimal.ZERO.equals(glAmt)) {
                 // FIXME
                 if (halfGlAmt.equals(purapAccountLineGroup.getAmount())) {
                     glAccountLineGroup.setAmount(halfGlAmt);
@@ -141,6 +141,13 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                 glAccountLineGroup.setMatchedPurApAcctLines(purapAccountLineGroup.getSourceEntries());
                 matchedGroups.add(glAccountLineGroup);
                 misMatchedGroups.remove(glAccountLineGroup);
+            }
+            else if (KualiDecimal.ZERO.equals(glAmt)) {
+                // if combined value is zero then ignore the entries
+                List<Entry> sourceEntries = glAccountLineGroup.getSourceEntries();
+                for (Entry entry : sourceEntries) {
+                    this.ignoredEntries.add(entry);
+                }
             }
         }
     }

@@ -1017,7 +1017,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
             setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         }
         
-        setTransactionDebitCreditCode(getValue(line, 133, 134));
+        setTransactionDebitCreditCode(line.substring(133, 134));
         
         if (!line.substring(134, 144).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {

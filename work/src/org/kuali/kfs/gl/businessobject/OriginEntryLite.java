@@ -369,7 +369,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
             setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         }
         
-        setTransactionDebitCreditCode(getValue(line, 113, 114));
+        setTransactionDebitCreditCode(line.substring(113, 114));
 
         if (!getValue(line, 114, 124).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {

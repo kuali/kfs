@@ -284,8 +284,42 @@ Insert into gl_offset_defn_t values (2009, 'SB', 'APP', 'AC', sys_guid(), 1, '80
 / 
 Insert into gl_offset_defn_t values (2009, 'SE', 'APP', 'AC', sys_guid(), 1, '8000')
 / 
+
 update krim_perm_attr_data_t set attr_val = 'LLCP' where attr_data_id = '107'
 /
 
 update krim_role_perm_t set role_id = '19' where role_perm_id = '109'
+/
+
+-- Update kim group table so kim type is set to the default value instead of null
+-- Alter tables so null kim_type_ids are not allowed
+
+UPDATE KRIM_GRP_T SET KIM_TYP_ID = '1' WHERE KIM_TYP_ID IS NULL
+/
+ALTER TABLE KRIM_DLGN_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_DLGN_MBR_ATTR_DATA_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_GRP_ATTR_DATA_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_GRP_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_PERM_ATTR_DATA_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_PERM_TMPL_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_ROLE_MBR_ATTR_DATA_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_ROLE_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_RSP_ATTR_DATA_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_RSP_TMPL_T MODIFY KIM_TYP_ID NOT NULL
+/
+ALTER TABLE KRIM_TYP_ATTR_T MODIFY KIM_TYP_ID NOT NULL
+/
+
+-- KULRICE-2625 - make KREW_DOC_TYP_T.RTE_VER_NBR nullable
+
+alter table KREW_DOC_TYP_T modify RTE_VER_NBR NULL
 /

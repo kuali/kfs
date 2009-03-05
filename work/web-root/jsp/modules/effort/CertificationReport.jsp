@@ -31,8 +31,7 @@
 	documentTypeName="${documentTypeName}" renderMultipart="true"
 	showTabButtons="true">
 	
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
-	
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />	
 	<er:reportInformation />
 	
 	<c:set var="isSummaryTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.SUMMARY_TAB_ENTRY]}"/>
@@ -40,7 +39,8 @@
 		<er:summaryTab/>	
 	</c:if>
 	
-	<er:detailTab isOpen="${!isSummaryTabEntry}"/>
+	<c:set var="isDetailTabEditable" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.DETAIL_TAB_ENTRY]}" />
+	<er:detailTab isOpen="${!isSummaryTabEntry}" isEditable="${isDetailTabEditable}"/>
 	
 	<kul:notes />
 	

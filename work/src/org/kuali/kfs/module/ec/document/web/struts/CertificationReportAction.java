@@ -336,9 +336,8 @@ public class CertificationReportAction extends EffortCertificationAction {
      * @return true if the summarized detail lines need to be rendered; otherwise, false
      */
     private boolean isSummarizeDetailLinesRendered(CertificationReportForm certificationReportForm) {
-        Document document = certificationReportForm.getDocument();
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
-
+        super.populateAuthorizationFields(certificationReportForm);
+        
         return certificationReportForm.getEditingMode().containsKey(EffortCertificationEditMode.SUMMARY_TAB_ENTRY);
     }
 

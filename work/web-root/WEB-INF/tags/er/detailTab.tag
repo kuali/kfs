@@ -16,6 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="isOpen" required="false" description="determine whehter the tab is open"%>
+<%@ attribute name="isEditable" required="false" description="determine whehter the tab is editable"%>
 
 <c:set var="documentAttributes"	value="${DataDictionary.EffortCertificationDocument.attributes}" />
 <c:set var="detailAttributes" value="${DataDictionary.EffortCertificationDetail.attributes}" />
@@ -26,7 +27,7 @@
 
 <kul:tab tabTitle="Effort Detail" defaultOpen="${isOpen}" tabErrorKey="${tabErrorKey}">	
 <c:choose>
-	<c:when test="${expenseEntry}">
+	<c:when test="${isEditable}">
 		<div class="tab-container" align=center>
 			<h3>Add New Detail Line</h3>
 			<c:set var="newLineDetailFieldNames" value="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"/>

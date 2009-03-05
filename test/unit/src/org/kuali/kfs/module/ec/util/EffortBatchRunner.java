@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.spring.Logged;
 
@@ -117,6 +118,7 @@ public class EffortBatchRunner {
     @Logged
     public static void main(String[] args) {
         EffortBatchRunner batchRunner = new EffortBatchRunner();
+        GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
         
         Integer fiscalYear = 2007;
@@ -125,8 +127,8 @@ public class EffortBatchRunner {
             throw new IllegalArgumentException("Wrong argument -- The argument only can be -load, -extract or -create");
         }
         else if(args.length >= 3) {
-            fiscalYear = StringUtils.isNumeric(args[1]) ? Integer.parseInt(args[1]) : 2007;
-            reportPeriod = StringUtils.isNotBlank(args[2]) ? StringUtils.trim(args[2]).toUpperCase() : "B01";
+            fiscalYear = StringUtils.isNumeric(args[1]) ? Integer.parseInt(args[1]) : fiscalYear;
+            reportPeriod = StringUtils.isNotBlank(args[2]) ? StringUtils.trim(args[2]).toUpperCase() : reportPeriod;
         }
 
         try {

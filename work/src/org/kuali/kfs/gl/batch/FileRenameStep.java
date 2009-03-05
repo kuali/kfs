@@ -54,6 +54,7 @@ public class FileRenameStep extends AbstractStep {
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.POSTER_VALID_OUTPUT_FILE);
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE);
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.ICR_TRANSACTIONS_OUTPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE);
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE);
         
         //TODO: Shawn - need to change it to filename +  01-22-2009.12-43-43 (mm-dd-yyyy.hh-mm-ss)

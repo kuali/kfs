@@ -1186,6 +1186,7 @@
 				<ref bean="posterEntriesStep" />
 				<ref bean="posterReversalStep" />
 				<ref bean="posterIndirectCostRecoveryGenerationStep" />
+				<ref bean="icrSortStep" />
 				<ref bean="posterIndirectCostRecoveryEntriesStep" />
 				<ref bean="fileRenameStep" />
 			</list>
@@ -1411,6 +1412,10 @@
 	</bean>
 
 	<bean id="posterSortStep" class="org.kuali.kfs.gl.batch.PosterSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+	</bean>
+	
+	<bean id="icrSortStep" class="org.kuali.kfs.gl.batch.IcrSortStep" parent="step">
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	

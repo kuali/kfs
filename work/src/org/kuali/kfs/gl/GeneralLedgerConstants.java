@@ -215,7 +215,11 @@ public class GeneralLedgerConstants {
         
         static final public String POSTER_ERROR_OUTPUT_FILE = "gl_posterrs";
         static final public String ICR_TRANSACTIONS_OUTPUT_FILE = "gl_icrtrans";
+        //todo - create sort step
+        static final public String ICR_POSTER_INPUT_FILE = "gl_sorticr";
+        
         static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "gl_icrerrs";
+        
 		static final public String NIGHTLY_OUT_FILE = "gl_glentry_kfs";
 		
 		//year end part

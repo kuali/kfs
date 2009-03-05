@@ -119,7 +119,10 @@ public class PosterServiceImpl implements PosterService {
     private PrintStream OUTPUT_ERR_FILE_ps;
     private PrintStream OUTPUT_GLE_FILE_ps;
     private String batchFileDirectoryName;
-
+    
+    private BufferedReader INPUT_GLE_FILE_br = null;
+    private FileReader INPUT_GLE_FILE = null;
+    
     private CachingDao cachingDao;
 
     /**
@@ -127,6 +130,18 @@ public class PosterServiceImpl implements PosterService {
      */
     public void postMainEntries() {
         LOG.debug("postMainEntries() started");
+        
+        try{
+            INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator +  GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+            
+            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);    
+        
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException("PosterMainEntries Stopped: " + e1.getMessage(), e1);
+        }
+        
         postEntries(PosterService.MODE_ENTRIES);
     }
 
@@ -135,6 +150,16 @@ public class PosterServiceImpl implements PosterService {
      */
     public void postReversalEntries() {
         LOG.debug("postReversalEntries() started");
+        try{
+            OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            
+            
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException("PosterReversalEntries Stopped: " + e1.getMessage(), e1);
+        }
+        
         postEntries(PosterService.MODE_REVERSAL);
     }
 
@@ -143,6 +168,17 @@ public class PosterServiceImpl implements PosterService {
      */
     public void postIcrEntries() {
         LOG.debug("postIcrEntries() started");
+        
+        try{
+        INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+        INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+        
+        OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException("PosterIcrEntries Stopped: " + e1.getMessage(), e1);
+        }
+        
         postEntries(PosterService.MODE_ICR);
     }
 
@@ -154,23 +190,23 @@ public class PosterServiceImpl implements PosterService {
     private void postEntries(int mode) {
         LOG.debug("postEntries() started");
         String GLEN_RECORD;
-        BufferedReader INPUT_GLE_FILE_br = null;
-        FileReader INPUT_GLE_FILE = null;
-
-        try {
-            if (mode != PosterService.MODE_REVERSAL) {
-                INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-                INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
-            }
-            else {
-                OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-            }
-            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-        }
-        catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-            throw new RuntimeException("PosterService Stopped: " + e1.getMessage(), e1);
-        }
+//        BufferedReader INPUT_GLE_FILE_br = null;
+//        FileReader INPUT_GLE_FILE = null;
+//
+//        try {
+//            if (mode != PosterService.MODE_REVERSAL) {
+//                INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator +  inputFileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+//                INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+//            }
+//            else {
+//                OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + validOutput + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+//            }
+//            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + errorOutput + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+//        }
+//        catch (FileNotFoundException e1) {
+//            e1.printStackTrace();
+//            throw new RuntimeException("PosterService Stopped: " + e1.getMessage(), e1);
+//        }
 
         Date executionDate = new Date(dateTimeService.getCurrentDate().getTime());
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());

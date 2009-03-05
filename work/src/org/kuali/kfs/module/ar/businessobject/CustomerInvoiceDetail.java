@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -16,6 +17,7 @@ import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,6 +34,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CustomerInvoiceDetail extends SourceAccountingLine implements AppliedPayment {
+    private static Logger LOG = Logger.getLogger(CustomerInvoiceDetail.class);
 
     // private Integer invoiceItemNumber; using SourceAccountingLine.sequenceNumber
     private BigDecimal invoiceItemQuantity;
@@ -82,7 +85,11 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     /**
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getAmountToApply()
      */
-    public KualiDecimal getAmountToApply() { return getAmountAppliedBy(currentPaymentApplicationDocument); }
+    //public KualiDecimal getAmountToApply() { return getAmountAppliedBy(currentPaymentApplicationDocument); }
+    public KualiDecimal getAmountToApply() {
+        return this.isDiscountLine() ? this.getAmount().abs() : new KualiDecimal(0);
+    }
+    
     public KualiDecimal getSpecialAppliedAmount() { return specialAppliedAmount; }
     
     // }
@@ -112,10 +119,10 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         KualiDecimal amount = getAmount();
         KualiDecimal applied = getAmountAppliedFromDatabase();
         KualiDecimal a = amount.subtract(applied);
-        CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
-        if(ObjectUtils.isNotNull(discount)) {
-            a = a.add(discount.getAmount());
-        }
+//        CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
+//        if(ObjectUtils.isNotNull(discount)) {
+//            a = a.add(discount.getAmount());
+//        }
         return a;
     }
 
@@ -652,7 +659,8 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
             criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
         }
         else {
-            criteria.put("invoiceItemNumber", getSequenceNumber());
+            // assuming here that you never have a PaidApplied against a Discount line
+            criteria.put("invoiceItemNumber", getInvoiceItemNumber());
             criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
             criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         }
@@ -661,6 +669,14 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
             invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
         }
         return invoicePaidApplieds;
+    }
+    
+    private String getStatusOfDocHeader(String documentNumber) {
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Map<String,Object> criteria = new HashMap<String,Object>();
+        criteria.put("documentNumber", documentNumber);
+        FinancialSystemDocumentHeader docHeader = (FinancialSystemDocumentHeader) businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);
+        return (docHeader == null) ? "" : docHeader.getFinancialDocumentStatusCode();
     }
     
     /**

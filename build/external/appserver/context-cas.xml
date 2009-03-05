@@ -1,0 +1,10 @@
+<!DOCTYPE doc>
+<Context path="/${cas.context.name}" reloadable="true" docBase="${cas.war.file.path}" unpackWAR="false">
+    <Manager className="org.apache.catalina.session.StandardManager" maxActiveSessions="250" />
+    <Parameter name="org.kuali.cas.auth.jdbc.username" value="${cas.datasource.username}" override="false"/>
+    <Parameter name="org.kuali.cas.auth.jdbc.password" value="${cas.datasource.username}" override="false"/>
+    <Parameter name="org.kuali.cas.auth.jdbc.url" value="${cas.datasource.url}" override="false"/>
+    <Parameter name="org.kuali.cas.auth.jdbc.driverClassName" value="${cas.datasource.driver.class}" override="false"/>
+    <Parameter name="org.kuali.cas.auth.requireHttps" value="${cas.require.https}" override="false"/>
+    <Parameter name="org.kuali.cas.auth.showPasswordField" value="${cas.validate.password}" override="false"/>
+</Context>

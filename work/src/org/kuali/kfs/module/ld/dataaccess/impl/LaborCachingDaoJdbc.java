@@ -112,7 +112,7 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingD
             ledgerEntryInsert.setString(47, ledgerEntry.getSetid());
             ledgerEntryInsert.setTimestamp(48, ledgerEntry.getTransactionDateTimeStamp());
 
-            ledgerEntryInsert.executeQuery();
+            ledgerEntryInsert.executeUpdate();
         }
         catch (SQLException e) {
             throw new RuntimeException(e);

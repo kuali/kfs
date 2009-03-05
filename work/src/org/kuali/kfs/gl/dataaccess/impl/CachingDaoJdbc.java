@@ -793,7 +793,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             reversalInsert.setString(24, reversal.getReferenceFinancialDocumentNumber());
             reversalInsert.setString(25, reversal.getTransactionEncumbranceUpdateCode());
             reversalInsert.setDate(26, reversal.getTransactionPostingDate());
-            reversalInsert.executeQuery();
+            reversalInsert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -858,7 +858,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             entryInsert.setDate(26, entry.getTransactionPostingDate());
             entryInsert.setTimestamp(27, dateTimeService.getCurrentTimestamp());
             
-            entryInsert.executeQuery();
+            entryInsert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

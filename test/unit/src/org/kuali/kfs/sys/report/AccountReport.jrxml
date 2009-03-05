@@ -27,14 +27,13 @@
 	<field name="continuationAccountNumber" class="java.lang.String"/>
 	<field name="accountNumber" class="java.lang.String"/>
 	<field name="chartOfAccountsCode" class="java.lang.String"/>
-	<field name="accountExpirationDate" class="java.sql.Timestamp"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
 		</background>
 		<title>
-			<band height="22"  isSplitAllowed="true" >			
+			<band height="22"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="30"
@@ -55,7 +54,7 @@
 			</band>
 		</pageHeader>
 		<columnHeader>
-			<band height="22"  isSplitAllowed="true" >								
+			<band height="22"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="30"
@@ -81,19 +80,6 @@
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{accountNumber}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="190"
-						y="1"
-						width="65"
-						height="18"
-						key="textField-4"/>
-					<box topBorder="Thin" topBorderColor="#FF0000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#FF0000"/>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{accountExpirationDate}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -140,19 +126,6 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="190"
-						y="6"
-						width="65"
-						height="18"
-						key="textField-8"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{accountExpirationDate}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
 						x="270"
 						y="6"
 						width="65"
@@ -173,7 +146,8 @@
 						x="30"
 						y="1"
 						width="305"
-						height="1" forecolor="#FF0000"
+						height="1"
+						forecolor="#FF0000"
 						key="line-1"/>
 					<graphicElement stretchType="NoStretch" pen="Thin"/>
 				</line>

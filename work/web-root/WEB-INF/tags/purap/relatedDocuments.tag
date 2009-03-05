@@ -19,11 +19,14 @@
               description="The DataDictionary entry containing attributes for this row's fields."%>
               
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
+<c:set var="isRequisition" value="${KualiForm.document.isReqsDoc}" />
+
 <c:choose>
-    <c:when test="${fn:startsWith(documentType,'PO')}">
+    <c:when test="${isATypeOfPODoc}">
         <c:set var="limitByPoId" value="${KualiForm.document.purapDocumentIdentifier}" />
     </c:when>
-    <c:when test="${documentType == 'REQS'}">
+    <c:when test="${isRequisition}">
     </c:when>   
     <c:otherwise>
         <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
@@ -34,7 +37,7 @@
     <div class="tab-container" align=center>
             <h3>Related Documents</h3>
 		<br />
-
+	
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedRequisitionViews" /> 
 		

@@ -33,6 +33,9 @@
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:set var="lockTaxAmountEntry" value="${(not empty KualiForm.editingMode['lockTaxAmountEntry']) || !fullEntryMode}" />
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
+<c:set var="isATypeOfPurDoc" value="${KualiForm.document.isATypeOfPurDoc}" />
+<c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
+<c:set var="isPurchaseOrder" value="${KualiForm.document.isPODoc}" />
 
 <c:set var="mainColumnCount" value="12"/>
 <c:if test="${purapTaxEnabled}">
@@ -55,24 +58,13 @@
 	<c:set var="colSpanBlank" value="5"/>
 </c:otherwise>
 </c:choose>
-
+ 
 <c:choose>
-    <c:when test= "${fn:contains(documentType, 'PO')}">
-        <c:set var="isATypeOfPODoc" value="true" />
+    <c:when test="${isATypeOfPODoc}">
         <c:set var="acctExtraHiddenFields" value=",accountIdentifier,itemIdentifier,amount,itemAccountOutstandingEncumbranceAmount" />
     </c:when>
     <c:otherwise>
-        <c:set var="isATypeOfPODoc" value="false" />
         <c:set var="acctExtraHiddenFields" value=",accountIdentifier,itemIdentifier,amount" />
-    </c:otherwise>
-</c:choose>
-
-<c:choose>
-	<c:when test= "${fn:contains(documentType, 'PO') or fn:contains(documentType, 'REQS')}">
-        <c:set var="isATypeofPurDoc" value="true" />
-    </c:when>
-    <c:otherwise>
-        <c:set var="isATypeofPurDoc" value="false" />
     </c:otherwise>
 </c:choose>
 
@@ -274,7 +266,7 @@
 				<!-- TODO: PHASE 2B -->
 				<c:if test="${isATypeOfPODoc}">
 				    <c:choose>
-                        <c:when test="${((documentType != 'PO') && !(fullEntryMode or amendmentEntry))}">
+                        <c:when test="${!isPurchaseOrder && !(fullEntryMode or amendmentEntry)}">
                             <kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
                         </c:when>
                         <c:otherwise>
@@ -487,7 +479,7 @@
 					    </c:choose>
 					</c:if>
 					<c:choose>
-					    <c:when test="${(isATypeOfPODoc and ! itemLine.itemActiveIndicator)}">
+					    <c:when test="${isATypeOfPODoc and !itemLine.itemActiveIndicator}">
 						    <td class="infoline" rowspan="2">
 						        <div align="center">Inactive</div>
 						    </td>

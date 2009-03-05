@@ -51,16 +51,8 @@
 	value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
-
-<c:choose>
-    <c:when test= "${fn:contains(documentType, 'PO')}">
-        <c:set var="isATypeOfPODoc" value="true" />
-    </c:when>
-    <c:otherwise>
-        <c:set var="isATypeOfPODoc" value="false" />
-    </c:otherwise>
-</c:choose>
-
+<c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
+  
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 <c:set var="tabKey" value="${kfunc:generateTabKey(overrideTitle)}" />

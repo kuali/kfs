@@ -1002,6 +1002,54 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument.getIsATypeOfPurDoc().
+     */
+    public boolean getIsATypeOfPurDoc() {
+        if (this instanceof PurchasingDocumentBase) 
+            return true;
+        else
+            return false;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument.getIsATypeOfPODoc().
+     */
+    public boolean getIsATypeOfPODoc() {
+        if (this instanceof PurchaseOrderDocument) 
+            return true;
+        else
+            return false;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument.getIsPODoc().
+     */
+    public boolean getIsPODoc() {
+        if ( (this instanceof PurchaseOrderDocument) && 
+            !(this instanceof PurchaseOrderAmendmentDocument) &&
+            !(this instanceof PurchaseOrderCloseDocument) &&
+            !(this instanceof PurchaseOrderPaymentHoldDocument) &&
+            !(this instanceof PurchaseOrderRemoveHoldDocument) &&
+            !(this instanceof PurchaseOrderReopenDocument) && 
+            !(this instanceof PurchaseOrderRetransmitDocument) && 
+            !(this instanceof PurchaseOrderSplitDocument) &&
+            !(this instanceof PurchaseOrderVoidDocument)) 
+            return true;
+        else
+            return false;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument.getIsATypeOfREQSDoc().
+     */
+    public boolean getIsReqsDoc() {
+        if (this instanceof RequisitionDocument) 
+            return true;
+        else
+            return false;
+    }
+    
+    /**
      * build document title based on the properties of current document
      * 
      * @param the default document title

@@ -282,6 +282,30 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public List<PurApItem> getTradeInItems();
     
     /**
+     * Determines whether the document is a type of PurchasingDocument.
+     * @return true if the document is a type of PurchasingDocument.
+     */
+    public boolean getIsATypeOfPurDoc();
+
+    /**
+     * Determines whether the document is a type of PurchseOrderDocument (including its subclass documents).
+     * @return true if the document is a type of PurchseOrderDocument.
+     */
+    public boolean getIsATypeOfPODoc();
+        
+    /**
+     * Determines whether the document is a PurchaseOrderDocument (excluding its subclass documents).
+     * @return true if the document is a PurchaseOrderDocument.
+     */
+    public boolean getIsPODoc();
+
+    /**
+     * Determines whether the document is a RequisitionDocument.
+     * @return true if the document is a RequisitionDocument.
+     */
+    public boolean getIsReqsDoc(); 
+
+    /**
      * Determines whether the inquiry links should be rendered
      * for Object Code and Sub Object Code.
      * 

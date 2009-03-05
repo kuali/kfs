@@ -21,14 +21,7 @@
 <%@ attribute name="limitByPoId" required="true" %>
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
-<c:choose>
-    <c:when test= "${fn:contains(documentType, 'PO')}">
-        <c:set var="isATypeOfPODoc" value="true" />
-    </c:when>
-    <c:otherwise>
-        <c:set var="isATypeOfPODoc" value="false" />
-    </c:otherwise>
-</c:choose>
+<c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 
 	   	<logic:notEmpty name="KualiForm" property="${viewList}">	   		
 			<logic:iterate id="group" name="KualiForm" property="${viewList}" indexId="groupCtr">

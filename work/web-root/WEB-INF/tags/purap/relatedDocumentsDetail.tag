@@ -21,14 +21,7 @@
 <%@ attribute name="limitByPoId" required="false" %>
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
-<c:choose>
-    <c:when test= "${fn:contains(documentType, 'REQS')}">
-        <c:set var="isRequisition" value="true" />
-    </c:when>
-    <c:otherwise>
-        <c:set var="isRequisition" value="false" />
-    </c:otherwise>
-</c:choose>
+<c:set var="isRequisition" value="${KualiForm.document.isReqsDoc}" />
 
 	   	<logic:notEmpty name="KualiForm" property="${viewList}">
 			<logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">	

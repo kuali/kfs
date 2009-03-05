@@ -25,6 +25,7 @@ public class BCKeyConstants {
     public static final String MESSAGE_BUDGET_DOCUMENT_NOT_BUDGETABLE = "message.budget.documentNotBudgetable";
     public static final String MESSAGE_BUDGET_NOCREATE_DOCUMENT = "message.budget.nocreate.document";
     public static final String MESSAGE_BUDGET_PREVIOUS_SESSION_NOTCLEANED = "message.budget.system.session.notCleaned";
+    public static final String MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT = "message.budget.system.session.timeOut";
     public static final String MESSAGE_BUDGET_SYSTEM_NOT_ACTIVE = "message.budget.system.not.active";
     public static final String MESSAGE_BUDGET_SYSTEM_MULTIPLE_ACTIVE = "message.budget.system.multiple.active";
     public static final String MESSAGE_BUDGET_SYSTEM_VIEW_ONLY = "message.budget.systemViewOnly";

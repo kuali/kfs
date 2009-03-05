@@ -37,6 +37,7 @@ public class BCConstants extends JSTLConstants {
     // formkey prefix to use for all screens we will store in session
     public static final String FORMKEY_PREFIX = "BcDoc";
     public static final String BC_IN_PROGRESS_SESSIONFLAG = FORMKEY_PREFIX + "BCInProgress";
+    public static final String BC_HEARTBEAT_SESSIONFLAG = FORMKEY_PREFIX + "BCHeartBeat";
     public static final String BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY = FORMKEY_PREFIX + "EditStatus";
 
     // this are used in expansion screen session security cleanup management
@@ -165,6 +166,7 @@ public class BCConstants extends JSTLConstants {
     public static final String INCUMBENT_SALARY_SETTING_TITLE = "Salary Setting by Incumbent";
     
     public static final String LOAD_EXPANSION_SCREEN_METHOD = "loadExpansionScreen";
+    public static final String LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT = "loadExpansionScreenSessionTimeOut";
 
     public static final String REPORT_RUNNER_ACTION = "budgetReportRunner.do";
 

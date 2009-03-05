@@ -58,6 +58,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String SEPARATE = "Separate";
         public static final String USE_RESTRICTED_RETIREMENT_REASON = "Use Restricted Retirement Reason";
         public static final String EDIT_WHEN_TAGGED_PRIOR_FISCAL_YEAR = "Edit When Tagged Prior Fiscal Year";
+        public static final String MAINTAIN_ASSET_LOCATION = "Maintain Asset Location";
     }
 
     public static class RouteLevelNames {

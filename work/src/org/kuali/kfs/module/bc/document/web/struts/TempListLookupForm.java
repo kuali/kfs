@@ -18,9 +18,17 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
@@ -86,8 +94,29 @@ public class TempListLookupForm extends LookupForm {
 
         return budgetUpdatesAllowed && updatesFromHumanResourcedAllowed;
     }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.LookupForm#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        String refreshCaller = getParameter(request, KNSConstants.REFRESH_CALLER);
+        if (StringUtils.isNotBlank(refreshCaller) && KNSConstants.QUESTION_REFRESH.equals(refreshCaller) ) {
+            setMethodToCall(WebUtils.parseMethodToCall(this, request));
+            if (BCConstants.TEMP_LIST_UNLOCK_METHOD.equals(getMethodToCall())) {
+                String lookupImplID = KNSServiceLocator.getBusinessObjectDictionaryService().getLookupableID(BudgetConstructionLockSummary.class);
+                if (lookupImplID == null) {
+                    lookupImplID = "kualiLookupable";
+                }
 
-    public boolean isForceToAccountListScreen() {
+                setLookupableImplServiceName(lookupImplID);
+            }
+        }
+        
+        super.populate(request);
+    }
+
+    public boolean isForceToAccountListScreen() { 
         return forceToAccountListScreen;
     }
 

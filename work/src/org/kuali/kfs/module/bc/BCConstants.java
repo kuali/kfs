@@ -180,6 +180,8 @@ public class BCConstants extends JSTLConstants {
     public final static String SHOW_INITIAL_RESULTS = "showInitialResults";
     public final static String CURRENT_POINT_OF_VIEW_KEYCODE = "currentPointOfViewKeyCode";
     public final static String FORCE_TO_ACCOUNT_LIST_SCREEN = "forceToAccountListScreen";
+    
+    public final static String LOCK_STRING_DELIMITER = "!";
 
 
     /*

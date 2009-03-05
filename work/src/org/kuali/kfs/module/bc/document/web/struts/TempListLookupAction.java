@@ -462,9 +462,9 @@ public class TempListLookupAction extends KualiLookupAction {
             String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.MSG_UNLOCK_CONFIRMATION);
             message = MessageFormat.format(message, lockType, lockKeyMessage);
             
-            String context = KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE + "=" + lookupForm.getBusinessObjectClassName();
+            lookupForm.registerNextMethodToCallIsRefresh(true);
 
-            return this.performQuestionWithoutInput(mapping, form, request, response, BCConstants.UNLOCK_CONFIRMATION_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, BCConstants.TEMP_LIST_UNLOCK_METHOD, context);
+            return this.performQuestionWithoutInput(mapping, form, request, response, BCConstants.UNLOCK_CONFIRMATION_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, BCConstants.TEMP_LIST_UNLOCK_METHOD, "");
         }
         else {
             // get result of confirmation, if yes return null which will indicate the unlock can continue
@@ -490,7 +490,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
         // parse lock fields from methodToCall parameter
         String lockType = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
-        String lockFieldsString = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+        String lockFieldsString = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM9_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM9_RIGHT_DEL);
         String lockUser = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL);
 
         // space was replaced by underscore for html
@@ -498,7 +498,7 @@ public class TempListLookupAction extends KualiLookupAction {
         lockSummary.setLockUserId(lockUser);
 
         // parse key fields
-        StrTokenizer strTokenizer = new StrTokenizer(lockFieldsString, "%");
+        StrTokenizer strTokenizer = new StrTokenizer(lockFieldsString, BCConstants.LOCK_STRING_DELIMITER);
         strTokenizer.setIgnoreEmptyTokens(false);
         String fiscalYear = strTokenizer.nextToken();
         if (fiscalYear != null) {

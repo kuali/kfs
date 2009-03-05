@@ -196,14 +196,14 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         BudgetConstructionLockSummary lockSummary = (BudgetConstructionLockSummary) businessObject;
 
         String imageDirectory = kualiConfigurationService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        String lockFields = lockSummary.getUniversityFiscalYear() + "%" + lockSummary.getChartOfAccountsCode() + "%" + lockSummary.getAccountNumber() + "%" + lockSummary.getSubAccountNumber() + "%" + lockSummary.getPositionNumber() + "%";
+        String lockFields = lockSummary.getUniversityFiscalYear() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getChartOfAccountsCode() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getAccountNumber() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getSubAccountNumber() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getPositionNumber() + BCConstants.LOCK_STRING_DELIMITER;
         lockFields = StringUtils.replace(lockFields, "null", "");
         
         String name = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + BCConstants.TEMP_LIST_UNLOCK_METHOD + ".";
         name += 
             KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL + StringUtils.replace(lockSummary.getLockType()," ","_") + 
             KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
-        name += KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL + lockFields + KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL;
+        name += KFSConstants.METHOD_TO_CALL_PARM9_LEFT_DEL + lockFields + KFSConstants.METHOD_TO_CALL_PARM9_RIGHT_DEL;
         name += 
             KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL + lockSummary.getLockUserId() + 
             KFSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL;

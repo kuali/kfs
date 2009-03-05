@@ -203,21 +203,35 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
     public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser) {        
-        // the fields in a new line should be always editable
-        if (accountingLine.getSequenceNumber() == null) {
-            return true;
+        if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty)) {
+            // the fields in a new line should be always editable
+            if (accountingLine.getSequenceNumber() == null) {
+                return true;
+            }
+            
+            // check the initiation permission on the document if it is in the state of preroute
+            KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+            if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+                boolean hasEditLinePermission = workflowDocument.userIsInitiator(currentUser);
+                return hasEditLinePermission;
+            }
+            
+            // examine whether the whole line can be editable via KIM check
+            final String lineFieldName = getKimHappyPropertyNameForField(accountingLineCollectionProperty);
+            return this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
         }
-
-        // check the initiation permission on the document if it is in the state of preroute
-        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            boolean hasEditLinePermission = workflowDocument.userIsInitiator(currentUser);
-            return hasEditLinePermission;
-        }
-
-        // examine whether the whole line can be editable
-        final String lineFieldName = getKimHappyPropertyNameForField(accountingLineCollectionProperty);
-        return this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
+        return false;
+    }
+ 
+    /**
+     * A hook to decide, pre-KIM check, if there's an edit permission on the given accounting line
+     * @param accountingDocument the accounting document the line is or wants to be associated with
+     * @param accountingLine the accounting line itself
+     * @param accountingLineCollectionProperty the collection the accounting line is or would be part of
+     * @return true if the line as a whole can be edited, false otherwise
+     */
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty) {
+        return true;
     }
 
     /**

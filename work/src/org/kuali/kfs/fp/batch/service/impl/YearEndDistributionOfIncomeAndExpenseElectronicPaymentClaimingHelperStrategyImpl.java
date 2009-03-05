@@ -22,6 +22,7 @@ import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
  * have been inherited from DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.
  */
 public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl extends DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl {
+    private static final String URL_DOC_TYPE = "YearEndDistributionOfIncomeAndExpense";
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentWorkflowDocumentType()
@@ -35,7 +36,7 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
      * @see org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl#getClaimingDocumentClass()
      */
     @Override
-    protected Class getClaimingDocumentClass() {
-        return YearEndDistributionOfIncomeAndExpenseDocument.class;
+    protected String getUrlDocType() {
+        return YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.URL_DOC_TYPE;
     }
 }

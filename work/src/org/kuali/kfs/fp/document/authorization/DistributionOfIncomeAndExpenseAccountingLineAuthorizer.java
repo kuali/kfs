@@ -22,7 +22,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.web.AccountingLineViewField;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents This class utilizes
@@ -40,21 +40,54 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Fina
     public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName) {
         final boolean canModify = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName);
         if (canModify && accountingLine.isSourceAccountingLine()) {
-            DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) accountingDocument;
-
-            List<ElectronicPaymentClaim> epcs = diDoc.getElectronicPaymentClaims();
-
-            if (epcs == null) {
-                diDoc.refreshReferenceObject(KFSPropertyConstants.ELECTRONIC_PAYMENT_CLAIMS);
-                epcs = diDoc.getElectronicPaymentClaims();
-            }
-
-            if (epcs != null && epcs.size() > 0) {
-                return false; // we can't modify no matter what...
-            }
+            return !hasElectronicPaymentClaims(accountingDocument);
         }
         
         return canModify;
+    }
+
+    /**
+     * Don't render a new line if this is the source group and there's electronic payment claims
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#renderNewLine(org.kuali.kfs.sys.document.AccountingDocument, java.lang.String)
+     */
+    @Override
+    public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
+        final boolean shouldRender = super.renderNewLine(accountingDocument, accountingGroupProperty);
+        if (shouldRender && accountingGroupProperty.contains("source")) {
+            return !hasElectronicPaymentClaims(accountingDocument);
+        }
+        return shouldRender;
+    }
+
+    /**
+     * There's no edit permission on lines in the source group on documents claiming electronic payments
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
+     */
+    @Override
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty) {
+        final boolean hasEditPermOnLine = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty);
+        if (hasEditPermOnLine && accountingLineCollectionProperty.contains("source")) {
+            return !hasElectronicPaymentClaims(accountingDocument);
+        }
+        return hasEditPermOnLine;
+    }
+
+    /**
+     * Determines if the DI document has electronic payment claims associated with it
+     * @param accountingDocument a DI document
+     * @return true if there are electronic payment claims, false otherwise
+     */
+    protected boolean hasElectronicPaymentClaims(AccountingDocument accountingDocument) {
+        DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) accountingDocument;
+
+        List<ElectronicPaymentClaim> epcs = diDoc.getElectronicPaymentClaims();
+
+        if (epcs == null) {
+            diDoc.refreshReferenceObject(KFSPropertyConstants.ELECTRONIC_PAYMENT_CLAIMS);
+            epcs = diDoc.getElectronicPaymentClaims();
+        }
+
+        return (!ObjectUtils.isNull(epcs) && epcs.size() > 0);
     }
 
 }

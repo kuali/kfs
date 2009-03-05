@@ -51,6 +51,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     private final static String URL_PREFIX = "financial";
     private final static String URL_MIDDLE = ".do?methodToCall=docHandler&command=";
     private final static String URL_SUFFIX = "&docId=";
+    private final static String URL_DOC_TYPE = "DistributionOfIncomeAndExpense";
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List)
@@ -81,7 +82,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     protected String getURLForDocument(DistributionOfIncomeAndExpenseDocument doc) {
         StringBuilder url = new StringBuilder();
         url.append(URL_PREFIX);
-        url.append(getClaimingDocumentClass().getName().substring(getClaimingDocumentClass().getName().lastIndexOf('.')+1).replace("Document", ""));
+        url.append(getUrlDocType());
         url.append(URL_MIDDLE);
         url.append(KEWConstants.ACTIONLIST_COMMAND);
         url.append(URL_SUFFIX);
@@ -186,8 +187,8 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     /**
      * @return the class of the document which claims these electronic payments
      */
-    protected Class getClaimingDocumentClass() {
-        return DistributionOfIncomeAndExpenseDocument.class;
+    protected String getUrlDocType() {
+        return DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.URL_DOC_TYPE;
     }
 
     /**

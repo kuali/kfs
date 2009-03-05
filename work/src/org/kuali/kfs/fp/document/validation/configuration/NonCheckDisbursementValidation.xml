@@ -99,8 +99,9 @@
   
 	<bean id="NonCheckDisbursement-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
-  			<bean parent="NonCheckDisbursement-requiredReferenceFieldValidation" scope="prototype" >
+  			<list>
+  				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
+  				<bean parent="NonCheckDisbursement-requiredReferenceFieldValidation" scope="prototype" >
   					<property name="parameterProperties">
        	    			<list>
        		     			<bean parent="validationFieldConversion">
@@ -109,7 +110,8 @@
            		  			</bean>
            				</list> 
            			</property>
-            	</bean> 
+            	</bean>
+            </list> 
   		</property>
 	</bean>
   

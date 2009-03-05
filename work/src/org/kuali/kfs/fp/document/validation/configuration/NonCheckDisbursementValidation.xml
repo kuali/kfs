@@ -73,6 +73,16 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
+				<bean parent="NonCheckDisbursement-requiredReferenceFieldValidation" scope="prototype" >
+  					<property name="parameterProperties">
+       	    			<list>
+       		     			<bean parent="validationFieldConversion">
+           	    				<property name="sourceEventProperty" value="accountingLine" />
+           	    				<property name="targetValidationProperty" value="accountingLineForValidation" />
+           		  			</bean>
+           				</list> 
+           			</property>
+            	</bean> 
 			</list>
   		</property>
 	</bean>

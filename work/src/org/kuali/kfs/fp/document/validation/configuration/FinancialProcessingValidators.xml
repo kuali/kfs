@@ -177,6 +177,10 @@
 	
 	<bean id="JournalVoucher-reversalDateValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherReversalDateValidation" abstract="true" />
 
+	<bean id="NonCheckDisbursement-requiredReferenceFieldValidation" class="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementRequiredReferenceFieldValidation" abstract="true" >
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+
 	<bean id="PreEncumbrance-reversalDateValidation" class="org.kuali.kfs.fp.document.validation.impl.PreEncumbranceReversalDateValidation" abstract="true" >
 		<property name="accountingDocumentRuleHelperService" ref="accountingDocumentRuleHelperService" />
 	</bean>

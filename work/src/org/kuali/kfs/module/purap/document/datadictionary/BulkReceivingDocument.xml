@@ -9,7 +9,7 @@
     <property name="documentTypeName" value="RCVB"/>
      <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.BulkReceivingDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentPresentationController"/>
     <property name="attributes">
@@ -77,9 +77,11 @@
         <ref bean="BulkReceivingDocument-institutionContactName"/>
         <ref bean="BulkReceivingDocument-institutionContactPhoneNumber"/>
         <ref bean="BulkReceivingDocument-institutionContactEmailAddress"/>
-        
       </list>
     </property>
+    
+    <property name="validationMap" ref="BulkReceivingDocument-validations"/>   
+    
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="vendorCountry">
@@ -640,6 +642,24 @@
     <property name="shortLabel" value="Number"/>
   </bean>
   
+  <!-- Validation -->
+  <bean id="BulkReceivingDocument-validations" parent="BulkReceivingDocument-validations-parentBean"/>
+ 
+  <bean id="BulkReceivingDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+ 		<property name="sourceMap">
+			<map>
+				<entry>
+					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+					<value>BulkReceivingDocument-routeDocumentValidation</value>
+				</entry>
+				<entry>
+					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent</value></key>
+					<value>BulkReceivingDocument-continuePurapValidation</value>				
+				</entry>
+			</map>
+		</property>
+  </bean>
+		
   <!-- workflow attributes -->
   <bean id="BulkReceivingDocument-workflowAttributes" parent="BulkReceivingDocument-workflowAttributes-parentBean"/>
   

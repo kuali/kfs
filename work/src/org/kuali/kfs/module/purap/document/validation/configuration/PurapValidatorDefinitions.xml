@@ -843,4 +843,13 @@
 		</list>
 	  </property>
 	</bean>
+	
+	<bean id="BulkReceivingDocument-purchaseOrderIdValidation" class="org.kuali.kfs.module.purap.document.validation.impl.BulkReceivingPurchaseOrderIdValidation" abstract="true">
+		<property name="purchaseOrderService" ref="purchaseOrderService" />
+	</bean>
+	
+	<bean id="BulkReceivingDocument-initScreenFieldValidation" class="org.kuali.kfs.module.purap.document.validation.impl.BulkReceivingInitScreenFieldValidation" abstract="true">
+		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
+	</bean>
+	
 </beans>

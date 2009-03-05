@@ -687,6 +687,7 @@
 	<import resource="document/validation/configuration/PurchaseOrderVoidDocumentValidation.xml" />
 	<import resource="document/validation/configuration/PaymentRequestValidation.xml" />
 	<import resource="document/validation/configuration/VendorCreditMemoValidation.xml" />
+	<import resource="document/validation/configuration/BulkReceivingValidation.xml" />
 	
 </beans>
 

@@ -36,6 +36,7 @@ public enum PaymentRequestDocumentFixture {
             false,  //paymentRequestedCancelIndicator,
             false,  //paymentAttachmentIndicator,
             false,  //immediatePaymentIndicator,
+            false,  //closePurchaseOrderIndicator,
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
@@ -63,6 +64,7 @@ public enum PaymentRequestDocumentFixture {
             false,  //paymentRequestedCancelIndicator,
             false,  //paymentAttachmentIndicator,
             false,  //immediatePaymentIndicator,
+            false,  //closePurchaseOrderIndicator,
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
@@ -92,6 +94,7 @@ public enum PaymentRequestDocumentFixture {
             false,  //paymentRequestedCancelIndicator,
             false,  //paymentAttachmentIndicator,
             false,  //immediatePaymentIndicator,
+            false,  //closePurchaseOrderIndicator,
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
@@ -119,6 +122,7 @@ public enum PaymentRequestDocumentFixture {
             false,  //paymentRequestedCancelIndicator,
             false,  //paymentAttachmentIndicator,
             false,  //immediatePaymentIndicator,
+            true,  //closePurchaseOrderIndicator,
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
@@ -146,6 +150,7 @@ public enum PaymentRequestDocumentFixture {
             false,  //paymentRequestedCancelIndicator,
             false,  //paymentAttachmentIndicator,
             false,  //immediatePaymentIndicator,
+            true,  //closePurchaseOrderIndicator,
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
@@ -173,6 +178,7 @@ public enum PaymentRequestDocumentFixture {
             false,  //paymentRequestedCancelIndicator,
             false,  //paymentAttachmentIndicator,
             false,  //immediatePaymentIndicator,
+            false,  //closePurchaseOrderIndicator,
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
@@ -200,6 +206,7 @@ public enum PaymentRequestDocumentFixture {
             true,  //paymentRequestedCancelIndicator,
             false,  //paymentAttachmentIndicator,
             false,  //immediatePaymentIndicator,
+            false,  //closePurchaseOrderIndicator,
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
@@ -227,6 +234,7 @@ public enum PaymentRequestDocumentFixture {
             false,  //paymentRequestedCancelIndicator,
             false,  //paymentAttachmentIndicator,
             false,  //immediatePaymentIndicator,
+            false,  //closePurchaseOrderIndicator,
             null,   //specialHandlingInstructionLine1Text,
             null,   //specialHandlingInstructionLine2Text,
             null,   //specialHandlingInstructionLine3Text,
@@ -254,6 +262,7 @@ public enum PaymentRequestDocumentFixture {
     public final boolean paymentRequestedCancelIndicator;
     public final boolean paymentAttachmentIndicator;
     public final boolean immediatePaymentIndicator;
+    public final boolean closePurchaseOrderIndicator;
     public final String specialHandlingInstructionLine1Text;
     public final String specialHandlingInstructionLine2Text;
     public final String specialHandlingInstructionLine3Text;
@@ -265,8 +274,8 @@ public enum PaymentRequestDocumentFixture {
     public final Integer alternateVendorHeaderGeneratedIdentifier;
     public final Integer alternateVendorDetailAssignedIdentifier;
     public final String purchaseOrderNotes;
-    public final String recurringPaymentTypeCode;
-
+    public final String recurringPaymentTypeCode;   
+    
     private PurchasingAccountsPayableDocumentFixture purapDocumentFixture;
     private AccountsPayableDocumentFixture apDocumentFixture;
     private PaymentRequestItemFixture[] paymentRequestItemFixtures;
@@ -282,6 +291,7 @@ public enum PaymentRequestDocumentFixture {
             boolean paymentRequestedCancelIndicator,
             boolean paymentAttachmentIndicator,
             boolean immediatePaymentIndicator,
+            boolean closePurchaseOrderIndicator,
             String specialHandlingInstructionLine1Text,
             String specialHandlingInstructionLine2Text,
             String specialHandlingInstructionLine3Text,
@@ -308,6 +318,7 @@ public enum PaymentRequestDocumentFixture {
         this.paymentRequestedCancelIndicator = paymentRequestedCancelIndicator;
         this.paymentAttachmentIndicator = paymentAttachmentIndicator;
         this.immediatePaymentIndicator = immediatePaymentIndicator;
+        this.closePurchaseOrderIndicator = closePurchaseOrderIndicator;
         this.specialHandlingInstructionLine1Text = specialHandlingInstructionLine1Text;
         this.specialHandlingInstructionLine2Text = specialHandlingInstructionLine2Text;
         this.specialHandlingInstructionLine3Text = specialHandlingInstructionLine3Text;
@@ -340,6 +351,7 @@ public enum PaymentRequestDocumentFixture {
         doc.setPaymentRequestedCancelIndicator(this.paymentRequestedCancelIndicator);
         doc.setPaymentAttachmentIndicator(this.paymentAttachmentIndicator);
         doc.setImmediatePaymentIndicator(this.immediatePaymentIndicator);
+        doc.setClosePurchaseOrderIndicator(this.closePurchaseOrderIndicator);
         doc.setSpecialHandlingInstructionLine1Text(this.specialHandlingInstructionLine1Text);
         doc.setSpecialHandlingInstructionLine2Text(this.specialHandlingInstructionLine2Text);
         doc.setSpecialHandlingInstructionLine3Text(this.specialHandlingInstructionLine3Text);

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.butt;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
@@ -25,14 +24,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.fixture.PaymentRequestDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PaymentRequestItemFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
@@ -42,14 +40,11 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -64,11 +59,13 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     private static final String ACCOUNT_REVIEW = "Account";
     
     protected static DocumentService documentService = null;
+    protected static PurchaseOrderService purchaseOrderService = null;
     private PaymentRequestDocument paymentRequestDocument = null;
     protected static PurchaseOrderDocument purchaseOrderDocument = null;
 
     protected void setUp() throws Exception {
-        documentService = SpringContext.getBean(DocumentService.class);                
+        documentService = SpringContext.getBean(DocumentService.class);
+        purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
         super.setUp();
     }
 
@@ -111,7 +108,6 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
     }
     
-    @RelatesTo(JiraIssue.KULPURAP3061)
     @ConfigureContext(session = appleton, shouldCommitTransactions=false)
     public final void testRouteDocument() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
@@ -120,7 +116,6 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testRouteDocument(paymentRequestDocument, documentService);
     }
 
-    @RelatesTo(JiraIssue.KULPURAP3061)
     @ConfigureContext(session = appleton, shouldCommitTransactions=false)
     public final void testRouteDocumentToFinal() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
@@ -139,18 +134,17 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null); 
 
-        // TODO: this fails in code, but through UI it works fine, WHY!?
-//        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
-//
-//        paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
-//        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());        
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+
+        paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
+        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());        
     }
     
     //Commented due to Jira issue preventing documents created by PREQ from going to final
     @ConfigureContext(session = appleton, shouldCommitTransactions=false)
     public final void testClosePo() throws Exception {
         //route a preq and mark the close po indicator
-        /*purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.CLOSE_PO_WITH_PREQ, true);        
+        purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.CLOSE_PO_WITH_PREQ, true);        
         paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.CLOSE_PO_WITH_PREQ, 
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
 
@@ -170,8 +164,8 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         // check if the purchase order document is closed
-        PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId); 
-        assertTrue( "Purchase order should be closed.", PurchaseOrderStatuses.CLOSED.equals( purchaseOrderDocument.getStatusCode() ) );*/        
+        PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument) purchaseOrderService.getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier()); //documentService.getByDocumentHeaderId(poDocId); 
+        assertTrue( "Purchase order should be closed.", PurchaseOrderStatuses.CLOSED.equals( purchaseOrderDocument.getStatusCode() ) );        
     }
 
     //Commented due to Jira issue preventing documents created by PREQ from going to final
@@ -204,8 +198,8 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         // check if the purchase order document is open
-        PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId); 
-        assertTrue( "Purchase order should be opened.", PurchaseOrderStatuses.OPEN.equals( purchaseOrderDocument.getStatusCode() ) );*/        
+        PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument)purchaseOrderService.getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier()); //documentService.getByDocumentHeaderId(poDocId); 
+        assertTrue( "Purchase order should be opened.", PurchaseOrderStatuses.OPEN.equals( purchaseOrderDocument.getStatusCode() ) );  */      
     }
     
     @ConfigureContext(session = appleton, shouldCommitTransactions=false)

@@ -23,6 +23,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="PurchasingAccountsPayableDocument-documentTypeCode" />
         <ref bean="PurchasingAccountsPayableDocument-purApContactEmailAddress" />
         <ref bean="PurchasingAccountsPayableDocument-purApContactPhoneNumber" />
+        <ref bean="PurchasingAccountsPayableDocument-statusDescription" />
       </list>
     </property>
   </bean>
@@ -73,6 +74,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Phone" />
   </bean>
   
+  <bean id="PurchasingAccountsPayableDocument-statusDescription" parent="PurchasingAccountsPayableDocument-statusDescription-parentBean" />
+  <bean id="PurchasingAccountsPayableDocument-statusDescription-parentBean" abstract="true" parent="PurchaseOrderDocument-institutionContactPhoneNumber">
+    <property name="name" value="statusDescription" />
+    <property name="label" value="Status Description" />
+  </bean>
+
 <!-- Business Object Inquiry Definition -->
 
   <bean id="PurchasingAccountsPayableDocument-inquiryDefinition" parent="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" />

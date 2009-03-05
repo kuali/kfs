@@ -71,42 +71,6 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     }
 
 
-    
-    @Override
-    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        //TODO: no need to override this one since blanketApprove action override.
-        boolean valid = super.processCustomApproveDocumentBusinessRules(approveEvent);
-//        BarcodeInventoryErrorDocument barcodeErrorDocument = (BarcodeInventoryErrorDocument) approveEvent.getDocument();
-//
-//        if (!getAssetBarcodeInventoryLoadService().isFullyProcessed(barcodeErrorDocument)) {
-//            // document disallow approve with error exists.
-//            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_APPROVE_DOCUMENT_WITH_ERROR_EXIST);
-//            valid = false;
-//        }
-        return valid;
-    }
-
-    /**
-     * check if adhoc recipient exists other than given user principal name
-     * 
-     * @param adHocRoutePersons
-     * @param userPrincipalName
-     * @return
-     */
-    protected boolean hasOtherAdhocRecipientExists(List<AdHocRoutePerson> adHocRoutePersons, String userPrincipalName) {
-        boolean valid = false;
-        if (!adHocRoutePersons.isEmpty()) {
-            for (AdHocRoutePerson adHocRoutePerson : adHocRoutePersons) {
-                if (!adHocRoutePerson.getId().equalsIgnoreCase(userPrincipalName)) {
-                    // user is adhoc recipient
-                    valid = true;
-                    break;
-                }
-            }
-        }
-        return valid;
-    }
-
     /**
      * Invokes several methods that validates each barcode error record
      * 

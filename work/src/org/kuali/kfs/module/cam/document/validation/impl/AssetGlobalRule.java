@@ -91,11 +91,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkReferenceExists(AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
-        
-        // TODO: objectCode is a required field as set in Maint DD. why this rule method processCustom***Rules could be called with required field not setting?
+
+        // validate required field for object code. Skip the error message because the maintenance DD 'defaultExistenceChecks' can
+        // generate the same error message. We won't duplicate it.
         if (StringUtils.isBlank(assetPaymentDetail.getFinancialObjectCode())) {
-            //String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE).getLabel();
-            //GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
 
@@ -134,8 +133,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             valid &= false;
         }
 
-        // check for existance and active when not separating. This can't be done in the DD because we have a condition on it. Note: Even though
-        // on separate the payment lines can't be edited we still can't force the rules because data may have gone inactive since then.
+        // check for existance and active when not separating. This can't be done in the DD because we have a condition on it. Note:
+        // Even though
+        // on separate the payment lines can't be edited we still can't force the rules because data may have gone inactive since
+        // then.
         if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
             if (StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) || isAccountInvalid(assetPaymentDetail.getAccount())) {
@@ -217,9 +218,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
             if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode()) && !assetPaymentDetail.getExpenditureFinancialSystemDocumentTypeCode().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, RiceKeyConstants.ERROR_INACTIVE, label);                
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
-             }
+            }
         }
         return valid;
     }
@@ -405,8 +406,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validatePaymentLine(MaintenanceDocument maintenanceDocument, AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean success = true;
 
-        // If Acquisition type is "New" or "non-capital", check required fields including Document number, Document type code, Posted date.
-        if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode()) || !getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP,assetGlobal.getAcquisitionTypeCode())) {
+        // If Acquisition type is "New" or "non-capital", check required fields including Document number, Document type code,
+        // Posted date.
+        if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode()) || !getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
             success &= checkRequiredFieldsForNewOrNonCapital(assetPaymentDetail);
         }
         else {
@@ -631,12 +633,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         // Disallow FO change asset total amount during routing. Asset total amount is derived from asset payments total and the
         // quantity of assets
         if (getAssetService().isDocumentEnrouting(document) && (!minTotalPaymentByAsset.equals(assetGlobal.getMinAssetTotalAmount()) || !maxTotalPaymentByAsset.equals(assetGlobal.getMaxAssetTotalAmount()))) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS, CamsKeyConstants.AssetGlobal.ERROR_CHANGE_ASSET_TOTAL_AMOUNT_DISALLOW, !minTotalPaymentByAsset.equals(assetGlobal.getMinAssetTotalAmount())? new String[] { (String) new CurrencyFormatter().format(assetGlobal.getMinAssetTotalAmount()), (String) new CurrencyFormatter().format(minTotalPaymentByAsset) }: new String[] { (String) new CurrencyFormatter().format(assetGlobal.getMaxAssetTotalAmount()), (String) new CurrencyFormatter().format(maxTotalPaymentByAsset) });
+            putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS, CamsKeyConstants.AssetGlobal.ERROR_CHANGE_ASSET_TOTAL_AMOUNT_DISALLOW, !minTotalPaymentByAsset.equals(assetGlobal.getMinAssetTotalAmount()) ? new String[] { (String) new CurrencyFormatter().format(assetGlobal.getMinAssetTotalAmount()), (String) new CurrencyFormatter().format(minTotalPaymentByAsset) } : new String[] { (String) new CurrencyFormatter().format(assetGlobal.getMaxAssetTotalAmount()), (String) new CurrencyFormatter().format(maxTotalPaymentByAsset) });
             success = false;
         }
 
         if (!getAssetService().isDocumentEnrouting(document)) {
-            // run threshold checking before routing 
+            // run threshold checking before routing
             FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
             boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
@@ -738,11 +740,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
 
             success &= validatePaymentCollection(document, assetGlobal);
-        } else {
+        }
+        else {
             // append doc type to existing doc header description
             if (!document.getDocumentHeader().getDocumentDescription().toLowerCase().contains(CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION.toLowerCase())) {
                 document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION + " " + document.getDocumentHeader().getDocumentDescription());
-            }    
+            }
         }
 
         // System shall only generate GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode

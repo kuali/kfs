@@ -157,7 +157,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
             }
 
-            // TODO: grant KFS-CAM Manager blanket approve permission for BCIE
             if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && this.getAssetBarcodeInventoryLoadService().isCurrentUserInitiator(document)) {
                 // If the same person that uploaded the bcie is the one processing it, then....
                 return this.blanketApprove(mapping, form, request, response);
@@ -209,7 +208,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
             }
 
-            // TODO: grant KFS-CAM Manager blanket approve permission for BCIE
             if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && this.getAssetBarcodeInventoryLoadService().isCurrentUserInitiator(document)) {
                 // If the same person that uploaded the bcie is the one processing it, then blanket approve and surpress other adhoc
                 // recipients.

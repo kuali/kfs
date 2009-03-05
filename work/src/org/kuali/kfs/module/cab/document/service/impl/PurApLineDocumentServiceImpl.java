@@ -448,7 +448,6 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                 preTagDetail.setActive(false);
             }
         }
-        // TODO: Do we need to in-activate pre-tag table?
         // In-activate preTag if possible.
         inActivatePreTag(preTag);
     }

@@ -169,10 +169,10 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @param purApCapitalAssets
      * @param itemAssets
      */
-    protected void setItemAssetsCamsTransaction(Integer capitalAssetSystemIdentifier, String capitRalAssetTransactionTypeCode, List<ItemCapitalAsset> purApCapitalAssets, List<PurchasingAccountsPayableItemAsset> itemAssets) {
+    protected void setItemAssetsCamsTransaction(Integer capitalAssetSystemIdentifier, String capitalAssetTransactionTypeCode, List<ItemCapitalAsset> purApCapitalAssets, List<PurchasingAccountsPayableItemAsset> itemAssets) {
         for (PurchasingAccountsPayableItemAsset item : itemAssets) {
             // TODO : Purap will add this field to PREQ/CM item.
-            item.setCapitalAssetTransactionTypeCode(capitRalAssetTransactionTypeCode);
+            item.setCapitalAssetTransactionTypeCode(capitalAssetTransactionTypeCode);
             // set for item capital assets
             if (purApCapitalAssets != null && !purApCapitalAssets.isEmpty()) {
                 item.getPurApItemAssets().addAll(purApCapitalAssets);

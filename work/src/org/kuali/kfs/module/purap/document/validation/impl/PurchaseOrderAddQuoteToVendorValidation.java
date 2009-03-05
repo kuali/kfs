@@ -44,8 +44,10 @@ public class PurchaseOrderAddQuoteToVendorValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
         valid &= isVendorQuoteActiveNotDebarredVendor(vendorQuote.getVendorHeaderGeneratedIdentifier(), vendorQuote.getVendorDetailAssignedIdentifier());
         valid &= vendorQuoteHasRequiredFields(vendorQuote);
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
 
@@ -66,7 +68,6 @@ public class PurchaseOrderAddQuoteToVendorValidation extends GenericValidation {
     
     private boolean vendorQuoteHasRequiredFields (PurchaseOrderVendorQuote vendorQuote) {
         boolean valid = true;
-        GlobalVariables.getErrorMap().clearErrorPath();
         if ( StringUtils.isBlank(vendorQuote.getVendorName()) ) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor Name");
             valid = false;
@@ -79,7 +80,6 @@ public class PurchaseOrderAddQuoteToVendorValidation extends GenericValidation {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor City Name");
             valid = false;
         }
-        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
 

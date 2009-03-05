@@ -110,11 +110,11 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
             if (collectionPath.getNestedCollection() != null) {
                 // we need to go through the collection...
                 for (Object collectionElement : collectionByPath) {
-                    AttributeSet qualifier = new AttributeSet();
                     // for each element, we need to get the child qualifiers
                     if (collectionElement instanceof BusinessObject) {
                         List<AttributeSet> childQualifiers = resolveDocumentCollectionPath((BusinessObject)collectionElement, collectionPath.getNestedCollection(), routingAttributeTracker);
                         for (AttributeSet childQualifier : childQualifiers) {
+                            AttributeSet qualifier = new AttributeSet();
                             routingAttributeTracker.checkPoint();
                             // now we need to get the values for the current element of the collection
                             addPathValuesToQualifier(collectionElement, collectionPath.getDocumentValues(), routingAttributeTracker, qualifier);

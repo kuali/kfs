@@ -68,7 +68,9 @@
 	</c:choose>
 	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].purapDocumentIdentifier" attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}" readOnly="true"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentTypeCode" attributeEntry="${purApDocumentAttributes.documentTypeCode}" readOnly="true"/></td>
-	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentHeader.financialDocumentStatusCode" attributeEntry="${financialSystemDocumentHeaderAttributes.financialDocumentStatusCode}" readOnly="true"/></td>
+	<td class="infoline">
+		<kul:htmlControlAttribute property="purApDocs[${docPos-1}].statusDescription" attributeEntry="${purApDocumentAttributes.statusDescription}" readOnly="true"/>
+	</td>
 	<c:choose>
 		<c:when test="${itemLine.itemLineNumber != null}">
 		<td class="infoline">

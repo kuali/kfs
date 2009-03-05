@@ -2,7 +2,7 @@
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		 name="BudgetOrgAccountSummary"
+		 name="BudgetOrgSalaryStatistics"
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Landscape"
@@ -555,7 +555,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{body.PercentChange}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="353"
 						y="132"

@@ -202,7 +202,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             if (appointmentFundingEntry.getAppointmentRequestedFteQuantity().equals(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity())) {
                 Integer amountChange = appointmentFundingEntry.getAppointmentRequestedAmount().subtract(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount()).intValue();
                 orgSalarySummaryReportEntry.setAmountChange(amountChange);
-                orgSalarySummaryReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
+                orgSalarySummaryReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
             }
         }
 
@@ -357,11 +357,15 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             restatementCsfAmount = 0;
         }
         else {
-            BigDecimal salaryFteQuantity = totalsHolder.salaryPercent.multiply(new BigDecimal(totalsHolder.salaryNormalMonths * 1.0 / totalsHolder.salaryPayMonth));
-            BigDecimal csfFteQuantity = totalsHolder.csfPercent.multiply(new BigDecimal(totalsHolder.csfNormalMonths * 1.0 / totalsHolder.csfPayMonths));
+            BigDecimal salaryMonthPercent = new BigDecimal(totalsHolder.salaryNormalMonths * 1.0 / totalsHolder.salaryPayMonth);
+            BigDecimal salaryFteQuantity = totalsHolder.salaryPercent.multiply(salaryMonthPercent);
+            
+            BigDecimal csfMonthpercent = new BigDecimal(totalsHolder.csfNormalMonths * 1.0 / totalsHolder.csfPayMonths);
+            BigDecimal csfFteQuantity = totalsHolder.csfPercent.multiply(csfMonthpercent);
 
-            int restatementCsfPercent = salaryFteQuantity.divide(csfFteQuantity, 2, RoundingMode.HALF_UP).intValue();
-            restatementCsfAmount = totalsHolder.csfAmount * restatementCsfPercent;
+            BigDecimal restatementCsfPercent = salaryFteQuantity.divide(csfFteQuantity);
+            BigDecimal csfAmount = new BigDecimal(totalsHolder.csfAmount);
+            restatementCsfAmount = csfAmount.multiply(restatementCsfPercent).intValue();
         }
 
         if (totalsHolder.salaryPayMonth == 0) {
@@ -453,7 +457,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             totalsHolder.csfPercent = totalsHolder.csfPercent.add(csfTracker.getCsfTimePercent());
 
             // data for previous year, position table has two data, one is for current year and another is for previous year.
-            Integer previousFiscalYear = new Integer(universityFiscalYear.intValue() - 1);
+            Integer previousFiscalYear = universityFiscalYear - 1;
             BudgetConstructionPosition previousYearBudgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(previousFiscalYear, appointmentFunding);
             
             totalsHolder.csfPayMonths = previousYearBudgetConstructionPosition.getIuPayMonths();
@@ -497,16 +501,16 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
             // calculate average and change
             if (BigDecimal.ZERO.compareTo(totalsHolder.newFte) != 0) {
-                BigDecimal averageAmount = new BigDecimal(totalsHolder.newTotalAmount / totalsHolder.newFte.doubleValue());
-                totalsHolder.newAverageAmount = BudgetConstructionReportHelper.setDecimalDigit(averageAmount, 0, false).intValue();
+                BigDecimal averageAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(totalsHolder.newTotalAmount), totalsHolder.newFte);
+                totalsHolder.newAverageAmount = averageAmount.intValue();
             }
 
             if (BigDecimal.ZERO.compareTo(totalsHolder.conFte) != 0) {
-                BigDecimal averageAmount = new BigDecimal(totalsHolder.conTotalBaseAmount / totalsHolder.conFte.doubleValue());
+                BigDecimal averageAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(totalsHolder.conTotalBaseAmount), totalsHolder.conFte);
                 totalsHolder.conAverageBaseAmount = BudgetConstructionReportHelper.setDecimalDigit(averageAmount, 0, false).intValue();
 
-                BigDecimal averageRequestAmount = new BigDecimal(totalsHolder.conTotalRequestAmount / totalsHolder.conFte.doubleValue());
-                totalsHolder.conAverageRequestAmount = BudgetConstructionReportHelper.setDecimalDigit(averageRequestAmount, 0, false).intValue();
+                BigDecimal averageRequestAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(totalsHolder.conTotalRequestAmount), totalsHolder.conFte);
+                totalsHolder.conAverageRequestAmount = averageRequestAmount.intValue();
             }
 
             totalsHolder.conAveragechange = totalsHolder.conAverageRequestAmount - totalsHolder.conAverageBaseAmount;
@@ -585,7 +589,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
      * @return returnList
      */
     public List<String> buildOrderByListForSalaryFunding() {
-        List<String> returnList = new ArrayList();
+        List<String> returnList = new ArrayList<String>();
         returnList.add(KFSPropertyConstants.POSITION_NUMBER);
         returnList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         returnList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
@@ -603,7 +607,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
      * @return returnList
      */
     public List<String> buildOrderByList() {
-        List<String> returnList = new ArrayList();
+        List<String> returnList = new ArrayList<String>();
         returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
         returnList.add(KFSPropertyConstants.PERSON_NAME);

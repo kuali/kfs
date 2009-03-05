@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -40,6 +41,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
     private Integer vendorContractGeneratedIdentifier;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
+    private String vendorNumber; // not persisted in db, only for lookup page
     private String vendorContractName;
     private String vendorContractDescription;
     private String vendorCampusCode;
@@ -340,6 +342,50 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
         this.vendorContractOrganizations = vendorContractOrganizations;
     }
 
+    /**
+     * A concatenation of the vendorHeaderGeneratedIdentifier, a dash, and the vendorDetailAssignedIdentifier
+     * 
+     * @return Returns the vendorNumber.
+     */
+    public String getVendorNumber() {
+        String headerId = "";
+        String detailId = "";
+        String vendorNumber = "";
+        if (ObjectUtils.isNotNull(this.vendorHeaderGeneratedIdentifier)) {
+            headerId = this.vendorHeaderGeneratedIdentifier.toString();
+        }
+        if (ObjectUtils.isNotNull(this.vendorDetailAssignedIdentifier)) {
+            detailId = this.vendorDetailAssignedIdentifier.toString();
+        }
+        if (!StringUtils.isEmpty(headerId) && !StringUtils.isEmpty(detailId)) {
+            vendorNumber = headerId + "-" + detailId;
+        }
+
+        return vendorNumber;
+    }
+
+    /**
+     * Sets the vendorNumber attribute value.
+     * 
+     * @param vendorNumber The vendorNumber to set.
+     */
+    public void setVendorNumber(String vendorNumber) {
+        if (!StringUtils.isEmpty(vendorNumber)) {
+            int dashInd = vendorNumber.indexOf("-");
+            if (vendorNumber.length() >= dashInd) {
+                String vndrHdrGenId = vendorNumber.substring(0, dashInd);
+                String vndrDetailAssgnedId = vendorNumber.substring(dashInd + 1);
+                if (!StringUtils.isEmpty(vndrHdrGenId) && !StringUtils.isEmpty(vndrDetailAssgnedId)) {
+                    this.vendorHeaderGeneratedIdentifier = new Integer(vndrHdrGenId);
+                    this.vendorDetailAssignedIdentifier = new Integer(vndrDetailAssgnedId);
+                }
+            }
+        }
+        else {
+            this.vendorNumber = vendorNumber;
+        }
+    }
+    
     /**
      * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */

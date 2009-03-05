@@ -237,7 +237,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     /**
      * Overrides a method of the superclass and is now called instead of that one by the Search method of KualiLookupAction when the
      * Lookupable is of this class. This method first calls the method from the superclass, which should do all the required field
-     * checking, and then orchestrates all the specific validations which aren't done in at the JSP level. Both the superclass
+     * checking, and then goes through all the specific validations which aren't done in at the JSP level. Both the superclass
      * method and the various validation methods side-effect the adding of errors to the global error map when the input is found to
      * have an issue.
      *
@@ -304,7 +304,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * by a dash.
      *
      * @param fieldValues a Map containing only those key-value pairs that have been filled in on the lookup
-     * @param vendorNumber venodr number String
+     * @param vendorNumber vendor number String
      */
     private void extractVendorNumberToVendorIds(Map fieldValues, String vendorNumber) {
         String vendorHeaderGeneratedIdentifier = null;

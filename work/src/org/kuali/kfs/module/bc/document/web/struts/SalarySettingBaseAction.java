@@ -104,7 +104,8 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         BudgetConstructionAuthorizationStatus authorizationStatus = (BudgetConstructionAuthorizationStatus) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY);
 
         if (authorizationStatus == null) {
-            // TODO: handle session timeout
+            // just return, BudgetExpansionAction.execute() will see the session time out
+            // and redirect back to BudgetConstructionSelection
             return;
         }
 

@@ -935,10 +935,43 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         return true;
     }
     
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsATypeOfPurDoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsATypeOfPODoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsPODoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsReqsDoc() {
+        return false;
+    }       
+    
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
         m.put("PO", getPurchaseOrderIdentifier());
         return m;
     }
+    
 }

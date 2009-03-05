@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimDelegationTypeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyReviewRoleTypeServiceImpl implements KimDelegationTypeService {
 
@@ -49,10 +50,10 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
     private boolean isValidTotalAmount(AttributeSet qualification, AttributeSet roleQualifier) {
         boolean isValidTotalAmount = false;
         try {
-            int totalAmount = new Integer(qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT)).intValue();
+            KualiDecimal totalAmount = new KualiDecimal(qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT));
             String toAmountStr = roleQualifier.get(KfsKimAttributes.TO_AMOUNT);
             String fromAmountStr = roleQualifier.get(KfsKimAttributes.FROM_AMOUNT);
-            if ((StringUtils.isEmpty(toAmountStr) || new Integer(toAmountStr).intValue() >= totalAmount) && (StringUtils.isEmpty(fromAmountStr) || new Integer(fromAmountStr).intValue() <= totalAmount)) {
+            if ((StringUtils.isEmpty(toAmountStr) || new KualiDecimal(toAmountStr).compareTo(totalAmount) >= 0) && (StringUtils.isEmpty(fromAmountStr) || new KualiDecimal(fromAmountStr).compareTo(totalAmount) <= 0)) {
                 isValidTotalAmount = true;
             }
         }

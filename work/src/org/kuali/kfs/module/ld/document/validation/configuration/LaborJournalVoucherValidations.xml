@@ -23,8 +23,7 @@
 	<bean id="LaborJournalVoucherDocument-routeDocumentValidation" parent="LaborJournalVoucherDocument-routeDocumentValidation-parent" scope="prototype" />
 	<bean id="LaborJournalVoucherDocument-routeDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
-			<list>
-				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />			
+			<list>		
 				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
 					<property name="requiredMinimumCount" value="1" />
 					<property name="parameterProperties">
@@ -52,13 +51,6 @@
 					</property>
 				</bean>
 				<bean parent="JournalVoucher-accountingPeriodValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion" p:sourceEventProperty="document" p:targetValidationProperty="journalVoucherForValidation" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="JournalVoucher-reversalDateValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion" p:sourceEventProperty="document" p:targetValidationProperty="journalVoucherForValidation" />

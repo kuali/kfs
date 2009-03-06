@@ -17,7 +17,6 @@ import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -56,9 +55,9 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private SubObjectCode accountsReceivableSubObject;
     private ObjectCode accountsReceivableObject;
 
-    private CustomerInvoiceDocument customerInvoiceDocument;
-    private CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail;
-    private CustomerInvoiceDetail discountCustomerInvoiceDetail;
+    private transient CustomerInvoiceDocument customerInvoiceDocument;
+    private transient CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail;
+    private transient CustomerInvoiceDetail discountCustomerInvoiceDetail;
 
     // fields used for CustomerInvoiceWriteoffDocument
     private KualiDecimal writeoffAmount;
@@ -105,24 +104,53 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     // ---- BEGIN OPEN AMOUNTS
     
     public KualiDecimal getAmountOpen() { 
-        return getAmountOpenFromDatabaseDiscounted();
-    }
-    
-    /**
-     * This method returns an open amount for a specific detail. If a customer 
-     * invoice detail is a discount line, return null, because discount lines 
-     * should NEVER have an open amount.
-     * 
-     * @return
-     */
-    public KualiDecimal getAmountOpenFromDatabaseDiscounted() {
+        
+        //  if the parent isnt saved, or if its saved but not approved, we 
+        // need to include the discounts.  If its both saved AND approved, 
+        // we do not include the discounts.
+        boolean includeDiscounts = !(isParentSaved() && isParentApproved());
+        
         KualiDecimal amount = getAmount();
         KualiDecimal applied = getAmountAppliedFromDatabase();
         KualiDecimal a = amount.subtract(applied);
-//        CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
-//        if(ObjectUtils.isNotNull(discount)) {
-//            a = a.add(discount.getAmount());
-//        }
+        
+        if (includeDiscounts) {
+            CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
+            if (ObjectUtils.isNotNull(discount)) {
+                a = a.add(discount.getAmount());
+            }
+        }
+        return a;
+    }
+    
+    private boolean isParentSaved() {
+        return getCustomerInvoiceDocument() != null;
+    }
+    
+    private boolean isParentApproved() {
+        if (getCustomerInvoiceDocument() == null) {
+            return false;
+        }
+        return KFSConstants.DocumentStatusCodes.APPROVED.equalsIgnoreCase(getCustomerInvoiceDocument().getDocumentHeader().getFinancialDocumentStatusCode());
+    }
+    
+    @Deprecated
+    private KualiDecimal getAmountOpenFromDatabaseNoDiscounts() {
+        KualiDecimal amount = getAmount();
+        KualiDecimal applied = getAmountAppliedFromDatabase();
+        KualiDecimal a = amount.subtract(applied);
+        return a;
+    }
+
+    @Deprecated
+    private KualiDecimal getAmountOpenFromDatabaseDiscounted() {
+        KualiDecimal amount = getAmount();
+        KualiDecimal applied = getAmountAppliedFromDatabase();
+        KualiDecimal a = amount.subtract(applied);
+        CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
+        if (ObjectUtils.isNotNull(discount)) {
+            a = a.add(discount.getAmount());
+        }
         return a;
     }
 
@@ -130,6 +158,17 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return getAmountOpenExcludingAnyAmountFrom(getCurrentPaymentApplicationDocument());
     }
     
+    /**
+     * 
+     * Retrieves the discounted amount.  This is the amount minues any 
+     * discounts that might exist.  If no discount exists, then it 
+     * just returns the amount.
+     * 
+     * NOTE this does not subtract PaidApplieds, only discounts.
+     * 
+     * @return
+     */
+    //PAYAPP
     public KualiDecimal getAmountDiscounted() {
         KualiDecimal a = getAmount();
         CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
@@ -258,19 +297,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     // ---- END APPLIED AMOUNTS
     
     /**
-     * If the detail is a discount return the amount negated. Otherwise, return the remaining balance (i.e. for writeoffs)
-     * 
-     * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getAmountToApply()
-     */
-    public KualiDecimal getAmountToApplyFromDatabase() {
-        if (isDiscountLine()) {
-            return getAmount().negated();
-        } else {
-            return getAmountOpenFromDatabaseDiscounted();
-        }
-    }
-
-    /**
      * This method returns the writeoff amount. If writeoff document hasn't been approved yet, display the open amount. Else display
      * the amount applied from the specific approved writeoff document.
      * 
@@ -279,10 +305,13 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      */
     public KualiDecimal getWriteoffAmount() {
         if (SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class).isCustomerInvoiceWriteoffDocumentApproved(customerInvoiceWriteoffDocumentNumber)) {
+            //TODO this probably isnt right ... in the case of discounts and/or credit 
+            //     memos, the getAmount() isnt the amount that the writeoff document will have 
+            //     written off
             return super.getAmount(); // using the accounting line amount ... see comments at top of class
         }
         else {
-            return getAmountOpenFromDatabaseDiscounted();
+            return getAmountOpen();
         }
     }
     
@@ -671,14 +700,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return invoicePaidApplieds;
     }
     
-    private String getStatusOfDocHeader(String documentNumber) {
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String,Object> criteria = new HashMap<String,Object>();
-        criteria.put("documentNumber", documentNumber);
-        FinancialSystemDocumentHeader docHeader = (FinancialSystemDocumentHeader) businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);
-        return (docHeader == null) ? "" : docHeader.getFinancialDocumentStatusCode();
-    }
-    
     /**
      * Get InvoicePaidApplieds related to this CustomerInvoiceDetail if they 
      * exist in a PaymentApplicationDocument and do it just by looking at the
@@ -717,9 +738,16 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     // ---- Simple getters/setters
     
-    public CustomerInvoiceDocument getCustomerInvoiceDocument() throws WorkflowException {
-        DocumentService documentService = (DocumentService) SpringContext.getBean(DocumentService.class);
-        customerInvoiceDocument = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
+    public CustomerInvoiceDocument getCustomerInvoiceDocument() {
+        if (customerInvoiceDocument == null) {
+            DocumentService documentService = (DocumentService) SpringContext.getBean(DocumentService.class);
+            try {
+                customerInvoiceDocument = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("A WorkflowException was thrown when trying to open the details parent document.  This should never happen.", e);
+            }
+        }
         return customerInvoiceDocument;
     }
     public String getCustomerInvoiceWriteoffDocumentNumber() {
@@ -770,15 +798,11 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceReferenceNumber()
      */
     public String getInvoiceReferenceNumber() {
-        try {
-            if (getCustomerInvoiceDocument().isInvoiceReversal()) {
-                return getCustomerInvoiceDocument().getDocumentHeader().getFinancialDocumentInErrorNumber();
-            } else {
-                return getDocumentNumber();
-            }
-        } catch (WorkflowException we) {
-            we.printStackTrace();
-            return "";
+        if (getCustomerInvoiceDocument().isInvoiceReversal()) {
+            return getCustomerInvoiceDocument().getDocumentHeader().getFinancialDocumentInErrorNumber();
+        } 
+        else {
+            return getDocumentNumber();
         }
     }
     

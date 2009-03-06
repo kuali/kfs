@@ -330,7 +330,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
             }
             customerCreditMemoDetail.setInvoiceLineTotalAmount(customerInvoiceDetail.getInvoiceItemTaxAmount(), customerInvoiceDetail.getInvoiceItemPreTaxAmount());
             customerCreditMemoDetail.setReferenceInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
-            openInvoiceAmount = customerInvoiceDetail.getAmountOpenFromDatabaseDiscounted();
+            openInvoiceAmount = customerInvoiceDetail.getAmountOpen();
 
             customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
             customerCreditMemoDetail.setInvoiceOpenItemQuantity(getInvoiceOpenItemQuantity(customerCreditMemoDetail, customerInvoiceDetail));
@@ -355,7 +355,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
 
             creditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
             CustomerInvoiceDetail customerInvoiceDetail = creditMemoDetail.getCustomerInvoiceDetail(); 
-            openInvoiceAmount = customerInvoiceDetail.getAmountOpenFromDatabaseDiscounted();
+            openInvoiceAmount = customerInvoiceDetail.getAmountOpen();
             creditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
 
             creditMemoDetail.setInvoiceOpenItemQuantity(getInvoiceOpenItemQuantity(creditMemoDetail, customerInvoiceDetail));

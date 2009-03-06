@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -217,13 +216,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
         KualiDecimal total = new KualiDecimal(0);
         for (CustomerInvoiceDetail detail : customerInvoiceDetails) {
-             total = total.add(detail.getAmountOpenFromDatabaseDiscounted());
-             // if this document is not approved yet, add discount (negative item amount) to total open amount
-             if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(customerInvoiceDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
-                 if (detail.isDiscountLineParent() &&  ObjectUtils.isNotNull(detail.getDiscountCustomerInvoiceDetail())) {
-                     total = total.add(detail.getDiscountCustomerInvoiceDetail().getAmount());
-                 }
-             }
+            //  note that we're now dealing with conditionally applying discounts 
+            // depending on whether the doc is saved or approved one level down, 
+            // in the CustomerInvoiceDetail.getAmountOpen()
+            total = total.add(detail.getAmountOpen());
         }
         return total;
     }
@@ -541,7 +537,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#updateOpenInvoiceIndicator(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public void closeCustomerInvoiceDocumentIfFullyPaidOff(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal totalAmountAppliedByDocument) {
-        if (customerInvoiceDocument.isPaidOff(totalAmountAppliedByDocument)) {
+        if (customerInvoiceDocument.wouldPayOff(totalAmountAppliedByDocument)) {
             closeCustomerInvoiceDocument(customerInvoiceDocument);
         }
     }

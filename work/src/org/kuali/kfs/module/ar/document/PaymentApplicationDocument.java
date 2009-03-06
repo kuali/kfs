@@ -43,12 +43,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -92,17 +90,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     public String getPaymentNumber() {
         String paymentNumber = "";
-        try {
-            CashControlDocument cashControlDocument = getCashControlDocument();
-            if(!ObjectUtils.isNull(cashControlDocument)) {
-                List<CashControlDetail> cashControlDetails = cashControlDocument.getCashControlDetails();
-                if(0 < cashControlDetails.size()) {
-                    CashControlDetail firstDetail = cashControlDetails.iterator().next();
-                    paymentNumber = firstDetail.getCustomerPaymentMediumIdentifier();
-                }
+        CashControlDocument cashControlDocument = getCashControlDocument();
+        if(!ObjectUtils.isNull(cashControlDocument)) {
+            List<CashControlDetail> cashControlDetails = cashControlDocument.getCashControlDetails();
+            if(0 < cashControlDetails.size()) {
+                CashControlDetail firstDetail = cashControlDetails.iterator().next();
+                paymentNumber = firstDetail.getCustomerPaymentMediumIdentifier();
             }
-        } catch(WorkflowException we) {
-            LOG.error("Failed to retrieve CashControlDocument", we);
         }
         return paymentNumber;
     }
@@ -111,7 +105,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      * @throws WorkflowException
      */
-    public CashControlDocument getCashControlDocument() throws WorkflowException {
+    public CashControlDocument getCashControlDocument() {
         CashControlDetail cashControlDetail = getCashControlDetail();
         if(ObjectUtils.isNull(cashControlDetail)) {
             return null;
@@ -120,24 +114,18 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     public boolean hasCashControlDocument() {
-        try {
-            return (null != getCashControlDocument());
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("WorkflowException thrown when trying to retrieve CashControlDocument for this PayAppDocument.", e);
-        }
+        return (null != getCashControlDocument());
     }
     
     /**
      * @return
      * @throws WorkflowException
      */
-    public CashControlDetail getCashControlDetail() throws WorkflowException {
-        if(null != cashControlDetail) {
-            return cashControlDetail;
-        } else {
-            return getPaymentApplicationDocumentService().getCashControlDetailForPaymentApplicationDocument(this);
+    public CashControlDetail getCashControlDetail() {
+        if (cashControlDetail == null) {
+            cashControlDetail = getPaymentApplicationDocumentService().getCashControlDetailForPayAppDocNumber(getDocumentNumber());
         }
+        return cashControlDetail;
     }
     
     public void setCashControlDetail(CashControlDetail cashControlDetail) {
@@ -148,7 +136,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      * @throws WorkflowException
      */
-    public KualiDecimal getTotalFromCashControl() throws WorkflowException {
+    public KualiDecimal getTotalFromCashControl() {
         CashControlDetail cashControlDetail = getCashControlDetail();
         return null == cashControlDetail ? KualiDecimal.ZERO : cashControlDetail.getFinancialDocumentLineAmount();
     }

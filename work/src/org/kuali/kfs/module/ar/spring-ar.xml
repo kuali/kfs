@@ -92,6 +92,7 @@
 	<bean id="accountsReceivableDocumentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.AccountsReceivableDocumentHeaderDaoOjb" />
 	<bean id="customerInvoiceDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDetailDaoOjb" />	
 	<bean id="invoiceRecurrenceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.InvoiceRecurrenceDaoOjb" />
+	<bean id="cashControlDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDetailDaoOjb" />
 	
 	<!--  AR Services  -->
 	<bean id="systemInformationService" class="org.kuali.kfs.module.ar.document.service.impl.SystemInformationServiceImpl">
@@ -340,6 +341,9 @@
         </property>
         <property name="universityDateService">
         	<ref bean="universityDateService"/>
+        </property>
+        <property name="cashControlDetailDao">
+        	<ref bean="cashControlDetailDao" />
         </property>
 	</bean>
 	

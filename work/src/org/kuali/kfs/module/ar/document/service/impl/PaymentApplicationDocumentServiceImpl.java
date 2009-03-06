@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document.service.impl;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
@@ -28,6 +29,7 @@ import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
@@ -35,10 +37,10 @@ import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentServic
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.opensaml.artifact.InvalidArgumentException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -50,7 +52,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     private NonAppliedHoldingService nonAppliedHoldingService;
     private InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
     private UniversityDateService universityDateService;
-
+    private CashControlDetailDao cashControlDetailDao;
+    
     /**
      * 
      * @param customerInvoiceDocument
@@ -73,7 +76,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
             InvoicePaidApplied invoicePaidApplied = 
                 createInvoicePaidAppliedForInvoiceDetail(
-                    customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpenFromDatabaseDiscounted(),paidAppliedItemNumber);
+                    customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpen(),paidAppliedItemNumber);
             // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
             if (invoicePaidApplied != null) {
                 // add it to the payment application document list of applied payments
@@ -170,50 +173,59 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     }
 
     /**
-     *
-     * @param document
-     * @return
-     * @throws WorkflowException
+     * 
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDocumentForPaymentApplicationDocument(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
      */
-    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
-        DocumentHeader documentHeader = paymentApplicationDocument.getDocumentHeader();
-        String cashControlDocumentNumber = documentHeader.getOrganizationDocumentNumber();
-        if(null == cashControlDocumentNumber) {
-            return null;
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) {
+        if (paymentApplicationDocument == null) {
+            throw new InvalidArgumentException("A null paymentApplicationDocument parameter was passed in.");
         }
-        return (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocumentNumber);
+        String payAppDocNumber = paymentApplicationDocument.getDocumentHeader().getDocumentNumber();
+        return getCashControlDocumentForPayAppDocNumber(payAppDocNumber);
     }
     
-    @SuppressWarnings("unchecked")
-    public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber) throws WorkflowException {
-        return getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument)documentService.getByDocumentHeaderId(paymentApplicationDocumentNumber));
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDocumentForPayAppDocNumber(java.lang.String)
+     */
+    public CashControlDocument getCashControlDocumentForPayAppDocNumber(String paymentApplicationDocumentNumber) {
+        if (StringUtils.isBlank(paymentApplicationDocumentNumber)) {
+            throw new InvalidArgumentException("A null or blank paymentApplicationDocumentNumber paraemter was passed in.");
+        }
+        CashControlDetail cashControlDetail = getCashControlDetailForPayAppDocNumber(paymentApplicationDocumentNumber);
+        CashControlDocument cashControlDocument = null;
+        try {
+            cashControlDocument = (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDetail.getDocumentNumber());
+        }
+        catch (WorkflowException e) {
+            //TODO we may need to swallow this ...
+            throw new RuntimeException("A workflow exception was thrown when trying to retrieve document [" + cashControlDetail.getDocumentNumber() + "].", e);
+        }
+        return cashControlDocument;
     }
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDetailForPaymentApplicationDocument(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
      */
-    public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException {
+    public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document) {
+        if (document == null) {
+            throw new InvalidArgumentException("A null paymentApplicationDocument parameter was passed in.");
+        }
         String payAppDocumentNumber = document.getDocumentNumber();
-        String cashControlDocumentNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
-        
-        //  if no such docNumber exists, then nothing to find
-        if(null == cashControlDocumentNumber) {
-            return null;
+        CashControlDetail cashControlDetail = getCashControlDetailForPayAppDocNumber(payAppDocumentNumber);
+        return cashControlDetail;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDetailForPayAppDocNumber(java.lang.String)
+     */
+    public CashControlDetail getCashControlDetailForPayAppDocNumber(String payAppDocNumber) {
+        if (StringUtils.isBlank(payAppDocNumber)) {
+            throw new InvalidArgumentException("A null or blank payAppDocNumber paraemter was passed in.");
         }
-        
-        //  load up the cash control doc, and walk through the cashcontrol detail lines
-        CashControlDocument cashControlDocument = (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocumentNumber);
-        List<CashControlDetail> cashControlDetails = cashControlDocument.getCashControlDetails();
-        for (CashControlDetail cashControlDetail : cashControlDetails) {
-            String detailDocumentNumber = cashControlDetail.getDocumentNumber();
-            String refDocNumber = cashControlDetail.getReferenceFinancialDocumentNumber();
-            
-            //  the cashControlDetail line we care about is the one with refDocNumber = payAppDoc Number
-            if (payAppDocumentNumber.equalsIgnoreCase(refDocNumber)) {
-                return cashControlDetail;
-            }
-        }
-        return null;
+        CashControlDetail cashControlDetail = cashControlDetailDao.getCashControlDetailByRefDocNumber(payAppDocNumber);
+        return cashControlDetail;
     }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -281,6 +293,10 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public void setCashControlDetailDao(CashControlDetailDao cashControlDetailDao) {
+        this.cashControlDetailDao = cashControlDetailDao;
     }
     
 }

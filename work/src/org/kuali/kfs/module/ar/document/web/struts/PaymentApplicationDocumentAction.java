@@ -32,7 +32,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -64,7 +63,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
+        // TODO Should we be doing the re-calcs before saving?
         return super.save(mapping, form, request, response);
     }
 
@@ -106,6 +105,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //TODO should we be re-calcing things before routing?
         return super.route(mapping, form, request, response);
     }
 
@@ -185,7 +185,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return null;
     }
     
-    // Logic is handled in doApplicationOfFunds which is 
     public ActionForward applyAllAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         doApplicationOfFunds((PaymentApplicationDocumentForm)form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -194,8 +193,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     private void doApplicationOfFunds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         
+        //TODO Should we do validation here first, to make sure they didnt QuickApply and DetailApply both?
+        
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
+        
+        //  apply invoice detail entries
         invoicePaidApplieds.addAll(applyToIndividualCustomerInvoiceDetails(paymentApplicationDocumentForm));
+        
+        //  quick-apply invoices
         invoicePaidApplieds.addAll(applyToInvoices(paymentApplicationDocumentForm, invoicePaidApplieds));
         
         // Set the InvoicePaidAppliedItemNumbers properly
@@ -204,9 +209,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             i.setPaidAppliedItemNumber(paidAppliedItemNumber++);
         }
         
+        //  apply non-Invoiced
         NonInvoiced nonInvoiced = applyNonInvoiced(paymentApplicationDocumentForm, false);
+        
+        //  apply non-applied holdings 
         NonAppliedHolding nonAppliedHolding = applyUnapplied(paymentApplicationDocumentForm);
         
+        //  sum up the paid applieds
         KualiDecimal sumOfInvoicePaidApplieds = KualiDecimal.ZERO;
         for(InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
             KualiDecimal amount = invoicePaidApplied.getInvoiceItemAppliedAmount();
@@ -282,6 +291,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 // Apply the full detail amount
                 fieldName += ".fullApply";
                 amountToApply = customerInvoiceDetail.getAmountOpenExcludingAnyAmountFrom(paymentApplicationDocument);
+                
+            //TODO this is part of the temporary form cache used to hold paidapplieds not in the db
             } else if (KualiDecimal.ZERO.equals(customerInvoiceDetail.getSpecialAppliedAmount())) {
                 // Don't add lines where the amount to apply is zero. Wouldn't make any sense to do that.
                 continue;

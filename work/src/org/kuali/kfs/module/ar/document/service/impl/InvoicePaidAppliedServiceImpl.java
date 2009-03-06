@@ -48,6 +48,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
         invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
         invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
         invoicePaidApplied.setInvoiceItemAppliedAmount(appliedPayment.getAmountToApply());
+        //TODO should we even bother to save here if amountToApply == 0?
         businessObjectService.save(invoicePaidApplied);
     }
 

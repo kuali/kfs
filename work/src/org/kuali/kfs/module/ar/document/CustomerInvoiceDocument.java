@@ -1552,13 +1552,16 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * This method returns true if 0 is greater than or equal to (open amount - the amount applied from another document)
      * 
-     * @return
+     * Returns whether or not the Invoice would be paid off by applying the additional amount, passed in 
+     * by the parameter.
+     * 
+     * @param additionalAmountToApply The additional applied amount to test against.
+     * @return True if applying the additionalAmountToApply parameter amount would bring the OpenAmount to zero.
      */
-    public boolean isPaidOff(KualiDecimal totalAmountAppliedByDocument) {
+    public boolean wouldPayOff(KualiDecimal additionalAmountToApply) {
         KualiDecimal openAmount = getOpenAmount();
-        return KualiDecimal.ZERO.isGreaterEqual(openAmount.subtract(totalAmountAppliedByDocument));
+        return KualiDecimal.ZERO.isGreaterEqual(openAmount.subtract(additionalAmountToApply));
     }
 
     @Override

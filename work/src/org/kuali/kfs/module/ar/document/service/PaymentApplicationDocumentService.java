@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -31,16 +30,39 @@ public interface PaymentApplicationDocumentService {
     
     /**
      * 
-     * Selects the specific CashControlDetail line associated with the passed-in PaymentApplication Document.
+     * Retrieves the CashControlDetail line associated with the passed-in PaymentApplication Document.
      * 
      * @param document A valid PaymentApplication Document
      * @return The associated CashControlDetail, if exists, or null if not.
-     * @throws WorkflowException
      */
-    public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException;
-
-    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException;
-
+    public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document);
+    
+    /**
+     * 
+     * Retrieves the CashControlDetail line associated with the passed-in PaymentApplication Document number.
+     * 
+     * @param payAppDocNumber A valid PaymentApplication Document Number
+     * @return The associated CashControlDetail, if exists, or null if not.
+     */
+    public CashControlDetail getCashControlDetailForPayAppDocNumber(String payAppDocNumber);
+    
+    /**
+     * 
+     * Retrieves the CashControlDocument associated with the passed-in PaymentApplication Document.
+     * 
+     * @param document A valid PaymentApplication Document
+     * @return The associated CashControlDocument, if exists, or null if not.
+     */
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document);
+    
+    /**
+     * 
+     * Retrieves the CashControlDocument associated with the passed-in PaymentApplication Document number.
+     * @param payAppDocNumber A valid PaymentApplication Document number
+     * @return The associated CashControlDocument, if exists, or null if not.
+     */
+    public CashControlDocument getCashControlDocumentForPayAppDocNumber(String payAppDocNumber);
+    
     /**
      * This method creates an invoice paid applied for the given customer invoice detail. If an invoice paid applied already exists for this 
      * customer invoice detail than it will only update the applied amount and it will return null.

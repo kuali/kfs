@@ -351,7 +351,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         CustomerInvoiceDocument invoice = getSelectedInvoiceDocument();
         KualiDecimal amt = new KualiDecimal(0);
         for(CustomerInvoiceDetail invoiceDetail : invoice.getCustomerInvoiceDetailsWithoutDiscounts()) {
-            amt = amt.add(invoiceDetail.getAmountOpenFromDatabaseDiscounted());
+            amt = amt.add(invoiceDetail.getAmountOpen());
             CustomerInvoiceDetail discount = invoiceDetail.getDiscountCustomerInvoiceDetail();
             if(ObjectUtils.isNotNull(discount)) {
                 amt = amt.add(discount.getAmount());
@@ -454,12 +454,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
      */
     public CashControlDocument getCashControlDocument() {
         PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
-        CashControlDocument cashControlDocument = null;
-        try {
-            cashControlDocument = paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument) getDocument());
-        } catch (WorkflowException we) {
-            LOG.error("Failed to load CashControlDocument", we);
-        }
+        CashControlDocument cashControlDocument = paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument) getDocument());
         return cashControlDocument;
     }
 

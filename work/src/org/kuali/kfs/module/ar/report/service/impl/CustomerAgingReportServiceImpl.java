@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -87,7 +86,7 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
                 continue;
             }
 
-            if(custInvoice!=null && cid.getAmountOpenFromDatabaseDiscounted().isNonZero()) {
+            if(custInvoice!=null && cid.getAmountOpen().isNonZero()) {
 
                 Customer customerobj = custInvoice.getCustomer();                        
                 String customerNumber = customerobj.getCustomerNumber();    // tested and works

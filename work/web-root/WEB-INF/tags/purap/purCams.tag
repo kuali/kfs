@@ -25,6 +25,7 @@
 <%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
+<c:set var="tabindexOverrideBase" value="60" />
 
 <c:if test="${empty isRequisition}">
 	<c:set var="isRequisition" value="false"/>
@@ -48,7 +49,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" readOnly="${!(fullEntryMode or amendmentEntry) || systemSelectionReadOnly}" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" />
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" readOnly="${!(fullEntryMode or amendmentEntry) || systemSelectionReadOnly}" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" tabindexOverride="${tabindexOverrideBase + 0}"/>
 		</td>
 	</tr>
 	<tr>
@@ -56,7 +57,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" readOnly="${!(fullEntryMode or amendmentEntry) || systemSelectionReadOnly}" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" />
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" readOnly="${!(fullEntryMode or amendmentEntry) || systemSelectionReadOnly}" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" tabindexOverride="${tabindexOverrideBase + 0}"/>
 		</td>
 	</tr>
     <c:if test="${fullEntryMode or amendmentEntry}">

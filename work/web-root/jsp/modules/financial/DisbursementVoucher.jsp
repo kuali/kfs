@@ -22,30 +22,17 @@
 	<dv:dvPrintCoverSheet />
 	<dv:dvMessages />
 	
-	<c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
-		<c:set var="fullEntryMode" value="true" scope="request" />
-	</c:if>
+	<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
+	<c:set var="fullEntryMode" value="${canEdit && KualiForm.editingMode['fullEntry']}" scope="request" />
+
+	<c:set var="frnEntryMode" value="${canEdit && KualiForm.editingMode['frnEntry']}" scope="request" />
+	<c:set var="travelEntryMode" value="${canEdit && KualiForm.editingMode['travelEntry']}" scope="request" />
 	
-	<c:if test="${fullEntryMode && KualiForm.editingMode['frnEntry']}">
-		<c:set var="frnEntryMode" value="true" scope="request" />
-	</c:if>	
-	<c:if test="${fullEntryMode && KualiForm.editingMode['travelEntry']}">
-		<c:set var="travelEntryMode" value="true" scope="request" />
-	</c:if>
+	<c:set var="wireEntryMode" value="${canEdit && KualiForm.editingMode['wireEntry']}" scope="request" />
+	<c:set var="taxEntryMode" value="${canEdit && KualiForm.editingMode['taxEntry']}" scope="request" />
 	
-	<c:if test="${fullEntryMode && KualiForm.editingMode['wireEntry']}">
-		<c:set var="wireEntryMode" value="true" scope="request" />
-	</c:if>
-	<c:if test="${fullEntryMode && KualiForm.editingMode['taxEntry']}">
-		<c:set var="taxEntryMode" value="true" scope="request" />
-	</c:if>
-	
-	<c:if test="${fullEntryMode && KualiForm.editingMode['adminEntry']}">
-		<c:set var="adminEntryMode" value="true" scope="request" />
-	</c:if>
-	<c:if test="${fullEntryMode && KualiForm.editingMode['payeeEntry']}">
-		<c:set var="payeeEntryMode" value="true" scope="request" />
-	</c:if>
+	<c:set var="adminEntryMode" value="${canEdit && KualiForm.editingMode['adminEntry']}" scope="request" />
+	<c:set var="payeeEntryMode" value="${canEdit && KualiForm.editingMode['payeeEntry']}" scope="request" />
 	
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.disbVchrBankCode" 

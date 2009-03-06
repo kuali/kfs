@@ -195,7 +195,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
             // apply the labor JV specific information
             this.customizeExplicitGeneralLedgerPendingEntry(accountingLine, pendingLedgerEntry);
-            pendingLedgerEntry.setFinancialDocumentTypeCode(this.getOffsetTypeCode());
+            pendingLedgerEntry.setTransactionEntryOffsetCode(this.getOffsetTypeCode());
 
             if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getEmplid())) {
                 pendingLedgerEntry.setEmplid(LaborConstants.getDashEmplId());

@@ -487,7 +487,7 @@
     <property name="shortLabel" value="Adjustment Amount" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

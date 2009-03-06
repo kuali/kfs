@@ -50,12 +50,13 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.ADMIN_ENTRY);
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY);
 
-        this.addPayeeEditEntry(document, editModes);
+        this.addFullEntryEntryMode(document, editModes);
+        this.addPayeeEditEntryMode(document, editModes);
 
         return editModes;
     }
 
-    private void addPayeeEditEntry(Document document, Set<String> editModes) {
+    private void addPayeeEditEntryMode(Document document, Set<String> editModes) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
@@ -72,6 +73,13 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
                 }
             }
         }
+    }
+    
+    private void addFullEntryEntryMode(Document document, Set<String> editModes) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
+        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+            editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FULL_ENTRY);
+        }
     }
 }

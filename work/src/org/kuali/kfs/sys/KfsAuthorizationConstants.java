@@ -32,6 +32,7 @@ public class KfsAuthorizationConstants extends JSTLConstants {
         public static final String WIRE_ENTRY = "wireEntry";
         public static final String TRAVEL_ENTRY = "travelEntry";
         public static final String ADMIN_ENTRY = "adminEntry";
+        public static final String FULL_ENTRY = "fullEntry";
     }
 
     public static class DistributionOfIncomeAndExpenseEditMode extends EditMode {

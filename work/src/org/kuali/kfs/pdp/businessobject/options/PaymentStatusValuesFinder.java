@@ -18,7 +18,7 @@ package org.kuali.kfs.pdp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.ar.businessobject.CustomerType;
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -36,8 +36,9 @@ public class PaymentStatusValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair("", ""));
         for (PaymentStatus element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getCode() ));
+            keyValues.add(new KeyLabelPair(element.getCode(), element.getCode()));
         }
+        keyValues.add(new KeyLabelPair(PdpConstants.PaymentStatusCodes.HELD_TAX_ALL, PdpConstants.PaymentStatusCodes.HELD_TAX_ALL));
 
         return keyValues;
     }

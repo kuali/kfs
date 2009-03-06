@@ -85,8 +85,7 @@
 			<list>
 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
-						<list>
-							<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />						
+						<list>						
 							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<bean parent="validationFieldConversion">
@@ -206,18 +205,18 @@
 	<bean id="LaborJournalVoucherDocument-updateAccountingLineValidation" parent="LaborJournalVoucherDocument-updateAccountingLineValidation-parentBean" scope="prototype" />		
 	<bean id="LaborJournalVoucherDocument-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
-			<list>
-				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />			
+			<list>			
 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="accountingLine" />
+										<property name="sourceEventProperty" value="updatedAccountingLine" />
 										<property name="targetValidationProperty" value="businessObjectForValidation" />
 									</bean>
 								</property>
+								<property name="quitOnFail" value="true" />
 							</bean>
 							<bean parent="JournalVoucher-accountingLineAmountValidation" scope="prototype">
 								<property name="parameterProperties">
@@ -238,7 +237,7 @@
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
+											<property name="sourceEventProperty" value="updatedAccountingLine" />
 											<property name="targetValidationProperty" value="accountingLineForValidation" />
 										</bean>
 									</list>
@@ -249,7 +248,7 @@
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
+											<property name="sourceEventProperty" value="updatedAccountingLine" />
 											<property name="targetValidationProperty" value="accountingLineForValidation" />
 										</bean>
 									</list>
@@ -258,7 +257,7 @@
 							</bean>
 							<bean parent="JournalVoucher-accountingLineValuesAllowedValidation" scope="prototype">
 								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="accountingLine" />
+								<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
 							</bean>
 						</list>
 					</property>
@@ -271,7 +270,7 @@
 								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
 							</bean>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
 								<property name="targetValidationProperty" value="accountingLineForValidation" />
 							</bean>
 						</list>
@@ -287,7 +286,7 @@
 				<bean parent="JournalVoucher-accountingLineExternalEncumbranceReferenceValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion" p:sourceEventProperty="accountingLine" p:targetValidationProperty="accountingLineForValidation" />
+							<bean parent="validationFieldConversion" p:sourceEventProperty="updatedAccountingLine" p:targetValidationProperty="accountingLineForValidation" />
 						</list>
 					</property>
 				</bean>

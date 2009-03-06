@@ -122,6 +122,7 @@
   <bean id="LaborLedgerPendingEntry-financialSubObjectCode" parent="LaborLedgerPendingEntry-financialSubObjectCode-parentBean" />
 
   <bean id="LaborLedgerPendingEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
+  	<property name="required" value="false" />
   </bean>
   <bean id="LaborLedgerPendingEntry-financialSystemOriginationCode" parent="LaborLedgerPendingEntry-financialSystemOriginationCode-parentBean" />
 
@@ -187,17 +188,18 @@
   <bean id="LaborLedgerPendingEntry-payrollEndDateFiscalYear-parentBean" abstract="true" parent="LedgerEntry-payrollEndDateFiscalYear">
     <property name="shortLabel" value="Pay FY" />
   </bean>
+  
   <bean id="LaborLedgerPendingEntry-positionNumber" parent="LaborLedgerPendingEntry-positionNumber-parentBean" />
-
   <bean id="LaborLedgerPendingEntry-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
   </bean>
+  
   <bean id="LaborLedgerPendingEntry-projectCode" parent="LaborLedgerPendingEntry-projectCode-parentBean" />
-
   <bean id="LaborLedgerPendingEntry-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="projectCode" />
+    <property name="required" value="false" />
   </bean>
+  
   <bean id="LaborLedgerPendingEntry-referenceFinancialDocumentNumber" parent="LaborLedgerPendingEntry-referenceFinancialDocumentNumber-parentBean" />
-
   <bean id="LaborLedgerPendingEntry-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialDocumentNumber" />
     <property name="forceUppercase" value="false" />
@@ -243,15 +245,17 @@
 
   <bean id="LaborLedgerPendingEntry-setid-parentBean" abstract="true" parent="LedgerEntry-setid">
   </bean>
+  
   <bean id="LaborLedgerPendingEntry-subAccountNumber" parent="LaborLedgerPendingEntry-subAccountNumber-parentBean" />
-
   <bean id="LaborLedgerPendingEntry-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  	<property name="required" value="false" />
   </bean>
+  
   <bean id="LaborLedgerPendingEntry-transactionDate" parent="LaborLedgerPendingEntry-transactionDate-parentBean" />
-
   <bean id="LaborLedgerPendingEntry-transactionDate-parentBean" abstract="true" parent="LedgerEntry-transactionDate">
     <property name="shortLabel" value="Transaction Date" />
   </bean>
+  
   <bean id="LaborLedgerPendingEntry-transactionDateTimeStamp" parent="LaborLedgerPendingEntry-transactionDateTimeStamp-parentBean" />
 
   <bean id="LaborLedgerPendingEntry-transactionDateTimeStamp-parentBean" abstract="true" parent="LedgerEntry-transactionDateTimeStamp">

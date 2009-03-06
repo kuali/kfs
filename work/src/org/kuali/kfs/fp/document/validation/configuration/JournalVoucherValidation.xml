@@ -40,8 +40,7 @@
 		</property>
 	</bean>
 	
-	<bean id="JournalVoucher-saveDocumentValidation" parent="JournalVoucher-saveDocumentValidation-parent" scope="prototype" />
-	
+	<bean id="JournalVoucher-saveDocumentValidation" parent="JournalVoucher-saveDocumentValidation-parent" scope="prototype" />	
 	<bean id="JournalVoucher-saveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
@@ -70,8 +69,7 @@
 		</property>
 	</bean>
 	
-	<bean id="JournalVoucher-approveDocumentValidation" parent="JournalVoucher-approveDocumentValidation-parent" scope="prototype" />
-	
+	<bean id="JournalVoucher-approveDocumentValidation" parent="JournalVoucher-approveDocumentValidation-parent" scope="prototype" />	
 	<bean id="JournalVoucher-approveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
@@ -80,8 +78,7 @@
 		</property>
 	</bean>
 	
-	<bean id="JournalVoucher-blanketApproveDocumentValidation" parent="JournalVoucher-blanketApproveDocumentValidation-parent" scope="prototype" />
-	
+	<bean id="JournalVoucher-blanketApproveDocumentValidation" parent="JournalVoucher-blanketApproveDocumentValidation-parent" scope="prototype" />	
 	<bean id="JournalVoucher-blanketApproveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>

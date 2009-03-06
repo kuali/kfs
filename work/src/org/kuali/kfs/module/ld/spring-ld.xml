@@ -53,6 +53,7 @@
 				<value>laborFeedJob</value>
 				<value>clearLaborPendingEntriesJob</value>
 				<value>laborBalanceForwardJob</value>
+				<value>clearOldLaborOriginEntriesJob</value>
 				<value>laborPurgeJob</value>
 				
 			</list>
@@ -1094,6 +1095,21 @@
 	<!-- not exist
 	<import resource="document/validation/configuration/YearEndSalaryExpenseTransferValidations.xml" />
 	-->
+			
+	<bean id="clearOldLaborOriginEntriesJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="clearOldLaborOriginEntryStep" />
+			</list>
+		</property>		
+	</bean>
+			
+			
+	<bean id="clearOldLaborOriginEntryStep" class="org.kuali.kfs.module.ld.batch.ClearOldLaborOriginEntryStep" parent="step">
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
+	</bean>
 			
 </beans>
 

@@ -170,7 +170,7 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
     public boolean hasBaselineCheck(int index) {
         boolean has = false;
 
-        if ((index >= 0) && (index <= baselineChecks.size())) {
+        if ((index >= 0) && (index < baselineChecks.size())) {
             has = true;
         }
 

@@ -3,12 +3,10 @@ build/project driectory and is named kuali-cas-1.0.0.war. There is a project
 in SVN for the Kuali modifications at kul-cas/kulcas. To create the war run the 
 following commands.
 
-1) mvn install:install-file -DgroupId=ojdbc -DartifactId=ojdbc -Dversion=14 -Dpackaging=jar -Dfile=/java/drivers/ojdbc14.jar
-2) mvn -P cas package
-3) mvn package
+1) mvn -P cas package
+2) mvn package
 
-The first is only needed if you haven't installed oracle (or another database 
-if you chose not to use oracle). The second is only needed if you clean or 
+The first is only needed if you clean or 
 want to update the CAS version the Kuali CAS is based on. It runs a maven 
 overlay, which downloads the war files from the CAS maven repository and applies 
 the Kuali modification. The last compiles the Kuali changes and builds a war file.

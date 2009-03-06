@@ -723,7 +723,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         FormFile sourceFile = correctionForm.getSourceFile();
         String fullFileName = sourceFile.getFileName();
-        sourceFile.getInputStream();
         
         List<OriginEntryFull> originEntryList = new ArrayList();
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
@@ -786,7 +785,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         uploadedFileName += buildFileExtensionWithDate(today);
         
         //create a group
-        File uploadedFile = originEntryGroupService.createGroup(uploadedFileName);
+        File uploadedFile = originEntryGroupService.createGroup(fullFileName);
         PrintStream uploadedFilePrintStream;
         try {
             uploadedFilePrintStream = new PrintStream(uploadedFile);
@@ -809,7 +808,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         if (CorrectionDocumentUtils.isRestrictedFunctionalityMode(loadedCount, recordCountFunctionalityLimit)) {
             correctionForm.setRestrictedFunctionalityMode(true);
             correctionForm.setDataLoadedFlag(false);
-            document.setCorrectionInputFileName(uploadedFileName);
+            document.setCorrectionInputFileName(fullFileName);
             correctionForm.setInputFileName(fullFileName);
 
             if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionForm.getEditMethod())) {
@@ -828,7 +827,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 // Set all the data that we know
                 correctionForm.setDataLoadedFlag(true);
                 correctionForm.setInputFileName(fullFileName);
-                document.setCorrectionInputFileName(uploadedFileName);
+                document.setCorrectionInputFileName(fullFileName);
                 loadAllEntries(originEntryList, correctionForm);
 
                 if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionForm.getEditMethod())) {

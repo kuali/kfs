@@ -227,6 +227,10 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     }
  
     
+    /**
+     * Gets the statusDescription attribute. 
+     * @return Returns the statusDescription.
+     */
     public String getStatusDescription() {
         String statusCode;
         
@@ -262,6 +266,10 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     }
 
 
+    /**
+     * Sets the statusDescription attribute value.
+     * @param statusDescription The statusDescription to set.
+     */
     public void setStatusDescription(String statusDescription) {
         this.statusDescription = statusDescription;
     }

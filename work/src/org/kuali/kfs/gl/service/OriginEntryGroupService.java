@@ -72,6 +72,8 @@ public interface OriginEntryGroupService {
      * @param days groups older than the given days will be deleted by this method
      */
     public void deleteOlderGroups(int days);
+    
+    public void deleteOlderLaborGroups(int days);
 
     /**
      * Deletes several origin entry groups

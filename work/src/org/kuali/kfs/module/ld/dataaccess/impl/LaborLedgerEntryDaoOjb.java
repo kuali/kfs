@@ -28,8 +28,11 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao;
+import org.kuali.kfs.module.ld.util.ConsolidationUtil;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
@@ -39,7 +42,7 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  * 
  * @see org.kuali.kfs.module.ld.businessobject.LedgerEntry
  */
-public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerEntryDao {
+public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerEntryDao, LedgerEntryBalancingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryDaoOjb.class);
 
     /**
@@ -153,6 +156,27 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
 
     }
 
+    /**
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#findLaborLedgerEntryByGroup(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public Object[] findEntryByGroup(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode, String financialBalanceTypeCode, String universityFiscalPeriodCode, String transactionDebitCreditCode) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
+        criteria.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, financialBalanceTypeCode);
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, universityFiscalPeriodCode);
+        criteria.addEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, transactionDebitCreditCode);
+
+        ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(this.getEntryClass(), criteria);
+        reportQuery.setAttributes(new String[] { "count(*)", ConsolidationUtil.sum(KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT)});
+        reportQuery.addGroupBy(new String[] { KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, KFSConstants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE});
+        
+        Iterator<Object[]> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
+        Object[] returnResult = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator);
+        return returnResult;
+    }
+    
     // build the pay type criteria
     private Criteria buildPayTypeCriteria(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
         Criteria criteria = new Criteria();
@@ -187,6 +211,18 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
         return criteria;
     }
 
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao#findCountGreaterOrEqualThan(java.lang.Integer)
+     */
+    public Integer findCountGreaterOrEqualThan(Integer year) {
+        Criteria criteria = new Criteria();
+        criteria.addGreaterOrEqualThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(getEntryClass(), criteria);
+        
+        return getPersistenceBrokerTemplate().getCount(query);
+    }
+    
     /**
      * @return the Class type of the business object accessed and managed
      */

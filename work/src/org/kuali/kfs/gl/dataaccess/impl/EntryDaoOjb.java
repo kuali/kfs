@@ -26,13 +26,16 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.EntryDao;
+import org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
  * An OJB implementation of EntryDao
  */
-public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao {
+public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao, LedgerEntryBalancingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryDaoOjb.class);
 
     private final static String UNIVERISITY_FISCAL_YEAR = "universityFiscalYear";
@@ -132,5 +135,38 @@ public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao {
         // remove them from the cache so a future select will retrieve these deleted account balances from
         // the cache and return them. Clearing the cache forces OJB to go to the database again.
         getPersistenceBrokerTemplate().clearCache();
+    }
+    
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.EntryDao#findLaborLedgerEntryByGroup(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public Object[] findEntryByGroup(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode, String financialBalanceTypeCode, String universityFiscalPeriodCode, String transactionDebitCreditCode) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
+        criteria.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, financialBalanceTypeCode);
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, universityFiscalPeriodCode);
+        criteria.addEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, transactionDebitCreditCode);
+
+        ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(Entry.class, criteria);
+        reportQuery.setAttributes(new String[] { "count(*)", "sum(" + KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")"});
+        reportQuery.addGroupBy(new String[] { KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, KFSConstants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE});
+        
+        Iterator<Object[]> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
+        Object[] returnResult = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator);
+        return returnResult;
+    }
+    
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao#findCountGreaterOrEqualThan(java.lang.Integer)
+     */
+    public Integer findCountGreaterOrEqualThan(Integer year) {
+        Criteria criteria = new Criteria();
+        criteria.addGreaterOrEqualThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(Entry.class, criteria);
+        
+        return getPersistenceBrokerTemplate().getCount(query);
     }
 }

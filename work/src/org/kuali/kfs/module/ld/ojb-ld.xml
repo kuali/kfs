@@ -209,6 +209,19 @@
     </reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.ld.businessobject.LaborEntryHistory" table="LD_LDGR_ENTR_HIST_T">
+	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="transactionDebitCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="rowCount" column="ROW_CNT" jdbc-type="INTEGER"/>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.module.ld.businessobject.LedgerBalance" table="LD_LDGR_BAL_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -290,6 +303,37 @@
         <foreignkey field-ref="chartOfAccountsCode"/>
         <foreignkey field-ref="financialObjectCode"/>
     </reference-descriptor>	
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory" table="LD_LDGR_BAL_HIST_T">
+	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="contractsGrantsBeginningBalanceAmount" column="CONTR_GR_BB_AC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month1Amount" column="MO1_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month2Amount" column="MO2_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month3Amount" column="MO3_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month4Amount" column="MO4_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month5Amount" column="MO5_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month6Amount" column="MO6_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month7Amount" column="MO7_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month8Amount" column="MO8_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month9Amount" column="MO9_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month10Amount" column="MO10_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month11Amount" column="MO11_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month12Amount" column="MO12_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="month13Amount" column="MO13_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ld.businessobject.LaborObject" table="LD_LABOR_OBJ_T">
@@ -404,7 +448,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>

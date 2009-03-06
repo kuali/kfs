@@ -57,8 +57,7 @@
 				<value>manualPurgeJob</value>
 				<value>clearOldOriginEntriesJob</value>
 				<value>purgeCorrectionProcessFilesJob</value>
-
-				
+				<value>posterBalancingJob</value>
 			</list>
 		</property>
 		<property name="fiscalYearMakers">
@@ -764,6 +763,31 @@
 		</property>
 	</bean>
 
+    <bean id="balancingService" class="org.kuali.kfs.gl.batch.service.impl.BalancingServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="optionsService">
+            <ref bean="optionsService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="universityDateService">
+            <ref bean="universityDateService" />
+        </property>
+        <property name="ledgerEntryBalancingDao">
+            <ref bean="glEntryDao" />
+        </property>
+        <property name="ledgerBalanceBalancingDao">
+            <ref bean="glBalanceDao" />
+        </property>
+        <property name="ledgerEntryHistoryBalancingDao">
+            <ref bean="glEntryHistoryDao" />
+        </property>
+        <property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+    </bean>
+
 	<bean id="glEntryService" class="org.kuali.kfs.gl.service.impl.EntryServiceImpl">
 		<property name="entryDao">
 			<ref bean="glEntryDao" />
@@ -1029,6 +1053,8 @@
 
 	<bean id="glEntryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EntryDaoOjb" />
 
+	<bean id="glEntryHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EntryHistoryDaoOjb" />
+
 	<bean id="glEncumbranceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EncumbranceDaoOjb" />
 
 	<bean id="glOptionsDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OptionsDaoOjb" />
@@ -1195,6 +1221,25 @@
 			<map>
 				<entry key="scrubberJob" value="hardDependency" />
 				<entry key="sufficientFundsJob" value="hardDependency" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="posterBalancingStep" class="org.kuali.kfs.gl.batch.PosterBalancingStep" parent="step">
+		<property name="balancingService">
+			<ref bean="balancingService" />
+		</property>
+	</bean>
+	
+	<bean id="posterBalancingJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="posterBalancingStep"/>
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>

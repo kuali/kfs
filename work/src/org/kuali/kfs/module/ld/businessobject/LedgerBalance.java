@@ -81,6 +81,25 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
     }
 
     /**
+     * Constructs a LedgerBalance.java.
+     * 
+     * @param transaction
+     */
+    public LedgerBalance(LaborBalanceHistory ledgerBalanceHistory) {
+        this();
+        this.setChartOfAccountsCode(ledgerBalanceHistory.getChartOfAccountsCode());
+        this.setAccountNumber(ledgerBalanceHistory.getAccountNumber());
+        this.setFinancialBalanceTypeCode(ledgerBalanceHistory.getFinancialBalanceTypeCode());
+        this.setEmplid(ledgerBalanceHistory.getEmplid());
+        this.setFinancialObjectCode(ledgerBalanceHistory.getFinancialObjectCode());
+        this.setFinancialObjectTypeCode(ledgerBalanceHistory.getFinancialObjectTypeCode());
+        this.setFinancialSubObjectCode(ledgerBalanceHistory.getFinancialSubObjectCode());
+        this.setPositionNumber(ledgerBalanceHistory.getPositionNumber());
+        this.setUniversityFiscalYear(ledgerBalanceHistory.getUniversityFiscalYear());
+        this.setSubAccountNumber(ledgerBalanceHistory.getSubAccountNumber());
+    }
+    
+    /**
      * Gets the emplid
      * 
      * @return Returns the emplid.
@@ -433,7 +452,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
             throw new IllegalArgumentException("Unsupport Period Code: " + periodCode);
         }
     }
-
+    
     /**
      * @see org.kuali.module.effort.bo.LaborLedgerEntry#getLaborLedgerObject()
      */

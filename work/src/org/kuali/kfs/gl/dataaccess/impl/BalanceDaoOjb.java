@@ -43,6 +43,7 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
+import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -56,7 +57,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * An OJB implementation of BalanceDao
  */
-public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao {
+public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao, LedgerBalanceBalancingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
     private ParameterService parameterService;
     private OptionsService optionsService;
@@ -854,6 +855,18 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.BalancingDao#findCountGreaterOrEqualThan(java.lang.Integer)
+     */
+    public Integer findCountGreaterOrEqualThan(Integer year) {
+        Criteria criteria = new Criteria();
+        criteria.addGreaterOrEqualThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(Balance.class, criteria);
+        
+        return getPersistenceBrokerTemplate().getCount(query);
+    }
+    
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
     }

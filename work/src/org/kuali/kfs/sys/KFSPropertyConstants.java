@@ -1044,6 +1044,7 @@ public class KFSPropertyConstants {
     public static final String ROLE = "role";
     public static final String ROUTE_SHEET_TRACK_NUMBER = "routeSheetTrackNumber";
     public static final String ROUTING_FORM_SUBMISSION_DETAILS = "routingFormMainPageSubmissionDetails";
+    public static final String ROW_COUNT = "rowCount";
     public static final String SCRUB = "scrub";
     public static final String SELECT_FLAG = "selectFlag";
     public static final String SELECTED_ACCOUNTING_PERIOD = "selectedAccountingPeriod";

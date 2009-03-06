@@ -50,6 +50,7 @@
 				<value>laborNightlyOutJob</value>
 				<value>laborScrubberJob</value>
 				<value>laborPosterJob</value>
+				<value>laborBalancingJob</value>
 				<value>laborFeedJob</value>
 				<value>clearLaborPendingEntriesJob</value>
 				<value>laborBalanceForwardJob</value>
@@ -95,7 +96,7 @@
 		</property>
 		<property name="laborLedgerPendingEntryDao">
 			<ref bean="laborLedgerPendingEntryDao" />
-		</property>	
+		</property>
 	</bean>
 
     <bean id="laborGeneralLedgerEntryService" class="org.kuali.kfs.module.ld.service.impl.LaborGeneralLedgerEntryServiceImpl">
@@ -185,6 +186,8 @@
 	
     <bean id="laborLedgerEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerEntryDaoOjb" />
 
+    <bean id="laborLedgerEntryHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerEntryHistoryDaoOjb" />
+
     <bean id="laborGeneralLedgerEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborGeneralLedgerEntryDaoOjb" />
 
 	<bean id="laborLedgerBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerBalanceDaoOjb">
@@ -192,7 +195,7 @@
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
-			
+
 	<bean id="laborBaseFundsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborBaseFundsDaoOjb" />
 	<bean id="laborCalculatedSalaryFoundationTrackerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborCalculatedSalaryFoundationTrackerDaoOjb" />
 	<bean id="laborLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerPendingEntryDaoOjb" />
@@ -338,6 +341,31 @@
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>
     
+    <bean id="laborBalancingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalancingServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="optionsService">
+            <ref bean="optionsService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="universityDateService">
+            <ref bean="universityDateService" />
+        </property>
+        <property name="ledgerEntryBalancingDao">
+            <ref bean="laborLedgerEntryDao" />
+        </property>
+        <property name="ledgerBalanceBalancingDao">
+            <ref bean="laborLedgerBalanceDao" />
+        </property>
+        <property name="ledgerEntryHistoryBalancingDao">
+            <ref bean="laborLedgerEntryHistoryDao" />
+        </property>
+        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
+    </bean>
+    
     <bean id="laborBalanceSummaryReportService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalanceSummaryReportServiceImpl">
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
@@ -401,6 +429,7 @@
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
         </property>        
+
         <property name="optionsService">
             <ref bean="optionsService" />
         </property>
@@ -414,6 +443,7 @@
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
+
         <property name="laborReportService">
             <ref bean="laborReportService" />
         </property>
@@ -557,6 +587,25 @@
 		<property name="dependencies">
 			<map>
 				<entry key="laborScrubberJob" value="hardDependency" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="laborBalancingStep" class="org.kuali.kfs.module.ld.batch.LaborBalancingStep" parent="step">
+		<property name="balancingService">
+			<ref bean="laborBalancingService" />
+		</property>
+	</bean>
+	
+	<bean id="laborBalancingJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="laborBalancingStep"/>
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="laborPosterJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>

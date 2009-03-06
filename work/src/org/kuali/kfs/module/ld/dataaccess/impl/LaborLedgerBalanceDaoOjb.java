@@ -47,6 +47,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
 import org.kuali.kfs.module.ld.businessobject.LaborBalanceSummary;
@@ -65,7 +66,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
  * 
  * @see org.kuali.kfs.module.ld.businessobject.LedgerBalance
  */
-public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerBalanceDao {
+public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerBalanceDao, LedgerBalanceBalancingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceDaoOjb.class);
     private KualiConfigurationService kualiConfigurationService;
 
@@ -553,5 +554,17 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         QueryByCriteria query = new QueryByCriteria(LedgerBalance.class, criteria);
         getPersistenceBrokerTemplate().deleteByQuery(query);       
+    }
+    
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.BalancingDao#findCountGreaterOrEqualThan(java.lang.Integer)
+     */
+    public Integer findCountGreaterOrEqualThan(Integer year) {
+        Criteria criteria = new Criteria();
+        criteria.addGreaterOrEqualThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
+        
+        return getPersistenceBrokerTemplate().getCount(query);
     }
 }

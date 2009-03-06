@@ -124,6 +124,24 @@ public class Balance extends PersistableBusinessObjectBase {
         setObjectTypeCode(t.getFinancialObjectTypeCode());
     }
 
+
+    /**
+     * Constructs a Balance.java.
+     * 
+     * @param transaction
+     */
+    public Balance(BalanceHistory balanceHistory) {
+        this();
+        this.setChartOfAccountsCode(balanceHistory.getChartOfAccountsCode());
+        this.setAccountNumber(balanceHistory.getAccountNumber());
+        this.setBalanceTypeCode(balanceHistory.getBalanceTypeCode());
+        this.setObjectCode(balanceHistory.getObjectCode());
+        this.setObjectTypeCode(balanceHistory.getObjectTypeCode());
+        this.setSubObjectCode(balanceHistory.getSubObjectCode());
+        this.setUniversityFiscalYear(balanceHistory.getUniversityFiscalYear());
+        this.setSubAccountNumber(balanceHistory.getSubAccountNumber());
+    }
+    
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());

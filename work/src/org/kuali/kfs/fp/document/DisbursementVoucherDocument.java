@@ -30,7 +30,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.fp.FpConstants;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
@@ -103,6 +102,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private static final String PAYMENT_REASON_MOVING_REASON = "M";
     private static final String TAX_CONTROL_BACKUP_HOLDING = "B";
     private static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
+    private static final String CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME = "CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS";
     
     private static transient IdentityManagementService identityManagementService;
     private static transient PersonService<Person> personService;
@@ -1544,7 +1544,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * the payee was a non-resident alien vendor
      * the tax control code = "B" or "H"
      * the payment reason code was "D"
-     * the payment reason code was "M" and the campus was "BL", "SB", "NW", "KO", "SE", "EA", "IN"
+     * the payment reason code was "M" and the campus was listed in the CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME parameter
      * @return true if any of the above conditions exist and this document should receive tax review, false otherwise
      */
     protected boolean isTaxReviewRequired() {
@@ -1561,7 +1561,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return true if the campus is taxed for moving reimbursements, false otherwise
      */
     protected boolean taxedCampusForMovingReimbursements() {
-        return this.getCampusCode().equals(FpConstants.CAMPUS_CODE_BL) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_SB) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_NW) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_KO) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_SE) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_EA) || this.getCampusCode().equals(FpConstants.CAMPUS_CODE_IN);
+        return SpringContext.getBean(ParameterService.class).getParameterEvaluator(this.getClass(), CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME, this.getCampusCode()).evaluationSucceeds();
     }
     
     /**

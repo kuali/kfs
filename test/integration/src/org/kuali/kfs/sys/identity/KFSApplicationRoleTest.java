@@ -146,29 +146,6 @@ public class KFSApplicationRoleTest extends KualiTestBase {
         assertUserIsRoleMember(getPrincipalIdByName(BILLER_PRINCIPAL_NAME), ACCOUNTS_RECEIVABLE_NAMESPACE, BILLER_ROLE_NAME, new AttributeSet());
         assertUserIsRoleMember(getPrincipalIdByName(PROCESSOR_PRINCIPAL_NAME), ACCOUNTS_RECEIVABLE_NAMESPACE, PROCESSOR_ROLE_NAME, new AttributeSet());
     }
-
-    public static final String ACTIVE_FACULTY_OR_STAFF_ROLE_NAME = "Active Faculty or Staff";
-    public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_ROLE_NAME = "Active Professional Employee";
-    public static final String ACTIVE_FACULTY = "vrude";
-    public static final String ACTIVE_STAFF = "dbaer";
-    public static final String INACTIVE_STAFF = "oblood";
-    public static final String NONPROFESSIONAL_STAFF = "potter";
-    
-    private AttributeSet buildRoleQualificationForPrincipal(String principalName) {
-        AttributeSet roleQualification = new AttributeSet();
-        roleQualification.put(KIMPropertyConstants.Person.PRINCIPAL_ID, getPrincipalIdByName(principalName));
-        return new AttributeSet();
-    }
-    
-    public void testEmployeeDerivedRoleTypeService() {
-        assertUserIsRoleMember(getPrincipalIdByName(ACTIVE_FACULTY), KFSConstants.ParameterNamespaces.KFS, ACTIVE_FACULTY_OR_STAFF_ROLE_NAME, buildRoleQualificationForPrincipal(ACTIVE_FACULTY));
-        assertUserIsRoleMember(getPrincipalIdByName(ACTIVE_STAFF), KFSConstants.ParameterNamespaces.KFS, ACTIVE_FACULTY_OR_STAFF_ROLE_NAME, buildRoleQualificationForPrincipal(ACTIVE_STAFF));
-        assertUserIsNotRoleMember(getPrincipalIdByName(INACTIVE_STAFF), KFSConstants.ParameterNamespaces.KFS, ACTIVE_FACULTY_OR_STAFF_ROLE_NAME, buildRoleQualificationForPrincipal(INACTIVE_STAFF));
-        
-        assertUserIsRoleMember(getPrincipalIdByName(ACTIVE_STAFF), KFSConstants.ParameterNamespaces.KFS, ACTIVE_PROFESSIONAL_EMPLOYEE_ROLE_NAME, buildRoleQualificationForPrincipal(ACTIVE_STAFF));
-        assertUserIsNotRoleMember(getPrincipalIdByName(INACTIVE_STAFF), KFSConstants.ParameterNamespaces.KFS, ACTIVE_PROFESSIONAL_EMPLOYEE_ROLE_NAME, buildRoleQualificationForPrincipal(INACTIVE_STAFF));
-        assertUserIsNotRoleMember(getPrincipalIdByName(NONPROFESSIONAL_STAFF), KFSConstants.ParameterNamespaces.KFS, ACTIVE_PROFESSIONAL_EMPLOYEE_ROLE_NAME, buildRoleQualificationForPrincipal(NONPROFESSIONAL_STAFF));
-    }
     
     public static final String SENSITIVE_DATA_1 = "ANIM";
     public static final String SENSITIVE_DATA_2 = "RADI";

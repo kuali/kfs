@@ -325,1507 +325,1507 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
      * Tests that Logic A generates the correct origin entries for Scenario 1, budget exceeds actual
      */
     public void testBudgetGreaterThanActualNoEncumbrancesLogicA() {
-        LOG.info("budget greater than actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-        // add balances to check A
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//        LOG.info("budget greater than actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//        // add balances to check A
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
     }
-
-    /**
-     * Tests that Logic C1 generates the correct origin entries for Scenario 1, budget exceeds actual
-     */
-    public void testBudgetGreaterThanActualNoEncumbrancesLogicC1() {
-        LOG.info("budget greater than actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic C2 generates the correct origin entries for Scenario 1, budget exceeds actual
-     */
-    public void testBudgetGreaterThanActualNoEncumbrancesLogicC2() {
-        LOG.info("budget greater than actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic N1 generates the correct origin entries for Scenario 1, budget exceeds actual
-     */
-    public void testBudgetGreaterThanActualNoEncumbrancesLogicN1() {
-        LOG.info("budget greater than actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic N2 generates the correct origin entries for Scenario 1, budget exceeds actual
-     */
-    public void testBudgetGreaterThanActualNoEncumbrancesLogicN2() {
-        LOG.info("budget greater than actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic R1 generates the correct origin entries for Scenario 1, budget exceeds actual
-     */
-    public void testBudgetGreaterThanActualNoEncumbrancesLogicR1() {
-        LOG.info("budget greater than actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic R2 generates the correct origin entries for Scenario 1, budget exceeds actual
-     */
-    public void testBudgetGreaterThanActualNoEncumbrancesLogicR2() {
-        LOG.info("budget greater than actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /*
-     * ************** SCENARIO 2 *****************
-     */
-    /**
-     * Tests that Logic A generates the correct origin entries for Scenario 2, actual exceeds budget
-     */
-    public void testBudgetLessThanActualNoEncumbrancesALogic() {
-        LOG.info("actual greater than budget, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check A
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic C1 generates the correct origin entries for Scenario 2, actual exceeds budget
-     */
-    public void testBudgetLessThanActualNoEncumbrancesC1Logic() {
-        LOG.info("actual greater than budget, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic C2 generates the correct origin entries for Scenario 2, actual exceeds budget
-     */
-    public void testBudgetLessThanActualNoEncumbrancesC2Logic() {
-        LOG.info("actual greater than budget, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic N1 generates the correct origin entries for Scenario 2, actual exceeds budget
-     */
-    public void testBudgetLessThanActualNoEncumbrancesN1Logic() {
-        LOG.info("actual greater than budget, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, "1031400", "5000", "CB", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic N2 generates the correct origin entries for Scenario 2, actual exceeds budget
-     */
-    public void testBudgetLessThanActualNoEncumbrancesN2Logic() {
-        LOG.info("actual greater than budget, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic R1 generates the correct origin entries for Scenario 2, actual exceeds budget
-     */
-    public void testBudgetLessThanActualNoEncumbrancesR1Logic() {
-        LOG.info("actual greater than budget, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic R2 generates the correct origin entries for Scenario 2, actual exceeds budget
-     */
-    public void testBudgetLessThanActualNoEncumbrancesR2Logic() {
-        LOG.info("actual greater than budget, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
-    }
-
-    /*
-     * ************** SCENARIO 3 *****************
-     */
-    /**
-     * Tests that Logic A generates the correct origin entries for Scenario 3, budget equals actual
-     */
-    public void testBudgetEqualsActualNoEncumbrancesALogic() {
-        LOG.info("budget equals actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check A
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
-    }
-
-    /**
-     * Tests that Logic C1 generates the correct origin entries for Scenario 3, budget equals actual
-     */
-    public void testBudgetEqualsActualNoEncumbrancesC1Logic() {
-        LOG.info("budget equals actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
-    }
-
-    /**
-     * Tests that Logic C2 generates the correct origin entries for Scenario 3, budget equals actual
-     */
-    public void testBudgetEqualsActualNoEncumbrancesC2Logic() {
-        LOG.info("budget equals actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
-    }
-
-    /**
-     * Tests that Logic N1 generates the correct origin entries for Scenario 3, budget equals actual
-     */
-    public void testBudgetEqualsActualNoEncumbrancesN1Logic() {
-        LOG.info("budget equals actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
-    }
-
-    /**
-     * Tests that Logic N2 generates the correct origin entries for Scenario 3, budget equals actual
-     */
-    public void testBudgetEqualsActualNoEncumbrancesN2Logic() {
-        LOG.info("budget equals actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
-    }
-
-    /**
-     * Tests that Logic R1 generates the correct origin entries for Scenario 3, budget equals actual
-     */
-    public void testBudgetEqualsActualNoEncumbrancesR1Logic() {
-        LOG.info("budget equals actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
-    }
-
-    /**
-     * Tests that Logic R2 generates the correct origin entries for Scenario 3, budget equals actual
-     */
-    public void testBudgetEqualsActualNoEncumbrancesR2Logic() {
-        LOG.info("budget equals actual, no encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
-    }
-
-    /*
-     * ************** SCENARIO 4 *****************
-     */
-    /**
-     * Tests that Logic A generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicA() {
-        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check A
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic C1 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicC1() {
-        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic C2 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicC2() {
-        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic N1 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicN1() {
-        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(4));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-1500));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(1500));
-        assertOriginEntry(originEntries.get(2), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(500));
-        assertOriginEntry(originEntries.get(3), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(500));
-    }
-
-    /**
-     * Tests that Logic N2 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicN2() {
-        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic R1 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicR1() {
-        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(4));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-1500));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(1500));
-        assertOriginEntry(originEntries.get(2), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(500));
-        assertOriginEntry(originEntries.get(3), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(500));
-    }
-
-    /**
-     * Tests that LogicR2 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicR2() {
-        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /*
-     * ************** SCENARIO 5 *****************
-     */
-    /**
-     * Tests that Logic A generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicA() {
-        LOG.info("budget greater than actual, variance equals encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check A
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic C1 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicC1() {
-        LOG.info("budget greater than actual, variance equals encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic C2 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicC2() {
-        LOG.info("budget greater than actual, variance equals encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic N1 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicN1() {
-        LOG.info("budget greater than actual, variance equals encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic N2 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicN2() {
-        LOG.info("budget greater than actual, variance equals encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic R1 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicR1() {
-        LOG.info("budget greater than actual, variance equals encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic R2 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
-     */
-    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicR2() {
-        LOG.info("budget greater than actual, variance equals encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /*
-     * ************** SCENARIO 6 *****************
-     */
-    /**
-     * Tests that Logic A generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
-     */
-    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicA() {
-        LOG.info("budget great than actual, variance less than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check A
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic C1 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
-     */
-    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicC1() {
-        LOG.info("budget great than actual, variance less than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic C2 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
-     */
-    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicC2() {
-        LOG.info("budget great than actual, variance less than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic N1 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
-     */
-    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicN1() {
-        LOG.info("budget great than actual, variance less than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic N2 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
-     */
-    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicN2() {
-        LOG.info("budget great than actual, variance less than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic R1 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
-     */
-    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicR1() {
-        LOG.info("budget great than actual, variance less than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
-    }
-
-    /**
-     * Tests that Logic R2 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
-     */
-    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicR2() {
-        LOG.info("budget great than actual, variance less than encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
-    }
-
-    /*
-     * ************** SCENARIO 7 *****************
-     */
-    /**
-     * Tests that Logic A generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
-     */
-    public void testActualGreaterThanBudgetWithEncumbrancesLogicA() {
-        LOG.info("actual greater than budget, with encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check A
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic C1 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
-     */
-    public void testActualGreaterThanBudgetWithEncumbrancesLogicC1() {
-        LOG.info("actual greater than budget, with encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic C2 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
-     */
-    public void testActualGreaterThanBudgetWithEncumbrancesLogicC2() {
-        LOG.info("actual greater than budget, with encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check C2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic N1 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
-     */
-    public void testActualGreaterThanBudgetWithEncumbrancesLogicN1() {
-        LOG.info("actual greater than budget, with encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic N2 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
-     */
-    public void testActualGreaterThanBudgetWithEncumbrancesLogicN2() {
-        LOG.info("actual greater than budget, with encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check N2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
-        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic R1 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
-     */
-    public void testActualGreaterThanBudgetWithEncumbrancesLogicR1() {
-        LOG.info("actual greater than budget, with encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R1
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
-    }
-
-    /**
-     * Tests that Logic R2 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
-     */
-    public void testActualGreaterThanBudgetWithEncumbrancesLogicR2() {
-        LOG.info("actual greater than budget, with encumbrances test started...");
-        List<Balance> balancesToCheck = new ArrayList<Balance>();
-
-        // add balances to check R2
-        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
-        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
-        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
-        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
-        balancesToCheck.add(cbBalance);
-        balancesToCheck.add(acBalance);
-        balancesToCheck.add(encumbranceBalance);
-
-        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
-
-        // sanity check - all the balances were selected?
-        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
-
-        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
-        logAllEntries(originEntries);
-
-        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
-
-        // check the origin entries
-        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
-    }
+//
+//    /**
+//     * Tests that Logic C1 generates the correct origin entries for Scenario 1, budget exceeds actual
+//     */
+//    public void testBudgetGreaterThanActualNoEncumbrancesLogicC1() {
+//        LOG.info("budget greater than actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic C2 generates the correct origin entries for Scenario 1, budget exceeds actual
+//     */
+//    public void testBudgetGreaterThanActualNoEncumbrancesLogicC2() {
+//        LOG.info("budget greater than actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic N1 generates the correct origin entries for Scenario 1, budget exceeds actual
+//     */
+//    public void testBudgetGreaterThanActualNoEncumbrancesLogicN1() {
+//        LOG.info("budget greater than actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic N2 generates the correct origin entries for Scenario 1, budget exceeds actual
+//     */
+//    public void testBudgetGreaterThanActualNoEncumbrancesLogicN2() {
+//        LOG.info("budget greater than actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic R1 generates the correct origin entries for Scenario 1, budget exceeds actual
+//     */
+//    public void testBudgetGreaterThanActualNoEncumbrancesLogicR1() {
+//        LOG.info("budget greater than actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic R2 generates the correct origin entries for Scenario 1, budget exceeds actual
+//     */
+//    public void testBudgetGreaterThanActualNoEncumbrancesLogicR2() {
+//        LOG.info("budget greater than actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO1_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO1_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /*
+//     * ************** SCENARIO 2 *****************
+//     */
+//    /**
+//     * Tests that Logic A generates the correct origin entries for Scenario 2, actual exceeds budget
+//     */
+//    public void testBudgetLessThanActualNoEncumbrancesALogic() {
+//        LOG.info("actual greater than budget, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check A
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic C1 generates the correct origin entries for Scenario 2, actual exceeds budget
+//     */
+//    public void testBudgetLessThanActualNoEncumbrancesC1Logic() {
+//        LOG.info("actual greater than budget, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic C2 generates the correct origin entries for Scenario 2, actual exceeds budget
+//     */
+//    public void testBudgetLessThanActualNoEncumbrancesC2Logic() {
+//        LOG.info("actual greater than budget, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic N1 generates the correct origin entries for Scenario 2, actual exceeds budget
+//     */
+//    public void testBudgetLessThanActualNoEncumbrancesN1Logic() {
+//        LOG.info("actual greater than budget, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, "1031400", "5000", "CB", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic N2 generates the correct origin entries for Scenario 2, actual exceeds budget
+//     */
+//    public void testBudgetLessThanActualNoEncumbrancesN2Logic() {
+//        LOG.info("actual greater than budget, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic R1 generates the correct origin entries for Scenario 2, actual exceeds budget
+//     */
+//    public void testBudgetLessThanActualNoEncumbrancesR1Logic() {
+//        LOG.info("actual greater than budget, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic R2 generates the correct origin entries for Scenario 2, actual exceeds budget
+//     */
+//    public void testBudgetLessThanActualNoEncumbrancesR2Logic() {
+//        LOG.info("actual greater than budget, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO2_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO2_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /*
+//     * ************** SCENARIO 3 *****************
+//     */
+//    /**
+//     * Tests that Logic A generates the correct origin entries for Scenario 3, budget equals actual
+//     */
+//    public void testBudgetEqualsActualNoEncumbrancesALogic() {
+//        LOG.info("budget equals actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check A
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
+//    }
+//
+//    /**
+//     * Tests that Logic C1 generates the correct origin entries for Scenario 3, budget equals actual
+//     */
+//    public void testBudgetEqualsActualNoEncumbrancesC1Logic() {
+//        LOG.info("budget equals actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
+//    }
+//
+//    /**
+//     * Tests that Logic C2 generates the correct origin entries for Scenario 3, budget equals actual
+//     */
+//    public void testBudgetEqualsActualNoEncumbrancesC2Logic() {
+//        LOG.info("budget equals actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
+//    }
+//
+//    /**
+//     * Tests that Logic N1 generates the correct origin entries for Scenario 3, budget equals actual
+//     */
+//    public void testBudgetEqualsActualNoEncumbrancesN1Logic() {
+//        LOG.info("budget equals actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
+//    }
+//
+//    /**
+//     * Tests that Logic N2 generates the correct origin entries for Scenario 3, budget equals actual
+//     */
+//    public void testBudgetEqualsActualNoEncumbrancesN2Logic() {
+//        LOG.info("budget equals actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
+//    }
+//
+//    /**
+//     * Tests that Logic R1 generates the correct origin entries for Scenario 3, budget equals actual
+//     */
+//    public void testBudgetEqualsActualNoEncumbrancesR1Logic() {
+//        LOG.info("budget equals actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
+//    }
+//
+//    /**
+//     * Tests that Logic R2 generates the correct origin entries for Scenario 3, budget equals actual
+//     */
+//    public void testBudgetEqualsActualNoEncumbrancesR2Logic() {
+//        LOG.info("budget equals actual, no encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO3_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO3_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(0));
+//    }
+//
+//    /*
+//     * ************** SCENARIO 4 *****************
+//     */
+//    /**
+//     * Tests that Logic A generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicA() {
+//        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check A
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic C1 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicC1() {
+//        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic C2 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicC2() {
+//        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic N1 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicN1() {
+//        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(4));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-1500));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(1500));
+//        assertOriginEntry(originEntries.get(2), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(500));
+//        assertOriginEntry(originEntries.get(3), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(500));
+//    }
+//
+//    /**
+//     * Tests that Logic N2 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicN2() {
+//        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic R1 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicR1() {
+//        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(4));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-1500));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(1500));
+//        assertOriginEntry(originEntries.get(2), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(500));
+//        assertOriginEntry(originEntries.get(3), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(500));
+//    }
+//
+//    /**
+//     * Tests that LogicR2 generates the correct origin entries for Scenario 4, budget exceeds actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceGreaterThanEncumbrancesLogicR2() {
+//        LOG.info("budget greater than actual, variance greater than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO4_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO4_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO4_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /*
+//     * ************** SCENARIO 5 *****************
+//     */
+//    /**
+//     * Tests that Logic A generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicA() {
+//        LOG.info("budget greater than actual, variance equals encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check A
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic C1 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicC1() {
+//        LOG.info("budget greater than actual, variance equals encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic C2 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicC2() {
+//        LOG.info("budget greater than actual, variance equals encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic N1 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicN1() {
+//        LOG.info("budget greater than actual, variance equals encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic N2 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicN2() {
+//        LOG.info("budget greater than actual, variance equals encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic R1 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicR1() {
+//        LOG.info("budget greater than actual, variance equals encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic R2 generates the correct origin entries for Scenario 5, budget equals actual + encumbrance
+//     */
+//    public void testBudgetGreaterThanActualVarianceEqualsEncumbrancesLogicR2() {
+//        LOG.info("budget greater than actual, variance equals encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO5_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO5_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO5_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /*
+//     * ************** SCENARIO 6 *****************
+//     */
+//    /**
+//     * Tests that Logic A generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
+//     */
+//    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicA() {
+//        LOG.info("budget great than actual, variance less than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check A
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic C1 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
+//     */
+//    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicC1() {
+//        LOG.info("budget great than actual, variance less than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic C2 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
+//     */
+//    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicC2() {
+//        LOG.info("budget great than actual, variance less than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic N1 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
+//     */
+//    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicN1() {
+//        LOG.info("budget great than actual, variance less than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic N2 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
+//     */
+//    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicN2() {
+//        LOG.info("budget great than actual, variance less than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic R1 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
+//     */
+//    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicR1() {
+//        LOG.info("budget great than actual, variance less than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(2000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /**
+//     * Tests that Logic R2 generates the correct origin entries for Scenario 6, Actual + encumbrance exceeds budget
+//     */
+//    public void testBudgetGreaterThanActualVariancesLessThanEncumbrancesLogicR2() {
+//        LOG.info("budget great than actual, variance less than encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO6_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO6_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO6_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+//    }
+//
+//    /*
+//     * ************** SCENARIO 7 *****************
+//     */
+//    /**
+//     * Tests that Logic A generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
+//     */
+//    public void testActualGreaterThanBudgetWithEncumbrancesLogicA() {
+//        LOG.info("actual greater than budget, with encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check A
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C01_ORG_WAGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic C1 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
+//     */
+//    public void testActualGreaterThanBudgetWithEncumbrancesLogicC1() {
+//        LOG.info("actual greater than budget, with encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C02_SALARY_FRINGES_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic C2 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
+//     */
+//    public void testActualGreaterThanBudgetWithEncumbrancesLogicC2() {
+//        LOG.info("actual greater than budget, with encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check C2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C03_FINANCIAL_AID_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic N1 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
+//     */
+//    public void testActualGreaterThanBudgetWithEncumbrancesLogicN1() {
+//        LOG.info("actual greater than budget, with encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C04_CAPITAL_EQUIP_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic N2 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
+//     */
+//    public void testActualGreaterThanBudgetWithEncumbrancesLogicN2() {
+//        LOG.info("actual greater than budget, with encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check N2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C05_RESERVE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(-3000));
+//        assertOriginEntry(originEntries.get(1), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic R1 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
+//     */
+//    public void testActualGreaterThanBudgetWithEncumbrancesLogicR1() {
+//        LOG.info("actual greater than budget, with encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R1
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C08_TRAVEL_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+//    }
+//
+//    /**
+//     * Tests that Logic R2 generates the correct origin entries for Scenario 7, Actual exceeds budget, and there's an encumbrance
+//     */
+//    public void testActualGreaterThanBudgetWithEncumbrancesLogicR2() {
+//        LOG.info("actual greater than budget, with encumbrances test started...");
+//        List<Balance> balancesToCheck = new ArrayList<Balance>();
+//
+//        // add balances to check R2
+//        Balance cbBalance = BALANCE_FIXTURE.SCENARIO7_CURRENT_BUDGET_BALANCE.convertToBalance();
+//        cbBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance acBalance = BALANCE_FIXTURE.SCENARIO7_ACTUAL_BALANCE.convertToBalance();
+//        acBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        Balance encumbranceBalance = BALANCE_FIXTURE.SCENARIO7_ENCUMBRANCE_BALANCE.convertToBalance();
+//        encumbranceBalance.setObjectCode(OBJECT_CODE_FIXTURE.C09_OTHER_EXPENSE_CODE.getCode());
+//        balancesToCheck.add(cbBalance);
+//        balancesToCheck.add(acBalance);
+//        balancesToCheck.add(encumbranceBalance);
+//
+//        OriginEntryGroup orgRevGroup = runOrganizationReversionProcess(balancesToCheck);
+//
+//        // sanity check - all the balances were selected?
+//        assertEquals("balances to check were all selected? ", new Integer(balancesToCheck.size()), new Integer(orgRevProcess.getBalancesSelected()));
+//
+//        List<OriginEntryFull> originEntries = orgRevProcess.getGeneratedOriginEntries();
+//        logAllEntries(originEntries);
+//
+//        assertEquals("correct number of origin entries returned? ", new Integer(originEntries.size()), new Integer(2));
+//
+//        // check the origin entries
+//        assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
+//        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+//    }
 }

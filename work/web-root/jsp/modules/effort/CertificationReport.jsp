@@ -31,9 +31,23 @@
 	documentTypeName="${documentTypeName}" renderMultipart="true"
 	showTabButtons="true">
 	
+    <html:hidden property="document.effortCertificationReportNumber" />
+    <html:hidden property="document.effortCertificationDocumentCode" />
+    <html:hidden property="document.universityFiscalYear" />
+    <html:hidden property="document.emplid" />
+    <html:hidden property="sortOrder" />
+	
+	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
+	
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />	
+	
 	<er:reportInformation />
 	
+    <c:set var="hiddenFieldNames" value="effortCertificationDocumentCode,totalOriginalPayrollAmount"/>
+	<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">	
+		<input type="hidden" name="document.${fieldName}" id="document.${fieldName}" value="${KualiForm.document[fieldName]}"/>		  
+	</c:forTokens>
+
 	<c:set var="isSummaryTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.SUMMARY_TAB_ENTRY]}"/>
  	<c:if test="${isSummaryTabEntry}">
 		<er:summaryTab/>	

@@ -28,6 +28,10 @@
 
 <%@ attribute name="detailFieldNames" required="true"
     description="The names of the fields that will be displayed. The attribute can hold multiple filed names, which are separated by commas." %>
+<%@ attribute name="detailFieldNamesWithHiddenFormWhenReadonly" required="false"
+	description="The names of the fields that will have hidden forms when the fields are readonly. The attribute can hold multiple filed names, which are separated by commas."%>	             
+<%@ attribute name="hiddenFieldNames" required="false"
+    description="The names of the fields that can be rendered as hidden fields. The attribute can hold multiple filed names, which are separated by commas." %> 
 <%@ attribute name="detailLineFormName" required="true"
 	description="The name  of the detail line"%>   
 	 
@@ -167,7 +171,9 @@
 					detailLineFormName="${detailLineFormName}[${status.index}]"
 					attributes="${attributes}"
 					detailFieldNames="${detailFieldNames}"
+					detailFieldNamesWithHiddenFormWhenReadonly="${detailFieldNamesWithHiddenFormWhenReadonly}"
 					editableFieldNames="${actualEditableFieldNames}"
+					hiddenFieldNames="${hiddenFieldNames}"
 					onchangeForEditableFieldNames="${actualOnchangeForEditableFieldNames}"
 					onchangeableInfoFieldNames="${actualOnchangeableInfoFieldNames}"
 					inquirableUrl="${inquirableUrl[status.index]}"

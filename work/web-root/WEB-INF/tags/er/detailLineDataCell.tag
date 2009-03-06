@@ -158,6 +158,10 @@
 		<bean:write name="KualiForm" property="${infoFieldFormName}"/>
 	</div>
 	
+	<c:if test="${not empty relationshipMetadata}">
+		<html:hidden write="false" property="${infoFieldFormName}"/>
+	</c:if>
+	
 </c:if>
 
        

@@ -30,7 +30,10 @@
 			  
 <span class="nowrap" style="font-weight: normal">
 	<c:choose>
-		<c:when test="${!readOnly}">
+		<c:when test="${readOnly}">
+			<html:hidden property="${detailLineFormName}.${accountExpiredOverride}" />
+		</c:when>
+		<c:otherwise>
 			<kul:htmlAttributeLabel 
 				attributeEntry="${attributes[accountExpiredOverride]}"
 				useShortLabel="true" 
@@ -41,7 +44,7 @@
 				attributeEntry="${attributes[accountExpiredOverride]}"
 				readOnly="false" forceRequired="true"
 				readOnlyBody="false"/>
-		</c:when>
+		</c:otherwise>
 	</c:choose>
 	
 </span>			

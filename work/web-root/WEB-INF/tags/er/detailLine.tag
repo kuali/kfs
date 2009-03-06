@@ -28,6 +28,8 @@
 	description="The names of the fields that will be displayed . The attribute can hold multiple filed names, which are separated by commas."%>
 <%@ attribute name="detailFieldNamesWithHiddenFormWhenReadonly" required="false"
 	description="The names of the fields that will have hidden forms when the fields are readonly. The attribute can hold multiple filed names, which are separated by commas."%>	
+<%@ attribute name="hiddenFieldNames" required="false"
+	description="The names of the fields that will be rendered as hidden inputs. The attribute can hold multiple filed names, which are separated by commas."%>
 <%@ attribute name="editableFieldNames" required="false"
 	description="The names of the fields that can be editable. The attribute can hold multiple filed names, which are separated by commas. If the value of the attribute is empty, all fields specified in the detailFieldNames attribute will be readonly."%>
 <%@ attribute name="onchangeForEditableFieldNames" required="false"

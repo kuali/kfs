@@ -150,7 +150,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
         if (!paymentRequestDocument.isExtracted() && 
             !workflowDocument.isAdHocRequested() && 
-            !paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
+            !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getStatusCode())) {
             editModes.add(PaymentRequestEditMode.EDIT_PRE_EXTRACT);
         }
 

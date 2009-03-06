@@ -1194,6 +1194,7 @@
 		<property name="dependencies">
 			<map>
 				<entry key="scrubberJob" value="hardDependency" />
+				<entry key="sufficientFundsJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>
@@ -1206,7 +1207,7 @@
 		</property>
 		<property name="dependencies">
 			<map>
-				<entry key="posterJob" value="hardDependency" />
+				<entry key="nightlyOutJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>
@@ -1216,11 +1217,6 @@
 			<list>
 				<ref bean="sufficientFundsSyncStep" />
 			</list>
-		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="posterJob" value="hardDependency" />
-			</map>
 		</property>
 	</bean>
 	
@@ -1245,7 +1241,6 @@
 		</property>
 		<property name="dependencies">
 			<map>
-				<entry key="sufficientFundsJob" value="hardDependency" />
 				<entry key="posterSummaryReportJob" value="hardDependency" />
 			</map>
 		</property>

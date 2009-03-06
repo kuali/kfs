@@ -111,7 +111,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             return new AnchorHtmlData(href, CamsConstants.AssetActions.MERGE, CamsConstants.AssetActions.MERGE);
         }
         else {
-            return new AnchorHtmlData("", "", CamsConstants.AssetActions.MERGE);
+            return new AnchorHtmlData("", "", "");
         }
     }
 
@@ -181,7 +181,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
         }
         else {
-            return new AnchorHtmlData("", "", CamsConstants.AssetActions.SEPARATE);
+            return new AnchorHtmlData("", "", "");
         }
     }
 
@@ -291,6 +291,4 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
         return isInStringRangeCriteria;
     }
-
-
 }

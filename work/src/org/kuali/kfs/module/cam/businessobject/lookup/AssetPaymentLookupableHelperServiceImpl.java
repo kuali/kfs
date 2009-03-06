@@ -115,7 +115,7 @@ public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelp
 
             return new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.PAYMENT);
         } else {
-            return new AnchorHtmlData("", "", CamsConstants.AssetActions.PAYMENT);
+            return new AnchorHtmlData("", "", "");
         }
     }
 
@@ -130,7 +130,7 @@ public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelp
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
             return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
         } else {
-                return new AnchorHtmlData("", "", CamsConstants.AssetActions.SEPARATE);
+                return new AnchorHtmlData("", "", "");
             }
         }
         
@@ -147,7 +147,7 @@ public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelp
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
             return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
         } else {
-            return new AnchorHtmlData("", "", KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+            return new AnchorHtmlData("", "", "");
         }
     }
 

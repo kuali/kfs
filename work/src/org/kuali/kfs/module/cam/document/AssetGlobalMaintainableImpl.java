@@ -72,14 +72,10 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        //document.getNewMaintainableObject().setGenerateDefaultValues(false);
 
         // set "asset number" and "type code" from URL
         setSeparateSourceCapitalAssetParameters(assetGlobal, parameters);
         setFinancialDocumentTypeCode(assetGlobal, parameters);
-
-        // set current date for Global and Separate.
-        assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
 
         // populate required fields for "Asset Separate" doc
         if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
@@ -92,8 +88,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
             if (getAssetGlobalService().isAssetSeparateByPayment(assetGlobal)) {
                 AssetGlobalRule.validateAssetAlreadySeparated(assetGlobal.getSeparateSourceCapitalAssetNumber());
-            }
-            
+            }            
             // populate doc header description with the doc type
             document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION);
         }
@@ -103,9 +98,17 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     
     @Override
     public void setGenerateDefaultValues(String docTypeName) {      
-        
     }
 
+    @Override
+    public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
+        super.setupNewFromExisting(document, parameters);        
+
+        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+
+        assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+    }
+    
     /**
      * Get Asset from AssetGlobal
      * 
@@ -168,7 +171,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());
         
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
-
     }
 
     /**
@@ -183,7 +185,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         // clear and create temp AssetPaymentDetail list
         assetGlobal.getAssetPaymentDetails().clear();
         List<AssetPaymentDetail> newAssetPaymentDetailList = assetGlobal.getAssetPaymentDetails();
-
 
         if (!getAssetGlobalService().isAssetSeparateByPayment(assetGlobal)) {
             // Separate by Asset. Pick all payments up
@@ -470,6 +471,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         super.processAfterRetrieve();
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         assetGlobal.refresh();
+        assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET);
+        assetGlobal.setLastInventoryDate(new java.sql.Date(assetGlobal.getSeparateSourceCapitalAsset().getLastInventoryDate().getTime()));
+        
         List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetGlobalDetails();
         AssetGlobalDetail currLocationDetail = null;
         HashMap<String, AssetGlobalDetail> locationMap = new HashMap<String, AssetGlobalDetail>();

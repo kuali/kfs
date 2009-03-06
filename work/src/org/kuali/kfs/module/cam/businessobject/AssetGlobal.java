@@ -670,12 +670,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return Returns the lastInventoryDate.
      */
     public Date getLastInventoryDate() {
-        if (lastInventoryDate != null) {
-            return lastInventoryDate;
-        }
-        else {
-            return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        }
+        return lastInventoryDate;
     }
 
     /**

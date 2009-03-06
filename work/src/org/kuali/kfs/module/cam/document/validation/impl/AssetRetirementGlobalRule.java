@@ -110,9 +110,11 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
         
-        // append doc type to existing doc header description
-        if (!document.getDocumentHeader().getDocumentDescription().toLowerCase().contains(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION.toLowerCase())) {
-            document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION + " " + document.getDocumentHeader().getDocumentDescription());
+        // add doc header description if retirement reason is "MERGED"
+        if (CamsConstants.AssetRetirementReasonCode.MERGED.equals(assetRetirementGlobal.getRetirementReasonCode())) {
+            if (!document.getDocumentHeader().getDocumentDescription().toLowerCase().contains(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION.toLowerCase())) {
+                document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION + " " + document.getDocumentHeader().getDocumentDescription());
+            }
         }
 
         return valid;

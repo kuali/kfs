@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -207,34 +208,6 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
         this.purApContactEmailAddress = purApContactEmailAddress;
     }
 
-/*
-    public VendorCreditMemoDocument getVendorCreditMemoDocument() {
-        Map objectKeys = new HashMap();
-        objectKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURAP_DOCUMENT_IDENTIFIER, this.getPurapDocumentIdentifier());
-        vendorCreditMemoDocument = (VendorCreditMemoDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorCreditMemoDocument.class, objectKeys);
-        return vendorCreditMemoDocument;
-    }
-
-
-    public void setVendorCreditMemoDocument(VendorCreditMemoDocument vendorCreditMemoDocument) {
-        this.vendorCreditMemoDocument = vendorCreditMemoDocument;
-    }
-
-
-    public PaymentRequestDocument getPaymentRequestDocument() {
-
-        Map objectKeys = new HashMap();
-        objectKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURAP_DOCUMENT_IDENTIFIER, this.getPurapDocumentIdentifier());
-        paymentRequestDocument = (PaymentRequestDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestDocument.class, objectKeys);
-
-        return paymentRequestDocument;
-    }
-
-
-    public void setPaymentRequestDocument(PaymentRequestDocument paymentRequestDocument) {
-        this.paymentRequestDocument = paymentRequestDocument;
-    }
-*/
 
     /**
      * Gets the purApContactPhoneNumber attribute. 
@@ -256,27 +229,33 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     
     public String getStatusDescription() {
         String statusCode;
-        Map objectKeys = new HashMap();
-        objectKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURAP_DOCUMENT_IDENTIFIER, this.getPurapDocumentIdentifier());
-
-        if (this.documentTypeCode.equals(CabConstants.PREQ)){
-            
-            PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestDocument.class, objectKeys);
-            statusCode = paymentRequestDocument.getStatusCode();
-            
-            objectKeys = new HashMap();
-            objectKeys.put(PurapPropertyConstants.STATUS_CODE, statusCode);
-            PaymentRequestStatus paymentRequestStatus = (PaymentRequestStatus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestStatus.class, objectKeys);
-            statusDescription = paymentRequestStatus.getStatusDescription();
-        } 
+        
+        if (StringUtils.isNotBlank(this.statusDescription)){
+            return this.statusDescription;
+        }
         else {
-            VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorCreditMemoDocument.class, objectKeys);
-            statusCode = vendorCreditMemoDocument.getStatusCode();
+            Map objectKeys = new HashMap();
+            objectKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURAP_DOCUMENT_IDENTIFIER, this.getPurapDocumentIdentifier());
+
+            if (CabConstants.PREQ.equals(this.documentTypeCode)){
+            
+                PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestDocument.class, objectKeys);
+                statusCode = paymentRequestDocument.getStatusCode();
+            
+                objectKeys = new HashMap();
+                objectKeys.put(PurapPropertyConstants.STATUS_CODE, statusCode);
+                PaymentRequestStatus paymentRequestStatus = (PaymentRequestStatus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestStatus.class, objectKeys);
+                statusDescription = paymentRequestStatus.getStatusDescription();
+            } 
+            else {
+                VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorCreditMemoDocument.class, objectKeys);
+                statusCode = vendorCreditMemoDocument.getStatusCode();
            
-            objectKeys = new HashMap();
-            objectKeys.put(PurapPropertyConstants.STATUS_CODE, statusCode);
-            CreditMemoStatus creditMemoStatus = (CreditMemoStatus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CreditMemoStatus.class, objectKeys);
-            statusDescription = creditMemoStatus.getStatusDescription();
+                objectKeys = new HashMap();
+                objectKeys.put(PurapPropertyConstants.STATUS_CODE, statusCode);
+                CreditMemoStatus creditMemoStatus = (CreditMemoStatus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CreditMemoStatus.class, objectKeys);
+                statusDescription = creditMemoStatus.getStatusDescription();
+            }
         }
             
         return statusDescription;

@@ -1085,7 +1085,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private boolean isCapitalAssetDataRequired(AccountingDocument accountingDocument, String dataEntryExpected) {
         boolean isCapitalAssetDataRequired = true;
-        String accountingDocumentType = accountingDocument.getGeneralLedgerPendingEntry(0).getFinancialDocumentTypeCode();
+        String accountingDocumentType = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
         if (isDocumentTypeRestricted(accountingDocument) || accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING)) {
             if (dataEntryExpected.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE + KFSConstants.TARGET_ACCT_LINE_TYPE_CODE))
                 isCapitalAssetDataRequired = false;
@@ -1102,8 +1102,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private boolean canCreateNewAsset(AccountingDocument accountingDocument, String dataEntryExpected) {
         boolean canCreateNewAsset = true;
-        if (isDocumentTypeRestricted(accountingDocument) && dataEntryExpected.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE))
+        String accountingDocumentType = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT)){
             canCreateNewAsset = false;
+        } else {
+            if (isDocumentTypeRestricted(accountingDocument) && dataEntryExpected.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE))
+                canCreateNewAsset = false;
+         }
         return canCreateNewAsset;
     }
 
@@ -1115,7 +1120,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private boolean isDocumentTypeRestricted(AccountingDocument accountingDocument) {
         boolean isDocumentTypeRestricted = false;
-        String accountingDocumentType = accountingDocument.getGeneralLedgerPendingEntry(0).getFinancialDocumentTypeCode();
+        String accountingDocumentType = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
         if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION) || accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION))
             isDocumentTypeRestricted = true;
         if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE) || accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE))

@@ -254,7 +254,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         String nightlyOutFileName = GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         File nightlyOutFile = new File(batchFileDirectoryName + File.separator + nightlyOutFileName);
         if (!nightlyOutFile.exists()){
-            throw new RuntimeException("nightlyOutFile doesn't exist :" + nightlyOutFileName);
+            LOG.warn("nightlyOutFile doesn't exist :" + nightlyOutFileName);
         }
         //check laborGlEntryFileName
         //TODO: Shawn - commented out for a while 
@@ -293,7 +293,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         String laborNightlyOutFileName = LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         File laborNightlyOutFile = new File(batchLaborFileDirectoryName + File.separator + laborNightlyOutFileName);
         if (!laborNightlyOutFile.exists()){
-            throw new RuntimeException("laborNightlyOutFile doesn't exist :" + laborNightlyOutFileName);
+            LOG.warn("laborNightlyOutFile doesn't exist :" + laborNightlyOutFileName);
         }
         
         String laborBackupFileName = LaborConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;    
@@ -346,6 +346,18 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     }
 
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * Deletes all groups older than a given number of days
      * @param days the number of days that groups older than should be deleted
@@ -353,18 +365,20 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      */
     public void deleteOlderGroups(int days) {
         LOG.debug("deleteOlderGroups() started");
-
+        
         Calendar today = dateTimeService.getCurrentCalendar();
         today.add(Calendar.DAY_OF_MONTH, 0 - days);
 
-        Collection groups = originEntryGroupDao.getOlderGroups(new java.sql.Date(today.getTime().getTime()));
-
-        if (groups.size() > 0) {
-            originEntryDao.deleteGroups(groups);
-            originEntryGroupDao.deleteGroups(groups);
+        File[] allFilesList = new File(batchFileDirectoryName).listFiles();
+        
+        for (File file: allFilesList) {
+            java.sql.Date fileDate = new java.sql.Date(file.lastModified());
+            if (fileDate.before(today.getTime())){
+                file.delete();
+            }
         }
     }
-
+    
 
     /**
      * Deletes every origin entry group in the given collection.  Note: this method deletes all the origin entries

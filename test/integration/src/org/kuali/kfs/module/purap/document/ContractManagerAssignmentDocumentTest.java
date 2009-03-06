@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.jgerhart;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
@@ -73,6 +74,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         assertFalse("R".equals(acmDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
         routeDocument(acmDocument, "saving copy source document", documentService);
+        
         WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
         Document document = documentService.getByDocumentHeaderId(acmDocument.getDocumentNumber());
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
@@ -178,6 +180,10 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         assertTrue("rorenfro should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as rorenfro", null);
 
+        changeCurrentUser(jgerhart);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
+        
         WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(khuntley);

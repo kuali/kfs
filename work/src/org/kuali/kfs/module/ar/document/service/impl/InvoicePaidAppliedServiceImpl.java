@@ -52,7 +52,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
     }
 
     public void saveInvoicePaidApplieds(List<AppliedPayment> appliedPayments, String documentNumber) {
-        int i = 0;
+        int i = 1;
         for( AppliedPayment appliedPayment : appliedPayments ){
             saveInvoicePaidApplied(appliedPayment, i, documentNumber);
             i++;

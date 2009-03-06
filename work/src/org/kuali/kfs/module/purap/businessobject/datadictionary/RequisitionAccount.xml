@@ -198,6 +198,7 @@
   <bean id="RequisitionAccount-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="RequisitionAccount-subAccountNumber" parent="RequisitionAccount-subAccountNumber-parentBean" />
 
@@ -355,6 +356,7 @@
     <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
     <property name="label" value="Gross Sales Amount" />
     <property name="shortLabel" value="Gross Sales Amt." />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="RequisitionAccount-salesTax.financialDocumentTaxableSalesAmount" parent="RequisitionAccount-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
 
@@ -362,6 +364,7 @@
     <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
     <property name="label" value="Taxable Sales Amount" />
     <property name="shortLabel" value="Taxable Sales Amt." />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="RequisitionAccount-salesTax.financialDocumentSaleDate" parent="RequisitionAccount-salesTax.financialDocumentSaleDate-parentBean" />
 

@@ -85,6 +85,7 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AccountsPayableSummaryAccount-chartOfAccountsCode" parent="AccountsPayableSummaryAccount-chartOfAccountsCode-parentBean" />
 

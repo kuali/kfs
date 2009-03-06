@@ -200,6 +200,7 @@
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="VoucherSourceAccountingLine-subAccountNumber" parent="VoucherSourceAccountingLine-subAccountNumber-parentBean" />
 
@@ -378,6 +379,7 @@
     <property name="label" value="Gross Sales Amount" />
     <property name="shortLabel" value="Gross Sales Amt." />
     <property name="description" value="Gross Sales Amount to be taxed" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="VoucherSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="VoucherSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
 
@@ -386,6 +388,7 @@
     <property name="label" value="Taxable Sales Amount" />
     <property name="shortLabel" value="Taxable Sales Amt." />
     <property name="description" value="Taxable Sales Amount to be taxed" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="VoucherSourceAccountingLine-salesTax.financialDocumentSaleDate" parent="VoucherSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" />
 

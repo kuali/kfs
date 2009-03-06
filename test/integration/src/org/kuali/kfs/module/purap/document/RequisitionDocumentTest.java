@@ -20,6 +20,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.jkitchen;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rjweiss;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.jgerhart;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -169,6 +170,10 @@ public class RequisitionDocumentTest extends KualiTestBase {
         assertTrue("rorenfro should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as rorenfro", null);
 
+        changeCurrentUser(jgerhart);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
+        
         WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(khuntley);
@@ -206,6 +211,10 @@ public class RequisitionDocumentTest extends KualiTestBase {
         //assertTrue("Document should be enroute.", workflowDocument.stateIsEnroute());
         //assertTrue("jkitchen should have an approve request.", workflowDocument.isApprovalRequested());
         //SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as jkitchen", null);
+        
+        changeCurrentUser(jgerhart);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
         
         WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 

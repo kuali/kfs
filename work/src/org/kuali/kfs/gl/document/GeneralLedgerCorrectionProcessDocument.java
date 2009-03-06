@@ -206,9 +206,13 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 // save the output file to originEntry directory when correctionFileDelete is false
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 Date today = dateTimeService.getCurrentDate();
+                
+                //generate output file and set file name
+                String outputFileName = "";
                 if (!correctionFileDelete){
-                    correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
+                    outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
                 }
+                doc.setCorrectionOutputGroupId(outputFileName);
                 // should call scrubber here
                 String fileNameWithPath = correctionDocumentService.generateOutputOriginEntryFileName(docId);
                 ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
@@ -250,6 +254,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
 
                 // First, save the origin entries to the origin entry table
                 // TODO: Shawn - don't need this part from here
+                
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
                 CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);

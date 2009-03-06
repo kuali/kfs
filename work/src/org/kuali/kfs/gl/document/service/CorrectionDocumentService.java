@@ -236,5 +236,5 @@ public interface CorrectionDocumentService {
     
     public String generateOutputOriginEntryFileName(String docId);
     
-    public void createOutputFileForProcessing(String docId, java.util.Date today);
+    public String createOutputFileForProcessing(String docId, java.util.Date today);
 }

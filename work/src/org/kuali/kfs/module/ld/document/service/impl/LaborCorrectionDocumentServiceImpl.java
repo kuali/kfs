@@ -571,7 +571,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     /**
      * 
      */
-    public void createOutputFileForProcessing(String docId, java.util.Date today) {
+    public String createOutputFileForProcessing(String docId, java.util.Date today) {
         File outputFile = new File(llcpDirectoryName + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX);
         String newFileName = batchFileDirectoryName + File.separator + LLCP_OUTPUT_PREFIX + buildFileExtensionWithDate(today);
         File newFile = new File (newFileName);
@@ -600,6 +600,8 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        
+        return newFileName;
     }
     
     

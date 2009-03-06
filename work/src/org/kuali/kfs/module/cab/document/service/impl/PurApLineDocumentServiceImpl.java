@@ -593,16 +593,16 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
 
         PurchaseOrderCapitalAssetSystem capitalAssetSystem = null;
-        // feeding data from pre-asset tagging table into assetGlboal
-        if (isItemPretagged(preTag)) {
-            setAssetGlobalFromPreTag(preTag, assetGlobal);
-        }
         // check and set if purAp has new asset information
-        else if (selectedItem.getCapitalAssetSystemIdentifier() != null) {
+        if (selectedItem.getCapitalAssetSystemIdentifier() != null) {
             capitalAssetSystem = findCapitalAssetSystem(selectedItem.getCapitalAssetSystemIdentifier());
             if (ObjectUtils.isNotNull(capitalAssetSystem)) {
                 setAssetGlobalFromPurAp(assetGlobal, capitalAssetSystem);
             }
+        }
+        // feeding data from pre-asset tagging table into assetGlboal. Here, if there are data overlap in pretag and PurAp, we respect data in Pretagging.
+        if (isItemPretagged(preTag)) {
+            setAssetGlobalFromPreTag(preTag, assetGlobal);
         }
 
         // set asset global detail list
@@ -712,22 +712,30 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
 
     /**
-     * Feeding data from preTag and set into asset global for shared information.
+     * Feeding data from preTag and set into asset global for shared information. PreTag data may override PurAp asset data since the strategy choose to respect Pretagging
      * 
      * @param preTag
      * @param assetGlobal
      */
     protected void setAssetGlobalFromPreTag(Pretag preTag, AssetGlobal assetGlobal) {
-        assetGlobal.setManufacturerName(preTag.getManufacturerName());
-        assetGlobal.setManufacturerModelNumber(preTag.getManufacturerModelNumber());
-        assetGlobal.setCapitalAssetTypeCode(preTag.getCapitalAssetTypeCode());
+        if (StringUtils.isNotBlank(preTag.getManufacturerName())) {
+            assetGlobal.setManufacturerName(preTag.getManufacturerName());
+        }
+        if (StringUtils.isNotBlank(preTag.getManufacturerModelNumber())) {
+            assetGlobal.setManufacturerModelNumber(preTag.getManufacturerModelNumber());
+        }
+
+        if (StringUtils.isNotBlank(preTag.getCapitalAssetTypeCode())) {
+            assetGlobal.setCapitalAssetTypeCode(preTag.getCapitalAssetTypeCode());
+        }
         assetGlobal.setOrganizationText(preTag.getOrganizationText());
         assetGlobal.setRepresentativeUniversalIdentifier(preTag.getRepresentativeUniversalIdentifier());
-        assetGlobal.setVendorName(preTag.getVendorName());
+        if (StringUtils.isNotBlank(preTag.getVendorName())) {
+            assetGlobal.setVendorName(preTag.getVendorName());
+        }
         // acquisition type code is set to "P"(Pre-asset tagging)
         assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.PRE_TAGGING_ACQUISITION_TYPE_CODE);
     }
-
 
     /**
      * Gets the businessObjectService attribute.

@@ -58,6 +58,10 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      */
     public void setPurchaseOrderFromPurAp(PurApLineForm purApLineForm) {
         PurchaseOrderDocument purchaseOrderDocument = this.getPurchaseOrderService().getCurrentPurchaseOrder(purApLineForm.getPurchaseOrderIdentifier());
+        
+        if (ObjectUtils.isNull(purchaseOrderDocument)) {
+            return;
+        }
         // Set contact email address.
         if (purchaseOrderDocument.getInstitutionContactEmailAddress() != null) {
             purApLineForm.setPurApContactEmailAddress(purchaseOrderDocument.getInstitutionContactEmailAddress());
@@ -121,7 +125,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      */
     protected void setMultipleSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
         List<CapitalAssetSystem> capitalAssetSystems = this.getPurchaseOrderService().retrieveCapitalAssetSystemsForMultipleSystem(poId);
-        if (ObjectUtils.isNotNull(capitalAssetSystems)) {
+        if (ObjectUtils.isNotNull(capitalAssetSystems) && !capitalAssetSystems.isEmpty()) {
             // TODO: currently PurAp multiple system in fact return one system.
             CapitalAssetSystem capitalAssetSystem = capitalAssetSystems.get(0);
             if (ObjectUtils.isNotNull(capitalAssetSystem)) {

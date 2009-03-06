@@ -90,10 +90,6 @@
       <list>	  
       	  <bean parent="MaintainableFieldDefinition" p:name="adviceCreate" p:required="false"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="achPaymentDescription" p:required="false"/>
-	      <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine1" p:required="false"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine2" p:required="false"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine3" p:required="false"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine4" p:required="false"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="adviceHeaderText" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="adviceSubjectLine" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="adviceReturnEmailAddr" p:required="false"/>
@@ -101,6 +97,10 @@
 		  <bean parent="MaintainableFieldDefinition" p:name="checkHeaderNoteTextLine2" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="checkHeaderNoteTextLine3" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="checkHeaderNoteTextLine4" p:required="false"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine1" p:required="false"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine2" p:required="false"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine3" p:required="false"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="additionalCheckNoteTextLine4" p:required="false"/>
 	    </list>
 	</property>
    </bean>          

@@ -533,6 +533,8 @@
               <bean parent="FieldDefinition"
                     p:attributeName="nbrOfPaymentsInPaymentGroup" />  
               <bean parent="FieldDefinition"
+                    p:attributeName="paymentGroupId" />
+              <bean parent="FieldDefinition"
                     p:attributeName="nbrOfPaymentsInDisbursement" />   
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.customerShortName" />  

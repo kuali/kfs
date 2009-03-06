@@ -92,7 +92,7 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
         }
         
         public int compareTo(SortableRoleMembershipHolder o) {
-            if ( o.chart == chart && o.org == org ) {
+            if ( chart == null || org == null || (o.chart == chart && o.org == org) ) {
                 return 0;
             }
             if ( organizationService.isParentOrganization(o.chart, o.org, chart, org) ) {

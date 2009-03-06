@@ -21,6 +21,7 @@ import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
@@ -105,7 +106,8 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
     public KualiDecimal getSourceTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
         AccountingLineBase al = null;
-        Iterator iter = sourceAccountingLines.iterator();
+        refreshReferenceObject(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES);
+        Iterator iter = getSourceAccountingLines().iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
             try {

@@ -396,6 +396,7 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BigDecimalFormatter" />
   </bean>
   <bean id="PaymentRequestAccount-accountIdentifier" parent="PaymentRequestAccount-accountIdentifier-parentBean" />
 

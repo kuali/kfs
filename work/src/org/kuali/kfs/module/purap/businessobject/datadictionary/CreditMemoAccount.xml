@@ -394,6 +394,7 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BigDecimalFormatter" />
   </bean>
   <bean id="CreditMemoAccount-accountIdentifier" parent="CreditMemoAccount-accountIdentifier-parentBean" />
 

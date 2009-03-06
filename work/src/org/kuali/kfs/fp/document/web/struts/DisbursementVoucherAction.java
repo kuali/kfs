@@ -549,7 +549,9 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         
         //TODO: how should this forward be handled
         String url = UrlFactory.parameterizeUrl(getBasePath(request) + "/kr/" + KNSConstants.LOOKUP_ACTION, props);
-
+        
+        dvForm.registerEditableProperty("methodToCall");
+        
         return new ActionForward(url, true);
     }
 

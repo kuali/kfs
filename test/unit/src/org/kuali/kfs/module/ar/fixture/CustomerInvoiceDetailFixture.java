@@ -142,7 +142,39 @@ public enum CustomerInvoiceDetailFixture {
     ONE_DOLLAR_INVOICE_DETAIL(new KualiDecimal(1)),
     TEN_DOLLAR_INVOICE_DETAIL(new KualiDecimal(10)),
     FIFTY_DOLLAR_INVOICE_DETAIL(new KualiDecimal(50)),
-    ONE_HUNDRED_DOLLAR_INVOICE_DETAIL(new KualiDecimal(100));
+    ONE_HUNDRED_DOLLAR_INVOICE_DETAIL(new KualiDecimal(100)), 
+    ONE_THOUSAND_DOLLAR_INVOICE_DETAIL(null, // documentNumber
+            "BL", // chartOfAccountsCode
+            "1031400", // accountNumber
+            null, // subAccountNumber
+            "5000", // financialObjectCode
+            null, // financialSubObjectCode
+            null, // organizationRefId
+            null, // projectCode
+            null, // accountsReceivableObjectCode
+            Date.valueOf("2008-01-01"), // invoiceItemServiceDate
+            new BigDecimal(1), // invoiceItemQuantity
+            new BigDecimal("1000.00"), // invoiceItemUnitPrice
+            new KualiDecimal("1000.00"), // amount
+            new KualiDecimal(0) // invoiceItemTaxAmount
+            , null),
+    FIVE_HUNDRED_DOLLAR_INVOICE_DETAIL(null, // documentNumber
+                    "BL", // chartOfAccountsCode
+                    "1031400", // accountNumber
+                    null, // subAccountNumber
+                    "5000", // financialObjectCode
+                    null, // financialSubObjectCode
+                    null, // organizationRefId
+                    null, // projectCode
+                    null, // accountsReceivableObjectCode
+                    Date.valueOf("2008-01-01"), // invoiceItemServiceDate
+                    new BigDecimal(1), // invoiceItemQuantity
+                    new BigDecimal("500.00"), // invoiceItemUnitPrice
+                    new KualiDecimal("500.00"), // amount
+                    new KualiDecimal(0) // invoiceItemTaxAmount
+                    , null),
+    
+    ;
 
     public String documentNumber;
     public String chartOfAccountsCode;

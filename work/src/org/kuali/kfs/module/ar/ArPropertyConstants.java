@@ -133,6 +133,11 @@ public class ArPropertyConstants {
         public static final String CUSTOMER_NUMBER = "customerNumber";
     }
 
+    // CashControlDetail
+    public static class CashControlDetailFields {
+        public static final String REFERENCE_FINANCIAL_DOC_NBR = "referenceFinancialDocumentNumber";
+    }
+    
     // CustomerInvoiceWriteoffDocument
     public static class CustomerInvoiceWriteoffDocumentFields {
         public static final String CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF = "customerInvoiceDetailsForWriteoff";

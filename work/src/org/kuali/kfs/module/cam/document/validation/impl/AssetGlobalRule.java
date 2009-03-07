@@ -52,6 +52,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterEvaluator;
@@ -234,42 +235,51 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean checkReferenceExists(AssetGlobalDetail assetGlobalDetail) {
         boolean valid = true;
         if (StringUtils.isNotBlank(assetGlobalDetail.getCampusCode())) {
-            assetGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetGlobalDetail.CAMPUS);
-            String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Campus.class.getName()).getAttributeDefinition(KFSPropertyConstants.CAMPUS_CODE).getLabel();
+            Map objectKeys = new HashMap();
+            objectKeys.put(CamsPropertyConstants.Asset.CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());
+            Campus campus = (Campus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Campus.class, objectKeys);
 
-            if (ObjectUtils.isNull(assetGlobalDetail.getCampus())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetGlobalDetail.getCampusCode());
+            if (ObjectUtils.isNull(campus)) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());
                 valid &= false;
             }
-            else if (!assetGlobalDetail.getCampus().isActive()) {
+            else if (!campus.isActive()) {
+                String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Campus.class.getName()).getAttributeDefinition(KFSPropertyConstants.CAMPUS_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
         }
 
         if (StringUtils.isNotBlank(assetGlobalDetail.getBuildingCode())) {
-            assetGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetGlobalDetail.BUILDING);
-            String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Building.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_CODE).getLabel();
+            Map objectKeys = new HashMap();
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode().toUpperCase());
+            Building building = (Building) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, objectKeys);
 
-            if (ObjectUtils.isNull(assetGlobalDetail.getBuilding())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getCampusCode());
+            if (ObjectUtils.isNull(building)) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetGlobalDetail.getBuildingCode().toUpperCase(), assetGlobalDetail.getCampusCode().toUpperCase());
                 valid &= false;
             }
-            else if (!assetGlobalDetail.getBuilding().isActive()) {
+            else if (!building.isActive()) {
+                String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Building.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
         }
 
         if (StringUtils.isNotBlank(assetGlobalDetail.getBuildingRoomNumber())) {
-            assetGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM);
-            String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Room.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_ROOM_NUMBER).getLabel();
+            Map objectKeys = new HashMap();
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode().toUpperCase());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, assetGlobalDetail.getBuildingRoomNumber());
+            Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
-            if (ObjectUtils.isNull(assetGlobalDetail.getBuildingRoom())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getBuildingRoomNumber(), assetGlobalDetail.getCampusCode());
+            if (ObjectUtils.isNull(room)) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetGlobalDetail.getBuildingCode().toUpperCase(), assetGlobalDetail.getBuildingRoomNumber(), assetGlobalDetail.getCampusCode().toUpperCase());
                 valid &= false;
             }
-            else if (!assetGlobalDetail.getBuildingRoom().isActive()) {
+            else if (!room.isActive()) {
+                String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Room.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_ROOM_NUMBER).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
@@ -841,7 +851,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
         Account organizationOwnerAccount = assetGlobal.getOrganizationOwnerAccount();
-        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (ObjectUtils.isNull(organizationOwnerAccount ) || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
+        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NOT_ACTIVE, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber() });
             success &= false;
         }

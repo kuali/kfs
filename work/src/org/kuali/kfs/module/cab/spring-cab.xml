@@ -48,12 +48,14 @@
 			<list>
 				<value>cabExtractJob</value>		
 				<value>preAssetTaggingExtractJob</value>								
+				<value>sequenceIncrementerJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
 			<list>
 				<value>cabExtractJobTrigger</value>
 				<value>preAssetTaggingExtractJobTrigger</value>
+				<value>sequenceIncrementerJobTrigger</value>				
 			</list>
 		</property>		
 				
@@ -119,10 +121,20 @@
 	 	<property name="batchExtractService" ref="batchExtractService" />
 	 	<property name="dateTimeService" ref="dateTimeService" />	 	
 	</bean>
+	<bean id="sequenceIncrementerStep" class="org.kuali.kfs.module.cab.batch.SequenceIncrementerStep" parent="step">
+	</bean>
 	<bean id="preAssetTaggingExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="preAssetTaggingStep"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sequenceIncrementerJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="sequenceIncrementerStep"/>
 			</list>
 		</property>
 	</bean>
@@ -131,6 +143,11 @@
 		<property name="jobName" value="preAssetTaggingExtractJob" />
 		<!--  it will run every day at 7 AM -->
 		<property name="cronExpression" value="0 0 7 ? * *" />
+	</bean>
+	<bean id="sequenceIncrementerJobTrigger" parent="simpleTrigger">
+		<property name="jobName" value="sequenceIncrementerJob" />
+		<property name="startDelay" value="1" />
+		<property name="repeatCount" value="0" />
 	</bean>
 	
 	<bean id="cabBatchStatusReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >

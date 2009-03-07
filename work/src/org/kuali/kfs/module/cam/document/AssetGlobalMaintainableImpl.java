@@ -88,27 +88,27 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
             if (getAssetGlobalService().isAssetSeparateByPayment(assetGlobal)) {
                 AssetGlobalRule.validateAssetAlreadySeparated(assetGlobal.getSeparateSourceCapitalAssetNumber());
-            }            
+            }
             // populate doc header description with the doc type
             document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION);
         }
 
         super.processAfterNew(document, parameters);
     }
-    
+
     @Override
-    public void setGenerateDefaultValues(String docTypeName) {      
+    public void setGenerateDefaultValues(String docTypeName) {
     }
 
     @Override
-    public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
-        super.setupNewFromExisting(document, parameters);        
+    public void setupNewFromExisting(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.setupNewFromExisting(document, parameters);
 
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
         assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
     }
-    
+
     /**
      * Get Asset from AssetGlobal
      * 
@@ -134,7 +134,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         AssetOrganization assetOrganization = (AssetOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetOrganization.class, map);
         return assetOrganization;
     }
-    
+
     /**
      * Populate Asset Details for Asset Separate document
      * 
@@ -169,7 +169,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setLandCountyName(asset.getLandCountyName());
         assetGlobal.setLandAcreageSize(asset.getLandAcreageSize());
         assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());
-        
+
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
     }
 
@@ -193,10 +193,10 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
                 // create new AssetPaymentDetail
                 AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail(assetPayment);
-                
+
                 // add assetPaymentDetail to AssetPaymentDetail list
                 newAssetPaymentDetailList.add(assetPaymentDetail);
-           }
+            }
 
             // Set total amount per asset
             assetGlobal.setTotalCostAmount(asset.getTotalCostAmount());
@@ -221,12 +221,10 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                 }
             }
         }
-
         assetGlobal.setSeparateSourceTotalAmount(KualiDecimal.ZERO);
 
         // set AssetGlobal payment details with new payment details
         assetGlobal.setAssetPaymentDetails(newAssetPaymentDetailList);
-
     }
 
     /**
@@ -386,7 +384,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             assetSeperateMaintenanceLock.setLockingRepresentation(lockRep.toString());
             maintenanceLocks.add(assetSeperateMaintenanceLock);
         }
-
         return maintenanceLocks;
     }
 
@@ -408,8 +405,18 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
                 for (AssetGlobalDetail detail : assetGlobalUniqueDetails) {
                     // read from location and set it to detail
-                    detail.setCampusCode(locationDetail.getCampusCode());
-                    detail.setBuildingCode(locationDetail.getBuildingCode());
+                    if (ObjectUtils.isNotNull(locationDetail.getCampusCode())) {
+                        detail.setCampusCode(locationDetail.getCampusCode().toUpperCase());
+                    }
+                    else {
+                        detail.setCampusCode(locationDetail.getCampusCode());
+                    }
+                    if (ObjectUtils.isNotNull(locationDetail.getBuildingCode())) {
+                        detail.setBuildingCode(locationDetail.getBuildingCode().toUpperCase());
+                    }
+                    else {
+                        detail.setBuildingCode(locationDetail.getBuildingCode());
+                    }
                     detail.setBuildingRoomNumber(locationDetail.getBuildingRoomNumber());
                     detail.setBuildingSubRoomNumber(locationDetail.getBuildingSubRoomNumber());
                     detail.setOffCampusName(locationDetail.getOffCampusName());
@@ -420,7 +427,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                     detail.setOffCampusZipCode(locationDetail.getOffCampusZipCode());
                     newDetails.add(detail);
                 }
-
             }
         }
 
@@ -472,8 +478,12 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         assetGlobal.refresh();
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET);
-        assetGlobal.setLastInventoryDate(new java.sql.Date(assetGlobal.getSeparateSourceCapitalAsset().getLastInventoryDate().getTime()));
-        
+        if (ObjectUtils.isNotNull(assetGlobal.getSeparateSourceCapitalAsset())) {
+            assetGlobal.setLastInventoryDate(new java.sql.Date(assetGlobal.getSeparateSourceCapitalAsset().getLastInventoryDate().getTime()));
+        }
+        else {
+            assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        }
         List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetGlobalDetails();
         AssetGlobalDetail currLocationDetail = null;
         HashMap<String, AssetGlobalDetail> locationMap = new HashMap<String, AssetGlobalDetail>();

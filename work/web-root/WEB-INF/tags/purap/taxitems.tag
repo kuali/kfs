@@ -27,7 +27,6 @@
 <%@ attribute name="mainColumnCount" required="true" %>
 <%@ attribute name="colSpanItemType" required="true" %>
 <%@ attribute name="colSpanExtendedPrice" required="true" %>
-<%@ attribute name="colSpanBlank" required="true" %>
 
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Tax Withholding Charges"/>
@@ -69,11 +68,10 @@
 </c:if>
 
 <tr>
-	<kul:htmlAttributeHeaderCell colspan="${colSpanItemType}"
+	<kul:htmlAttributeHeaderCell colspan="${colSpanItemType + 2}"
 		attributeEntry="${itemAttributes.itemTypeCode}" />	
 	<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
-		attributeEntry="${itemAttributes.extendedPrice}" />
-	<th colspan="${colSpanBlank}">&nbsp;</th>
+		attributeEntry="${itemAttributes.extendedPrice}" />	
 </tr>
 
 <logic:iterate indexId="ctr" name="KualiForm" property="document.items"	id="itemLine">
@@ -87,7 +85,7 @@
 				readOnly="true" /> 
 		</tr>
 		<tr>
-			<td class="infoline" colspan="${colSpanItemType}">
+			<td class="infoline" colspan="${colSpanItemType + 2}">
 			    <div align="right">
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="true" />:&nbsp;
 			    </div>
@@ -96,9 +94,6 @@
 				<div align="right">
 					<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="true" styleClass="amount" />
 				</div>
-			</td>
-			<td class="infoline" colspan="${colSpanBlank}">
-				&nbsp;
 			</td>
 		</tr>	
 		<c:if test="${empty KualiForm.editingMode['allowItemEntry'] || !empty itemLine.itemExtendedPrice}">

@@ -39,7 +39,6 @@
 <%@ attribute name="colSpanDescription" required="true" %>
 <%@ attribute name="colSpanExtendedPrice" required="true" %>
 <%@ attribute name="colSpanItemType" required="true" %>
-<%@ attribute name="colSpanBlank" required="true" %>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 
@@ -98,7 +97,6 @@
 	<c:set var="colSpanDescription" value="${colSpanDescription}" />
 	<c:set var="colSpanExtendedPrice" value="${colSpanExtendedPrice}" />
 	<c:set var="colSpanItemType" value="${colSpanItemType}" />
-	<c:set var="colSpanBlank" value="${colSpanBlank}" />
 	
 	<kul:htmlAttributeHeaderCell colspan="${colSpanItemType}"
 		attributeEntry="${itemAttributes.itemTypeCode}" />
@@ -115,15 +113,13 @@
 			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
 				attributeEntry="${itemAttributes.itemDescription}" />
 			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
-				attributeEntry="${itemAttributes.extendedPrice}" />
-			<th colspan="${colSpanBlank}">&nbsp;</th>
+				attributeEntry="${itemAttributes.extendedPrice}" />			
 		</c:when>
 	    <c:otherwise>
 			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
 				attributeEntry="${itemAttributes.extendedPrice}" />
 			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
-				attributeEntry="${itemAttributes.itemDescription}" />
-			<th colspan="${colSpanBlank}">&nbsp;</th>
+				attributeEntry="${itemAttributes.itemDescription}" />			
 		</c:otherwise>
 	</c:choose>	
 </tr>
@@ -174,9 +170,6 @@
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
 					</td>
-					<td class="infoline" colspan="${colSpanBlank}">
-						&nbsp;
-					</td>
 				</c:when>
     			<c:otherwise>
 					<td class="infoline" colspan="${colSpanExtendedPrice}">
@@ -186,9 +179,6 @@
 					</td>
 					<td class="infoline" colspan="${colSpanDescription}">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
-					</td>
-					<td class="infoline" colspan="${colSpanBlank}">
-						&nbsp;
 					</td>
 				</c:otherwise>
 			</c:choose>

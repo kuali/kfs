@@ -20,15 +20,16 @@
 <%@ attribute name="showAmount" required="false"
     type="java.lang.Boolean"
     description="show the amount if true else percent" %>
+<%@ attribute name="mainColumnCount" required="true" %>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="lockTaxAmountEntry" value="${(not empty KualiForm.editingMode['lockTaxAmountEntry'])}" />
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 
-<c:set var="mainColumnCount" value="12"/>
+<c:set var="descriptionColSpan" value="3"/>
 <c:if test="${purapTaxEnabled}">
-	<c:set var="mainColumnCount" value="14"/>
+	<c:set var="descriptionColSpan" value="1"/>
 </c:if>
 
 <tr>
@@ -55,7 +56,7 @@
 
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" width="25%"/>		
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="3"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="${descriptionColSpan}"/>
 	</tr>
 </c:if>
 
@@ -189,7 +190,7 @@
 				    property="document.item[${ctr}].itemAssignedToTradeInIndicator"
 				    readOnly="true" />
 			</td>			    
-			<td class="infoline" colspan="3">
+			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"

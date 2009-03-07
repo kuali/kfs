@@ -17,15 +17,16 @@
 
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="mainColumnCount" required="true" %>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="lockTaxAmountEntry" value="${(not empty KualiForm.editingMode['lockTaxAmountEntry'])}" />
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 
-<c:set var="mainColumnCount" value="12"/>
+<c:set var="descriptionColSpan" value="3"/>
 <c:if test="${purapTaxEnabled}">
-	<c:set var="mainColumnCount" value="14"/>
+	<c:set var="descriptionColSpan" value="1"/>
 </c:if>
 		
 <tr>
@@ -66,7 +67,7 @@
 		</c:if>
 
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="4"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="${descriptionColSpan}"/>
 	</tr>
 </c:if>
 
@@ -239,7 +240,7 @@
 				    property="document.item[${ctr}].itemCatalogNumber"
 				    readOnly="true" />
 		    </td>
-			<td class="infoline" colspan="4">
+			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"

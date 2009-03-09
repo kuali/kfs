@@ -94,6 +94,11 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         return false;
     }
 
+    @Override
+    public boolean canCancel(Document document) {
+        return !hasAtLeastOneAppDocApproved((CashControlDocument) document);
+    }
+    
     private boolean containsGLPEs(CashControlDocument document) {
         return !document.getGeneralLedgerPendingEntries().isEmpty();
     }

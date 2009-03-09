@@ -28,10 +28,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CorrectionReceivingDocumentStrings;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -94,22 +97,59 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         LineItemReceivingForm rlForm = (LineItemReceivingForm) form;
         LineItemReceivingDocument document = (LineItemReceivingDocument) rlForm.getDocument();        
         
-        String basePath = getBasePath(request);
-        String methodToCallDocHandler = "docHandler";
-        String methodToCallReceivingCorrection = "initiate";
-                        
-        //set parameters
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
-        parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingCorrection);
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "RCVC");        
-        parameters.put("receivingLineDocId", document.getDocumentHeader().getDocumentNumber() );
+        String operation = "AddCorrectionNote ";
+
+        ReceivingQuestionCallback callback = new ReceivingQuestionCallback() {
+            public boolean questionComplete = false;
+            private String correctionDocumentnoteText;
+            
+            public ReceivingDocument doPostQuestion(ReceivingDocument document, String noteText) throws Exception {
+                //mark question completed
+                this.setQuestionComplete(true);
+                this.setCorrectionDocumentCreationNoteText(noteText);
+                return document;
+            }
+            
+            public boolean isQuestionComplete(){
+                return this.questionComplete;
+            }
+            
+            public void setQuestionComplete(boolean questionComplete){
+                this.questionComplete = questionComplete;
+            }
+
+            public String getCorrectionDocumentCreationNoteText() {
+                return correctionDocumentnoteText;
+            }
+
+            public void setCorrectionDocumentCreationNoteText(String noteText) {
+                correctionDocumentnoteText = noteText;
+            }
+        };
+
+        //ask question
+        ActionForward forward = askQuestionWithInput(mapping, form, request, response, CorrectionReceivingDocumentStrings.NOTE_QUESTION, CorrectionReceivingDocumentStrings.NOTE_PREFIX, operation, PurapKeyConstants.MESSAGE_RECEIVING_CORRECTION_NOTE, callback);
         
-        //create url
-        String receivingCorrectionUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapCorrectionReceiving.do", parameters);
-        
-        //create forward
-        ActionForward forward = new ActionForward(receivingCorrectionUrl, true);
+        //if question asked is complete, then route
+        if(callback.isQuestionComplete()){
+                            
+            //set parameters
+            String basePath = getBasePath(request);
+            String methodToCallDocHandler = "docHandler";
+            String methodToCallReceivingCorrection = "initiate";
+            
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
+            parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingCorrection);
+            parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "RCVC");        
+            parameters.put("receivingLineDocId", document.getDocumentHeader().getDocumentNumber() );
+            parameters.put(PurapConstants.CorrectionReceivingDocumentStrings.CORRECTION_RECEIVING_CREATION_NOTE_PARAMETER, callback.getCorrectionDocumentCreationNoteText());
+            
+            //create url
+            String receivingCorrectionUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapCorrectionReceiving.do", parameters);
+            //create forward
+            forward = new ActionForward(receivingCorrectionUrl, true);
+        }
         
         return forward;
         

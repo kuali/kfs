@@ -18,22 +18,50 @@ package org.kuali.kfs.module.purap.document.web.struts;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapConstants.CorrectionReceivingDocumentStrings;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
-import org.kuali.kfs.module.purap.document.ReceivingDocument;
-import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
-import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
+
 public class CorrectionReceivingAction extends ReceivingBaseAction {
 
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, 
+                                    ActionForm form, 
+                                    HttpServletRequest request, 
+                                    HttpServletResponse response) 
+    throws Exception {
+        
+        ActionForward forward = super.docHandler(mapping,form,request,response);
+        
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        String command = kualiDocumentFormBase.getCommand();
+        
+        if (StringUtils.equals("initiate",command)) {
+            CorrectionReceivingForm rcf = (CorrectionReceivingForm)form;
+            CorrectionReceivingDocument rcDoc = (CorrectionReceivingDocument)rcf.getDocument();
+            
+            String noteText = request.getParameter(PurapConstants.CorrectionReceivingDocumentStrings.CORRECTION_RECEIVING_CREATION_NOTE_PARAMETER);
+            
+            if (StringUtils.isNotBlank(noteText)){
+                //Document should be saved before adding note to escape from DataIntegrityViolationException
+                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(rcDoc);
+                SpringContext.getBean(ReceivingService.class).addNoteToReceivingDocument(rcDoc,noteText);
+            }
+            
+        }
+        
+        return forward;
+    }
+    
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {       
         super.createDocument(kualiDocumentFormBase);
 
@@ -50,44 +78,4 @@ public class CorrectionReceivingAction extends ReceivingBaseAction {
 
     }
     
-    @Override
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        
-        String operation = "AddCorrectionNote ";
-
-        ReceivingQuestionCallback callback = new ReceivingQuestionCallback() {
-            public boolean questionComplete = false;
-            
-            public ReceivingDocument doPostQuestion(ReceivingDocument document, String noteText) throws Exception {
-                //add note to receiving line document
-                LineItemReceivingDocument rlDoc = ((CorrectionReceivingDocument)document).getLineItemReceivingDocument();
-                SpringContext.getBean(ReceivingService.class).addNoteToReceivingDocument(rlDoc,noteText);
-                
-                //mark question completed
-                this.setQuestionComplete(true);
-                
-                return document;
-            }
-            
-            public boolean isQuestionComplete(){
-                return this.questionComplete;
-            }
-            
-            public void setQuestionComplete(boolean questionComplete){
-                this.questionComplete = questionComplete;
-            }
-        };
-
-        //ask question
-        ActionForward forward = askQuestionWithInput(mapping, form, request, response, CorrectionReceivingDocumentStrings.NOTE_QUESTION, CorrectionReceivingDocumentStrings.NOTE_PREFIX, operation, PurapKeyConstants.MESSAGE_RECEIVING_CORRECTION_NOTE, callback);
-        
-        //if question asked is complete, then route
-        if(callback.isQuestionComplete()){
-            forward = super.route(mapping,form,request,response);
-        }
-        
-        return forward;
-        
-    }
 }

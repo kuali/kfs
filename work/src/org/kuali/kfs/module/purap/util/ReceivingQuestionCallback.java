@@ -47,4 +47,15 @@ public interface ReceivingQuestionCallback {
      * @return
      */
     public void setQuestionComplete(boolean questionComplete);
+    
+    /**
+     * Setter for correction document note text
+     * @param noteText
+     */
+    public void setCorrectionDocumentCreationNoteText(String noteText);
+    
+    /**
+     * Getter for correction document note text
+     */
+    public String getCorrectionDocumentCreationNoteText();
 }

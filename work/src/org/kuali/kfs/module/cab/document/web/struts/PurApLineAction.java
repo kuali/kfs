@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cab.document.web.struts;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -29,29 +30,34 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.service.PurApLineDocumentService;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class PurApLineAction extends CabActionBase {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
@@ -220,7 +226,7 @@ public class PurApLineAction extends CabActionBase {
 
         // Get the line item for applying split action.
         PurchasingAccountsPayableItemAsset selectedLineItem = getSelectedLineItem((PurApLineForm) form);
-        
+
         if (selectedLineItem == null) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -292,9 +298,20 @@ public class PurApLineAction extends CabActionBase {
         // logic for trade-in allowance question
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+            if (CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                if (purApLineService.mergeLinesHasDifferentObjectSubTypes(mergeLines)) {
+                 // check if objectSubTypes are different and bring the obj sub types warning message
+                    String warningMessage = generateObjectSubTypeQuestion();
+                    return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
+                }
+                else {
+                    performMerge(purApForm, mergeLines, isMergeAll);
+                }
+            }
+            else if (CabConstants.PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 performMerge(purApForm, mergeLines, isMergeAll);
             }
+
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -308,11 +325,32 @@ public class PurApLineAction extends CabActionBase {
             if (tradeInIndicatorInSelectedLines && !tradeInAllowanceInAllLines) {
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
             }
-
-            performMerge(purApForm, mergeLines, isMergeAll);
+            else if (purApLineService.mergeLinesHasDifferentObjectSubTypes(mergeLines)) {
+             // check if objectSubTypes are different and bring the obj sub types warning message
+                String warningMessage = generateObjectSubTypeQuestion();
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
+            }
+            else {
+                performMerge(purApForm, mergeLines, isMergeAll);
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+
+    /**
+     * Generate the question string for different object sub type codes.
+     * 
+     * @return
+     */
+    protected String generateObjectSubTypeQuestion() {
+        String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
+        KualiConfigurationService kualiConfiguration = this.getKualiConfigurationService();
+
+        String continueQuestion = kualiConfiguration.getPropertyString(CamsKeyConstants.CONTINUE_QUESTION);
+        String warningMessage = kualiConfiguration.getPropertyString(CabKeyConstants.QUESTION_DIFFERENT_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + continueQuestion;
+        return warningMessage;
     }
 
     /**
@@ -504,8 +542,19 @@ public class PurApLineAction extends CabActionBase {
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                if (purApLineService.allocateLinesHasDifferentObjectSubTypes(allocateTargetLines, allocateSourceLine)) {
+                    // check if objectSubTypes are different and bring the obj sub types warning message
+                    String warningMessage = generateObjectSubTypeQuestion();
+                    return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+                }
+                else {
+                    performAllocate(purApForm, allocateSourceLine, allocateTargetLines);
+                }
+            }
+            else if (CabConstants.PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 performAllocate(purApForm, allocateSourceLine, allocateTargetLines);
             }
+
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -519,7 +568,14 @@ public class PurApLineAction extends CabActionBase {
             if (!allocateSourceLine.isAdditionalChargeNonTradeInIndicator() && !allocateSourceLine.isTradeInAllowance() && (allocateSourceLine.isItemAssignedToTradeInIndicator() || targetLineHasTradeIn) && hasTradeInAllowance) {
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
             }
-            performAllocate(purApForm, allocateSourceLine, allocateTargetLines);
+            else if (purApLineService.allocateLinesHasDifferentObjectSubTypes(allocateTargetLines, allocateSourceLine)) {
+                // check if objectSubTypes are different and bring the obj sub types warning message
+                String warningMessage = generateObjectSubTypeQuestion();
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+            }
+            else {
+                performAllocate(purApForm, allocateSourceLine, allocateTargetLines);
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -620,7 +676,7 @@ public class PurApLineAction extends CabActionBase {
     public ActionForward applyPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
-        
+
         if (selectedLine == null) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -680,7 +736,7 @@ public class PurApLineAction extends CabActionBase {
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
-        
+
         if (selectedLine == null) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -774,5 +830,13 @@ public class PurApLineAction extends CabActionBase {
             selectedLine.setAccountsPayableItemQuantity(integerOne);
         }
 
+    }
+
+    protected ParameterService getParameterService() {
+        return (ParameterService) SpringContext.getBean(ParameterService.class);
+    }
+
+    protected KualiConfigurationService getKualiConfigurationService() {
+        return SpringContext.getBean(KualiConfigurationService.class);
     }
 }

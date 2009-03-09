@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cab.fixture;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -30,18 +31,44 @@ public enum PurchasingAccountsPayableLineAssetAccountFixture {
             return account;
         }
 
+    },
+
+    REC2 {
+        public PurchasingAccountsPayableLineAssetAccount newRecord() {
+            PurchasingAccountsPayableLineAssetAccount account = new PurchasingAccountsPayableLineAssetAccount();
+            account.setActive(true);
+            return account;
+        }
+
     };
+
     public abstract PurchasingAccountsPayableLineAssetAccount newRecord();
 
     public static List<PurchasingAccountsPayableLineAssetAccount> createPurApAccounts() {
         List<PurchasingAccountsPayableLineAssetAccount> newAccounts = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
-        PurchasingAccountsPayableLineAssetAccount account1 = REC1.newRecord();
-        GeneralLedgerEntry newGlEntry = GeneralLedgerEntryFixture.createGeneralLedgerEntry();
-        account1.setGeneralLedgerAccountIdentifier(newGlEntry.getGeneralLedgerAccountIdentifier());
-        account1.setItemAccountTotalAmount(newGlEntry.getAmount());
-        account1.setGeneralLedgerEntry(newGlEntry);
-        newAccounts.add(account1);
+        List<GeneralLedgerEntry> newGlEntries = GeneralLedgerEntryFixture.createGeneralLedgerEntry();
+        Iterator glIterator = newGlEntries.iterator();
+
+        if (glIterator.hasNext()) {
+            GeneralLedgerEntry newGlEntry1 = (GeneralLedgerEntry) glIterator.next();
+            PurchasingAccountsPayableLineAssetAccount account1 = REC1.newRecord();
+            setAccountByGlEntry(newGlEntry1, account1);
+            newAccounts.add(account1);
+        }
+        
+        if (glIterator.hasNext()) {
+            GeneralLedgerEntry newGlEntry2 = (GeneralLedgerEntry) glIterator.next();
+            PurchasingAccountsPayableLineAssetAccount account2 = REC2.newRecord();
+            setAccountByGlEntry(newGlEntry2, account2);
+            newAccounts.add(account2);
+        }
         return newAccounts;
+    }
+
+    private static void setAccountByGlEntry(GeneralLedgerEntry newGlEntry, PurchasingAccountsPayableLineAssetAccount account) {
+        account.setGeneralLedgerAccountIdentifier(newGlEntry.getGeneralLedgerAccountIdentifier());
+        account.setItemAccountTotalAmount(newGlEntry.getAmount());
+        account.setGeneralLedgerEntry(newGlEntry);
     }
 
 }

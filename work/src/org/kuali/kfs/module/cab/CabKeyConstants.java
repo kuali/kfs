@@ -42,6 +42,7 @@ public class CabKeyConstants {
     public static final String ERROR_TRADE_IN_PENDING = "error.trade.in.pending";
     public static final String QUESTION_TRADE_IN_INDICATOR_EXISTING = "question.trade.in.indicator.existing";
     public static final String QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL = "question.skip.asset.numbers.to.asset.global";
+    public static final String QUESTION_DIFFERENT_OBJECT_SUB_TYPES = "question.different.object.sub.types";
     public static final String ERROR_FRACTIONAL_QUANTITY = "error.fractional.quanity";
     public static final String ERROR_MERGE_WITH_PRETAGGING = "error.merge.with.pretagging";
     public static final String DATA_EDIT_LOCK_ERROR = "cab.error.data.edit.lock";

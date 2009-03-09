@@ -24,6 +24,7 @@ public class CabPropertyConstants {
         public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
         public static final String UNIVERSITY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";
         public static final String FINANCIAL_OBJECT_TYPE_CODE = "financialObjectTypeCode";
+        public static final String FINANCIAL_OBJECT = "financialObject";
         public static final String FINANCIAL_BALANCE_TYPE_CODE = "financialBalanceTypeCode";
         public static final String FINANCIAL_SUB_OBJECT_CODE = "financialSubObjectCode";
         public static final String FINANCIAL_OBJECT_CODE = "financialObjectCode";

@@ -32,6 +32,7 @@ public class CabConstants extends JSTLConstants {
 
     public static final String TRADE_IN_INDICATOR_QUESTION = "TradeInIndicatorConfirmation";
     public static final String SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION = "SkipAssetNumbersToAssetGlobalConfirmation";
+    public static final String PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION = "PaymentDifferentObjectSubTypeQuestion";;
     public static final String CAPITAL_ASSET_SYSTEM_STATE_CODE_NEW = "NEW";
     public static final String PO_STATUS_CODE_OPEN = "OPEN";
 

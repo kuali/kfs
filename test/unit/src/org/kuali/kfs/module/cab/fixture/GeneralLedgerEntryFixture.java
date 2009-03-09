@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.cab.fixture;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -34,14 +37,37 @@ public enum GeneralLedgerEntryFixture {
             glEntry.setReferenceFinancialDocumentNumber("22");
             glEntry.setTransactionDebitCreditCode("D");
             glEntry.setActive(true);
+            glEntry.refreshReferenceObject("financialObject");
+            return glEntry;
+        }
+    },
+    REC2 {
+        public GeneralLedgerEntry newRecord() {
+            GeneralLedgerEntry glEntry = new GeneralLedgerEntry();
+            glEntry.setGeneralLedgerAccountIdentifier(1001L);
+            glEntry.setUniversityFiscalYear(2009);
+            glEntry.setUniversityFiscalPeriodCode("02");
+            glEntry.setChartOfAccountsCode("BL");
+            glEntry.setAccountNumber("2224711");
+            glEntry.setFinancialObjectCode("7300");
+            glEntry.setFinancialDocumentTypeCode("PREQ");
+            glEntry.setDocumentNumber("33");
+            glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(1500));
+            glEntry.setReferenceFinancialDocumentNumber("22");
+            glEntry.setTransactionDebitCreditCode("D");
+            glEntry.setActive(true);
+            glEntry.refreshReferenceObject("financialObject");
             return glEntry;
         }
     };
 
     public abstract GeneralLedgerEntry newRecord();
 
-    public static GeneralLedgerEntry createGeneralLedgerEntry() {
-        return REC1.newRecord();
+    public static List<GeneralLedgerEntry> createGeneralLedgerEntry() {
+        List<GeneralLedgerEntry> glEntries = new ArrayList<GeneralLedgerEntry>();
+        glEntries.add(REC1.newRecord());
+        glEntries.add(REC2.newRecord());
+        return glEntries;
     }
 
 

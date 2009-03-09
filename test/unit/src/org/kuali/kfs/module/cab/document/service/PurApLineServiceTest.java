@@ -24,6 +24,7 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.fixture.PurchasingAccountsPayableDocumentFixture;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,7 +36,9 @@ public class PurApLineServiceTest extends KualiTestBase {
 
     private PurApLineService purApLineService;
     private PurchasingAccountsPayableDocument purApDocument;
-    private PurchasingAccountsPayableItemAsset itemAsset;
+    private PurchasingAccountsPayableItemAsset percentItemAsset;
+    
+    private String ERROR_MERGE_OBJECT_SUB_TYPES_DIFFERENT="objectSubTypes are different for Merge";
 
     @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     @Override
@@ -48,15 +51,15 @@ public class PurApLineServiceTest extends KualiTestBase {
 
     private void prepareTestDataRecords() throws Exception {
         purApDocument = PurchasingAccountsPayableDocumentFixture.createPurApDocument();
-        itemAsset = purApDocument.getPurchasingAccountsPayableItemAssets().get(0);
+        percentItemAsset = purApDocument.getPurchasingAccountsPayableItemAssets().get(0);
     }
 
     public void testProcessPercentPayment() throws Exception {
         List<PurchasingAccountsPayableActionHistory> actionsTaken = new ArrayList<PurchasingAccountsPayableActionHistory>();
-        purApLineService.processPercentPayment(itemAsset, actionsTaken);
-        assertEquals(itemAsset.getAccountsPayableItemQuantity(), new KualiDecimal(1));
-        assertEquals(itemAsset.getTotalCost(), getTotalCost(itemAsset));
-        assertEquals(itemAsset.getUnitCost(), getTotalCost(itemAsset));
+        purApLineService.processPercentPayment(percentItemAsset, actionsTaken);
+        assertEquals(percentItemAsset.getAccountsPayableItemQuantity(), new KualiDecimal(1));
+        assertEquals(percentItemAsset.getTotalCost(), getTotalCost(percentItemAsset));
+        assertEquals(percentItemAsset.getUnitCost(), getTotalCost(percentItemAsset));
         // check action taken history
         assertEquals(actionsTaken.size(), 1);
         assertEquals(actionsTaken.get(0).getActionTypeCode(), CabConstants.Actions.PERCENT_PAYMENT);
@@ -64,13 +67,12 @@ public class PurApLineServiceTest extends KualiTestBase {
     }
 
     public void testProcessPercentPayment_noAction() throws Exception {
-        itemAsset.setAccountsPayableItemQuantity(new KualiDecimal(2));
+        percentItemAsset.setAccountsPayableItemQuantity(new KualiDecimal(2));
         List<PurchasingAccountsPayableActionHistory> actionsTaken = new ArrayList<PurchasingAccountsPayableActionHistory>();
-        purApLineService.processPercentPayment(itemAsset, actionsTaken);
-        assertEquals(itemAsset.getAccountsPayableItemQuantity(), new KualiDecimal(2));
+        purApLineService.processPercentPayment(percentItemAsset, actionsTaken);
+        assertEquals(percentItemAsset.getAccountsPayableItemQuantity(), new KualiDecimal(2));
         // check action taken history
         assertEquals(actionsTaken.size(), 0);
-        
     }
 
     private KualiDecimal getTotalCost(PurchasingAccountsPayableItemAsset item) {
@@ -81,4 +83,8 @@ public class PurApLineServiceTest extends KualiTestBase {
         return totalCost;
     }
 
+    public void testMergeLinesHasDifferentObjectSubTypes_True() {
+        assertTrue(ERROR_MERGE_OBJECT_SUB_TYPES_DIFFERENT, purApLineService.mergeLinesHasDifferentObjectSubTypes(purApDocument.getPurchasingAccountsPayableItemAssets()));
+        
+    }
 }

@@ -31,6 +31,22 @@ import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 public interface PurApLineService {
 
     /**
+     * Check the payments in given asset lines have different object sub types.
+     * 
+     * @param selectedLines
+     * @return
+     */
+    boolean allocateLinesHasDifferentObjectSubTypes(List<PurchasingAccountsPayableItemAsset> targetLines, PurchasingAccountsPayableItemAsset sourceLine);
+    
+    /**
+     * Check the payments in given asset lines have different object sub types.
+     * 
+     * @param selectedLines
+     * @return
+     */
+    boolean mergeLinesHasDifferentObjectSubTypes(List<PurchasingAccountsPayableItemAsset> mergeLines);
+
+    /**
      * Changes percent quantities to a quantity of 1 for selected line item.
      * 
      * @param itemAsset Selected line item.

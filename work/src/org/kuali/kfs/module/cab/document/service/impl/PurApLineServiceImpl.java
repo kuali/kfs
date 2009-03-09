@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -37,6 +38,8 @@ import org.kuali.kfs.module.cab.dataaccess.PurApLineDao;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -54,6 +57,67 @@ public class PurApLineServiceImpl implements PurApLineService {
     private PurApLineDao purApLineDao;
     private PurApInfoService purApInfoService;
 
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#mergeLinesHasDifferentObjectSubTypes(java.util.List)
+     */
+    public boolean mergeLinesHasDifferentObjectSubTypes(List<PurchasingAccountsPayableItemAsset> mergeLines) {
+        boolean invalid = false;
+        List<String> objectSubTypeList = new ArrayList<String>();
+
+        // collect all objectSubTypes from item lines
+        for (PurchasingAccountsPayableItemAsset itemAsset : mergeLines) {
+            for (PurchasingAccountsPayableLineAssetAccount account : itemAsset.getPurchasingAccountsPayableLineAssetAccounts()) {
+                account.getGeneralLedgerEntry().refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_OBJECT);
+                ObjectCode objCode = account.getGeneralLedgerEntry().getFinancialObject();
+                if (ObjectUtils.isNotNull(objCode) && StringUtils.isNotEmpty(objCode.getFinancialObjectSubTypeCode())) {
+                    objectSubTypeList.add(objCode.getFinancialObjectSubTypeCode());
+                }
+            }
+        }
+
+        // check if different objectSubTypes exist
+        if (!getAssetService().isObjectSubTypeCompatible(objectSubTypeList)) {
+            invalid = true;
+        }
+        return invalid;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#allocateLinesHasDifferentObjectSubTypes(java.util.List,
+     *      org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset)
+     */
+    public boolean allocateLinesHasDifferentObjectSubTypes(List<PurchasingAccountsPayableItemAsset> targetLines, PurchasingAccountsPayableItemAsset sourceLine) {
+        boolean invalid = false;
+        List<String> objectSubTypeList = new ArrayList<String>();
+
+        // collect objectSubTypes from target item lines
+        for (PurchasingAccountsPayableItemAsset itemAsset : targetLines) {
+            for (PurchasingAccountsPayableLineAssetAccount account : itemAsset.getPurchasingAccountsPayableLineAssetAccounts()) {
+                account.getGeneralLedgerEntry().refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_OBJECT);
+                ObjectCode objCode = account.getGeneralLedgerEntry().getFinancialObject();
+                if (ObjectUtils.isNotNull(objCode) && StringUtils.isNotEmpty(objCode.getFinancialObjectSubTypeCode())) {
+                    objectSubTypeList.add(objCode.getFinancialObjectSubTypeCode());
+                }
+            }
+        }
+
+        // collect objectSubTypes from source item line
+        if (ObjectUtils.isNotNull(sourceLine)) {
+            for (PurchasingAccountsPayableLineAssetAccount account : sourceLine.getPurchasingAccountsPayableLineAssetAccounts()) {
+                account.getGeneralLedgerEntry().refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_OBJECT);
+                ObjectCode objCode = account.getGeneralLedgerEntry().getFinancialObject();
+                if (ObjectUtils.isNotNull(objCode) && StringUtils.isNotEmpty(objCode.getFinancialObjectSubTypeCode())) {
+                    objectSubTypeList.add(objCode.getFinancialObjectSubTypeCode());
+                }
+            }
+        }
+
+        // check if different objectSubTypes exist
+        if (!getAssetService().isObjectSubTypeCompatible(objectSubTypeList)) {
+            invalid = true;
+        }
+        return invalid;
+    }
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineDocumentService#inActivateDocument(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument)
@@ -1051,4 +1115,12 @@ public class PurApLineServiceImpl implements PurApLineService {
         this.purApInfoService = purApInfoService;
     }
 
+    /**
+     * get CAMS AssetService.
+     * 
+     * @return
+     */
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
+    }
 }

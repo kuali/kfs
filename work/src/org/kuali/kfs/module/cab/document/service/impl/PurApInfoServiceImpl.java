@@ -126,7 +126,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
     protected void setMultipleSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
         List<CapitalAssetSystem> capitalAssetSystems = this.getPurchaseOrderService().retrieveCapitalAssetSystemsForMultipleSystem(poId);
         if (ObjectUtils.isNotNull(capitalAssetSystems) && !capitalAssetSystems.isEmpty()) {
-            // TODO: currently PurAp multiple system in fact return one system.
+            //PurAp doesn't support multiple system asset information for KFS3.0
             CapitalAssetSystem capitalAssetSystem = capitalAssetSystems.get(0);
             if (ObjectUtils.isNotNull(capitalAssetSystem)) {
                 String capitalAssetTransactionType = getCapitalAssetTransTypeForOneSystem(poId);

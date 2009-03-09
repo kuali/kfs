@@ -29,6 +29,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -103,7 +104,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 tags.add(detail.getCampusTagNumber());
             }
         }
-        
+
         AssetLocationGlobalDetail newLineDetail = (AssetLocationGlobalDetail) bo;
         success &= authorizeCapitalAsset(newLineDetail);
         success &= validateActiveCapitalAsset(newLineDetail);
@@ -114,10 +115,10 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         if (success) {
             success &= validateTagDuplication(newLineDetail.getCapitalAssetNumber(), newLineDetail.getCampusTagNumber());
         }
-        
+
         return success & super.processCustomAddCollectionLineBusinessRules(documentCopy, collectionName, bo);
     }
-    
+
     /**
      * Asset user authorization.
      * 
@@ -126,24 +127,23 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean authorizeCapitalAsset(AssetLocationGlobalDetail assetLocationGlobalDetail) {
         boolean success = true;
-        
+
         if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber())) {
             assetLocationGlobalDetail.refreshReferenceObject("asset");
-        
+
             AttributeSet qualification = new AttributeSet();
-            qualification.put(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER, assetLocationGlobalDetail.getAsset().getOrganizationOwnerAccountNumber());
-            qualification.put(CamsPropertyConstants.Asset.ORGANIZATION_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerAccount().getOrganizationCode());
-            
-            if (! SpringContext.getBean(IdentityManagementService.class).isAuthorized(CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, GlobalVariables.getUserSession().getPerson().getPrincipalId(), null, qualification));
-            {
+            qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerChartOfAccountsCode());
+            qualification.put(KfsKimAttributes.ORGANIZATION_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerAccount().getOrganizationCode());
+
+            if (!SpringContext.getBean(IdentityManagementService.class).isAuthorized(CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, GlobalVariables.getUserSession().getPerson().getPrincipalId(), null, qualification)) {
                 success &= false;
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
             }
         }
-        
+
         return success;
-    }    
-    
+    }
+
     /**
      * Validate if any {@link AssetLocationGlobalDetail} exist.
      * 

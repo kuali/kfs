@@ -109,7 +109,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     }
 
-
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
@@ -130,11 +129,24 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return asset;
     }
 
-
+    /**
+     * Gets the assetRepresentative attribute.
+     * 
+     * @return Returns the assetRepresentative
+     */
     public Person getAssetRepresentative() {
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
-
+    
+    /**
+     * Sets the assetRepresentative attribute.
+     * 
+     * @param assetRepresentative The assetRepresentative to set.
+     */
+    public void setAssetRepresentative(Person assetRepresentative) {
+        this.assetRepresentative = assetRepresentative;
+    }
 
     /**
      * Gets the building attribute.
@@ -500,12 +512,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
-
-
-    public void setAssetRepresentative(Person assetRepresentative) {
-        this.assetRepresentative = assetRepresentative;
-    }
-
 
     /**
      * Sets the building attribute value.

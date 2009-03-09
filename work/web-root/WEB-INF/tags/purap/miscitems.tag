@@ -97,6 +97,7 @@
 	<c:set var="colSpanDescription" value="${colSpanDescription}" />
 	<c:set var="colSpanExtendedPrice" value="${colSpanExtendedPrice}" />
 	<c:set var="colSpanItemType" value="${colSpanItemType}" />
+	<c:set var="colSpanBlank" value="${mainColumnCount - (colSpanDescription + colSpanExtendedPrice + colSpanItemType)}" />
 	
 	<kul:htmlAttributeHeaderCell colspan="${colSpanItemType}"
 		attributeEntry="${itemAttributes.itemTypeCode}" />
@@ -113,13 +114,19 @@
 			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
 				attributeEntry="${itemAttributes.itemDescription}" />
 			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
-				attributeEntry="${itemAttributes.extendedPrice}" />			
+				attributeEntry="${itemAttributes.extendedPrice}" />
+			<c:if test="${colSpanBlank > 0}">
+				<th colspan="${colSpanBlank}">&nbsp;</th>
+			</c:if>
 		</c:when>
 	    <c:otherwise>
 			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
 				attributeEntry="${itemAttributes.extendedPrice}" />
 			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
-				attributeEntry="${itemAttributes.itemDescription}" />			
+				attributeEntry="${itemAttributes.itemDescription}" />
+			<c:if test="${colSpanBlank > 0}">
+				<th colspan="${colSpanBlank}">&nbsp;</th>
+			</c:if>
 		</c:otherwise>
 	</c:choose>	
 </tr>
@@ -170,6 +177,13 @@
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
 					</td>
+					<c:if test="${colSpanBlank > 0}">
+					
+					<td colspan="${colSpanBlank}" class="infoline">
+						&nbsp;
+					</td>
+					
+					</c:if>					
 				</c:when>
     			<c:otherwise>
 					<td class="infoline" colspan="${colSpanExtendedPrice}">
@@ -180,6 +194,13 @@
 					<td class="infoline" colspan="${colSpanDescription}">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 					</td>
+					<c:if test="${colSpanBlank > 0}">
+					
+					<td colspan="${colSpanBlank}" class="infoline">
+						&nbsp;
+					</td>
+					
+					</c:if>					
 				</c:otherwise>
 			</c:choose>
 		</tr>

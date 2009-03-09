@@ -65,11 +65,8 @@
 
 		<c:if test="${isCreditMemo and (KualiForm.document.creditMemoType eq 'Vendor')}" >
 			<c:set var="mainColumnCount" value="12"/>
-			<c:if test="${purapTaxEnabled}">
-				<c:set var="mainColumnCount" value="14"/>
-			</c:if>
-			<c:set var="colSpanItemType" value="4"/>
-			<c:set var="colSpanDescription" value="7"/>
+			<c:set var="colSpanItemType" value="6"/>
+			<c:set var="colSpanDescription" value="5"/>
 			<c:set var="colSpanExtendedPrice" value="1"/>
 		</c:if>
 

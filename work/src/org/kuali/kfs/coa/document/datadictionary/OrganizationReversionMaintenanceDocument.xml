@@ -84,7 +84,7 @@
           <property name="includeAddLine" value="false"/>
           <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="organizationReversionCategoryCode" p:unconditionallyReadOnly="true" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="organizationReversionCategory.organizationReversionCategoryName" p:unconditionallyReadOnly="true" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="organizationReversionObjectCode" p:required="true" p:webUILeaveFieldFunction="updateObjectName"/>
               <bean parent="MaintainableFieldDefinition" p:name="organizationReversionObject.financialObjectCodeName" p:unconditionallyReadOnly="true" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="organizationReversionCode" p:required="true"/>

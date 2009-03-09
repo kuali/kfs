@@ -18,6 +18,7 @@
     <property name="attributes" >
       <list>
         <ref bean="OrganizationReversionDetail-organizationReversionCategoryCode" />
+        <ref bean="OrganizationReversionDetail-organizationReversionCategory.organizationReversionCategoryName" />
         <ref bean="OrganizationReversionDetail-universityFiscalYear" />
         <ref bean="OrganizationReversionDetail-chartOfAccountsCode" />
         <ref bean="OrganizationReversionDetail-organizationReversionObject.financialObjectCodeName" />
@@ -49,6 +50,12 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
+  <bean id="OrganizationReversionDetail-organizationReversionCategory.organizationReversionCategoryName" parent="OrganizationReversionDetail-organizationReversionCategory.organizationReversionCategoryName-parentBean" />
+
+  <bean id="OrganizationReversionDetail-organizationReversionCategory.organizationReversionCategoryName-parentBean" abstract="true" parent="OrganizationReversionCategory-organizationReversionCategoryName">
+    <property name="name" value="organizationReversionCategory.organizationReversionCategoryName" />
+  </bean>
+  
   <bean id="OrganizationReversionDetail-universityFiscalYear" parent="OrganizationReversionDetail-universityFiscalYear-parentBean" />
 
   <bean id="OrganizationReversionDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">

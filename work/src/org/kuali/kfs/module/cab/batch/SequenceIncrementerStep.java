@@ -31,7 +31,7 @@ public class SequenceIncrementerStep extends AbstractStep {
             while (rs != null && rs.next()) {
                 String seqName = rs.getString(1);
                 // Alter the increment
-                String alterSql = "ALTER SEQUENCE " + seqName + " INCREMENT BY 10000";
+                String alterSql = "ALTER SEQUENCE " + seqName + " INCREMENT BY 5000";
                 executeStatement(connection, alterSql);
 
                 // Increment the sequence, resulting a 2001 increment

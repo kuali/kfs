@@ -79,8 +79,8 @@
 	<c:set var="isVacant" value="${fundingLine.emplid eq BCConstants.VACANT_EMPLID}" />
 	<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly || empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
 	<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator}"/>
-	<c:set var="canDelete" value="${not notEditable && not isVacant && not fundingLine.appointmentFundingDeleteIndicator }" />
-	<c:set var="canUndelete" value="${not notEditable && not isVacant && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" />
+	<c:set var="canDelete" value="${not notEditable && not fundingLine.appointmentFundingDeleteIndicator }" />
+	<c:set var="canUndelete" value="${not notEditable && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" />
 	<c:set var="rowspan" value="${ hidePercentAdjustment ? 1: 2}"/>
 	
 	<tr>		

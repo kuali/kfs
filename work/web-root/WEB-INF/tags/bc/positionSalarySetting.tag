@@ -74,7 +74,7 @@
 		<c:set var="canPurge" value="${editable && !fundingLine.purged && empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
 		<c:set var="canUnpurge" value="${editable && fundingLine.purged}" />
 		
-		<c:set var="canDelete" value="${editable && !hasBeenDeleted && not isVacant && not isNewLine}" />
+		<c:set var="canDelete" value="${editable && !hasBeenDeleted && not isNewLine}" />
 		<c:set var="canUndelete" value="${editable && hasBeenDeleted}" /> 
 		
 		<c:set var="canVacate" value="${editable && fundingLine.vacatable}"/>

@@ -226,7 +226,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                     PaymentGroup pg = pd.getPaymentGroup();
                     if (!testMode) {
                         if (ObjectUtils.isNull(pg.getDisbursementDate()) ) {
-                            pg.setDisbursementDate(new Timestamp(processDate.getTime()));
+                            pg.setDisbursementDate(new java.sql.Date(processDate.getTime()));
                             this.businessObjectService.save(pg);
                         }
                     }
@@ -320,7 +320,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             while (iter.hasNext()) {
                 PaymentGroup paymentGroup = (PaymentGroup) iter.next();
                 if (!testMode) {
-                    paymentGroup.setDisbursementDate(new Timestamp(processDate.getTime()));
+                    paymentGroup.setDisbursementDate(new java.sql.Date(processDate.getTime()));
                     paymentGroup.setPaymentStatus(extractedStatus);
                     businessObjectService.save(paymentGroup);
                 }

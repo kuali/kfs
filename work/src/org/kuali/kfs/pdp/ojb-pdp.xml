@@ -346,7 +346,7 @@
     <field-descriptor name="alternatePayeeIdTypeCd" column="ALTRNT_PAYEE_ID_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="campusAddress" column="CMP_ADDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="customerInstitutionNumber" column="CUST_INST_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="disbursementDate" column="DISB_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="disbursementDate" column="DISB_TS" jdbc-type="DATE"/>
     <field-descriptor name="adviceEmailSentDate" column="ADV_EMAIL_SNT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="disbursementNbr" column="DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
     <field-descriptor name="employeeIndicator" column="EMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>

@@ -74,7 +74,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private String creditMemoNbr; // PMT_CRDT_MEMO_NBR
     private KualiDecimal creditMemoAmount; // PMT_CRDT_MEMO_AMT
     private KualiInteger disbursementNbr; // DISB_NBR
-    private Timestamp disbursementDate; // DISB_TS
+    private Date disbursementDate; // DISB_TS
     private String physCampusProcessCd; // PHYS_CMP_PROC_CD
     private String sortValue; // PMT_SORT_ORD_VAL
     private String achAccountType; // CUST_ACCT_TYP_CD
@@ -457,10 +457,10 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     }
 
     /**
-     * @return
-     * @hibernate.property column="DISB_TS" length="7"
+     * This method gets the disbursementDate.
+     * @return disbursementDate
      */
-    public Timestamp getDisbursementDate() {
+    public Date getDisbursementDate() {
         return disbursementDate;
     }
 
@@ -705,8 +705,17 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     /**
      * @param timestamp
      */
-    public void setDisbursementDate(Timestamp timestamp) {
+    public void setDisbursementDate(Date timestamp) {
         disbursementDate = timestamp;
+    }
+
+    /**
+     * This method sets disbursementDate.
+     * @param disbursementDate a string representing the disbursementDate
+     * @throws ParseException
+     */
+    public void setDisbursementDate(String disbursementDate) throws ParseException {
+        this.disbursementDate = SpringContext.getBean(DateTimeService.class).convertToSqlDate(disbursementDate);
     }
 
     /**
@@ -884,9 +893,9 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     }
 
     public String toStringKey() {
-        StringBuffer buffer= new StringBuffer()  ;
+        StringBuffer buffer = new StringBuffer();
         CustomerProfile customerProfile = batch.getCustomerProfile();
-        
+
         buffer.append(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE);
         buffer.append("=");
         buffer.append(customerProfile.getChartCode());
@@ -995,7 +1004,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setId_type(String idType) {
         this.payeeIdTypeCd = idType;
     }
-    
+
     /**
      * Gets the adviceEmailSentDate attribute.
      * 

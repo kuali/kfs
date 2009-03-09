@@ -215,7 +215,7 @@ public class FormatServiceImpl implements FormatService {
             throw new RuntimeException("Invalid proc ID");
         }
         String campus = paymentProcess.getCampusCode();
-        
+
         //get disbursement types, payment statuses
         DisbursementType checkDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
         DisbursementType achDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.ACH);
@@ -245,7 +245,7 @@ public class FormatServiceImpl implements FormatService {
 
                 PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
 
-                PaymentChangeCode paymentChangeCode =(PaymentChangeCode)this.kualiCodeService.getByCode(PaymentChangeCode.class, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
+                PaymentChangeCode paymentChangeCode = (PaymentChangeCode) this.kualiCodeService.getByCode(PaymentChangeCode.class, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
                 paymentGroupHistory.setPaymentChange(paymentChangeCode);
                 paymentGroupHistory.setOrigBankCode(originalBankCode);
                 paymentGroupHistory.setBank(originalBank);
@@ -304,7 +304,7 @@ public class FormatServiceImpl implements FormatService {
         // Set the sort field to be saved in the database
         paymentGroup.setSortValue(paymentGroupService.getSortGroupId(paymentGroup));
 
-        paymentGroup.setDisbursementDate(paymentProcess.getProcessTimestamp());
+        paymentGroup.setDisbursementDate(new java.sql.Date(paymentProcess.getProcessTimestamp().getTime()));
         paymentGroup.setPhysCampusProcessCd(paymentProcess.getCampusCode());
         paymentGroup.setProcess(paymentProcess);
 
@@ -348,7 +348,7 @@ public class FormatServiceImpl implements FormatService {
                 }
             }
 
-            if (ObjectUtils.isNull(paymentGroup.getBank()) ) {
+            if (ObjectUtils.isNull(paymentGroup.getBank())) {
                 LOG.error("performFormat() A bank is needed for CHCK for customer: " + customer);
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
 
@@ -370,7 +370,7 @@ public class FormatServiceImpl implements FormatService {
                 }
             }
 
-            if (ObjectUtils.isNull(paymentGroup.getBank()) ) {
+            if (ObjectUtils.isNull(paymentGroup.getBank())) {
                 LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
 
@@ -492,13 +492,13 @@ public class FormatServiceImpl implements FormatService {
      */
     private KualiInteger assignDisbursementNumber(String campus, DisbursementNumberRange range, PaymentGroup paymentGroup, FormatProcessSummary postFormatProcessSummary) {
         KualiInteger disbursementNumber = new KualiInteger(1 + range.getLastAssignedDisbNbr().intValue());
-        
+
         if (disbursementNumber.isGreaterThan(range.getEndDisbursementNbr())) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
 
             throw new FormatException("No more disbursement numbers for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
         }
-        
+
         paymentGroup.setDisbursementNbr(disbursementNumber);
         range.setLastAssignedDisbNbr(disbursementNumber);
 

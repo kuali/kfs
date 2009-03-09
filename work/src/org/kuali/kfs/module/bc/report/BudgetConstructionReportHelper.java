@@ -41,7 +41,7 @@ public class BudgetConstructionReportHelper {
 
     public static BigDecimal calculatePercent(BigDecimal numerator, BigDecimal denominator) {
         BigDecimal result = BigDecimal.ZERO;
-        if (numerator != null && denominator != null && !denominator.equals(BigDecimal.ZERO) ) {
+        if (numerator != null && denominator != null && (denominator.compareTo(BigDecimal.ZERO) != 0) ) {
             result = numerator.divide(denominator, 3, BigDecimal.ROUND_HALF_UP ).movePointRight(2);
         }
         return result;
@@ -57,8 +57,8 @@ public class BudgetConstructionReportHelper {
     
     public static BigDecimal calculateDivide(BigDecimal numerator, BigDecimal denominator) {
         BigDecimal result = BigDecimal.ZERO;
-        if (!denominator.equals(BigDecimal.ZERO)) {
-            result = numerator.divide(denominator, 3);
+        if (denominator.compareTo(BigDecimal.ZERO) != 0) {
+            result = numerator.divide(denominator, 3, BigDecimal.ROUND_HALF_UP);
         }
         return result;
     }

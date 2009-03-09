@@ -42,6 +42,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
@@ -62,13 +63,22 @@ public class ItemParserBase implements ItemParser {
      * Please update this if the import file format changes (i.e. adding/deleting item properties, changing their order).
      */
     protected static final String[] DEFAULT_FORMAT = {ITEM_QUANTITY, ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_COMMODITY_CODE, ITEM_DESCRIPTION, ITEM_UNIT_PRICE};
+    protected static final String[] COMMODITY_CODE_DISABLED_FORMAT = {ITEM_QUANTITY, ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_DESCRIPTION, ITEM_UNIT_PRICE};
+    
     private Integer lineNo = 0;
 
     /**
      * @see org.kuali.kfs.module.purap.util.ItemParser#getItemFormat()
      */
     public String[] getItemFormat() {
-        return DEFAULT_FORMAT;
+        //Check the ENABLE_COMMODITY_CODE_IND system parameter. If it's Y then 
+        //we should return the DEFAULT_FORMAT, otherwise
+        //we should return the COMMODITY_CODE_DISABLED_FORMAT
+        boolean enableCommodityCode = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
+        if (enableCommodityCode) {
+            return DEFAULT_FORMAT;
+        }
+        return COMMODITY_CODE_DISABLED_FORMAT;
     }
 
     /**

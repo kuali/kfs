@@ -50,13 +50,11 @@
 	<c:set var="colSpanItemType" value="6"/>
 	<c:set var="colSpanDescription" value="2"/>
 	<c:set var="colSpanExtendedPrice" value="1"/>
-	<c:set var="colSpanBlank" value="5"/>
 </c:when>
 <c:otherwise>
 	<c:set var="colSpanItemType" value="6"/>
 	<c:set var="colSpanDescription" value="2"/>
 	<c:set var="colSpanExtendedPrice" value="1"/>
-	<c:set var="colSpanBlank" value="5"/>
 </c:otherwise>
 </c:choose>
 
@@ -576,7 +574,7 @@
 			<th height=30 colspan="${mainColumnCount}">&nbsp;</th>
 		</tr>
 
-		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" descriptionFirst="${isATypeofPurDoc}" mainColumnCount="${mainColumnCount}" colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}" colSpanBlank="${colSpanBlank}" />
+		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" descriptionFirst="${isATypeofPurDoc}" mainColumnCount="${mainColumnCount}" colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}" />
 		</c:if>
 		
 		<!-- BEGIN TOTAL SECTION -->

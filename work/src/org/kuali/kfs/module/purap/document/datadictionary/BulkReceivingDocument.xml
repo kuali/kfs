@@ -12,6 +12,9 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentPresentationController"/>
+    <property name="workflowAttributes">
+    	<ref bean="BulkReceivingDocument-workflowAttributes"/>
+    </property>  
     <property name="attributes">
       <list>
         
@@ -681,6 +684,101 @@
                       </list>
                   </property>
               </bean>
+      	      <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="vendorName"/>
+    					  <property name="showAttributeInSearchCriteria" value="true"/>
+                          <property name="showAttributeInResultSet" value="true"/>     					  
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>vendorName</value>
+    				  </list>
+    			  </property>
+    		  </bean>
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="vendorNumber"/>
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>vendorNumber</value>
+    				  </list>
+    			  </property>
+    		  </bean>
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="purchaseOrderIdentifier"/>
+    					  <property name="showAttributeInSearchCriteria" value="true"/>
+                          <property name="showAttributeInResultSet" value="true"/>     				  
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>purchaseOrderIdentifier</value>
+    				  </list>
+    			  </property>
+    		  </bean>
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="shipmentBillOfLadingNumber"/>
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>shipmentBillOfLadingNumber</value>
+    				  </list>
+    			  </property>
+    		  </bean>
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="shipmentPackingSlipNumber"/>
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>shipmentPackingSlipNumber</value>
+    				  </list>
+    			  </property>
+    		  </bean>
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="shipmentReferenceNumber"/>
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>shipmentReferenceNumber</value>
+    				  </list>
+    			  </property>
+    		  </bean>
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="carrierCode"/>
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>carrierCode</value>
+    				  </list>
+    			  </property>
+    		  </bean>              
           </list>  
       </property>
   </bean>

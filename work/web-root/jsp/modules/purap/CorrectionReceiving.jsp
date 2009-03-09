@@ -26,7 +26,7 @@
 
 	<purap:receivingVendor documentAttributes="${DataDictionary.CorrectionReceivingDocument.attributes}" />
 
-	<purap:receivingCorrectionItems itemAttributes="${DataDictionary.ReceivingCorrectionItem.attributes}" />
+	<purap:receivingCorrectionItems itemAttributes="${DataDictionary.CorrectionReceivingItem.attributes}" />
 	
     <purap:delivery
 		documentAttributes="${DataDictionary.CorrectionReceivingDocument.attributes}" 

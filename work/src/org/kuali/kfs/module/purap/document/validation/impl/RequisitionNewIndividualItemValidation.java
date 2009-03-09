@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class RequisitionNewIndividualItemValidation extends PurchasingNewIndividualItemValidation {
@@ -30,8 +33,15 @@ public class RequisitionNewIndividualItemValidation extends PurchasingNewIndivid
         
     @Override
     protected boolean commodityCodeIsRequired() {
-        return super.getParameterService().getIndicatorParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        //According to comments on KULPURAP-3353, if the ENABLE_COMMODITY_CODE_IND parameter is  N then we don't
+        //need to check for the ITEMS_REQUIRE_COMMODITY_CODE_IND parameter anymore, just return false. 
+        boolean enableCommodityCode = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
+        if (!enableCommodityCode) {
+            return false;
+        }
+        else {
+            return super.getParameterService().getIndicatorParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        }
     }
-
 
 }

@@ -23,7 +23,6 @@
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 
-
 	<field name="fiscalYear" class="java.lang.String"/>
 	<field name="chartOfAccountsCode" class="java.lang.String"/>
 	<field name="chartOfAccountDescription" class="java.lang.String"/>
@@ -79,7 +78,6 @@
 	<field name="conAveragechange" class="java.lang.Integer"/>
 	<field name="conPercentChange" class="java.math.BigDecimal"/>
 	<field name="threshold" class="java.lang.String"/>
-
 
 		<group  name="OrganizationCodeGroup" isStartNewPage="true" isReprintHeaderOnEachPage="true" >
 			<groupExpression><![CDATA[$F{organizationCode}]]></groupExpression>

@@ -240,3 +240,6 @@ INSERT INTO KRIM_ENTITY_PHONE_T(ENTITY_PHONE_ID, OBJ_ID, VER_NBR, ENTITY_ID, ENT
 INSERT INTO KRIM_ENTITY_PHONE_T(ENTITY_PHONE_ID, OBJ_ID, VER_NBR, ENTITY_ID, ENT_TYP_CD, PHONE_TYP_CD, PHONE_NBR, PHONE_EXTN_NBR, POSTAL_CNTRY_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT) 
     VALUES(krim_entity_phone_id_s.nextval, sys_guid(), 1, '4111', 'PERSON', 'WRK', '555-555-5555', null, 'US', 'Y', 'Y', SYSDATE)
 /
+
+update krim_perm_t a set a.nm = (select b.nm from krim_perm_tmpl_t b where a.perm_tmpl_id = b.perm_tmpl_id) where a.perm_tmpl_id <> '1' and a.nm is null
+/

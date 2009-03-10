@@ -559,12 +559,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_PAYMENT_REQUIRED);
             success &= false;
         }
-        // check total amount
-        success &= validateAssetTotalAmount(document);
-
-        // only for "Asset Separate" document
-        if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
-
+        // check total amount for Asset Create
+        if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
+            success &= validateAssetTotalAmount(document);
+        }
+        else {
+            // only for "Asset Separate" document
             if (getAssetPaymentService().getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
                 /*
                  * @TODO KULCAP-828 putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS,
@@ -592,11 +592,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             int sharedIndex = 0;
             for (AssetGlobalDetail addLocationDetail : assetSharedDetails) {
                 int uniqueIndex = 0;
-                for (AssetGlobalDetail uniqueLocationDetails : addLocationDetail.getAssetGlobalUniqueDetails()) {
+                for (AssetGlobalDetail assetGlobalUniqueDetail : addLocationDetail.getAssetGlobalUniqueDetails()) {
                     String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_GLOBAL_UNIQUE_DETAILS + "[" + uniqueIndex + "]";
                     GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                    success &= validateCapitalAssetTypeCode(uniqueLocationDetails);
-                    success &= validateSeparateSourceAmount(uniqueLocationDetails);
+                    success &= validateCapitalAssetTypeCode(assetGlobalUniqueDetail);
+                    success &= validateSeparateSourceAmount(assetGlobalUniqueDetail, document);
                     GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
                     uniqueIndex++;
                 }
@@ -618,6 +618,24 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+
+    /**
+     * Validate all separate source amount is above the capital asset threshold amount.
+     * 
+     * @param document
+     * @return
+     */
+    private boolean validateSeparateSourceAmountAboveThreshold(MaintenanceDocument document, AssetGlobalDetail assetGlobalUniqueDetail) {
+        boolean success = true;
+        String capitalizationThresholdAmount = this.getCapitalizationThresholdAmount();
+        KualiDecimal separateAmount = assetGlobalUniqueDetail.getSeparateSourceAmount();
+        // check for the minimal amount only among all separate source amount. if it's above the threshold, safe...
+        if (separateAmount != null && !validateCapitalAssetAmountAboveThreshhold(document, separateAmount, capitalizationThresholdAmount)) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_SEPARATE_ASSET_BELOW_THRESHOLD, new String[] { assetGlobalUniqueDetail.getCapitalAssetNumber().toString(), capitalizationThresholdAmount });
+            success = false;
+        }
+        return success;
+    }
 
     /**
      * check if amount is above threshold for capital assets for normal user. minTotalPaymentByAsset and maxTotalPaymentByAsset are
@@ -647,22 +665,65 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success = false;
         }
 
+        // run threshold checking before routing
         if (!getAssetService().isDocumentEnrouting(document)) {
-            // run threshold checking before routing
-            FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
-            boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-
-            String capitalizationThresholdAmount = getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
-            if (isCapitalStatus(assetGlobal) && minTotalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !isOverrideAuthorized) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, capitalizationThresholdAmount);
-                success &= false;
+            String capitalizationThresholdAmount = getCapitalizationThresholdAmount();
+            if (isCapitalStatus(assetGlobal)) {
+                // check if amount is above threshold for capital asset.
+                if (!validateCapitalAssetAmountAboveThreshhold(document, minTotalPaymentByAsset, capitalizationThresholdAmount)) {
+                    putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, capitalizationThresholdAmount);
+                    success = false;
+                }
+            }
+            else {
+                // check if amount is less than threshold for non-capital assets for all users
+                success &= validateNonCapitalAssetAmountBelowThreshold(maxTotalPaymentByAsset, capitalizationThresholdAmount);
             }
 
-            // check if amount is less than threshold for non-capital assets for all users
-            if (!isCapitalStatus(assetGlobal) && maxTotalPaymentByAsset.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX, capitalizationThresholdAmount);
-                success &= false;
-            }
+        }
+        return success;
+    }
+
+    /**
+     * Get the capitalization threshold amount from the system parameter setting.
+     * 
+     * @return
+     */
+    protected String getCapitalizationThresholdAmount() {
+        return getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
+    }
+
+    /**
+     * Validate Capital Asset Amount above the threshold or below the amount for authorized user only.
+     * 
+     * @param document
+     * @param assetAmount
+     * @param capitalizationThresholdAmount
+     * @return
+     */
+    private boolean validateCapitalAssetAmountAboveThreshhold(MaintenanceDocument document, KualiDecimal assetAmount, String capitalizationThresholdAmount) {
+        boolean success = true;
+        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
+        boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+
+        if (assetAmount.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !isOverrideAuthorized) {
+            success = false;
+        }
+        return success;
+    }
+
+    /**
+     * Validate non-capital asset amount below the threshold.
+     * 
+     * @param assetAmount
+     * @param capitalizationThresholdAmount
+     * @return
+     */
+    private boolean validateNonCapitalAssetAmountBelowThreshold(KualiDecimal assetAmount, String capitalizationThresholdAmount) {
+        boolean success = true;
+        if (assetAmount.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX, capitalizationThresholdAmount);
+            success &= false;
         }
         return success;
     }
@@ -703,12 +764,16 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      * @param uniqueLocationDetails
      * @return boolean
      */
-    private boolean validateSeparateSourceAmount(AssetGlobalDetail uniqueLocationDetails) {
+    private boolean validateSeparateSourceAmount(AssetGlobalDetail uniqueLocationDetail, MaintenanceDocument document) {
         boolean success = true;
-        KualiDecimal separateSourceAmount = uniqueLocationDetails.getSeparateSourceAmount();
+        KualiDecimal separateSourceAmount = uniqueLocationDetail.getSeparateSourceAmount();
         if (separateSourceAmount == null || separateSourceAmount.isLessEqual(KualiDecimal.ZERO)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT_REQUIRED);
             success &= false;
+        }
+        else {
+            // for capital asset separate, validate the minimal separate source amount above the threshold
+            success &= validateSeparateSourceAmountAboveThreshold(document, uniqueLocationDetail);
         }
         return success;
     }

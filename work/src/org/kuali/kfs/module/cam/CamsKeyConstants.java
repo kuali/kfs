@@ -219,8 +219,9 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_TOTAL_SEPARATE_SOURCE_AMOUNT = "error.total.separate.source.amount.invalid";
         public static final String ERROR_ZERO_OR_NEGATIVE_DOLLAR_AMOUNT = "error.zero.or.negative.dollar.amount";
         public static final String ERROR_ZERO_OR_NEGATIVE_LOCATION_QUANTITY = "error.zero.or.negative.location.quantity";
+        public static final String ERROR_SEPARATE_ASSET_BELOW_THRESHOLD = "error.separate.asset.below.threshold";
     }
-    
+        
     public static class Asset {
         public static final String ERROR_INVALID_SALVAGE_AMOUNT="error.asset.salvage.amount.not.valid";
     }

@@ -4,7 +4,6 @@
     <documentType>
       <name>PTAG</name>
       <parent>CapitalAssetBuilderComplexMaintenanceDocument</parent>
-      <label>Pre-Asset Tagging</label>
     </documentType>
   </documentTypes>
 </data>

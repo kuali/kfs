@@ -54,10 +54,9 @@
         <ref bean="AssetPayment-transferPaymentCode" />
         <ref bean="AssetPayment-yearToDate" />
 		<ref bean="AssetPayment-asset.campusTagNumber"/>   
-		
 		<ref bean="AssetPayment-account.organizationCode"/>
+		<ref bean="AssetPayment-account.chartOfAccountsCode"/>
 		<ref bean="AssetPayment-account.subFundGroupCode"/>
-		
 		<ref bean="AssetPayment-asset.totalCostAmount"/>
 		<ref bean="AssetPayment-asset.capitalAssetInServiceDate"/>
 		<ref bean="AssetPayment-asset.capitalAssetDescription"/>
@@ -65,13 +64,14 @@
 		<ref bean="AssetPayment-asset.buildingCode"/>
 		<ref bean="AssetPayment-asset.inventoryStatusCode"/>
 		<ref bean="AssetPayment-asset.capitalAssetTypeCode"/>
-		
 		<ref bean="AssetPayment-account.organization.organizationPlantAccountNumber"/>
+		<ref bean="AssetPayment-account.organization.organizationPlantChartCode"/>
 		<ref bean="AssetPayment-account.organization.chartOfAccountsCode"/>
 		<ref bean="AssetPayment-account.organization.campusPlantAccountNumber"/>
 		<ref bean="AssetPayment-account.organization.campusPlantChartCode"/>
       </list>
     </property>
+
     </bean>
   
 <!-- Attribute Definitions -->
@@ -145,6 +145,15 @@
     <property name="name" value="account.organizationCode" />
     <property name="shortLabel" value="Organization Code" />    
   </bean>
+ 
+  <bean id="AssetPayment-account.chartOfAccountsCode" parent="AssetPayment-account.chartOfAccountsCode-parentBean" />
+  <bean id="AssetPayment-account.chartOfAccountsCode-parentBean" abstract="true" parent="Account-chartOfAccountsCode">
+    <property name="name" value="account.chartOfAccountsCode" />
+    <property name="shortLabel" value="Chart" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
 
   <bean id="AssetPayment-account.subFundGroupCode" parent="AssetPayment-account.subFundGroupCode-parentBean" />
   <bean id="AssetPayment-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
@@ -152,11 +161,20 @@
     <property name="shortLabel" value="Sub-Fund Grp. Code" />
   </bean>
 
-
   <bean id="AssetPayment-account.organization.organizationPlantAccountNumber" parent="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" />
   <bean id="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" abstract="true" parent="Organization-organizationPlantAccountNumber">
     <property name="name" value="account.organization.organizationPlantAccountNumber" />
     <property name="shortLabel" value="Org. Plant Accnt#" />
+  </bean>
+
+  <bean id="AssetPayment-account.organization.organizationPlantChartCode" parent="AssetPayment-account.organization.organizationPlantChartCode-parentBean" />
+  <bean id="AssetPayment-account.organization.organizationPlantChartCode-parentBean" abstract="true" parent="Organization-organizationPlantChartCode">
+    <property name="name" value="account.organization.organizationPlantChartCode" />
+    <property name="label" value="Plant Chart Code" />
+	<property name="shortLabel" value="Org. Plant Chart Code" />    
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
   </bean>
 
 
@@ -574,7 +592,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="account.organizationCode" />      
+              p:attributeName="account.organizationCode" />    
+         <bean parent="FieldDefinition"
+              p:attributeName="account.chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="accountNumber" />                    
         <bean parent="FieldDefinition"
@@ -622,6 +642,8 @@
               p:attributeName="asset.capitalAssetTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="account.organization.organizationPlantAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="account.organization.organizationPlantChartCode" />
         <bean parent="FieldDefinition"
               p:attributeName="account.organization.chartOfAccountsCode" />
         <bean parent="FieldDefinition"

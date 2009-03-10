@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,6 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -150,6 +150,27 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         }
     }
 
+    @Override
+    public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getDocumentBusinessObject();
+        List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
+        
+        int nElements=assetRetirementGlobal.getAssetRetirementGlobalDetails().size() + rawValues.size();
+
+        String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
+         
+        if (!getAssetService().isDocumentEnrouting(document) && !getAssetRetirementService().isAllowedRetireMultipleAssets(document) && nElements > new Integer(1)) {
+            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
+            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+        } else {
+            GlobalVariables.getErrorMap().clear();
+            //Adding the selected asset.
+            super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
+        }
+    }
+
+
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
@@ -162,12 +183,6 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
 
         if (KFSConstants.MULTIPLE_VALUE.equalsIgnoreCase(refreshCaller)) {
-            if (!getAssetService().isDocumentEnrouting(document) && !getAssetRetirementService().isAllowedRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), document) && assetRetirementGlobalDetails.size() > new Integer(1)) {
-                String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
-            }
             // Set non-persistent values in multiple lookup result collection. So the screen can show them when return from multiple
             // lookup.
             for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {

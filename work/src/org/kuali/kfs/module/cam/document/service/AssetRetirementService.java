@@ -76,11 +76,10 @@ public interface AssetRetirementService {
     /**
      * Check if the retirement reason code allows to retire multiple assets
      * 
-     * @param retirementReasonCode
      * @param assetDetails
      * @return
      */
-    boolean isAllowedRetireMultipleAssets(String retirementReasonCode, MaintenanceDocument maintenanceDocument);
+    boolean isAllowedRetireMultipleAssets(MaintenanceDocument maintenanceDocument);
 
     /**
      * Creates GL Postables

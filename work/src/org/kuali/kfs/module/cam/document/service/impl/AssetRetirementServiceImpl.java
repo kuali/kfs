@@ -265,7 +265,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAllowedRetireMultipleAssets(java.lang.String)
      */
-    public boolean isAllowedRetireMultipleAssets(String retirementReasonCode, MaintenanceDocument maintenanceDocument) {
+    public boolean isAllowedRetireMultipleAssets(MaintenanceDocument maintenanceDocument) {
         FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.RETIRE_MULTIPLE, GlobalVariables.getUserSession().getPerson().getPrincipalId());

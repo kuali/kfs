@@ -29,7 +29,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
@@ -39,6 +38,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -285,7 +285,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
-        if (assetRetirementDetails.size() > maxNumber && !getAssetRetirementService().isAllowedRetireMultipleAssets(retirementReasonCode, maintenanceDocument)) {
+        if (assetRetirementDetails.size() > maxNumber && !getAssetRetirementService().isAllowedRetireMultipleAssets(maintenanceDocument)) {
             putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
             success = false;
         }

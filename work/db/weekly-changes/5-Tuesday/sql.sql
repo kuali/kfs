@@ -243,3 +243,131 @@ INSERT INTO KRIM_ENTITY_PHONE_T(ENTITY_PHONE_ID, OBJ_ID, VER_NBR, ENTITY_ID, ENT
 
 update krim_perm_t a set a.nm = (select b.nm from krim_perm_tmpl_t b where a.perm_tmpl_id = b.perm_tmpl_id) where a.perm_tmpl_id <> '1' and a.nm is null
 /
+insert into krns_parm_t 
+(SELECT 'KFS-PDP', 'PaymentGroup',
+'SORT_GROUP_SELECTION_3', sys_guid(),1,
+'CONFG', 'pymtSpecialHandling=true',
+'Third highest priority sort order for pdp payment files.',
+'A'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-PDP', 'PaymentGroup',
+'SORT_GROUP_SELECTION_2', sys_guid(),1,
+'CONFG', 'pymtAttachment=true',
+'Second highest priority sort order for pdp payment files.',
+'A'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-PDP', 'PaymentGroup',
+'SORT_GROUP_SELECTION_1', sys_guid(),1,
+'CONFG', 'processImmediate=true',
+'Highest priority sort order for pdp payment files.',
+'A'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversion',
+'SELECTION_6', sys_guid(),1,
+'CONFG', 'account.accountNumber=',
+'Account numbers that should be excluded from Organization Reversion Selection.',
+'D'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversion',
+'SELECTION_5', sys_guid(),1,
+'CONFG', 'account.chartOfAccountsCode=',
+'Chart of Accounts codes that should be excluded from Organization Reversion Selection.',
+'D'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversion',
+'SELECTION_4', sys_guid(),1,
+'CONFG', 'account.subFundGroupCode=MPRACT;MWISH;MPROF;MHOUSE',
+'Sub fund group codes that should be excluded from Organization Reversion Selection.',
+'D'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversion',
+'SELECTION_3', sys_guid(),1,
+'CONFG', 'objectCode=9890;9891;9892;9893',
+'Object codes that should be excluded from Organization Reversion Selection.',
+'D'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversion',
+'SELECTION_2', sys_guid(),1,
+'CONFG', 'account.organizationCode=BALS;RESV',
+'Organization codes that should be excluded from Organization Reversion Selection.',
+'D'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversion',
+'SELECTION_1', sys_guid(),1,
+'CONFG', 'account.subFundGroup.fundGroupCode=GF',
+'Fund group code(s) that should be included in the Organization Reversion Selection.',
+'A'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversionCategory',
+'EXTENDED_DEFINITIONS_INCLUDE_OBJECT_TYPES_BY_ORGANIZATION_REVERSION_CATEGORY', sys_guid(),1,
+'CONFG', 'C06=TE,EX,EE,ES;C07=TI,IN,CH,IC',
+'Object types to include for a given organization reversion category. Format of list is organization reversion category 1=object type 1, object type 2;organization reversion category 2=object type 3,object type 4,object type 5.',
+'A'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversionCategory',
+'EXTENDED_DEFINITIONS_INCLUDE_OBJECT_SUB_TYPES_BY_ORGANIZATION_REVERSION_CATEGORY', sys_guid(),1,
+'CONFG', '',
+'Object sub types to include for a given organization reversion category. Format of list is organization reversion category 1=object sub type 1, object sub type 2;organization reversion category 2=object sub type 3,object sub type 4,object sub type 5.',
+'A'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversionCategory',
+'EXTENDED_DEFINITIONS_INCLUDE_OBJECT_LEVELS_BY_ORGANIZATION_REVERSION_CATEGORY', sys_guid(),1,
+'CONFG', 'C01=HRCO',
+'Object levels to include for a given organization reversion category. Format of list is organization reversion category 1=object level 1, object level 2;organization reversion category 2=object level 3,object level 4,object level 5.',
+'A'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversionCategory',
+'EXTENDED_DEFINITIONS_EXCLUDE_OBJECT_TYPES_BY_ORGANIZATION_REVERSION_CATEGORY', sys_guid(),1,
+'CONFG', '',
+'Object types to exclude for a given organization reversion category. Format of list is organization reversion category 1=object type 1, object type 2;organization reversion category 2=object type 3,object type 4,object type 5.',
+'D'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversionCategory',
+'EXTENDED_DEFINITIONS_EXCLUDE_OBJECT_SUB_TYPES_BY_ORGANIZATION_REVERSION_CATEGORY', sys_guid(),1,
+'CONFG', '',
+'Object sub types to exclude for a given organization reversion category. Format of list is organization reversion category 1=object sub type 1, object sub type 2;organization reversion category 2=object sub type 3,object sub type 4,object sub type 5.',
+'D'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversionCategory',
+'EXTENDED_DEFINITIONS_EXCLUDE_OBJECT_LEVELS_BY_ORGANIZATION_REVERSION_CATEGORY', sys_guid(),1,
+'CONFG', 'C02=HRCO',
+'Object levels to exclude for a given organization reversion category. Format of list is organization reversion category 1=object level 1, object level 2;organization reversion category 2=object level 3,object level 4,object level 5.',
+'D'
+FROM dual)
+/
+insert into krns_parm_t 
+(SELECT 'KFS-COA', 'OrganizationReversionCategory',
+'EXTENDED_DEFINITIONS_EXCLUDE_OBJECT_CONSOLIDATIONS_BY_ORGANIZATION_REVERSION_CATEGORY', sys_guid(),1,
+'CONFG', '',
+'Object consolidations to exclude for a given organization reversion category. Format of list is organization reversion category 1=object consolidation 1, object consolidation 2;organization reversion category 2=object consolidation 3,object consolidation 4.',
+'D'
+FROM dual)
+/

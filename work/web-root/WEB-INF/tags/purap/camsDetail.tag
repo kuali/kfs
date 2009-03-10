@@ -84,7 +84,7 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" /></div>
                 </th>
 	            <td class="datacell">
-		    		<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 5}"/>
+		    		<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 3}"/>
 			    </td>
 			</c:if>
 	        <c:if test="${!(KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability)}">
@@ -116,7 +116,7 @@
              <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" /></div>
           </th>
           <td align="right" class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 3}"/>
             <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
             	<html:image property="${setManufacturerFromVendorUrl}" src="${ConfigProperties.externalizable.images.url}tinybutton-sameasvendor.gif" alt="Manufacturer Same as Vendor" styleClass="tinybutton"/>
             </c:if>
@@ -136,7 +136,7 @@
              <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" /></div>
           </th>
           <td align="right" class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" property="${camsAssetSystemProperty}.capitalAssetModelDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 5}"/>
+            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" property="${camsAssetSystemProperty}.capitalAssetModelDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 3}"/>
 		  </td>
         </tr>
         <c:if test="${KualiForm.purchasingCapitalAssetCountAssetNumberAvailability eq availability}">

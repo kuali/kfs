@@ -23,6 +23,8 @@
 <%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
+<c:set var="tabindexOverrideBase" value="60" />
+<c:set var="availabilityOnce" value="${PurapConstants.CapitalAssetAvailability.ONCE}"/>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="CAMS Items">
 	<tr>
@@ -112,7 +114,7 @@
 	<c:if test="${isPurchaseOrder}">
     	<c:set var="itemActive" value="${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemActiveIndicator}"/>
     </c:if>
-    
+        
 	<tr>
 	<td class="infoline" valign="middle" colspan="10">
 		<table border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -140,7 +142,14 @@
 		               <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" /></div>
 		            </th>
 				    <td class="datacell">
-						<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}"/>		
+				    	<c:choose>
+							<c:when test="${!empty KualiForm.document.purchasingCapitalAssetItems and ( (KualiForm.purchasingItemCapitalAssetAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemAvailability eq availabilityOnce) )}">
+								<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 9}"/>
+							</c:when>
+							<c:otherwise>
+								<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+							</c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 				</table>

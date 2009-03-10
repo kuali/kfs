@@ -165,7 +165,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             assetPaymentDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             if (!StringUtils.isBlank(assetPaymentDetail.getFinancialObjectCode()) && ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
                 valid &= false;
             }
             else if (!StringUtils.isBlank(assetPaymentDetail.getFinancialObjectCode()) && !assetPaymentDetail.getObjectCode().isActive()) {
@@ -561,10 +561,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         // check total amount for Asset Create
         if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
-            success &= validateAssetTotalAmount(document);
+        success &= validateAssetTotalAmount(document);
         }
         else {
-            // only for "Asset Separate" document
+        // only for "Asset Separate" document
             if (getAssetPaymentService().getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
                 /*
                  * @TODO KULCAP-828 putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS,
@@ -703,14 +703,14 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateCapitalAssetAmountAboveThreshhold(MaintenanceDocument document, KualiDecimal assetAmount, String capitalizationThresholdAmount) {
         boolean success = true;
-        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
-        boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+            FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
+            boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (assetAmount.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !isOverrideAuthorized) {
             success = false;
         }
         return success;
-    }
+            }
 
     /**
      * Validate non-capital asset amount below the threshold.
@@ -722,9 +722,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateNonCapitalAssetAmountBelowThreshold(KualiDecimal assetAmount, String capitalizationThresholdAmount) {
         boolean success = true;
         if (assetAmount.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX, capitalizationThresholdAmount);
-            success &= false;
-        }
+                putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX, capitalizationThresholdAmount);
+                success &= false;
+            }
         return success;
     }
 

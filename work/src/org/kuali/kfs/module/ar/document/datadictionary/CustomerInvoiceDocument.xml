@@ -81,6 +81,7 @@
 		<ref bean="CustomerInvoiceDocument-billingLine2StreetAddress"/>
 		<ref bean="CustomerInvoiceDocument-shippingLine1StreetAddress"/>
 		<ref bean="CustomerInvoiceDocument-shippingLine2StreetAddress"/>
+		<ref bean="CustomerInvoiceDocument-recurredInvoiceIndicator"/>
       </list>
     </property>
     <property name="validationMap" ref="CustomerInvoiceDocument-validations"/>
@@ -570,6 +571,19 @@
 	<bean id="CustomerInvoiceDocument-shippingLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress">
 		<property name="name" value="shippingLine2StreetAddress"/>
 	</bean>
+  <bean id="CustomerInvoiceDocument-recurredInvoiceIndicator" parent="CustomerInvoiceDocument-recurredInvoiceIndicator-parentBean"/>
+
+  <bean id="CustomerInvoiceDocument-recurredInvoiceIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="recurredInvoiceIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Recurred Invoice Indicator"/>
+    <property name="shortLabel" value="Recurred Inv Ind"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+  </bean>
 	  
   <bean id="CustomerInvoiceDocument-validations" parent="CustomerInvoiceDocument-validations-parentBean"/>
   

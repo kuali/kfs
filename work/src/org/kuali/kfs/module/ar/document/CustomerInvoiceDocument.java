@@ -113,6 +113,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private String shippingInternationalMailCode;
     private String shippingEmailAddress;
     private String shippingAddressTypeCode;
+    private boolean recurredInvoiceIndicator;
 
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private Chart billByChartOfAccount;
@@ -1751,6 +1752,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     public void setShippingLine2StreetAddress(String shippingLine2StreetAddress) {
         this.shippingLine2StreetAddress = shippingLine2StreetAddress;
+    }
+
+    public boolean getRecurredInvoiceIndicator() {
+        return recurredInvoiceIndicator;
+    }
+
+    public void setRecurredInvoiceIndicator(boolean recurredInvoiceIndicator) {
+        this.recurredInvoiceIndicator = recurredInvoiceIndicator;
     }
 
     /**

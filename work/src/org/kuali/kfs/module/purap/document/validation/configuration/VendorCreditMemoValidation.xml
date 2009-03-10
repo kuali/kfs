@@ -458,7 +458,7 @@
 								</property>
 								<property name="quitOnFail" value="true" />
 							</bean>
-							<bean parent="PurchasingAccountsPayable-accountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
+							<bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
 						</list>
 					</property>
 				</bean>

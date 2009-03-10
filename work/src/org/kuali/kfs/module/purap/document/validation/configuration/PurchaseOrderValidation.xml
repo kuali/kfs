@@ -189,7 +189,7 @@
   							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="accountingLine" />
+										<property name="sourceEventProperty" value="updatedAccountingLine" />
 										<property name="targetValidationProperty" value="businessObjectForValidation" />
 									</bean>
 								</property>
@@ -199,14 +199,14 @@
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
+											<property name="sourceEventProperty" value="updatedAccountingLine" />
 											<property name="targetValidationProperty" value="accountingLineForValidation" />
 										</bean>
 									</list>
 								</property>
 								<property name="quitOnFail" value="false" />
 							</bean>			
-							<bean parent="PurchasingAccountsPayable-accountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
+							<bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
 						</list>
 					</property>
 				</bean>
@@ -218,7 +218,7 @@
 								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
 							</bean>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
 								<property name="targetValidationProperty" value="accountingLineForValidation" />
 							</bean>
 						</list>

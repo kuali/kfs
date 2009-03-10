@@ -187,9 +187,9 @@
 	</bean>
 
 	<!-- Update Accounting Line Event -->
-    <bean id="PurchaseOrder-updateAccountingLineValidation" parent="PurchaseOrder-updateAccountingLineValidation-parentBean" scope="prototype" />
+    <bean id="PurchaseOrderAmendment-updateAccountingLineValidation" parent="PurchaseOrderAmendment-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="PurchaseOrder-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PurchaseOrderAmendment-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
@@ -198,7 +198,7 @@
   							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="accountingLine" />
+										<property name="sourceEventProperty" value="updatedAccountingLine" />
 										<property name="targetValidationProperty" value="businessObjectForValidation" />
 									</bean>
 								</property>
@@ -208,17 +208,14 @@
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
+											<property name="sourceEventProperty" value="updatedAccountingLine" />
 											<property name="targetValidationProperty" value="accountingLineForValidation" />
 										</bean>
 									</list>
 								</property>
 								<property name="quitOnFail" value="false" />
 							</bean>			
-							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
-								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="accountingLine" />
-							</bean>
+							<bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowedValidation-parentBean" scope="prototype"/>						
 						</list>
 					</property>
 				</bean>
@@ -230,7 +227,7 @@
 								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
 							</bean>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
 								<property name="targetValidationProperty" value="accountingLineForValidation" />
 							</bean>
 						</list>

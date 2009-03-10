@@ -47,6 +47,7 @@
     <property name="workflowAttributes">
       <ref bean="OrganizationMaintenanceDocument-workflowAttributes"/>
     </property>
+    <property name="derivedValuesSetterClass" value="org.kuali.kfs.coa.document.web.OrgDerivedValuesSetter" />
 
   </bean>
 

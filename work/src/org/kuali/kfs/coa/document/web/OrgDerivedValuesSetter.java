@@ -57,5 +57,9 @@ public class OrgDerivedValuesSetter implements DerivedValuesSetter {
                 newOrg.setOrganizationStateCode(KNSConstants.EMPTY_STRING);
 	        }
 	    }
+	    else {
+            newOrg.setOrganizationCityName(KNSConstants.EMPTY_STRING);
+            newOrg.setOrganizationStateCode(KNSConstants.EMPTY_STRING);
+	    }
 	}
 }

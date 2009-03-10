@@ -206,8 +206,9 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
      * @param director the ProjectDirector to refresh
      */
     private static void refreshWithSecondaryKey(CGProjectDirector director) {
-        if (ObjectUtils.isNotNull(director.getProjectDirector())) {
-            String secondaryKey = director.getProjectDirector().getPrincipalName();
+        Person cgdir = director.getProjectDirector();
+        if (ObjectUtils.isNotNull(cgdir)) {
+            String secondaryKey = cgdir.getPrincipalName();
             if (StringUtils.isNotBlank(secondaryKey)) {
                 Person dir = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(secondaryKey);
                 director.setPrincipalId(dir == null ? null : dir.getPrincipalId());

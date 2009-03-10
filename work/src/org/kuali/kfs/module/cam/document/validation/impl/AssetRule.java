@@ -118,6 +118,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
             valid &= processAssetValidation(document);
             valid &= validateWarrantyInformation(newAsset);
+            valid &= validateDepreciationData(newAsset);
 
             valid &= super.processCustomSaveDocumentBusinessRules(document);
             if (valid) {
@@ -399,6 +400,23 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    
+    /**
+     * 
+     * validates depreciation data
+     * @param asset
+     * @return boolean
+     */
+    private boolean validateDepreciationData(Asset asset) {
+        //If the salvage amount is greater than the base amount, then data is invalid
+        if (asset.getSalvageAmount().compareTo(asset.getBaseAmount()) > 0 ) {
+            putFieldError(CamsPropertyConstants.Asset.SALVAGE_AMOUNT, CamsKeyConstants.Asset.ERROR_INVALID_SALVAGE_AMOUNT);
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         initializeAttributes(document);

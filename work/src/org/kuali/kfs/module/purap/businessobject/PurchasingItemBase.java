@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -31,6 +32,8 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     private String purchasingCommodityCode;
     
     private CommodityCode commodityCode;
+    
+    private UnitOfMeasure itemUnitOfMeasure;
     
     /**
      * @see org.kuali.kfs.module.purap.businessobject.PurApItem#isConsideredEntered()
@@ -103,4 +106,16 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
             return null;
         }
     }
+
+    public UnitOfMeasure getItemUnitOfMeasure() {
+        if (ObjectUtils.isNull(itemUnitOfMeasure) || (!itemUnitOfMeasure.getItemUnitOfMeasureCode().equalsIgnoreCase(getItemUnitOfMeasureCode()))) {
+            refreshReferenceObject(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE);
+        }
+        return itemUnitOfMeasure;
+    }
+
+    public void setItemUnitOfMeasure(UnitOfMeasure itemUnitOfMeasure) {
+        this.itemUnitOfMeasure = itemUnitOfMeasure;
+    }
+
 }

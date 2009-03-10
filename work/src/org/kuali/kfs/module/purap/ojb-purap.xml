@@ -106,6 +106,9 @@
 	<reference-descriptor name="commodityCode" class-ref="org.kuali.kfs.vnd.businessobject.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
 		<foreignkey field-ref="purchasingCommodityCode" />
 	</reference-descriptor>
+    <reference-descriptor name="itemUnitOfMeasure" class-ref="org.kuali.kfs.sys.businessobject.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
+        <foreignkey field-ref="itemUnitOfMeasureCode" />
+    </reference-descriptor>    	
 	<!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
@@ -166,6 +169,9 @@
     <reference-descriptor name="commodityCode" class-ref="org.kuali.kfs.vnd.businessobject.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="purchasingCommodityCode" />
     </reference-descriptor>
+    <reference-descriptor name="itemUnitOfMeasure" class-ref="org.kuali.kfs.sys.businessobject.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
+        <foreignkey field-ref="itemUnitOfMeasureCode" />
+    </reference-descriptor>    
     <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />

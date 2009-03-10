@@ -27,7 +27,7 @@ import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -149,6 +149,16 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
                                         getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).
                                         getLabel();
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
+            }
+            else {
+                //Find out whether the unit of measure code has existed in the database
+                Map<String,String> fieldValues = new HashMap<String, String>();
+                fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, purItem.getItemUnitOfMeasureCode());
+                if (businessObjectService.countMatching(UnitOfMeasure.class, fieldValues) != 1) {
+                    //This is the case where the commodity code on the item does not exist in the database.
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + item.getItemIdentifierString());
+                }
             }
         }
 

@@ -107,7 +107,8 @@
 
 	<bean id="Purchasing-unitOfMeasureValidation" parent="Purchasing-unitOfMeasureValidation-parentBean" scope="prototype"/>
 	<bean id="Purchasing-unitOfMeasureValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingUnitOfMeasureValidation" abstract="true">
-		<property name="dataDictionaryService" ref="dataDictionaryService" />		
+		<property name="dataDictionaryService" ref="dataDictionaryService" />	
+		<property name="businessObjectService" ref="businessObjectService" />	
 	</bean>
 	
 	<bean id="Purchasing-itemUnitPriceValidation" parent="Purchasing-itemUnitPriceValidation-parentBean" scope="prototype"/>	

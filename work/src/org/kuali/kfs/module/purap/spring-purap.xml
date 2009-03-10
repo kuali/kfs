@@ -43,6 +43,11 @@
                 <value>org/kuali/kfs/module/purap/document/datadictionary</value>
 			</list>
 		</property>
+		<property name="scriptConfigurationFilePaths">
+            <list>
+                <value>org/kuali/kfs/module/purap/dwr-purap.xml</value>
+            </list>
+        </property>		
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kfs/module/purap/ojb-purap.xml</value>
@@ -77,6 +82,12 @@
         </property> 
 	</bean>
 
+    <bean id="itemUnitOfMeasureService" class="org.kuali.kfs.module.purap.service.impl.ItemUnitOfMeasureServiceImpl">
+         <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property> 
+    </bean>
+    
     <bean id="purapModuleService" parent="purapModuleService-parentBean"/>
 
     <bean id="purapModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">

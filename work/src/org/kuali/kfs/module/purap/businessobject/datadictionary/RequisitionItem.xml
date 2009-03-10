@@ -79,11 +79,11 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.UnitOfMeasureValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="TextControlDefinition"
+            p:size="10" />
     </property>
   </bean>
+  
   <bean id="RequisitionItem-purapDocumentIdentifier" parent="RequisitionItem-purapDocumentIdentifier-parentBean" />
 
   <bean id="RequisitionItem-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">

@@ -15,13 +15,19 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -29,6 +35,7 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
 
     private PurApItem itemForValidation;
     private DataDictionaryService dataDictionaryService;
+    private BusinessObjectService businessObjectService;
     
     /**
      * Validates that if the item type is quantity based, the unit of measure is required.
@@ -46,6 +53,16 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
                                         getLabel();
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + purItem.getItemIdentifierString());
             }
+            else {
+                //Find out whether the unit of measure code has existed in the database
+                Map<String,String> fieldValues = new HashMap<String, String>();
+                fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, purItem.getItemUnitOfMeasureCode());
+                if (businessObjectService.countMatching(UnitOfMeasure.class, fieldValues) != 1) {
+                    //This is the case where the commodity code on the item does not exist in the database.
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + purItem.getItemIdentifierString());
+                }
+            }            
         }
 
         return valid;
@@ -65,6 +82,14 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

@@ -24,6 +24,8 @@
 
 <script language="JavaScript" type="text/javascript" src="dwr/interface/CommodityCodeService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/vendor/objectInfo.js"></script>
+<script language="JavaScript" type="text/javascript" src="dwr/interface/ItemUnitOfMeasureService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/purap/objectInfo.js"></script>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
@@ -161,9 +163,19 @@
 				<td class="infoline">
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemQuantity}" property="newPurchasingItemLine.itemQuantity" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </td>
-				<td class="infoline">
-				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newPurchasingItemLine.itemUnitOfMeasureCode" tabindexOverride="${tabindexOverrideBase + 0}"/>
-			    </td>
+                <td class="infoline" nowrap="nowrap" >
+                    <c:set var="itemUnitOfMeasureCodeField"  value="newPurchasingItemLine.itemUnitOfMeasureCode" />
+                    <c:set var="itemUnitOfMeasureDescriptionField"  value="newPurchasingItemLine.itemUnitOfMeasure.itemUnitOfMeasureDescription" />
+                    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
+                        property="${itemUnitOfMeasureCodeField}" 
+                        onblur="loadItemUnitOfMeasureInfo( '${itemUnitOfMeasureCodeField}', '${itemUnitOfMeasureDescriptionField}' );${onblur}" readOnly="${readOnly}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                    <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
+                        fieldConversions="itemUnitOfMeasureCode:newPurchasingItemLine.itemUnitOfMeasureCode"
+                        lookupParameters="'Y':active"/>     
+                    <div id="newPurchasingItemLine.itemUnitOfMeasure.itemUnitOfMeasureDescription.div" class="fineprint">
+                        <html:hidden write="true" property="${itemUnitOfMeasureDescriptionField}"/>&nbsp;        
+                    </div>                     
+                </td>					    
 				<td class="infoline">
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newPurchasingItemLine.itemCatalogNumber" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </td>
@@ -366,13 +378,22 @@
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" 
 						    tabindexOverride="${tabindexOverrideBase + 0}"/>
 					</td>
-					<td class="infoline">
-					    <kul:htmlControlAttribute
-						    attributeEntry="${itemAttributes.itemUnitOfMeasureCode}"
-						    property="document.item[${ctr}].itemUnitOfMeasureCode"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" 
-						    tabindexOverride="${tabindexOverrideBase + 0}"/>
-				    </td>
+                    <td class="infoline" nowrap="nowrap" >
+                        <kul:htmlControlAttribute 
+                            attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
+                            property="document.item[${ctr}].itemUnitOfMeasureCode"
+                            onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
+                            readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}"
+                            tabindexOverride="${tabindexOverrideBase + 0}"/>
+                        <c:if test="${fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
+                            <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
+                                fieldConversions="itemUnitOfMeasureCode:document.item[${ctr}].itemUnitOfMeasureCode"
+                                lookupParameters="'Y':active"/>    
+                        </c:if>
+                        <div id="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription.div" class="fineprint">
+                            <html:hidden write="true" property="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription"/>&nbsp;  
+                        </div>                        
+                     </td>				    
 					<td class="infoline">
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemCatalogNumber}"

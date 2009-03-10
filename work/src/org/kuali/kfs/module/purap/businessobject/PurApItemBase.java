@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -54,7 +55,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private List<PurApAccountingLine> sourceAccountingLines;
     private List<PurApAccountingLine> baselineSourceAccountingLines;
     private PurApAccountingLine newSourceLine;
-
+ 
     private ItemType itemType;
     private Integer purapDocumentIdentifier;
     private KualiDecimal itemQuantity;
@@ -102,7 +103,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     public void setItemUnitOfMeasureCode(String itemUnitOfMeasureCode) {
-        this.itemUnitOfMeasureCode = itemUnitOfMeasureCode;
+        this.itemUnitOfMeasureCode = (StringUtils.isNotBlank(itemUnitOfMeasureCode) ? itemUnitOfMeasureCode.toUpperCase() : itemUnitOfMeasureCode);
     }
 
     public String getItemCatalogNumber() {
@@ -469,8 +470,6 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
             return this.getTotalAmount();
         }
         return this.getExtendedPrice();
-    }
-
-    
+    }    
     
 }

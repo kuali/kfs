@@ -20,8 +20,6 @@ package org.kuali.kfs.module.cam;
  * Holds error key constants.
  */
 public class CamsKeyConstants {
-    // public static final String ERROR_ASSET_LOCKED_BY_DOC="error.document.asset.locked";
-
     public static final String CONTINUE_QUESTION = "document.question.continue.text";
     public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
     public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.number";
@@ -163,6 +161,8 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_FILE_TYPE = "error.uploadFile.invalid.type";
         public static final String ERROR_INACTIVE_FIELD = "error.document.inactive.field";
         public static final String ERROR_APPROVE_DOCUMENT_WITH_ERROR_EXIST = "error.approve.document.with.error.exist";
+        public static final String ERROR_RECORDS_NO_SELECTED = "error.document.records_no_selected";
+        
     }
 
     public static class EquipmentLoanOrReturn {
@@ -219,5 +219,9 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_TOTAL_SEPARATE_SOURCE_AMOUNT = "error.total.separate.source.amount.invalid";
         public static final String ERROR_ZERO_OR_NEGATIVE_DOLLAR_AMOUNT = "error.zero.or.negative.dollar.amount";
         public static final String ERROR_ZERO_OR_NEGATIVE_LOCATION_QUANTITY = "error.zero.or.negative.location.quantity";
+    }
+    
+    public static class Asset {
+        public static final String ERROR_INVALID_SALVAGE_AMOUNT="error.asset.salvage.amount.not.valid";
     }
 }

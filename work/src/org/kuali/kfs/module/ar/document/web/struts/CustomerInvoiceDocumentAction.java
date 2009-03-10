@@ -363,16 +363,12 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     public ActionForward refreshBillToAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument();
-        int customerBillToAddressIdentifier;
-        if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerBillToAddressIdentifier())) {
-            customerBillToAddressIdentifier = customerInvoiceDocument.getCustomerBillToAddressIdentifier();
-        }
-        else customerBillToAddressIdentifier = 1;
-        CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerBillToAddressIdentifier);
+        CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber());
+
         if (ObjectUtils.isNotNull(customerBillToAddress)) {
             customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
             customerInvoiceDocument.setCustomerBillToAddressOnInvoice(customerBillToAddress);
-            customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddressIdentifier);
+            customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddress.getCustomerAddressIdentifier());
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

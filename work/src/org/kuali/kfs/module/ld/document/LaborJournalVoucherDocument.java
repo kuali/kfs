@@ -195,7 +195,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
             // apply the labor JV specific information
             this.customizeExplicitGeneralLedgerPendingEntry(accountingLine, pendingLedgerEntry);
-            pendingLedgerEntry.setTransactionEntryOffsetCode(this.getOffsetTypeCode());
+            pendingLedgerEntry.setFinancialDocumentTypeCode(this.getOffsetTypeCode());
 
             if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getEmplid())) {
                 pendingLedgerEntry.setEmplid(LaborConstants.getDashEmplId());
@@ -204,14 +204,14 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
             if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getPositionNumber())) {
                 pendingLedgerEntry.setPositionNumber(LaborConstants.getDashPositionNumber());
             }
-            
+
             String originationCode = SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
             pendingLedgerEntry.setFinancialSystemOriginationCode(originationCode);
-            
+
             pendingLedgerEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
 
             this.getLaborLedgerPendingEntries().add(pendingLedgerEntry);
-            
+
             sequenceHelper.increment();
         }
         catch (Exception e) {
@@ -221,7 +221,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
         return true;
     }
-    
+
     /**
      * If the document has a total amount, call method on document to get the total and set in doc header.
      * 
@@ -233,22 +233,24 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
             logErrors();
             throw new ValidationException("labor ledger LLPE generation failed");
         }
-        
+
         super.prepareForSave();
-    }    
-    
+    }
+
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         this.prepareForSave();
-        super.prepareForSave(event);        
+        super.prepareForSave(event);
     }
-    
+
     /**
      * This is a "do nothing" version of the method - it just won't create GLPEs
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * 
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -256,12 +258,13 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * Labor docs never generate general ledger pending entries, and therefore, this method is never called, but we always return true, since
-     * we're required to have a concrete representation
+     * Labor docs never generate general ledger pending entries, and therefore, this method is never called, but we always return
+     * true, since we're required to have a concrete representation
+     * 
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return true;
-    }    
+    }
 }

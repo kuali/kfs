@@ -22,6 +22,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
@@ -132,10 +133,6 @@ public class CustomerStatementForm extends KualiForm {
         this.accountNumber = accountNumber;
     }
 
-    
-    
-
-
     public void clear() {
         this.accountNumber = null;
         this.customerNumber = null;
@@ -143,6 +140,7 @@ public class CustomerStatementForm extends KualiForm {
         this.orgCode = null;
         this.message = null;
     }
+
     @Override
     public List<ExtraButton> getExtraButtons() {
         List<ExtraButton> buttons = new ArrayList<ExtraButton>();
@@ -172,6 +170,14 @@ public class CustomerStatementForm extends KualiForm {
         return buttons;
     }
     
-    
-
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && "printStatementPDF".equals(methodToCallParameterValue)) {
+            return true;
+        }
+        return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
+    }
 }

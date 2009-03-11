@@ -414,3 +414,8 @@ CREATE TABLE KRIM_PND_GRP_ATTR_DATA_T (
     PRIMARY KEY(ATTR_DATA_ID,FDOC_NBR)
 )
 /
+
+update krim_perm_attr_data_t set attr_val = 'VendorDetail' where TARGET_PRIMARY_KEY in ('137', '138') and KIM_ATTR_DEFN_ID = '5'
+/
+update krim_perm_attr_data_t set attr_val = 'vendorHeader.vendorTaxNumber' where TARGET_PRIMARY_KEY in ('137', '138') and KIM_ATTR_DEFN_ID = '6'
+/

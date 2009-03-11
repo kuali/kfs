@@ -32,11 +32,25 @@
 		</property>
 	</bean>
 
+	
 	<bean id="AssetPayment-routeDocumentValidation" parent="AssetPayment-routeDocumentValidation-parentBean" scope="prototype" />
   
   	<bean id="AssetPayment-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<list>  				
+  			<list>  	
+  				<!--  	
+				<bean parent="AssetPayment-objectSubTypesValidation" scope="prototype">								
+					<property name="quitOnFail" value="true" />
+				</bean>	
+				-->
+  			</list>
+  		</property>
+  	</bean>
+  
+    <bean id="AssetPayment-assetPaymentPrepareRouteValidation" parent="AssetPayment-assetPaymentPrepareRouteValidation-parentBean" scope="prototype" />
+    <bean id="AssetPayment-assetPaymentPrepareRouteValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+  			<list> 
   				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
   					<property name="parameterProperties">
   						<list>
@@ -59,13 +73,10 @@
 				<bean parent="AssetPayment-assetValidation" scope="prototype">
 					<property name="quitOnFail" value="true" />					
 				</bean>														
-				<bean parent="AssetPayment-objectSubTypesValidation" scope="prototype">								
-					<property name="quitOnFail" value="true" />
-				</bean>	
   			</list>
   		</property>
-  	</bean>
-  
+    </bean>
+    
   	<bean id="AssetPayment-approveDocumentValidation" parent="AssetPayment-approveDocumentValidation-parentBean" scope="prototype" />
   
   	<bean id="AssetPayment-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">

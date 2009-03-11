@@ -92,6 +92,10 @@
 				<key><value>org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent</value></key>
 				<value>AssetPayment-addAssetPaymentAssetValidation</value>
 			</entry>			
+			<entry>
+				<key><value>org.kuali.kfs.module.cam.document.validation.event.AssetPaymentPrepareRouteEvent</value></key>
+				<value>AssetPayment-assetPaymentPrepareRouteValidation</value>
+			</entry>			
     	</map>
     </property>
   </bean>

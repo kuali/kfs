@@ -81,7 +81,7 @@ public class PurApLineAction extends CabActionBase {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_EMPTY);
         }
         else {
-            // set non-persistent order from PurAp Purchase Order document
+            // set Contact Email Address and Phone Number from PurAp Purchase Order document
             purApInfoService.setPurchaseOrderFromPurAp(purApLineForm);
 
             // save PurAp document list into form

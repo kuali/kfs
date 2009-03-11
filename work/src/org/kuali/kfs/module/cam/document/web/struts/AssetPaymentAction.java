@@ -43,6 +43,7 @@ import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetSegmentedLookupResultsService;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent;
+import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentPrepareRouteEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -276,28 +277,16 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AssetPaymentDocument assetPaymentDocument = ((AssetPaymentForm) form).getAssetPaymentDocument();
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        if (question != null) {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((CamsConstants.AssetPayment.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                assetPaymentDocument.setObjectSubTypesQuestionAnswered(ConfirmationQuestion.YES);
-            }
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
+        // run all validation first
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AssetPaymentPrepareRouteEvent(errorPath, assetPaymentDocument));
+        if (rulePassed) {
+            // this super method call could trigger the warning message of object sub type code from payment lines not matching the one from assets.
+            return super.route(mapping, form, request, response);
         }
-        try {
-            ActionForward forward = super.route(mapping, form, request, response);
+        else {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        catch (ValidationException e) {
-            // logic for object sub types inconsistent question
-            if (question == null && assetPaymentDocument.isObjectSubTypesQuestionRequired()) {
-                KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-                ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-                String parameterDetail = "(module:" + parameterService.getNamespace(AssetGlobal.class) + "/component:" + parameterService.getDetailType(AssetGlobal.class) + ")";
-                String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES) + " " + CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail + ". " + kualiConfiguration.getPropertyString(CamsKeyConstants.CONTINUE_QUESTION);
-                return this.performQuestionWithoutInput(mapping, form, request, response, CamsConstants.AssetPayment.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, KNSConstants.ROUTE_METHOD, "");
-            }
-            throw e;
-        }
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 }

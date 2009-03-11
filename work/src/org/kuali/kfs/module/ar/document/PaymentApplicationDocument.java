@@ -40,12 +40,14 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -73,7 +75,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private transient PaymentApplicationDocumentService paymentApplicationDocumentService;
     private transient CashControlDetail cashControlDetail;
-
+    private transient FinancialSystemUserService fsUserService;
+    
     public PaymentApplicationDocument() {
         super();
         this.invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
@@ -489,15 +492,22 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         String cashControlDocumentTypeCode = dataDictionaryService.getDocumentTypeNameByClass(CashControlDocument.class);
         String paymentApplicationDocumentTypeCode = dataDictionaryService.getDocumentTypeNameByClass(PaymentApplicationDocument.class); 
         
-        // The processing chart and org comes from the current user.
-        // It will be the same as the chart and org on the cash control document if there is one.
-        // If the payment application document is created from scratch though it's not easy to get 
-        // an appropriate cash control document. So we just take it from the current user instead.
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        String usersDepartment = currentUser.getPrimaryDepartmentCode();
-        String[] deptParts = usersDepartment.split("-");
-        String processingChartCode = deptParts[0];
-        String processingOrganizationCode = deptParts[1];
+        // The processing chart and org comes from the the cash control document if there is one.
+        // If the payment application document is created from scratch though, then we pull it 
+        // from the current user.  Note that we're not checking here that the user actually belongs 
+        // to a billing or processing org, we're assuming that is handled elsewhere.
+        String processingChartCode = null;
+        String processingOrganizationCode = null;
+        if (hasCashControlDocument()) {
+            processingChartCode = getCashControlDocument().getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
+            processingOrganizationCode = getCashControlDocument().getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
+        }
+        else {
+            Person currentUser = GlobalVariables.getUserSession().getPerson();
+            ChartOrgHolder userOrg = getFsUserService().getPrimaryOrganization(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
+            processingChartCode = userOrg.getChartOfAccountsCode();
+            processingOrganizationCode = userOrg.getOrganizationCode();
+        }
 
         // Some information comes from the cash control document
         CashControlDocument cashControlDocument = getCashControlDocument(this);
@@ -839,6 +849,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         this.paymentApplicationDocumentService = paymentApplicationDocumentService;
     }
 
+    private FinancialSystemUserService getFsUserService() {
+        if (fsUserService == null) {
+            fsUserService = SpringContext.getBean(FinancialSystemUserService.class);
+        }
+        return fsUserService;
+    }
+    
     public String getHiddenFieldForErrors() {
         return hiddenFieldForErrors;
     }

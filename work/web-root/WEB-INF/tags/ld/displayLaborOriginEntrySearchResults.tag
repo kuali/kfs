@@ -24,7 +24,7 @@
     No Origin Entries found.
 </c:if>
 <c:if test="${!empty laborOriginEntries}">
-    <ld:tablePageNumbers pageNumber="${KualiForm.originEntrySearchResultTableMetadata.viewedPageNumber}"
+    <kul:tableRenderPagingBanner pageNumber="${KualiForm.originEntrySearchResultTableMetadata.viewedPageNumber}"
             totalPages="${KualiForm.originEntrySearchResultTableMetadata.totalNumberOfPages}"
             firstDisplayedRow="${KualiForm.originEntrySearchResultTableMetadata.firstRowIndex}" lastDisplayedRow="${KualiForm.originEntrySearchResultTableMetadata.lastRowIndex}"
             resultsActualSize="${KualiForm.originEntrySearchResultTableMetadata.resultsActualSize}" resultsLimitedSize="${KualiForm.originEntrySearchResultTableMetadata.resultsLimitedSize}"

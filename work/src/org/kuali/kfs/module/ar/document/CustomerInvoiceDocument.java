@@ -1423,6 +1423,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     public PrintInvoiceOptions getPrintInvoiceOption() {
+        if (ObjectUtils.isNull(printInvoiceOption) && StringUtils.isNotEmpty(printInvoiceIndicator)){
+            refreshReferenceObject("printInvoiceOption");
+        }
         return printInvoiceOption;
     }
 

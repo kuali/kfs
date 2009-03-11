@@ -303,6 +303,8 @@
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/ar/{1}.jsp" />
+			<forward name="arPrintPDF"
+				path="/jsp/modules/ar/ArPrintForward.jsp" redirect="false" />
 		</action>	
 
 		<action path="/arCustomerAgingReportLookup"
@@ -348,6 +350,8 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/modules/ar/CustomerStatement.jsp" />
+			<forward name="arPrintPDF"
+				path="/jsp/modules/ar/ArPrintForward.jsp" />
 		</action>
 
 	<action path="/arCustomerInvoice"

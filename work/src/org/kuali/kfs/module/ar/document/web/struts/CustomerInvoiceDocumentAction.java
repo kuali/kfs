@@ -20,9 +20,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -37,7 +39,6 @@ import org.kuali.kfs.module.ar.document.validation.event.DiscountCustomerInvoice
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerInvoiceDetailEvent;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
@@ -45,9 +46,10 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 import com.lowagie.text.Document;
@@ -68,7 +70,13 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
-        customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateAccountReceivableObjectCodes();
+        CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
+        if(StringUtils.isBlank(customerInvoiceDocument.getDocumentNumber())) {
+            String docId = request.getParameter("docId");
+            customerInvoiceDocument.setDocumentNumber(docId);
+            customerInvoiceDocument.refresh();
+        }
+        customerInvoiceDocument.updateAccountReceivableObjectCodes();
         try {
             // proceed as usual
             customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
@@ -343,6 +351,25 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
     }
 
+    /**
+     * Overrides the docHandler method in the superclass. In addition to doing the normal process in the superclass and returning
+     * its action forward from the superclass, it also invokes the <code>checkForPOWarnings</code> method to check on a few
+     * conditions that could have caused warning messages to be displayed on top of Purchase Order page.
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+
+        CustomerInvoiceDocumentForm ciForm = (CustomerInvoiceDocumentForm) form;
+        CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) ciForm.getDocument();
+        
+        return forward;
+    }
+    
+    
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
@@ -407,20 +434,27 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }    
 
-    /**
-     * 
-     * This method...
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String basePath = getBasePath(request);
+        String docId = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument().getDocumentNumber();
+        String methodToCallPrintInvoicePDF = "printInvoicePDF";
+        String methodToCallDocHandler = "docHandler";
+        String printInvoicePDFUrl = getUrlForPrintInvoice(basePath, docId, methodToCallPrintInvoicePDF);
+        String displayInvoiceTabbedPageUrl = getUrlForPrintInvoice(basePath, docId, methodToCallDocHandler);
         
-        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm)form;
-        CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) customerInvoiceDocumentForm.getDocument();
+        request.setAttribute("printPDFUrl", printInvoicePDFUrl);
+        request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
+        request.setAttribute("docId", docId);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(CustomerInvoiceDocument.class);
+        request.setAttribute("printLabel", label);
+        return mapping.findForward("arPrintPDF");
+        
+    }
+    
+    public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        String invoiceDocId = request.getParameter("docId");
+        CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceDocId);
         
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         File report = reportService.generateInvoice(customerInvoiceDocument);
@@ -437,10 +471,11 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         }
             
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        String contentDisposition = "";
         try {
             ArrayList master = new ArrayList();
-            PdfCopy  writer = null;
-                    
+            PdfCopy writer = null;
+
             // create a reader for the document
             String reportName = report.getAbsolutePath();
             PdfReader reader = new PdfReader(reportName);
@@ -472,13 +507,59 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             }
             // step 5: we close the document
             document.close();
+
+            StringBuffer sbContentDispValue = new StringBuffer();
+            String useJavascript = request.getParameter("useJavascript");
+            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
+                sbContentDispValue.append("attachment");
+            }
+            else {
+                sbContentDispValue.append("inline");
+            }
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(fileName);
+            
+            contentDisposition = sbContentDispValue.toString();
+            
         }
         catch(Exception e) {
             e.printStackTrace();
         } 
+        
+        response.setContentType("application/pdf");
+        response.setHeader("Cache-Control", "max-age=30");
+        response.setHeader("Content-Disposition", contentDisposition);
+        response.setContentLength(baos.size());
 
-        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName.toString());
-        //csForm.setMessage("Report Generated");
+        // write to output
+        ServletOutputStream sos;
+        sos = response.getOutputStream();
+        baos.writeTo(sos);
+        sos.flush();
+        sos.close();
+        
         return null;
     }
+    
+    /**
+     * Creates a URL to be used in printing the purchase order.
+     * 
+     * @param basePath String: The base path of the current URL
+     * @param docId String: The document ID of the document to be printed
+     * @param methodToCall String: The name of the method that will be invoked to do this particular print
+     * @return The URL
+     */
+    private String getUrlForPrintInvoice(String basePath, String docId, String methodToCall) {
+        StringBuffer result = new StringBuffer(basePath);
+        result.append("/arCustomerInvoiceDocument.do?methodToCall=");
+        result.append(methodToCall);
+        result.append("&docId=");
+        result.append(docId);
+        result.append("&command=displayDocSearchView");
+
+        return result.toString();
+    }
+
+    
+    
 }

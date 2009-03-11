@@ -35,4 +35,5 @@ public class BCParameterKeyConstants implements ParameterKeyConstants {
     public static final String SALARY_SETTING_FUND_GROUPS = "SALARY_SETTING_FUND_GROUPS";
     public static final String SALARY_SETTING_SUB_FUND_GROUPS = "SALARY_SETTING_SUB_FUND_GROUPS";
     public static final String WEEKLY_WORKING_HOURS = "WEEKLY_WORKING_HOURS";
+    public static final String SOURCE_FISCAL_YEAR = "SOURCE_FISCAL_YEAR";
 }

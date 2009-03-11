@@ -922,11 +922,28 @@
 	<bean id="RoutingFormDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="routingTypeDefinitions">
     		<map>
+    			<entry key="ProjectManagement" value-ref="RoutingFormDocument-RoutingType-ProjectManagement" />
     			<entry key="OrganizationHierarchy" value-ref="RoutingFormDocument-RoutingType-OrganizationHierarchy"/>
     			<entry key="ResearchAdHoc" value-ref="RoutingFormDocument-RoutingType-ResearchAdHoc"/>
     			<entry key="ResearchRisk" value-ref="RoutingFormDocument-RoutingType-ResearchRisks"/>
     			<entry key="QuestionType" value-ref="RoutingFormDocument-RoutingType-QuestionsForNotification"/>
     		</map>
+    	</property>
+	</bean>
+	
+	<bean id="RoutingFormDocument-RoutingType-ProjectManagement" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    				<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel"/>
+    				<property name="attributeName" value="principalId"/>
+    			</bean>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-ContractsAndGrantsProjectDirector-principalId"/>
+    		</list>
     	</property>
 	</bean>
 	

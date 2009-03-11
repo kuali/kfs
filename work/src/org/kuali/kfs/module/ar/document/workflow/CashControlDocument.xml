@@ -24,7 +24,6 @@
         <start name="AdHoc"/>
         <role name="Lockbox">
           <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
-          <mandatoryRoute>true</mandatoryRoute>
         </role>
         <role name="ElectronicPayment">
           <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>

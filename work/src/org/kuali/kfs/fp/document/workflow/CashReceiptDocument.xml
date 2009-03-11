@@ -15,7 +15,6 @@
         <start name="AdHoc"/>
         <role name="CashManagement">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          <mandatoryRoute>true</mandatoryRoute>
         </role>
       </routeNodes>
     </documentType>

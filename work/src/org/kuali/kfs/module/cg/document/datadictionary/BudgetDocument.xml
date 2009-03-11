@@ -122,13 +122,13 @@
 	<bean id="BudgetDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="ProjectDirector" value-ref="BudgetDocument-RoutingType-ProjectDirector"/>
+    			<entry key="ProjectManagement" value-ref="BudgetDocument-RoutingType-ProjectManagement"/>
     			<entry key="OrganizationHierarchy" value-ref="BudgetDocument-RoutingType-OrganizationHierarchy"/>
     		</map>
     	</property>
 	</bean>
 	
-	<bean id="BudgetDocument-RoutingType-ProjectDirector" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="BudgetDocument-RoutingType-ProjectManagement" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
 		<property name="routingAttributes">
     		<list>
     			<bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">

@@ -3,23 +3,22 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>KBD</name>
-      <parent>ContractsAndGrantsTransactionalDocument</parent>
+      <parent>ResearchTransactionalDocument</parent>
       <docHandler>${application.url}/researchBudgetParameters.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="ProjectDirector"/>
-          <requests name="ProjectDirector" nextNode="OrganizationHierarchy"/>
+          <start name="AdHoc" nextNode="ProjectManagement"/>
+          <requests name="ProjectManagement" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy"/>
         </routePath>
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>
-        <role name="ProjectDirector">
-
+        <role name="ProjectManagement">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
         <role name="OrganizationHierarchy">
-
+		  <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
       </routeNodes>

@@ -3,12 +3,13 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>KRFD</name>
-      <parent>ContractsAndGrantsTransactionalDocument</parent>
+      <parent>ResearchTransactionalDocument</parent>
       <docHandler>${application.url}/researchRoutingFormMainPage.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="ResearchAdHoc"/>
-          <requests name="ResearchAdHoc" nextNode="OrganizationHierarchy"/>
+          <requests name="ResearchAdHoc" nextNode="ProjectManagement"/>
+          <requests name="ProjectManagement" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy" nextNode="ResearchRisk"/>
           <requests name="ResearchRisk" nextNode="QuestionType"/>
           <requests name="QuestionType"/>
@@ -17,11 +18,14 @@
       <routeNodes>
         <start name="AdHoc"/>
         <role name="ResearchAdHoc">
-
+		  <activationType>P</activationType> 
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="ProjectManagement">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
         <role name="OrganizationHierarchy">
-
+		  <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
         </role>
         <role name="ResearchRisk">

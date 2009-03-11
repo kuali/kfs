@@ -30,6 +30,7 @@
       <html:hidden property="editingMode(${mode.key})"/>
     </c:forEach>
 --%>
+    <html:hidden property="mainWindow" />
 
     <bc:incumbentSalarySetting readOnly="${readOnly}"/>	
     

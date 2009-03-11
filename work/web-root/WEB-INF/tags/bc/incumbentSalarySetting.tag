@@ -36,6 +36,7 @@
 <html:hidden property="addLine" />
 <html:hidden property="salarySettingClosed" />
 --%>
+<html:hidden property="budgetByAccountMode" />
 
 <kul:tabTop tabTitle="Incumbent" defaultOpen="true">
 	<div class="tab-container" align=center>

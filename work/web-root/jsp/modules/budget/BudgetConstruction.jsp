@@ -38,6 +38,7 @@
 	docTitle="Budget Construction Document"
     transactionalDocument="true"
 	>
+    <html:hidden property="mainWindow" />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 

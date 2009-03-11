@@ -34,6 +34,7 @@
     </c:forEach>
     <html:hidden property="monthlyReadOnly" />
 --%>
+    <html:hidden property="mainWindow" />
 
     <c:set var="readOnly" value="${KualiForm.monthlyReadOnly}" />
 

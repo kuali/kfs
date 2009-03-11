@@ -60,6 +60,7 @@
 	<html-el:hidden name="KualiForm" property="addLine" />
 	<html-el:hidden name="KualiForm" property="showSalaryByIncumbentAction" />
 	<html-el:hidden name="KualiForm" property="budgetByAccountMode" />
+	<html-el:hidden name="KualiForm" property="mainWindow" />
 
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />

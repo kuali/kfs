@@ -29,6 +29,7 @@
               <html:hidden property="chartOfAccountsCode" />
               <html:hidden property="accountNumber" />
               <html:hidden property="subAccountNumber" />
+    <html:hidden property="mainWindow" />
 	
     <bc:budgetConstructionReportDumpLines />
 

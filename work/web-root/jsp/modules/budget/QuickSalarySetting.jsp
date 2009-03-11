@@ -29,6 +29,7 @@
   		<html:hidden property="editingMode(${mode.key})"/>
 	</c:forEach>
 --%>
+    <html:hidden property="mainWindow" />
     
 	<kul:tabTop tabTitle="Quick Salary Setting" defaultOpen="true" tabErrorKey="${BCConstants.ErrorKey.QUICK_SALARY_SETTING_TAB_ERRORS}">
 		<div class="tab-container" align=center>

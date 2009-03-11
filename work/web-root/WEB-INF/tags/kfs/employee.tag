@@ -36,14 +36,9 @@
 <script language="JavaScript" type="text/javascript" src="dwr/interface/PersonService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
 
-<%-- set the border color when has errors --%>
-<c:if test="${hasErrors}">
-	<c:set var="textStyle" value="border-color: red" />
-</c:if>
 <kul:htmlControlAttribute property="${userIdFieldName}" 
                     attributeEntry="${DataDictionary['PersonImpl'].attributes.employeeId}" forceRequired="${forceRequired}"
                     onblur="loadEmplInfo( '${userIdFieldName}', '${userNameFieldName}' );${onblur}" readOnly="${readOnly}"/>
-
 <c:if test="${!readOnly}">
 	<kul:lookup boClassName="org.kuali.rice.kim.bo.Person" 
 		        fieldConversions="${fieldConversions}" 
@@ -73,4 +68,5 @@
 <c:if test="${highlight}">
 <kul:fieldShowChangedIcon/>
 </c:if>
+
 

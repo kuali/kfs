@@ -60,7 +60,7 @@ public class PurapTestConstants {
         static RequisitionItem REQ_ITEM = new RequisitionItem();
         static PurchaseOrderItem PO_ITEM = new PurchaseOrderItem();
         static final String ITEM_DESC = "Test item description";
-        static final String ITEM_UOM = "EACH";
+        static final String ITEM_UOM = "EA";
         static final String ITEM_CATALOG_NUMBER = "1F742";
         static PurchaseOrderAccount PO_ACCOUNT = new PurchaseOrderAccount();
         static RequisitionAccount REQ_ACCOUNT = new RequisitionAccount();

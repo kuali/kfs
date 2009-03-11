@@ -58,7 +58,7 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
                 Map<String,String> fieldValues = new HashMap<String, String>();
                 fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, purItem.getItemUnitOfMeasureCode());
                 if (businessObjectService.countMatching(UnitOfMeasure.class, fieldValues) != 1) {
-                    //This is the case where the commodity code on the item does not exist in the database.
+                    //This is the case where the unit of measure code on the item does not exist in the database.
                     valid = false;
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + purItem.getItemIdentifierString());
                 }

@@ -19,7 +19,7 @@
 <%@ attribute name="depositIndex" required="true" %>
 <%@ attribute name="deposit" required="true" type="org.kuali.kfs.fp.businessobject.Deposit"%>
 
-<c:set var="readOnly" value="${empty editingMode[AuthorizationConstants.EditMode.FULL_ENTRY]}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="allowAdditionalDeposits" value="${editingMode[AuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS]}" />
 <c:set var="allowCancelDeposits" value="${editingMode[AuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS]}" />
 

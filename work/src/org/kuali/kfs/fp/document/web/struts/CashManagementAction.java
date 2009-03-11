@@ -50,14 +50,14 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
+import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Action class for CashManagementForm
  */
-public class CashManagementAction extends KualiDocumentActionBase {
+public class CashManagementAction extends KualiTransactionalDocumentActionBase {
     private static Logger LOG = Logger.getLogger(CashManagementAction.class);
     private static final String CASH_MANAGEMENT_STATUS_PAGE = "/cashManagementStatus.do";
 

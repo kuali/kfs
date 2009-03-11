@@ -24,6 +24,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumben
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.batch.GenesisBatchStep;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -161,5 +162,15 @@ public class BudgetParameterFinder {
      */
     public static boolean getPayrollPositionFeedIndicator() {
         return parameterService.getIndicatorParameter(BudgetConstructionPosition.class, BCParameterKeyConstants.EXTERNAL_POSITION_FEED_IND);
+    }
+    
+    /**
+     * returns the base fiscal year to use to initialize budget construction
+     */
+    
+    public static Integer getBaseFiscalYear()
+    {
+        String yearValue = parameterService.getParameterValue(GenesisBatchStep.class, BCParameterKeyConstants.SOURCE_FISCAL_YEAR);
+        return (Integer.valueOf(StringUtils.trim(yearValue)));
     }
 }

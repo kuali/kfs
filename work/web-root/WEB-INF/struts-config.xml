@@ -150,6 +150,8 @@
 			type="org.kuali.kfs.module.bc.document.web.struts.ReportRunnerForm" />
 		<form-bean name="PayrateImportExportForm"
 			type="org.kuali.kfs.module.bc.document.web.struts.PayrateImportExportForm" />
+		<form-bean name="BudgetExpansionForm"
+			type="org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm" />
 
 		<!-- KRA Module Bean Definitions -->
 		<form-bean name="BudgetForm"
@@ -502,6 +504,7 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/budget/{1}.jsp" />
 			<forward name="organizationSalarySettingReturning" path="/jsp/modules/budget/OrganizationSalarySettingReturning.jsp" />
+			<forward name="lostSessionReturning" path="/jsp/modules/budget/LostSessionReturning.jsp" />
 			<forward name="import_export"
 				path="/jsp/modules/budget/BudgetConstructionImportExport.jsp" />
 			<forward name="report_dump"
@@ -515,6 +518,7 @@
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/budget/MonthlyBudget.jsp" />
+			<forward name="lostSessionReturning" path="/jsp/modules/budget/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetQuickSalarySetting" name="QuickSalarySettingForm"
@@ -524,6 +528,7 @@
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/budget/QuickSalarySetting.jsp" />
+			<forward name="lostSessionReturning" path="/jsp/modules/budget/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetPositionSalarySetting" name="PositionSalarySettingForm"
@@ -534,6 +539,7 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/budget/PositionSalarySetting.jsp" />
 			<forward name="organizationSalarySettingReturning" path="/jsp/modules/budget/OrganizationSalarySettingReturning.jsp" />
+			<forward name="lostSessionReturning" path="/jsp/modules/budget/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetIncumbentSalarySetting" name="IncumbentSalarySettingForm"
@@ -544,6 +550,7 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/budget/IncumbentSalarySetting.jsp" />
 			<forward name="organizationSalarySettingReturning" path="/jsp/modules/budget/OrganizationSalarySettingReturning.jsp" />
+			<forward name="lostSessionReturning" path="/jsp/modules/budget/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/researchBudget*" name="BudgetForm"

@@ -28,6 +28,7 @@ import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 
 public class GenesisBatchStep extends AbstractStep {
 
@@ -45,9 +46,7 @@ public class GenesisBatchStep extends AbstractStep {
 
     public boolean execute(String jobName, Date jobRunDate) {
         genesisService = SpringContext.getBean(GenesisService.class);
-        // @@TODO: in production, we will use the current fiscal year, not 2007
-        // Integer baseFiscalYear = genesisService.genesisFiscalYearFromToday() - 1;
-        genesisService.genesisStep(2007);
+        genesisService.genesisStep(BudgetParameterFinder.getBaseFiscalYear());
         setInitiatedParameter();
         return true;
     }

@@ -168,7 +168,8 @@
                     <c:set var="itemUnitOfMeasureDescriptionField"  value="newPurchasingItemLine.itemUnitOfMeasure.itemUnitOfMeasureDescription" />
                     <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
                         property="${itemUnitOfMeasureCodeField}" 
-                        onblur="loadItemUnitOfMeasureInfo( '${itemUnitOfMeasureCodeField}', '${itemUnitOfMeasureDescriptionField}' );${onblur}" readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                        readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}"
+                        onblur="loadItemUnitOfMeasureInfo( '${itemUnitOfMeasureCodeField}', '${itemUnitOfMeasureDescriptionField}' );${onblur}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                     <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
                         fieldConversions="itemUnitOfMeasureCode:newPurchasingItemLine.itemUnitOfMeasureCode"
                         lookupParameters="'Y':active"/>     
@@ -383,7 +384,7 @@
                             attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
                             property="document.item[${ctr}].itemUnitOfMeasureCode"
                             onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
-                            readOnly="true"
+                            readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}"
                             tabindexOverride="${tabindexOverrideBase + 0}"/>
                         <c:if test="${!lockB2BEntry and fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
                             <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 

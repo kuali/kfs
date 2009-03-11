@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -50,6 +52,7 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePu
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -1265,6 +1268,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public void setPaymentRequestedCancelIndicatorForSearching(boolean paymentRequestedCancelIndicatorForSearching) {
         this.paymentRequestedCancelIndicatorForSearching = paymentRequestedCancelIndicatorForSearching;
+    }
+    
+    @Override
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.afterLookup(persistenceBroker);
+        if (ObjectUtils.isNull(this.getDocumentHeader().getDocumentNumber())) {
+            this.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
+        }
     }
     
 }

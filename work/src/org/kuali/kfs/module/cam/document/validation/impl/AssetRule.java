@@ -20,9 +20,12 @@ import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_WARRANT
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -32,6 +35,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetComponent;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
+import org.kuali.kfs.module.cam.businessobject.AssetRepairHistory;
 import org.kuali.kfs.module.cam.businessobject.AssetWarranty;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetComponentService;
@@ -44,6 +48,7 @@ import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -129,6 +134,53 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * 
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     */
+    @Override
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument documentCopy, String collectionName, PersistableBusinessObject bo) {
+        boolean success = true;
+        
+        // get all incidentDates from AssetRepairHistory collection
+        Asset asset = (Asset) documentCopy.getNewMaintainableObject().getBusinessObject();
+        Set<Date> incidentDateSet = new HashSet<Date>();
+        for (AssetRepairHistory assetRepairHistory : asset.getAssetRepairHistory()) {
+            if (assetRepairHistory.getIncidentDate() != null) {
+                incidentDateSet.add(assetRepairHistory.getIncidentDate());
+            }
+        }
+
+        AssetRepairHistory assetRepairHistoryDetails = (AssetRepairHistory) bo;
+        
+        success &= checkDuplicateIncidentDate(assetRepairHistoryDetails, incidentDateSet);
+
+        return success & super.processCustomAddCollectionLineBusinessRules(documentCopy, collectionName, bo);
+    }
+    
+    /**
+     * Check for duplicate incident dates within the Repair History section
+     * 
+     * @param assetRepairHistory
+     * @param incidentDateSet
+     * @return boolean
+     */
+    private boolean checkDuplicateIncidentDate(AssetRepairHistory assetRepairHistory, Set<Date> incidentDateSet) {
+        boolean success = true;
+        
+        if (!incidentDateSet.add(assetRepairHistory.getIncidentDate())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRepairHistory.INCIDENT_DATE, CamsKeyConstants.AssetRepairHistory.ERROR_DUPLICATE_INCIDENT_DATE);
+            success &= false;
+        }
+
+        return success;
+    }
+    
+    /**
+     * Validate fabrication details
+     * 
+     * @return boolean
+     */
     private boolean validateFabricationDetails() {
         /**
          * Please don't remove this validation, forcing required fields from DD file is not possible and will break asset edit
@@ -163,7 +215,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-
+    /**
+     * Validate account
+     * 
+     * @return boolean
+     */
     private boolean validateAccount() {
         boolean valid = true;
         Account currentOwnerAccount = newAsset.getOrganizationOwnerAccount();
@@ -181,9 +237,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-
+    /**
+     * Set asset component numbers
+     * 
+     * @param asset
+     */
     private void setAssetComponentNumbers(Asset asset) {
-
         List<AssetComponent> assetComponents = asset.getAssetComponents();
         Integer maxNo = null;
         for (AssetComponent assetComponent : assetComponents) {
@@ -196,7 +255,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             }
         }
     }
-
 
     /**
      * Validates Asset document.
@@ -400,7 +458,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-    
     /**
      * 
      * validates depreciation data

@@ -225,4 +225,8 @@ public class CamsKeyConstants {
     public static class Asset {
         public static final String ERROR_INVALID_SALVAGE_AMOUNT="error.asset.salvage.amount.not.valid";
     }
+    
+    public static class AssetRepairHistory {
+        public static final String ERROR_DUPLICATE_INCIDENT_DATE = "error.duplicate.incident.date";
+    }
 }

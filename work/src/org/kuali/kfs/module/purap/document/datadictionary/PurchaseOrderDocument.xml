@@ -1334,8 +1334,7 @@
 
     <bean id="PurchaseOrderDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="routingTypeDefinitions">
-    		<map>
-    		    <entry key="ContractManagement" value-ref="RoutingType-PurchaseOrderDocument-ContractManagement"/>
+    		<map>    		    
     		    <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/>
     			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
                 <!-- no qualifiers for RequiresBudgetReview -->

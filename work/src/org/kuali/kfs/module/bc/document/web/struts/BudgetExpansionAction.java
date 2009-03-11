@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +26,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
@@ -40,6 +39,47 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
  * Handles close action to implement Budget return to caller (expansion screen) flow.
  */
 public class BudgetExpansionAction extends KualiAction {
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetExpansionForm budgetExpansionForm = (BudgetExpansionForm) form;
+
+        // check for session timeout if not initial (re)load of BC selection
+        if (!(mapping.getType().endsWith("BudgetConstructionSelectionAction") && (budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD) || budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT)))) {
+
+            Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
+            if (isBCHeartBeating == null) {
+                budgetExpansionForm.setLostSession(Boolean.TRUE);
+                
+                if (form instanceof SalarySettingBaseForm){
+                    SalarySettingBaseForm salarySettingBaseForm = (SalarySettingBaseForm) form;
+                    if (!salarySettingBaseForm.isBudgetByAccountMode()){
+                        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                        return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+                    }
+                }
+                if (budgetExpansionForm.isMainWindow()){
+                    Properties parameters = new Properties();
+                    parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
+
+                    String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+
+                    return new ActionForward(lookupUrl, true);
+                }
+                else {
+                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                    return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
+                }
+            }
+        }
+
+        return super.execute(mapping, form, request, response);
+    }
 
     /**
      * Handling for screen close. Default action is return to caller.
@@ -137,15 +177,4 @@ public class BudgetExpansionAction extends KualiAction {
             sess.removeAttribute(formName);
         }
     }
-
-// TODO used to workaround KIM access problems remove this hack when no longer needed
-//    /**
-//     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
-//     *      java.lang.String)
-//     */
-//    @Override
-//    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-//        // TODO Auto-generated method stub
-//        // super.checkAuthorization(form, methodToCall);
-//    }
 }

@@ -29,7 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -40,7 +39,6 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
 import org.kuali.kfs.module.bc.document.validation.event.AddBudgetConstructionDocumentEvent;
@@ -51,9 +49,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -86,18 +81,6 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         buildHelper.setForceRebuild(true);
         GlobalVariables.getUserSession().addObject(BCConstants.Report.CONTROL_BUILD_HELPER_SESSION_NAME, buildHelper);
 
-        // TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
-        // since BC sets locks up front, but need to verify this
-
-
-        // TODO will eventually need to setup some sort of authorization for typical user versus BC root approver
-        // root approvers have more controls present on the page
-        // TODO should probably use service locator and call
-        // DocumentAuthorizer documentAuthorizer =
-        // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
-        // BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
-        // budgetConstructionSelectionForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
-
         return forward;
     }
 
@@ -119,25 +102,27 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         Boolean isBCInProgress = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_IN_PROGRESS_SESSIONFLAG);
-        if (isBCInProgress != null && isBCInProgress){
-            
-            //TODO add question prompt
+        if (isBCInProgress != null && isBCInProgress) {
+
+            // TODO add question prompt
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
                 // ask question if not already asked
                 return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, kualiConfiguration.getPropertyString(BCKeyConstants.QUESTION_CONFIRM_CLEANUP), KFSConstants.CONFIRMATION_QUESTION, "loadExpansionScreen", "");
-            } else {
+            }
+            else {
                 Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-                if ((KFSConstants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)){
+                if ((KFSConstants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                     // clear out all BC related Objects(forms) stored in GlobalVariables.UserSession
                     // to help prevent memory leaks if the user fails to use application control flow
                     GlobalVariables.getUserSession().removeObjectsByPrefix(BCConstants.FORMKEY_PREFIX);
-                    
+
                     // clear out any session object form attribute
                     HttpSession sess = request.getSession(Boolean.FALSE);
                     sess.removeAttribute(BCConstants.MAPPING_ATTRIBUTE_KUALI_FORM);
 
-                } else {
+                }
+                else {
                     budgetConstructionSelectionForm.setSessionInProgressDetected(true);
                     GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_NOTCLEANED);
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -145,7 +130,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
             }
         }
 
-        
+
         // get active BC year and complain when anything other than one year active for now
         List<Integer> activeBCYears = fiscalYearFunctionControlService.getActiveBudgetYear();
         if (activeBCYears.size() != 1) {
@@ -163,7 +148,27 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         budgetConstructionSelectionForm.getBudgetConstructionHeader().setUniversityFiscalYear(budgetConstructionSelectionForm.getUniversityFiscalYear());
 
+        // add the heart beat flag used to test for session time out in the expansion screens
+        GlobalVariables.getUserSession().addObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG, Boolean.TRUE);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * called when a session time out happens in one of the BC expansion screens to load the selection screen with a message
+     * notifying the user about the session time out.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward loadExpansionScreenSessionTimeOut(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+        return loadExpansionScreen(mapping, form, request, response);
     }
 
     /**
@@ -181,7 +186,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         // do lookup of header and call open if found, otherwise create blank doc and account hierarchy, then open if no error
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
-        
+
         BudgetConstructionHeader bcHeader = budgetConstructionSelectionForm.getBudgetConstructionHeader();
 
         Integer universityFiscalYear = bcHeader.getUniversityFiscalYear();
@@ -247,6 +252,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         parameters.put("accountNumber", tHeader.getAccountNumber());
         parameters.put("subAccountNumber", tHeader.getSubAccountNumber());
         parameters.put("pickListMode", "false");
+        parameters.put(BCPropertyConstants.MAIN_WINDOW, "true");
 
         String lookupUrl = BudgetUrlUtil.buildBudgetUrl(mapping, budgetConstructionSelectionForm, BCConstants.BC_DOCUMENT_ACTION, parameters);
 
@@ -271,7 +277,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "chartOfAccounts", "account", "subAccount", "budgetConstructionAccountReports" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionSelectionForm.getBudgetConstructionHeader(), REFRESH_FIELDS);
         }
-        
+
         // clearout any BC inprogress semaphore, regardless of where we are returning from
         // this handles the lock monitor no refreshCaller return case
         GlobalVariables.getUserSession().removeObject(BCConstants.BC_IN_PROGRESS_SESSIONFLAG);
@@ -313,7 +319,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward performOrgSelectionTree(OrgSelOpMode opMode, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
-        
+
         this.flagBCInProgress();
 
         Map<String, String> parameters = new HashMap<String, String>();
@@ -393,7 +399,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         this.flagBCInProgress();
 
         Map<String, String> urlParms = new HashMap<String, String>();
-        
+
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, budgetConstructionSelectionForm, BCConstants.TempListLookupMode.LOCK_MONITOR, BudgetConstructionLockSummary.class.getName(), urlParms);
 
@@ -476,11 +482,10 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         return forward;
     }
 
-    public void flagBCInProgress(){
-        
+    public void flagBCInProgress() {
+
         // Overwrite or add the BC in progress flag
         // This is used as a semaphore to control cleanup of session BC Temp objects
         GlobalVariables.getUserSession().addObject(BCConstants.BC_IN_PROGRESS_SESSIONFLAG, Boolean.TRUE);
     }
 }
-

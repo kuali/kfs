@@ -33,6 +33,7 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
@@ -52,13 +53,72 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Handles organization budget action requests from menu.
  */
 public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeAction.class);
-    
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+
+        OrganizationSelectionTreeForm orgSelTreeForm = (OrganizationSelectionTreeForm) form;
+        if (!orgSelTreeForm.isLostSession()){
+            if (orgSelTreeForm.getPullFlagKeyLabels().isEmpty() && orgSelTreeForm.getOperatingMode() != null) {
+                OrgSelOpMode opMode = OrgSelOpMode.valueOf(orgSelTreeForm.getOperatingMode());
+                switch (opMode) {
+                    case SALSET:
+                        orgSelTreeForm.setOperatingModeTitle("Budget Salary Setting Organization Selection");
+                        orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                        break;
+                    case REPORTS:
+                        orgSelTreeForm.setOperatingModeTitle("BC Reports Organization Selection");
+                        orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                        break;
+                    case PULLUP:
+                        orgSelTreeForm.setOperatingModeTitle("BC Pull Up Organization Selection");
+                        orgSelTreeForm.setOperatingModePullFlagLabel("Pull Up Type");
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.BOTH.getKey(), OrgSelControlOption.BOTH.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORG.getKey(), OrgSelControlOption.ORG.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.SUBORG.getKey(), OrgSelControlOption.SUBORG.getLabel()));
+                        break;
+                    case PUSHDOWN:
+                        orgSelTreeForm.setOperatingModeTitle("BC Push Down Organization Selection");
+                        orgSelTreeForm.setOperatingModePullFlagLabel("Push Down Type");
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORGLEV.getKey(), OrgSelControlOption.ORGLEV.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.MGRLEV.getKey(), OrgSelControlOption.MGRLEV.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORGMGRLEV.getKey(), OrgSelControlOption.ORGMGRLEV.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.LEVONE.getKey(), OrgSelControlOption.LEVONE.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.LEVZERO.getKey(), OrgSelControlOption.LEVZERO.getLabel()));
+                        break;
+                    default:
+                        // default to ACCOUNT operating mode
+                        orgSelTreeForm.setOperatingModeTitle("Budgeted Account List Search Organization Selection");
+                        orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                        break;
+                }
+            }
+        }
+
+        return actionForward;
+    }
+
     /**
      * Sets up the initial mode of the drill down screen based on a passed in calling mode attribute This can be one of five modes -
      * pullup, pushdown, reports, salset, account. Each mode causes a slightly different rendition of the controls presented to the
@@ -472,7 +532,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
             return new ActionForward(url, true);
         }
-        
+
         GlobalVariables.getMessageList().add(BCKeyConstants.MSG_ORG_PULL_UP_SUCCESSFUL);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -541,11 +601,11 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         if (rowCount != 0) {
             String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_PUSHDOWN_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
 
-            return new ActionForward(url, true);        
+            return new ActionForward(url, true);
         }
-        
+
         GlobalVariables.getMessageList().add(BCKeyConstants.MSG_ORG_PUSH_DOWN_SUCCESSFUL);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -698,4 +758,3 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
 }
-

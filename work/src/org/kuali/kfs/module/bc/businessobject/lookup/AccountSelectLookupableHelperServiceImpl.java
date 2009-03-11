@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -48,6 +49,7 @@ public class AccountSelectLookupableHelperServiceImpl extends SelectLookupableHe
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountSelect.getAccountNumber());
         parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, accountSelect.getSubAccountNumber());
         parameters.put(BCConstants.PICK_LIST_MODE, "true");
+        parameters.put(BCPropertyConstants.MAIN_WINDOW, "false");
 
         String href = UrlFactory.parameterizeUrl(BCConstants.BC_DOCUMENT_ACTION, parameters);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();

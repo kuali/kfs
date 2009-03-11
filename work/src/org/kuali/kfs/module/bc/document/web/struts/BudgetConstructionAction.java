@@ -98,6 +98,23 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
 
+        Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
+        if (isBCHeartBeating == null) {
+            if (budgetConstructionForm.isPickListMode()){
+                budgetConstructionForm.setPickListClose(true);
+                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
+            }
+
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
+
+            String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+
+            return new ActionForward(lookupUrl, true);
+        }
+
         // this is only used to indicate to the rules the user has clicked save or close save-yes
         // which forces tighter checks (nonZeroRequest amount) when access is cleanup mode
         if (budgetConstructionForm.getBudgetConstructionDocument().isCleanupModeActionForceCheck()) {
@@ -850,6 +867,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put("financialSubObjectCode", pbglLine.getFinancialSubObjectCode());
         parameters.put("financialBalanceTypeCode", pbglLine.getFinancialBalanceTypeCode());
         parameters.put("financialObjectTypeCode", pbglLine.getFinancialObjectTypeCode());
+        parameters.put("mainWindow", (budgetConstructionForm.isMainWindow() ? "true" : "false"));
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
@@ -930,6 +948,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put("financialSubObjectCode", pbglLine.getFinancialSubObjectCode());
         parameters.put("financialBalanceTypeCode", pbglLine.getFinancialBalanceTypeCode());
         parameters.put("financialObjectTypeCode", pbglLine.getFinancialObjectTypeCode());
+        parameters.put(BCPropertyConstants.MAIN_WINDOW, (budgetConstructionForm.isMainWindow() ? "true" : "false"));
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
@@ -1686,6 +1705,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put("chartOfAccountsCode", tForm.getChartOfAccountsCode());
         parameters.put("accountNumber", tForm.getAccountNumber());
         parameters.put("subAccountNumber", tForm.getSubAccountNumber());
+        parameters.put("mainWindow", (tForm.isMainWindow() ? "true" : "false"));
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {

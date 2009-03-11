@@ -45,6 +45,9 @@ public class BudgetExpansionForm extends KualiForm {
     
     private Map<String, String> editingMode;
     private Map<String, String> documentActions;
+    
+    private boolean lostSession = false;
+    private boolean mainWindow = true;
 
     /**
      * Default Constructor
@@ -223,6 +226,38 @@ public class BudgetExpansionForm extends KualiForm {
      */
     public boolean isEditAllowed() {
         return getDocumentActions().keySet().contains(KNSConstants.KUALI_ACTION_CAN_EDIT);
+    }
+
+    /**
+     * Gets the lostSession attribute. 
+     * @return Returns the lostSession.
+     */
+    public boolean isLostSession() {
+        return lostSession;
+    }
+
+    /**
+     * Sets the lostSession attribute value.
+     * @param lostSession The lostSession to set.
+     */
+    public void setLostSession(boolean lostSession) {
+        this.lostSession = lostSession;
+    }
+
+    /**
+     * Gets the mainWindow attribute. 
+     * @return Returns the mainWindow.
+     */
+    public boolean isMainWindow() {
+        return mainWindow;
+    }
+
+    /**
+     * Sets the mainWindow attribute value.
+     * @param mainWindow The mainWindow to set.
+     */
+    public void setMainWindow(boolean mainWindow) {
+        this.mainWindow = mainWindow;
     }
     
 }

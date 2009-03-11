@@ -170,7 +170,12 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
             parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, requestParm[0]);
         }
 
-        if (requestParameters.containsKey(BCPropertyConstants.SINGLE_ACCOUNT_MODE)) {
+        if (requestParameters.containsKey(BCPropertyConstants.MAIN_WINDOW)) {
+            String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.MAIN_WINDOW);
+            parameters.put(BCPropertyConstants.MAIN_WINDOW, requestParm[0]);
+        }
+
+       if (requestParameters.containsKey(BCPropertyConstants.SINGLE_ACCOUNT_MODE)) {
             String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.SINGLE_ACCOUNT_MODE);
             parameters.put(BCPropertyConstants.SINGLE_ACCOUNT_MODE, requestParm[0]);
         }

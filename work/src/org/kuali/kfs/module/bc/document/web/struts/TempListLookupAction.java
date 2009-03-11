@@ -72,6 +72,32 @@ public class TempListLookupAction extends KualiLookupAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TempListLookupAction.class);
 
     /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+        Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
+        if (isBCHeartBeating == null) {
+            if (tempListLookupForm.isMainWindow()){
+                Properties parameters = new Properties();
+                parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
+
+                String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+
+                return new ActionForward(lookupUrl, true);
+            }
+            else {
+                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
+            }
+        }
+
+        return super.execute(mapping, form, request, response);
+    }
+
+    /**
      * Does not supress actions if in position or incumbent lookup mode in the BC application, otherwise calls on
      * KualiLookupAction.supressActions
      * 

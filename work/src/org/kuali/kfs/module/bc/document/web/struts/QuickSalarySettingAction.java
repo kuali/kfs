@@ -93,6 +93,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
+        parameters.put("mainWindow", (salarySettingForm.isMainWindow() ? "true" : "false"));
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(salarySettingForm.getAnchor())) {
@@ -124,6 +125,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, Boolean.toString(salarySettingForm.isBudgetByAccountMode()));
         parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
+        parameters.put(BCPropertyConstants.MAIN_WINDOW, (salarySettingForm.isMainWindow() ? "true" : "false"));
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(salarySettingForm.getAnchor())) {
@@ -346,6 +348,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.FALSE.toString());
+        parameters.put("mainWindow", (salarySettingForm.isMainWindow() ? "true" : "false"));
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(salarySettingForm.getAnchor())) {

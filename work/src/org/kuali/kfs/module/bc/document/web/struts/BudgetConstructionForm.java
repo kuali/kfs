@@ -86,6 +86,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     private String subAccountNumber;
     private boolean pickListMode;
     private boolean accountReportsExist;
+    private boolean mainWindow = false;
 
     public BudgetConstructionForm() {
         super();
@@ -896,6 +897,22 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      */
     public boolean isEditAllowed() {
         return getDocumentActions().keySet().contains(KNSConstants.KUALI_ACTION_CAN_EDIT);
+    }
+
+    /**
+     * Gets the mainWindow attribute. 
+     * @return Returns the mainWindow.
+     */
+    public boolean isMainWindow() {
+        return mainWindow;
+    }
+
+    /**
+     * Sets the mainWindow attribute value.
+     * @param mainWindow The mainWindow to set.
+     */
+    public void setMainWindow(boolean mainWindow) {
+        this.mainWindow = mainWindow;
     }
 
 // TODO used to workaround KIM access problems remove this hack when no longer needed

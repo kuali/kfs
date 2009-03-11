@@ -54,6 +54,7 @@ public class TempListLookupForm extends LookupForm {
     private boolean budgetByAccountMode;
     private String financialObjectCode;
     private String financialSubObjectCode;
+    private boolean mainWindow = true;
     
     /**
      * Checks if the get new button for retrieving a position from the payroll service should be enabled.
@@ -428,6 +429,22 @@ public class TempListLookupForm extends LookupForm {
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
+    }
+
+    /**
+     * Gets the mainWindow attribute. 
+     * @return Returns the mainWindow.
+     */
+    public boolean isMainWindow() {
+        return mainWindow;
+    }
+
+    /**
+     * Sets the mainWindow attribute value.
+     * @param mainWindow The mainWindow to set.
+     */
+    public void setMainWindow(boolean mainWindow) {
+        this.mainWindow = mainWindow;
     }
 
 }

@@ -87,14 +87,16 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         populateAuthorizationFields(salarySettingForm);
         
         ActionForward forward = super.execute(mapping, form, request, response);
-        salarySettingForm.postProcessBCAFLines();
+        if (!salarySettingForm.isLostSession()){
+            salarySettingForm.postProcessBCAFLines();
 
-        // re-init the session form if session scoped
-        if (salarySettingForm.getMethodToCall().equals("refresh")){
-            if (BCConstants.MAPPING_SCOPE_SESSION.equals(mapping.getScope())){
-                HttpSession sess = request.getSession(Boolean.FALSE);
-                String formName = mapping.getAttribute();
-                sess.setAttribute(formName, salarySettingForm);
+            // re-init the session form if session scoped
+            if (salarySettingForm.getMethodToCall().equals("refresh")){
+                if (BCConstants.MAPPING_SCOPE_SESSION.equals(mapping.getScope())){
+                    HttpSession sess = request.getSession(Boolean.FALSE);
+                    String formName = mapping.getAttribute();
+                    sess.setAttribute(formName, salarySettingForm);
+                }
             }
         }
         return forward;

@@ -58,23 +58,25 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
-        populateAuthorizationFields(monthlyBudgetForm);
+        if (!monthlyBudgetForm.isLostSession()){
+            populateAuthorizationFields(monthlyBudgetForm);
 
-        // set the readOnly status on initial load of the form
-        if (monthlyBudgetForm.getMethodToCall().equals(BCConstants.MONTHLY_BUDGET_METHOD)) {
-            BudgetConstructionMonthly bcMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
-            PendingBudgetConstructionGeneralLedger pbgl = bcMonthly.getPendingBudgetConstructionGeneralLedger();
+            // set the readOnly status on initial load of the form
+            if (monthlyBudgetForm.getMethodToCall().equals(BCConstants.MONTHLY_BUDGET_METHOD)) {
+                BudgetConstructionMonthly bcMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
+                PendingBudgetConstructionGeneralLedger pbgl = bcMonthly.getPendingBudgetConstructionGeneralLedger();
 
-            boolean tmpReadOnly = monthlyBudgetForm.isSystemViewOnly() || !monthlyBudgetForm.isEditAllowed();
-            tmpReadOnly |= bcMonthly.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
-            tmpReadOnly |= (!monthlyBudgetForm.isBenefitsCalculationDisabled() && ((pbgl.getLaborObject() != null) && pbgl.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
+                boolean tmpReadOnly = monthlyBudgetForm.isSystemViewOnly() || !monthlyBudgetForm.isEditAllowed();
+                tmpReadOnly |= bcMonthly.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
+                tmpReadOnly |= (!monthlyBudgetForm.isBenefitsCalculationDisabled() && ((pbgl.getLaborObject() != null) && pbgl.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
 
-            monthlyBudgetForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(pbgl.getBudgetConstructionHeader()));
-            // tmpReadOnly |= !monthlyBudgetForm.isBudgetableDocument();
-            // TODO handle not budgetable in rules like the BC document so we can display the delete monthly button only when we are
-            // not readonly
-            monthlyBudgetForm.setMonthlyReadOnly(tmpReadOnly);
+                monthlyBudgetForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(pbgl.getBudgetConstructionHeader()));
+                // tmpReadOnly |= !monthlyBudgetForm.isBudgetableDocument();
+                // TODO handle not budgetable in rules like the BC document so we can display the delete monthly button only when we are
+                // not readonly
+                monthlyBudgetForm.setMonthlyReadOnly(tmpReadOnly);
 
+            }
         }
 
         return forward;

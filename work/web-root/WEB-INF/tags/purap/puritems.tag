@@ -168,7 +168,7 @@
                     <c:set var="itemUnitOfMeasureDescriptionField"  value="newPurchasingItemLine.itemUnitOfMeasure.itemUnitOfMeasureDescription" />
                     <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
                         property="${itemUnitOfMeasureCodeField}" 
-                        onblur="loadItemUnitOfMeasureInfo( '${itemUnitOfMeasureCodeField}', '${itemUnitOfMeasureDescriptionField}' );${onblur}" readOnly="${readOnly}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                        onblur="loadItemUnitOfMeasureInfo( '${itemUnitOfMeasureCodeField}', '${itemUnitOfMeasureDescriptionField}' );${onblur}" readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}"/>
                     <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
                         fieldConversions="itemUnitOfMeasureCode:newPurchasingItemLine.itemUnitOfMeasureCode"
                         lookupParameters="'Y':active"/>     
@@ -383,9 +383,9 @@
                             attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
                             property="document.item[${ctr}].itemUnitOfMeasureCode"
                             onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
-                            readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}"
+                            readOnly="true"
                             tabindexOverride="${tabindexOverrideBase + 0}"/>
-                        <c:if test="${fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
+                        <c:if test="${!lockB2BEntry and fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
                             <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
                                 fieldConversions="itemUnitOfMeasureCode:document.item[${ctr}].itemUnitOfMeasureCode"
                                 lookupParameters="'Y':active"/>    

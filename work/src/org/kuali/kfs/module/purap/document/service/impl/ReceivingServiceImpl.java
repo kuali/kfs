@@ -128,13 +128,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         }
                              
         //retrieve receiving line by doc id
-        LineItemReceivingDocument rlDoc = null;
-        try{
-            rlDoc = (LineItemReceivingDocument)documentService.getByDocumentHeaderId( rcDoc.getLineItemReceivingDocumentNumber() );
-        }catch(WorkflowException we){
-            String errorMsg = "Error retrieving document # " + rcDoc.getLineItemReceivingDocumentNumber() + " " + we.getMessage();
-            throw new RuntimeException(errorMsg, we);            
-        }
+        LineItemReceivingDocument rlDoc = rcDoc.getLineItemReceivingDocument();
 
         if(rlDoc != null){
             rcDoc.populateCorrectionReceivingFromReceivingLine(rlDoc);

@@ -21,15 +21,15 @@ import org.kuali.kfs.module.bc.batch.service.GenesisService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.batch.AbstractStep;
 
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
+
 public class BudgetConstructionUpdateBatchStep extends AbstractStep {
 
     private GenesisService genesisService;
     
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         genesisService = SpringContext.getBean(GenesisService.class);    
-        //  @TODO: this is set up to run for fiscal year 2008 (base year is 2007)
-        //  genesisFiscalYearFromToday in the genesis Service is the preferred source for the base fiscal year
-        genesisService.bCUpdateStep(2007);
+        genesisService.bCUpdateStep(BudgetParameterFinder.getBaseFiscalYear());
         return true;
     }
 

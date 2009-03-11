@@ -171,8 +171,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-offCampusCountryCode" parent="AssetGlobalDetail-offCampusCountryCode-parentBean" />
   <bean id="AssetGlobalDetail-offCampusCountryCode-parentBean" abstract="true" parent="AssetLocation-assetLocationCountryCode" >
     <property name="name" value="offCampusCountryCode" />
-    <property name="label" value="Off Campus Country Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="label" value="Off Campus Country" />
+    <property name="shortLabel" value="Country" />
   </bean>
   
   <bean id="AssetGlobalDetail-offCampusName" parent="AssetGlobalDetail-offCampusName-parentBean" />
@@ -190,8 +190,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-offCampusStateCode" parent="AssetGlobalDetail-offCampusStateCode-parentBean" />
   <bean id="AssetGlobalDetail-offCampusStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" >
     <property name="name" value="offCampusStateCode" />
-    <property name="label" value="Off Campus State Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="label" value="Off Campus State" />
+    <property name="shortLabel" value="State" />
   </bean>
   
   <bean id="AssetGlobalDetail-offCampusZipCode" parent="AssetGlobalDetail-offCampusZipCode-parentBean" />

@@ -15,8 +15,17 @@
  */
 package org.kuali.kfs.sys.context;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -275,5 +284,61 @@ public class SpringContext {
                 LOG.error("Caught exception while starting the scheduler", e);
             }
         }
+        
+        if ( getBean(KualiConfigurationService.class).getPropertyAsBoolean( "periodic.thread.dump" ) ) {
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info( "Starting the Periodic Thread Dump thread - dumping every " + getBean(KualiConfigurationService.class).getPropertyString("periodic.thread.dump.seconds") + " seconds");
+            }
+            Runnable processWatch = new Runnable() {
+                DateFormat df = new SimpleDateFormat( "yyyy-MM-dd" );
+                DateFormat tf = new SimpleDateFormat( "HH-mm-ss" );
+                long sleepPeriod = Long.parseLong( getBean(KualiConfigurationService.class).getPropertyString("periodic.thread.dump.seconds") ) * 1000;
+                public void run() {
+                    File logDir = new File( getBean(KualiConfigurationService.class).getPropertyString( "logs.directory" ) );
+                    while ( true ) {
+                        File todaysLogDir = new File( logDir, "ProcessWatch-" + df.format(new Date()) );
+                        if ( !todaysLogDir.exists() ) {
+                            todaysLogDir.mkdir();
+                        }
+                        File logFile = new File( todaysLogDir, "pw-"+tf.format(new Date())+".log" );
+                        try {
+                            BufferedWriter w = new BufferedWriter( new FileWriter( logFile ) );
+                            StringBuffer logStatement = new StringBuffer(10240);
+                            logStatement.append("Threads Running at: " ).append( new Date() ).append( "\n\n\n" );
+                            Map<Thread,StackTraceElement[]> threads = Thread.getAllStackTraces();
+                            List<Thread> sortedThreads = new ArrayList<Thread>( threads.keySet() );
+                            Collections.sort( sortedThreads, new Comparator<Thread>() {
+                                public int compare(Thread o1, Thread o2) {
+                                    return o1.getName().compareTo( o2.getName() );
+                                }
+                            });
+                            for ( Thread t : sortedThreads ) {
+                                logStatement.append("\tThread: name=").append(t.getName())
+                                        .append(", id=").append(t.getId())
+                                        .append(", priority=").append(t.getPriority())
+                                        .append(", state=").append(t.getState());
+                                logStatement.append('\n');
+                                for (StackTraceElement stackTraceElement : threads.get(t) ) {
+                                    logStatement.append("\t\t" + stackTraceElement).append( '\n' );
+                                }
+                                logStatement.append('\n');
+                            }
+                            w.write(logStatement.toString());
+                            w.close();
+                        } catch ( IOException ex ) {
+                            LOG.error( "Unable to write the ProcessWatch output file: " + logFile.getAbsolutePath(), ex );
+                        }
+                        try {
+                            Thread.sleep( sleepPeriod );
+                        } catch ( InterruptedException ex ) {
+                            LOG.error( "woken up during sleep of the ProcessWatch thread", ex );
+                        }
+                    }
+                }
+            };
+            Thread t = new Thread( processWatch, "ProcessWatch thread" );
+            t.setDaemon(true);
+            t.start();
+        }        
     }
 }

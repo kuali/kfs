@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Abstract class which defines behavior common to CashReceipt-like documents.
@@ -106,7 +107,9 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
     public KualiDecimal getSourceTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
         AccountingLineBase al = null;
-        refreshReferenceObject(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES);
+        if (ObjectUtils.isNull(getSourceAccountingLines()) || getSourceAccountingLines().isEmpty()) {
+            refreshReferenceObject(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES);
+        }
         Iterator iter = getSourceAccountingLines().iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();

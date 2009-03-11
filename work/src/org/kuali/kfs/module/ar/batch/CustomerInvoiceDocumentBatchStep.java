@@ -15,16 +15,6 @@
  */
 package org.kuali.kfs.module.ar.batch;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -49,6 +39,10 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     
     private static final long MAX_SEQ_NBR_OFFSET = 1000;
@@ -67,10 +61,11 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-AR";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "CustomerInvoiceDocumentBatchStep";
 // ******************* replaced while testing   private static final String RUN_INDICATOR_PARAMETER_VALUE = "N";
-    private static final String RUN_INDICATOR_PARAMETER_VALUE = "Y"; // doesn't seem to matter that i changed it - it still skips this value
+    private static final String RUN_INDICATOR_PARAMETER_VALUE = "Y"; // Tells the job framework whether to run this job or not; set to NO because the GenesisBatchJob needs to only be run once after database initialization.
     private static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
-    private static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; set to NO because the GenesisBatchJob needs to only be run once after database initialization.";
     private static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
+
+    private final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         
@@ -152,8 +147,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
    
     private long findAvailableLockboxBaseSeqNbr() {
         LockboxService lockboxService = SpringContext.getBean(LockboxService.class);
-        Long maxSeqNbr = lockboxService.getMaxLockboxSequenceNumber() + MAX_SEQ_NBR_OFFSET;
-        return maxSeqNbr;
+        return lockboxService.getMaxLockboxSequenceNumber() + MAX_SEQ_NBR_OFFSET;
     }
     
     private boolean dupLockboxRecordExists(Long seqNbr) {
@@ -474,7 +468,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }                
         
         KualiDecimal amount = quantity.multiply(new KualiDecimal(unitprice)); // setAmount has to be set explicitly below; so we calculate it here
-        LOG.info("\n\n\n\n\t\t\t\t quantity="+quantity.toString()+"\t\t\t\tprice="+unitprice.toString()+"\t\t\t\tamount="+amount.toString()+"\t\t\t\t"+customerInvoiceDocument.getCustomerName());
+        //LOG.info("\n\n\n\n\t\t\t\t quantity="+quantity.toString()+"\t\t\t\tprice="+unitprice.toString()+"\t\t\t\tamount="+amount.toString()+"\t\t\t\t"+customerInvoiceDocument.getCustomerName());
         
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
@@ -488,6 +482,8 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(100));
         customerInvoiceDetail.setTaxableIndicator(true);
         customerInvoiceDetail.setAmount(amount);
+        customerInvoiceDetail.setPostingYear(currentYear);
+
         return customerInvoiceDetail;
     }  
     

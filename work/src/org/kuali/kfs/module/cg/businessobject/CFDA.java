@@ -31,7 +31,6 @@ public class CFDA extends PersistableBusinessObjectBase implements ContractsAndG
 
     private String cfdaNumber;
     private String cfdaProgramTitleName;
-    private boolean cfdaStatusCode;
     private String cfdaMaintenanceTypeId;
     private boolean active;
 
@@ -77,27 +76,7 @@ public class CFDA extends PersistableBusinessObjectBase implements ContractsAndG
     public void setCfdaProgramTitleName(String cfdaProgramTitleName) {
         this.cfdaProgramTitleName = cfdaProgramTitleName;
     }
-
-
-    /**
-     * Gets the cfdaStatusCode attribute.
-     * 
-     * @return Returns the cfdaStatusCode
-     */
-    public boolean getCfdaStatusCode() {
-        return cfdaStatusCode;
-    }
-
-    /**
-     * Sets the cfdaStatusCode attribute.
-     * 
-     * @param cfdaStatusCode The cfdaStatusCode to set.
-     */
-    public void setCfdaStatusCode(boolean cfdaStatusCode) {
-        this.cfdaStatusCode = cfdaStatusCode;
-    }
-
-
+   
     /**
      * Gets the cfdaMaintenanceTypeId attribute.
      * 

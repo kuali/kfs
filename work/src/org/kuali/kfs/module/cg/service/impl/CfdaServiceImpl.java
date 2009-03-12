@@ -197,9 +197,9 @@ public class CfdaServiceImpl implements CfdaService {
             }
             else if (cfdaKfs.getCfdaMaintenanceTypeId().startsWith("A")) {
 
-                if (null == cfdaGov) {
-                    if ("A".equals(cfdaKfs.getCfdaStatusCode())) {
-                        cfdaKfs.setCfdaStatusCode(false);
+                if (cfdaGov == null) {
+                    if (cfdaKfs.isActive()) {
+                        cfdaKfs.setActive(false);
                         businessObjectService.save(cfdaKfs);
                         results.setNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite(results.getNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite() + 1);
                     }
@@ -209,17 +209,16 @@ public class CfdaServiceImpl implements CfdaService {
                     }
                 }
                 else {
-                    if ("A".equals(cfdaKfs.getCfdaStatusCode())) {
-                        cfdaKfs.setCfdaProgramTitleName(cfdaGov.getCfdaProgramTitleName());
-                        businessObjectService.save(cfdaKfs);
+                    if (cfdaKfs.isActive()) {
                         results.setNumberOfRecordsUpdatedBecauseAutomatic(results.getNumberOfRecordsUpdatedBecauseAutomatic() + 1);
                     }
-                    else if ("I".equals(cfdaKfs.getCfdaStatusCode())) {
-                        cfdaKfs.setCfdaStatusCode(true);
-                        cfdaKfs.setCfdaProgramTitleName(cfdaGov.getCfdaProgramTitleName());
-                        businessObjectService.save(cfdaKfs);
+                    else {
+                        cfdaKfs.setActive(true);
                         results.setNumberOfRecordsReActivated(results.getNumberOfRecordsReActivated() + 1);
                     }
+                    
+                    cfdaKfs.setCfdaProgramTitleName(cfdaGov.getCfdaProgramTitleName());
+                    businessObjectService.save(cfdaKfs);
                 }
             }
 
@@ -231,7 +230,7 @@ public class CfdaServiceImpl implements CfdaService {
         for (String key : govMap.keySet()) {
             CFDA cfdaGov = govMap.get(key);
             cfdaGov.setCfdaMaintenanceTypeId("Automatic");
-            cfdaGov.setCfdaStatusCode(true);
+            cfdaGov.setActive(true);
             businessObjectService.save(cfdaGov);
             results.setNumberOfRecordsNewlyAddedFromWebSite(results.getNumberOfRecordsNewlyAddedFromWebSite() + 1);
         }

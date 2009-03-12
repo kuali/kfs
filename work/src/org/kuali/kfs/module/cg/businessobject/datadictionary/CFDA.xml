@@ -20,7 +20,6 @@
         <ref bean="CFDA-cfdaMaintenanceTypeId" />
         <ref bean="CFDA-cfdaNumber" />
         <ref bean="CFDA-cfdaProgramTitleName" />
-        <ref bean="CFDA-cfdaStatusCode" />
         <ref bean="CFDA-active" />
       </list>
     </property>
@@ -78,17 +77,7 @@
             p:cols="80" />
     </property>
   </bean>
-  <bean id="CFDA-cfdaStatusCode" parent="CFDA-cfdaStatusCode-parentBean" />
-
-  <bean id="CFDA-cfdaStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cfdaStatusCode" />
-    <property name="label" value="Active Indicator" />
-    <property name="shortLabel" value="Active Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-  </bean>
+  
   <bean id="CFDA-active" parent="CFDA-active-parentBean" />
 
   <bean id="CFDA-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
@@ -116,8 +105,6 @@
                     p:attributeName="cfdaNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="cfdaProgramTitleName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cfdaStatusCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -148,8 +135,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="cfdaProgramTitleName" />
         <bean parent="FieldDefinition"
-              p:attributeName="cfdaStatusCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
     </property>
@@ -161,8 +146,6 @@
               p:attributeName="cfdaNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="cfdaProgramTitleName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="cfdaStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

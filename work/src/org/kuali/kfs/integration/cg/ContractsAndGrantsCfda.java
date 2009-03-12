@@ -33,13 +33,6 @@ public interface ContractsAndGrantsCfda extends ExternalizableBusinessObject {
     public String getCfdaProgramTitleName();
     
     /**
-     * Gets the cfdaStatusCode attribute.
-     * 
-     * @return Returns the cfdaStatusCode
-     */
-    public boolean getCfdaStatusCode();
-    
-    /**
      * Gets the cfdaMaintenanceTypeId attribute.
      * 
      * @return Returns the cfdaMaintenanceTypeId

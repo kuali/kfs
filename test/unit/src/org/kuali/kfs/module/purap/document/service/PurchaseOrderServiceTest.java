@@ -15,22 +15,25 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.document.CreditMemoDocumentTest;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocumentTest;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.kfs.module.purap.fixture.PaymentRequestDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentWithCommodityCodeFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderVendorQuoteFixture;
@@ -51,6 +54,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -562,5 +566,31 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 //        poService.retransmitB2BPurchaseOrder(purchaseOrderDocument);
 //        assertTrue(GlobalVariables.getMessageList().contains(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS));
 //    }
+    
+    public void testIsPurchaseOrderOpenForProcessing_HappyPath() throws Exception {
+        //Create and route a basic PO to Open status.
+        PurchaseOrderDocument poDocument = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
+        poDocument.prepareForSave();       
+        assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        AccountingDocumentTestUtils.routeDocument(poDocument, "test annotation", null, docService);
+        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");    
+    
+        assertTrue(poService.isPurchaseOrderOpenForProcessing(poDocument.getPurapDocumentIdentifier()));
+        
+    }
+    
+    @ConfigureContext(session = appleton, shouldCommitTransactions=false)
+    public void testIsPurchaseOrderOpenForProcessing_With_PREQ() throws Exception {
+        PaymentRequestDocumentTest preqDocTest = new PaymentRequestDocumentTest();
+        PurchaseOrderDocument purchaseOrderDocument = preqDocTest.createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
+        purchaseOrderDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(new Integer(SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID").toString()));
+        PaymentRequestDocument paymentRequestDocument = preqDocTest.createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, 
+                purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
+        paymentRequestDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
+        paymentRequestDocument.setStatusCode(PaymentRequestStatuses.IN_PROCESS);        
+        AccountingDocumentTestUtils.testSaveDocument(paymentRequestDocument, docService);
+        assertFalse(poService.isPurchaseOrderOpenForProcessing(purchaseOrderDocument));
+    }
+
 }
 

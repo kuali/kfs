@@ -229,6 +229,7 @@
   </bean>
   <bean id="AssetFabrication-conditionCode" parent="AssetFabrication-conditionCode-parentBean" />
   <bean id="AssetFabrication-conditionCode-parentBean" abstract="true" parent="Asset-conditionCode">
+    <property name="required" value="true"/>    
   	<property name="attributeSecurity">
         <bean parent="AttributeSecurity">
            <property name="hide" value="false" />

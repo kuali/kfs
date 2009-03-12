@@ -527,8 +527,10 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         } 
         
         response.setContentType("application/pdf");
-        response.setHeader("Cache-Control", "max-age=30");
         response.setHeader("Content-Disposition", contentDisposition);
+        response.setHeader("Expires", "0");
+        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        response.setHeader("Pragma", "public");
         response.setContentLength(baos.size());
 
         // write to output

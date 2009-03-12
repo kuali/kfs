@@ -1,3 +1,37 @@
+delete from krew_doc_typ_t
+where doc_typ_nm = 'CFDA'
+/
+update krew_doc_typ_t
+set lbl = 'Catalog of Federal Domestic Assistance'
+where doc_typ_nm = 'CFDM'
+/
+update krew_doc_typ_t set lbl='CapitalAssetBuilderComplexMaintenanceDocument' 
+where doc_typ_nm='CapitalAssetBuilderComplexMaintenanceDocument' 
+/
+insert into krns_parm_t
+(SELECT 'KFS-PDP', 'PaymentGroup',
+'DEFAULT_SORT_GROUP_ID', sys_guid(),1,
+'CONFG', '4',
+'Default priority sort order for pdp payment files.',
+'A'
+FROM dual)
+/
+insert into krns_parm_t
+(SELECT 'KFS-PURAP', 'PurchaseOrder',
+'CG_ROUTE_OBJECT_LEVELS_BY_CHART', sys_guid(),1,
+'CONFG', 'BL=ADV,CAP,COSV,CREX,RENT,RESA,SERV;EA=ADV,CAP,COSV,CREX,RENT,RESA,SERV;IN=ADV,CAP,COSV,CREX,RENT,RESA,SERV;KO=ADV,CAP,COSV,CREX,RENT,RESA,SERV;NW=ADV,CAP,COSV,CREX,RENT,RESA,SERV;SB=ADV,CAP,COSV,CREX,RENT,RESA,SERV;SE=ADV,CAP,COSV,CREX,RENT,RESA,SERV;UA=ADV,CAP,COSV,CREX,RENT,RESA,SERV ',
+'Object levels that, when associated with Contract & Grant accounts on a Purchase Order, will force the PO to route to a C&G workgroup for approval. Format of list is chart 1=object level 1, object level 2;chart 2=object level 3,object level 4,object level 5',
+'A'
+FROM dual)
+/
+insert into krns_parm_t
+(SELECT 'KFS-PURAP', 'PurchaseOrder',
+'NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART', sys_guid(),1,
+'CONFG', '',
+'Object levels that, when associated with Contract & Grant accounts on a Purchase Order, will force the PO to route to a C&G workgroup for approval. Format of list is chart 1=object level 1, object level 2;chart 2=object level 3,object level 4,object level 5',
+'A'
+FROM dual)
+/ 
 INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD)
     VALUES('330', sys_guid(), 1, '29', null, null, 'Y', 'KFS-FP')
 /

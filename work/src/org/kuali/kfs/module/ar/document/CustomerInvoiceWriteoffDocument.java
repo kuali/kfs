@@ -57,7 +57,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
 
     private static final String REQUIRES_APPROVAL_NODE = "RequiresApproval";
-    private static final KualiDecimal WRITEOFF_DFLT_APPRVL_AMOUNT = new KualiDecimal(50);
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;

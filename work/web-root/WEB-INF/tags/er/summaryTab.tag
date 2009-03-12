@@ -54,6 +54,7 @@
 			attributes="${detailAttributes}"
 			detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount"
 			inquirableUrl="${KualiForm.summarizedDetailLineFieldInquiryUrl}"
+			hiddenFieldNames="chartOfAccountsCode,financialObjectCode" 
 			fieldInfo="${KualiForm.summarizedDetailLineFieldInfo}"
 			sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"
 			editableFieldNames="effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"

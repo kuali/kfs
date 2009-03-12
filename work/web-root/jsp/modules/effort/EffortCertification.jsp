@@ -18,10 +18,10 @@
 
 <c:choose>
 	<c:when test="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == KFSConstants.DocumentStatusCodes.INITIATED}">
-		<c:set value="/effortCertificationRecreate.do" var="url"/>
+		<c:set var="url" value="/effortCertificationRecreate.do" />
 	</c:when>
 	<c:otherwise>
-		<c:set value="/effortCertificationReport.do" var="url"/>
+		<c:set var="url" value="/effortCertificationReport.do" />
 	</c:otherwise>
 </c:choose>
   

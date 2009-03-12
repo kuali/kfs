@@ -173,20 +173,14 @@ public class CertificationReportAction extends EffortCertificationAction {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CertificationReportForm certificationReportForm = (CertificationReportForm) form;
+        ActionForward actionForward = super.refresh(mapping, form, request, response);
         
-        // retain error messages after a lookup
-        if(certificationReportForm.getErrorMapFromPreviousRequest() != null) {
-            WebUtils.reuseErrorMapFromPreviousRequest(certificationReportForm);
-        }
-
+        CertificationReportForm certificationReportForm = (CertificationReportForm) form;
         for (EffortCertificationDetail detailLine : certificationReportForm.getDetailLines()) {
-            //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
-            //EffortCertificationDetail does not have any updatable references
             detailLine.refreshNonUpdateableReferences();
         }
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return actionForward;
     }
 
     /**
@@ -195,12 +189,13 @@ public class CertificationReportAction extends EffortCertificationAction {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        refresh(mapping, form, request, response);
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        this.refresh(mapping, form, request, response);
 
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
         this.updateDetailLinesFromSummaryLines(certificationReportForm);
-
-        return super.execute(mapping, form, request, response);
+        
+        return actionForward;
     }
 
     /**

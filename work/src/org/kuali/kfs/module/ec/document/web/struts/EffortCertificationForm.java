@@ -41,9 +41,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.BusinessObjectRelationship;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.inquiry.Inquirable;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -57,7 +57,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class EffortCertificationForm extends FinancialSystemTransactionalDocumentFormBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationForm.class);
-    
+
     private EffortCertificationDetail newDetailLine;
 
     /**
@@ -106,7 +106,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @return Returns the effortCertificationDocument.
      */
     public EffortCertificationDocument getEffortCertificationDocument() {
-        return (EffortCertificationDocument)this.getDocument();
+        return (EffortCertificationDocument) this.getDocument();
     }
 
     /**
@@ -208,7 +208,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
         LOG.info("getDetailLineFieldInquiryUrl(List<EffortCertificationDetail>) start");
 
         Inquirable inquirable = this.getInquirable();
-        
+
         List<Map<String, HtmlData>> inquiryURL = new ArrayList<Map<String, HtmlData>>();
 
         for (EffortCertificationDetail detailLine : detailLines) {
@@ -242,7 +242,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @return the inquiry URL for the specified attribute
      */
     protected HtmlData getCustomizedInquiryUrl(EffortCertificationDetail detailLine, String attributeName) {
-        AnchorHtmlData inquiryHref = (AnchorHtmlData)getInquirable().getInquiryUrl(detailLine, attributeName, false);
+        AnchorHtmlData inquiryHref = (AnchorHtmlData) getInquirable().getInquiryUrl(detailLine, attributeName, false);
         inquiryHref.setHref(this.getCompleteURL(inquiryHref.getHref()));
 
         return inquiryHref;
@@ -385,7 +385,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @param accountNumber the given account number
      * @return the descriptive information of the given account
      */
-    public static String buildAccountInfo(Account account) {        
+    public static String buildAccountInfo(Account account) {
         if (ObjectUtils.isNull(account)) {
             return KFSConstants.EMPTY_STRING;
         }
@@ -395,7 +395,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
         try {
             ContractsAndGrantsModuleService contractsAndGrantsModuleService = SpringContext.getBean(ContractsAndGrantsModuleService.class);
             Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
-            
+
             projectDirectorName = projectDirector != null ? MessageFormat.format("  ({0})", projectDirector.getName()) : KFSConstants.EMPTY_STRING;
         }
         catch (Exception e) {
@@ -418,4 +418,3 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
         return buildAccountInfo(account);
     }
 }
-

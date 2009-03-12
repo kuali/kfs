@@ -31,14 +31,6 @@
 	documentTypeName="${documentTypeName}" renderMultipart="true"
 	showTabButtons="true">
 	
-    <html:hidden property="document.effortCertificationReportNumber" />
-    <html:hidden property="document.effortCertificationDocumentCode" />
-    <html:hidden property="document.universityFiscalYear" />
-    <html:hidden property="document.emplid" />
-    <html:hidden property="sortOrder" />
-	
-	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
-	
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />	
 	
 	<er:reportInformation />
@@ -48,13 +40,15 @@
 		<input type="hidden" name="document.${fieldName}" id="document.${fieldName}" value="${KualiForm.document[fieldName]}"/>		  
 	</c:forTokens>
 
+	<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
+	<c:set var="canEdit" value="true"/>
 	<c:set var="isSummaryTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.SUMMARY_TAB_ENTRY]}"/>
- 	<c:if test="${isSummaryTabEntry}">
+ 	<c:if test="${canEdit && isSummaryTabEntry}">
 		<er:summaryTab/>	
 	</c:if>
 	
-	<c:set var="isDetailTabEditable" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.DETAIL_TAB_ENTRY]}" />
-	<er:detailTab isOpen="${!isSummaryTabEntry}" isEditable="${isDetailTabEditable}"/>
+	<c:set var="isDetailTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.DETAIL_TAB_ENTRY]}" />
+	<er:detailTab isOpen="${!isSummaryTabEntry}" isEditable="${canEdit && isDetailTabEntry}"/>
 	
 	<kul:notes />
 	

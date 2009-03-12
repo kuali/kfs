@@ -115,7 +115,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="name" />
         <bean parent="FieldDefinition"
-              p:attributeName="active" />
+              p:attributeName="active"
+              p:defaultValue="Y"/>
       </list>
     </property>
     <property name="resultFields" >

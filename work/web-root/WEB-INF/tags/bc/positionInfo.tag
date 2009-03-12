@@ -69,7 +69,7 @@
             boPackageName="org.kuali.kfs.module.bc.businessobject"
             readOnly="true"
             displayHidden="false"
-            lookupOrInquiryKeys="positionNumber"
+            lookupOrInquiryKeys="positionNumber,universityFiscalYear"
             accountingLineValuesMap="${KualiForm.budgetConstructionPosition.valuesMap}"/>
             
         <kul:htmlAttributeHeaderCell

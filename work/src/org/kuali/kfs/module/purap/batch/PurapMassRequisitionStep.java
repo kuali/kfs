@@ -17,13 +17,17 @@ package org.kuali.kfs.module.purap.batch;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
+import org.kuali.kfs.module.purap.PurapParameterConstants.PurapMassRequisitionParameters;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
@@ -39,36 +43,43 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.batch.Job;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class PurapMassRequisitionStep extends AbstractStep {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapMassRequisitionStep.class);
-    
+
     private DocumentService documentService;
     private RequisitionService requisitionService;
     private PurapService purapService;
-    private final int NUM_DOCS_TO_CREATE = 25; // number of each document type to create
+    private BusinessObjectService boService;
+    private PersistenceStructureService psService;
+
+    private final int NUM_DOCS_TO_CREATE = 3; // number of each document type to create
     private final int ROUTE_TO_FINAL_SECONDS_LIMIT = 240; // number of seconds to wait for routing of documents to Final.
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.info("Starting execution of PurapMassRequisitionStep");
         for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
-                        
+
             try {
                 LOG.info("Setting user session for routing of quantity document.");
                 GlobalVariables.setUserSession(new UserSession("khuntley"));
                 // create document
                 RequisitionDocument reqDoc = populateQuantityDocument();
-                
+
                 LOG.info("Blanket approving quantity requisition document.");
                 // route it
                 documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
@@ -80,7 +91,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
         }
 
         for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
-           
+
             try {
                 LOG.info("Setting user session for routing of non-quantity document.");
                 GlobalVariables.setUserSession(new UserSession("khuntley"));
@@ -95,63 +106,75 @@ public class PurapMassRequisitionStep extends AbstractStep {
             }
             Thread.sleep(5000);
         }
-        
+
         for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
             RequisitionDocument reqDoc = null;
             try {
-                LOG.info("Setting user session for routing of non-quantity document.");
+                LOG.info("Setting user session for routing of requisition with capital asset data and addresses.");
                 GlobalVariables.setUserSession(new UserSession("khuntley"));
                 // create document
                 reqDoc = populateCapitalAsset_Individual_WithAddresses_Document();
                 Thread.sleep(10000);
-                LOG.info("Blanket approving non-quantity requisition document.");
+                LOG.info("Blanket approving requisition with capital asset data and addresses.");
                 // route it
                 documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
             }
             catch (WorkflowException e) {
                 e.printStackTrace();
             }
+            catch (ValidationException ve) {
+                continue;
+            }
             Thread.sleep(5000);
-            
+
             // Use Contract Manager Assignment to create PO.
+            LOG.info("Setting user session for contract manager assignment of requisition with capital asset data and addresses.");
             GlobalVariables.setUserSession(new UserSession("parke"));
-            ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);            
-            
+            LOG.info("Routing Contract Manager Assignment document for requisition with capital asset data and addresses.");
+            ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
+
             Thread.sleep(20000);
-            
+
+            LOG.info("Routing Purchase Order document for requisition with capital asset data and addresses.");
             createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
-            
+
             Thread.sleep(5000);
         }
-        
+
         for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
             RequisitionDocument reqDoc = null;
             try {
-                LOG.info("Setting user session for routing of non-quantity document.");
+                LOG.info("Setting user session for routing of BAS requisition.");
                 GlobalVariables.setUserSession(new UserSession("khuntley"));
                 // create document
                 reqDoc = populateCapitalAsset_Individual_Unfilled_Document();
                 Thread.sleep(10000);
-                LOG.info("Blanket approving non-quantity requisition document.");
+                LOG.info("Blanket approving BAS requisition.");
                 // route it
                 documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
             }
             catch (WorkflowException e) {
                 e.printStackTrace();
             }
+            catch (ValidationException ve) {
+                continue;
+            }
             Thread.sleep(5000);
-            
-            // Use Contract Manager Assignment to create PO.
-            GlobalVariables.setUserSession(new UserSession("parke"));
-            ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);            
-            
-            Thread.sleep(20000);
-            
-            createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
-            
-            Thread.sleep(5000);
-        }       
 
+            // Use Contract Manager Assignment to create PO.
+            LOG.info("Setting user session for contract manager assignment BAS requisition.");
+            GlobalVariables.setUserSession(new UserSession("parke"));
+            LOG.info("Routing Contract Manager Assignment document for BAS requisition.");
+            ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
+
+            Thread.sleep(20000);
+
+            LOG.info("Routing Purchase Order document for BAS requisition");
+            createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
+
+            Thread.sleep(5000);
+        }
+        setInitiatedRunParameter();
         Thread.sleep(60000);
         return true;
     }
@@ -236,7 +259,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
         }
         return reqDoc;
     }
-    
+
     private RequisitionDocument populateNonQuantityDocument() {
         RequisitionDocument reqDoc = null;
         try {
@@ -294,8 +317,8 @@ public class PurapMassRequisitionStep extends AbstractStep {
             item1.setItemTypeCode("SRVC");
             item1.setItemQuantity(null);
             item1.setExtendedPrice(new KualiDecimal(5000));
-            item1.setItemAssignedToTradeInIndicator(false);           
-            
+            item1.setItemAssignedToTradeInIndicator(false);
+
             // set accounting line attributes
             RequisitionAccount account1 = new RequisitionAccount();
             account1.setPostingYear(2004);
@@ -315,12 +338,12 @@ public class PurapMassRequisitionStep extends AbstractStep {
         }
         return reqDoc;
     }
-    
+
     public RequisitionDocument populateCapitalAsset_Individual_WithAddresses_Document() {
         RequisitionDocument reqDoc = null;
-        try {            
+        try {
             reqDoc = (RequisitionDocument) documentService.getNewDocument(RequisitionDocument.class);
-            
+
             // set doc attributes
             reqDoc.getDocumentHeader().setExplanation("batch created quantity document for cams");
             DocumentHeader documentHeader = reqDoc.getDocumentHeader();
@@ -361,7 +384,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             reqDoc.setVendorPostalCode("33555");
             reqDoc.setVendorCountryCode("US");
             reqDoc.setUseTaxIndicator(false);
-            
+
             // set item attributes
             RequisitionItem item1 = new RequisitionItem();
             item1.setItemLineNumber(new Integer(1));
@@ -374,7 +397,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             item1.setExtendedPrice(new KualiDecimal(10000));
             item1.setItemAssignedToTradeInIndicator(false);
             item1.refreshReferenceObject("itemType");
-            
+
             // set accounting line attributes
             RequisitionAccount account1 = new RequisitionAccount();
             account1.setPostingYear(2004);
@@ -388,24 +411,25 @@ public class PurapMassRequisitionStep extends AbstractStep {
             item1.getSourceAccountingLines().add(account1);
             reqDoc.getItems().add(item1);
             reqDoc.fixItemReferences();
-            
+
             reqDoc.setCapitalAssetSystemStateCode("NEW");
             reqDoc.setCapitalAssetSystemTypeCode("IND");
-            
+
+            // Save here because auto-generated IDs will be needed later.
             purapService.saveDocumentNoValidation(reqDoc);
-            List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems = new TypedArrayList(reqDoc.getPurchasingCapitalAssetItemClass());            
-            RequisitionCapitalAssetItem capitalAssetItem = (RequisitionCapitalAssetItem)requisitionService.createCamsItem(reqDoc, item1);
-            capitalAssetItem.setCapitalAssetTransactionTypeCode("NEW");            
-            
-            RequisitionCapitalAssetSystem system = (RequisitionCapitalAssetSystem)capitalAssetItem.getPurchasingCapitalAssetSystem();
+            List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems = new TypedArrayList(reqDoc.getPurchasingCapitalAssetItemClass());
+            RequisitionCapitalAssetItem capitalAssetItem = (RequisitionCapitalAssetItem) requisitionService.createCamsItem(reqDoc, item1);
+            capitalAssetItem.setCapitalAssetTransactionTypeCode("NEW");
+
+            RequisitionCapitalAssetSystem system = (RequisitionCapitalAssetSystem) capitalAssetItem.getPurchasingCapitalAssetSystem();
             system.setCapitalAssetNoteText("CA Notes go here");
             system.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(false);
             system.setCapitalAssetManufacturerName("MK CORPORATION ACTIVE");
             system.setCapitalAssetTypeCode("07034");
             system.setCapitalAssetModelDescription("XXYYZZ");
-            
+
             List<CapitalAssetLocation> locations = new TypedArrayList(system.getCapitalAssetLocationClass());
-            
+
             RequisitionCapitalAssetLocation loc1 = new RequisitionCapitalAssetLocation();
             loc1.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
             loc1.setItemQuantity(new KualiDecimal("1.00"));
@@ -418,7 +442,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             loc1.setCapitalAssetPostalCode("47405-7001");
             loc1.setCapitalAssetCountryCode("US");
             locations.add(loc1);
-            
+
             RequisitionCapitalAssetLocation loc2 = new RequisitionCapitalAssetLocation();
             loc2.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
             loc2.setItemQuantity(new KualiDecimal("1.00"));
@@ -430,24 +454,24 @@ public class PurapMassRequisitionStep extends AbstractStep {
             loc2.setCapitalAssetStateCode("IN");
             loc2.setCapitalAssetPostalCode("47405-7001");
             loc2.setCapitalAssetCountryCode("US");
-            locations.add(loc2);           
-            
+            locations.add(loc2);
+
             system.setCapitalAssetLocations(locations);
-                      
+
             purchasingCapitalAssetItems.add(capitalAssetItem);
             reqDoc.setPurchasingCapitalAssetItems(purchasingCapitalAssetItems);
         }
         catch (WorkflowException e1) {
             e1.printStackTrace();
         }
-        return reqDoc;       
+        return reqDoc;
     }
-    
+
     private RequisitionDocument populateCapitalAsset_Individual_Unfilled_Document() {
         RequisitionDocument reqDoc = null;
         try {
-            reqDoc = (RequisitionDocument)documentService.getNewDocument(RequisitionDocument.class);
-            
+            reqDoc = (RequisitionDocument) documentService.getNewDocument(RequisitionDocument.class);
+
             // set doc attributes
             reqDoc.getDocumentHeader().setExplanation("batch created quantity document BAS");
             DocumentHeader documentHeader = reqDoc.getDocumentHeader();
@@ -488,7 +512,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             reqDoc.setVendorPostalCode("33555");
             reqDoc.setVendorCountryCode("US");
             reqDoc.setUseTaxIndicator(false);
-            
+
             // set item attributes
             RequisitionItem item1 = new RequisitionItem();
             item1.setItemLineNumber(new Integer(1));
@@ -499,8 +523,8 @@ public class PurapMassRequisitionStep extends AbstractStep {
             item1.setItemTypeCode("ITEM");
             item1.setItemQuantity(new KualiDecimal(1.00));
             item1.setExtendedPrice(new KualiDecimal(6000));
-            item1.setItemAssignedToTradeInIndicator(false);           
-            
+            item1.setItemAssignedToTradeInIndicator(false);
+
             // set accounting line attributes
             RequisitionAccount account1 = new RequisitionAccount();
             account1.setPostingYear(2004);
@@ -514,35 +538,80 @@ public class PurapMassRequisitionStep extends AbstractStep {
             item1.getSourceAccountingLines().add(account1);
             reqDoc.getItems().add(item1);
             reqDoc.fixItemReferences();
-            
+
             reqDoc.setCapitalAssetSystemStateCode("NEW");
             reqDoc.setCapitalAssetSystemTypeCode("IND");
-            
+
+            // Save here because auto-generated IDs will be needed later.
             purapService.saveDocumentNoValidation(reqDoc);
-            List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems = new TypedArrayList(reqDoc.getPurchasingCapitalAssetItemClass());            
-            RequisitionCapitalAssetItem capitalAssetItem = (RequisitionCapitalAssetItem)requisitionService.createCamsItem(reqDoc, item1);
-            capitalAssetItem.setCapitalAssetTransactionTypeCode("NEW");            
-            
-            RequisitionCapitalAssetSystem system = (RequisitionCapitalAssetSystem)capitalAssetItem.getPurchasingCapitalAssetSystem();
+            List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems = new TypedArrayList(reqDoc.getPurchasingCapitalAssetItemClass());
+            RequisitionCapitalAssetItem capitalAssetItem = (RequisitionCapitalAssetItem) requisitionService.createCamsItem(reqDoc, item1);
+            capitalAssetItem.setCapitalAssetTransactionTypeCode("NEW");
+
+            RequisitionCapitalAssetSystem system = (RequisitionCapitalAssetSystem) capitalAssetItem.getPurchasingCapitalAssetSystem();
             system.setCapitalAssetNoteText("");
             system.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(false);
             system.setCapitalAssetManufacturerName("");
             system.setCapitalAssetTypeCode("");
             system.setCapitalAssetModelDescription("");
-                                  
+
             purchasingCapitalAssetItems.add(capitalAssetItem);
             reqDoc.setPurchasingCapitalAssetItems(purchasingCapitalAssetItems);
         }
         catch (WorkflowException e1) {
             e1.printStackTrace();
         }
-        return reqDoc;       
+        return reqDoc;
     }
 
-    private ContractManagerAssignmentDocument createAndRouteContractManagerAssignmentDocument(RequisitionDocument reqDoc){
-        ContractManagerAssignmentDocument acmDoc = null;       
+    /**
+     * Sets a Run parameter that tells the step that it has already run and it does not need to run again.
+     */
+    private void setInitiatedRunParameter() {
+        // First, see if we can find an existing Parameter object with this key.
+        Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildRunParameterSearchKeyMap());
+        if (runIndicatorParameter == null) {
+            runIndicatorParameter = new Parameter();
+            runIndicatorParameter.setVersionNumber(new Long(1));
+            runIndicatorParameter.setParameterNamespaceCode(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
+            runIndicatorParameter.setParameterDetailTypeCode(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
+            runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
+            runIndicatorParameter.setParameterDescription(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_DESCRIPTION);
+            runIndicatorParameter.setParameterConstraintCode(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_ALLOWED);
+            runIndicatorParameter.setParameterTypeCode(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_TYPE);
+        }
+        runIndicatorParameter.setParameterValue(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_VALUE);
+        boService.save(runIndicatorParameter);
+    }
+
+    /**
+     * Used by setInitiatedRunParameter to build a Map of search keys to obtain the exact needed Run parameter from the database.
+     * 
+     * @return A Map<String,Object> where the Objects are the attributes of the Run parameter
+     */
+    private Map<String, Object> buildRunParameterSearchKeyMap() {
+        Map<String, Object> pkMapForParameter = new HashMap<String, Object>();
+
+        // Set up a list of all the field names and values of the fields in the Parameter object.
+        Map<String, Object> fieldNamesValuesForParameter = new HashMap<String, Object>();
+        fieldNamesValuesForParameter.put("parameterNamespaceCode", PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
+        fieldNamesValuesForParameter.put("parameterDetailTypeCode", PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
+        fieldNamesValuesForParameter.put("parameterName", Job.STEP_RUN_PARM_NM);
+        fieldNamesValuesForParameter.put("parameterConstraintCode", PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_ALLOWED);
+        fieldNamesValuesForParameter.put("parameterTypeCode", PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_TYPE);
+
+        // get the primary keys and assign them to values
+        List<String> parameterPKFields = psService.getPrimaryKeys(Parameter.class);
+        for (String pkFieldName : parameterPKFields) {
+            pkMapForParameter.put(pkFieldName, fieldNamesValuesForParameter.get(pkFieldName));
+        }
+        return pkMapForParameter;
+    }
+
+    private ContractManagerAssignmentDocument createAndRouteContractManagerAssignmentDocument(RequisitionDocument reqDoc) {
+        ContractManagerAssignmentDocument acmDoc = null;
         try {
-            acmDoc = (ContractManagerAssignmentDocument)documentService.getNewDocument(ContractManagerAssignmentDocument.class);
+            acmDoc = (ContractManagerAssignmentDocument) documentService.getNewDocument(ContractManagerAssignmentDocument.class);
             List<ContractManagerAssignmentDetail> contractManagerAssignmentDetails = new TypedArrayList(ContractManagerAssignmentDetail.class);
             ContractManagerAssignmentDetail detail = new ContractManagerAssignmentDetail(acmDoc, reqDoc);
             detail.setContractManagerCode(new Integer("10"));
@@ -551,6 +620,13 @@ public class PurapMassRequisitionStep extends AbstractStep {
             acmDoc.setContractManagerAssignmentDetailss(contractManagerAssignmentDetails);
             acmDoc.getDocumentHeader().setDocumentDescription("batch-created");
             documentService.routeDocument(acmDoc, "Routing batch-created Contract Manager Assignment Document", null);
+            ChangeWaiter waiter = new ChangeWaiter(documentService, acmDoc.getDocumentNumber(), "F");
+            try {
+                waiter.waitUntilChange(waiter, ROUTE_TO_FINAL_SECONDS_LIMIT, 5);
+            }
+            catch (Exception e) {
+                throw new RuntimeException("ContractManagerAssignmentDocument timed out in routing to final.");
+            }
         }
         catch (WorkflowException we) {
             we.printStackTrace();
@@ -560,18 +636,25 @@ public class PurapMassRequisitionStep extends AbstractStep {
         }
         return acmDoc;
     }
-    
+
     private void createAndRoutePurchaseOrderDocument(RequisitionDocument reqDoc, ContractManagerAssignmentDocument acmDoc) {
 
         List<PurchaseOrderView> poViews = reqDoc.getRelatedViews().getRelatedPurchaseOrderViews();
-        if((poViews != null) && (poViews.size() >= 1)) {
+        if ((poViews != null) && (poViews.size() >= 1)) {
             // There should be only one related PO at this point, so get that one and route it.
-            PurchaseOrderView poView =  poViews.get(0);
+            PurchaseOrderView poView = poViews.get(0);
             String relatedPOWorkflowDocumentId = poView.getDocumentNumber();
             PurchaseOrderDocument poDoc = null;
             try {
-                poDoc = (PurchaseOrderDocument)documentService.getByDocumentHeaderId(relatedPOWorkflowDocumentId);
+                poDoc = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(relatedPOWorkflowDocumentId);
                 documentService.blanketApproveDocument(poDoc, "auto-routing: Test Requisition Job", null);
+                ChangeWaiter waiter = new ChangeWaiter(documentService, poDoc.getDocumentNumber(), "F");
+                try {
+                    waiter.waitUntilChange(waiter, ROUTE_TO_FINAL_SECONDS_LIMIT, 5);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException("ContractManagerAssignmentDocument timed out in routing to final.");
+                }
             }
             catch (WorkflowException e) {
                 e.printStackTrace();
@@ -605,5 +688,81 @@ public class PurapMassRequisitionStep extends AbstractStep {
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
-}
 
+    public BusinessObjectService getBoService() {
+        return boService;
+    }
+
+    public void setBoService(BusinessObjectService boService) {
+        this.boService = boService;
+    }
+
+    public PersistenceStructureService getPsService() {
+        return psService;
+    }
+
+    public void setPsService(PersistenceStructureService psService) {
+        this.psService = psService;
+    }
+
+    /**
+     * Performs the same function as DocumentWorkflowStatusMonitor, which is a test utility, and cannot be used outside that
+     * package. Allows us to wait until a change of Workflow status has occurred.
+     */
+    private class ChangeWaiter {
+
+        final DocumentService documentService;
+        final private String docHeaderId;
+        final private String[] desiredWorkflowStates;
+
+        public ChangeWaiter(DocumentService documentService, String docHeaderId, String desiredWorkflowStatus) {
+            this.documentService = documentService;
+            this.docHeaderId = docHeaderId;
+            this.desiredWorkflowStates = new String[] { desiredWorkflowStatus };
+        }
+
+        public boolean valueChanged() throws Exception {
+            Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
+
+            String currentStatus = d.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+
+            for (int i = 0; i < desiredWorkflowStates.length; i++) {
+                if (StringUtils.equals(desiredWorkflowStates[i], currentStatus)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public boolean waitUntilChange(ChangeWaiter monitor, int maxWaitSeconds, int pauseSeconds) throws Exception {
+            long maxWaitMs = maxWaitSeconds * 1000;
+            long pauseMs = pauseSeconds * 1000;
+
+            boolean valueChanged = false;
+            boolean interrupted = false;
+            long startTimeMs = System.currentTimeMillis();
+            long endTimeMs = startTimeMs + maxWaitMs;
+
+            Thread.sleep(pauseMs / 10); // the first time through, sleep a fraction of the specified time
+            valueChanged = monitor.valueChanged();
+            LOG.debug("starting wait loop");
+            while (!interrupted && !valueChanged && (System.currentTimeMillis() < endTimeMs)) {
+                try {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("sleeping for " + pauseMs + " ms");
+                    }
+                    Thread.sleep(pauseMs);
+                }
+                catch (InterruptedException e) {
+                    interrupted = true;
+                }
+                LOG.debug("checking wait loop sentinel");
+                valueChanged = monitor.valueChanged();
+            }
+            LOG.debug("finished wait loop (" + valueChanged + ")");
+
+            return valueChanged;
+        }
+    }
+
+}

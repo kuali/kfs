@@ -436,6 +436,8 @@
 	    <property name="documentService" ref="documentService" />
 	    <property name="requisitionService" ref="requisitionService" />
 	    <property name="purapService" ref="purapService" />
+	    <property name="boService" ref="businessObjectService" />
+	    <property name="psService" ref="persistenceStructureService" />
     </bean>
     
     <bean id="approveLineItemReceivingStep" class="org.kuali.kfs.module.purap.batch.ApproveLineItemReceivingStep" parent="step">

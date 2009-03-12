@@ -143,5 +143,14 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         public static final String TAX_PARM_ACCOUNT_SUFFIX = "ACCOUNT";
         public static final String TAX_PARM_CHART_SUFFIX = "CHART";
         public static final String TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX = "OBJECT_CODE_BY_INCOME_CLASS";
-    }        
+    }
+    
+    public static class PurapMassRequisitionParameters {
+        public static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-PURAP";
+        public static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "PurapMassRequisitionStep";
+        public static final String RUN_INDICATOR_PARAMETER_VALUE = "N";
+        public static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
+        public static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; because the PurapMassRequisitionJob needs to only be run once after database initialization.";
+        public static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";       
+    }
 }

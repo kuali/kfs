@@ -77,9 +77,13 @@ public class ReportExportAction extends BudgetConstructionImportExportAction {
     public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportExportForm reportExportForm = (ReportExportForm) form;
 
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-
+        boolean isValid = validateFormData(reportExportForm);
         
+        if (!isValid) {
+            return mapping.findForward(BCConstants.MAPPING_IMPORT_EXPORT);
+        }
+        
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         BudgetConstructionReportMode reportMode = BudgetConstructionReportMode.getBudgetConstructionReportModeByName(reportExportForm.getReportMode());
 

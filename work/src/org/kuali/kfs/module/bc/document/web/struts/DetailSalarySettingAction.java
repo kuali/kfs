@@ -19,6 +19,7 @@ import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCode
 import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.LWPF;
 import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * the base struts action for the detail salary setting
@@ -294,6 +296,15 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         if (StringUtils.isBlank(appointmentFunding.getFinancialSubObjectCode())) {
             appointmentFunding.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        }
+
+        if (appointmentFunding.getAppointmentTotalIntendedAmount() == null){
+            appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
+            appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
+        }
+
+        if (appointmentFunding.getAppointmentTotalIntendedFteQuantity() == null){
+            appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
         }
     }
 

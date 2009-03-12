@@ -163,19 +163,15 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
 
-        try {
-            //  dont let PayApp docs started from CashControl docs through if not all funds are applied
-            if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getUnallocatedBalance())) {
-                isValid &= false;
-                errorMap.putError(
-                    KNSConstants.GLOBAL_ERRORS,
-                    ArKeyConstants.PaymentApplicationDocumentErrors.FULL_AMOUNT_NOT_APPLIED);
-                LOG.info("The payment application document was not fully applied.");
-            }
-        } catch(WorkflowException w) {
-            LOG.error("Exception encountered while validating PaymentApplicationDocument against business rules during routing", w);
+        //  dont let PayApp docs started from CashControl docs through if not all funds are applied
+        if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getUnallocatedBalance())) {
+            isValid &= false;
+            errorMap.putError(
+                KNSConstants.GLOBAL_ERRORS,
+                ArKeyConstants.PaymentApplicationDocumentErrors.FULL_AMOUNT_NOT_APPLIED);
+            LOG.info("The payment application document was not fully applied.");
         }
-        
+    
         return isValid;
     }
     

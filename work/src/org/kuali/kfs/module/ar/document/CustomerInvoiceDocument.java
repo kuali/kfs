@@ -1843,10 +1843,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * 
      * @return Returns the quickApply.
      */
+    //TODO Andrew - this is payapp specific stuff and needs to go
     public boolean isQuickApply() {
         return quickApply;
     }
 
+    //TODO Andrew - this is payapp specific stuff and needs to go
     public boolean getQuickApply() {
         return isQuickApply();
     }
@@ -1856,6 +1858,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * 
      * @param quickApply The quickApply to set.
      */
+    //TODO Andrew - this is payapp specific stuff and needs to go
     public void setQuickApply(boolean quickApply) {
         this.quickApply = quickApply;
     }

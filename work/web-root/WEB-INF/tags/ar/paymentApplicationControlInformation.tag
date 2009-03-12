@@ -47,15 +47,15 @@
             <table id='ctrl-info' width="100%" cellpadding="0" cellspacing="0" class="datatable">
               <tr>
                 <th>Org Doc #</th>
-                <td>${KualiForm.cashControlDocument.documentNumber}</td>
+                <td><c:out value="${KualiForm.cashControlDocument.documentNumber}" /></td>
               </tr>
               <tr>
                 <th>Customer</th>
-                <td>${KualiForm.document.accountsReceivableDocumentHeader.customerNumber}</td>
+                <td><c:out value="${KualiForm.document.accountsReceivableDocumentHeader.customerNumber}" /></td>
               </tr>
               <tr>
                 <th>Control Total</th>
-                <td>${KualiForm.document.documentHeader.financialDocumentTotalAmount}</td>
+                <td><c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" /></td>
               </tr>
               <tr>
                 <th>Open Amount</th>

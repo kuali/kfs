@@ -3,13 +3,17 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -17,15 +21,15 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
-	private String documentNumber;
+	private String documentNumber; // document the payment is being applied FROM
 	private Integer paidAppliedItemNumber;
-	private String financialDocumentReferenceInvoiceNumber;
+	private String financialDocumentReferenceInvoiceNumber; // document the payment is being applied TO
 	private Integer invoiceItemNumber;
 	private Integer universityFiscalYear;
 	private String universityFiscalPeriodCode;
 	private KualiDecimal invoiceItemAppliedAmount = KualiDecimal.ZERO;
 
-    private CustomerInvoiceDetail invoiceItem;
+    private CustomerInvoiceDetail invoiceDetail;
 	private AccountingPeriod universityFiscalPeriod;
 	private FinancialSystemDocumentHeader documentHeader;
 	transient private DocumentService documentService;
@@ -46,14 +50,58 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
         this.documentService = documentService;
     }
 
-    public CustomerInvoiceDocument getCustomerInvoiceDocument() throws WorkflowException {
-        CustomerInvoiceDocument _customerInvoiceDocument =
-            (CustomerInvoiceDocument) getDocumentService().getByDocumentHeaderId(getFinancialDocumentReferenceInvoiceNumber());
+    public CustomerInvoiceDocument getCustomerInvoiceDocument() {
+        CustomerInvoiceDocument _customerInvoiceDocument = null;
+        try {
+            _customerInvoiceDocument = (CustomerInvoiceDocument) 
+                    getDocumentService().getByDocumentHeaderId(getFinancialDocumentReferenceInvoiceNumber());
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("WorkflowException thrown when trying to retrieve Invoice document [" + 
+                    getFinancialDocumentReferenceInvoiceNumber() + "]", e);
+        }
         return _customerInvoiceDocument;
     }
 
-    public PaymentApplicationDocument getPaymentApplicationDocument() throws WorkflowException {
-        return (PaymentApplicationDocument) getDocumentService().getByDocumentHeaderId(getDocumentNumber());
+    public ObjectCode getAccountsReceivableObjectCode() {
+        
+        //  make sure its all re-connected with child objects
+        getInvoiceDetail().refresh();
+        getInvoiceDetail().refreshNonUpdateableReferences();
+        
+        String parameterName = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD;
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String parameterValue = parameterService.getParameterValue(CustomerInvoiceDocument.class, parameterName);
+        
+        ObjectCode objectCode = null;
+        if("1".equals(parameterValue) || "2".equals(parameterValue)) {
+            getInvoiceDetail().refreshReferenceObject("objectCode");
+            objectCode = getInvoiceDetail().getObjectCode();
+        } else if ("3".equals(parameterValue)) {
+            getInvoiceDetail().refreshReferenceObject("customerInvoiceDocument");
+            CustomerInvoiceDocument customerInvoiceDocument = getInvoiceDetail().getCustomerInvoiceDocument();
+            customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
+            objectCode = getInvoiceDetail().getCustomerInvoiceDocument().getPaymentFinancialObject();
+        }
+        else {
+            throw new RuntimeException("No AR ObjectCode was available for this InvoicePaidApplied, which should never happen.");
+        }
+        
+        return objectCode;
+    }
+
+    public SystemInformation getSystemInformation() {
+        String processingOrgCode = getCustomerInvoiceDocument().getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
+        String processingChartCode = getCustomerInvoiceDocument().getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
+         
+        SystemInformationService sysInfoService = SpringContext.getBean(SystemInformationService.class);
+        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        SystemInformation systemInformation  = sysInfoService.getByProcessingChartOrgAndFiscalYear(processingChartCode, processingOrgCode, currentFiscalYear);
+        
+        if (systemInformation == null) {
+            throw new RuntimeException("The InvoicePaidApplied doesnt have an associated SystemInformation.  This should never happen.");
+        }
+        return systemInformation;
     }
     
     /**
@@ -212,18 +260,8 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	 * @return Returns the invoiceItem
 	 * 
 	 */
-	public CustomerInvoiceDetail getInvoiceItem() { 
-		return invoiceItem;
-	}
-
-	/**
-	 * Sets the invoiceItem attribute.
-	 * 
-	 * @param invoiceItem The invoiceItem to set.
-	 * @deprecated
-	 */
-	public void setInvoiceItem(CustomerInvoiceDetail invoiceItem) {
-		this.invoiceItem = invoiceItem;
+	public CustomerInvoiceDetail getInvoiceDetail() { 
+		return invoiceDetail;
 	}
 
 	/**

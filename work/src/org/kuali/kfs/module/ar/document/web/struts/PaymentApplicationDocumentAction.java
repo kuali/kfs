@@ -279,7 +279,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         int simpleCustomerInvoiceDetailCounter = 0;
         
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
-        for (CustomerInvoiceDetail customerInvoiceDetail : paymentApplicationDocumentForm.getCustomerInvoiceDetails()) {
+        for (CustomerInvoiceDetail customerInvoiceDetail : paymentApplicationDocumentForm.getSelectedCustomerInvoiceDetails()) {
             
             KualiDecimal amountToApply = KualiDecimal.ZERO;
             

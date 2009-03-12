@@ -196,7 +196,7 @@
 											<tr>
 												<td colspan='4'>
 													<table width='100%' cellpadding='0' cellspacing='0'
-														class='datatable' id="customerInvoiceDetails">
+														class='datatable' id="selectedCustomerInvoiceDetails">
 														<tr>
 															<th>
 																&nbsp;
@@ -226,7 +226,7 @@
 															</c:if>
 														</tr>
 														<logic:iterate id="customerInvoiceDetail" name="KualiForm"
-															property="customerInvoiceDetails" indexId="ctr">
+															property="selectedCustomerInvoiceDetails" indexId="ctr">
 															<c:set var="isDiscount" value="${customerInvoiceDetail.amount < 0}" />
 															<c:choose>
 																<c:when test="${isDiscount}">
@@ -236,37 +236,37 @@
 																		<td>
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.sequenceNumber}"
-																				property="customerInvoiceDetails[${ctr}].sequenceNumber"
+																				property="selectedCustomerInvoiceDetails[${ctr}].sequenceNumber"
 																				readOnly="true" />
 																		</td>
 																		<td>
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode}"
-																				property="customerInvoiceDetails[${ctr}].chartOfAccountsCode"
+																				property="selectedCustomerInvoiceDetails[${ctr}].chartOfAccountsCode"
 																				readOnly="true" />
 																		</td>
 																		<td>
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.accountNumber}"
-																				property="customerInvoiceDetails[${ctr}].accountNumber"
+																				property="selectedCustomerInvoiceDetails[${ctr}].accountNumber"
 																				readOnly="true" />
 																		</td>
 																		<td>
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}"
-																				property="customerInvoiceDetails[${ctr}].invoiceItemDescription"
+																				property="selectedCustomerInvoiceDetails[${ctr}].invoiceItemDescription"
 																				readOnly="true" />
 																		</td>
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.amount}"
-																				property="customerInvoiceDetails[${ctr}].amount"
+																				property="selectedCustomerInvoiceDetails[${ctr}].amount"
 																				readOnly="true" />
 																		</td>
 																		<td style="text-align: right;">
 																			<kul:htmlControlAttribute
 																				attributeEntry="${customerInvoiceDetailAttributes.balance}"
-																				property="customerInvoiceDetails[${ctr}].amountOpenPerCurrentPaymentApplicationDocument"
+																				property="selectedCustomerInvoiceDetails[${ctr}].amountOpenPerCurrentPaymentApplicationDocument"
 																				readOnly="true" />
 																		</td>
 																		<td style="text-align: right;">
@@ -275,12 +275,12 @@
 																				readOnly="${readOnly}"
 																				styleClass="amount"
 																				attributeEntry="${customerInvoiceDetailAttributes.amountApplied}"
-																				property="customerInvoiceDetails[${ctr}].amountApplied" />
+																				property="selectedCustomerInvoiceDetails[${ctr}].amountApplied" />
 																		</td>
 																		<c:if test="${readOnly ne true}">
 																			<td>
 																				<center>
-																					<html:checkbox disabled="${true eq disableQuickApplyToDetails}" title="Apply Full Amount" property="customerInvoiceDetails[${ctr}].fullApply" value="true" />
+																					<html:checkbox disabled="${true eq disableQuickApplyToDetails}" title="Apply Full Amount" property="selectedCustomerInvoiceDetails[${ctr}].fullApply" value="true" />
 																				</center>
 																			</td>
 																		</c:if>

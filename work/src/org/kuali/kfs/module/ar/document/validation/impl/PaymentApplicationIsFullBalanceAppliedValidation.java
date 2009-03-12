@@ -19,7 +19,6 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -39,12 +38,7 @@ public class PaymentApplicationIsFullBalanceAppliedValidation extends GenericVal
         //  dont let PayApp docs started from CashControl docs through if not all funds are applied
         if (paymentApplicationDocument.hasCashControlDocument()) {
             KualiDecimal balanceToBeApplied;
-            try {
-                balanceToBeApplied = paymentApplicationDocument.getUnallocatedBalance();
-            }
-            catch (WorkflowException e) {
-                throw new RuntimeException("WorkflowException thrown when trying to retrieve CashControlDocument.", e);
-            } 
+            balanceToBeApplied = paymentApplicationDocument.getUnallocatedBalance();
             if (!KualiDecimal.ZERO.equals(balanceToBeApplied)) {
                 isValid &= false;
                 errorMap.putError(

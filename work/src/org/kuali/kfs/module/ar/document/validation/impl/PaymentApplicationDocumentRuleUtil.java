@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -55,8 +56,8 @@ public class PaymentApplicationDocumentRuleUtil {
         boolean isValid = true;
         
         invoicePaidApplied.refreshReferenceObject("invoiceItem");
-        if(ObjectUtils.isNull(invoicePaidApplied) || ObjectUtils.isNull(invoicePaidApplied.getInvoiceItem())) { return true; }
-        KualiDecimal amountOwed = invoicePaidApplied.getInvoiceItem().getAmount();
+        if(ObjectUtils.isNull(invoicePaidApplied) || ObjectUtils.isNull(invoicePaidApplied.getInvoiceDetail())) { return true; }
+        KualiDecimal amountOwed = invoicePaidApplied.getInvoiceDetail().getAmount();
         KualiDecimal amountPaid = invoicePaidApplied.getInvoiceItemAppliedAmount();
         
         if(ObjectUtils.isNull(amountOwed)) {
@@ -81,7 +82,9 @@ public class PaymentApplicationDocumentRuleUtil {
 //        }
         
         // Can't apply more than the amount received via the related CashControlDocument
-        PaymentApplicationDocument paymentApplicationDocument = invoicePaidApplied.getPaymentApplicationDocument();
+        String docNumber = invoicePaidApplied.getDocumentNumber();
+        DocumentService docService = SpringContext.getBean(DocumentService.class);
+        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) docService.getByDocumentHeaderId(docNumber);
         if(null != paymentApplicationDocument) {
             KualiDecimal totalFromCashControl = paymentApplicationDocument.getTotalFromCashControl();
             if(amountPaid.isGreaterThan(totalFromCashControl)) {

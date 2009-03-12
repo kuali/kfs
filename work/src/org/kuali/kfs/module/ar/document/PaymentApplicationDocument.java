@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.BalanceTypService;
@@ -36,7 +35,6 @@ import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -73,6 +71,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
     private NonAppliedHolding nonAppliedHolding;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    private boolean checkedForCashControlDocument;
+    
     private transient PaymentApplicationDocumentService paymentApplicationDocumentService;
     private transient CashControlDetail cashControlDetail;
     private transient FinancialSystemUserService fsUserService;
@@ -83,25 +83,17 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         this.nonInvoiceds = new ArrayList<NonInvoiced>();
         this.nonInvoicedDistributions = new ArrayList<NonInvoicedDistribution>();
         this.nonAppliedDistributions = new ArrayList<NonAppliedDistribution>();
+        checkedForCashControlDocument = false;
     }
 
     /**
-     * The payment number is the PaymentMediumID for the single CashControlDetail
-     * on a CashControlDocument related to a PaymentApplicationDocument.
-     * 
-     * @return
+     * Returns the PaymentMediumIdentifier on the associated CashControlDetail, 
+     * if one exists, otherwise returns null.
+     * @return CustomerPaymentMediumIdentifier from the associated CashControlDetail if 
+     *         one exists, otherwise null.
      */
     public String getPaymentNumber() {
-        String paymentNumber = "";
-        CashControlDocument cashControlDocument = getCashControlDocument();
-        if(!ObjectUtils.isNull(cashControlDocument)) {
-            List<CashControlDetail> cashControlDetails = cashControlDocument.getCashControlDetails();
-            if(0 < cashControlDetails.size()) {
-                CashControlDetail firstDetail = cashControlDetails.iterator().next();
-                paymentNumber = firstDetail.getCustomerPaymentMediumIdentifier();
-            }
-        }
-        return paymentNumber;
+        return hasCashControlDocument() ? getCashControlDetail().getCustomerPaymentMediumIdentifier() : null;
     }
 
     /**
@@ -125,8 +117,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @throws WorkflowException
      */
     public CashControlDetail getCashControlDetail() {
-        if (cashControlDetail == null) {
+        // the 'checkedForCashControlDocument' is a micro-optimization to have it not 
+        // have to hit the db every time this method is hit when its a non-cash-control 
+        // type of payapp
+        if (cashControlDetail == null && !checkedForCashControlDocument) {
             cashControlDetail = getPaymentApplicationDocumentService().getCashControlDetailForPayAppDocNumber(getDocumentNumber());
+            checkedForCashControlDocument = true;
         }
         return cashControlDetail;
     }
@@ -140,8 +136,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @throws WorkflowException
      */
     public KualiDecimal getTotalFromCashControl() {
-        CashControlDetail cashControlDetail = getCashControlDetail();
-        return null == cashControlDetail ? KualiDecimal.ZERO : cashControlDetail.getFinancialDocumentLineAmount();
+        return hasCashControlDocument() ? KualiDecimal.ZERO : getCashControlDetail().getFinancialDocumentLineAmount();
     }
     
     /**
@@ -151,7 +146,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         KualiDecimal amount = KualiDecimal.ZERO;
         for(InvoicePaidApplied payment : getInvoicePaidApplieds()) {
             KualiDecimal _amount = payment.getInvoiceItemAppliedAmount();
-            if(null == _amount) { _amount = KualiDecimal.ZERO; }
+            if (null == _amount) { _amount = KualiDecimal.ZERO; }
             amount = amount.add(_amount);
         }
         return amount;
@@ -161,7 +156,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return the sum of all non-invoiced amounts
      */
     public KualiDecimal getSumOfNonInvoiceds() {
-        KualiDecimal total = new KualiDecimal(0);
+        KualiDecimal total = KualiDecimal.ZERO;
         for(NonInvoiced payment : getNonInvoiceds()) {
             total = total.add(payment.getFinancialDocumentLineAmount());
         }
@@ -172,7 +167,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return the sum of all non-invoiced distributions
      */
     public KualiDecimal getSumOfNonInvoicedDistributions() {
-        KualiDecimal amount = new KualiDecimal(0);
+        KualiDecimal amount = KualiDecimal.ZERO;
         for(NonInvoicedDistribution nonInvoicedDistribution : getNonInvoicedDistributions()) {
             amount = amount.add(nonInvoicedDistribution.getFinancialDocumentLineAmount());
         }
@@ -183,7 +178,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return the sum of all non-applied distributions
      */
     public KualiDecimal getSumOfNonAppliedDistributions() {
-        KualiDecimal amount = new KualiDecimal(0);
+        KualiDecimal amount = KualiDecimal.ZERO;
         for(NonAppliedDistribution nonAppliedDistribution : getNonAppliedDistributions()) {
             amount = amount.add(nonAppliedDistribution.getFinancialDocumentLineAmount());
         }
@@ -211,18 +206,15 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     public KualiDecimal getTotalApplied() {
         KualiDecimal amount = KualiDecimal.ZERO;
-        try {
-            // The amount received via the cash control document
-            KualiDecimal ccta = getTotalFromCashControl();
-            
-            // The amount received via the cash control document minus the amount applied.
-            KualiDecimal btba = getUnallocatedBalance();
-            
-            // The difference between the two is the amount applied.
-            amount = ccta.subtract(btba);
-        } catch(WorkflowException w) {
-            LOG.error("Failed to calculate total applied amount.", w);
-        }
+
+        // The amount received via the cash control document
+        KualiDecimal ccta = getTotalFromCashControl();
+        
+        // The amount received via the cash control document minus the amount applied.
+        KualiDecimal btba = getUnallocatedBalance();
+        
+        // The difference between the two is the amount applied.
+        amount = ccta.subtract(btba);
         return amount;
     }
     
@@ -234,12 +226,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      * @throws WorkflowException
      */
-    public KualiDecimal getUnallocatedBalance() throws WorkflowException {
+    public KualiDecimal getUnallocatedBalance() {
         
         //  if this payapp doc isnt based on a cash control doc, then there 
         // will be no cash control details, so no balance to be applied
-        CashControlDetail cashControlDetail = getCashControlDetail();
-        if (cashControlDetail == null) {
+        //TODO Andrew - this will have to be updated for non-cash-control docs
+        if (!hasCashControlDocument()) {
             return KualiDecimal.ZERO;
         }
         
@@ -261,6 +253,14 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return amount;
     }
     
+    public KualiDecimal getNonArTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (NonInvoiced item : getNonInvoiceds()) {
+            total = total.add(item.getFinancialDocumentLineAmount());
+        }
+        return total;
+    }
+
     public List<InvoicePaidApplied> getInvoicePaidApplieds() {
         return invoicePaidApplieds;
     }
@@ -316,12 +316,18 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return an InvoicePaidApplied
      */
     public InvoicePaidApplied getInvoicePaidApplied(int index) {
-        if (index >= invoicePaidApplieds.size()) {
-            for (int i = invoicePaidApplieds.size(); i <= index; i++) {
-                invoicePaidApplieds.add(new InvoicePaidApplied());
-            }
-        }
-        return invoicePaidApplieds.get(index);
+        
+        return index < getInvoicePaidApplieds().size() ? getInvoicePaidApplieds().get(index) : new InvoicePaidApplied();
+        //TODO (Andrew) I dont think we need to do this stuff below here, as 
+        //     we can just return a new empty PaidApplied if out of index, I 
+        //     dont see why we'd want to add it in.  But I'm not sure, so thats 
+        //     why I'm leaving it here commented out, and this comment.
+        //if (index >= invoicePaidApplieds.size()) {
+        //    for (int i = invoicePaidApplieds.size(); i <= index; i++) {
+        //        invoicePaidApplieds.add(new InvoicePaidApplied());
+        //    }
+        //}
+        //return invoicePaidApplieds.get(index);
     }
 
     /**
@@ -331,102 +337,36 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return an NonInvoiced
      */
     public NonInvoiced getNonInvoiced(int index) {
-        if (index >= nonInvoiceds.size()) {
-            for (int i = nonInvoiceds.size(); i <= index; i++) {
-                nonInvoiceds.add(new NonInvoiced());
-            }
-        }
-        return nonInvoiceds.get(index);
+        return index < getNonInvoiceds().size() ? getNonInvoiceds().get(index) : new NonInvoiced();
+        //TODO (Andrew) see my comment above on getInvoicePaidApplied(int index)
+//        if (index >= nonInvoiceds.size()) {
+//            for (int i = nonInvoiceds.size(); i <= index; i++) {
+//                nonInvoiceds.add(new NonInvoiced());
+//            }
+//        }
+//        return nonInvoiceds.get(index);
     }
 
-    /**
-     * @param ipa
-     * @return
-     */
-    private SystemInformation getSystemInformation(InvoicePaidApplied ipa) throws WorkflowException {
-        CustomerInvoiceDocument invoice = ipa.getCustomerInvoiceDocument();
-        String processingOrgCode = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
-        String processingChartCode = invoice.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
-        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        SystemInformation systemInformation = 
-            SpringContext.getBean(SystemInformationService.class).getByProcessingChartOrgAndFiscalYear(processingChartCode, processingOrgCode, currentFiscalYear);
-        return systemInformation;
-    }
+    //TODO Andrew - Nothing is using this, so its queued for removal
+    //public ObjectCode getUnappliedCashObjectCode(InvoicePaidApplied ipa) {
+    //    return ipa.getSystemInformation().getUniversityClearingObject();
+    //}
+
+    //TODO Andrew - Nothing is using this, so its queued for removal
+    //public ObjectCode getCreditCardChargesObjectCode(InvoicePaidApplied ipa) {
+    //    return ipa.getSystemInformation().getCreditCardFinancialObject();
+    //}
     
-    /**
-     * @param ipa
-     * @return the billing organization account
-     */
-    private Account getBillingOrganizationAccount(InvoicePaidApplied ipa) {
-        String invoiceDocumentNumber = ipa.getFinancialDocumentReferenceInvoiceNumber();
-        CustomerInvoiceDocumentService invoices =
-            SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        CustomerInvoiceDocument invoice = 
-            invoices.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
-        CustomerInvoiceDetail invoiceDetail = ipa.getInvoiceItem();
-        return invoiceDetail.getAccount();
-    }
-
-    /**
-     * @param ipa
-     * @return the accounts receivable object code
-     */
-    public ObjectCode getAccountsReceivableObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
-        CustomerInvoiceDetail detail = ipa.getInvoiceItem();
-        detail.refresh();
-        detail.refreshNonUpdateableReferences();
-        String parameterName = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD;
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String parameterValue = parameterService.getParameterValue(CustomerInvoiceDocument.class, parameterName);
-        
-        ObjectCode objectCode = null;
-        if("1".equals(parameterValue) || "2".equals(parameterValue)) {
-            detail.refreshReferenceObject("objectCode");
-            objectCode = detail.getObjectCode();
-        } else if ("3".equals(parameterValue)) {
-            detail.refreshReferenceObject("customerInvoiceDocument");
-            CustomerInvoiceDocument customerInvoiceDocument = detail.getCustomerInvoiceDocument();
-            customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
-            objectCode = detail.getCustomerInvoiceDocument().getPaymentFinancialObject();
-        }
-        
-        return objectCode;
-    }
-
-    /**
-     * @param ipa
-     * @return the unapplied object code
-     * @throws WorkflowException
-     */
-    public ObjectCode getUnappliedCashObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
-        SystemInformation systemInformation = getSystemInformation(ipa);
-        return systemInformation.getUniversityClearingObject();
-    }
-
-    /**
-     *
-     * @param ipa
-     * @return the credit card charges object code
-     * @throws WorkflowException
-     */
-    public ObjectCode getCreditCardChargesObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
-        SystemInformation systemInformation = getSystemInformation(ipa);
-        return systemInformation.getCreditCardFinancialObject();
-    }
-    
-    /**
-     * @param invoicePaidApplied
-     * @return the cash object code
-     */
-    private ObjectCode getCashObjectCode(InvoicePaidApplied invoicePaidApplied) {
-        invoicePaidApplied.refresh();
-        CustomerInvoiceDetail detail = invoicePaidApplied.getInvoiceItem();
-        detail.refresh();
-        Chart chart = detail.getChart();
-        chart.refresh();
-        chart.refreshReferenceObject("financialCashObject");
-        return chart.getFinancialCashObject();
-    }
+    //TODO Andrew - Nothing is using this, so its queued for removal
+    //private ObjectCode getCashObjectCode(InvoicePaidApplied invoicePaidApplied) {
+    //    invoicePaidApplied.refresh();
+    //    CustomerInvoiceDetail detail = invoicePaidApplied.getInvoiceDetail();
+    //    detail.refresh();
+    //    Chart chart = detail.getChart();
+    //    chart.refresh();
+    //    chart.refreshReferenceObject("financialCashObject");
+    //    return chart.getFinancialCashObject();
+    //}
     
     /**
      * This method gets an ObjectCode from an invoice document.
@@ -435,9 +375,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      * @throws WorkflowException
      */
-    private ObjectCode getInvoiceObjectCode(InvoicePaidApplied invoicePaidApplied) throws WorkflowException {
+    private ObjectCode getInvoiceReceivableObjectCode(InvoicePaidApplied invoicePaidApplied) throws WorkflowException {
         CustomerInvoiceDocument customerInvoiceDocument = invoicePaidApplied.getCustomerInvoiceDocument();
-        CustomerInvoiceDetail customerInvoiceDetail = invoicePaidApplied.getInvoiceItem();
+        CustomerInvoiceDetail customerInvoiceDetail = invoicePaidApplied.getInvoiceDetail();
         ReceivableCustomerInvoiceDetail receivableInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, customerInvoiceDocument);
         ObjectCode objectCode = null;
         if(ObjectUtils.isNotNull(receivableInvoiceDetail) && ObjectUtils.isNotNull(receivableInvoiceDetail.getFinancialObjectCode())) {
@@ -458,6 +398,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      * @throws WorkflowException
      */
+    //TODO Vivek - Can you please look at this, and if you dont need it, get rid of it?
     private CashControlDocument getCashControlDocument(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
         CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
         if(null == cashControlDocument) {
@@ -471,6 +412,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @param sequenceHelper
      * @return the pending entries for the document
      */
+    //TODO Andrew - Move this to the PayApp doc service, it belongs there
     private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) throws WorkflowException {
         
         // Collection of all generated entries
@@ -510,7 +452,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
 
         // Some information comes from the cash control document
-        CashControlDocument cashControlDocument = getCashControlDocument(this);
+        CashControlDocument cashControlDocument = getCashControlDocument();
         
         // Get the university clearing account
         SystemInformation unappliedSystemInformation = 
@@ -674,11 +616,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
             
             ipa.refreshNonUpdateableReferences();
-            Account billingOrganizationAccount = getBillingOrganizationAccount(ipa);
-            ObjectCode invoiceObjectCode = getInvoiceObjectCode(ipa);
+            Account billingOrganizationAccount = ipa.getInvoiceDetail().getAccount();
+            ObjectCode invoiceObjectCode = getInvoiceReceivableObjectCode(ipa);
             ObjectUtils.isNull(invoiceObjectCode); // Refresh 
-            ObjectCode accountsReceivableObjectCode = getAccountsReceivableObjectCode(ipa);
-            ObjectCode unappliedCashObjectCode = getUnappliedCashObjectCode(ipa);
+            ObjectCode accountsReceivableObjectCode = ipa.getAccountsReceivableObjectCode();
+            ObjectCode unappliedCashObjectCode = ipa.getSystemInformation().getUniversityClearingObject();
             
             GeneralLedgerPendingEntry actualDebitEntry = new GeneralLedgerPendingEntry();
             actualDebitEntry.setUniversityFiscalYear(getPostingYear());
@@ -765,22 +707,18 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        // Auto-generated method stub
         return true;
     }
 
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
-        // Auto-generated method stub
         return null;
     }
 
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
-        // Auto-generated method stub
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // Auto-generated method stub
         return false;
     }
 
@@ -845,10 +783,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return paymentApplicationDocumentService;
     }
 
-    public void setPaymentApplicationDocumentService(PaymentApplicationDocumentService paymentApplicationDocumentService) {
-        this.paymentApplicationDocumentService = paymentApplicationDocumentService;
-    }
-
     private FinancialSystemUserService getFsUserService() {
         if (fsUserService == null) {
             fsUserService = SpringContext.getBean(FinancialSystemUserService.class);
@@ -865,3 +799,4 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
 }
+

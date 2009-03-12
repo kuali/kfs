@@ -29,6 +29,7 @@
 
   <bean id="PhoneTypeOther-phoneTypeCode" parent="PhoneTypeOther-phoneTypeCode-parentBean" />
   <bean id="PhoneTypeOther-phoneTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>  
     <property name="name" value="code" />
     <property name="label" value="Phone Type Code" />
     <property name="shortLabel" value="Phone Type Code" />

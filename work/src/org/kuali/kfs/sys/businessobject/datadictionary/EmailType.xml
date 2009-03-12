@@ -28,6 +28,7 @@
 
   <bean id="EmailType-emailTypeCode" parent="EmailType-emailTypeCode-parentBean" />
   <bean id="EmailType-emailTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
     <property name="name" value="code" />
     <property name="label" value="Email Type Code" />
     <property name="shortLabel" value="Type Code" />

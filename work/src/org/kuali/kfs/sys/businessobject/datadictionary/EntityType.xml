@@ -28,6 +28,7 @@
 
   <bean id="EntityType-entityTypeCode" parent="EntityType-entityTypeCode-parentBean" />
   <bean id="EntityType-entityTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
     <property name="name" value="code" />
     <property name="label" value="Entity Type Code" />
     <property name="shortLabel" value="Type Code" />

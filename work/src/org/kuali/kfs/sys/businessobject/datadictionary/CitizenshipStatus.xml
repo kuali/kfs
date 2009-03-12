@@ -29,6 +29,7 @@
 
   <bean id="CitizenshipStatus-citizenshipStatusCode" parent="CitizenshipStatus-citizenshipStatusCode-parentBean" />
   <bean id="CitizenshipStatus-citizenshipStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>  
     <property name="name" value="citizenshipStatusCode" />
     <property name="label" value="Citizenship Status Code" />
     <property name="shortLabel" value="Citizenship Status Code" />

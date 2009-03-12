@@ -28,6 +28,7 @@
 
   <bean id="AddressTypeOther-addressTypeCode" parent="AddressTypeOther-addressTypeCode-parentBean" />
   <bean id="AddressTypeOther-addressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>  
     <property name="name" value="code" />
     <property name="label" value="Address Type Code" />
     <property name="shortLabel" value="Type Code" />

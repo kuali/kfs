@@ -28,6 +28,7 @@
 
   <bean id="EmploymentType-employmentTypeCode" parent="EmploymentType-employmentTypeCode-parentBean" />
   <bean id="EmploymentType-employmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>  
     <property name="name" value="code" />
     <property name="label" value="Employment Type Code" />
     <property name="shortLabel" value="Type Code" />

@@ -23,8 +23,6 @@
 	showTabButtons="true">
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<html:hidden property="document.capitalAssetNumber" />
-	<html:hidden property="document.objectSubTypesQuestionAnswered" />
-	<html:hidden property="document.objectSubTypesQuestionRequired" />
 	<cams:assetPayments />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true"

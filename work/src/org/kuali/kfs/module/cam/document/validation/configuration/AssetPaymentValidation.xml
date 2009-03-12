@@ -38,11 +38,6 @@
   	<bean id="AssetPayment-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>  	
-  				<!--  	
-				<bean parent="AssetPayment-objectSubTypesValidation" scope="prototype">								
-					<property name="quitOnFail" value="true" />
-				</bean>	
-				-->
   			</list>
   		</property>
   	</bean>

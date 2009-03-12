@@ -50,48 +50,9 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     private Long capitalAssetNumber;
     private boolean capitalAssetBuilderOriginIndicator;
     
-    transient private String objectSubTypesQuestionAnswered;
-    transient private boolean objectSubTypesQuestionRequired;
-
     public AssetPaymentDocument() {
         super();
         this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));
-    }
-
-    
-    /**
-     * Gets the validateObjectSubTypes attribute. 
-     * @return Returns the validateObjectSubTypes.
-     */
-    public boolean isObjectSubTypesQuestionRequired() {
-        return objectSubTypesQuestionRequired;
-    }
-
-
-    /**
-     * Sets the validateObjectSubTypes attribute value.
-     * @param validateObjectSubTypes The validateObjectSubTypes to set.
-     */
-    public void setObjectSubTypesQuestionRequired(boolean validateObjectSubTypes) {
-        this.objectSubTypesQuestionRequired = validateObjectSubTypes;
-    }
-
-
-    /**
-     * Gets the askingQuestion attribute. 
-     * @return Returns the askingQuestion.
-     */
-    public String getObjectSubTypesQuestionAnswered() {
-        return objectSubTypesQuestionAnswered;
-    }
-
-
-    /**
-     * Sets the askingQuestion attribute value.
-     * @param askingQuestion The askingQuestion to set.
-     */
-    public void setObjectSubTypesQuestionAnswered(String askingQuestion) {
-        this.objectSubTypesQuestionAnswered = askingQuestion;
     }
 
 

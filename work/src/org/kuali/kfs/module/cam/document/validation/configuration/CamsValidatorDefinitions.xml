@@ -60,8 +60,4 @@
 	<bean id="AssetPayment-assetValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentAssetValidation" abstract="true">
 		<property name="assetPaymentService" ref="assetPaymentService" />		
 	</bean>
-	
-	<bean id="AssetPayment-objectSubTypesValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentObjectSubTypesValidation" abstract="true">
-		<property name="assetPaymentService" ref="assetPaymentService" />		
-	</bean>
 </beans>

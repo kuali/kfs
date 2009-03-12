@@ -166,15 +166,7 @@
               <td><kul:htmlControlAttribute attributeEntry="${nonEmplTravelAttributes.disbVchrPersonalCarAmount}" property="document.dvNonEmployeeTravel.disbVchrPersonalCarAmount" readOnly="${!fullEntryMode&&!travelEntryMode}"/>
             </tr>
           </table>
-          
-        
 
-   
-   
-
-          
-          
-          
           <table cellpadding="0" class="datatable" summary="Travel Reimbursements">
                 <tbody>
                   <tr>
@@ -240,16 +232,10 @@
                   <tr>
                     <th colspan="3" class="infoline" scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nonEmplTravelAttributes.totalTravelAmount}"/></div></th>
                     <td valign="top" nowrap="nowrap" class="infoline">
-                    	<div align="center"><strong>
-                    	<kul:checkErrors keyMatch="${KFSConstants.DV_CHECK_TRAVEL_TOTAL_ERROR}"/>
-						<c:if test="${hasErrors}">
-	                    	<font color="red">
-						</c:if>
+                    	<div align="center">
+                    		<kul:checkErrors keyMatch="${KFSConstants.DV_CHECK_TRAVEL_TOTAL_ERROR}"/>
                     		$<kul:htmlControlAttribute attributeEntry="${nonEmplTravelAttributes.totalTravelAmount}" property="document.dvNonEmployeeTravel.totalTravelAmount" readOnly="true"/>
-                    	<c:if test="${hasErrors}">
-    	                	</font>
-                    	</c:if>
-                    	</strong></div>
+                    	</div>
                     </td>
 					<c:if test="${fullEntryMode||travelEntryMode}">
                     	<td class="infoline">&nbsp;</td>

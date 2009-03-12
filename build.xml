@@ -151,6 +151,8 @@
 			<fileset dir="${basedir}">
 				<include name="${source.directory}/${configuration.file}" />
 				<include name="${source.directory}/${p6spy.file}" />
+				<include name="${classes.directory}/${configuration.file}" />
+				<include name="${classes.directory}/${p6spy.file}" />
 				<include name="${webinf.directory}/${web.file}" />
 				<include name="${lib.directory}/${log4j.library.file}" />
 				<include name="${xsd.directory}/**/**" />
@@ -245,6 +247,8 @@
 	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide">
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
+		<echo file="${classes.directory}/${configuration.file}" message="${configuration}" />
+		<echo file="${classes.directory}/${p6spy.file}" message="${p6spy}" />
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
 		<echo file="${metainf.directory}/${context.file}" message="${context}" />

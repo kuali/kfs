@@ -27,12 +27,5 @@ public interface SystemInformationDao {
      */
     public SystemInformation getByLockboxNumber(String lockboxNumber, Integer universityFiscalYear);
     
-    /**
-     * Retrieves a SystemInformation object by university fiscal year.
-     * @param fiscalYear
-     * @return
-     */
-    public SystemInformation getByFiscalYear(Integer fiscalYear);
-    
     public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear);
 }

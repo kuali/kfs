@@ -20,6 +20,5 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 public interface SystemInformationService {
     public SystemInformation getByLockboxNumberForCurrentFiscalYear(String lockboxNumber);
     public SystemInformation getByLockboxNumber(String lockboxNumber, Integer universityFiscalYear);
-    public SystemInformation getByCurrentUniversityFiscalYear();
     public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear);
 }

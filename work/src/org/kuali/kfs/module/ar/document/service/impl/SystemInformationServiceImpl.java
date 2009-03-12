@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.document.service.impl;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.dataaccess.SystemInformationDao;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,11 +39,6 @@ public class SystemInformationServiceImpl implements SystemInformationService {
         return systemInformationDao.getByLockboxNumber(lockboxNumber, universityFiscalYear);
     }
 
-    public SystemInformation getByCurrentUniversityFiscalYear() {
-        Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-        return getSystemInformationDao().getByFiscalYear(currentFiscalYear);
-    }
-    
     public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear) {
         return getSystemInformationDao().getByProcessingChartOrgAndFiscalYear(chartCode, orgCode, fiscalYear);
     }

@@ -18,19 +18,21 @@ package org.kuali.kfs.module.ar.web.struts;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 import com.lowagie.text.Document;
@@ -65,25 +67,77 @@ public class CustomerStatementAction extends KualiAction {
     }
 
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CustomerStatementForm csForm = (CustomerStatementForm)form;
+        String basePath = getBasePath(request);
+        CustomerStatementForm csForm = (CustomerStatementForm) form;
         String chartCode = csForm.getChartCode();
         String orgCode = csForm.getOrgCode();
         String customerNumber = csForm.getCustomerNumber();
         String accountNumber = csForm.getAccountNumber();
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        if(!StringUtils.isBlank(chartCode)) {
+            params.put("chartCode", chartCode);
+        }
+        if(!StringUtils.isBlank(orgCode)) {
+            params.put("orgCode", orgCode);
+        }
+        if(!StringUtils.isBlank(customerNumber)) {
+            params.put("customerNumber", customerNumber);
+        }
+        if(!StringUtils.isBlank(accountNumber)) {
+            params.put("accountNumber", accountNumber);
+        }
+        
+        
+        String methodToCallPrintPDF = "printStatementPDF";
+        String methodToCallStart = "start";
+        String printPDFUrl = getUrlForPrintStatement(basePath, methodToCallPrintPDF, params);
+        String displayTabbedPageUrl = getUrlForPrintStatement(basePath, methodToCallStart, params);
+        
+        request.setAttribute("printPDFUrl", printPDFUrl);
+        request.setAttribute("displayTabbedPageUrl", displayTabbedPageUrl);
+        if(!StringUtils.isBlank(chartCode)) {
+            request.setAttribute("chartCode", chartCode);
+        }
+        if(!StringUtils.isBlank(orgCode)) {
+            request.setAttribute("orgCode", orgCode);
+        }
+        if(!StringUtils.isBlank(customerNumber)) {
+            request.setAttribute("customerNumber", customerNumber);
+        }
+        if(!StringUtils.isBlank(accountNumber)) {
+            request.setAttribute("accountNumber", accountNumber);
+        }
+        request.setAttribute("printLabel", "Customer Statement");
+        return mapping.findForward("arPrintPDF");
+        
+    }
+    
+    public ActionForward printStatementPDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CustomerStatementForm csForm = (CustomerStatementForm)form;
+        String chartCode = request.getParameter("chartCode");
+        chartCode = chartCode==null?"":chartCode;
+        String orgCode = request.getParameter("orgCode");
+        orgCode = orgCode==null?"":orgCode;
+        String customerNumber = request.getParameter("customerNumber");
+        customerNumber = customerNumber==null?"":customerNumber;
+        String accountNumber = request.getParameter("accountNumber");
+        accountNumber = accountNumber==null?"":accountNumber;
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         List<File> reports = new ArrayList<File>();
         
         StringBuilder fileName = new StringBuilder();
+        String contentDisposition = "";
         
-        
-        if ( chartCode != null && orgCode != null) {
+        if ( !StringUtils.isBlank(chartCode) && !StringUtils.isBlank(orgCode)) {
             reports = reportService.generateStatementByBillingOrg(chartCode, orgCode); 
             fileName.append(chartCode);
             fileName.append(orgCode);
-        } else if (customerNumber != null) {
+        } else if (!StringUtils.isBlank(customerNumber)) {
             reports = reportService.generateStatementByCustomer(customerNumber.toUpperCase());
             fileName.append(customerNumber);
-        } else if (accountNumber != null) {
+        } else if (!StringUtils.isBlank(accountNumber)) {
             reports = reportService.generateStatementByAccount(accountNumber);
             fileName.append(accountNumber);
         }
@@ -136,6 +190,19 @@ public class CustomerStatementAction extends KualiAction {
 
                 document.close();
                 // csForm.setReports(file);
+                
+                StringBuffer sbContentDispValue = new StringBuffer();
+                String useJavascript = request.getParameter("useJavascript");
+                if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
+                    sbContentDispValue.append("attachment");
+                }
+                else {
+                    sbContentDispValue.append("inline");
+                }
+                sbContentDispValue.append("; filename=");
+                sbContentDispValue.append(fileName);
+                
+                contentDisposition = sbContentDispValue.toString();
             }
             catch(Exception e) {
                 e.printStackTrace();
@@ -143,11 +210,40 @@ public class CustomerStatementAction extends KualiAction {
 
             fileName.append("-StatementBatchPDFs.pdf");
 
-            WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName.toString());
-            csForm.setMessage(reports.size() + " Reports Generated");
+            response.setContentType("application/pdf");
+            response.setHeader("Content-disposition", contentDisposition);
+            response.setHeader("Expires", "0");
+            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+            response.setHeader("Pragma", "public");
+            response.setContentLength(baos.size());
+
+            // write to output
+            ServletOutputStream sos = response.getOutputStream();
+            baos.writeTo(sos);
+            sos.flush();
+            sos.close();
+            
             return null;
         }
         csForm.setMessage("No Reports Generated");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    /**
+     * Creates a URL to be used in printing the purchase order.
+     * 
+     * @param basePath String: The base path of the current URL
+     * @param methodToCall String: The name of the method that will be invoked to do this particular print
+     * @return The URL
+     */
+    private String getUrlForPrintStatement(String basePath, String methodToCall, HashMap<String, String> params) {
+        StringBuffer result = new StringBuffer(basePath);
+        result.append("/arCustomerStatement.do?methodToCall=").append(methodToCall);
+        Set<String> keys = params.keySet();
+        for(String key : keys) {
+            result.append("&").append(key).append("=").append(params.get(key));
+        }
+
+        return result.toString();
+    }
+
 }

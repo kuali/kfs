@@ -131,6 +131,9 @@
    		<div id="${divName}" name="${divName}" class="fineprint">${fieldInfo}</div>
    	</span>
    	
+   	<c:if test="${withHiddenForm}">
+   		<html:hidden write="false" property="${fieldFormName}"/>
+   	</c:if>		
 </kul:htmlControlAttribute>  
 
 <c:if test="${!readOnly && not empty relationshipMetadata}">

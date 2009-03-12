@@ -113,6 +113,9 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         // Search fields initialization.
         barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument().resetSearchFields();
 
+        //Reseting the checkboxes
+        barcodeInventoryErrorForm.resetCheckBoxes();
+        
         // Displaying JSP
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

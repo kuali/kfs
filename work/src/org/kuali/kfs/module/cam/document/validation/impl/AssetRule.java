@@ -55,6 +55,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -465,6 +466,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @return boolean
      */
     private boolean validateDepreciationData(Asset asset) {
+        if (asset.getSalvageAmount() == null) {
+            asset.setSalvageAmount(KualiDecimal.ZERO);
+        }
+        
+        if (asset.getBaseAmount() == null) {
+            asset.setBaseAmount(KualiDecimal.ZERO);
+        }
+
         //If the salvage amount is greater than the base amount, then data is invalid
         if (asset.getSalvageAmount().compareTo(asset.getBaseAmount()) > 0 ) {
             putFieldError(CamsPropertyConstants.Asset.SALVAGE_AMOUNT, CamsKeyConstants.Asset.ERROR_INVALID_SALVAGE_AMOUNT);

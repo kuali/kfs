@@ -71,7 +71,7 @@
 					</c:if>
 					<c:if test="${!readOnly}">
 						<kul:htmlControlAttribute property="checkEntryMode"
-								attributeEntry="${cashReceiptAttributes.checkEntryMode}" />
+								attributeEntry="${cashReceiptAttributes.checkEntryMode}" onchange="submitForm()" />
 						
 						<noscript><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif"
 							styleClass="tinybutton" alt="change check entry mode" title="change check entry mode" /></noscript>
@@ -84,7 +84,7 @@
 						attributeEntry="${cashReceiptAttributes.totalCashAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle">${KualiForm.document.currencyFormattedTotalCashAmount}</td>
+					<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalCashAmount}" /></td>
 				</tr>
 				<tr>
 					<th>
@@ -92,7 +92,7 @@
 						attributeEntry="${cashReceiptAttributes.totalCoinAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle">${KualiForm.document.currencyFormattedTotalCoinAmount}</td>
+					<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalCoinAmount}" /></td>
 				</tr>
 				<tr>
 					<th>
@@ -100,7 +100,7 @@
 						attributeEntry="${cashReceiptAttributes.totalDollarAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle">${KualiForm.document.currencyFormattedSumTotalAmount}&nbsp;&nbsp;&nbsp;
+					<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedSumTotalAmount}" />&nbsp;&nbsp;&nbsp;
 					<c:if test="${!readOnly}">
 						<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
 							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />

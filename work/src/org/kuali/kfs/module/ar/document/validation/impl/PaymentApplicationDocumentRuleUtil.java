@@ -55,7 +55,7 @@ public class PaymentApplicationDocumentRuleUtil {
     public static boolean validateInvoicePaidApplied(InvoicePaidApplied invoicePaidApplied, String fieldName) throws WorkflowException {
         boolean isValid = true;
         
-        invoicePaidApplied.refreshReferenceObject("invoiceItem");
+        invoicePaidApplied.refreshReferenceObject("invoiceDetail");
         if(ObjectUtils.isNull(invoicePaidApplied) || ObjectUtils.isNull(invoicePaidApplied.getInvoiceDetail())) { return true; }
         KualiDecimal amountOwed = invoicePaidApplied.getInvoiceDetail().getAmount();
         KualiDecimal amountPaid = invoicePaidApplied.getInvoiceItemAppliedAmount();
@@ -107,7 +107,7 @@ public class PaymentApplicationDocumentRuleUtil {
     public static boolean validateCumulativeSumOfInvoicePaidAppliedDoesntExceedCashControlTotal(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
         KualiDecimal appliedTotal = new KualiDecimal(0);
         for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
-            invoicePaidApplied.refreshReferenceObject("invoiceItem");
+            invoicePaidApplied.refreshReferenceObject("invoiceDetail");
             appliedTotal = appliedTotal.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
         return paymentApplicationDocument.getTotalFromCashControl().isGreaterEqual(appliedTotal);
@@ -123,7 +123,7 @@ public class PaymentApplicationDocumentRuleUtil {
     public static boolean validateCumulativeSumOfInvoicePaidAppliedsIsGreaterThanOrEqualToZero(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
         KualiDecimal appliedTotal = new KualiDecimal(0);
         for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
-            invoicePaidApplied.refreshReferenceObject("invoiceItem");
+            invoicePaidApplied.refreshReferenceObject("invoiceDetail");
             appliedTotal = appliedTotal.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
         return KualiDecimal.ZERO.isLessEqual(appliedTotal);

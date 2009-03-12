@@ -17,10 +17,14 @@ package org.kuali.kfs.module.ar.document.authorization;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -82,5 +86,39 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
     private boolean isNewLine(Integer accountingLineIndex) {
         return (accountingLineIndex == null || accountingLineIndex.intValue() < 0);
     }
+    
+    /**
+     * Overridden to make chart and account number  read only for discount lines
+     * 
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineFieldModifyability(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.web.AccountingLineViewField, java.util.Map)
+     */
+    @Override
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName) {
+        boolean canModify = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName);
+        
+        if (canModify) {
+            boolean discountLineFlag = ((CustomerInvoiceDetail)accountingLine).isDiscountLine();
+            if (discountLineFlag) {
+                if (StringUtils.equals(fieldName, getChartPropertyName()) || StringUtils.equals(fieldName, getAccountNumberPropertyName())) 
+                    canModify = false;
+            }
+        }
+        
+        return canModify;
+    }
 
+    /**
+     * @return the property name of the chart field, which will be set to read only for discount lines
+     */
+    protected String getChartPropertyName() {
+        return "chartOfAccountsCode";
+    }
+
+    /**
+     * @return the property name of the account number field, which will be set to read only for discount lines
+     */
+    protected String getAccountNumberPropertyName() {
+        return "accountNumber";
+    }
 }

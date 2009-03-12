@@ -469,6 +469,28 @@
 		<property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl" /> 
 	</bean>	
 	
+	<bean id="paymentMethodRoleTypeService" class="org.kuali.kfs.fp.identity.PaymentMethodRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="paymentMethodRoleTypeService"
+	      p:localServiceName="paymentMethodRoleTypeService" />
+	  </property>
+	</bean>
+	
+	<bean id="cashReceiptInitiatorDerivedRoleTypeService" class="org.kuali.kfs.fp.identity.CashReceiptInitiatorDerivedRoleTypeServiceImpl">
+		<property name="roleManagementService">
+			<ref bean="kimRoleManagementService" />
+		</property>
+	</bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="cashReceiptInitiatorDerivedRoleTypeService"
+	      p:localServiceName="cashReceiptInitiatorDerivedRoleTypeService" />
+	  </property>
+	</bean>
+	
 	<!-- validations -->
 	<import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
 	<import resource="document/validation/configuration/InternalBillingValidation.xml" />
@@ -491,15 +513,6 @@
 	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
 	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
-	
-    <bean id="paymentMethodRoleTypeService" class="org.kuali.kfs.fp.identity.PaymentMethodRoleTypeServiceImpl"/>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="paymentMethodRoleTypeService"
-	      p:localServiceName="paymentMethodRoleTypeService" />
-	  </property>
-	</bean>
 
 </beans>
 

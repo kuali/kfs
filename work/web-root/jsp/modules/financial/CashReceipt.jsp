@@ -70,7 +70,7 @@
 						</c:if> 
 					</c:if>
 					<c:if test="${!readOnly}">
-						<kul:htmlControlAttribute property="checkEntryMode"
+						<kul:htmlControlAttribute property="document.checkEntryMode"
 								attributeEntry="${cashReceiptAttributes.checkEntryMode}" onchange="submitForm()" />
 						
 						<noscript><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif"

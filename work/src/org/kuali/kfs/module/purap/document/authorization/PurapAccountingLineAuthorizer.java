@@ -15,11 +15,18 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -27,11 +34,13 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationController;
+import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -161,6 +170,86 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
             throw new RuntimeException("Cannot instantiate instance of document authorizer for "+accountingDocument.getClass().getName(), iae);
         }
         return documentAuthorizer;
+    }
+    
+    @Override
+    public boolean isGroupEditable(AccountingDocument accountingDocument, 
+                                   List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, 
+                                   Person currentUser) {
+        
+        boolean isEditable = super.isGroupEditable(accountingDocument, accountingLineRenderingContexts, currentUser);
+        
+        if (isEditable){
+            isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLineRenderingContexts.get(0).getAccountingLine());
+        }
+        
+        return isEditable;
+    }
+    
+    @Override
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, 
+                                                  AccountingLine accountingLine, 
+                                                  String accountingLineCollectionProperty, 
+                                                  String fieldName) {
+        
+        boolean isEditable = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty,fieldName);
+        
+        if (isEditable){
+            isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLine);
+        }
+        
+        return isEditable;
+    }
+    
+    @Override
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, 
+                                                 AccountingLine accountingLine, 
+                                                 String accountingLineCollectionProperty) {
+        
+        boolean isEditable = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty);
+        
+        if (isEditable){
+            isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLine);
+        }
+        
+        return isEditable;
+    }
+    
+    /**
+     * This method checks whether the accounting lines are editable for a specific item type.
+     * 
+     */
+    protected final boolean allowAccountingLinesAreEditable(AccountingDocument accountingDocument,
+                                                            AccountingLine accountingLine){
+        
+        PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
+        Class clazz = getPurapDocumentClass(accountingDocument);
+        if (clazz == null){
+            return true;
+        }
+        
+        List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        
+        if (restrictedItemTypesList != null && purapAccount.getPurapItem() != null){
+            return !restrictedItemTypesList.contains(purapAccount.getPurapItem().getItemTypeCode());    
+        }else{
+            return true;
+        }
+        
+    }
+    
+    private Class getPurapDocumentClass(AccountingDocument accountingDocument){
+        if (accountingDocument instanceof RequisitionDocument){
+            return RequisitionDocument.class;
+        }else if (accountingDocument instanceof PurchaseOrderDocument){
+            return PurchaseOrderDocument.class;
+        }else if (accountingDocument instanceof PaymentRequestDocument){
+            return PaymentRequestDocument.class;
+        }else if (accountingDocument instanceof VendorCreditMemoDocument){
+            return VendorCreditMemoDocument.class;
+        }else{
+            return null;
+        }
     }
     
 }

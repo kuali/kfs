@@ -53,7 +53,6 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
 
             Map<String, String> fieldList = new HashMap<String, String>();
             fieldList.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, generatedIdentifier.toString());
-            fieldList.put(KFSPropertyConstants.PRINCIPAL_ID, ( (PayeeACHAccount)businessObject).getPrincipalId());
             
             return getHyperLink(PayeeACHAccount.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
         }

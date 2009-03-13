@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -46,6 +45,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -80,7 +80,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             }
 
             LOG.fatal("Unexpected errors occurred.", e);
-            
+
             // re-throw the exception
             throw new ServletException(e);
         }
@@ -158,8 +158,6 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
 
-            // TODO changed 12/2/2008 gwp verify and remove commented code
-            // if(savableFunding.isPurged()) {
             // bypass validation rules if the funding line has been marked as purged or deleted
             if (savableFunding.isPurged() || savableFunding.isAppointmentFundingDeleteIndicator()) {
                 continue;
@@ -206,6 +204,8 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(newAppointmentFunding);
+
         salarySettingForm.refreshBCAFLine(newAppointmentFunding);
 
         // setup a working appointment funding so that the default values can be applied
@@ -221,6 +221,8 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, workingAppointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+
+        salarySettingService.recalculateDerivedInformation(workingAppointmentFunding);
 
         // validate the new appointment funding line
         BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent(KFSConstants.EMPTY_STRING, BCPropertyConstants.NEW_BCAF_LINE, document, appointmentFundings, workingAppointmentFunding);
@@ -257,7 +259,6 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
-        salarySettingService.recalculateDerivedInformation(workingAppointmentFunding);
         appointmentFundings.add(workingAppointmentFunding);
         salarySettingForm.setNewBCAFLine(salarySettingForm.createNewAppointmentFundingLine());
 
@@ -298,12 +299,12 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             appointmentFunding.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
 
-        if (appointmentFunding.getAppointmentTotalIntendedAmount() == null){
+        if (appointmentFunding.getAppointmentTotalIntendedAmount() == null) {
             appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
             appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
         }
 
-        if (appointmentFunding.getAppointmentTotalIntendedFteQuantity() == null){
+        if (appointmentFunding.getAppointmentTotalIntendedFteQuantity() == null) {
             appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
         }
     }

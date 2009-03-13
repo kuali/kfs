@@ -67,7 +67,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
     private BusinessObjectService boService;
     private PersistenceStructureService psService;
 
-    private final int NUM_DOCS_TO_CREATE = 3; // number of each document type to create
+    private final int NUM_DOCS_TO_CREATE = 25; // number of each document type to create
     private final int ROUTE_TO_FINAL_SECONDS_LIMIT = 240; // number of seconds to wait for routing of documents to Final.
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {

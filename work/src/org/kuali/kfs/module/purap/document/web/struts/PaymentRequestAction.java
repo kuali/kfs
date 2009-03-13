@@ -48,6 +48,7 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -92,15 +93,18 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     public ActionForward continuePREQ(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("continuePREQ() method");
-
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
-        // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
-        paymentRequestDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier()).getAccountsPayablePurchasingDocumentLinkIdentifier());
 
-        //TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data (add this to all other docs except acm doc)
-        if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequestDocument).isAuthorizedByTemplate(paymentRequestDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
-            throw buildAuthorizationException("initiate document", paymentRequestDocument);
+        // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
+        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+        if (ObjectUtils.isNotNull(po)) {
+            paymentRequestDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
+
+            //check to see if user is allowed to initiate doc based on PO sensitive data
+            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequestDocument).isAuthorizedByTemplate(paymentRequestDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+                throw buildAuthorizationException("initiate document", paymentRequestDocument);
+            }
         }
         
         // perform duplicate check which will forward to a question prompt if one is found

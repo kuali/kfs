@@ -1478,9 +1478,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 // check object level is in permitted list for award routing
                 objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.CG_ROUTE_OBJECT_LEVELS_BY_CHART, PurapParameterConstants.NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART, chartCode, accountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
-                // check object code is in permitted list for award routing
-                objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.CG_ROUTE_OBJECT_CODES_BY_CHART, PurapParameterConstants.NO_CG_ROUTE_OBJECT_CODES_BY_CHART, chartCode, accountingLine.getFinancialObjectCode()).evaluateAndAddError(SourceAccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-
+                if (!objectCodeAllowed) {
+                    // If the object level is not permitting for award routing, then we need to also
+                    // check object code is in permitted list for award routing
+                    objectCodeAllowed = parameterService.getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.CG_ROUTE_OBJECT_CODES_BY_CHART, PurapParameterConstants.NO_CG_ROUTE_OBJECT_CODES_BY_CHART, chartCode, accountingLine.getFinancialObjectCode()).evaluateAndAddError(SourceAccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+                }
+                
                 // We should return true as soon as we have at least one objectCodeAllowed=true so that the PO will stop at Award
                 // level.
                 if (objectCodeAllowed) {

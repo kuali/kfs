@@ -198,8 +198,19 @@
             formattedNumberValue="${formattedNumber}"
             displayHidden="false" />
 
+<%--
 		<kul:htmlAttributeHeaderCell literalLabel=" " horizontal="true" />
 	    <td>&nbsp;</td>
+--%>
+        <kul:htmlAttributeHeaderCell
+        	attributeEntry="${positionAttributes.positionEffectiveDate}"
+            horizontal="true" />    
+        <bc:pbglLineDataCell dataCellCssClass="datacell"
+            cellProperty="budgetConstructionPosition.positionEffectiveDate"
+            field="positionEffectiveDate"
+            attributes="${positionAttributes}"
+            readOnly="true"
+            displayHidden="false" />
 	    
 		<kul:htmlAttributeHeaderCell literalLabel=" " horizontal="true" />
 	    <td>&nbsp;</td>	     

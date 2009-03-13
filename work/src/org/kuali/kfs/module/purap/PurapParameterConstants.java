@@ -65,6 +65,11 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     
     public static final String ENABLE_COMMODITY_CODE_IND = "ENABLE_COMMODITY_CODE_IND";
     
+    public static final String CG_ROUTE_OBJECT_LEVELS_BY_CHART = "CG_ROUTE_OBJECT_LEVELS_BY_CHART";
+    public static final String NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART = "NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART";
+    public static final String CG_ROUTE_OBJECT_CODES_BY_CHART = "CG_ROUTE_OBJECT_CODES_BY_CHART";
+    public static final String NO_CG_ROUTE_OBJECT_CODES_BY_CHART = "NO_CG_ROUTE_OBJECT_CODES_BY_CHART";
+    
     //Vendor Choices
     public static final String DEFAULT_APO_VENDOR_CHOICE = "DEFAULT_APO_VENDOR_CHOICE";
     public static final String DEFAULT_B2B_VENDOR_CHOICE = "DEFAULT_B2B_VENDOR_CHOICE";
@@ -143,7 +148,7 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         public static final String TAX_PARM_ACCOUNT_SUFFIX = "ACCOUNT";
         public static final String TAX_PARM_CHART_SUFFIX = "CHART";
         public static final String TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX = "OBJECT_CODE_BY_INCOME_CLASS";
-    }
+    }        
     
     public static class PurapMassRequisitionParameters {
         public static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-PURAP";

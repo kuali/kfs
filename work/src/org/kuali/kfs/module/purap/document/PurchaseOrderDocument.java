@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -66,9 +68,12 @@ import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificSer
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -92,6 +97,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -1439,6 +1445,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (nodeName.equals(PurapWorkflowConstants.CONTRACT_MANAGEMENT_REVIEW_REQUIRED)) return isContractManagementReviewRequired();
+        if (nodeName.equals(PurapWorkflowConstants.AWARD_REVIEW_REQUIRED)) return isAwardReviewRequired();
         if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) return isBudgetReviewRequired();
         if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) return isVendorEmployeeOrNonResidentAlien();
         if (nodeName.equals(PurapWorkflowConstants.TRANSMISSION_METHOD_IS_PRINT)) return isTransmissionMethodPrint();
@@ -1451,7 +1458,40 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     }
 
+    private boolean isAwardReviewRequired() {
+ 
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        boolean objectCodeAllowed = true;
+        
+        for (PurApItem item : (List<PurApItem>) this.getItems()) {
+            for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+                if (ObjectUtils.isNull(accountingLine.getObjectCode())) {
+                    continue;
+                }
 
+                // make sure object code is active
+                if (!accountingLine.getObjectCode().isFinancialObjectActiveCode()) {
+                    continue;
+                }
+
+                String chartCode = accountingLine.getChartOfAccountsCode();
+                // check object level is in permitted list for award routing
+                objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.CG_ROUTE_OBJECT_LEVELS_BY_CHART, PurapParameterConstants.NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART, chartCode, accountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+
+                // check object code is in permitted list for award routing
+                objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.CG_ROUTE_OBJECT_CODES_BY_CHART, PurapParameterConstants.NO_CG_ROUTE_OBJECT_CODES_BY_CHART, chartCode, accountingLine.getFinancialObjectCode()).evaluateAndAddError(SourceAccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+
+                // We should return true as soon as we have at least one objectCodeAllowed=true so that the PO will stop at Award
+                // level.
+                if (objectCodeAllowed) {
+                    return objectCodeAllowed;
+                }
+
+            }
+        }
+        return objectCodeAllowed;        
+    }
+    
     private boolean isBudgetReviewRequired() {
         boolean alwaysRoutes = true;
         String documentHeaderId = null;

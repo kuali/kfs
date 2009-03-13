@@ -113,7 +113,7 @@
 								</property>
 								<property name="quitOnFail" value="true" />
 							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+							<bean parent="BudgetAdjustment-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
@@ -228,7 +228,7 @@
 								</property>
 								<property name="quitOnFail" value="true" />
 							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+							<bean parent="BudgetAdjustment-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
@@ -281,7 +281,7 @@
 								</property>
 								<property name="quitOnFail" value="true" />
 							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+							<bean parent="BudgetAdjustment-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">

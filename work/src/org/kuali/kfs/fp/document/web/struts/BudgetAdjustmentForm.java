@@ -15,7 +15,15 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
@@ -24,6 +32,9 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
  */
 public class BudgetAdjustmentForm extends KualiAccountingDocumentFormBase {
 
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentForm.class);
+
+    
     /**
      * Constructs a BudgetAdjustmentForm instance and sets up the appropriately casted document. Also, the
      * newSourceLine/newTargetLine need to be the extended
@@ -32,5 +43,35 @@ public class BudgetAdjustmentForm extends KualiAccountingDocumentFormBase {
     public BudgetAdjustmentForm() {
         super();
         setDocument(new BudgetAdjustmentDocument());
+    }
+    
+    @Override
+    protected void repopulateOverrides(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {
+        determineNeededOverrides(line);
+        if (line.getAccountExpiredOverrideNeeded()) {
+            if (LOG.isDebugEnabled()) {
+                StringUtils.join(parameterMap.keySet(), "\n");
+            }
+            if (parameterMap.containsKey(accountingLinePropertyName+".accountExpiredOverride.present")) {
+                line.setAccountExpiredOverride(parameterMap.containsKey(accountingLinePropertyName+".accountExpiredOverride"));
+            }
+        } else {
+            line.setAccountExpiredOverride(false);
+        }
+    }
+    
+    /**
+     * Determines what overrides the given line needs.
+     * 
+     * @param line
+     * @return what overrides the given line needs.
+     */
+    public static AccountingLineOverride determineNeededOverrides(AccountingLine line) {
+        Set neededOverrideComponents = new HashSet();
+        if (AccountingLineOverride.needsExpiredAccountOverride(line.getAccount())) {
+            neededOverrideComponents.add(COMPONENT.EXPIRED_ACCOUNT);
+        }
+       
+        return AccountingLineOverride.valueOf(neededOverrideComponents);
     }
 }

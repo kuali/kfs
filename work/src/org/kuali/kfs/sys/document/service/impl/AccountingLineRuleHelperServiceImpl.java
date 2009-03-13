@@ -133,6 +133,20 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      */
     public boolean hasRequiredOverrides(AccountingLine line, String overrideCode) {
         boolean retVal = true;
+
+        AccountingLineOverride override = AccountingLineOverride.valueOf(overrideCode);
+        Account account = line.getAccount();
+        
+        ObjectCode objectCode = line.getObjectCode();
+        if (AccountingLineOverride.needsObjectBudgetOverride(account, objectCode) && !override.hasComponent(AccountingLineOverride.COMPONENT.NON_BUDGETED_OBJECT)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE, new String[] { account.getAccountNumber(), objectCode.getFinancialObjectCode() });
+            retVal = false;
+        }
+        return retVal;
+    }
+    
+    public boolean hasAccountRequiredOverrides(AccountingLine line, String overrideCode) {
+        boolean retVal = true;
         AccountingLineOverride override = AccountingLineOverride.valueOf(overrideCode);
         Account account = line.getAccount();
         if (AccountingLineOverride.needsExpiredAccountOverride(account) && !override.hasComponent(AccountingLineOverride.COMPONENT.EXPIRED_ACCOUNT)) {
@@ -146,13 +160,8 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             }
             retVal = false;
         }
-
-        ObjectCode objectCode = line.getObjectCode();
-        if (AccountingLineOverride.needsObjectBudgetOverride(account, objectCode) && !override.hasComponent(AccountingLineOverride.COMPONENT.NON_BUDGETED_OBJECT)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE, new String[] { account.getAccountNumber(), objectCode.getFinancialObjectCode() });
-            retVal = false;
-        }
         return retVal;
+
     }
     
     /**
@@ -429,6 +438,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             FinancialSystemDocumentTypeCode referenceType = accountingLine.getReferenceFinancialSystemDocumentTypeCode();
             valid &= isValidReferenceTypeCode(referenceType, accountingLineEntry);
         }
+        valid &= hasAccountRequiredOverrides(accountingLine, accountingLine.getOverrideCode());
         valid &= hasRequiredOverrides(accountingLine, accountingLine.getOverrideCode());
         return valid;
     }
@@ -440,7 +450,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    private static boolean isValidReferenceOriginCode(OriginationCode referenceOriginCode, BusinessObjectEntry accountingLineEntry) {
+    protected static boolean isValidReferenceOriginCode(OriginationCode referenceOriginCode, BusinessObjectEntry accountingLineEntry) {
         return checkExistence(referenceOriginCode, accountingLineEntry, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSPropertyConstants.REFERENCE_ORIGIN_CODE);
     }
     
@@ -451,7 +461,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    private static boolean isValidReferenceTypeCode(FinancialSystemDocumentTypeCode referenceType, BusinessObjectEntry accountingLineEntry) {
+    protected static boolean isValidReferenceTypeCode(FinancialSystemDocumentTypeCode referenceType, BusinessObjectEntry accountingLineEntry) {
         return checkExistence(referenceType, accountingLineEntry, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSPropertyConstants.REFERENCE_TYPE_CODE);
     }
     
@@ -480,5 +490,9 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+    
+    public DataDictionaryService getDataDictionaryService() {
+        return this.dataDictionaryService;
     }
 }

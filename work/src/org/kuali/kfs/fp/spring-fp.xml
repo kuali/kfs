@@ -337,6 +337,10 @@
 		</property>
 	</bean>
 
+	<bean id="budgetAdjustmentAccountingLineRuleHelperService" class="org.kuali.kfs.fp.document.service.impl.BudgetAdjustmentAccountingLineRuleHelperServiceImpl">
+			<property name="dataDictionaryService" ref="dataDictionaryService" />
+	</bean>
+
 	<!-- TODO: ewestfal
 	     12-23-2008
 	     commented out since the workflow lookup framework no longer exists

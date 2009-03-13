@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,8 +26,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -58,4 +66,27 @@ public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
         return super.copy(mapping, form, request, response);
     }
 
+    @Override
+    protected void processAccountingLineOverrides(List accountingLines) {
+        if (!accountingLines.isEmpty()) {
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(accountingLines, AccountingLineOverride.REFRESH_FIELDS);
+
+            for (Iterator i = accountingLines.iterator(); i.hasNext();) {
+                AccountingLine line = (AccountingLine) i.next();
+                processForOutput(line);
+            }
+        }
+    }
+    
+    private void processForOutput(AccountingLine line) {
+        AccountingLineOverride fromCurrentCode = AccountingLineOverride.valueOf(line.getOverrideCode());
+        AccountingLineOverride needed = AccountingLineOverride.determineNeededOverrides(line);
+        line.setAccountExpiredOverride(fromCurrentCode.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
+        line.setAccountExpiredOverrideNeeded(needed.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
+        line.setObjectBudgetOverride(false);
+        line.setObjectBudgetOverrideNeeded(false);
+
+    }
+
+    
 }

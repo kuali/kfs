@@ -62,6 +62,10 @@
 		<property name="fiscalYearFunctionControlService" ref="fiscalYearFunctionControlService" />
 	</bean>
 	
+	<bean id="BudgetAdjustment-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
+		<property name="accountingLineRuleHelperService" ref="budgetAdjustmentAccountingLineRuleHelperService" />
+	</bean>
+	
 	<bean id="BudgetAdjustment-accountingLineMonthlyLinesValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLineMonthlyLinesValidation" abstract="true" />
 	
 	<bean id="BudgetAdjustment-accountingLinesRequiredForRoutingValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLinesRequiredForRoutingValidation" abstract="true" />
@@ -71,7 +75,7 @@
 	<bean id="BudgetAdjustment-documentBalancedValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentBalancedValidation" abstract="true" />
 	
 	<bean id="BudgetAdjustment-fundGroupAdjustmentRestrictionValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentFundGroupAdjustmentRestrictionValidation" abstract="true">
-		<property name="accountingLineRuleHelperService" ref="accountingLineRuleHelperService" />
+		<property name="accountingLineRuleHelperService" ref="budgetAdjustmentAccountingLineRuleHelperService" />
 	</bean>
 
 	<bean id="AuxiliaryVoucher-accountingLineAmountValidation" class="org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherAccountingLineAmountValidation" abstract="true" />

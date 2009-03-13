@@ -238,7 +238,7 @@ public class AccountingLineOverride {
         return valueOf(key);
     }
 
-    private static AccountingLineOverride valueOf(Set components) {
+    public static AccountingLineOverride valueOf(Set components) {
         return (AccountingLineOverride) componentsToOverrideMap.get(components); // todo: JDK 1.5 generic Map instead of cast
     }
 

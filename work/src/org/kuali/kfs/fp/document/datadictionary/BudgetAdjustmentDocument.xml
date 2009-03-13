@@ -177,11 +177,11 @@
 	                  </bean>
 	                  <bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName"/>
 	                  <bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator" p:overrideLookupParameters="document.postingYear:universityFiscalYear">
-	                  	<property name="overrideFields">
+	                  <!--  	<property name="overrideFields">
 	                  		<list>
 	                  			<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride"/>
 	                  		</list>
-	                  	</property>
+	                  	</property>-->
 	                  </bean>
 	                  <bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName"/>
 	                  <bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription"/>

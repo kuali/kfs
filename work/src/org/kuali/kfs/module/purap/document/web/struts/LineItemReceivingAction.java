@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CorrectionReceivingDocumentStrings;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
@@ -44,6 +45,7 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -64,15 +66,18 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
     }
 
     public ActionForward continueReceivingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    
         LineItemReceivingForm rlf = (LineItemReceivingForm)form;
         LineItemReceivingDocument rlDoc = (LineItemReceivingDocument)rlf.getDocument();
-        // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
-        rlDoc.setAccountsPayablePurchasingDocumentLinkIdentifier(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(rlDoc.getPurchaseOrderIdentifier()).getAccountsPayablePurchasingDocumentLinkIdentifier());
+        
+        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(rlDoc.getPurchaseOrderIdentifier());
+        if (ObjectUtils.isNotNull(po)) {
+            // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
+            rlDoc.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
-        //TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data (add this to all other docs except acm doc)
-        if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(rlDoc).isAuthorizedByTemplate(rlDoc, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
-            throw buildAuthorizationException("initiate document", rlDoc);
+            //TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data (add this to all other docs except acm doc)
+            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(rlDoc).isAuthorizedByTemplate(rlDoc, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+                throw buildAuthorizationException("initiate document", rlDoc);
+            }
         }
         
         //perform duplicate check

@@ -26,6 +26,8 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
@@ -43,6 +45,7 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -78,19 +81,25 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
         VendorCreditMemoDocument creditMemoDocument = (VendorCreditMemoDocument) cmForm.getDocument();
         
         if (creditMemoDocument.isSourceDocumentPaymentRequest()) {
-            // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
-            creditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(creditMemoDocument.getPaymentRequestIdentifier()).getAccountsPayablePurchasingDocumentLinkIdentifier());
-            
-            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
-                throw buildAuthorizationException("initiate document", creditMemoDocument);
+            PaymentRequestDocument preq = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(creditMemoDocument.getPaymentRequestIdentifier());
+            if (ObjectUtils.isNotNull(preq)) {
+                // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
+                creditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(preq.getAccountsPayablePurchasingDocumentLinkIdentifier());
+                
+                if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+                    throw buildAuthorizationException("initiate document", creditMemoDocument);
+                }
             }
         }
         else if (creditMemoDocument.isSourceDocumentPurchaseOrder()) {
-            // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
-            creditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier()).getAccountsPayablePurchasingDocumentLinkIdentifier());
-            
-            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
-                throw buildAuthorizationException("initiate document", creditMemoDocument);
+            PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier());
+            if (ObjectUtils.isNotNull(po)) {
+                // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
+                creditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
+                
+                if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+                    throw buildAuthorizationException("initiate document", creditMemoDocument);
+                }
             }
         }
         else {

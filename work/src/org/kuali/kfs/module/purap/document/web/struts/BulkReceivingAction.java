@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -69,9 +70,10 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         BulkReceivingForm blkForm = (BulkReceivingForm) form;
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkForm.getDocument();
         
-        if (ObjectUtils.isNotNull(blkRecDoc.getPurchaseOrderIdentifier())) {
+        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(blkRecDoc.getPurchaseOrderIdentifier());
+        if (ObjectUtils.isNotNull(po)) {
             // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
-            blkRecDoc.setAccountsPayablePurchasingDocumentLinkIdentifier(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(blkRecDoc.getPurchaseOrderIdentifier()).getAccountsPayablePurchasingDocumentLinkIdentifier());
+            blkRecDoc.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
             //TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data (add this to all other docs except acm doc)
             if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(blkRecDoc).isAuthorizedByTemplate(blkRecDoc, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {

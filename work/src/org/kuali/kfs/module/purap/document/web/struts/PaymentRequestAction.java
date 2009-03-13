@@ -96,9 +96,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
 
-        // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
         if (ObjectUtils.isNotNull(po)) {
+            // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
             paymentRequestDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
             //check to see if user is allowed to initiate doc based on PO sensitive data

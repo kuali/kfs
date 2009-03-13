@@ -30,7 +30,6 @@ public enum PurchasingAccountsPayableLineAssetAccountFixture {
             account.setActive(true);
             return account;
         }
-
     },
 
     REC2 {
@@ -39,7 +38,28 @@ public enum PurchasingAccountsPayableLineAssetAccountFixture {
             account.setActive(true);
             return account;
         }
-
+    },
+    REC3 {
+        public PurchasingAccountsPayableLineAssetAccount newRecord() {
+            PurchasingAccountsPayableLineAssetAccount account = new PurchasingAccountsPayableLineAssetAccount();
+            account.setActive(true);
+            return account;
+        }
+        
+    },
+    REC4 {
+        public PurchasingAccountsPayableLineAssetAccount newRecord() {
+            PurchasingAccountsPayableLineAssetAccount account = new PurchasingAccountsPayableLineAssetAccount();
+            account.setActive(true);
+            return account;
+        }
+    },
+    REC5 {
+        public PurchasingAccountsPayableLineAssetAccount newRecord() {
+            PurchasingAccountsPayableLineAssetAccount account = new PurchasingAccountsPayableLineAssetAccount();
+            account.setActive(true);
+            return account;
+        }
     };
 
     public abstract PurchasingAccountsPayableLineAssetAccount newRecord();
@@ -62,6 +82,28 @@ public enum PurchasingAccountsPayableLineAssetAccountFixture {
             setAccountByGlEntry(newGlEntry2, account2);
             newAccounts.add(account2);
         }
+        
+        if (glIterator.hasNext()) {
+            GeneralLedgerEntry newGlEntry3 = (GeneralLedgerEntry) glIterator.next();
+            PurchasingAccountsPayableLineAssetAccount account3 = REC3.newRecord();
+            setAccountByGlEntry(newGlEntry3, account3);
+            newAccounts.add(account3);
+        }
+        
+        if (glIterator.hasNext()) {
+            GeneralLedgerEntry newGlEntry4 = (GeneralLedgerEntry) glIterator.next();
+            PurchasingAccountsPayableLineAssetAccount account4 = REC4.newRecord();
+            setAccountByGlEntry(newGlEntry4, account4);
+            newAccounts.add(account4);
+        }
+        
+        if (glIterator.hasNext()) {
+            GeneralLedgerEntry newGlEntry5 = (GeneralLedgerEntry) glIterator.next();
+            PurchasingAccountsPayableLineAssetAccount account5 = REC5.newRecord();
+            setAccountByGlEntry(newGlEntry5, account5);
+            newAccounts.add(account5);
+        }
+        
         return newAccounts;
     }
 

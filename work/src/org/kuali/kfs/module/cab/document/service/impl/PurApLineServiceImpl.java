@@ -146,7 +146,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processAllocate(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
      *      java.util.List, org.kuali.kfs.module.cab.document.web.PurApLineSession, java.util.List)
      */
-    public boolean processAllocate(PurchasingAccountsPayableItemAsset allocateSourceLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineSession purApLineSession, List<PurchasingAccountsPayableDocument> purApDocs) {
+    public boolean processAllocate(PurchasingAccountsPayableItemAsset allocateSourceLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, List<PurchasingAccountsPayableDocument> purApDocs) {
         boolean allocatedIndicator = true;
         // setup non-persistent relationship: from account to item and from item to document
         setupObjectRelationship(purApDocs);
@@ -154,7 +154,6 @@ public class PurApLineServiceImpl implements PurApLineService {
         boolean allocateAddlChrgIndicator = allocateSourceLine.isAdditionalChargeNonTradeInIndicator() | allocateSourceLine.isTradeInAllowance();
         // Maintain this account List for update. So accounts already allocated won't take effect for account not allocated yet.
         List<PurchasingAccountsPayableLineAssetAccount> newAccountList = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
-        List<PurchasingAccountsPayableActionHistory> actionsTakeHistory = new ArrayList<PurchasingAccountsPayableActionHistory>();
 
         // For each account in the source item, allocate it to the target items.
         for (PurchasingAccountsPayableLineAssetAccount sourceAccount : allocateSourceLine.getPurchasingAccountsPayableLineAssetAccounts()) {
@@ -172,8 +171,6 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         if (allocatedIndicator) {
             postAllocateProcess(allocateSourceLine, allocateTargetLines, purApDocs, newAccountList);
-            // add to the action history
-            purApLineSession.getActionsTakenHistory().addAll(actionsTakeHistory);
         }
 
         return allocatedIndicator;
@@ -580,14 +577,14 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processMerge(java.util.List)
      */
-    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineSession purApLineSession, boolean isMergeAll) {
+    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines,List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, boolean isMergeAll) {
         PurchasingAccountsPayableItemAsset sourceItem = null;
         PurchasingAccountsPayableLineAssetAccount targetAccount = null;
         // use the first item and its accounts as the target
         PurchasingAccountsPayableItemAsset firstItem = mergeLines.get(0);
         List<PurchasingAccountsPayableLineAssetAccount> firstAccountList = firstItem.getPurchasingAccountsPayableLineAssetAccounts();
 
-        // Merge accounts from the second item to the first one.
+        // Merge accounts starting from the second item to the last one.
         for (int i = 1; i < mergeLines.size(); i++) {
             sourceItem = mergeLines.get(i);
             for (PurchasingAccountsPayableLineAssetAccount account : sourceItem.getPurchasingAccountsPayableLineAssetAccounts()) {
@@ -607,7 +604,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
 
         // update action history, remove lines before merge and clean up the user input
-        postMergeProcess(mergeLines, purApLineSession, isMergeAll);
+        postMergeProcess(mergeLines, actionsTakeHistory, isMergeAll);
     }
 
     /**
@@ -617,7 +614,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param purApLineSession
      * @param isMergeAll
      */
-    protected void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineSession purApLineSession, boolean isMergeAll) {
+    protected void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, boolean isMergeAll) {
         String actionTypeCode = isMergeAll ? CabConstants.Actions.MERGE_ALL : CabConstants.Actions.MERGE;
         PurchasingAccountsPayableItemAsset targetItem = mergeLines.get(0);
 
@@ -631,7 +628,7 @@ public class PurApLineServiceImpl implements PurApLineService {
             PurchasingAccountsPayableItemAsset sourceItem = mergeLines.get(i);
 
             // Update the action history.
-            addMergeHistory(purApLineSession.getActionsTakenHistory(), actionTypeCode, sourceItem, targetItem);
+            addMergeHistory(actionsTakeHistory, actionTypeCode, sourceItem, targetItem);
 
             if (ObjectUtils.isNotNull(sourceItem.getPurchasingAccountsPayableDocument())) {
                 // remove mergeLines from the document

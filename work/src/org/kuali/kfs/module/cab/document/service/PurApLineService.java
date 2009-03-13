@@ -37,7 +37,7 @@ public interface PurApLineService {
      * @return
      */
     boolean allocateLinesHasDifferentObjectSubTypes(List<PurchasingAccountsPayableItemAsset> targetLines, PurchasingAccountsPayableItemAsset sourceLine);
-    
+
     /**
      * Check the payments in given asset lines have different object sub types.
      * 
@@ -87,7 +87,7 @@ public interface PurApLineService {
      * @param purApDocs
      * @return
      */
-    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineSession purApLineSession, List<PurchasingAccountsPayableDocument> purApDocs);
+    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, List<PurchasingAccountsPayableDocument> purApDocs);
 
     /**
      * Get the target lines based on allocation line type
@@ -121,7 +121,7 @@ public interface PurApLineService {
      * @param purApLineSession
      * @param isMergeAll
      */
-    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineSession purApLineSession, boolean isMergeAll);
+    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, boolean isMergeAll);
 
     /**
      * Check if the merge action is merge all.

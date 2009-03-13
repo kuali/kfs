@@ -28,6 +28,8 @@ public enum PurchasingAccountsPayableItemAssetFixture {
         public PurchasingAccountsPayableItemAsset newRecord() {
             PurchasingAccountsPayableItemAsset itemAsset = new PurchasingAccountsPayableItemAsset();
             itemAsset.setAccountsPayableItemQuantity(new KualiDecimal(0.7));
+            itemAsset.setAccountsPayableLineItemIdentifier(new Integer(100));
+            itemAsset.setCapitalAssetBuilderLineNumber(new Integer(1));
             itemAsset.setActive(true);
             return itemAsset;
         }
@@ -37,6 +39,30 @@ public enum PurchasingAccountsPayableItemAssetFixture {
         public PurchasingAccountsPayableItemAsset newRecord() {
             PurchasingAccountsPayableItemAsset itemAsset = new PurchasingAccountsPayableItemAsset();
             itemAsset.setAccountsPayableItemQuantity(new KualiDecimal(2));
+            itemAsset.setAccountsPayableLineItemIdentifier(new Integer(101));
+            itemAsset.setCapitalAssetBuilderLineNumber(new Integer(1));
+            itemAsset.setActive(true);
+            return itemAsset;
+        }
+    },
+    
+    REC3 {
+        public PurchasingAccountsPayableItemAsset newRecord() {
+            PurchasingAccountsPayableItemAsset itemAsset = new PurchasingAccountsPayableItemAsset();
+            itemAsset.setAccountsPayableItemQuantity(new KualiDecimal(3));
+            itemAsset.setAccountsPayableLineItemIdentifier(new Integer(102));
+            itemAsset.setCapitalAssetBuilderLineNumber(new Integer(1));
+            itemAsset.setActive(true);
+            return itemAsset;
+        }
+    },
+    
+    REC4 {
+        public PurchasingAccountsPayableItemAsset newRecord() {
+            PurchasingAccountsPayableItemAsset itemAsset = new PurchasingAccountsPayableItemAsset();
+            itemAsset.setAccountsPayableLineItemIdentifier(new Integer(200));
+            itemAsset.setAccountsPayableItemQuantity(new KualiDecimal(4));
+            itemAsset.setCapitalAssetBuilderLineNumber(new Integer(1));
             itemAsset.setActive(true);
             return itemAsset;
         }
@@ -49,19 +75,53 @@ public enum PurchasingAccountsPayableItemAssetFixture {
         List<PurchasingAccountsPayableLineAssetAccount> newAccounts = PurchasingAccountsPayableLineAssetAccountFixture.createPurApAccounts();
         Iterator iterator =  newAccounts.iterator();
         
+        // build four item lines
         if (iterator.hasNext()) {
             PurchasingAccountsPayableLineAssetAccount newAccount1 = (PurchasingAccountsPayableLineAssetAccount)iterator.next();
             PurchasingAccountsPayableItemAsset newItem1 = REC1.newRecord();
+            setAccountByItem(newAccount1, newItem1);
             newItem1.getPurchasingAccountsPayableLineAssetAccounts().add(newAccount1);
             itemAssets.add(newItem1);
         }
-        
         if (iterator.hasNext()) {
             PurchasingAccountsPayableLineAssetAccount newAccount2 = (PurchasingAccountsPayableLineAssetAccount)iterator.next();
-            PurchasingAccountsPayableItemAsset newItem2 = REC2.newRecord();
+            PurchasingAccountsPayableItemAsset newItem2 = REC1.newRecord();
+            setAccountByItem(newAccount2, newItem2);
             newItem2.getPurchasingAccountsPayableLineAssetAccounts().add(newAccount2);
             itemAssets.add(newItem2);
         }
+        
+        if (iterator.hasNext()) {
+            PurchasingAccountsPayableLineAssetAccount newAccount3 = (PurchasingAccountsPayableLineAssetAccount)iterator.next();
+            PurchasingAccountsPayableItemAsset newItem3 = REC3.newRecord();
+            setAccountByItem(newAccount3, newItem3);
+            newItem3.getPurchasingAccountsPayableLineAssetAccounts().add(newAccount3);
+            itemAssets.add(newItem3);
+        }
+        
+        if (iterator.hasNext()) {
+            // add the 1st account to this item
+            PurchasingAccountsPayableLineAssetAccount newAccount4 = (PurchasingAccountsPayableLineAssetAccount)iterator.next();
+            PurchasingAccountsPayableItemAsset newItem4 = REC4.newRecord();
+            setAccountByItem(newAccount4, newItem4);
+            newItem4.getPurchasingAccountsPayableLineAssetAccounts().add(newAccount4);
+            // add the 2nd account to this item
+            if (iterator.hasNext()) {
+                PurchasingAccountsPayableLineAssetAccount newAccount5 = (PurchasingAccountsPayableLineAssetAccount)iterator.next();
+                setAccountByItem(newAccount5, newItem4);
+                newItem4.getPurchasingAccountsPayableLineAssetAccounts().add(newAccount5);
+                itemAssets.add(newItem4);
+            }
+            
+            itemAssets.add(newItem4);
+        }
+        
         return itemAssets;
+    }
+
+    private static void setAccountByItem(PurchasingAccountsPayableLineAssetAccount newAccount, PurchasingAccountsPayableItemAsset newItem) {
+        newAccount.setAccountsPayableLineItemIdentifier(newItem.getAccountsPayableLineItemIdentifier());
+        newAccount.setDocumentNumber(newItem.getDocumentNumber());
+        newAccount.setCapitalAssetBuilderLineNumber(newItem.getCapitalAssetBuilderLineNumber());
     }
 }

@@ -363,7 +363,7 @@ public class PurApLineAction extends CabActionBase {
         PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
         // handle merging lines including merge all situation.
         retrieveUserInputForMerge(mergeLines.get(0), purApForm);
-        purApLineService.processMerge(mergeLines, purApLineSession, isMergeAll);
+        purApLineService.processMerge(mergeLines, purApLineSession.getActionsTakenHistory(), isMergeAll);
         clearForMerge(purApForm);
     }
 
@@ -590,7 +590,7 @@ public class PurApLineAction extends CabActionBase {
      */
     protected void performAllocate(PurApLineForm purApForm, PurchasingAccountsPayableItemAsset allocateSourceLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines) {
         PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
-        if (!purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, purApLineSession, purApForm.getPurApDocs())) {
+        if (!purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, purApLineSession.getActionsTakenHistory(), purApForm.getPurApDocs())) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_TARGET_ACCOUNT);
         }
         else {

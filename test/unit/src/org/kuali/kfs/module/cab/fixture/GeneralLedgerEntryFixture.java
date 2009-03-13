@@ -41,7 +41,28 @@ public enum GeneralLedgerEntryFixture {
             return glEntry;
         }
     },
+
     REC2 {
+        public GeneralLedgerEntry newRecord() {
+            GeneralLedgerEntry glEntry = new GeneralLedgerEntry();
+            glEntry.setGeneralLedgerAccountIdentifier(1001L);
+            glEntry.setUniversityFiscalYear(2009);
+            glEntry.setUniversityFiscalPeriodCode("02");
+            glEntry.setChartOfAccountsCode("EA");
+            glEntry.setAccountNumber("0308000");
+            glEntry.setFinancialObjectCode("7000");
+            glEntry.setFinancialDocumentTypeCode("PREQ");
+            glEntry.setDocumentNumber("33");
+            glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(500));
+            glEntry.setReferenceFinancialDocumentNumber("22");
+            glEntry.setTransactionDebitCreditCode("D");
+            glEntry.setActive(true);
+            glEntry.refreshReferenceObject("financialObject");
+            return glEntry;
+        }
+    },
+
+    REC3 {
         public GeneralLedgerEntry newRecord() {
             GeneralLedgerEntry glEntry = new GeneralLedgerEntry();
             glEntry.setGeneralLedgerAccountIdentifier(1001L);
@@ -51,10 +72,49 @@ public enum GeneralLedgerEntryFixture {
             glEntry.setAccountNumber("2224711");
             glEntry.setFinancialObjectCode("7300");
             glEntry.setFinancialDocumentTypeCode("PREQ");
-            glEntry.setDocumentNumber("33");
+            glEntry.setDocumentNumber("34");
             glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(1500));
             glEntry.setReferenceFinancialDocumentNumber("22");
             glEntry.setTransactionDebitCreditCode("D");
+            glEntry.setActive(true);
+            glEntry.refreshReferenceObject("financialObject");
+            return glEntry;
+        }
+    },
+
+    REC4 {
+        public GeneralLedgerEntry newRecord() {
+            GeneralLedgerEntry glEntry = new GeneralLedgerEntry();
+            glEntry.setGeneralLedgerAccountIdentifier(1001L);
+            glEntry.setUniversityFiscalYear(2009);
+            glEntry.setUniversityFiscalPeriodCode("02");
+            glEntry.setChartOfAccountsCode("BL");
+            glEntry.setAccountNumber("1024700");
+            glEntry.setFinancialObjectCode("7000");
+            glEntry.setFinancialDocumentTypeCode("CM");
+            glEntry.setDocumentNumber("44");
+            glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(1000));
+            glEntry.setReferenceFinancialDocumentNumber("22");
+            glEntry.setTransactionDebitCreditCode("C");
+            glEntry.setActive(true);
+            glEntry.refreshReferenceObject("financialObject");
+            return glEntry;
+        }
+    },
+    REC5 {
+        public GeneralLedgerEntry newRecord() {
+            GeneralLedgerEntry glEntry = new GeneralLedgerEntry();
+            glEntry.setGeneralLedgerAccountIdentifier(1001L);
+            glEntry.setUniversityFiscalYear(2009);
+            glEntry.setUniversityFiscalPeriodCode("02");
+            glEntry.setChartOfAccountsCode("BL");
+            glEntry.setAccountNumber("1024700");
+            glEntry.setFinancialObjectCode("7000");
+            glEntry.setFinancialDocumentTypeCode("CM");
+            glEntry.setDocumentNumber("44");
+            glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(500));
+            glEntry.setReferenceFinancialDocumentNumber("22");
+            glEntry.setTransactionDebitCreditCode("C");
             glEntry.setActive(true);
             glEntry.refreshReferenceObject("financialObject");
             return glEntry;
@@ -67,6 +127,9 @@ public enum GeneralLedgerEntryFixture {
         List<GeneralLedgerEntry> glEntries = new ArrayList<GeneralLedgerEntry>();
         glEntries.add(REC1.newRecord());
         glEntries.add(REC2.newRecord());
+        glEntries.add(REC3.newRecord());
+        glEntries.add(REC4.newRecord());
+        glEntries.add(REC5.newRecord());
         return glEntries;
     }
 

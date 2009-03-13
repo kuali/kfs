@@ -141,12 +141,14 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetTransactionTypeDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNonquantityDrivenAllowIndicator" />
+              p:attributeName="capitalAssetNonquantityDrivenAllowIndicator"
+              p:defaultValue="Y" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetQuantitySubtypeRequiredText" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetNonquantitySubtypeRequiredText" />
         <bean parent="FieldDefinition"
+              p:defaultValue="Y"
               p:attributeName="active" />
       </list>
     </property>

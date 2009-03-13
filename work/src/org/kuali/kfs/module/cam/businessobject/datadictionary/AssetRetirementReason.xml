@@ -128,7 +128,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="retirementReasonName" />
         <bean parent="FieldDefinition"
-              p:attributeName="retirementReasonRestrictionIndicator" />
+              p:attributeName="retirementReasonRestrictionIndicator"
+              p:defaultValue="Y"/>
         <bean parent="FieldDefinition"
               p:defaultValue="Y"
               p:attributeName="active" />

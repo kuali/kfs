@@ -90,9 +90,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private String vendorNumber;
     private Integer vendorAddressGeneratedIdentifier;
     private Boolean overrideWorkflowButtons = null;
-    private transient PurApRelatedViews relatedViews;
-    private String statusCodeForMultiboxSearching;
-    private Integer postingYearForSearching;     
+    private transient PurApRelatedViews relatedViews;    
     
     // COLLECTIONS
     private List<PurApItem> items;
@@ -952,19 +950,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     public String getStatusCodeForMultiboxSearching() {
-        return statusCodeForMultiboxSearching;
-    }
-
-    public void setStatusCodeForMultiboxSearching(String statusCodeForMultiboxSearching) {
-        this.statusCodeForMultiboxSearching = statusCodeForMultiboxSearching;
+        return statusCode;
     }
         
     public Integer getPostingYearForSearching() {
-        return postingYearForSearching;
-    }
-
-    public void setPostingYearForSearching(Integer postingYearForSearching) {
-        this.postingYearForSearching = postingYearForSearching;
+        return getPostingYear();
     }
 
     @Override

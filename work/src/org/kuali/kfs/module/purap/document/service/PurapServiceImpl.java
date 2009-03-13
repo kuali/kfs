@@ -154,6 +154,7 @@ public class PurapServiceImpl implements PurapService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#updateStatus(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
      */
+  //TODO hjs: is this method really needed now that we don't have status history tables?
     public boolean updateStatus(PurchasingAccountsPayableDocument document, String newStatus) {
         LOG.debug("updateStatus() started");
 

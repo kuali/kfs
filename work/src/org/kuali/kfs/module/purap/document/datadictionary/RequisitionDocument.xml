@@ -907,8 +907,10 @@
     <property name="shortLabel" value="Status"/>
     <property name="maxLength" value="4"/>
     <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  	  <bean parent="MultiselectControlDefinition">
+		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.RequisitionStatusValuesFinder" />
+	  </bean>
+    </property> 
   </bean>
   
   <!-- Requisition accountingInformation -->

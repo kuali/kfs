@@ -1180,7 +1180,9 @@
     <property name="shortLabel" value="Status"/>
     <property name="maxLength" value="4"/>
     <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
+      <bean parent="MultiselectControlDefinition">
+		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderStatusValuesFinder" />
+	  </bean>
     </property>
   </bean>
   
@@ -1334,7 +1336,7 @@
 
     <bean id="PurchaseOrderDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="routingTypeDefinitions">
-    		<map>    		    
+    		<map>
     		    <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/>
     			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
                 <!-- no qualifiers for RequiresBudgetReview -->

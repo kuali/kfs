@@ -112,7 +112,7 @@
  		<ref bean="PaymentRequestDocument-statusCodeForMultiboxSearching"/>
  		<ref bean="PaymentRequestDocument-extractedTimestampForSearching"/>
  		<ref bean="PaymentRequestDocument-holdIndicatorForSearching"/>
- 		<ref bean="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching"/> 	       
+ 		<ref bean="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching"/>       
       </list>
     </property>
     <property name="validationMap" ref="PaymentRequestDocument-validations"/>    
@@ -823,8 +823,10 @@
     <property name="shortLabel" value="Status"/>
     <property name="maxLength" value="4"/>
     <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  	  <bean parent="MultiselectControlDefinition">
+		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PaymentRequestStatusValuesFinder" />
+	  </bean>
+    </property> 
   </bean>    
 
   <!--Payment Request accountingInformation -->

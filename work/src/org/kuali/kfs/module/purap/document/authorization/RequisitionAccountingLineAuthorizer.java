@@ -81,7 +81,12 @@ public class RequisitionAccountingLineAuthorizer extends PurapAccountingLineAuth
         RequisitionAccount reqAccount = (RequisitionAccount)accountingLine;
         List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
         
-        return !restrictedItemTypesList.contains(reqAccount.getRequisitionItem().getItemTypeCode());
+        String itemTypeCode = new String();
+        //because account distribution accounts are not associated with an item
+        if(reqAccount.getRequisitionItem()!=null){
+            itemTypeCode = reqAccount.getRequisitionItem().getItemTypeCode();
+        }
+        return !restrictedItemTypesList.contains(itemTypeCode);
     }
     
 }

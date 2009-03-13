@@ -17,12 +17,15 @@ package org.kuali.kfs.sys.document.workflow;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
+import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
@@ -34,15 +37,52 @@ import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.Row;
 
 public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer {
+
+    @Override
+    public List<Column> constructColumnList(DocSearchCriteriaDTO criteria) {
+        List<Column> tempColumns = new ArrayList<Column>();
+        List<Column> customDisplayColumnNames = getAndSetUpCustomDisplayColumns(criteria);
+        if ((!getShowAllStandardFields()) && (getOverrideSearchableAttributes())) {
+            // use only what is contained in displayColumns
+            this.addAllCustomColumns(tempColumns, criteria, customDisplayColumnNames);
+        } else if (getShowAllStandardFields() && (getOverrideSearchableAttributes())) {
+            // do standard fields and use displayColumns for searchable
+            // attributes
+            this.addStandardSearchColumns(tempColumns);
+            this.addAllCustomColumns(tempColumns, criteria,customDisplayColumnNames);
+        } else if ((!getShowAllStandardFields()) && (!getOverrideSearchableAttributes())) {
+            // do displayColumns and then do standard searchable attributes
+            this.addCustomStandardCriteriaColumns(tempColumns, criteria, customDisplayColumnNames);
+            this.addSearchableAttributeColumnsNoOverrides(tempColumns,criteria);
+        } else if (getShowAllStandardFields() && !getOverrideSearchableAttributes()) {
+            this.addStandardSearchColumns(tempColumns);
+        }
+
+        List<Column> columns = new ArrayList<Column>();
+        this.addRouteHeaderIdColumn(columns);
+        columns.addAll(tempColumns);
+        this.addRouteLogColumn(columns);
+        return columns;
+    }
+    
     
     /**
      * Checks the Data Dictionary to verify the visibility of the fields and adds them to the result.
      * @param criteria used to get DocumentEntry
      * @return List of DocumentSearchColumns to be displayed
      */
-    
+
     protected List<Column> getCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
+
+           SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
+        //List<Row> rows = criteria.getSearchableAttributeRows();
+        //criteria.getSearchableAttributes();
         List<Column> columns = new ArrayList<Column>();
+
+
+          boolean documentDisplay =  ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
+        if (documentDisplay) {
+
         DocumentType documentType = getDocumentType(criteria.getDocTypeFullName());
         DocumentEntry entry = getDocumentEntry(documentType);
         if (entry != null && entry.getWorkflowAttributes() != null) {
@@ -50,7 +90,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
 
             List<SearchingTypeDefinition> searchingTypeDefinitions = entry.getWorkflowAttributes().getSearchingTypeDefinitions();
             List<String> searchableAttributeFieldNames = new ArrayList<String>();
-            
+
             for (SearchingTypeDefinition searchingTypeDefinition : searchingTypeDefinitions) {
                 SearchingAttribute searchingAttribute = searchingTypeDefinition.getSearchingAttribute();
                 if (searchingAttribute.isShowAttributeInResultSet()){
@@ -61,16 +101,18 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
             }
             addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
         }
-        
-        return columns;
+
+        }
+    return columns;
+
     }
-    
+
     @Override
     public List<Column> getAndSetUpCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
         List<Column> columns = getCustomDisplayColumns(criteria);
         return super.setUpCustomDisplayColumns(criteria, columns);
     }
-    
+
 
     /**
      * Retrieves the data dictionary entry for the document being operated on by the given route context
@@ -80,12 +122,44 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
     protected DocumentEntry getDocumentEntry(DocumentType documentType) {
         return SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentType.getName());
     }
-   
+
     @Override
-    public boolean getOverrideSearchableAttributes() {
+    public boolean getShowAllStandardFields() {
+        if (searchUsingDocumentInformationResults()) {
+            return false;
+        }
         return true;
     }
-   
+
+    private boolean searchUsingDocumentInformationResults() {
+        SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
+        return ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
+    }
+//@Override
+//    public String generateSearchSql(DocSearchCriteriaDTO searchCriteria) {
+//        SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName(searchCriteria, "displayType");
+//       boolean meh =  searchCriteria.getSearchableAttributes().remove(displayCriteria);
+//        return super.generateSearchSql(searchCriteria);
+//    }
+
+//public SearchAttributeCriteriaComponent getSearchableAttributeByFieldName(DocSearchCriteriaDTO criteria, 
+//        String name) {
+//    if (StringUtils.isBlank(name)) {
+//        throw new IllegalArgumentException(
+//                "Attempted to find Searchable Attribute with blank Field name '"
+//                        + name + "'");
+//    }
+//    for (Iterator iter = criteria.getSearchableAttributes()
+//            .iterator(); iter.hasNext();) {
+//        SearchAttributeCriteriaComponent critComponent = (SearchAttributeCriteriaComponent) iter
+//                .next();
+//        if (name.equals(critComponent.getFormKey())) {
+//            return critComponent;
+//        }
+//    }
+//    return null;
+//}
+
 
     // SEARCHABLE ATTRIBUTE IMPLEMENTATION
     private FinancialSystemSearchableAttribute searchableAttribute = new FinancialSystemSearchableAttribute();
@@ -94,7 +168,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
     public String getSearchContent(DocumentSearchContext documentSearchContext) {
         return searchableAttribute.getSearchContent(documentSearchContext);
     }
-    
+
     @Override
     public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
         return searchableAttribute.getSearchingRows(documentSearchContext);
@@ -109,11 +183,11 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
     public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, String> paramMap, DocumentSearchContext searchContext) {
         return searchableAttribute.validateUserSearchInputs(paramMap, searchContext);
     }
-    
-    @Override
-    public DocSearchCriteriaDTO clearSearch(DocSearchCriteriaDTO searchCriteria) {
-        DocSearchCriteriaDTO dscdto = new DocSearchCriteriaDTO();
-        dscdto.setDocTypeFullName(searchCriteria.getDocTypeFullName());
-        return dscdto;
-    }
+
+//    @Override
+//    public DocSearchCriteriaDTO clearSearch(DocSearchCriteriaDTO searchCriteria) {
+//        DocSearchCriteriaDTO dscdto = new DocSearchCriteriaDTO();
+//        dscdto.setDocTypeFullName(searchCriteria.getDocTypeFullName());
+//        return dscdto;
+//    }
 }

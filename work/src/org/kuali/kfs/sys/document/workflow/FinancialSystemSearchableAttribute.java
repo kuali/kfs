@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
+import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
@@ -31,6 +33,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute;
 
@@ -68,6 +71,28 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             
         }
         
+//        if (doc instanceof AccountingDocument) {
+//            final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("AccountingLineBase");
+//            String businessObjectClassName = boEntry.getFullClassName();
+//            Class boClass = null;
+//            try {
+//                boClass = Class.forName(businessObjectClassName);
+//            } catch (ClassNotFoundException cnfe) {
+//                throw new RuntimeException(cnfe);
+//            }
+//            
+//            Field chartField = FieldUtils.getPropertyField(boClass, "chartOfAccountsCode", true);
+//            Field accountField = FieldUtils.getPropertyField(boClass, "accountNumber", true);
+//
+//            
+//            List<Field> fieldList = new ArrayList<Field>();
+//            fieldList.add(chartField);
+//            fieldList.add(accountField);
+//
+//            docSearchRows.add(new Row(fieldList));
+//        }
+        Row resultType = createSearchResultReturnRow();
+        docSearchRows.add(resultType);
         return docSearchRows;
     }
     
@@ -89,8 +114,41 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             searchableAttributeValue.setSearchableAttributeValue(((AmountTotaling)doc).getTotalDollarAmount().bigDecimalValue());
             searchAttrValues.add(searchableAttributeValue);
         }
+//        if (doc instanceof AccountingDocument) {
+//            SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
+//            searchableAttributeValue.setSearchableAttributeKey("chartOfAccountsCode");
+//            searchableAttributeValue.setSearchableAttributeValue(((AccountingDocument)doc).getChartOfAccountsCode());
+//           
+//            searchAttrValues.add(searchableAttributeValue);
+//        }
+//        
         
         return searchAttrValues;
+    }
+    
+    private Row createSearchResultReturnRow() {
+        String attributeName = "displayType";
+        Field searchField = new Field();
+        searchField.setPropertyName(attributeName);
+        searchField.setFieldType(Field.RADIO);
+        searchField.setFieldLabel("Search Result Type");
+        searchField.setIndexedForSearch(false);
+        searchField.setBusinessObjectClassName("");
+        searchField.setFieldHelpName("");
+        searchField.setFieldHelpSummary("");
+        searchField.setColumnVisible(false);
+        List<KeyLabelPair> values = new ArrayList<KeyLabelPair>();
+        values.add(new KeyLabelPair("document", "Document Specific Data"));
+        values.add(new KeyLabelPair("workflow", "Workflow Data"));
+        searchField.setFieldValidValues(values);
+   //     searchField.setDefaultValue("document");
+        searchField.setPropertyValue("document");
+
+        List<Field> fieldList = new ArrayList<Field>();
+        fieldList.add(searchField);
+
+        return new Row(fieldList);
+        
     }
     
 }

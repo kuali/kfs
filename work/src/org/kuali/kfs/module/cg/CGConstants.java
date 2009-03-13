@@ -253,7 +253,7 @@ public class CGConstants extends JSTLConstants {
     }
     
     public static class SectionId{
-        public static final String RESEARCH_RISKS = "researchRisks";
+        public static final String PROPOSAL_RESEARCH_RISKS = "proposalResearchRisks";
     }
 
 }

@@ -181,7 +181,7 @@
   <bean id="ProposalMaintenanceDocument-ResearchRisks" parent="ProposalMaintenanceDocument-ResearchRisks-parentBean"/>
 
   <bean id="ProposalMaintenanceDocument-ResearchRisks-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="researchRisks"/>
+    <property name="id" value="proposalResearchRisks"/>
     <property name="title" value="Research Risks"/>
     <property name="maintainableItems">
       <list>

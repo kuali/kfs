@@ -28,7 +28,7 @@ public class ProposalInquiryAuthorizer extends InquiryAuthorizerBase{
     @Override
     public Set<String> getSecurePotentiallyHiddenSectionIds() {
         Set<String> hiddenSectionIds = super.getSecurePotentiallyHiddenSectionIds();       
-        hiddenSectionIds.add(CGConstants.SectionId.RESEARCH_RISKS);
+        hiddenSectionIds.add(CGConstants.SectionId.PROPOSAL_RESEARCH_RISKS);
 
         return hiddenSectionIds;
     }   

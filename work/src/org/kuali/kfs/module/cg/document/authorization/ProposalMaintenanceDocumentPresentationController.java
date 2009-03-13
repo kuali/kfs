@@ -23,14 +23,4 @@ import org.kuali.rice.kns.bo.BusinessObject;
 
 public class ProposalMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyHiddenSectionIds(org.kuali.rice.kns.bo.BusinessObject)
-     */
-    @Override
-    public Set<String> getConditionallyHiddenSectionIds(BusinessObject businessObject) {        
-        Set<String> hiddenSectionIds = super.getConditionallyHiddenSectionIds(businessObject);
-        hiddenSectionIds.add(CGConstants.SectionId.RESEARCH_RISKS);
-
-        return hiddenSectionIds;
-    }
 }

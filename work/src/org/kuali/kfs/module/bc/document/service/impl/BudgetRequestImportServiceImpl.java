@@ -124,68 +124,69 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
             if (StringUtils.isNotBlank(line)) {
                 budgetConstructionRequestMove = ImportRequestFileParsingHelper.parseLine(line, fieldSeperator, textDelimiter, isAnnualFile);
-            }
-            // check if there were errors parsing the line
-            if (budgetConstructionRequestMove == null) {
-                fileErrorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + currentLine + ".");
-                // clean out table since file processing has stopped
-                deleteBudgetConstructionMoveRecords(principalId);
-                return fileErrorList;
-            }
 
-            String lineValidationError = validateLine(budgetConstructionRequestMove, currentLine, isAnnualFile);
-
-            if ( StringUtils.isNotEmpty(lineValidationError) ) {
-                fileErrorList.add(lineValidationError);
-                // clean out table since file processing has stopped
-                deleteBudgetConstructionMoveRecords(principalId);
-                return fileErrorList;
-            }
-
-            // set default values
-            if (StringUtils.isBlank(budgetConstructionRequestMove.getSubAccountNumber())) {
-                budgetConstructionRequestMove.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-            }
-
-            if (StringUtils.isBlank(budgetConstructionRequestMove.getFinancialSubObjectCode())) {
-                budgetConstructionRequestMove.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-            }
-            //set object type code
-            List revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
-            List expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
-            ObjectCode objectCode = getObjectCode(budgetConstructionRequestMove, budgetYear);
-            if (objectCode != null) {
-                if ( expenditureObjectTypesParamValues.contains(objectCode.getFinancialObjectTypeCode()) ) {
-                    budgetConstructionRequestMove.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd());
-                } else if ( revenueObjectTypesParamValues.contains(objectCode.getFinancialObjectTypeCode()) ) {
-                    budgetConstructionRequestMove.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjectTypeIncomecashCode());
+                // check if there were errors parsing the line
+                if (budgetConstructionRequestMove == null) {
+                    fileErrorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + currentLine + ".");
+                    // clean out table since file processing has stopped
+                    deleteBudgetConstructionMoveRecords(principalId);
+                    return fileErrorList;
                 }
-            }
-            
-            //check for duplicate key exception, since it requires a different error message
-            Map searchCriteria = new HashMap();
-            searchCriteria.put("principalId", principalId);
-            searchCriteria.put("chartOfAccountsCode", budgetConstructionRequestMove.getChartOfAccountsCode());
-            searchCriteria.put("accountNumber", budgetConstructionRequestMove.getAccountNumber());
-            searchCriteria.put("subAccountNumber", budgetConstructionRequestMove.getSubAccountNumber());
-            searchCriteria.put("financialObjectCode", budgetConstructionRequestMove.getFinancialObjectCode());
-            searchCriteria.put("financialSubObjectCode", budgetConstructionRequestMove.getFinancialSubObjectCode());
-            if ( this.businessObjectService.countMatching(BudgetConstructionRequestMove.class, searchCriteria) != 0 ) {
-                LOG.error("Move table store error, import aborted");
-                fileErrorList.add("Duplicate Key for " + budgetConstructionRequestMove.getErrorLinePrefixForLogFile());
-                fileErrorList.add("Move table store error, import aborted");
-                deleteBudgetConstructionMoveRecords(principalId);
+
+                String lineValidationError = validateLine(budgetConstructionRequestMove, currentLine, isAnnualFile);
+
+                if ( StringUtils.isNotEmpty(lineValidationError) ) {
+                    fileErrorList.add(lineValidationError);
+                    // clean out table since file processing has stopped
+                    deleteBudgetConstructionMoveRecords(principalId);
+                    return fileErrorList;
+                }
+
+                // set default values
+                if (StringUtils.isBlank(budgetConstructionRequestMove.getSubAccountNumber())) {
+                    budgetConstructionRequestMove.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+                }
+
+                if (StringUtils.isBlank(budgetConstructionRequestMove.getFinancialSubObjectCode())) {
+                    budgetConstructionRequestMove.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+                }
+                //set object type code
+                List revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
+                List expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
+                ObjectCode objectCode = getObjectCode(budgetConstructionRequestMove, budgetYear);
+                if (objectCode != null) {
+                    if ( expenditureObjectTypesParamValues.contains(objectCode.getFinancialObjectTypeCode()) ) {
+                        budgetConstructionRequestMove.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd());
+                    } else if ( revenueObjectTypesParamValues.contains(objectCode.getFinancialObjectTypeCode()) ) {
+                        budgetConstructionRequestMove.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjectTypeIncomecashCode());
+                    }
+                }
                 
-                return fileErrorList;
-            }
-            try {
-                budgetConstructionRequestMove.setPrincipalId(principalId);
-                importRequestDao.save(budgetConstructionRequestMove, false);
-            }
-            catch (RuntimeException e) {
-                LOG.error("Move table store error, import aborted");
-                fileErrorList.add("Move table store error, import aborted");
-                return fileErrorList;
+                //check for duplicate key exception, since it requires a different error message
+                Map searchCriteria = new HashMap();
+                searchCriteria.put("principalId", principalId);
+                searchCriteria.put("chartOfAccountsCode", budgetConstructionRequestMove.getChartOfAccountsCode());
+                searchCriteria.put("accountNumber", budgetConstructionRequestMove.getAccountNumber());
+                searchCriteria.put("subAccountNumber", budgetConstructionRequestMove.getSubAccountNumber());
+                searchCriteria.put("financialObjectCode", budgetConstructionRequestMove.getFinancialObjectCode());
+                searchCriteria.put("financialSubObjectCode", budgetConstructionRequestMove.getFinancialSubObjectCode());
+                if ( this.businessObjectService.countMatching(BudgetConstructionRequestMove.class, searchCriteria) != 0 ) {
+                    LOG.error("Move table store error, import aborted");
+                    fileErrorList.add("Duplicate Key for " + budgetConstructionRequestMove.getErrorLinePrefixForLogFile());
+                    fileErrorList.add("Move table store error, import aborted");
+                    deleteBudgetConstructionMoveRecords(principalId);
+                    
+                    return fileErrorList;
+                }
+                try {
+                    budgetConstructionRequestMove.setPrincipalId(principalId);
+                    importRequestDao.save(budgetConstructionRequestMove, false);
+                }
+                catch (RuntimeException e) {
+                    LOG.error("Move table store error, import aborted");
+                    fileErrorList.add("Move table store error, import aborted");
+                    return fileErrorList;
+                }
             }
 
             currentLine++;

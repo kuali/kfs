@@ -446,8 +446,7 @@
 					    <div align="right">
 					        <kul:htmlControlAttribute
 						        attributeEntry="${itemAttributes.extendedPrice}"
-						        property="document.item[${ctr}].extendedPrice" readOnly="${true}" 
-						        tabindexOverride="${tabindexOverrideBase + 0}"/>
+						        property="document.item[${ctr}].extendedPrice" readOnly="${true}"/>
 					    </div>
 					</td>
 
@@ -464,8 +463,7 @@
 					    <div align="right">
 					        <kul:htmlControlAttribute
 						        attributeEntry="${itemAttributes.totalAmount}"
-						        property="document.item[${ctr}].totalAmount" readOnly="${true}" 
-						        tabindexOverride="${tabindexOverrideBase + 0}"/>
+						        property="document.item[${ctr}].totalAmount" readOnly="${true}"/>
 					    </div>
 					</td>
 					</c:if>
@@ -540,7 +538,7 @@
 					        <div align="right">
 					            <kul:htmlControlAttribute
 						            attributeEntry="${itemAttributes.itemInvoicedTotalAmount}"
-						            property="document.item[${ctr}].itemInvoicedTotalAmount" readOnly="${true}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+						            property="document.item[${ctr}].itemInvoicedTotalAmount" readOnly="${true}"/>
 					        </div>
 					    </td>
 					</c:if>

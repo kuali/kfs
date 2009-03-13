@@ -1011,8 +1011,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             poa.setReceivingDocumentRequiredIndicator(false);
         }
         else {
-            ThresholdHelper thresholdHelper = new ThresholdHelper(poa);
-            poa.setReceivingDocumentRequiredIndicator(thresholdHelper.isReceivingDocumentRequired());
+            if (!poa.isReceivingDocumentRequiredIndicator()){
+                ThresholdHelper thresholdHelper = new ThresholdHelper(poa);
+                poa.setReceivingDocumentRequiredIndicator(thresholdHelper.isReceivingDocumentRequired());
+            }
         }
 
         // if unordered items have been added to the PO then send an FYI to all fiscal officers

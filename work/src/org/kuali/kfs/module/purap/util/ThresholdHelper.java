@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.enums.Enum;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
@@ -67,6 +68,8 @@ public class ThresholdHelper {
     private List<ThresholdSummary> chartCodeAndOrgCodeSummary = new ArrayList();
     private List<ThresholdSummary> chartCodeAndVendorSummary = new ArrayList();
     
+    private boolean allItemsNonQty;
+    
     public ThresholdHelper(PurchaseOrderDocument document){
         purapAccountingService = SpringContext.getBean(PurapAccountingService.class);
         thresholdService = SpringContext.getBean(ThresholdService.class);
@@ -74,6 +77,12 @@ public class ThresholdHelper {
     }
     
     private void setupForThresholdCheck(PurchaseOrderDocument document){
+        
+        allItemsNonQty = checkForNonQtyItems(document);
+        
+        if (allItemsNonQty){
+            return;
+        }
         
         List<SummaryAccount> accounts = purapAccountingService.generateSummaryAccounts(document);
         
@@ -96,6 +105,18 @@ public class ThresholdHelper {
         
         processCommodityCodeForThreshold(document.getItems());
         
+    }
+    
+    private boolean checkForNonQtyItems(PurchaseOrderDocument document){
+        List<PurchaseOrderItem> items = document.getItems();
+        
+        for (int i = 0; i < items.size(); i++) {
+            if (!items.get(i).getItemType().isAdditionalChargeIndicator() &&
+                !StringUtils.equals(items.get(i).getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)){
+                return false;
+            }
+        }
+        return true;
     }
     
     private void updateThresholdSummary(ThresholdCriteria thresholdCriteria,
@@ -216,6 +237,12 @@ public class ThresholdHelper {
     }
  
     public boolean isReceivingDocumentRequired(){
+        
+        // From spec - 7. If all the line items are non-quantity do not do the threshold check. 
+        if (allItemsNonQty){
+            return false;
+        }
+        
         for (ThresholdCriteria thresholdEnum : ThresholdCriteria.getEnumList()) {
             boolean result = isReceivingDocumentRequired(thresholdEnum);
             if (result){
@@ -439,6 +466,7 @@ public class ThresholdHelper {
             return stringBuilder.toString();
         }
     }
+
 }
 
 final class ThresholdCriteria extends Enum {

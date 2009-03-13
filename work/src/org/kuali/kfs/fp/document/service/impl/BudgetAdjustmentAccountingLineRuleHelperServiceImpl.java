@@ -41,6 +41,6 @@ public class BudgetAdjustmentAccountingLineRuleHelperServiceImpl extends Account
 
   @Override
   public boolean hasRequiredOverrides(AccountingLine line, String overrideCode) {
-    return true;
+      return hasAccountRequiredOverrides(line, overrideCode);
   }
 }

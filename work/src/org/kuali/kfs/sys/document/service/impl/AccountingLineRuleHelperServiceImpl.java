@@ -132,17 +132,8 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#hasRequiredOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
      */
     public boolean hasRequiredOverrides(AccountingLine line, String overrideCode) {
-        boolean retVal = true;
-
-        AccountingLineOverride override = AccountingLineOverride.valueOf(overrideCode);
-        Account account = line.getAccount();
+        return hasAccountRequiredOverrides(line, overrideCode) && hasObjectBudgetRequiredOverrides(line, overrideCode);
         
-        ObjectCode objectCode = line.getObjectCode();
-        if (AccountingLineOverride.needsObjectBudgetOverride(account, objectCode) && !override.hasComponent(AccountingLineOverride.COMPONENT.NON_BUDGETED_OBJECT)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE, new String[] { account.getAccountNumber(), objectCode.getFinancialObjectCode() });
-            retVal = false;
-        }
-        return retVal;
     }
     
     public boolean hasAccountRequiredOverrides(AccountingLine line, String overrideCode) {
@@ -161,7 +152,18 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             retVal = false;
         }
         return retVal;
-
+    }
+    
+    public boolean hasObjectBudgetRequiredOverrides(AccountingLine line, String overrideCode) {
+        boolean retVal = true;
+        ObjectCode objectCode = line.getObjectCode();
+        AccountingLineOverride override = AccountingLineOverride.valueOf(overrideCode);
+        Account account = line.getAccount();
+        if (AccountingLineOverride.needsObjectBudgetOverride(account, objectCode) && !override.hasComponent(AccountingLineOverride.COMPONENT.NON_BUDGETED_OBJECT)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE, new String[] { account.getAccountNumber(), objectCode.getFinancialObjectCode() });
+            retVal = false;
+        }
+        return retVal;
     }
     
     /**
@@ -438,7 +440,6 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             FinancialSystemDocumentTypeCode referenceType = accountingLine.getReferenceFinancialSystemDocumentTypeCode();
             valid &= isValidReferenceTypeCode(referenceType, accountingLineEntry);
         }
-        valid &= hasAccountRequiredOverrides(accountingLine, accountingLine.getOverrideCode());
         valid &= hasRequiredOverrides(accountingLine, accountingLine.getOverrideCode());
         return valid;
     }

@@ -23,6 +23,7 @@ import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -231,7 +232,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
         
         if (restrictedItemTypesList != null && purapAccount.getPurapItem() != null){
-            return !restrictedItemTypesList.contains(purapAccount.getPurapItem().getItemTypeCode());    
+            return !restrictedItemTypesList.contains(((PurApItem)purapAccount.getPurapItem()).getItemTypeCode());    
         }else{
             return true;
         }

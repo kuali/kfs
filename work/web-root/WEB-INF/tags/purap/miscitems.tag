@@ -194,7 +194,7 @@
 						</div>
 					</td>
 					<td class="infoline" colspan="${colSpanDescription}">
-						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"					</td>
+						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/></td>
 					<c:if test="${colSpanBlank > 0}">
 					
 					<td colspan="${colSpanBlank}" class="infoline">

@@ -232,37 +232,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="false" />
     <property name="label" value="Quantity Of Assets To Be Created" />
     <property name="shortLabel" value="Qty" />
-    <property name="maxLength" value="2" />
+    <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="3" />
+            p:size="5" />
     </property>
   </bean>
   
   <bean id="AssetGlobalDetail-newCollectionRecord" parent="AssetGlobalDetail-newCollectionRecord-parentBean" />
   <bean id="AssetGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord" />
-  
-  <!-- Asset Separate - START -->
-  <!-- show numeric ID or just alpha ID?
-  <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
-  <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="representativeUniversalIdentifier" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Asset Representative ID" />
-    <property name="shortLabel" value="representative" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-  </bean>
-  -->
 
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">

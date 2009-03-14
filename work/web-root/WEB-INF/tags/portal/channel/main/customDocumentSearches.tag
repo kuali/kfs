@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Searches" />
+<channel:portalChannelTop channelTitle="Custom Document Searches" />
 <div class="body">
 	<portal:portalLink displayTitle="true" title="Financial Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=FinancialSystemTransactionalDocument" /><br /><br />
 	<strong>Contracts & Grants</strong><br/>

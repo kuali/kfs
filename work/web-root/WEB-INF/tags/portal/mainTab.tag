@@ -20,8 +20,8 @@
       <mainChannel:administrativeTransactions />
 </td>
 <td class="content" valign="top">
-      <mainChannel:searches />
-      <mainChannel:inquiryAndMaintenance />
+      <mainChannel:customDocumentSearches />
+      <mainChannel:lookupAndMaintenance />
 </td>
 <td class="content" valign="top">
       <mainChannel:balanceInquiries />

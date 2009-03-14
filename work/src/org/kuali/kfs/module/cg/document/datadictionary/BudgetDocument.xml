@@ -25,86 +25,50 @@
     <property name="headerNavigationList">
       <list>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_PARAMETERS_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Parameters"/>
           <property name="headerTabNavigateTo" value="parameters"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_OVERVIEW_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Overview"/>
           <property name="headerTabNavigateTo" value="overview"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_PERSONNEL_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Personnel"/>
           <property name="headerTabNavigateTo" value="personnel"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_NONPERSONNEL"/>
-          </property>
           <property name="headerTabDisplayName" value="Nonpersonnel"/>
           <property name="headerTabNavigateTo" value="nonpersonnel"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_COST_SHARE_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Cost Share"/>
           <property name="headerTabNavigateTo" value="costshare"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_MODULAR"/>
-          </property>
           <property name="headerTabDisplayName" value="Modular"/>
           <property name="headerTabNavigateTo" value="modular"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_INDIRECT_COST"/>
-          </property>
           <property name="headerTabDisplayName" value="Indirect Cost"/>
           <property name="headerTabNavigateTo" value="indirectcost"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_PERMISSIONS_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Permissions"/>
           <property name="headerTabNavigateTo" value="permissions"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_OUTPUT_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Output"/>
           <property name="headerTabNavigateTo" value="output"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_TEMPLATE_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Template"/>
           <property name="headerTabNavigateTo" value="template"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_AUDIT_MODE_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Audit Mode"/>
           <property name="headerTabNavigateTo" value="auditmode"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.BudgetDocument" p:parameterName="BUDGET_NOTES_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Notes"/>
           <property name="headerTabNavigateTo" value="notes"/>
         </bean>

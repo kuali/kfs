@@ -20,79 +20,46 @@
     <property name="headerNavigationList">
       <list>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_MAIN_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Main Page"/>
           <property name="headerTabNavigateTo" value="mainpage"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_PERSONNEL"/>
-          </property>
           <property name="headerTabDisplayName" value="Personnel"/>
           <property name="headerTabNavigateTo" value="personnel"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_RESEARCH_RISK"/>
-          </property>
           <property name="headerTabDisplayName" value="Research Risks"/>
           <property name="headerTabNavigateTo" value="researchrisks"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_PROJECT_DETAILS_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Project Details"/>
           <property name="headerTabNavigateTo" value="projectdetails"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_MODULE_LINKS_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Module Links"/>
           <property name="headerTabNavigateTo" value="link"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_NOTES_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Notes"/>
           <property name="headerTabNavigateTo" value="notes"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_OUTPUT_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Output"/>
           <property name="headerTabNavigateTo" value="output"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_TEMPLATE_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Template"/>
           <property name="headerTabNavigateTo" value="template"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_AUDIT_MODE_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Audit Mode"/>
           <property name="headerTabNavigateTo" value="auditmode"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_PERMISSIONS_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Permissions"/>
           <property name="headerTabNavigateTo" value="permissions"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.document.RoutingFormDocument" p:parameterName="ROUTING_FORM_APPROVALS_PAGE"/>
-          </property>
           <property name="headerTabDisplayName" value="Approvals"/>
           <property name="headerTabNavigateTo" value="approvals"/>
         </bean>

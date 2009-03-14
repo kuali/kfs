@@ -16,12 +16,6 @@
       </list>
     </property>
     
-    
-    
-    
-  <!--   <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.TaxRegionType" p:parameterName="TaxRegionType" />
-    </property> -->
     <property name="documentTypeName" value="TRTP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="authorizations">

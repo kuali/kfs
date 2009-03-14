@@ -17,10 +17,6 @@
       </list>
     </property>
     
-    
-    <!-- <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus" p:parameterName="LINE_ITEM_STATUS" />
-    </property> -->
     <property name="documentTypeName" value="PMLI"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     

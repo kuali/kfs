@@ -24,8 +24,6 @@
     	<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase" />    
     </bean>
     
-    <bean id="HelpDefinition" class="org.kuali.kfs.dictionary.HelpDefinition" abstract="true" />
-    
     <bean id="AccountingLineView" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewDefinition" />
     
     <bean id="AccountingLineView-lines" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewLinesDefinition" />

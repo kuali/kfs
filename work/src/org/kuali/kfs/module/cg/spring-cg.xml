@@ -146,31 +146,6 @@
             <ref bean="businessObjectService" />
         </property>
     </bean>
-
-	<!-- Workflow Lookupables -->
-	<!-- TODO: ewestfal
-	     12-23-2008
-	     commented out since the workflow lookup framework no longer exists
-	     
-    <bean id="workflow-org.kuali.kfs.module.cg.businessobject.Proposal-Lookupable" parent="workflowLookupable" scope="prototype">
-        <property name="businessObjectClassName">
-            <value>org.kuali.kfs.module.cg.businessobject.Proposal</value>
-        </property>
-    </bean>
-	
-    <bean id="workflow-org.kuali.kfs.module.cg.businessobject.Agency-Lookupable" parent="workflowLookupable" scope="prototype">
-        <property name="businessObjectClassName">
-            <value>org.kuali.kfs.module.cg.businessobject.Agency</value>
-        </property>
-    </bean>
-    
-	<bean id="workflow-org.kuali.kfs.module.cg.businessobject.ResearchRiskType-Lookupable" parent="workflowLookupable" scope="prototype">
-        <property name="businessObjectClassName">
-            <value>org.kuali.kfs.module.cg.businessobject.ResearchRiskType</value>
-        </property>
-    </bean>
-    
-    -->
 	
     <bean id="cfdaBatchStep" class="org.kuali.kfs.module.cg.batch.CfdaBatchStep" parent="step">
         <property name="cfdaService">

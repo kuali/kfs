@@ -341,24 +341,6 @@
 			<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 
-	<!-- TODO: ewestfal
-	     12-23-2008
-	     commented out since the workflow lookup framework no longer exists
-	     
-	<bean id="workflow-org.kuali.kfs.fp.businessobject.PaymentReasonCode-Lookupable" parent="workflowLookupable" scope="prototype">
-		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.fp.businessobject.PaymentReasonCode</value>
-		</property>
-	</bean>
-
-	<bean id="workflow-org.kuali.kfs.fp.businessobject.TaxControlCode-Lookupable" parent="workflowLookupable" scope="prototype">
-		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.fp.businessobject.TaxControlCode</value>
-		</property>
-	</bean>
-
-	-->
-
 	<bean id="cashDetailTypeCodeService" class="org.kuali.kfs.fp.service.impl.CashDetailTypeCodeServiceImpl">
 		<property name="kualiCodeService">
 			<ref bean="kualiCodeService" />

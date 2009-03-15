@@ -375,31 +375,6 @@
             <ref bean="lookupableHelperService" />
         </property>
     </bean>	    
-
-	<!-- TODO: ewestfal
-	     12-23-2008
-	     commented out since the workflow lookup framework no longer exists
-	     
-	<bean id="workflow-org.kuali.rice.kim.bo.Person-Lookupable" parent="workflowLookupable" scope="prototype">
-		<property name="businessObjectClassName">
-			<value>org.kuali.rice.kim.bo.Person</value>
-		</property>
-	</bean>
-
-	<bean id="workflow-org.kuali.kfs.sys.businessobject.KualiModuleBO-Lookupable" parent="workflowLookupable" scope="prototype">
-		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.sys.businessobject.KualiModuleBO</value>
-		</property>
-	</bean>
-	
-	<bean id="workflow-org.kuali.rice.kns.bo.Campus-Lookupable" parent="workflowLookupable" scope="prototype">
-		<property name="businessObjectClassName">
-			<value>org.kuali.rice.kns.bo.Campus</value>
-		</property>
-	</bean>
-	
-	-->
-	
 	
 	<bean id="moduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
@@ -408,24 +383,6 @@
         	</bean>
 		</property>
 	</bean>
-
-    <bean id="financialSystemUserLookupable" class="org.kuali.kfs.sys.businessobject.lookup.PersonLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kfs.sys.businessobject.lookup.PersonLookupableHelperServiceImpl" parent="lookupableHelperService" />
-        </property>
-    </bean>
-    
-    <bean id="financialSystemModuleAuthorizer" abstract="true" class="org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase">
-        <property name="personService" ref="personService" />
-        <property name="parameterService" ref="parameterService" />
-    </bean>
-    
-    <bean id="activeStaffFacultyAffiliateModuleAuthorizer" abstract="true" parent="financialSystemModuleAuthorizer"
-        class="org.kuali.kfs.sys.ActiveStaffFacultyAffiliateModuleAuthorizer">
-    </bean>
-    
-    <!-- override the lookupable for UU so that the KfsUser lookup is displayed -->
-    <alias alias="personLookupable" name="financialSystemUserLookupable" />
 
     <bean id="parameterLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">

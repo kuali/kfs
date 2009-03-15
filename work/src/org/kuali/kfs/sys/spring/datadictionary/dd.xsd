@@ -393,7 +393,7 @@ Attribute from which to pull the label when displaying the error message upon a 
 	</xsd:attributeGroup>
 
     <!-- 
-       dd:field attributeName="" required="" inquiry="" lookup="" defaultValue="" defaultValueFinderClass="" maxLength=""
+       dd:field attributeName="" required="" inquiry="" lookup="" defaultValue="" defaultValueFinderClass="" maxLength="" hidden="" readOnly=""
           dd:property name="" value="" ref=""
       -->
     <xsd:element name="field">
@@ -475,7 +475,23 @@ Mutually exclusive with the defaultValue attribute.
 Maximum length to display when shown in lookup results.
                             </xsd:documentation>
                         </xsd:annotation>
-                    </xsd:attribute>                    
+                    </xsd:attribute>
+                    <xsd:attribute name="hidden" type="xsd:boolean">
+                        <xsd:annotation>
+                            <xsd:documentation>
+Whether this field will be rendered as a hidden in the search criteria for a 
+lookup. Has no effect when used in other locations.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="readOnly" type="xsd:boolean">
+                        <xsd:annotation>
+                            <xsd:documentation>
+Whether this field will be rendered as a hidden in the search criteria for a 
+lookup. Has no effect when used in other locations.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
                 </xsd:extension>
             </xsd:complexContent>
         </xsd:complexType>

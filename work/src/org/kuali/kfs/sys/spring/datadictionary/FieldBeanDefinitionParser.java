@@ -38,7 +38,9 @@ public class FieldBeanDefinitionParser extends KualiBeanDefinitionParserBase {
         String defaultValueFinderClass = element.getAttribute("defaultValueFinderClass");
         String maxLength = element.getAttribute("maxLength");
         String useShortLabel = element.getAttribute("useShortLabel");
-
+        String hidden = element.getAttribute("hidden");
+        String readOnly = element.getAttribute("readOnly");
+        
         // now, set on the bean definition
         if ( StringUtils.hasText(attributeName) ) {
             bean.addPropertyValue("attributeName", attributeName);
@@ -67,7 +69,13 @@ public class FieldBeanDefinitionParser extends KualiBeanDefinitionParserBase {
         if ( StringUtils.hasText(useShortLabel) ) {
             bean.addPropertyValue("useShortLabel", Boolean.parseBoolean(useShortLabel));
         }
-
+        if ( StringUtils.hasText(hidden)) {
+            bean.addPropertyValue("hidden", Boolean.parseBoolean(hidden));
+        }
+        if ( StringUtils.hasText(readOnly)) {
+            bean.addPropertyValue("readOnly", Boolean.parseBoolean(readOnly));
+        }
+        
         // handle any other simple child properties
         parseEmbeddedPropertyElements(element, bean);
     }

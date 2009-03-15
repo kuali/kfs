@@ -14,17 +14,13 @@
 	<package name="jasper" package="net.sf.jasperreports" subpackages="include" needdeclarations="false" />
 	
   <!-- Core Kuali packages that all optional modules can depend on -->
-	<package name="sax" package="org.xml.sax" subpackages="include" />
 	<package name="quartz" package="org.quartz" subpackages="include" />
 	<package name="dwr" package="uk.ltd.getahead.dwr" subpackages="include" />
 	<package name="coa" package="org.kuali.kfs.coa" subpackages="include" needdeclarations="false" />
 	<package name="fp" package="org.kuali.kfs.fp" subpackages="include" needdeclarations="false"/>
 	<package name="gl" package="org.kuali.kfs.gl" subpackages="include" needdeclarations="false"/>
-	<package name="pdp" package="org.kuali.kfs.pdp" subpackages="include" needdeclarations="false">
-		<depends>sax</depends>
-	</package>
+	<package name="pdp" package="org.kuali.kfs.pdp" subpackages="include" needdeclarations="false" />
 	<package name="sys" package="org.kuali.kfs.sys" subpackages="include" needdeclarations="false">
-		<depends>sax</depends>
 		<depends>quartz</depends>
 		<depends>dwr</depends>
 	</package>

@@ -43,14 +43,14 @@ public class OrgInquirable extends KfsInquirableImpl {
             f.setPropertyName("Organization Hierarchy");
             f.setFieldLabel("Organization Hierarchy");
             f.setPropertyValue(org.getOrganizationHierarchy());
-            f.setFieldType(Field.HIDDEN);
+            f.setFieldType(Field.TEXT);
             rows.add(new Row(f));
 
             f = new Field();
             f.setPropertyName("Organization Review Hierarchy");
             f.setFieldLabel("Organization Review Hierarchy");
             f.setPropertyValue("run search");
-            f.setFieldType(Field.HIDDEN);
+            f.setFieldType(Field.TEXT);
             HtmlData hRef = new AnchorHtmlData(org.getOrganizationReviewHierarchy(), KNSConstants.EMPTY_STRING);
             f.setInquiryURL(hRef);
             rows.add(new Row(f));

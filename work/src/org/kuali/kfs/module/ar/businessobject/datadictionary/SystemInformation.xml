@@ -490,7 +490,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="lockboxNumber" /> 	  
         <bean parent="FieldDefinition"
-              p:attributeName="active" /> 	  
+              p:attributeName="active" p:defaultValue="Y" /> 	  
       </list>
     </property>
     <property name="resultFields" >

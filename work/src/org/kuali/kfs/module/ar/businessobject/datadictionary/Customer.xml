@@ -496,7 +496,7 @@
                 <bean parent="FieldDefinition" p:attributeName="customerPhoneNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="customerTaxNbr"/>
                 <bean parent="FieldDefinition" p:attributeName="customerTaxTypeCode"/>
-                <bean parent="FieldDefinition" p:attributeName="active"/>
+                <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
                 <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerAddressName"/>
                 <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerLine1StreetAddress"/>
                 <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerLine2StreetAddress"/>

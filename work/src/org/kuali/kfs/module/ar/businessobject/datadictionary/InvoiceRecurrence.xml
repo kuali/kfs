@@ -366,7 +366,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="documentLastCreateDate" />
         <bean parent="FieldDefinition"
-              p:attributeName="active" />
+              p:attributeName="active" p:defaultValue="Y" />
       </list>
     </property>
     <property name="resultFields" >

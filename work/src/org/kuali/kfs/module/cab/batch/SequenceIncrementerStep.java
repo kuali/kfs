@@ -48,7 +48,8 @@ public class SequenceIncrementerStep extends AbstractStep {
             connection.close();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            // DO NOTHING
+            // e.printStackTrace();
         }
     }
 

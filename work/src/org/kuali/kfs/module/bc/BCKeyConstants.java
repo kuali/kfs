@@ -57,7 +57,6 @@ public class BCKeyConstants {
     public static final String ERROR_FRINGE_BENEFIT_OBJECT_NOT_ALLOWED = "error.budget.fringeBenefitObjectNotAllowed";
     public static final String ERROR_SALARY_SETTING_OBJECT_ONLY = "error.budget.salarySettingObjectOnly";
     public static final String ERROR_NO_BUDGET_ALLOWED = "error.budget.noBudgetAllowed";
-    public static final String ERROR_ACCOUNT_EXPIRES_WARNING = "error.budget.accountExpires";
     public static final String ERROR_BUDGET_RECORDING_LEVEL_NOT_ALLOWED = "error.budget.budgetRecordingLevelNotAllowed";
     public static final String ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED = "error.budget.subAccountTypeNotAllowed";
     public static final String ERROR_NO_DELETE_ALLOWED_WITH_BASE = "error.budget.noDeleteAllowedWithBase";
@@ -162,12 +161,9 @@ public class BCKeyConstants {
     public static final String ERROR_SALARY_SETTING_EXPANSION_NOT_FOUND = "error.budget.salarySettingExpansionNotFound";
     public static final String ERROR_ADJUSTMENT_AMOUNT_REQUIRED = "error.budget.adjustmentAmountRequired";
     public static final String ERROR_ADJUSTMENT_PERCENT_REQUIRED = "error.budget.adjustmentPercentRequired";
-    public static final String ERROR_PAYRATE_AMOUNT_REQUIRED = "error.budget.adjustmentPayrateAmountRequired";
-    public static final String ERROR_REQUESTED_AMOUNT_REQUIRED = "error.budget.requestedSalaryAmountRequired";
     public static final String ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED = "error.budget.requestedSalaryIsNonnegative";
     public static final String ERROR_FTE_GREATER_THAN_ZERO_REQUIRED = "error.budget.fteAmountGreaterThanZero";
     public static final String ERROR_BUDGET_DOCUMENT_NOT_FOUND = "error.budget.budgetDocumentNotFound";
-    public static final String ERROR_EMPTY_ADJUSTMENT_FIELD = "error.budget.emptyAdjustmentField";
     public static final String ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT = "error.budget.emptyPayRateAnnualAmount";
     
     public static final String WARNING_FTE_NOT_EQUAL = "warning.budget.fteNotEqual";
@@ -184,9 +180,7 @@ public class BCKeyConstants {
     public static final String ERROR_NOT_DEFAULT_OBJECT_CODE = "error.budget.notDefaultObjectCode";
     public static final String ERROR_REQUEST_AMOUNT_NOT_ZERO_WHEN_FULL_YEAR_LEAVE = "error.budget.requestedAmountNotZeroWhenFullYearleave";
     public static final String ERROR_REQUEST_FTE_NOT_ZERO_WHEN_FULL_YEAR_LEAVE = "error.budget.requestedFteNotZeroWhenFullYearleave";
-    public static final String ERROR_NEGATIVE_FTE_QUANTITY = "error.budget.negativeFteQuantity";
     public static final String ERROR_EMPTY_REQUESTED_TIME_PERCENT = "error.budget.emptyRequestedTimePercent";
-    public static final String ERROR_NEGATIVE_REQUESTED_TIME_PERCENT = "error.budget.negativeRequestedTimePercent";
     public static final String ERROR_DETAIL_POSITION_NOT_REQUIRED = "error.budget.detailPositionNotRequired";
     public static final String ERROR_FTE_QUANTITY_NOT_IN_RANGE = "error.budget.fteQuantityNotInRange";
     public static final String ERROR_LEAVE_TIME_PERCENT_NOT_IN_RANGE = "error.budget.leaveTimePercentNotInRange";

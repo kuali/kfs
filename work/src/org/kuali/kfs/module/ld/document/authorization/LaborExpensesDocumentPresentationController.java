@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ld.document.authorization;
 
 import java.util.Set;
 
-import org.kuali.kfs.module.LaborAuthorizationConstants;
+import org.kuali.kfs.module.ld.LaborAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -48,7 +48,7 @@ public class LaborExpensesDocumentPresentationController extends FinancialSystem
         
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if(workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            editModes.add(LaborAuthorizationConstants.ExpenseTransaferEditMode.LEDGER_BALANCE_IMPORTING);
+            editModes.add(LaborAuthorizationConstants.ExpenseTransferEditMode.LEDGER_BALANCE_IMPORTING);
             System.out.println("2====" + editModes);
         }
         

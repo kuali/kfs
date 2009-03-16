@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module;
+package org.kuali.kfs.module.ld;
 
 import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
 
 public class LaborAuthorizationConstants extends JSTLConstants {
 
-    public static class ExpenseTransaferEditMode extends EditMode {
+    public static class ExpenseTransferEditMode extends EditMode {
         public static final String LEDGER_BALANCE_IMPORTING = "ledgerBalanceImporting";
     }
 }

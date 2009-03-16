@@ -188,6 +188,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     newPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     newPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
                     getAssetPaymentService().adjustPaymentAmounts(newPayment, false, true);
+                    newPayment.setTransferPaymentCode(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
                     // add new payment
                     persistableObjects.add(newPayment);
                 }

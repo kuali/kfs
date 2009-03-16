@@ -193,7 +193,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     public void setAssetPaymentService(AssetPaymentService assetPaymentService) {
         this.assetPaymentService = assetPaymentService;
     }
-    
+
     /**
      * Gets the businessObjectService attribute.
      * 
@@ -305,7 +305,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         }
         return false;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isAssetSeparateByPayment(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
@@ -387,7 +387,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
             if (!this.isAssetSeparateByPayment(assetGlobal)) {
                 offsetAssetPayments.put(assetPayment.getObjectId(), new AssetPayment(assetPayment, false));
-            } else if (assetPayment.getPaymentSequenceNumber().equals(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
+            }
+            else if (assetPayment.getPaymentSequenceNumber().equals(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
                 // If this is separate by payment, then only add the payment that we are interested in
                 offsetAssetPayments.put(assetPayment.getObjectId(), new AssetPayment(assetPayment, false));
                 break;
@@ -419,7 +420,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
             if (!asset.getTotalCostAmount().equals(assetGlobalDetail.getSeparateSourceAmount())) {
                 throw new IllegalStateException("Unexpected amount calculation discreptancy while seperating by asset.");
             }
-            
+
             persistables.add(asset);
         }
 
@@ -452,7 +453,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     protected Asset setupAsset(AssetGlobal assetGlobal, AssetGlobalDetail assetGlobalDetail, boolean separate) {
         Asset asset = new Asset(assetGlobal, assetGlobalDetail, separate);
         KualiDecimalUtils kualiDecimalUtils = new KualiDecimalUtils();
-        
+
         // set financialObjectSubTypeCode per first payment entry if one exists
         if (!assetGlobal.getAssetPaymentDetails().isEmpty() && ObjectUtils.isNotNull(assetGlobal.getAssetPaymentDetails().get(0).getObjectCode())) {
             asset.setFinancialObjectSubTypeCode(assetGlobal.getAssetPaymentDetails().get(0).getObjectCode().getFinancialObjectSubTypeCode());
@@ -516,7 +517,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         AssetPayment assetPayment = new AssetPayment(assetPaymentDetail, acquisitionTypeCode);
         assetPayment.setCapitalAssetNumber(capitalAssetNumber);
         assetPayment.setPaymentSequenceNumber(assetPaymentDetail.getSequenceNumber());
-
+        assetPayment.setTransferPaymentCode(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
         // Running this every time of the loop is inefficient, could be put into HashMap
         KualiDecimalUtils kualiDecimalService = new KualiDecimalUtils(assetPaymentDetail.getAmount(), CamsConstants.CURRENCY_USD);
         KualiDecimal[] amountBuckets = kualiDecimalService.allocate(assetGlobalDetailsSize);
@@ -540,15 +541,16 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      * @param capitalAssetNumber to use for the payment
      * @param acquisitionTypeCode for logic in determining how dates are to be set
      * @param separateSourceAmount amount for this asset
-     * @param totalCostToAllocate amount that may be allocated (in the case of splitting by asset it's the asset total cost, in the case of splitting by payment it's the payment to be split cost)
+     * @param totalCostToAllocate amount that may be allocated (in the case of splitting by asset it's the asset total cost, in the
+     *        case of splitting by payment it's the payment to be split cost)
      * @param assetPaymentDetail containing data for the payment
      * @param separateSourceCapitalAssetPayments AssetPayments from the source capital asset
      * @param offsetAssetPayments AssetPayments to be created as offset entries to the capital asset
      * @return payment for an asset in separate
      */
     protected AssetPayment setupSeparateAssetPayment(Long capitalAssetNumber, String acquisitionTypeCode, KualiDecimal separateSourceAmount, KualiDecimal totalCostToAllocate, AssetPaymentDetail assetPaymentDetail, List<AssetPayment> separateSourceCapitalAssetPayments, HashMap<String, AssetPayment> offsetAssetPayments) {
-        KualiDecimalUtils kualiDecimalUtils = new KualiDecimalUtils();  
-        
+        KualiDecimalUtils kualiDecimalUtils = new KualiDecimalUtils();
+
         AssetPayment assetPayment = new AssetPayment(assetPaymentDetail, acquisitionTypeCode);
         assetPayment.setCapitalAssetNumber(capitalAssetNumber);
         assetPayment.setPaymentSequenceNumber(assetPaymentDetail.getSequenceNumber());

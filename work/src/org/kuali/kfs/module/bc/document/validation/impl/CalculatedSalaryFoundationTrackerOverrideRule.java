@@ -15,9 +15,10 @@
  */
 package org.kuali.kfs.module.bc.document.validation.impl;
 
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTrackerOverride;
 import org.kuali.kfs.module.bc.document.service.CalculatedSalaryFoundationTrackerOverrideService;
-import org.kuali.kfs.sys.KFSKeyConstants;
+
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -84,7 +85,7 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
             Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
             Integer universityFiscalYear = newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear();
             if (!(universityFiscalYear.equals(currentFiscalYear))) {
-                putFieldError("universityFiscalYear", KFSKeyConstants.ERROR_FISCAL_YEAR_NOT_CURRENT, "Fiscal Year");
+                putFieldError("universityFiscalYear", BCKeyConstants.ERROR_FISCAL_YEAR_NOT_CURRENT, "Fiscal Year");
                 success &= false;
             }
         }
@@ -101,12 +102,12 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
             Integer universityFiscalYear = newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear();
             boolean result = calculatedSalaryFoundationTrackerOverrideService.isValidAppointment(universityFiscalYear, positionNumber, emplid);
             if (!result) {
-                putFieldError("emplid", KFSKeyConstants.ERROR_INVALID_APPOINTMENT, "Employee Id");
+                putFieldError("emplid", BCKeyConstants.ERROR_INVALID_APPOINTMENT, "Employee Id");
                 success &= false;
             }
         }
         else {
-            putFieldError("emplid", KFSKeyConstants.ERROR_INVALID_APPOINTMENT, "Employee Id");
+            putFieldError("emplid", BCKeyConstants.ERROR_INVALID_APPOINTMENT, "Employee Id");
             success &= false;
         }
         return success;
@@ -122,12 +123,12 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
             Integer universityFiscalYear = newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear();
             boolean result = calculatedSalaryFoundationTrackerOverrideService.isValidAppointment(universityFiscalYear, positionNumber, emplid);
             if (!result) {
-                putFieldError("positionNumber", KFSKeyConstants.ERROR_INVALID_POSITION, "Position Number");
+                putFieldError("positionNumber", BCKeyConstants.ERROR_INVALID_POSITION, "Position Number");
                 success &= false;
             }
         }
         else {
-            putFieldError("positionNumber", KFSKeyConstants.ERROR_INVALID_POSITION, "Position Number");
+            putFieldError("positionNumber", BCKeyConstants.ERROR_INVALID_POSITION, "Position Number");
             success &= false;
         }
         return success;

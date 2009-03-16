@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -41,7 +42,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Labor business object for LaborOriginEntry.
  */
-public class LaborOriginEntry extends OriginEntryFull implements LaborTransaction {
+public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, LaborTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntry.class);
     private static String SPACES = "                                                                                                              ";
     private static final String DATE_FORMAT = "yyyy-MM-dd";

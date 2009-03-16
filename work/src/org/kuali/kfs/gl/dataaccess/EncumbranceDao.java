@@ -88,4 +88,10 @@ public interface EncumbranceDao {
      * @return the number of the open encumbrances
      */
     public Integer getOpenEncumbranceRecordCount(Map fieldValues);
+    
+    /**
+     * @param year the given university fiscal year
+     * @return count of rows for the given fiscal year
+     */
+    public Integer findCountGreaterOrEqualThan(Integer year);
 }

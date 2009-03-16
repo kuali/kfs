@@ -1,0 +1,57 @@
+/*
+ * Copyright 2007 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.ld.dataaccess.impl;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kfs.gl.dataaccess.LedgerBalanceHistoryBalancingDao;
+import org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+
+/**
+ * This is the data access object for labor balance history
+ * 
+ * @see org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory
+ */
+public class LaborLedgerBalanceHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements LedgerBalanceHistoryBalancingDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceHistoryDaoOjb.class);
+
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.LedgerBalanceHistoryBalancingDao#findDistinctFiscalYears()
+     */
+    public List<Integer> findDistinctFiscalYears() {
+        Criteria crit = new Criteria();
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(LaborBalanceHistory.class, crit);
+        q.setAttributes(new String[] { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR });
+        q.setDistinct(true);
+
+        Iterator<Object[]> years = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        List<Integer> yearList = new ArrayList<Integer>();
+        
+        while (years != null && years.hasNext()) {
+            Object[] year = years.next();
+            yearList.add(new Integer(year[0].toString()));
+        }
+        
+        return yearList;
+    }
+}

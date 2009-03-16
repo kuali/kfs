@@ -40,6 +40,8 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborBal
     
     private static final String BALANCING_FILENAME = "laborBalancing_";
     private static final String BALANCING_FILETITLE = "Labor Balancing Report";
+    private static final String BALANCE_LABEL = "GLBL";
+    private static final String ENTRY_LABEL = "GLEN";
     
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportFilename()
@@ -70,21 +72,35 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborBal
     }
     
     /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getBalanceLabel()
+     */
+    public String getBalanceLabel() {
+        return BALANCE_LABEL;
+    }
+    
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getEntryLabel()
+     */
+    public String getEntryLabel() {
+        return ENTRY_LABEL;
+    }
+    
+    /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getTableCreationInstructions(int)
      */
     public String getTableCreationInstructions(int startUniversityFiscalYear) {
         return 
-              "INSERT INTO LD_LDGR_BAL_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, POSITION_NBR, EMPLID, OBJ_ID, VER_NBR, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT)\n"
-            + "SELECT UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, POSITION_NBR, EMPLID, OBJ_ID, 1, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT\n"
-            + "FROM LD_LDGR_BAL_T\n"
-            + "WHERE UNIV_FISCAL_YR >= " + startUniversityFiscalYear + "\n\n"
-        
-            + "INSERT INTO LD_LDGR_ENTR_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD, OBJ_ID, VER_NBR, TRN_LDGR_ENTR_AMT, ROW_CNT)\n"
+              "INSERT INTO LD_LDGR_ENTR_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD, OBJ_ID, VER_NBR, TRN_LDGR_ENTR_AMT, ROW_CNT)\n"
             + "SELECT UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD, OBJ_ID, 1, sum(TRN_LDGR_ENTR_AMT), count(*)\n"
             + "FROM LD_LDGR_ENTR_T\n"
             + "WHERE UNIV_FISCAL_YR >= " + startUniversityFiscalYear + "\n"
             + "GROUP BY UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD\n\n"
-        
+            
+            + "INSERT INTO LD_LDGR_BAL_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, POSITION_NBR, EMPLID, OBJ_ID, VER_NBR, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT)\n"
+            + "SELECT UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, POSITION_NBR, EMPLID, OBJ_ID, 1, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT\n"
+            + "FROM LD_LDGR_BAL_T\n"
+            + "WHERE UNIV_FISCAL_YR >= " + startUniversityFiscalYear + "\n\n"
+            
             + "Comparison skipped since no historic data available.\n";
     }
     

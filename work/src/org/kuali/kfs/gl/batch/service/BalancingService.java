@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
-import java.io.PrintStream;
-
 import org.kuali.kfs.gl.TextReportHelper;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 
 /**
@@ -34,71 +33,41 @@ public interface BalancingService {
     public boolean runBalancing();
     
     /**
-     * Deletes entries from balance (<T>) history table for given fiscal year.
+     * Deletes data for the given fiscal year of entries from persistentClass.
      * @param universityFiscalYear the given university fiscal year
+     * @param persistentClass table for which to delete the history
      */
-    public void deleteBalanceHistory(Integer universityFiscalYear);
+    public void deleteHistory(Integer universityFiscalYear, Class<? extends PersistableBusinessObjectBase> persistentClass);
     
     /**
-     * Deletes entries from entry (<S>) history table for given fiscal year.
-     * @param universityFiscalYear the given university fiscal year
-     */
-    public void deleteEntryHistory(Integer universityFiscalYear);
-
-    /**
-     * Gets count for given fiscal year of entries from balance (<T>) history table.
+     * Gets count for given fiscal year of entries from persistentClass.
      * @param fiscalYear parameter may be null which will get count for all years
+     * @param persistentClass table for which to get the count
      * @return count
      */
-    public int getBalanceHistoryCount(Integer fiscalYear);
-    
-    /**
-     * Gets count for given fiscal year of entries from entry (<T>) history table.
-     * @param fiscalYear parameter may be null which will get count for all years
-     * @return count
-     */
-    public int getEntryHistoryCount(Integer fiscalYear);
+    public int getHistoryCount(Integer fiscalYear, Class<? extends PersistableBusinessObjectBase> persistentClass);    
     
     /**
      * Compares entries in the Balance and BalanceHistory tables to ensure the amounts match.
-     * @param REPORT_ps handle on PrintStream for report file
-     * @param textReportHelper handle on TextReportHelper for fancy REPORT_ps printing
+     * @param textReportHelper handle on TextReportHelper for fancy printing
      * @return count is compare failures
      */
-    public int compareBalanceHistory(PrintStream REPORT_ps, TextReportHelper textReportHelper);
+    public Integer compareBalanceHistory(TextReportHelper textReportHelper);
     
     /**
      * Compares entries in the Entry and EntryHistory tables to ensure the amounts match.
-     * @param REPORT_ps handle on PrintStream for report file
-     * @param textReportHelper handle on TextReportHelper for fancy REPORT_ps printing
+     * @param textReportHelper handle on TextReportHelper for fancy printing
      * @return count is compare failures
      */
-    public int compareEntryHistory(PrintStream REPORT_ps, TextReportHelper textReportHelper);
-    
-    /**
-     * Counts the number of entries in the Balance and BalanceHistory table for either Labor or GL.
-     * @param startUniversityFiscalYear fiscal year for which to start the comparision from
-     * @param REPORT_ps handle on PrintStream for report file
-     * @return whether the count matched or not
-     */
-    public boolean countBalanceCompare(Integer startUniversityFiscalYear, PrintStream REPORT_ps);
-
-    /**
-     * Counts the number of entries in the Entry and EntryHistory table for either Labor or GL.
-     * @param startUniversityFiscalYear fiscal year for which to start the comparision from
-     * @param REPORT_ps handle on PrintStream for report file
-     * @return whether the count matched or not
-     */
-    public boolean countEntryCompare(Integer startUniversityFiscalYear, PrintStream REPORT_ps);
+    public Integer compareEntryHistory(TextReportHelper textReportHelper);
     
     /**
      * This is a helper method that wraps parsing poster entries for updateEntryHistory and updateBalanceHistory.
      * @param startUniversityFiscalYear fiscal year for which to accept the earlier parsed lines from the input file
-     * @param REPORT_ps handle on PrintStream for report file
-     * @param textReportHelper handle on TextReportHelper for fancy REPORT_ps printing
+     * @param textReportHelper handle on TextReportHelper for fancy printing
      * @return indicated whether records where ignored due to being older then startUniversityFiscalYear
      */
-    public boolean updateHistoriesHelper(Integer startUniversityFiscalYear, PrintStream REPORT_ps, TextReportHelper textReportHelper);
+    public int updateHistoriesHelper(Integer startUniversityFiscalYear, TextReportHelper textReportHelper);
     
     /**
      * @return filename for the report
@@ -119,6 +88,16 @@ public interface BalancingService {
      * @return output error filename from the poster
      */
     public abstract String getPosterErrorOutputFilename();
+    
+    /**
+     * @return functional label for balance table
+     */
+    public abstract String getBalanceLabel();
+    
+    /**
+     * @return functional label for entry table
+     */
+    public abstract String getEntryLabel();
     
     /**
      * @param startUniversityFiscalYear university fiscal year for which the process starts on

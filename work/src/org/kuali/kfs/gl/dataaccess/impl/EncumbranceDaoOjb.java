@@ -244,4 +244,16 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
 
         return attributeList;
     }
+    
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#findCountGreaterOrEqualThan(java.lang.Integer)
+     */
+    public Integer findCountGreaterOrEqualThan(Integer year) {
+        Criteria criteria = new Criteria();
+        criteria.addGreaterOrEqualThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(Encumbrance.class, criteria);
+        
+        return getPersistenceBrokerTemplate().getCount(query);
+    }
 }

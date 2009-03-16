@@ -450,6 +450,21 @@
     
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.gl.businessobject.EncumbranceHistory" table="GL_ENCUMBRANCE_HIST_T">
+    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="subObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="balanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="documentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="originCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="accountLineEncumbranceAmount" column="ACLN_ENCUM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="accountLineEncumbranceClosedAmount" column="ACLN_ENCUM_CLS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.gl.businessobject.Balance" table="GL_BALANCE_T">
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
@@ -653,6 +668,18 @@
         <foreignkey field-ref="subObjectCode" />
     </reference-descriptor>
     
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.gl.businessobject.AccountBalanceHistory" table="GL_ACCT_BALANCES_HIST_T">
+    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="subObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="currentBudgetLineBalanceAmount" column="CURR_BDLN_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="accountLineActualsBalanceAmount" column="ACLN_ACTLS_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="accountLineEncumbranceBalanceAmount" column="ACLN_ENCUM_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument" table="GL_COR_DOC_T">

@@ -105,4 +105,10 @@ public interface AccountBalanceDao {
      * @param year the fiscal year of account balances to purge
      */
     public void purgeYearByChart(String chartOfAccountscode, int year);
+    
+    /**
+     * @param year the given university fiscal year
+     * @return count of rows for the given fiscal year
+     */
+    public Integer findCountGreaterOrEqualThan(Integer year);
 }

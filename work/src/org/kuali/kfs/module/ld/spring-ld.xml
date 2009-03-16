@@ -188,6 +188,8 @@
 
     <bean id="laborLedgerEntryHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerEntryHistoryDaoOjb" />
 
+    <bean id="laborLedgerBalanceHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerBalanceHistoryDaoOjb" />
+
     <bean id="laborGeneralLedgerEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborGeneralLedgerEntryDaoOjb" />
 
 	<bean id="laborLedgerBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerBalanceDaoOjb">
@@ -359,6 +361,9 @@
         </property>
         <property name="ledgerBalanceBalancingDao">
             <ref bean="laborLedgerBalanceDao" />
+        </property>
+        <property name="ledgerBalanceHistoryBalancingDao">
+            <ref bean="laborLedgerBalanceHistoryDao" />
         </property>
         <property name="ledgerEntryHistoryBalancingDao">
             <ref bean="laborLedgerEntryHistoryDao" />

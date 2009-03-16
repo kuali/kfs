@@ -28,7 +28,7 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
- * An OJB implementation of EntryHistoryDao
+ * An OJB implementation of LedgerEntryHistoryBalancingDao
  */
 public class EntryHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements LedgerEntryHistoryBalancingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryHistoryDaoOjb.class);

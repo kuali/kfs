@@ -222,6 +222,18 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
         getPersistenceBrokerTemplate().clearCache();
     }
 
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findCountGreaterOrEqualThan(java.lang.Integer)
+     */
+    public Integer findCountGreaterOrEqualThan(Integer year) {
+        Criteria criteria = new Criteria();
+        criteria.addGreaterOrEqualThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
+        
+        return getPersistenceBrokerTemplate().getCount(query);
+    }
+    
     public AccountBalanceConsolidationDao getAccountBalanceConsolidationDao() {
         return accountBalanceConsolidationDao;
     }

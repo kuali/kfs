@@ -45,6 +45,7 @@
 				<value>nightlyOutJob</value>
 				<value>scrubberJob</value>
 				<value>posterJob</value>
+				<value>posterBalancingJob</value>
 				<value>sufficientFundsJob</value>
 				<value>posterSummaryReportJob</value>
 				<value>clearPendingEntriesJob</value>
@@ -57,7 +58,6 @@
 				<value>manualPurgeJob</value>
 				<value>clearOldOriginEntriesJob</value>
 				<value>purgeCorrectionProcessFilesJob</value>
-				<value>posterBalancingJob</value>
 			</list>
 		</property>
 		<property name="fiscalYearMakers">
@@ -782,8 +782,17 @@
         <property name="ledgerBalanceBalancingDao">
             <ref bean="glBalanceDao" />
         </property>
+        <property name="ledgerBalanceHistoryBalancingDao">
+            <ref bean="glBalanceHistoryDao" />
+        </property>
         <property name="ledgerEntryHistoryBalancingDao">
             <ref bean="glEntryHistoryDao" />
+        </property>
+        <property name="accountBalanceDao">
+            <ref bean="glAccountBalanceDao" />
+        </property>
+        <property name="encumbranceDao">
+            <ref bean="glEncumbranceDao" />
         </property>
         <property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
     </bean>
@@ -1054,6 +1063,8 @@
 	<bean id="glEntryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EntryDaoOjb" />
 
 	<bean id="glEntryHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EntryHistoryDaoOjb" />
+
+	<bean id="glBalanceHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.BalanceHistoryDaoOjb" />
 
 	<bean id="glEncumbranceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EncumbranceDaoOjb" />
 

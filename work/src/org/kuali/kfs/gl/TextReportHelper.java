@@ -22,8 +22,11 @@ import java.util.List;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHistory;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.sys.Message;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -33,12 +36,13 @@ import org.kuali.rice.kns.service.DateTimeService;
  * TODO CHANGELOG (from branch)<br>
  * 1) Added method writeErrors(Object o, Message errorMessage). Impact: None<br>
  * 2) Added LedgerBalanceHistory and LedgerEntryHistory cases for error printing. Impact: None<br>
- * 3) Moved "ERROR AND STATISTICS REPORT" heading into writeTitle so that multiple error sections can be written without heading appearing multiple times. Also added newline before errorHeader. Impact: Visual only<br>
- * 4) Added "titleWritten" to writeTitle to avoid multiple titles if multiple writeErrorHeader written. Impact: Should be none (unconfirmed)<br>
- * 5) Removed generic typing related to #4 (i.e. class isn't typed but calls to writeErrorHeader are). This also removed the o argument to the constructor, however, it added it to writeErrorHeader. Impact: class initialization, constructor call, writeErrorHeader call<br>
+ * 3) Removed generic typing related to #4 (i.e. class isn't typed but calls to writeErrorHeader are). This also removed the o argument to the constructor, however, it added it to writeErrorHeader. Impact: class initialization, constructor call, writeErrorHeader call<br>
+ * 4) Added writeErrorHeader(Object o, boolean newErrorHeader) to be able to force page break if boolean is true. This is because writeErrors already does the page break itself when it calls writeErrorHeader while direct calls to writeErrorHeader when there are multiple error headers has no such ability<br>
+ *    Note: Wrapper writeErrorHeader(Object o) still exists
+ * 5) Added writeStatisticsHeaderWithTitle for reports that don't write empty errorHeaders if there are no errors
  * TODO Enhancement suggestions<br>
- * A. writeErrors(PersistableBusinessObjectBase bo, Message errorMessage) implementation is a bit silly. Could be better encapsulated with writeErrors(bo, List)
- * B. Make this class a service IF technical leads meeting decides PrintStream should be DAO encapsulated
+ * - Balancing uses this class without printing errorHeaders if there are no errors while other uses do. The reason balancing doesn't is because it has several error sections<br>
+ * - CHANGELOG above was written with backwards compatibility in mind. That makes the code a bit messy, could be cleaned<br>
  */
 public class TextReportHelper {
     private int reportLine = 0;
@@ -46,7 +50,6 @@ public class TextReportHelper {
     private PrintStream PRINT_FILE_ps;
     private DateTimeService dateTimeService;
     private String reportTitle;
-    private boolean titleWritten = false;
     private int pageWidth = 130;
     private int pageLength = 57;
     private String headerText;
@@ -69,21 +72,23 @@ public class TextReportHelper {
     }
 
     public void writeTitle() {
-        if (!titleWritten) {
-            if (reportPage == 0) { //presumably a statistics-only report, no error listing, thus cannot be more than one page
-                PRINT_FILE_ps.printf("%s\n\n", headerText);
-            } else {
-                PRINT_FILE_ps.printf("%sPAGE:%,9d\n\n", headerText,reportPage);
-                PRINT_FILE_ps.printf("                                                    ERROR AND STATISTICS REPORT\n");
-            }
-            reportLine += 2;
-            
-            titleWritten = true;
+        if (reportPage == 0) { //presumably a statistics-only report, no error listing, thus cannot be more than one page
+            PRINT_FILE_ps.printf("%s\n\n", headerText);
+        } else {
+            PRINT_FILE_ps.printf("%sPAGE:%,9d\n\n", headerText,reportPage);
         }
+        reportLine += 2;
     }
-
     public void writeErrorHeader(Object o) {
-        if (o instanceof Transaction && !(o instanceof LedgerEntryHistory)) {
+        writeErrorHeader(o, false);
+    }
+    
+    /**
+     * @param o
+     * @param newErrorHeader forces a page break before printing the header. This is useful for reports that print multiple error headers
+     */
+    public void writeErrorHeader(Object o, boolean newErrorHeader) {
+        if ((o instanceof Transaction || o instanceof OriginEntry) && !(o instanceof LedgerEntryHistory)) {
             this.errorHeaderLine    = "YEAR COA ACCOUNT SACCT OBJ  SOBJ BT OT PRD DTYP ORIG DOC #     SEQ #    MESSAGE (VALUE)";
             this.errorSeparatorLine = "---- --- ------- ----- ---- ---- -- -- --- ---- ---- --------- -----    ----------------------------------------------------------";
             this.errorFormat = "%-4s %-2s  %-7s %-5s %-4s %-3s  %-2s %-2s %-2s  %-4s %-2s   %-9s %5s    ";
@@ -110,15 +115,38 @@ public class TextReportHelper {
         keyBlank = String.format(errorFormat, blanks);
         keyLength = keyBlank.length();
         
+        if (newErrorHeader && reportPage != 0) {
+            reportLine = 0;
+            PRINT_FILE_ps.printf("%c\n",12); //page break
+        }
         reportPage++;
         writeTitle();
-        PRINT_FILE_ps.printf("\n%s\n", errorHeaderLine);
+        PRINT_FILE_ps.printf("                                                    ERROR AND STATISTICS REPORT\n");
+        PRINT_FILE_ps.printf("%s\n", errorHeaderLine);
         PRINT_FILE_ps.printf("%s\n", errorSeparatorLine);
         reportLine += 3;
     }
 
+    /**
+     * Prints page title and statistics section. Also forces a newline but only if there are no pages printed already.
+     * Useful for reports that don't write empty errorHeaders if there are no errors.
+     */
+    public void writeStatisticsHeaderWithTitle() {
+        if (reportPage != 0) {
+            PRINT_FILE_ps.printf("%c\n",12); //page break
+            reportPage++;
+        }
+        writeTitle();
+        writeStatistics();
+    }
+
     public void writeStatisticsHeader() {
         PRINT_FILE_ps.printf("%c\n",12); //page break
+        reportPage++;
+        writeStatistics();
+    }
+    
+    private void writeStatistics() {
         PRINT_FILE_ps.printf("***********************************************************************************************************************************\n");
         PRINT_FILE_ps.printf("***********************************************************************************************************************************\n");
         PRINT_FILE_ps.printf("********************                                    S T A T I S T I C S                                    ********************\n");
@@ -133,13 +161,13 @@ public class TextReportHelper {
         for (Message errorMessage : errorMessages) {
             //print header
             if (reportLine == 0) {
-                writeErrorHeader(o.getClass());
+                writeErrorHeader(o);
             }
             keys.clear();
             
             messageNumber++;
             if (messageNumber == 1) {
-                if (o instanceof Transaction && !(o instanceof LedgerEntryHistory)) {
+                if ((o instanceof Transaction || o instanceof OriginEntryFull || o instanceof LaborOriginEntry) && !(o instanceof LedgerEntryHistory)) {
                     Transaction t = (Transaction) o;
                     keys.add(t.getUniversityFiscalYear() == null ? "" : t.getUniversityFiscalYear().toString());
                     keys.add(t.getChartOfAccountsCode());
@@ -221,5 +249,21 @@ public class TextReportHelper {
         errorMessages.add(errorMessage);
         
         this.writeErrors(o, errorMessages);
+    }
+    
+    /**
+     * Does a PrintStream.printf but takes care of pagination for us
+     * @param format formatting string pass through to PrintStream.printf
+     * @param args pass through to PrintStream.printf
+     * @see java.io.PrintStream#printf(java.lang.String, java.lang.Object... args) 
+     */
+    public void printf(String format, Object ... args) {
+        PRINT_FILE_ps.printf(format, args);
+        
+        reportLine++;
+        if (reportLine >= pageLength) {
+            reportLine = 0;
+            PRINT_FILE_ps.printf("%c\n",12); //page break
+        }
     }
 }

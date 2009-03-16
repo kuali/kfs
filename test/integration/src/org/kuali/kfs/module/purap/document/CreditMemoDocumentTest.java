@@ -16,18 +16,14 @@
 package org.kuali.kfs.module.purap.document;
 
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
-
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rjweiss;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
@@ -40,6 +36,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class is used to create and test populated CreditMemo Documents of various kinds.
@@ -88,8 +89,9 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         creditMemoDocument = buildSimpleDocument();
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(creditMemoDocument, getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
-
+    
     @ConfigureContext(session = appleton, shouldCommitTransactions=true)
+    @RelatesTo(JiraIssue.KULPURAP3598)
     public final void testSaveDocument() throws Exception {       
         creditMemoDocument = buildSimpleDocument();       
         creditMemoDocument.setAccountsPayableProcessorIdentifier("khuntley");

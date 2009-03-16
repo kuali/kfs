@@ -21,6 +21,8 @@
 <%@ attribute name="isPaymentRequest" required="false" description="True if the document is a PaymentRequest" %>
 <%@ attribute name="isCreditMemo" required="false" description="True if the document is a CreditMemo" %>
 
+<c:set var="summaryItemAttributes" value="${DataDictionary.PurApSummaryItem.attributes}"/>
+
 <kul:tab tabTitle="Account Summary" defaultOpen="false" tabErrorKey="${PurapConstants.ACCOUNT_SUMMARY_TAB_ERRORS}">
 
 	<div class="tab-container" align="center" valign="middle">
@@ -126,32 +128,32 @@
                                 </tr>
             
                                 <tr>
-                                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
+                                    <kul:htmlAttributeHeaderCell attributeEntry="${summaryItemAttributes.itemLineNumber}" />
                                     <c:if test="${not (isPaymentRequest or isCreditMemo)}">
-                                    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
+                                    	<kul:htmlAttributeHeaderCell attributeEntry="${summaryItemAttributes.itemTypeCode}" />
                                     </c:if>
-                                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
-                                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.estimatedEncumberanceAmount}" />
+                                    <kul:htmlAttributeHeaderCell attributeEntry="${summaryItemAttributes.itemDescription}" />
+                                    <kul:htmlAttributeHeaderCell attributeEntry="${summaryItemAttributes.estimatedEncumberanceAmount}" />
                                 </tr>   
                                 <tr>                
                                     <logic:iterate id="itemValue" name="KualiForm" property="summaryAccounts[${ctr}].items" indexId="ctrItem">
                                         <tr>
                                             <td class="datacell center">
-                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemLineNumber" readOnly="true" />&nbsp;
+                                                <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.itemLineNumber}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemLineNumber" readOnly="true" />&nbsp;
                                             </td>
                                             <c:if test="${not (isPaymentRequest or isCreditMemo)}">
 	                                            <td class="datacell center">
-	                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" 
+	                                                <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.itemTypeCode}" 
 	                                                	property="summaryAccounts[${ctr}].items[${ctrItem}].itemTypeCode"
 	                                                	extraReadOnlyProperty="summaryAccounts[${ctr}].items[${ctrItem}].itemType.itemTypeDescription" 
 	                                                	readOnly="true" />&nbsp;
 	                                            </td>
 	                                        </c:if>
                                             <td class="datacell center">
-                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemDescription" readOnly="true" />&nbsp;
+                                                <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.itemDescription}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemDescription" readOnly="true" />&nbsp;
                                             </td>
                                             <td class="datacell center">
-                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.estimatedEncumberanceAmount}" property="summaryAccounts[${ctr}].items[${ctrItem}].estimatedEncumberanceAmount" readOnly="true" />&nbsp;
+                                                <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.estimatedEncumberanceAmount}" property="summaryAccounts[${ctr}].items[${ctrItem}].estimatedEncumberanceAmount" readOnly="true" />&nbsp;
                                             </td>
                                         </tr>
                                     </logic:iterate>

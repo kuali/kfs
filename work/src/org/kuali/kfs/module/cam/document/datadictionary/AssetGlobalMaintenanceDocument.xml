@@ -31,9 +31,6 @@
       </list>
     </property>
     
-    
-    
-    
     <property name="documentTypeName" value="AA"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule"/>
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalPreRules"/>        
@@ -138,7 +135,6 @@
           </property>
           <property name="maintainableFields">
             <list>  
-              <bean parent="MaintainableFieldDefinition" p:name="hiddenFieldForError"/> 
               <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:readOnlyAfterAdd="false" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="buildingCode" p:readOnlyAfterAdd="false" p:required="false"/>
               <bean parent="MaintainableFieldDefinition" p:name="buildingRoomNumber" p:readOnlyAfterAdd="false" p:required="false"/>

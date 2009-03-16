@@ -1001,7 +1001,5 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setMaxAssetTotalAmount(KualiDecimal maxAssetTotalAmount) {
         this.maxAssetTotalAmount = maxAssetTotalAmount;
-    }
-    
-    
+    }    
 }

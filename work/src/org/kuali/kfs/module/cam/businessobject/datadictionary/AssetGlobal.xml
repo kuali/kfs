@@ -81,7 +81,6 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
   <bean id="AssetGlobal-documentNumber" parent="AssetGlobal-documentNumber-parentBean" />
   <bean id="AssetGlobal-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>  

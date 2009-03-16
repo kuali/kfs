@@ -48,6 +48,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
@@ -65,12 +66,33 @@ import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-
 /**
  * Base Struts Action class for Benefit Expense Transfer Document.
  */
 public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseTransferDocumentActionBase.class);
+
+    /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#performBalanceInquiryForSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward performBalanceInquiryForSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine)this.getSourceAccountingLine(form, request);        
+        line.setPostingYear(line.getPayrollEndDateFiscalYear());
+        
+        return performBalanceInquiryForAccountingLine(mapping, form, request, line);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#performBalanceInquiryForTargetLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward performBalanceInquiryForTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine)this.getTargetAccountingLine(form, request);        
+        line.setPostingYear(line.getPayrollEndDateFiscalYear());
+        
+        return performBalanceInquiryForAccountingLine(mapping, form, request, line);
+    }
 
     /**
      * Takes care of storing the action form in the user session and forwarding to the balance inquiry lookup action.

@@ -99,7 +99,11 @@ public class AccountingLineViewOverrideField implements RenderableElement {
         OverrideFieldRenderer renderer = new OverrideFieldRenderer();
         renderer.setField(overrideField);
         renderer.setArbitrarilyHighTabIndex(arbitrarilyHighIndex);
-        renderer.setReadOnly(parent.isReadOnly());
+        if (parent.isReadOnly() && definition.isAllowEditDespiteReadOnlyParentWhenAccoutingLineEditable() && renderingContext.isEditableLine()) {
+            renderer.setReadOnly(false);
+        } else {
+            renderer.setReadOnly(parent.isReadOnly());
+        }
         renderer.setOverrideNeededValue(getOverrideNeededValue(renderingContext.getAccountingLine()));
         renderer.setAccountingLine(renderingContext.getAccountingLine());
         renderer.render(pageContext, parentTag);

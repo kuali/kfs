@@ -24,6 +24,7 @@ import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
  * The definition of an override field associated with an accounting line view field
  */
 public class AccountingLineViewOverrideFieldDefinition extends MaintainableFieldDefinition {
+    private boolean allowEditDespiteReadOnlyParentWhenAccoutingLineEditable = false;
     
     /**
      * Creates an override field
@@ -33,5 +34,21 @@ public class AccountingLineViewOverrideFieldDefinition extends MaintainableField
      */
     public AccountingLineViewOverrideField getOverrideFieldForDefinition(AccountingLineViewField parentField, Class<? extends AccountingLine> accountingLineClass) {
         return new AccountingLineViewOverrideField(parentField, this, accountingLineClass);
+    }
+
+    /**
+     * Gets the allowEditDespiteReadOnlyParentWhenAccoutingLineEditable attribute. 
+     * @return Returns the allowEditDespiteReadOnlyParentWhenAccoutingLineEditable.
+     */
+    public boolean isAllowEditDespiteReadOnlyParentWhenAccoutingLineEditable() {
+        return allowEditDespiteReadOnlyParentWhenAccoutingLineEditable;
+    }
+
+    /**
+     * Sets the allowEditDespiteReadOnlyParentWhenAccoutingLineEditable attribute value.
+     * @param allowEditDespiteReadOnlyParentWhenAccoutingLineEditable The allowEditDespiteReadOnlyParentWhenAccoutingLineEditable to set.
+     */
+    public void setAllowEditDespiteReadOnlyParentWhenAccoutingLineEditable(boolean allowOverrideWithReadOnlyParentWhenAccoutingLineEditable) {
+        this.allowEditDespiteReadOnlyParentWhenAccoutingLineEditable = allowOverrideWithReadOnlyParentWhenAccoutingLineEditable;
     }
 }

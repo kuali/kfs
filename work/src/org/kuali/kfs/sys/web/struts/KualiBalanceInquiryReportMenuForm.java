@@ -36,6 +36,7 @@ public class KualiBalanceInquiryReportMenuForm extends KualiForm {
     private String financialSubObjectCode;
     private String projectCode;
     private String objectTypeCode;
+    private String universityFiscalYear;
 
     private String docFormKey;
     // need this next attribute b/c the lookup overwrites the docFormKey
@@ -122,6 +123,9 @@ public class KualiBalanceInquiryReportMenuForm extends KualiForm {
         }
         if (StringUtils.isNotBlank(projectCode)) {
             lookupParameters += ",projectCode:projectCode";
+        }
+        if (StringUtils.isNotBlank(universityFiscalYear)) {
+            lookupParameters += ",universityFiscalYear:universityFiscalYear";
         }
 
         return lookupParameters;
@@ -335,5 +339,21 @@ public class KualiBalanceInquiryReportMenuForm extends KualiForm {
      */
     public void setBalanceInquiryReportMenuCallerDocFormKey(String balanceInquiryReportMenuCallerDocFormKey) {
         this.balanceInquiryReportMenuCallerDocFormKey = balanceInquiryReportMenuCallerDocFormKey;
+    }
+
+    /**
+     * Gets the universityFiscalYear attribute. 
+     * @return Returns the universityFiscalYear.
+     */
+    public String getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(String universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
     }
 }

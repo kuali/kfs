@@ -23,6 +23,7 @@
 	<html:hidden property="balanceInquiryReportMenuCallerDocFormKey"
 		write="false" />
 	<html:hidden property="chartOfAccountsCode" write="false" />
+	<html:hidden property="universityFiscalYear" write="false" />
 	<html:hidden property="accountNumber" write="false" />
 	<html:hidden property="subAccountNumber" write="false" />
 	<html:hidden property="financialObjectCode" write="false" />

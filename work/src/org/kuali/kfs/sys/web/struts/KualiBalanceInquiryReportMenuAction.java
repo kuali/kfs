@@ -142,7 +142,6 @@ public class KualiBalanceInquiryReportMenuAction extends KualiAction {
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, hideReturnLink);
         }
 
-        System.out.println("Setting the anchor to " + ((KualiForm) form).getAnchor());
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
             parameters.put(KFSConstants.LOOKUP_ANCHOR, ((KualiForm) form).getAnchor());

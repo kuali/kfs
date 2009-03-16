@@ -603,7 +603,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * @throws Exception
      */
     public ActionForward performBalanceInquiryForSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SourceAccountingLine line = (SourceAccountingLine) getSourceAccountingLine(form, request);
+        SourceAccountingLine line = this.getSourceAccountingLine(form, request);
         return performBalanceInquiryForAccountingLine(mapping, form, request, line);
     }
 
@@ -621,7 +621,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     public ActionForward performBalanceInquiryForTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineIndex = getSelectedLine(request);
 
-        TargetAccountingLine line = (TargetAccountingLine) ((KualiAccountingDocumentFormBase) form).getFinancialDocument().getTargetAccountingLine(lineIndex);
+        TargetAccountingLine line = this.getTargetAccountingLine(form, request);
 
         return performBalanceInquiryForAccountingLine(mapping, form, request, line);
     }
@@ -640,6 +640,13 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     protected SourceAccountingLine getSourceAccountingLine(ActionForm form, HttpServletRequest request) {
         int lineIndex = getSelectedLine(request);
         SourceAccountingLine line = (SourceAccountingLine) ObjectUtils.deepCopy(((KualiAccountingDocumentFormBase) form).getFinancialDocument().getSourceAccountingLine(lineIndex));
+        return line;
+    }
+    
+    protected TargetAccountingLine getTargetAccountingLine(ActionForm form, HttpServletRequest request) {
+        int lineIndex = getSelectedLine(request);
+        TargetAccountingLine line = (TargetAccountingLine) ((KualiAccountingDocumentFormBase) form).getFinancialDocument().getTargetAccountingLine(lineIndex);
+
         return line;
     }
 
@@ -668,7 +675,10 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         parameters.put(KFSConstants.BALANCE_INQUIRY_REPORT_MENU_CALLER_DOC_FORM_KEY, callerDocFormKey);
         parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-
+        
+        if (line.getPostingYear() != null) {
+            parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, line.getPostingYear().toString());
+        }
         if (StringUtils.isNotBlank(line.getReferenceOriginCode())) {
             parameters.put("referenceOriginCode", line.getReferenceOriginCode());
         }

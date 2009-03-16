@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
-import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
 import org.kuali.kfs.fp.businessobject.CashieringTransaction;
 import org.kuali.kfs.fp.businessobject.Check;
@@ -97,11 +96,11 @@ public class CashManagementServiceImpl implements CashManagementService {
         // get CashReceiptHeader for the CashReceipt, if any
         HashMap primaryKeys = new HashMap();
         primaryKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentId);
-        CashReceiptHeader crh = (CashReceiptHeader) businessObjectService.findByPrimaryKey(CashReceiptHeader.class, primaryKeys);
+        CashReceiptDocument crDoc = (CashReceiptDocument) businessObjectService.findByPrimaryKey(CashReceiptDocument.class, primaryKeys);
 
         // get the DepositCashReceiptControl for the CashReceiptHeader
-        if (crh != null) {
-            List crcList = crh.getDepositCashReceiptControl();
+        if (crDoc != null) {
+            List crcList = crDoc.getDepositCashReceiptControl();
             if (!crcList.isEmpty()) {
                 DepositCashReceiptControl dpcrc = (DepositCashReceiptControl) crcList.get(0);
 
@@ -296,11 +295,11 @@ public class CashManagementServiceImpl implements CashManagementService {
             documentService.updateDocument(crDoc);
 
             DepositCashReceiptControl dcc = new DepositCashReceiptControl();
-            dcc.setFinancialDocumentCashReceiptNumber(crDoc.getCashReceiptHeader().getDocumentNumber());
+            dcc.setFinancialDocumentCashReceiptNumber(crDoc.getDocumentNumber());
             dcc.setFinancialDocumentDepositNumber(deposit.getDocumentNumber());
             dcc.setFinancialDocumentDepositLineNumber(deposit.getFinancialDocumentDepositLineNumber());
-
-            dcc.setCashReceiptHeader(crDoc.getCashReceiptHeader());
+            
+            dcc.setCashReceiptDocument(crDoc);
             dcc.setDeposit(deposit);
 
             dccList.add(dcc);
@@ -497,19 +496,14 @@ public class CashManagementServiceImpl implements CashManagementService {
         for (Iterator j = depositCashReceiptControls.iterator(); j.hasNext();) {
             DepositCashReceiptControl dcc = (DepositCashReceiptControl) j.next();
             if (!ObjectUtils.isNull(dcc)) {
-                CashReceiptHeader crHeader = dcc.getCashReceiptHeader();
-    
-                if (!ObjectUtils.isNull(crHeader)) {
-                    // reset each CashReceipt status
-                    crHeader.refreshReferenceObject("cashReceiptDocument");
-                    CashReceiptDocument crDoc = crHeader.getCashReceiptDocument();
-                    if (!ObjectUtils.isNull(crDoc)) {
-                        crDoc.refreshReferenceObject("documentHeader");
-                        FinancialSystemDocumentHeader crdh = crDoc.getDocumentHeader();
-                        if (!ObjectUtils.isNull(crdh)) {
-                            crdh.setFinancialDocumentStatusCode(DocumentStatusCodes.CashReceipt.VERIFIED);
-                            documentService.updateDocument(crDoc);
-                        }
+                dcc.refreshReferenceObject("cashReceiptDocument");
+                CashReceiptDocument crDoc = dcc.getCashReceiptDocument();
+                if (!ObjectUtils.isNull(crDoc)) {
+                    crDoc.refreshReferenceObject("documentHeader");
+                    FinancialSystemDocumentHeader crdh = crDoc.getDocumentHeader();
+                    if (!ObjectUtils.isNull(crdh)) {
+                        crdh.setFinancialDocumentStatusCode(DocumentStatusCodes.CashReceipt.VERIFIED);
+                        documentService.updateDocument(crDoc);
                     }
                 }
             }
@@ -626,30 +620,22 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @see org.kuali.kfs.fp.document.service.CashManagementService#retrieveCashReceipts(org.kuali.kfs.fp.businessobject.Deposit)
      */
     public List retrieveCashReceipts(Deposit deposit) {
-        List cashReceiptDocuments = null;
+        List cashReceiptDocuments = new ArrayList();
 
-        // retrieve CashReceiptHeaders
-        Map criteriaMap = new HashMap();
-        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositNumber", deposit.getDocumentNumber());
-        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositLineNumber", deposit.getFinancialDocumentDepositLineNumber());
-
-        List crHeaders = new ArrayList(businessObjectService.findMatching(CashReceiptHeader.class, criteriaMap));
-        if (!crHeaders.isEmpty()) {
-            List idList = new ArrayList();
-            for (Iterator i = crHeaders.iterator(); i.hasNext();) {
-                CashReceiptHeader crHeader = (CashReceiptHeader) i.next();
-                idList.add(crHeader.getDocumentNumber());
-            }
-
-            try {
-                cashReceiptDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, idList);
-            }
-            catch (WorkflowException e) {
-                throw new InfrastructureException("unable to retrieve cashReceipts", e);
-            }
+        List idList = new ArrayList();
+        if (ObjectUtils.isNull(deposit.getDepositCashReceiptControl())) {
+            deposit.refreshReferenceObject("depositCashReceiptControl");
         }
-        else {
-            cashReceiptDocuments = new ArrayList();
+        for (Object dcrcAsObject : deposit.getDepositCashReceiptControl()) {
+            final DepositCashReceiptControl dcrc = (DepositCashReceiptControl)dcrcAsObject;
+            idList.add(dcrc.getFinancialDocumentCashReceiptNumber());
+        }
+
+        try {
+            cashReceiptDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, idList);
+        }
+        catch (WorkflowException e) {
+            throw new InfrastructureException("unable to retrieve cashReceipts", e);
         }
 
         return cashReceiptDocuments;

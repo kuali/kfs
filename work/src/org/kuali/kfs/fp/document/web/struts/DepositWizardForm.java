@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
@@ -43,7 +44,7 @@ public class DepositWizardForm extends KualiForm {
     private List depositableCashReceipts;
     private List depositWizardHelpers;
     private List<Check> depositableCashieringChecks;
-    private List<DepositWizardCashieringCheckHelper> depositWizardCashieringCheckHelpers;
+    private transient List<DepositWizardCashieringCheckHelper> depositWizardCashieringCheckHelpers;
     private List<CashReceiptDocument> checkFreeCashReceipts;
 
     // Deposit fields
@@ -55,6 +56,10 @@ public class DepositWizardForm extends KualiForm {
 
     private CurrencyDetail currencyDetail;
     private CoinDetail coinDetail;
+    
+    // carried over editing modes and document actions to make the bank tags happy
+    protected Map editingMode;
+    protected Map documentActions;
 
     /**
      * Constructs a DepositWizardForm class instance.
@@ -372,5 +377,37 @@ public class DepositWizardForm extends KualiForm {
             this.depositWizardCashieringCheckHelpers.add(new DepositWizardCashieringCheckHelper());
         }
         return this.depositWizardCashieringCheckHelpers.get(index);
-    }    
+    }
+
+    /**
+     * Gets the documentActions attribute. 
+     * @return Returns the documentActions.
+     */
+    public Map getDocumentActions() {
+        return documentActions;
+    }
+
+    /**
+     * Sets the documentActions attribute value.
+     * @param documentActions The documentActions to set.
+     */
+    public void setDocumentActions(Map documentActions) {
+        this.documentActions = documentActions;
+    }
+
+    /**
+     * Gets the editingMode attribute. 
+     * @return Returns the editingMode.
+     */
+    public Map getEditingMode() {
+        return editingMode;
+    }
+
+    /**
+     * Sets the editingMode attribute value.
+     * @param editingMode The editingMode to set.
+     */
+    public void setEditingMode(Map editingMode) {
+        this.editingMode = editingMode;
+    }
 }

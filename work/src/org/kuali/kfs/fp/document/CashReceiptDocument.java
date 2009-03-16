@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
@@ -62,6 +61,9 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     // child object containers - for all the different reconciliation detail sections
     private String checkEntryMode = CHECK_ENTRY_DETAIL;
     private List checks = new ArrayList();
+    
+    // deposit controls
+    private List depositCashReceiptControl = new ArrayList();
 
     // incrementers for detail lines
     private Integer nextCheckSequenceId = new Integer(1);
@@ -74,7 +76,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     private CurrencyDetail currencyDetail;
     private CoinDetail coinDetail;
 
-    private CashReceiptHeader cashReceiptHeader;
     private CapitalAssetInformation capitalAssetInformation;
 
     /**
@@ -473,34 +474,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * Gets the cashReceiptHeader attribute.
-     * 
-     * @return Returns the cashReceiptHeader.
-     */
-    public CashReceiptHeader getCashReceiptHeader() {
-        return cashReceiptHeader;
-    }
-
-    /**
-     * Sets the cashReceiptHeader attribute value.
-     * 
-     * @param cashReceiptHeader The cashReceiptHeader to set.
-     */
-    public void setCashReceiptHeader(CashReceiptHeader cashReceiptHeader) {
-        this.cashReceiptHeader = cashReceiptHeader;
-    }
-    
-    /**
-     * Builds a new cash receipt header for this new document
-     */
-    public void buildHeaderForNewCashReceipt() {
-        CashReceiptHeader header = new CashReceiptHeader();
-        header.setDocumentNumber(getDocumentNumber());
-        header.setCampusCode(getCampusLocationCode());
-        setCashReceiptHeader(header);
-    }
-
-    /**
      * Generate the primary key for a currency or coin detail related to this document
      * 
      * @return a map with a representation of the proper primary key
@@ -652,6 +625,22 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
+     * Gets the depositCashReceiptControl attribute. 
+     * @return Returns the depositCashReceiptControl.
+     */
+    public List getDepositCashReceiptControl() {
+        return depositCashReceiptControl;
+    }
+
+    /**
+     * Sets the depositCashReceiptControl attribute value.
+     * @param depositCashReceiptControl The depositCashReceiptControl to set.
+     */
+    public void setDepositCashReceiptControl(List depositCashReceiptControl) {
+        this.depositCashReceiptControl = depositCashReceiptControl;
+    }
+
+    /**
      * Override the campus code on the copied document to whatever the campus of the copying user is
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
      */
@@ -660,7 +649,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         super.toCopy();
         if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getPerson() != null && GlobalVariables.getUserSession().getPerson().getCampusCode() != null) {
             setCampusLocationCode(GlobalVariables.getUserSession().getPerson().getCampusCode());
-            buildHeaderForNewCashReceipt();
         }
     }
     

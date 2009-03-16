@@ -19,6 +19,7 @@ package org.kuali.kfs.fp.businessobject;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -33,7 +34,7 @@ public class DepositCashReceiptControl extends PersistableBusinessObjectBase {
     private String financialSystemsProcessingOperatorIdentifier;
 
     private Deposit deposit;
-    private CashReceiptHeader cashReceiptHeader;
+    private CashReceiptDocument cashReceiptDocument;
 
 
     /**
@@ -43,22 +44,22 @@ public class DepositCashReceiptControl extends PersistableBusinessObjectBase {
 
     }
 
-
     /**
-     * @return current value of cashReceiptHeader.
+     * Gets the cashReceiptDocument attribute. 
+     * @return Returns the cashReceiptDocument.
      */
-    public CashReceiptHeader getCashReceiptHeader() {
-        return cashReceiptHeader;
+    public CashReceiptDocument getCashReceiptDocument() {
+        return cashReceiptDocument;
     }
 
     /**
-     * Sets the cashReceiptHeader attribute value.
-     * 
-     * @param cashReceiptHeader The cashReceiptHeader to set.
+     * Sets the cashReceiptDocument attribute value.
+     * @param cashReceiptDocument The cashReceiptDocument to set.
      */
-    public void setCashReceiptHeader(CashReceiptHeader cashReceiptHeader) {
-        this.cashReceiptHeader = cashReceiptHeader;
+    public void setCashReceiptDocument(CashReceiptDocument cashReceiptDocument) {
+        this.cashReceiptDocument = cashReceiptDocument;
     }
+
 
 
     /**

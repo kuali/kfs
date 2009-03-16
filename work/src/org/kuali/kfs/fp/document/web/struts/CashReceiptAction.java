@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
@@ -312,8 +311,6 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         CashReceiptService crs = SpringContext.getBean(CashReceiptService.class); 
         String campusCode = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getPerson());
         crDoc.setCampusLocationCode(campusCode);
-
-        crDoc.buildHeaderForNewCashReceipt();
 
         /* initialize currency and coin detail */
         CurrencyDetail currencyDetail = new CurrencyDetail();

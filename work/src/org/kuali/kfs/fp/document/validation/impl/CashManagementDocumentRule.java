@@ -99,7 +99,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     private void verifyUserIsDocumentInitiator(CashManagementDocument cmd) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
-            String cmdInitiatorNetworkId = cmd.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+            String cmdInitiatorNetworkId = cmd.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             if (!cmdInitiatorNetworkId.equalsIgnoreCase(currentUser.getPrincipalName())) {
                 throw new IllegalStateException("The current user (" + currentUser.getPrincipalName() + ") is not the individual (" + cmdInitiatorNetworkId + ") that initiated this document.");
             }
@@ -204,7 +204,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
         for (Iterator depositCashReceiptControls = deposit.getDepositCashReceiptControl().iterator(); depositCashReceiptControls.hasNext();) {
             DepositCashReceiptControl depositCashReceiptControl = (DepositCashReceiptControl) depositCashReceiptControls.next();
-            CashReceiptDocument cashReceipt = depositCashReceiptControl.getCashReceiptHeader().getCashReceiptDocument();
+            CashReceiptDocument cashReceipt = depositCashReceiptControl.getCashReceiptDocument();
             String crState = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
             if (!desiredCRStates.contains(crState)) {
                 throw new IllegalStateException("Cash receipt document number " + cashReceipt.getDocumentNumber() + " is not in an appropriate state for the associated CashManagementDocument to be submitted.");

@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,15 +52,19 @@ import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -153,6 +158,7 @@ public class DepositWizardAction extends KualiAction {
 
         loadCashReceipts(dform);
         loadUndepositedCashieringChecks(dform);
+        loadEditModesAndDocumentActions(dform);
     }
 
     /**
@@ -190,6 +196,126 @@ public class DepositWizardAction extends KualiAction {
         dform.setDepositableCashieringChecks(cashieringChecks);
     }
 
+    private void loadEditModesAndDocumentActions(DepositWizardForm dform) {
+        final FinancialSystemTransactionalDocumentEntry ddEntry = getCashManagementDataDictionaryEntry();
+        final TransactionalDocumentPresentationController presentationController = getCashManagementPresentationController(ddEntry);
+        final TransactionalDocumentAuthorizer docAuthorizer = getCashManagementDocumentAuthorizer(ddEntry);
+        
+        dform.setEditingMode(retrieveEditingModes(dform.getCashManagementDocId(), presentationController, docAuthorizer));
+        dform.setDocumentActions(retrieveDocumentActions(dform.getCashManagementDocId(), presentationController, docAuthorizer));
+    }
+    
+    /**
+     * @return the class of the cash management document
+     */
+    protected String getCashManagementDocumentTypeName() {
+        return "CMD";
+    }
+    
+    /**
+     * @return the data dictionary entry for the cash management class
+     */
+    private FinancialSystemTransactionalDocumentEntry getCashManagementDataDictionaryEntry() {
+        final DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
+        return (FinancialSystemTransactionalDocumentEntry)ddService.getDataDictionary().getDocumentEntry(getCashManagementDocumentTypeName());
+    }
+    
+    /**
+     * Returns an instance of the document presentation controller for the cash management class
+     * @param cashManagementEntry the data dictionary entry for the cash management document
+     * @return an instance of the proper document presentation controller
+     */
+    private TransactionalDocumentPresentationController getCashManagementPresentationController(FinancialSystemTransactionalDocumentEntry cashManagementEntry) {
+        final Class presentationControllerClass = cashManagementEntry.getDocumentPresentationControllerClass();
+        TransactionalDocumentPresentationController presentationController = null;
+        try {
+            presentationController = (TransactionalDocumentPresentationController)presentationControllerClass.newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Could not instantiate cash management presentation controller of class "+presentationControllerClass.getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Could not instantiate cash management presentation controller of class "+presentationControllerClass.getName(), iae);
+        }
+        return presentationController;
+    }
+    
+    /**
+     * Returns an instance of the document authorizer for the cash management class
+     * @param cashManagementEntry the data dictionary entry for the cash management document
+     * @return an instance of the proper document authorizer
+     */
+    private TransactionalDocumentAuthorizer getCashManagementDocumentAuthorizer(FinancialSystemTransactionalDocumentEntry cashManagementEntry) {
+        final Class docAuthorizerClass = cashManagementEntry.getDocumentAuthorizerClass();
+        TransactionalDocumentAuthorizer docAuthorizer = null;
+        try {
+            docAuthorizer = (TransactionalDocumentAuthorizer)docAuthorizerClass.newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Could not instantiate cash management document authorizer of class "+docAuthorizerClass.getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Could not instantiate cash management document authorizer of class "+docAuthorizerClass.getName(), iae);
+        }
+        return docAuthorizer;
+    }
+    
+    /**
+     * Retrieves the edit modes for the given cash management document
+     * @param cashManagementDocId the id of the cash management document to check
+     * @param presentationController the presentation controller of the cash management document
+     * @param docAuthorizer the cash management document authorizer
+     * @return a Map of edit modes
+     */
+    private Map retrieveEditingModes(String cashManagementDocId, TransactionalDocumentPresentationController presentationController, TransactionalDocumentAuthorizer docAuthorizer) {
+        Map editModeMap = null;
+        try {
+            final CashManagementDocument cmDoc = (CashManagementDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
+            Set<String> editModes = presentationController.getEditModes(cmDoc);
+            editModes = docAuthorizer.getEditModes(cmDoc, GlobalVariables.getUserSession().getPerson(), editModes);
+            editModeMap = convertSetToMap(editModes);
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Workflow exception while retrieving document "+cashManagementDocId, we);
+        }
+        return editModeMap;
+    }
+    
+    /**
+     * Retrieves the document actions for the given cash management document
+     * @param cashManagementDocId the id of the cash management document to check
+     * @param presentationController the presentation controller of the cash management document
+     * @param docAuthorizer the cash management document authorizer
+     * @return a Map of document actions
+     */
+    private Map retrieveDocumentActions(String cashManagementDocId, TransactionalDocumentPresentationController presentationController, TransactionalDocumentAuthorizer docAuthorizer) {
+        Map documentActionsMap = null;
+        try {
+            final CashManagementDocument cmDoc = (CashManagementDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
+            Set<String> documentActions = presentationController.getDocumentActions(cmDoc);
+            documentActions = docAuthorizer.getEditModes(cmDoc, GlobalVariables.getUserSession().getPerson(), documentActions);
+            documentActionsMap = convertSetToMap(documentActions);
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Workflow exception while retrieving document "+cashManagementDocId, we);
+        }
+        return documentActionsMap;
+    }
+    
+    /**
+     * Converts a set into a map, where each value in the set becomes a key and each value becomes KNSConstants.KUALI_DEFAULT_TRUE_VALUE
+     * @param s a set
+     * @return a map
+     */
+    protected Map convertSetToMap(Set s){
+        Map map = new HashMap();
+        Iterator i = s.iterator();
+        while(i.hasNext()) {
+            Object key = i.next();
+           map.put(key,KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+        }
+        return map;
+    }
 
     /**
      * Reloads the CashReceipts, leaving everything else unchanged
@@ -376,12 +502,14 @@ public class DepositWizardAction extends KualiAction {
                         // if the currency and coin details aren't empty, save them and remove them from the cash drawer
                         if (dform.getCurrencyDetail() != null) {
                             // do we have enough currency to allow the deposit to leave the drawer?
+                            dform.getCurrencyDetail().setDocumentNumber(cmDocId);
                             SpringContext.getBean(BusinessObjectService.class).save(dform.getCurrencyDetail());
                             cashManagementDoc.getCashDrawer().removeCurrency(dform.getCurrencyDetail());
                             finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCurrencyDetail().getTotalAmount()));
                         }
                         if (dform.getCoinDetail() != null) {
                             // do we have enough coin to allow the deposit to leave the drawer?
+                            dform.getCoinDetail().setDocumentNumber(cmDocId);
                             SpringContext.getBean(BusinessObjectService.class).save(dform.getCoinDetail());
                             cashManagementDoc.getCashDrawer().removeCoin(dform.getCoinDetail());
                             finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCoinDetail().getTotalAmount()));

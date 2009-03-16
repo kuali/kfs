@@ -3,11 +3,6 @@
   <bean id="CashReceiptDocument" parent="CashReceiptDocument-parentBean"/>
 
   <bean id="CashReceiptDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="CR"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashReceiptDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -213,7 +208,7 @@
 	<bean id="CashReceiptDocument-DocumentValuePathGroup-CashReceiptCampus" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
     		<list>
-    			<value>cashReceiptHeader.campusCode</value>
+    			<value>campusLocationCode</value>
     		</list>
     	</property>
    	</bean>

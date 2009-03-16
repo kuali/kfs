@@ -778,10 +778,6 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    
-    <reference-descriptor name="cashReceiptHeader" class-ref="org.kuali.kfs.fp.businessobject.CashReceiptHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-    	<foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="postingYear" />
@@ -807,6 +803,11 @@
     <collection-descriptor name="checks" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CheckBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="sequenceId" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="depositCashReceiptControl" element-class-ref="org.kuali.kfs.fp.businessobject.DepositCashReceiptControl" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <orderby name="financialDocumentDepositNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="financialDocumentCashReceiptNumber" />
     </collection-descriptor>
     
     <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -1074,33 +1075,10 @@
         <foreignkey field-ref="financialDocumentDepositLineNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="cashReceiptHeader" class-ref="org.kuali.kfs.fp.businessobject.CashReceiptHeader" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true" >
+    <reference-descriptor name="cashReceiptDocument" class-ref="org.kuali.kfs.fp.document.CashReceiptDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentCashReceiptNumber" />
     </reference-descriptor>
 </class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.fp.businessobject.CashReceiptHeader" table="FP_CASH_RCPT_HDR_T">
-    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="nextCheckSequenceId" column="FDOC_NXT_CK_LN_NBR" jdbc-type="INTEGER" />
-    <field-descriptor name="nextCreditCardCashReceiptLineNumber" column="FDC_NXTCC_CRLN_NBR" jdbc-type="INTEGER" />
-    <field-descriptor name="nextCreditCardCashieringDocumentLineNumber" column="FDC_NXTCC_CDLN_NBR" jdbc-type="INTEGER" />
-    <field-descriptor name="nextRevolvingFundLineNumber" column="FDOC_NXT_RF_LN_NBR" jdbc-type="INTEGER" />
-    <field-descriptor name="nextAdvanceDepositLineNumber" column="FDOC_NXT_AD_LN_NBR" jdbc-type="INTEGER" />
-    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="depositDate" column="FDOC_DEPOSIT_DT" jdbc-type="DATE" />
-
-    <reference-descriptor name="cashReceiptDocument" class-ref="org.kuali.kfs.fp.document.CashReceiptDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
-
-    <collection-descriptor name="depositCashReceiptControl" element-class-ref="org.kuali.kfs.fp.businessobject.DepositCashReceiptControl" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="financialDocumentDepositNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="financialDocumentCashReceiptNumber" />
-    </collection-descriptor>
-</class-descriptor>
-
 
 <!-- Indirect Cost Adjustment Document mappings -->
 <class-descriptor class="org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument" table="FP_ICR_ADJ_DOC_T">

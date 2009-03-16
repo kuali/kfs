@@ -56,7 +56,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
     private static final String CAMPUS_CODE_PROPERTY = "document.campusCode";
 
-    private List depositHelpers;
+    private transient List depositHelpers;
     private CashDrawerSummary cashDrawerSummary;
     private List<CashieringItemInProcess> recentlyClosedItemsInProcess;
 
@@ -91,7 +91,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
      * Creates a DepositHelper foreach Deposit associated with this form's document
      */
     public void populateDepositHelpers() {
-        depositHelpers.clear();
+        depositHelpers = new ArrayList();
 
         List deposits = getCashManagementDocument().getDeposits();
         for (Iterator i = deposits.iterator(); i.hasNext();) {

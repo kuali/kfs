@@ -57,10 +57,8 @@ public class ParameterConfigurationTest extends KualiTestBase {
         System.out.println("Starting Component Validation");
         for (Parameter param : params) {
             try{
-            if (!paramRule.checkComponent(param)) {
-                //TODO The susequent line should be removed when KFSMI-1635 is completed
-                if (param.getParameterDetailTypeCode().equals("Country")||param.getParameterDetailTypeCode().equals("State")||param.getParameterDetailTypeCode().equals("PostalCode")||param.getParameterDetailTypeCode().equals("RuleAttribute")||param.getParameterDetailTypeCode().equals("RuleTemplate")||param.getParameterDetailTypeCode().equals("DocumentType"))continue;
-                if (param.getParameterNamespaceCode().startsWith("KR"))continue;
+               if (!paramRule.checkComponent(param)) {
+               if (param.getParameterNamespaceCode().startsWith("KR"))continue;
                 badComponents.append("\n").append(param.getParameterNamespaceCode()).append("\t").append(param.getParameterDetailTypeCode()).append("\t").append(param.getParameterName()).append("\t");
                 failCount++;
             }

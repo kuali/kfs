@@ -19,8 +19,9 @@ package org.kuali.kfs.coa.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -43,7 +44,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
     private boolean active;
 
     private Chart chartOfAccounts;
-    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
+    private DocumentTypeEBO financialSystemDocumentTypeCode;
     private Person accountDelegate;
 
     /**
@@ -178,16 +179,8 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
      * Gets the financialSystemDocumentTypeCode attribute. 
      * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode;
-    }
-
-    /**
-     * Sets the financialSystemDocumentTypeCode attribute value.
-     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
-     */
-    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
-        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
     }
 
     /**

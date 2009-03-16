@@ -5,7 +5,7 @@
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>FinancialSystemDocument</name>
+			<name>KFS</name>
 			<parent>KualiDocument</parent>
 			<serviceNamespace>KFS</serviceNamespace>
 			<postProcessorName>

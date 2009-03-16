@@ -28,9 +28,9 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -546,15 +546,7 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      *  
      * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode();
-
-    /**
-     * Sets the financialSystemDocumentTypeCode attribute value.
-     * 
-     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
-     */
-    @Deprecated
-    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode);
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode();
 
     /**
      * Gets the grade
@@ -851,16 +843,8 @@ public interface LaborLedgerEntry extends PersistableBusinessObject, Externaliza
      * 
      * @return Returns the referenceFinancialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode();
-
-    /**
-     * Sets the referenceFinancialSystemDocumentTypeCode attribute value.
-     * 
-     * @param referenceFinancialSystemDocumentTypeCode The referenceFinancialSystemDocumentTypeCode to set.
-     */
-    @Deprecated
-    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode);
-
+    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode();
+    
     /**
      * Gets the referenceOriginationCode
      * 

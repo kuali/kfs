@@ -110,14 +110,11 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
 
         setChartOfAccountsCode(KFSConstants.EMPTY_STRING);
         setAccountNumber(KFSConstants.EMPTY_STRING);
-        setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-        setProjectCode(KFSConstants.getDashProjectCode());
 
         setFinancialDocumentTypeCode(financialDocumentTypeCode);
         setFinancialSystemOriginationCode(financialSystemOriginationCode);
 
         setFinancialObjectCode(KFSConstants.EMPTY_STRING);
-        setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         setFinancialBalanceTypeCode(KFSConstants.EMPTY_STRING);
         setFinancialObjectTypeCode(KFSConstants.EMPTY_STRING);
         setDocumentNumber(KFSConstants.EMPTY_STRING);
@@ -650,6 +647,9 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
     }
 
     public String getProjectCode() {
+        if (StringUtils.isBlank(projectCode)) {
+            projectCode = KFSConstants.getDashProjectCode();
+        }
         return projectCode;
     }
 
@@ -682,6 +682,9 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
     }
 
     public String getSubAccountNumber() {
+        if (StringUtils.isBlank(subAccountNumber)) {
+            subAccountNumber = KFSConstants.getDashSubAccountNumber();
+        }
         return subAccountNumber;
     }
 
@@ -690,6 +693,9 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
     }
 
     public String getFinancialSubObjectCode() {
+        if (StringUtils.isBlank(financialSubObjectCode)) {
+            financialSubObjectCode = KFSConstants.getDashFinancialSubObjectCode();
+        }
         return financialSubObjectCode;
     }
 

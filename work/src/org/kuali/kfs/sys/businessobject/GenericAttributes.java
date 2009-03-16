@@ -32,6 +32,7 @@ public class GenericAttributes extends AttributeReferenceDummy {
     private String minDollarAmount;
     private String totalDollarAmount;
     private String financialDocumentStatusName;
+    private String financialSystemDocumentTypeCode;
 
     public GenericAttributes() {
         super();
@@ -131,6 +132,22 @@ public class GenericAttributes extends AttributeReferenceDummy {
 
     public void setTotalDollarAmount(String totalDollarAmount) {
         this.totalDollarAmount = totalDollarAmount;
+    }
+
+    /**
+     * Gets the financialSystemDocumentTypeCode attribute. 
+     * @return Returns the financialSystemDocumentTypeCode.
+     */
+    public String getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode;
+    }
+
+    /**
+     * Sets the financialSystemDocumentTypeCode attribute value.
+     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
+     */
+    public void setFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCode) {
+        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
     }
 
 }

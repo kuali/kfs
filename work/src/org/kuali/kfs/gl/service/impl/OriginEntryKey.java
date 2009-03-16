@@ -20,7 +20,6 @@ import java.util.Arrays;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -85,7 +84,7 @@ public class OriginEntryKey {
         entry.setSubAccountNumber(getSubAccountNumber());
         entry.setFinancialSubObjectCode(getSubObjectCode());
         entry.setFinancialSystemOriginationCode(getSystemOriginationCode());
-        entry.setFinancialSystemDocumentTypeCode(new FinancialSystemDocumentTypeCode()); // TODO we likely want to add something useful here once DocType is an EBO
+        entry.setFinancialDocumentTypeCode(getFinancialSystemDocumentTypeCodeCode());
     }
 
     /**

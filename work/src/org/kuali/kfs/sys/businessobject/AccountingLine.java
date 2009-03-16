@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.SalesTax;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -100,14 +101,7 @@ public interface AccountingLine extends PersistableBusinessObject, GeneralLedger
      *  
      * @return Returns the referenceFinancialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode();
-
-    /**
-     * Sets the referenceFinancialSystemDocumentTypeCode attribute value.
-     * 
-     * @param referenceFinancialSystemDocumentTypeCode The referenceFinancialSystemDocumentTypeCode to set.
-     */
-    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode);
+    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode();
 
     /**
      * @param organizationReferenceId The organizationReferenceId to set.

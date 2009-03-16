@@ -36,10 +36,10 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 
 
   //TODO is this a good name?????  probably not - should the DAO even be doing the caching?
@@ -131,8 +131,8 @@ public interface CachingDao {
          * @param entry the origin entry to retrieve the document type of
          * @return the related document type record, or null if not found
          */
-        public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode(OriginEntry entry);
-        public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode(String financialDocumentTypeCode);
+        public DocumentTypeEBO getFinancialSystemDocumentTypeCode(OriginEntry entry);
+        public DocumentTypeEBO getFinancialSystemDocumentTypeCode(String financialDocumentTypeCode);
 
         /**
          * Get the reference document type for the given origin entryable
@@ -140,7 +140,7 @@ public interface CachingDao {
          * @param entry origin entryable to lookup the reference document type for
          * @return the related reference DocumentType record, or null if not found
          */
-        public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry);
+        public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry);
 
         /**
          * Retrieves the project code for the given origin entryable

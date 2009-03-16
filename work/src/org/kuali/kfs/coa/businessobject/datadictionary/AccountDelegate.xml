@@ -53,6 +53,16 @@
             </list>
           </property>
         </bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
+	        <property name="primitiveAttributes" >
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition"
+	                    p:sourceName="financialDocumentTypeCode"
+	                    p:targetName="name" />
+	            </list>
+	        </property>
+   		</bean>
       </list>
     </property>
   </bean>
@@ -70,7 +80,7 @@
   </bean>
   <bean id="AccountDelegate-financialDocumentTypeCode" parent="AccountDelegate-financialDocumentTypeCode-parentBean" />
 
-  <bean id="AccountDelegate-financialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="AccountDelegate-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="AccountDelegate-accountDelegateSystemId" parent="AccountDelegate-accountDelegateSystemId-parentBean" />

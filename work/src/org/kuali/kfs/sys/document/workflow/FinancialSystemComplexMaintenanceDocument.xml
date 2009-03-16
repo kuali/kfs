@@ -6,7 +6,7 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>FinancialSystemComplexMaintenanceDocument</name>
-			<parent>FinancialSystemDocument</parent>
+			<parent>KFS</parent>
 			<routePaths>
 				<routePath>
 					<start name="AdHoc"

@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
@@ -36,6 +37,8 @@ import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -85,7 +88,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private ProjectCode project;
     private BalanceType balanceTyp;
     private OriginationCode referenceOrigin;
-    private FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode;
+    private DocumentTypeEBO referenceFinancialSystemDocumentTypeCode;
     private SalesTax salesTax;
 
     /**
@@ -99,8 +102,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         subAccount = new SubAccount();
         subObjectCode = new SubObjectCode();
         project = new ProjectCode();
-        postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        objectCode.setUniversityFiscalYear(postingYear);
+
         balanceTyp = new BalanceType();
         // salesTax = new SalesTax();
         salesTaxRequired = false;
@@ -225,19 +227,9 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * Gets the referenceFinancialSystemDocumentTypeCode attribute. 
      * @return Returns the referenceFinancialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode;
+    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
+        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
     }
-
-
-    /**
-     * Sets the referenceFinancialSystemDocumentTypeCode attribute value.
-     * @param referenceFinancialSystemDocumentTypeCode The referenceFinancialSystemDocumentTypeCode to set.
-     */
-    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode) {
-        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
-    }
-
 
     /**
      * @return Returns the organizationReferenceId.
@@ -271,6 +263,9 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @return Returns the postingYear.
      */
     public Integer getPostingYear() {
+        if (postingYear == null) {
+            postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        }
         return postingYear;
     }
 

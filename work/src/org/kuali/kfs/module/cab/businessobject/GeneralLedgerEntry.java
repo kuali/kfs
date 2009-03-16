@@ -29,7 +29,9 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -70,7 +72,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private SubAccount subAccount;
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
-    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
+    private DocumentTypeEBO financialSystemDocumentTypeCode;
 
     private List<GeneralLedgerEntryAsset> generalLedgerEntryAssets;
     private List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts;
@@ -687,17 +689,8 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
      * 
      * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode;
-    }
-
-    /**
-     * Sets the financialSystemDocumentTypeCode attribute value.
-     * 
-     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
-     */
-    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
-        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
     }
 
     /**

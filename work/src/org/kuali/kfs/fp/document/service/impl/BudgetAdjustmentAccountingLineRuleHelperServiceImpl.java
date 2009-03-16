@@ -15,24 +15,8 @@
  */
 package org.kuali.kfs.fp.document.service.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ProjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
-import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * BudgetAdjustmentDocuments are the where the budgeted object codes are setup and therefore guarantee override.

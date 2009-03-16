@@ -20,8 +20,8 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.FundGroup;
-import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
@@ -34,16 +34,15 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -437,7 +436,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceTypeCode())) {
             accountingLine.refreshReferenceObject("referenceFinancialSystemDocumentTypeCode");
-            FinancialSystemDocumentTypeCode referenceType = accountingLine.getReferenceFinancialSystemDocumentTypeCode();
+            DocumentTypeEBO referenceType = accountingLine.getReferenceFinancialSystemDocumentTypeCode();
             valid &= isValidReferenceTypeCode(referenceType, accountingLineEntry);
         }
         valid &= hasRequiredOverrides(accountingLine, accountingLine.getOverrideCode());
@@ -462,7 +461,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    protected static boolean isValidReferenceTypeCode(FinancialSystemDocumentTypeCode referenceType, BusinessObjectEntry accountingLineEntry) {
+    protected static boolean isValidReferenceTypeCode(DocumentTypeEBO referenceType, BusinessObjectEntry accountingLineEntry) {
         return checkExistence(referenceType, accountingLineEntry, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSPropertyConstants.REFERENCE_TYPE_CODE);
     }
     

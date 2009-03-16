@@ -15,8 +15,9 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -33,7 +34,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private boolean active;
 
     // References
-    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
+    private DocumentTypeEBO financialSystemDocumentTypeCode;
     private FinancialSystemDocumentHeader documentHeader;
     private List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets;
     
@@ -141,19 +142,9 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
      * Gets the financialSystemDocumentTypeCode attribute. 
      * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode;
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
     }
-
-
-    /**
-     * Sets the financialSystemDocumentTypeCode attribute value.
-     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
-     */
-    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
-        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
-    }
-
 
     /**
      * Gets the documentHeader attribute. 

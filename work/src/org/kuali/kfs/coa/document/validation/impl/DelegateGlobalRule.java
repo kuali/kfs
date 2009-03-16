@@ -379,7 +379,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         if (!delegateGlobalToTest.getAccountDelegatePrimaryRoutingIndicator()) {
             return null;
         }
-        if (!"ALL".equalsIgnoreCase(delegateGlobalToTest.getFinancialDocumentTypeCode())) {
+        if (!KFSConstants.ROOT_DOCUMENT_TYPE.equalsIgnoreCase(delegateGlobalToTest.getFinancialDocumentTypeCode())) {
             return null;
         }
 

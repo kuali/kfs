@@ -21,11 +21,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor business object for LaborLedgerPendingEntry.
@@ -516,15 +514,6 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
      */
     public void setPositionData(PositionData positionData) {
         this.positionData = positionData;
-    }
-
-    /**
-     * Gets the ReferenceFinancialSystemDocumentTypeCode.
-     * 
-     * @see org.kuali.kfs.module.ld.businessobject.LaborTransaction#getReferenceFinancialDocumentType()
-     */
-    public FinancialSystemDocumentTypeCode getReferenceFinancialDocumentType() {
-        return super.getReferenceFinancialSystemDocumentTypeCode();
     }
 
     /**

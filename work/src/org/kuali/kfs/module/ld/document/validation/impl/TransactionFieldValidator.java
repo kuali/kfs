@@ -35,8 +35,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -252,7 +252,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkFinancialDocumentTypeCode(LaborTransaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        FinancialSystemDocumentTypeCode  financialSystemDocumentTypeCode = referenceLookup.get().getFinancialSystemDocumentTypeCode((LaborOriginEntry) transaction);
+        DocumentTypeEBO  financialSystemDocumentTypeCode = referenceLookup.get().getFinancialSystemDocumentTypeCode((LaborOriginEntry) transaction);
         if (StringUtils.isBlank(documentTypeCode) || ObjectUtils.isNull(financialSystemDocumentTypeCode)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, documentTypeCode, Message.TYPE_FATAL);
         }

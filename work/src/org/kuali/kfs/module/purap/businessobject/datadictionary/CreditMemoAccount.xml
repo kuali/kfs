@@ -208,7 +208,7 @@
   </bean>
   <bean id="CreditMemoAccount-referenceTypeCode" parent="CreditMemoAccount-referenceTypeCode-parentBean" />
 
-  <bean id="CreditMemoAccount-referenceTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="CreditMemoAccount-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

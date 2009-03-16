@@ -11,11 +11,12 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -68,7 +69,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private SubObjectCode financialSubObject;
     private ProjectCode project;
     private AccountingPeriod financialDocumentPostingPeriod;
-    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
+    private DocumentTypeEBO financialSystemDocumentTypeCode;
     private DocumentHeader documentHeader;
     private OriginationCode financialSystemOrigination;
     private SystemOptions option;
@@ -1050,17 +1051,8 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      * Gets the financialSystemDocumentTypeCode attribute. 
      * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode;
-    }
-
-    /**
-     * Sets the financialSystemDocumentTypeCode attribute value.
-     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
-     * @deprecated
-     */
-    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
-        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
     }
 
     /**

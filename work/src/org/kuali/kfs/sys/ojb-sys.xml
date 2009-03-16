@@ -299,10 +299,6 @@
     <reference-descriptor name="referenceOrigin" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="referenceOriginCode" />
     </reference-descriptor>
-
-    <reference-descriptor name="referenceFinancialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="referenceTypeCode" />
-    </reference-descriptor>
     
     <reference-descriptor name="salesTax" class-ref="org.kuali.kfs.fp.businessobject.SalesTax" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
     	<foreignkey field-ref="documentNumber"/>
@@ -375,10 +371,6 @@
     <reference-descriptor name="referenceOrigin" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="referenceOriginCode" />
     </reference-descriptor>
-
-    <reference-descriptor name="referenceFinancialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="referenceTypeCode" />
-    </reference-descriptor>
     
     <reference-descriptor name="salesTax" class-ref="org.kuali.kfs.fp.businessobject.SalesTax" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
     	<foreignkey field-ref="documentNumber"/>
@@ -423,10 +415,6 @@
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="universityFiscalPeriodCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -492,21 +480,6 @@
         <foreignkey field-ref="referenceFinancialSystemOriginationCode" />
     </reference-descriptor>
 	
-    <reference-descriptor name="referenceFinancialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
-    </reference-descriptor>
-	
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" table="FS_DOC_TYP_CD_T">
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="financialSystemDocumentTypeCode" column="FS_DOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-        <field-descriptor name="documentTypeName" column="DOC_TYP_NM" jdbc-type="VARCHAR" />
-        <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR"
-            conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-        <field-descriptor name="transactionScrubberOffsetGenerationIndicator" column="TRNSCTN_SCRBR_OFFST_GEN_IND" jdbc-type="VARCHAR"
-            conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim" table="FP_ELCTRNC_PMT_CLM_T">

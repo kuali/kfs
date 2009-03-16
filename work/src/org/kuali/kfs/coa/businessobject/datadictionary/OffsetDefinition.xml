@@ -32,6 +32,20 @@
           p:blockedReferencePropertyName="financialObject"/>
       </list>
     </property>
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
+		        <property name="primitiveAttributes" >
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition"
+		                    p:sourceName="financialDocumentTypeCode"
+		                    p:targetName="name" />
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -55,7 +69,7 @@
   </bean>
   <bean id="OffsetDefinition-financialDocumentTypeCode" parent="OffsetDefinition-financialDocumentTypeCode-parentBean" />
 
-  <bean id="OffsetDefinition-financialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="OffsetDefinition-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
     <property name="forceUppercase" value="true" />
   </bean>

@@ -30,11 +30,12 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -83,8 +84,8 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     private SubObjectCode financialSubObject;
     private ObjectType objectType;
     private ProjectCode project;
-    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
-    private FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode;
+    private DocumentTypeEBO financialSystemDocumentTypeCode;
+    private DocumentTypeEBO referenceFinancialSystemDocumentTypeCode;
     private UniversityDate universityDate;
     private SystemOptions option;
     private AccountingPeriod accountingPeriod;
@@ -224,17 +225,8 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
      * 
      * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode;
-    }
-
-    /**
-     * Sets the financialSystemDocumentTypeCode attribute value.
-     * 
-     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
-     */
-    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
-        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
     }
 
     /**
@@ -827,17 +819,8 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
      * 
      * @return Returns the referenceFinancialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode;
-    }
-
-    /**
-     * Sets the referenceFinancialSystemDocumentTypeCode attribute value.
-     * 
-     * @param referenceFinancialSystemDocumentTypeCode The referenceFinancialSystemDocumentTypeCode to set.
-     */
-    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode) {
-        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
+    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
+        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
     }
 
 }

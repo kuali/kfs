@@ -28,8 +28,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -105,7 +105,7 @@ public interface Transaction {
 
     public SubObjectCode getFinancialSubObject();
 
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode();
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode();
     
     public void setChart(Chart chart);
 

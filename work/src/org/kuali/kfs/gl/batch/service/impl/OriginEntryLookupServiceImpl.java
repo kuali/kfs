@@ -40,11 +40,11 @@ import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 
 /**
@@ -129,7 +129,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @param entry the origin entry to retrieve the GL input type of
      * @return the related FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode(OriginEntry entry) {
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode(OriginEntry entry) {
         return cachingDao.getFinancialSystemDocumentTypeCode(entry);
     }
 
@@ -139,7 +139,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @param entry origin entryable to lookup the reference GL input type for
      * @return the related reference FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry) {
+    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry) {
         return cachingDao.getReferenceFinancialSystemDocumentTypeCode(entry);
     }
 

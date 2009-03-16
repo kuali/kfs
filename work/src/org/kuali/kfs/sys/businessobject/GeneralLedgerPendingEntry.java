@@ -34,7 +34,10 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
@@ -74,7 +77,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private boolean transactionEntryOffsetIndicator;
     private Timestamp transactionEntryProcessedTs;
 
-    private FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode;
+    private DocumentTypeEBO financialSystemDocumentTypeCode;
     private FinancialSystemDocumentHeader documentHeader;
 
     private SystemOptions option;
@@ -90,7 +93,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private OriginationCode originationCode;
     private ProjectCode project;
     private OriginationCode referenceOriginationCode;
-    private FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode;
+    private DocumentTypeEBO referenceFinancialSystemDocumentTypeCode;
     
     @Deprecated
     private transient AccountingPeriod accountingPeriod;
@@ -159,12 +162,8 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         referenceFinancialSystemDocumentTypeCode = original.getReferenceFinancialSystemDocumentTypeCode();
     }
 
-    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode;
-    }
-
-    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode) {
-        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
+    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
+        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
     }
 
     public OriginationCode getReferenceOriginationCode() {
@@ -740,16 +739,8 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      * Gets the financialSystemDocumentTypeCode attribute. 
      * @return Returns the financialSystemDocumentTypeCode.
      */
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode;
-    }
-
-    /**
-     * Sets the financialSystemDocumentTypeCode attribute value.
-     * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
-     */
-    public void setFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode financialSystemDocumentTypeCode) {
-        this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
+        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
     }
 
     /**

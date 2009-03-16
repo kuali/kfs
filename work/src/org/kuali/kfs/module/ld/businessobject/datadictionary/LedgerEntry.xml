@@ -67,6 +67,30 @@
         <ref bean="LedgerEntry-dummyBusinessObject.pendingEntryOption" />
       </list>
     </property>
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
+		        <property name="primitiveAttributes" >
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition"
+		                    p:sourceName="financialDocumentTypeCode"
+		                    p:targetName="name" />
+		            </list>
+		        </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode" />
+		        <property name="primitiveAttributes" >
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition"
+		                    p:sourceName="referenceFinancialDocumentTypeCode"
+		                    p:targetName="name" />
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -178,7 +202,7 @@
   </bean>
   <bean id="LedgerEntry-financialDocumentTypeCode" parent="LedgerEntry-financialDocumentTypeCode-parentBean" />
 
-  <bean id="LedgerEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="LedgerEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="LedgerEntry-financialSystemOriginationCode" parent="LedgerEntry-financialSystemOriginationCode-parentBean" />

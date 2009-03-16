@@ -421,9 +421,6 @@
         <foreignkey field-ref="financialDocumentPostingYear" />
         <foreignkey field-ref="financialDocumentPostingPeriodCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="financialDocumentTypeCode" />
-    </reference-descriptor>
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -523,9 +520,6 @@
 		<foreignkey field-ref="postingYear" />
 		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
-    <reference-descriptor name="expenditureFinancialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="expenditureFinancialDocumentTypeCode" />
-    </reference-descriptor>
 	<reference-descriptor name="expenditureFinancialSystemOrigination" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="expenditureFinancialSystemOriginationCode" />
 	</reference-descriptor>

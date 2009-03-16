@@ -68,6 +68,20 @@
         <ref bean="LaborJournalVoucherDetail-transactionTotalHours" />
       </list>
     </property>
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode" />
+		        <property name="primitiveAttributes" >
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition"
+		                    p:sourceName="referenceTypeCode"
+		                    p:targetName="name" />
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -230,7 +244,7 @@
   <bean id="LaborJournalVoucherDetail-subAccountNumber-parentBean" abstract="true" parent="VoucherSourceAccountingLine-subAccountNumber-parentBean"/>
 
   <bean id="LaborJournalVoucherDetail-referenceTypeCode" parent="LaborJournalVoucherDetail-referenceTypeCode-parentBean" />
-  <bean id="LaborJournalVoucherDetail-referenceTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="LaborJournalVoucherDetail-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

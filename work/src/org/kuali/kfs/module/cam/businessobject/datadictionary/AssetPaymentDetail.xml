@@ -57,6 +57,20 @@
         <ref bean="AssetPaymentDetail-newCollectionRecord" />
       </list>
     </property>
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="expenditureFinancialSystemDocumentTypeCode" />
+		        <property name="primitiveAttributes" >
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition"
+		                    p:sourceName="expenditureFinancialDocumentTypeCode"
+		                    p:targetName="name" />
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -84,7 +98,7 @@
   </bean>
   
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode" parent="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" />
-  <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="expenditureFinancialDocumentTypeCode" />
     <property name="label" value="Document Type Code" />
     <property name="required" value="true" />
@@ -243,7 +257,7 @@
   </bean>
   
   <bean id="AssetPaymentDetail-referenceTypeCode" parent="AssetPaymentDetail-referenceTypeCode-parentBean" />
-  <bean id="AssetPaymentDetail-referenceTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="AssetPaymentDetail-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

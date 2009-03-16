@@ -92,7 +92,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     /**
      * Resolves the Primary Delegate for the given delegate example. If the primary delegate exists for a specific Document Type
-     * Code and for a Document Type Code of "ALL", the delegate for the specific document type code is returned;
+     * Code and for a Document Type Code of "KFS", the delegate for the specific document type code is returned;
      * 
      * @see org.kuali.kfs.coa.dataaccess.AccountDao#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
@@ -104,7 +104,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         }
         for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
             AccountDelegate delegate = (AccountDelegate) iterator.next();
-            if (!"ALL".equals(delegate.getFinancialDocumentTypeCode())) {
+            if (!KFSConstants.ROOT_DOCUMENT_TYPE.equals(delegate.getFinancialDocumentTypeCode())) {
                 return delegate;
             }
         }
@@ -135,7 +135,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         Criteria docTypeMatchCriteria = new Criteria();
         docTypeMatchCriteria.addEqualTo(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, delegateExample.getFinancialDocumentTypeCode());
         Criteria docTypeAllCriteria = new Criteria();
-        docTypeAllCriteria.addEqualTo(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, "ALL");
+        docTypeAllCriteria.addEqualTo(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.ROOT_DOCUMENT_TYPE);
         Criteria docTypeOrCriteria = new Criteria();
         docTypeOrCriteria.addOrCriteria(docTypeMatchCriteria);
         docTypeOrCriteria.addOrCriteria(docTypeAllCriteria);

@@ -846,7 +846,7 @@ public class LaborScrubberProcess {
         scrubbedEntry.setHrmsCompany(unscrubbedEntry.getHrmsCompany());
         scrubbedEntry.setSetid(unscrubbedEntry.getSetid());
         scrubbedEntry.setTransactionDateTimeStamp(unscrubbedEntry.getTransactionDateTimeStamp());
-        scrubbedEntry.setReferenceFinancialSystemDocumentTypeCode(unscrubbedEntry.getReferenceFinancialSystemDocumentTypeCode());
+        scrubbedEntry.setReferenceFinancialDocumentTypeCode(unscrubbedEntry.getReferenceFinancialDocumentTypeCode());
         scrubbedEntry.setReferenceFinancialSystemOrigination(unscrubbedEntry.getReferenceFinancialSystemOrigination());
         scrubbedEntry.setPayrollEndDateFiscalPeriod(unscrubbedEntry.getPayrollEndDateFiscalPeriod());
 

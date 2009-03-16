@@ -418,10 +418,6 @@
     <reference-descriptor name="referenceOrigin" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="referenceOriginCode" />
     </reference-descriptor>
-
-    <reference-descriptor name="referenceFinancialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="referenceTypeCode" />
-    </reference-descriptor>
     
     <reference-descriptor name="salesTax" class-ref="org.kuali.kfs.fp.businessobject.SalesTax" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
     	<foreignkey field-ref="documentNumber"/>
@@ -493,10 +489,6 @@
 
     <reference-descriptor name="referenceOrigin" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="referenceOriginCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="referenceFinancialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="referenceTypeCode" />
     </reference-descriptor>
     
     <reference-descriptor name="salesTax" class-ref="org.kuali.kfs.fp.businessobject.SalesTax" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
@@ -2322,10 +2314,6 @@
 
     <reference-descriptor name="referenceOrigin" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="referenceOriginCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="referenceFinancialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="referenceTypeCode" />
     </reference-descriptor>
     
     <reference-descriptor name="salesTax" class-ref="org.kuali.kfs.fp.businessobject.SalesTax" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">

@@ -101,10 +101,6 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="financialDocumentTypeCode" />
-    </reference-descriptor>
-
     <reference-descriptor name="universityDate" class-ref="org.kuali.kfs.sys.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="transactionDate" />
     </reference-descriptor>
@@ -120,10 +116,6 @@
 
     <reference-descriptor name="reversalDate" class-ref="org.kuali.kfs.sys.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentReversalDate" />
-    </reference-descriptor>
-
-    <reference-descriptor name="referenceFinancialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -251,14 +243,6 @@
     <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
-
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="financialDocumentTypeCode" />
-    </reference-descriptor>
-    
-    <reference-descriptor name="referenceFinancialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
-    </reference-descriptor>
     
     <reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />
@@ -362,10 +346,6 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="financialDocumentTypeCode" />
-    </reference-descriptor>
-
     <reference-descriptor name="universityDate" class-ref="org.kuali.kfs.sys.businessobject.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="transactionDate" />
     </reference-descriptor>
@@ -442,10 +422,6 @@
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="objectCode" />
         <foreignkey field-ref="subObjectCode" />
-    </reference-descriptor>
-    
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="documentTypeCode" />
     </reference-descriptor>
     
 </class-descriptor>

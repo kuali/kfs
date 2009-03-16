@@ -1257,5 +1257,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
         public static final String PROJECT_MANAGEMENT = "ProjectManagement";
     }
+    
+    public static final String ROOT_DOCUMENT_TYPE = "KFS";
 }
 

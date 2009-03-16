@@ -480,7 +480,7 @@
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-referenceTypeCode" parent="BudgetAdjustmentSourceAccountingLine-referenceTypeCode-parentBean" />
 
-  <bean id="BudgetAdjustmentSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="BudgetAdjustmentSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="referenceTypeCode" />
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />

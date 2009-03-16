@@ -44,10 +44,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
@@ -55,6 +54,7 @@ import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -659,7 +659,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateDocumentType(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateDocumentType() started");
 
-        FinancialSystemDocumentTypeCode originEntryInputType = referenceLookup.get().getFinancialSystemDocumentTypeCode(originEntry);
+        DocumentTypeEBO originEntryInputType = referenceLookup.get().getFinancialSystemDocumentTypeCode(originEntry);
 //DocumentType originEntryDocumentType = getDocumentType(originEntry.getFinancialDocumentTypeCode());
         if (originEntryInputType == null) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, originEntry.getFinancialDocumentTypeCode(), Message.TYPE_FATAL);
@@ -1023,7 +1023,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
             if (!typeCodeNullIndicator){
                 // Validate reference document type
-                FinancialSystemDocumentTypeCode originEntryReferenceInputType = referenceLookup.get().getReferenceFinancialSystemDocumentTypeCode(originEntry);
+                DocumentTypeEBO originEntryReferenceInputType = referenceLookup.get().getReferenceFinancialSystemDocumentTypeCode(originEntry);
                 if (originEntryReferenceInputType != null) {
                     workingEntry.setReferenceFinancialDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
                 }

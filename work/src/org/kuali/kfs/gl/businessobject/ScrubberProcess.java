@@ -1658,7 +1658,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             offsetEntry.setOrganizationDocumentNumber(null);
             offsetEntry.setOrganizationReferenceId(null);
             offsetEntry.setReferenceFinancialDocumentTypeCode(null);
-            offsetEntry.setReferenceFinancialSystemDocumentTypeCode(null);
             offsetEntry.setReferenceFinancialSystemOriginationCode(null);
             offsetEntry.setReferenceFinancialDocumentNumber(null);
             offsetEntry.setTransactionEncumbranceUpdateCode(null);

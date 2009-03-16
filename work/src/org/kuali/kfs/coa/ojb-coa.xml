@@ -742,9 +742,6 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="financialDocumentTypeCode" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.OrganizationType" table="CA_ORG_TYPE_T">
@@ -823,10 +820,6 @@
 
     <reference-descriptor name="financialBalanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialBalanceTypeCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -1477,10 +1470,6 @@
     <field-descriptor name="approvalToThisAmount" column="FDOC_APRV_TO_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="accountDelegatePrimaryRoutingIndicator" column="ACCT_DLGT_PRMRT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountDelegateStartDate" column="ACCT_DLGT_START_DT" jdbc-type="DATE" />
-
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="financialDocumentTypeCode" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.ObjectCodeGlobal" table="CA_OBJ_CD_CHG_DOC_T">
@@ -1633,9 +1622,6 @@
   	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="financialSystemDocumentTypeCode" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
 

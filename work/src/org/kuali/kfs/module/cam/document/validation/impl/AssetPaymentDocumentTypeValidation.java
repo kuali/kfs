@@ -23,10 +23,11 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -58,9 +59,10 @@ public class AssetPaymentDocumentTypeValidation extends GenericValidation {
         String label;
         if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode())) {
             Map<String, Object> keyToFind = new HashMap<String, Object>();
-            keyToFind.put(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE, assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
+            keyToFind.put("name", assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
 
-            if (businessObjectService.findByPrimaryKey(FinancialSystemDocumentTypeCode.class, keyToFind) == null) {
+            final DocumentTypeEBO docType = SpringContext.getBean(KEWModuleService.class).getExternalizableBusinessObject(DocumentTypeEBO.class, keyToFind);
+            if (docType == null) {
                 label = dataDictionaryService.getAttributeLabel(AssetPaymentDetail.class, CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;

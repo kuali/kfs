@@ -7,9 +7,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -31,7 +33,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     // bo references    
     private AccountingPeriod financialDocumentPostingPeriod;
-    private FinancialSystemDocumentTypeCode expenditureFinancialSystemDocumentTypeCode;
+    private DocumentTypeEBO expenditureFinancialSystemDocumentTypeCode;
     private OriginationCode expenditureFinancialSystemOrigination;
 
 
@@ -171,15 +173,9 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
     }
 
-    public FinancialSystemDocumentTypeCode getExpenditureFinancialSystemDocumentTypeCode() {
-        return expenditureFinancialSystemDocumentTypeCode;
+    public DocumentTypeEBO getExpenditureFinancialSystemDocumentTypeCode() {
+        return expenditureFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, expenditureFinancialSystemDocumentTypeCode, "expenditureFinancialSystemDocumentTypeCode");
     }
-
-
-    public void setExpenditureFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode expenditureFinancialSystemDocumentTypeCode) {
-        this.expenditureFinancialSystemDocumentTypeCode = expenditureFinancialSystemDocumentTypeCode;
-    }
-
 
     public OriginationCode getExpenditureFinancialSystemOrigination() {
         return expenditureFinancialSystemOrigination;

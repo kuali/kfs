@@ -68,6 +68,30 @@
         <ref bean="LaborLedgerPendingEntry-documentHeader.financialDocumentStatusCode" />
       </list>
     </property>
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
+		        <property name="primitiveAttributes" >
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition"
+		                    p:sourceName="financialDocumentTypeCode"
+		                    p:targetName="name" />
+		            </list>
+		        </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode" />
+		        <property name="primitiveAttributes" >
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition"
+		                    p:sourceName="referenceFinancialDocumentTypeCode"
+		                    p:targetName="name" />
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -106,7 +130,7 @@
   </bean>
   <bean id="LaborLedgerPendingEntry-financialDocumentTypeCode" parent="LaborLedgerPendingEntry-financialDocumentTypeCode-parentBean" />
 
-  <bean id="LaborLedgerPendingEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="LaborLedgerPendingEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
     <property name="required" value="false" />
   </bean>
@@ -216,7 +240,7 @@
   </bean>
   <bean id="LaborLedgerPendingEntry-referenceFinancialDocumentTypeCode" parent="LaborLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" />
 
-  <bean id="LaborLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="FinancialSystemDocumentTypeCode-financialSystemDocumentTypeCode">
+  <bean id="LaborLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="referenceFinancialDocumentTypeCode" />
     <property name="label" value="Reference Document Type Code" />
     <property name="shortLabel" value="Ref Doc Type Code" />

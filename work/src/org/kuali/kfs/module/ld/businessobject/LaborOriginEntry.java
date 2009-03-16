@@ -34,8 +34,10 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -70,7 +72,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
     private String hrmsCompany;
     private String setid;
     private Date transactionDateTimeStamp;
-    private FinancialSystemDocumentTypeCode  referenceFinancialSystemDocumentTypeCode;
+    private DocumentTypeEBO  referenceFinancialSystemDocumentTypeCode;
     private OriginationCode referenceFinancialSystemOrigination;
     private AccountingPeriod payrollEndDateFiscalPeriod;
 
@@ -185,7 +187,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
         setLaborLedgerOriginalFinancialSubObjectCode(t.getLaborLedgerOriginalFinancialSubObjectCode());
         setHrmsCompany(t.getHrmsCompany());
         setSetid(t.getSetid());
-        setReferenceFinancialSystemDocumentTypeCode(t.getReferenceFinancialSystemDocumentTypeCode());
+        this.referenceFinancialSystemDocumentTypeCode = t.getReferenceFinancialSystemDocumentTypeCode();
         setReferenceFinancialSystemOrigination(t.getReferenceFinancialSystemOrigination());
         setPayrollEndDateFiscalPeriod(t.getPayrollEndDateFiscalPeriod());
     }
@@ -659,17 +661,8 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
      * 
      * @return Returns the referenceFinancialDocumentType.
      */
-    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode;
-    }
-
-    /**
-     * Sets the referenceFinancialDocumentType
-     * 
-     * @param referenceFinancialDocumentType The referenceFinancialDocumentType to set.
-     */
-    public void setReferenceFinancialSystemDocumentTypeCode(FinancialSystemDocumentTypeCode referenceFinancialSystemDocumentTypeCode) {
-        this.referenceFinancialSystemDocumentTypeCode = referenceFinancialSystemDocumentTypeCode;
+    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
+        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
     }
 
     /**

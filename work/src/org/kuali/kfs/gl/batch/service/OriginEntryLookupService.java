@@ -32,11 +32,10 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
-import org.kuali.kfs.module.ld.businessobject.LaborObject;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentTypeCode;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 
 /**
  * An interface of methods that duplicate the relationships that OriginEntryFull has.
@@ -123,7 +122,7 @@ public interface OriginEntryLookupService {
      * @param entry the origin entry to retrieve the GL input type of
      * @return the related FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public FinancialSystemDocumentTypeCode getFinancialSystemDocumentTypeCode(OriginEntry entry);
+    public DocumentTypeEBO getFinancialSystemDocumentTypeCode(OriginEntry entry);
 
     /**
      * Get the reference general ledger input type for the given origin entryable
@@ -131,7 +130,7 @@ public interface OriginEntryLookupService {
      * @param entry origin entryable to lookup the reference GL input type for
      * @return the related reference FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public FinancialSystemDocumentTypeCode getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry);
+    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry);
 
     /**
      * Retrieves the project code for the given origin entryable

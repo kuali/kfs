@@ -17,11 +17,11 @@ package org.kuali.kfs.module.bc;
 
 public enum BudgetConstructionDocumentReportMode {
     DOCUMENT_OBJECT_DETAIL_REPORT("DocumentObjectDetailReport", "Account Object Detail Report", "DocumentAccountObjectDetail"),
-    DOCUMENT_FUNDING_DETAIL_REPORT("DocumentFundingDetailReport", "Account Funding Detail Report", "DocumentAccountFundingDetail"),
+    DOCUMENT_FUNDING_DETAIL_REPORT("DocumentFundingDetailReport", "Account Salary Detail Report", "DocumentAccountFundingDetail"),
     DOCUMENT_MONTHLY_DETAIL_REPORT("DocumentMonthlyDetailReport", "Account Monthly Detail Report", "DocumentAccountMonthlyDetail"),
-    DOCUMENT_ACCOUNT_DUMP("DocumentAccountDump", "Account Export", true),
-    DOCUMENT_FUNDING_DUMP("DocumentFundingDump", "Funding Export", true),
-    DOCUMENT_MONTHLY_DUMP("DocumentMonthlyDump", "Monthly Export", true); 
+    DOCUMENT_ACCOUNT_DUMP("DocumentAccountDump", "Budgeted Revenue/Expenditure Export", true),
+    DOCUMENT_FUNDING_DUMP("DocumentFundingDump", "Budgeted Salary Lines Export", true),
+    DOCUMENT_MONTHLY_DUMP("DocumentMonthlyDump", "Monthly Budget Export", true); 
 
     public final String reportModeName;
     public final String reportDesc;

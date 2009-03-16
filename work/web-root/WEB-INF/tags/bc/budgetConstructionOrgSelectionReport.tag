@@ -41,7 +41,7 @@
                 </td>
               </tr>
               <tr>
-                <td>Account Sum &nbsp;&nbsp;&nbsp; 
+                <td>Account Summary &nbsp;&nbsp;&nbsp; 
                   <html:checkbox property="accountSummaryConsolidation" title="accSumConsolidation"> (consolidated)</html:checkbox> 
                 </td>
                 <td>
@@ -51,7 +51,7 @@
                 </td>
               </tr>
               <tr>
-                <td>Level Sum </td>
+                <td>Level Summary </td>
                 <td>
                   <div align="center">
                     <html:image property="methodToCall.performReport.(((LevelSummaryReport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Level Sum" alt="Level Sum" styleClass="tinybutton" />
@@ -67,7 +67,7 @@
                 </td>
               </tr>
               <tr>
-                <td>Monthy Object Sum
+                <td>Monthly Object Summary
                   &nbsp;&nbsp;&nbsp;
                   <html:checkbox property="monthObjectSummaryConsolidation" title="accSumConsolidation"> (consolidated)</html:checkbox>
                 </td>
@@ -78,7 +78,7 @@
                 </td>
               </tr>
               <tr>
-                <td>Object Sum </td>
+                <td>Object Summary </td>
                 <td>
                   <div align="center">
                     <html:image property="methodToCall.performReport.(((ObjectSummaryReport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Object Sum" alt="Object Sum" styleClass="tinybutton" />
@@ -134,7 +134,7 @@
                 </td>
               </tr>
               <tr>
-                <td>SubFund Sum</td>
+                <td>Sub-Fund Summary</td>
                 <td>
                   <div align="center">
                     <html:image property="methodToCall.performReport.(((SubFundSummaryReport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="SubFund Sum" alt="SubFund Sum" styleClass="tinybutton"  value="SubFundSummaryReport"/>
@@ -145,7 +145,7 @@
                 <td colspan="2" class="subhead">Export</td>
               </tr>
               <tr>
-                <td>Account Export</td>
+                <td>Budgeted Revenue/Expenditure Export</td>
                 <td>
                   <div align="center">
                     <html:image property="methodToCall.performReport.(((AccountExport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Export" alt="Account Export" styleClass="tinybutton" />
@@ -153,7 +153,7 @@
                 </td>
               </tr>
               <tr>
-                <td>Funding Export</td>
+                <td>Budgeted Salary Lines Export</td>
                 <td>
                   <div align="center">
                     <html:image property="methodToCall.performReport.(((FundingExport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Funding Export" alt="Funding Export" styleClass="tinybutton" />
@@ -161,7 +161,7 @@
                 </td>
               </tr>
               <tr>
-                <td>Monthly Export</td>
+                <td>Monthly Budget Export</td>
                 <td>
                   <div align="center">
                     <html:image property="methodToCall.performReport.(((MonthlyExport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Monthly Export" alt="Monthly Export" styleClass="tinybutton" />

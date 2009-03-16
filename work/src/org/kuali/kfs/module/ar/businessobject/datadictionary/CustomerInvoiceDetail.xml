@@ -185,7 +185,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Description" />
     <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="400" />
+    <property name="maxLength" value="370" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />

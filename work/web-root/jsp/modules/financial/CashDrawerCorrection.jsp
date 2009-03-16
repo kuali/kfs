@@ -17,11 +17,11 @@
 
 <kul:page showDocumentInfo="false" headerTitle="Cash Drawer Correction" docTitle="Cash Drawer Correction" htmlFormAction="cashDrawerCorrection" transactionalDocument="false">
     
-    <html:hidden property="workgroupName" />
+    <html:hidden property="campusCode" />
     
     <kul:tabTop tabTitle="Cash Drawer Corrections" defaultOpen="true" tabErrorKey="cashDrawerErrors">
       <div class="tab-container" align="center">
-          <h3>Cash Drawer for ${KualiForm.cashDrawer.workgroupName}</h3>
+          <h3>Cash Drawer for ${KualiForm.cashDrawer.campusCode}</h3>
         <cm:cashDrawerCurrencyCoin cashDrawerProperty="cashDrawer" readOnly="false" showCashDrawerSummary="false" />
       </div>
     </kul:tabTop>

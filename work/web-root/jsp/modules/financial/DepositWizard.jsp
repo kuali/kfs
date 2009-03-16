@@ -58,9 +58,10 @@ function checkCheckAllOrNone() {
 }
 </script>
 
-	<html:hidden property="cashDrawerVerificationUnit" />
+	<html:hidden property="cashDrawerCampusCode" />
 	<html:hidden property="cashManagementDocId" />
 	<html:hidden property="depositTypeCode" />
+
 
 	<c:if test="${!empty KualiForm.depositableCashReceipts || !empty KualiForm.depositableCashieringChecks || !empty KualiForm.checkFreeCashReceipts}">
 		<kul:tabTop tabTitle="Deposit Header" defaultOpen="true"
@@ -150,7 +151,7 @@ function checkCheckAllOrNone() {
 							value="${cashReceipt.documentNumber}" /></div>
 						</td>
 						<td>
-						<div align="center"><b><label for="depositWizardHelper[${ctr}].selectedValue">${(ctr + 1)}</label></b></div>
+						<div align="center"><b><label for="depositWizardHelper[<c:out value="${ctr}" />].selectedValue"><c:out value="${(ctr + 1)}" /></label></b></div>
 						</td>
 						<td>
 						<div align="center"><a
@@ -176,7 +177,7 @@ function checkCheckAllOrNone() {
 						</td>
 						<td>
 						<div align="center">
-						$&nbsp;${cashReceipt.currencyFormattedTotalCheckAmount} <html:hidden
+						$&nbsp;<c:out value="${cashReceipt.currencyFormattedTotalCheckAmount}" /> <html:hidden
 							property="depositableCashReceipt[${ctr}].totalCheckAmount" /></div>
 						</td>
 						
@@ -268,7 +269,7 @@ function checkCheckAllOrNone() {
 						<td>&nbsp;</td>
 						<td>
 						<div align="center">
-						$&nbsp;${cashReceipt.currencyFormattedSumTotalAmount}</div>
+						$&nbsp;<c:out value="${cashReceipt.currencyFormattedSumTotalAmount}" /></div>
 						</td>
 					</tr>
 				</logic:iterate>
@@ -315,7 +316,7 @@ function checkCheckAllOrNone() {
                   </div>
                 </td>
                 <%-- if you change the spacing of the table cell below to put the different elements on different lines, giant monkeys will hurt you. Also, the DepositWizard form won't look quite as good --%>
-                <td><strong>${ctr + 1}</strong><html:hidden name="KualiForm" property="depositableCashieringCheck[${ctr}].sequenceId" /></td>
+                <td><strong><c:out value="${ctr + 1}" /></strong><html:hidden name="KualiForm" property="depositableCashieringCheck[${ctr}].sequenceId" /></td>
                 <td>
                   <kul:htmlControlAttribute property="depositableCashieringCheck[${ctr}].checkNumber" attributeEntry="${checkAttributes.checkNumber}" readOnly="true" />
                 </td>
@@ -359,7 +360,7 @@ function checkCheckAllOrNone() {
 
 		<table width="100%">
 			<tr>
-				<td align="center">${msg1}</td>
+				<td align="center"><c:out value="${msg1}" /></td>
 			</tr>
 		</table>
 

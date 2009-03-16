@@ -20,17 +20,20 @@ import java.util.Date;
 import org.kuali.kfs.module.bc.batch.service.GLBudgetLoadService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.context.SpringContext;
-
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 
 public class BudgetConstructionGeneralLedgerLoadBatchStep extends AbstractStep {
 
+    private GLBudgetLoadService glBudgetLoadService;
+    
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-      // @@TODO: the budget should load in the current fiscal year.
-      // however, for testing purposes we will hard-wire it in, since we aren't running in a normal environment yet.
-      GLBudgetLoadService generalLedgerBudgetLoadService = SpringContext.getBean(GLBudgetLoadService.class); 
-      // normally, this would be called with no parameter, and would automatically load the fiscal year following the fiscal year of the run date. 
-      generalLedgerBudgetLoadService.loadPendingBudgetConstructionGeneralLedger(2009);
+      // normally, this would be called with no parameter, and would automatically load the fiscal year following the fiscal year of the run date. but, this version uses a parameter to load the fiscal year following a base year. 
+      glBudgetLoadService.loadPendingBudgetConstructionGeneralLedger(BudgetParameterFinder.getBaseFiscalYear()+1);
         return true;
     }
 
+    public void setGLBudgetLoadService(GLBudgetLoadService glBudgetLoadService)
+    {
+        this.glBudgetLoadService = glBudgetLoadService;
+    }
 }

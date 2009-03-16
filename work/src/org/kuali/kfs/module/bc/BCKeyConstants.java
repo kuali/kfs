@@ -196,5 +196,11 @@ public class BCKeyConstants {
     public static final String WARNING_AUTHORIZATION_DISABLED = "warning.budget.authorizationDisabled";
 
     public static final String ERROR_NO_SALARY_SETTING_PERMISSION = "error.budget.noSalarySettingPermission";
+
+    // Calculated Salary Foundation Tracker Override errors
+    public static final String ERROR_FISCAL_YEAR_NOT_CURRENT = "error.fiscalYear.notCurrentFiscalYear";
+    public static final String ERROR_INVALID_APPOINTMENT = "error.invalid.appointment";
+    public static final String ERROR_INVALID_POSITION = "error.invalid.position";
+
 }
 

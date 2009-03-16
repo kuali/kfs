@@ -45,4 +45,9 @@ public class ResearchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl e
         }
         return researchDocumentPermissionsService;
     }
+    
+    public boolean isApplicationRoleType() {
+        return true;
+    }
+
 }

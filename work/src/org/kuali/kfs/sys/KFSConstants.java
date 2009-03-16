@@ -1209,6 +1209,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ACTIVE_FACULTY_OR_STAFF_KIM_ROLE_NAME = "Active Faculty or Staff";
         public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME = "Active Professional Employee";
         public static final String CHART_MANAGER_KIM_ROLE_NAME = "Chart Manager";
+        public static final String ACCOUNTING_REVIEWER_ROLE_NAME = "Accounting Reviewer";
+        public static final String ORGANIZATION_REVIEWER_ROLE_NAME = "Organization Reviewer";
     } 
 
     public enum PermissionAttributeValue {

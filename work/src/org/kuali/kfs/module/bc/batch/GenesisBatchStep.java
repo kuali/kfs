@@ -23,7 +23,6 @@ import java.util.Map;
 import org.kuali.kfs.module.bc.batch.service.GenesisService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
@@ -33,6 +32,8 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 public class GenesisBatchStep extends AbstractStep {
 
     private GenesisService genesisService;
+    private PersistenceStructureService psService;
+    private BusinessObjectService boService;
     
     // parameter constants and logging
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-BC";
@@ -45,7 +46,6 @@ public class GenesisBatchStep extends AbstractStep {
     
 
     public boolean execute(String jobName, Date jobRunDate) {
-        genesisService = SpringContext.getBean(GenesisService.class);
         genesisService.genesisStep(BudgetParameterFinder.getBaseFiscalYear());
         setInitiatedParameter();
         return true;
@@ -55,8 +55,6 @@ public class GenesisBatchStep extends AbstractStep {
      * This method sets a parameter that tells the step that it has already run and it does not need to run again.
      */
     private void setInitiatedParameter() {
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        PersistenceStructureService psService = SpringContext.getBean(PersistenceStructureService.class);
         // first see if we can find an existing Parameter object with this key
         Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildSearchKeyMap());
         if (runIndicatorParameter == null)
@@ -77,7 +75,6 @@ public class GenesisBatchStep extends AbstractStep {
     private Map<String,Object> buildSearchKeyMap()
     {
        Map<String,Object> pkMapForParameter = new HashMap<String,Object>();
-       PersistenceStructureService psService = SpringContext.getBean(PersistenceStructureService.class);
 
        // set up a list of all the  field names and values of the fields in the Parameter object.
        // the OJB names are nowhere in Kuali properties, apparently.
@@ -97,5 +94,20 @@ public class GenesisBatchStep extends AbstractStep {
            pkMapForParameter.put(pkFieldName,fieldNamesValuesForParameter.get(pkFieldName));
        }
        return (pkMapForParameter);
+    }
+    
+    public void setGenesisService (GenesisService genesisService)
+    {
+        this.genesisService = genesisService;
+    }
+    
+    public void setPersistenceStructureService (PersistenceStructureService psService)
+    {
+        this.psService = psService;
+    }
+    
+    public void setBusinessObjectService (BusinessObjectService boService)
+    {
+        this.boService = boService;
     }
 }

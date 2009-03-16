@@ -251,6 +251,8 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         setupDefaultValuesForNewCustomerInvoiceWriteoffDocument( document );
         document.getDocumentHeader().setDocumentDescription(ArConstants.CUSTOMER_INVOICE_WRITEOFF_DOCUMENT_DESCRIPTION + " " + invoiceNumber + ".");
         
+        document.setCustomerNote(note);
+        
         //  satisfy silly > 10 chars explanation rule
         if (StringUtils.isBlank(note)) {
             note = "Document created by batch process.";

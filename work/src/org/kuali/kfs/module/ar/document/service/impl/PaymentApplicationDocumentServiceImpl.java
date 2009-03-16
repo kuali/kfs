@@ -40,7 +40,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.opensaml.artifact.InvalidArgumentException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -178,7 +177,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) {
         if (paymentApplicationDocument == null) {
-            throw new InvalidArgumentException("A null paymentApplicationDocument parameter was passed in.");
+            throw new IllegalArgumentException("A null paymentApplicationDocument parameter was passed in.");
         }
         String payAppDocNumber = paymentApplicationDocument.getDocumentHeader().getDocumentNumber();
         return getCashControlDocumentForPayAppDocNumber(payAppDocNumber);
@@ -190,7 +189,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     public CashControlDocument getCashControlDocumentForPayAppDocNumber(String paymentApplicationDocumentNumber) {
         if (StringUtils.isBlank(paymentApplicationDocumentNumber)) {
-            throw new InvalidArgumentException("A null or blank paymentApplicationDocumentNumber paraemter was passed in.");
+            throw new IllegalArgumentException("A null or blank paymentApplicationDocumentNumber paraemter was passed in.");
         }
         CashControlDetail cashControlDetail = getCashControlDetailForPayAppDocNumber(paymentApplicationDocumentNumber);
         CashControlDocument cashControlDocument = null;
@@ -209,7 +208,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document) {
         if (document == null) {
-            throw new InvalidArgumentException("A null paymentApplicationDocument parameter was passed in.");
+            throw new IllegalArgumentException("A null paymentApplicationDocument parameter was passed in.");
         }
         String payAppDocumentNumber = document.getDocumentNumber();
         CashControlDetail cashControlDetail = getCashControlDetailForPayAppDocNumber(payAppDocumentNumber);
@@ -222,7 +221,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     public CashControlDetail getCashControlDetailForPayAppDocNumber(String payAppDocNumber) {
         if (StringUtils.isBlank(payAppDocNumber)) {
-            throw new InvalidArgumentException("A null or blank payAppDocNumber paraemter was passed in.");
+            throw new IllegalArgumentException("A null or blank payAppDocNumber paraemter was passed in.");
         }
         CashControlDetail cashControlDetail = cashControlDetailDao.getCashControlDetailByRefDocNumber(payAppDocNumber);
         return cashControlDetail;

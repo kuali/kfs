@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.CashDrawer;
-import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.Deposit;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
@@ -711,10 +710,6 @@ public class CashManagementServiceTest extends KualiTestBase {
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
         crDoc.setTotalCashAmount(KualiDecimal.ZERO); // cash amounts are now calculated differently
         crDoc.setTotalCheckAmount(checkAmount);
-
-        crDoc.setCashReceiptHeader(new CashReceiptHeader());
-        crDoc.getCashReceiptHeader().setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.getCashReceiptHeader().setCampusCode(campusCode);
 
         crDoc.setCampusLocationCode(campusCode);
 

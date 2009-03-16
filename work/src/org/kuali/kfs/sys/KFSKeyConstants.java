@@ -389,11 +389,6 @@ public class KFSKeyConstants {
     public static final String ERROR_MISSING = "error.missing";
 
     
-    // Calculated Salary Foundation Tracker Override errors
-    public static final String ERROR_FISCAL_YEAR_NOT_CURRENT = "error.fiscalYear.notCurrentFiscalYear";
-    public static final String ERROR_INVALID_APPOINTMENT = "error.invalid.appointment";
-    public static final String ERROR_INVALID_POSITION = "error.invalid.position";
-
     // GL specific Error Codes
     public static final String ERROR_DEBIT_CREDIT_INDICATOR_NEITHER_D_NOR_C = "error.gl.DebitCreditIndicatorNeitherDNorC";
     public static final String ERROR_DEBIT_CREDIT_INDICATOR_MUST_BE_SPACE = "error.gl.DebitCreditIndicatorMustBeSpace";

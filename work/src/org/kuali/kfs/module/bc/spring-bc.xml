@@ -805,11 +805,25 @@
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.kfs.module.bc.document.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
     </bean>
         
-    <bean id="budgetConstructionGeneralLedgerLoadBatchStep" class="org.kuali.kfs.module.bc.batch.BudgetConstructionGeneralLedgerLoadBatchStep" parent="step"> </bean>
+    <bean id="budgetConstructionGeneralLedgerLoadBatchStep" class="org.kuali.kfs.module.bc.batch.BudgetConstructionGeneralLedgerLoadBatchStep" parent="step">
+     <property name="GLBudgetLoadService">
+       <ref bean="glBudgetLoadService"/>
+      </property>  
+    </bean>
         
     <bean id="budgetConstructionUpdateBatchStep" class="org.kuali.kfs.module.bc.batch.BudgetConstructionUpdateBatchStep" parent="step"> </bean>
         
-    <bean id="genesisBatchStep" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step"> </bean>
+    <bean id="genesisBatchStep" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step">
+      <property name="genesisService">
+         <ref bean="genesisService"/>
+       </property>
+       <property name="persistenceStructureService">
+         <ref bean="persistenceStructureService"/>
+        </property>
+        <property name="businessObjectService">
+         <ref bean="businessObjectService"/>
+        </property>   
+    </bean>
     	
     <bean id="genesisBatchJob" parent="scheduledJobDescriptor">
     	<property name="steps">

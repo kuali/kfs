@@ -595,6 +595,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                     String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_GLOBAL_UNIQUE_DETAILS + "[" + uniqueIndex + "]";
                     GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                     success &= validateCapitalAssetTypeCode(assetGlobalUniqueDetail);
+                    success &= validateAssetDescription(assetGlobalUniqueDetail);
+                    success &= validateManufacturer(assetGlobalUniqueDetail);
                     success &= validateSeparateSourceAmount(assetGlobalUniqueDetail, document);
                     GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
                     uniqueIndex++;
@@ -757,6 +759,36 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * Validates the  asset description.
+     * 
+     * @param uniqueLocationDetails
+     * @return boolean
+     */
+    private boolean validateAssetDescription(AssetGlobalDetail uniqueLocationDetails) {
+        boolean success = true;
+        if (StringUtils.isEmpty(uniqueLocationDetails.getCapitalAssetDescription())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_DESCRIPTION, CamsKeyConstants.AssetSeparate.ERROR_ASSET_DESCRIPTION_REQUIRED, uniqueLocationDetails.getCapitalAssetTypeCode());
+            success &= false;
+        }
+        return success;
+    }    
+
+    /**
+     * Validates the manufacturer.
+     * 
+     * @param uniqueLocationDetails
+     * @return boolean
+     */
+    private boolean validateManufacturer(AssetGlobalDetail uniqueLocationDetails) {
+        boolean success = true;
+        if (StringUtils.isEmpty(uniqueLocationDetails.getManufacturerName())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_NAME, CamsKeyConstants.AssetSeparate.ERROR_MANUFACTURER_REQUIRED, uniqueLocationDetails.getCapitalAssetTypeCode());
+            success &= false;
+        }
+        return success;
+    }     
+    
     /**
      * Validates the separate source amount.
      * 

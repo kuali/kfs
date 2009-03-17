@@ -72,7 +72,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
-    protected static final String LLCP_OUTPUT_PREFIX = "LLCP_OUTPUT";
+    protected static final String LLCP_OUTPUT_PREFIX = "llcp_output";
 
     public final static int UNLIMITED_ABORT_THRESHOLD = CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_UNLIMITED;
 

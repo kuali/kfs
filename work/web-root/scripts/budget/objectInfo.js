@@ -260,7 +260,7 @@ BudgetObjectInfoUpdator.prototype.recalculateFTE = function(payMonthsFieldName, 
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null) {
-				var formattedFTE = new Number(data).toFixed(4);
+				var formattedFTE = new Number(data).toFixed(5);
 				setRecipientValue( fteQuantityFieldName, formattedFTE );
 			} else {
 				setRecipientValue( fteQuantityFieldName, null );			

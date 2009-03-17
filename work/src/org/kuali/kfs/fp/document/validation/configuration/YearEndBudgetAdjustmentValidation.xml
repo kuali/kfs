@@ -189,13 +189,13 @@
 		</property>
 	</bean>
 	
-	<bean id="BudgetAdjustment-deleteAccountingLineValidation" parent="BudgetAdjustment-deleteAccountingLineValidation-parentBean" scope="prototype" />
+	<bean id="YearEndBudgetAdjustment-deleteAccountingLineValidation" parent="BudgetAdjustment-deleteAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="BudgetAdjustment-deleteAccountingLineValidation-parentBean" parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="YearEndBudgetAdjustment-deleteAccountingLineValidation-parentBean" parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" abstract="true" />
 	
-	<bean id="BudgetAdjustment-reviewAccountingLineValidation" parent="BudgetAdjustment-reviewAccountingLineValidation-parentBean" scope="prototype" />
+	<bean id="YearEndBudgetAdjustment-reviewAccountingLineValidation" parent="BudgetAdjustment-reviewAccountingLineValidation-parentBean" scope="prototype" />
 
-	<bean id="BudgetAdjustment-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="YearEndBudgetAdjustment-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
@@ -246,9 +246,9 @@
 		</property>
 	</bean>
 	
-	<bean id="BudgetAdjustment-updateAccountingLineValidation" parent="BudgetAdjustment-updateAccountingLineValidation-parentBean" scope="prototype" />
+	<bean id="YearEndBudgetAdjustment-updateAccountingLineValidation" parent="BudgetAdjustment-updateAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="BudgetAdjustment-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="YearEndBudgetAdjustment-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->

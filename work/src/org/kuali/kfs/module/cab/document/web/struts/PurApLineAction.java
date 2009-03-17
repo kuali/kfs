@@ -268,13 +268,20 @@ public class PurApLineAction extends CabActionBase {
      * @param errorPath
      */
     protected void checkSplitQty(PurchasingAccountsPayableItemAsset itemAsset, String errorPath) {
-        KualiDecimal splitQty = itemAsset.getSplitQty();
-        KualiDecimal oldQty = itemAsset.getAccountsPayableItemQuantity();
+        if (itemAsset.getSplitQty() == null)
+            itemAsset.setSplitQty(KualiDecimal.ZERO);
+        
+        if (itemAsset.getAccountsPayableItemQuantity() == null) 
+            itemAsset.setAccountsPayableItemQuantity(KualiDecimal.ZERO);            
+                
+        KualiDecimal splitQty    = itemAsset.getSplitQty();
+        KualiDecimal oldQty      = itemAsset.getAccountsPayableItemQuantity();        
+        KualiDecimal maxAllowQty = oldQty.subtract(new KualiDecimal(0.1)); 
+                
         if (splitQty == null) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurchasingAccountsPayableItemAsset.SPLIT_QTY, CabKeyConstants.ERROR_SPLIT_QTY_REQUIRED);
-        }
-        else if (splitQty.isLessEqual(KualiDecimal.ZERO) || splitQty.isGreaterEqual(oldQty)) {
-            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurchasingAccountsPayableItemAsset.SPLIT_QTY, CabKeyConstants.ERROR_SPLIT_QTY_INVALID, oldQty.toString());
+        } else if (splitQty.isLessEqual(KualiDecimal.ZERO) || splitQty.isGreaterEqual(oldQty)) {
+            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurchasingAccountsPayableItemAsset.SPLIT_QTY, CabKeyConstants.ERROR_SPLIT_QTY_INVALID, maxAllowQty.toString());
         }
         return;
     }

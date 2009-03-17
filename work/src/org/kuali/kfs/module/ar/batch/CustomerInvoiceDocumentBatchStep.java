@@ -92,9 +92,9 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     
                 billingDate = DateUtils.addDays(billingDate, -30);
     
-                createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $10 entries
-                createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $20 entries
-                createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(5), new BigDecimal(1), "1111111", "BA");  // $30 entries
+                createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "BUSCF");  // $10 entries
+                createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "IBCE");  // $20 entries
+                createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "WRB");  // $30 entries
     
                 Thread.sleep(500);
             }
@@ -103,7 +103,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         // easy dynamic data creation
         if (customernames.size() == 1) {
             billingDate = jobRunDate;
-            createCustomerInvoiceDocumentForFunctionalTesting(customernames.get(0), billingDate, 1, new KualiDecimal(10), new BigDecimal(1), "1111111", "BA");  // $10 entries
+            createCustomerInvoiceDocumentForFunctionalTesting(customernames.get(0), billingDate, 1, new KualiDecimal(10), new BigDecimal(1), "1111111", "BA", "MATT");  // $10 entries
             Thread.sleep(500);
         }
 
@@ -345,7 +345,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDocument.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
         customerInvoiceDocument.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
         customerInvoiceDocument.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
-        customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, new KualiDecimal(1), new BigDecimal(100), "1111111", "BA"));
+        customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, new KualiDecimal(1), new BigDecimal(100), "2336320", "BL", "ISRT" ));
 // TODO abyrne - stop using DocumentTestUtils from production code
         return "";
 //        customerCreditMemoDetail.setCreditMemoItemQuantity(new BigDecimal(100));
@@ -383,7 +383,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     }
 
 
-    public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode) {
+    public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode, String invoiceitemcode) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         
         CustomerInvoiceDocument customerInvoiceDocument;
@@ -433,13 +433,13 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
 
         if (ObjectUtils.isNotNull(nonrandomquantity)&&ObjectUtils.isNotNull(nonrandomunitprice)&&numinvoicedetails>=1) {
             for (int i = 0; i < numinvoicedetails; i++) { 
-                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, nonrandomquantity, nonrandomunitprice, accountnumber, chartcode));
+                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, nonrandomquantity, nonrandomunitprice, accountnumber, chartcode, invoiceitemcode));
             }  
         } else {       
             int randomnuminvoicedetails = (int) (Math.random()*9); // add up to 9
             if (randomnuminvoicedetails==0) randomnuminvoicedetails=1; // add at least one
             for (int i = 0; i < randomnuminvoicedetails; i++) { 
-                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, null, null, accountnumber, chartcode));
+                customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, null, null, accountnumber, chartcode, invoiceitemcode));
             }              
         }
         try {
@@ -451,7 +451,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
     }
     
-    public CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode){
+    public CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode, String invoiceitemcode){
         
         KualiDecimal quantity;
         BigDecimal unitprice;
@@ -474,8 +474,9 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
         customerInvoiceDetail.setChartOfAccountsCode(chartcode);
         customerInvoiceDetail.setAccountNumber(accountnumber);    //   other BL account numbers:   2231401   2324601
-        customerInvoiceDetail.setFinancialObjectCode("1500");
+        customerInvoiceDetail.setFinancialObjectCode("1800");
         customerInvoiceDetail.setAccountsReceivableObjectCode("8118");
+        customerInvoiceDetail.setInvoiceItemCode(invoiceitemcode);
         customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
         customerInvoiceDetail.setInvoiceItemUnitPrice(unitprice);
         customerInvoiceDetail.setInvoiceItemQuantity(quantity.bigDecimalValue());
@@ -483,6 +484,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDetail.setTaxableIndicator(true);
         customerInvoiceDetail.setAmount(amount);
         customerInvoiceDetail.setPostingYear(currentYear);
+
 
         return customerInvoiceDetail;
     }  

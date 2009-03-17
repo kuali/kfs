@@ -30,8 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -68,7 +67,6 @@ import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificSer
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -97,7 +95,6 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -1459,31 +1456,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     private boolean isAwardReviewRequired() {
- 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         boolean objectCodeAllowed = true;
         
         for (PurApItem item : (List<PurApItem>) this.getItems()) {
             for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
-                if (ObjectUtils.isNull(accountingLine.getObjectCode())) {
-                    continue;
-                }
-
-                // make sure object code is active
-                if (!accountingLine.getObjectCode().isFinancialObjectActiveCode()) {
-                    continue;
-                }
-
-                String chartCode = accountingLine.getChartOfAccountsCode();
-                // check object level is in permitted list for award routing
-                objectCodeAllowed = objectCodeAllowed && parameterService.getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.CG_ROUTE_OBJECT_LEVELS_BY_CHART, PurapParameterConstants.NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART, chartCode, accountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-
-                if (!objectCodeAllowed) {
-                    // If the object level is not permitting for award routing, then we need to also
-                    // check object code is in permitted list for award routing
-                    objectCodeAllowed = parameterService.getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.CG_ROUTE_OBJECT_CODES_BY_CHART, PurapParameterConstants.NO_CG_ROUTE_OBJECT_CODES_BY_CHART, chartCode, accountingLine.getFinancialObjectCode()).evaluateAndAddError(SourceAccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-                }
                 
+                objectCodeAllowed &= isObjectCodeAllowedForAwardRouting(accountingLine, parameterService);
                 // We should return true as soon as we have at least one objectCodeAllowed=true so that the PO will stop at Award
                 // level.
                 if (objectCodeAllowed) {
@@ -1493,6 +1472,28 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             }
         }
         return objectCodeAllowed;        
+    }
+    
+    private boolean isObjectCodeAllowedForAwardRouting(PurApAccountingLine accountingLine, ParameterService parameterService) {
+        if (ObjectUtils.isNull(accountingLine.getObjectCode())) {
+            return false;
+        }
+
+        // make sure object code is active
+        if (!accountingLine.getObjectCode().isFinancialObjectActiveCode()) {
+            return false;
+        }
+
+        String chartCode = accountingLine.getChartOfAccountsCode();
+        // check object level is in permitted list for award routing
+        boolean objectCodeAllowed = parameterService.getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.CG_ROUTE_OBJECT_LEVELS_BY_CHART, PurapParameterConstants.NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART, chartCode, accountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluationSucceeds();
+
+        if (!objectCodeAllowed) {
+            // If the object level is not permitting for award routing, then we need to also
+            // check object code is in permitted list for award routing
+            objectCodeAllowed = parameterService.getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.CG_ROUTE_OBJECT_CODES_BY_CHART, PurapParameterConstants.NO_CG_ROUTE_OBJECT_CODES_BY_CHART, chartCode, accountingLine.getFinancialObjectCode()).evaluationSucceeds();
+        }
+        return objectCodeAllowed;
     }
     
     private boolean isBudgetReviewRequired() {
@@ -1538,6 +1539,25 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         else {
             return false;
         }
+    }
+    
+    public List<Account> getAccountsForAwardRouting() {
+        List<Account> accounts = new ArrayList<Account>();
+        
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        for (PurApItem item : (List<PurApItem>) this.getItems()) {
+            for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+                if (isObjectCodeAllowedForAwardRouting(accountingLine, parameterService)) {
+                    if (ObjectUtils.isNull(accountingLine.getAccount())) {
+                        accountingLine.refreshReferenceObject("account");
+                    }
+                    if (accountingLine.getAccount() != null) {
+                        accounts.add(accountingLine.getAccount());
+                    }
+                }
+            }
+        }
+        return accounts;
     }
 
 }

@@ -1338,7 +1338,7 @@
     	<property name="routingTypeDefinitions">
     		<map>
     		    <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/>
-    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
+    			<entry key="Award" value-ref="RoutingType-PurchasingDocument-Award"/>
                 <!-- no qualifiers for RequiresBudgetReview -->
                 <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
                 <!-- no qualifiers for TransmissionMethodIsPrint -->

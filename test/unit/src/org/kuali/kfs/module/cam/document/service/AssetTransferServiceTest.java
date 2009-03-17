@@ -336,7 +336,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertEquals(referencePayment.getAccountChargeAmount(), newPayment.getAccountChargeAmount());
         assertEquals(referencePayment.getAccumulatedPrimaryDepreciationAmount(), newPayment.getAccumulatedPrimaryDepreciationAmount());
         assertEquals(null, newPayment.getPeriod1Depreciation1Amount());
-        assertEquals(null, newPayment.getTransferPaymentCode());
+        assertEquals(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N, newPayment.getTransferPaymentCode());
     }
 
     private void assertOriginalPayment(AssetPayment referencePayment, AssetPayment assetOriginalPayment) {
@@ -356,4 +356,3 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertEquals(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_Y, assetOffsetPayment.getTransferPaymentCode());
     }
 }
-

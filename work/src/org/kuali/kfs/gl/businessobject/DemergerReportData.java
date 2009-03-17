@@ -26,6 +26,7 @@ public class DemergerReportData {
     }
 
     private int errorTransactionsRead = 0;
+    private int validTransactionsRead = 0;
     private int errorTransactionsSaved = 0;
     private int validTransactionsSaved = 0;
     private int offsetTransactionsBypassed = 0;
@@ -42,6 +43,7 @@ public class DemergerReportData {
      */
     public void incorporateReportData(DemergerReportData anotherReport) {
         errorTransactionsRead += anotherReport.errorTransactionsRead;
+        validTransactionsRead += anotherReport.validTransactionsRead;
         errorTransactionsSaved += anotherReport.errorTransactionsSaved;
         validTransactionsSaved += anotherReport.validTransactionsSaved;
         offsetTransactionsBypassed += anotherReport.offsetTransactionsBypassed;
@@ -59,6 +61,13 @@ public class DemergerReportData {
         errorTransactionsRead++;
     }
 
+    /**
+     * Increments the count of valid transactions read by 1
+     */
+    public void incrementValidTransactionsRead() {
+        validTransactionsRead++;
+    }
+    
     /**
      * Increments the count of error transactions written by 1
      */
@@ -221,5 +230,23 @@ public class DemergerReportData {
      */
     public void setValidTransactionsSaved(int validTransactionsSaved) {
         this.validTransactionsSaved = validTransactionsSaved;
+    }
+    
+    /**
+     * Returns the count of valid transactions read
+     * 
+     * @return the count of valid transactions read
+     */
+    public int getValidTransactionsRead() {
+        return validTransactionsRead;
+    }
+    
+    /**
+     * Resets the number of valid transactions read to the given amount
+     * 
+     * @param x the count of valid transactions read to reset to
+     */
+    public void setValidTransactionsRead(int x) {
+        this.validTransactionsRead = x;
     }
 }

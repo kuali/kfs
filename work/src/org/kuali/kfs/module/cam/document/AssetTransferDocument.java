@@ -59,6 +59,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
+    private String hiddenFieldForError;
     private String representativeUniversalIdentifier;
     private String campusCode;
     private String buildingCode;
@@ -866,4 +867,15 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         getSourceAssetGlpeSourceDetails().clear();
         getTargetAssetGlpeSourceDetails().clear();
     }
+
+    public String getHiddenFieldForError() {
+        return hiddenFieldForError;
+    }
+
+
+    public void setHiddenFieldForError(String hiddenFieldForError) {
+        this.hiddenFieldForError = hiddenFieldForError;
+    }
+
+
 }

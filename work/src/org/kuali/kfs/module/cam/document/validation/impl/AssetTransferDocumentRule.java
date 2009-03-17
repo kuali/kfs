@@ -242,7 +242,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         boolean valid = true;
         // check if selected account has plant fund accounts
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-        
+
         // validate if asset status = N or D
         String inventoryStatusCode = assetTransferDocument.getAsset().getInventoryStatus().getInventoryStatusCode();
         if (inventoryStatusCode != null && !(StringUtils.equalsIgnoreCase(inventoryStatusCode, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE) || StringUtils.equalsIgnoreCase(inventoryStatusCode, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003)) ) {
@@ -377,8 +377,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(assetTransferDocument);
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, 
                 CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+
         if(!assetMovable && !isAuthorizedTransferMovable) {
-            putError(CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
+            putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
             valid &= false;
         }
         

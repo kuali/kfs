@@ -316,7 +316,6 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     public List getDocumentPBGLFringeLines(String documentNumber, List fringeObjects) {
         List documentPBGLfringeLines = new ArrayList();
 
-        // TODO need to make sure we are getting the data that was updated by the jdbc benefits calc calls
         // we probably should just add a clearcache call at the end of all JDBC public methods that update the DB
         getPersistenceBrokerTemplate().clearCache();
 
@@ -482,8 +481,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     public List getPBGLSalarySettingRows(String documentNumber, List salarySettingObjects) {
         List pbglSalarySettingRows = new ArrayList();
 
-        // TODO need to make sure we are getting the data that was updated by the jdbc benefits calc calls
-        // we probably should just add a clearcache call at the end of all JDBC public methods that update the DB
+        // need to make sure we are getting the data that was updated by the jdbc benefits calc calls
         getPersistenceBrokerTemplate().clearCache();
 
         Criteria criteria = new Criteria();

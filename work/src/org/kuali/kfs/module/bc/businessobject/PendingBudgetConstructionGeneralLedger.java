@@ -67,7 +67,6 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 
     private List<BudgetConstructionMonthly> budgetConstructionMonthly;
 
-    // TODO These are only used by PBGLExpenditureLines so should probably put these in an extension class
     // These are not defined under ojb since not all expenditure line objects have these
     private LaborLedgerObject laborObject;
     private List<LaborLedgerPositionObjectBenefit> positionObjectBenefit;

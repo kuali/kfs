@@ -35,7 +35,8 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
      * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#getBenefitsCalculationDisabled()
      */
     public boolean isBenefitsCalculationDisabled() {
-        // TODO for now just return false, implement application parameter if decision is made implement this functionality
+        // Note: for now just return false, implement application parameter
+        // if decision is made to implement this functionality as an enhancement
         return false;
 
         // return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM,

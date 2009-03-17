@@ -259,7 +259,6 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
      */
     public String getFinancialDocumentInitiatorIdentifier() {
 
-        // TODO need to add method getActionsTakenIgnoreCurrentInd to KualiWorkflowInfo and Workflow support
         if (this.financialDocumentInitiatorIdentifier == null) {
             try {
                 Long docNum = Long.valueOf(this.getDocumentNumber());
@@ -274,15 +273,6 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                     this.financialDocumentInitiatorIdentifier = "NotFound";
                 }
 
-                // KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-                // ActionTakenDTO[] actionsTaken = kualiWorkflowInfo.getActionsTaken(docNum);
-                // if (actionsTaken.length > 0) {
-                // this.financialDocumentInitiatorIdentifier = actionsTaken[actionsTaken.length-1].getUserDTO().getNetworkId();
-                // this.financialDocumentCreateDate = new
-                // Date(actionsTaken[actionsTaken.length-1].getActionDate().getTimeInMillis());
-                // } else {
-                // this.financialDocumentInitiatorIdentifier = "NotFound";
-                // }
 
             }
             catch (Exception e) {
@@ -309,7 +299,6 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
      */
     public Date getFinancialDocumentCreateDate() {
 
-        // TODO need to add method getActionsTakenIgnoreCurrentInd to KualiWorkflowInfo and Workflow support
         if (this.financialDocumentCreateDate == null) {
             try {
                 Long docNum = Long.valueOf(this.getDocumentNumber());
@@ -320,14 +309,6 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                     this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getPrincipalId()).getPrincipalName();
                     this.financialDocumentCreateDate = new Date(actionsTaken.get(actionsTaken.size() - 1).getActionDate().getTime());
                 }
-
-                // KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-                // ActionTakenDTO[] actionsTaken = kualiWorkflowInfo.getActionsTaken(docNum);
-                // if (actionsTaken.length > 0) {
-                // this.financialDocumentInitiatorIdentifier = actionsTaken[actionsTaken.length-1].getUserDTO().getNetworkId();
-                // this.financialDocumentCreateDate = new
-                // Date(actionsTaken[actionsTaken.length-1].getActionDate().getTimeInMillis());
-                // }
 
             }
             catch (Exception e) {

@@ -83,7 +83,6 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
         
         LOG.debug("insertChildOrgs() called");
 
-        // TODO: do we want limit the hierarchy to 50? maybe should make it crazy high like 500 or 5000
         if (previousLevel <= MAXLEVEL) {
             int currentLevel = previousLevel + 1;
 

@@ -232,7 +232,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         pushdownSelectedOrganizationDocumentsTemplates[2] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
-        // TODO (may need to/should) replace fy,coa,acct,sacct with fdoc_nbr in ld_bcn_doc_pushdown04_mt
+        // Note: (may need to/should as we scale) replace fy,coa,acct,sacct with fdoc_nbr in ld_bcn_doc_pushdown04_mt
         // and use it in later steps instead of the candidate key
         // not sure why it uses the candidate key in the first place, may have been due to
         // the use of origin code as the first field in the pkey index, a secondary index exists on coa,acct.
@@ -747,4 +747,3 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
     }
 
 }
-

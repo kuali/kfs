@@ -53,8 +53,6 @@ public class AccountSelectLookupableHelperServiceImpl extends SelectLookupableHe
 
         String href = UrlFactory.parameterizeUrl(BCConstants.BC_DOCUMENT_ACTION, parameters);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        //TODO: title...
-        //AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, BCConstants.BC_DOCUMENT_METHOD, "Load Document", "Load Document");
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, BCConstants.BC_DOCUMENT_METHOD, "Load Document");
         anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
         anchorHtmlDataList.add(anchorHtmlData);

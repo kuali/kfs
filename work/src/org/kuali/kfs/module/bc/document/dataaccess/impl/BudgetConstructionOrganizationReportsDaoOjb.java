@@ -34,13 +34,6 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionOrganizationReportsDao {
 
-    // TODO Auto-generated method stub
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao#getByPrimaryId(java.lang.String, java.lang.String)
-     */
-
     /**
      * @see BudgetConstructionOrganizationReportsDao#getByPrimaryId(java.lang.String, java.lang.String)
      */

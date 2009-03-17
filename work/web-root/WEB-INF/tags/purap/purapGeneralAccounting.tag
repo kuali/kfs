@@ -41,15 +41,16 @@
     <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
     <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
 
-    <%-- default to closed --%>
-    <c:choose>
-        <c:when test="${empty currentTab}">
-            <c:set var="isOpen" value="false" />
-        </c:when>
-        <c:when test="${!empty currentTab}">
-            <c:set var="isOpen" value="${currentTab == 'OPEN'}" />
-        </c:when>
-    </c:choose>
+	<%-- default to closed --%>
+	<c:choose>
+		<c:when test="${empty currentTab}">
+			<c:set var="isOpen" value="false" />
+			<html:hidden property="tabStates(${tabKey})" value="CLOSE" />		
+		</c:when>
+		<c:when test="${!empty currentTab}">
+			<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
+		</c:when>
+	</c:choose>
 
 	<tr>
 	<td colspan="${itemColSpan}">

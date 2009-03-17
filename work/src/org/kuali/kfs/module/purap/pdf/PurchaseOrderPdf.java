@@ -373,27 +373,42 @@ public class PurchaseOrderPdf extends PurapPdf {
 
         StringBuffer shipToInfo = new StringBuffer();
         shipToInfo.append("\n");
-        if (StringUtils.isNotBlank(po.getDeliveryToName())) {
+        
+        if (po.getAddressToVendorIndicator()) { // use receiving address
+            shipToInfo.append("     " + po.getReceivingName() + "\n");
+            shipToInfo.append("     " + po.getReceivingLine1Address() + "\n");
+            if (StringUtils.isNotBlank(po.getReceivingLine2Address())) {
+                shipToInfo.append("     " + po.getReceivingLine2Address() + "\n");
+            }
+            shipToInfo.append("     " + po.getReceivingCityName() + ", " + po.getReceivingStateCode() + " " + po.getReceivingPostalCode() + "\n");
+            if (StringUtils.isNotBlank(po.getReceivingCountryName()) && !KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getReceivingCountryName())) {
+                shipToInfo.append("     " + po.getReceivingCountryName() + "\n\n");
+            }
+            else {
+                shipToInfo.append("\n\n");
+            }            
+        }
+        else { // use delivery address
             shipToInfo.append("     " + po.getDeliveryToName() + "\n");
+            // extra space needed below to separate other text going on same PDF line
+            String deliveryBuildingName = po.getDeliveryBuildingName() + " ";
+            if (po.isDeliveryBuildingOtherIndicator()) {
+                deliveryBuildingName = "";
+            }
+            shipToInfo.append("     " + deliveryBuildingName + "Room #" + po.getDeliveryBuildingRoomNumber() + "\n");
+            shipToInfo.append("     " + po.getDeliveryBuildingLine1Address() + "\n");
+            if (StringUtils.isNotBlank(po.getDeliveryBuildingLine2Address())) {
+                shipToInfo.append("     " + po.getDeliveryBuildingLine2Address() + "\n");
+            }
+            shipToInfo.append("     " + po.getDeliveryCityName() + ", " + po.getDeliveryStateCode() + " " + po.getDeliveryPostalCode() + "\n");
+            if (StringUtils.isNotBlank(po.getDeliveryCountryName()) && !KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getDeliveryCountryName())) {
+                shipToInfo.append("     " + po.getDeliveryCountryName() + "\n\n");
+            }
+            else {
+                shipToInfo.append("\n\n");
+            }
         }
-        // extra space needed below to separate other text going on same PDF line
-        String deliveryBuildingName = po.getDeliveryBuildingName() + " ";
-        if (po.isDeliveryBuildingOtherIndicator()) {
-            deliveryBuildingName = "";
-        }
-
-        shipToInfo.append("     " + deliveryBuildingName + "Room #" + po.getDeliveryBuildingRoomNumber() + "\n");
-        shipToInfo.append("     " + po.getDeliveryBuildingLine1Address() + "\n");
-        if (StringUtils.isNotBlank(po.getDeliveryBuildingLine2Address())) {
-            shipToInfo.append("     " + po.getDeliveryBuildingLine2Address() + "\n");
-        }
-        shipToInfo.append("     " + po.getDeliveryCityName() + ", " + po.getDeliveryStateCode() + " " + po.getDeliveryPostalCode() + "\n");
-        if (StringUtils.isNotBlank(po.getDeliveryCountryName()) && !KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getDeliveryCountryName())) {
-            shipToInfo.append("     " + po.getDeliveryCountryName() + "\n\n");
-        }
-        else {
-            shipToInfo.append("\n\n");
-        }
+        
         p = new Paragraph();
         p.add(new Chunk("  Shiping Address", ver_5_normal));
         p.add(new Chunk(shipToInfo.toString(), cour_10_normal));

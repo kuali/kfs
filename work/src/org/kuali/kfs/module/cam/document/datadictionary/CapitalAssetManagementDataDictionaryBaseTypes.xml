@@ -6,8 +6,7 @@
 >
   <!--  Define RoutingAttribute base -->
   <bean id="RoutingAttribute-capitalAssetNumber" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
-  		<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
-    	<property name="attributeName" value="capitalAssetNumber" />
+    	<property name="qualificationAttributeName" value="capitalAssetNumber" />
   </bean>
   
   <!--  Define DocumentValuePathGroup base --> 

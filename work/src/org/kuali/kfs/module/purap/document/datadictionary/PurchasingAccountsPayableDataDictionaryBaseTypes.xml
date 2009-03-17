@@ -12,8 +12,7 @@
     		<list>
 				<ref bean="RoutingAttribute-campusCode" />
 		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-			    	<property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.CommodityCode" />
-			    	<property name="attributeName" value="purchasingCommodityCode" />
+			    	<property name="qualificationAttributeName" value="purchasingCommodityCode" />
 			    </bean>			    
     		</list>
     	</property>
@@ -122,8 +121,7 @@
     	<property name="routingAttributes">
     		<list>
     		    <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    		        <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
-    		        <property name="attributeName" value="contractManagerCode" />
+    		        <property name="qualificationAttributeName" value="contractManagerCode" />
     		    </bean>
     		</list>
     	</property>
@@ -146,8 +144,7 @@
 		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
 		        <ref bean="RoutingAttribute-accountNumber" />
 		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    		        <property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.SubAccount" />
-    		        <property name="attributeName" value="subAccountNumber" />
+    		        <property name="qualificationAttributeName" value="subAccountNumber" />
     		    </bean>
     		</list>
     	</property>

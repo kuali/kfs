@@ -136,8 +136,7 @@
     	<property name="attributeName" value="chartOfAccountsCode" />
     </bean>
     <bean id="RoutingAttribute-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-  		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
-    	<property name="attributeName" value="chartOfAccountsCode" />
+    	<property name="qualificationAttributeName" value="chartOfAccountsCode" />
     </bean>
    
     <bean id="SearchingAttribute-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
@@ -145,8 +144,7 @@
     	<property name="attributeName" value="accountNumber" />
     </bean>
     <bean id="RoutingAttribute-accountNumber" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
-    	<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account" />
-    	<property name="attributeName" value="accountNumber" />
+    	<property name="qualificationAttributeName" value="accountNumber" />
     </bean>
     
     

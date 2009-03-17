@@ -72,12 +72,10 @@
 	</bean>
 	
 	<bean id="ProjectCodeMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart"/>
     	<property name="attributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
 	<bean id="ProjectCodeMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
     	<property name="attributeName" value="organizationCode"/>
 	</bean>
 	

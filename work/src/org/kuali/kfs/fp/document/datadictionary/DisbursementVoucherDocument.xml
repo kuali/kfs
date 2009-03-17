@@ -508,7 +508,6 @@
     	<property name="routingAttributes">
     		<list>
 		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-			    	<property name="businessObjectClassName" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument"/>
 			    	<property name="attributeName" value="disbVchrPaymentMethodCode"/>
 			    </bean>
     		</list>

@@ -76,17 +76,14 @@
 	</bean>
 	
 	<bean id="SubObjectCodeMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart"/>
     	<property name="attributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
 	<bean id="SubObjectCodeMaintenanceDocument-RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
     	<property name="attributeName" value="accountNumber"/>
 	</bean>
 	
 	<bean id="SubObjectCodeMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
     	<property name="attributeName" value="organizationCode"/>
 	</bean>
 	

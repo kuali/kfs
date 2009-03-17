@@ -189,38 +189,31 @@
 	</bean>
 	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart"/>
-    	<property name="attributeName" value="chartOfAccountsCode"/>
+    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
-    	<property name="attributeName" value="accountFiscalOfficerSystemIdentifier"/>
+    	<property name="qualificationAttributeName" value="accountFiscalOfficerSystemIdentifier"/>
 	</bean>
 	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
-    	<property name="attributeName" value="accountsSupervisorySystemsIdentifier"/>
+    	<property name="qualificationAttributeName" value="accountsSupervisorySystemsIdentifier"/>
 	</bean>
 	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
-    	<property name="attributeName" value="accountNumber"/>
+    	<property name="qualificationAttributeName" value="accountNumber"/>
 	</bean>
 	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
-    	<property name="attributeName" value="organizationCode"/>
+    	<property name="qualificationAttributeName" value="organizationCode"/>
 	</bean>
 	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.SubFundGroup"/>
-    	<property name="attributeName" value="subFundGroupCode"/>
+    	<property name="qualificationAttributeName" value="subFundGroupCode"/>
 	</bean>
 	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-Award" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
-    	<property name="attributeName" value="contractsAndGrantsAccountResponsibilityId"/>
+    	<property name="qualificationAttributeName" value="contractsAndGrantsAccountResponsibilityId"/>
 	</bean>
 	
 	

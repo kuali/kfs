@@ -918,8 +918,7 @@
 		<property name="routingAttributes">
     		<list>
     			<bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    				<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.BudgetUser"/>
-    				<property name="attributeName" value="principalId"/>
+    				<property name="qualificationAttributeName" value="principalId"/>
     			</bean>
     		</list>
     	</property>
@@ -993,8 +992,7 @@
 		<property name="routingAttributes">
     		<list>
     			<bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    				<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk"/>
-    				<property name="attributeName" value="researchRiskTypeCode"/>
+    				<property name="qualificationAttributeName" value="researchRiskTypeCode"/>
     			</bean>
     		</list>
     	</property>
@@ -1020,8 +1018,7 @@
     	<property name="routingAttributes">
     		<list>
 		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		        	<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.QuestionType"/>
-    				<property name="attributeName" value="questionTypeCode"/>
+    				<property name="qualificationAttributeName" value="questionTypeCode"/>
 		        </bean>
     		</list>
     	</property>

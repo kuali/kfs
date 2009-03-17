@@ -12,8 +12,7 @@
     	<property name="routingAttributes">
     		<list>
 		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-			    	<property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.VendorHeader" />
-			    	<property name="attributeName" value="vendorTypeCode" />
+			    	<property name="qualificationAttributeName" value="vendorTypeCode" />
 			    </bean>
 	    
     		</list>

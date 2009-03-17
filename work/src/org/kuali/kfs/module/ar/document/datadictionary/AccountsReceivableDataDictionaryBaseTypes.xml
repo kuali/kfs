@@ -12,8 +12,7 @@
          <property name="showAttributeInResultSet" value="true"/>
     </bean>
     <bean id="RoutingAttribute-customerNumber" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-  		<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
-    	<property name="attributeName" value="customerNumber" />
+    	<property name="qualificationAttributeName" value="customerNumber" />
     </bean>
 
     <bean id="SearchingAttribute-customerName" class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -23,8 +22,7 @@
         <property name="showAttributeInResultSet" value="true"/>
     </bean>
     <bean id="RoutingAttribute-customerName" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-  		<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.Customer" />
-    	<property name="attributeName" value="customerName" />
+    	<property name="qualificationAttributeName" value="customerName" />
     </bean>
 
 <!-- 

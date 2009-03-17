@@ -96,8 +96,7 @@
 		<property name="routingAttributes">
     		<list>
     			<bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    				<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.BudgetUser"/>
-    				<property name="attributeName" value="principalId"/>
+    				<property name="qualificationAttributeName" value="principalId"/>
     			</bean>
     		</list>
     	</property>

@@ -201,8 +201,7 @@
 	</bean>
 	
 	<bean id="CashReceiptDocument-RoutingAttribute-CashReceiptCampus" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-		<property name="businessObjectClassName" value="org.kuali.kfs.fp.businessobject.CashReceiptHeader"/>
-    	<property name="attributeName" value="campusCode"/>
+    	<property name="qualificationAttributeName" value="campusCode"/>
 	</bean>
 	
 	<bean id="CashReceiptDocument-DocumentValuePathGroup-CashReceiptCampus" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">

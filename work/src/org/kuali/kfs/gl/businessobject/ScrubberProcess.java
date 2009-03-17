@@ -50,6 +50,7 @@ import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride;
 import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryLiteService;
 import org.kuali.kfs.gl.service.OriginEntryService;
@@ -145,6 +146,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     private Map<Transaction, List<Message>> scrubberReportErrors;
     private List<Message> transactionErrors;
     private DemergerReportData demergerReport;
+    private TextReportHelper<Transaction> textReportHelper;
 
     /* Description names */
     private String offsetDescription;
@@ -160,6 +162,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
      */
     private boolean collectorMode;
     private String batchFileDirectoryName;
+    private String reportDirectoryName;
     
     PrintStream OUTPUT_GLE_FILE_ps;
     PrintStream OUTPUT_ERR_FILE_ps;
@@ -169,11 +172,12 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     private String validFile;
     private String errorFile;
     private String expiredFile;
+    private String reportFileName;
 
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService, String batchFileDirectoryName) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService, String batchFileDirectoryName, String reportDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.originEntryService = originEntryService;
@@ -193,6 +197,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         collectorMode = false;
         parameterService = SpringContext.getBean(ParameterService.class);
         this.batchFileDirectoryName = batchFileDirectoryName;
+        this.reportDirectoryName = reportDirectoryName;
     }
 
     /**
@@ -207,6 +212,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        runDate = calculateRunDate(dateTimeService.getCurrentDate());
+        this.reportFileName = reportDirectoryName + File.separator + "scrubberJob_reportOnly_" + runDate.toString() ;
         
         scrubEntries(true, documentNumber);
         
@@ -222,7 +229,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             throw new RuntimeException("scrubGroupReportOnly delete output files process Stopped: " + e.getMessage(), e);
         }
         
-        
     }
 
     /**
@@ -233,6 +239,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        runDate = calculateRunDate(dateTimeService.getCurrentDate());
+        this.reportFileName = reportDirectoryName + File.separator + "scrubberJob_" + runDate.toString() ;
 
         scrubEntries(false, null);
     }
@@ -250,21 +258,24 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData) {
         collectorMode = true;
 
-        this.inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        this.inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        runDate = calculateRunDate(dateTimeService.getCurrentDate());
+        
        
         // sort input file
-        String scrubberSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        String scrubberSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String scrubberSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String scrubberSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         BatchSortUtil.sortTextFileWithFields(scrubberSortInputFile, scrubberSortOutputFile, new ScrubberSortComparator());
+        this.reportFileName = reportDirectoryName + File.separator + "scrubberJob_collector_" + runDate.toString() ;
         
         scrubEntries(false, null);
         
         //sort scrubber error file for demerger
-        String demergerSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
-        String demergerSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+        String demergerSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+        String demergerSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         BatchSortUtil.sortTextFileWithFields(demergerSortInputFile, demergerSortOutputFile, new DemergerSortComparator());
         
         performDemerger();
@@ -278,10 +289,10 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         scrubberStatus.setUnscrubbedToScrubbedEntries(unscrubbedToUnscrubbedEntries);
         
         // report purpose - commented out.  If we need, the put string values for fileNames.
-        scrubberStatus.setInputFileName(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE);
-        scrubberStatus.setValidFileName(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE);
-        scrubberStatus.setErrorFileName(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE);
-        scrubberStatus.setExpiredFileName(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE);
+        scrubberStatus.setInputFileName(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE);
+        scrubberStatus.setValidFileName(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE);
+        scrubberStatus.setErrorFileName(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_ERROR_OUTPUT_FILE);
+        scrubberStatus.setExpiredFileName(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_EXPIRED_OUTPUT_FILE);
         scrubberStatus.setUnscrubbedToScrubbedEntries(unscrubbedToUnscrubbedEntries);
 
         return scrubberStatus;
@@ -349,10 +360,34 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         setDescriptions();
         
         // new demerger starts
-        
-        String validOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
-        String errorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
 
+        String validOutputFilename = null; 
+        String errorOutputFilename = null;
+
+        String demergerValidOutputFilename = null; 
+        String demergerErrorOutputFilename = null;
+
+        
+        if(!collectorMode){
+            validOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+            errorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+
+            demergerValidOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+            demergerErrorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+            
+            reportFileName = reportDirectoryName + File.separator + "demerger_report_" + runDate.toString() ;
+
+        } else {
+
+            validOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+            errorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+
+            demergerValidOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+            demergerErrorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+            
+            reportFileName = reportDirectoryName + File.separator + "collector_demerger_report_" + runDate.toString() ;
+        }
+        
         // Without this step, the job fails with Optimistic Lock Exceptions
         persistenceService.clearCache();
         
@@ -362,10 +397,9 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         BufferedReader INPUT_ERR_FILE_br;
         PrintStream OUTPUT_DEMERGER_GLE_FILE_ps;
         PrintStream OUTPUT_DEMERGER_ERR_FILE_ps;
+        PrintStream PRINT_FILE_ps;
         
-        String demergerValidOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
-        String demergerErrorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-
+        
         try {
             INPUT_GLE_FILE = new FileReader(validOutputFilename);
             INPUT_ERR_FILE = new FileReader(errorOutputFilename);
@@ -377,6 +411,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             
             OUTPUT_DEMERGER_GLE_FILE_ps = new PrintStream(demergerValidOutputFilename);
             OUTPUT_DEMERGER_ERR_FILE_ps = new PrintStream(demergerErrorOutputFilename);
+            PRINT_FILE_ps = new PrintStream(reportFileName);
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -484,7 +519,21 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         demergerReport.setValidTransactionsSaved(validSaved);
         
         if (!collectorMode) {
-            reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
+            textReportHelper = new TextReportHelper<Transaction>("GL DEMERGER REPORT", PRINT_FILE_ps, dateTimeService, new OriginEntryFull());
+            textReportHelper.writeTitle();
+            PRINT_FILE_ps.printf("                                       SCRUBBER ERROR TRANSACTIONS READ       %,9d\n", demergerReport.getErrorTransactionsRead());
+            PRINT_FILE_ps.printf("                                       SCRUBBER VALID TRANSACTIONS READ       %,9d\n", demergerReport.getValidTransactionsRead());
+            PRINT_FILE_ps.printf("\n");
+            PRINT_FILE_ps.printf("                                       DEMERGER ERRORS SAVED                  %,9d\n", demergerReport.getErrorTransactionsSaved());
+            PRINT_FILE_ps.printf("                                       DEMERGER VALID TRANSACTIONS SAVED      %,9d\n", demergerReport.getValidTransactionsSaved());
+            PRINT_FILE_ps.printf("                                       OFFSET TRANSACTIONS BYPASSED           %,9d\n", demergerReport.getOffsetTransactionsBypassed());
+            PRINT_FILE_ps.printf("                                       CAPITALIZATION TRANSACTIONS BYPASSED   %,9d\n", demergerReport.getCapitalizationTransactionsBypassed());
+            PRINT_FILE_ps.printf("                                       LIABILITY TRANSACTIONS BYPASSED        %,9d\n", demergerReport.getLiabilityTransactionsBypassed());
+            PRINT_FILE_ps.printf("                                       TRANSFER TRANSACTIONS BYPASSED         %,9d\n", demergerReport.getTransferTransactionsBypassed());
+            PRINT_FILE_ps.printf("                                       COST SHARE TRANSACTIONS BYPASSED       %,9d\n", demergerReport.getCostShareTransactionsBypassed());
+            PRINT_FILE_ps.printf("                                       COST SHARE ENC TRANSACTIONS BYPASSED   %,9d\n", demergerReport.getCostShareEncumbranceTransactionsBypassed());
+            
+            //reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
         }
     }
 
@@ -571,6 +620,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         FileReader INPUT_GLE_FILE = null;
         String GLEN_RECORD;
         BufferedReader INPUT_GLE_FILE_br;
+        PrintStream PRINT_FILE_ps;
         try {
             INPUT_GLE_FILE = new FileReader(inputFile);
         } catch (FileNotFoundException e) {
@@ -580,10 +630,15 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             OUTPUT_GLE_FILE_ps = new PrintStream(validFile);
             OUTPUT_ERR_FILE_ps = new PrintStream(errorFile);
             OUTPUT_EXP_FILE_ps = new PrintStream(expiredFile);
+            PRINT_FILE_ps = new PrintStream(reportFileName);
         }
         catch (IOException e) {
             throw new RuntimeException(e);
         }
+        
+        textReportHelper = new TextReportHelper<Transaction>("GL SCRUBBER REPORT", PRINT_FILE_ps, dateTimeService, new OriginEntryFull());
+        textReportHelper.writeErrorHeader();
+        
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
         int line = 0;
         LOG.info("Starting Scrubber Process process group...");
@@ -689,8 +744,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                             if (te1 != null) {
                                 List errors = new ArrayList();
                                 errors.add(te1.message);
-                                scrubberReportErrors.put(te1.transaction, errors);
-    
+                                //scrubberReportErrors.put(te1.transaction, errors);
+                                textReportHelper.writeErrors(te1.transaction, errors);
                                 saveValidTransaction = false;
                                 saveErrorTransaction = true;
                             }
@@ -748,13 +803,15 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     
                                 List messages = new ArrayList();
                                 messages.add(te.message);
-                                scrubberReportErrors.put(errorEntry, messages);
+                                //scrubberReportErrors.put(errorEntry, messages);
+                                textReportHelper.writeErrors(te.transaction, messages);
                             }
                             scrubCostShareAmount = KualiDecimal.ZERO;
                         }
     
                         if (transactionErrors.size() > 0) {
-                            scrubberReportErrors.put(OriginEntryFull.copyFromOriginEntryable(scrubbedEntry), transactionErrors);
+                            //scrubberReportErrors.put(OriginEntryFull.copyFromOriginEntryable(scrubbedEntry), transactionErrors);
+                            textReportHelper.writeErrors(OriginEntryFull.copyFromOriginEntryable(scrubbedEntry), transactionErrors);
                         }
 
                         lastEntry = scrubbedEntry;
@@ -763,8 +820,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                 else {
                     // Error transaction
                     saveErrorTransaction = true;
-    
-                    scrubberReportErrors.put(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
+                    textReportHelper.writeErrors(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
+                    //scrubberReportErrors.put(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
                 }
     
                 if (saveValidTransaction) {
@@ -795,6 +852,21 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             OUTPUT_GLE_FILE_ps.close();
             OUTPUT_ERR_FILE_ps.close();
             OUTPUT_EXP_FILE_ps.close();
+            
+            textReportHelper.writeStatisticsHeader();
+            PRINT_FILE_ps.printf("                                        UNSCRUBBED RECORDS READ              %,9d\n", scrubberReport.getNumberOfUnscrubbedRecordsRead());
+            PRINT_FILE_ps.printf("                                        SCRUBBED RECORDS WRITTEN             %,9d\n", scrubberReport.getNumberOfScrubbedRecordsWritten());
+            PRINT_FILE_ps.printf("                                        ERROR RECORDS WRITTEN                %,9d\n", scrubberReport.getNumberOfErrorRecordsWritten());
+            PRINT_FILE_ps.printf("                                        OFFSET ENTRIES GENERATED             %,9d\n", scrubberReport.getNumberOfOffsetEntriesGenerated());
+            PRINT_FILE_ps.printf("                                        CAPITALIZATION ENTRIES GENERATED     %,9d\n", scrubberReport.getNumberOfCapitalizationEntriesGenerated());
+            PRINT_FILE_ps.printf("                                        LIABILITY ENTRIES GENERATED          %,9d\n", scrubberReport.getNumberOfLiabilityEntriesGenerated());
+            PRINT_FILE_ps.printf("                                        PLANT INDEBTEDNESS ENTRIES GENERATED %,9d\n", scrubberReport.getNumberOfPlantIndebtednessEntriesGenerated());
+            PRINT_FILE_ps.printf("                                        COST SHARE ENTRIES GENERATED         %,9d\n", scrubberReport.getNumberOfCostShareEntriesGenerated());
+            PRINT_FILE_ps.printf("                                        COST SHARE ENC ENTRIES GENERATED     %,9d\n", scrubberReport.getNumberOfCostShareEncumbrancesGenerated());
+            PRINT_FILE_ps.printf("                                        TOTAL OUTPUT RECORDS WRITTEN         %,9d\n", scrubberReport.getTotalNumberOfRecordsWritten());
+            PRINT_FILE_ps.printf("                                        EXPIRED ACCOUNTS FOUND               %,9d\n", scrubberReport.getNumberOfExpiredAccountsFound());
+            PRINT_FILE_ps.close();
+            
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -1744,7 +1816,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     private void putTransactionError(Transaction s, String errorMessage, String errorValue, int type) {
         List te = new ArrayList();
         te.add(new Message(errorMessage + "(" + errorValue + ")", type));
-        scrubberReportErrors.put(s, te);
+        textReportHelper.writeErrors(s, te);
+        //scrubberReportErrors.put(s, te);
     }
     
     /**

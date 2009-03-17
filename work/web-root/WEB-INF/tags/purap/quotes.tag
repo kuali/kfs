@@ -25,17 +25,15 @@
 <c:set var="preRouteChangeMode" value="${!empty KualiForm.editingMode['preRoute']}" />
 <c:set var="tabindexOverrideBase" value="90" />
 
-<kul:tab tabTitle="Quote" defaultOpen="false"
-	tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
-	<div class="tab-container" align=center><!--  if (fullEntryMode or amendmentEntry), then display the addLine -->
-	<table cellpadding="0" cellspacing="0" class="datatable"
-		summary="Items Section">
+<kul:tab tabTitle="Quote" defaultOpen="false" tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
+	<div class="tab-container" align=center>
+	<table cellpadding="0" cellspacing="0" class="datatable" summary="Quotes Section">	
 		
-		<c:set var="quoteOpen" value="false" />
-
-		<!-- if status is OPEN or QUOT or vendor list is not empty -->
-		<c:if test="${KualiForm.document.statusCode eq 'QUOT' || KualiForm.document.statusCode eq 'OPEN' || isPurchaseOrderAwarded}">
+	  	<c:set var="quoteOpen" value="false" />
+	 	<!-- if status is OPEN or QUOT or vendor list is not empty -->
+	  	<c:if test="${KualiForm.document.statusCode eq 'QUOT' || KualiForm.document.statusCode eq 'OPEN' || isPurchaseOrderAwarded}">
 		<c:set var="quoteOpen" value="true" />
+		
 		<tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">General Information</span>
@@ -47,6 +45,7 @@
 				</span>
 			</td>
 		</tr>
+		
         <tr>
              <th align=right valign=middle class="bord-l-b">
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteInitializationDate}" /></div>
@@ -64,6 +63,7 @@
                  	readOnly="${isPurchaseOrderAwarded or not preRouteChangeMode}" tabindexOverride="${tabindexOverrideBase + 3}"/>
              </td>
         </tr>
+        
         <tr>
              <th align=right valign=middle class="bord-l-b">
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteDueDate}" /></div>
@@ -74,6 +74,7 @@
                  	readOnly="${isPurchaseOrderAwarded or not preRouteChangeMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
              </td>
         </tr>
+        
         <tr>
              <th align=right valign=middle class="bord-l-b">
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteTypeCode}" /></div>
@@ -99,6 +100,7 @@
 			</td>
 		</tr>
 
+		<!--  if quote tab is editable, then display the addLine -->
 		<c:if test="${!isPurchaseOrderAwarded && preRouteChangeMode}">
         <tr>
 			<td colspan="5" class="subhead">
@@ -222,16 +224,16 @@
 			<td colspan="5">
 				<div align="center">
 					<html:image
-	property="methodToCall.completeQuote"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-completequote.gif"
-	alt="complete quote" title="complete quote"
-	styleClass="tinybutton" />
+						property="methodToCall.completeQuote"
+						src="${ConfigProperties.externalizable.images.url}tinybutton-completequote.gif"
+						alt="complete quote" title="complete quote"
+						styleClass="tinybutton" />
 					<c:if test="${not isAnyQuoteTransmitted}">
 					<html:image
-	property="methodToCall.cancelQuote"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-cancelquote.gif"
-	alt="cancel quote" title="cancel quote"
-	styleClass="tinybutton" />
+						property="methodToCall.cancelQuote"
+						src="${ConfigProperties.externalizable.images.url}tinybutton-cancelquote.gif"
+						alt="cancel quote" title="cancel quote"
+						styleClass="tinybutton" />
 					</c:if>
 				</div>
 			</td>
@@ -240,15 +242,15 @@
 
 		</c:if>
 
-		<c:if test="${!quoteOpen && preRouteChangeMode}">
+		<c:if test="${!quoteOpen && preRouteChangeMode && fullEntryMode}">
 		<tr>
 			<td colspan="5" class="subhead"> 
 				<span class="subhead-right">
 					<html:image
-	property="methodToCall.initiateQuote"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-initiatequote.gif"
-	alt="initiate quote" title="initiate quote"
-	styleClass="tinybutton" />
+						property="methodToCall.initiateQuote"
+						src="${ConfigProperties.externalizable.images.url}tinybutton-initiatequote.gif"
+						alt="initiate quote" title="initiate quote"
+						styleClass="tinybutton" />
 				</span>
 			</td>
 		</tr>

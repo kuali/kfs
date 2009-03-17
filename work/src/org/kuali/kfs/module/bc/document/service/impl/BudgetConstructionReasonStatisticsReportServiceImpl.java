@@ -51,7 +51,10 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
-
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisticsReportService#updateReasonStatisticsReport(java.lang.String,
+     *      java.lang.Integer, org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings)
+     */
     public void updateReasonStatisticsReport(String principalName, Integer universityFiscalYear, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         boolean applyAThreshold = budgetConstructionReportThresholdSettings.isUseThreshold();
         boolean selectOnlyGreaterThanOrEqualToThreshold = budgetConstructionReportThresholdSettings.isUseGreaterThanOperator();
@@ -65,20 +68,23 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
 
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisticsReportService#buildReports(java.lang.Integer,
+     *      java.lang.String, org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings)
+     */
     public Collection<BudgetConstructionOrgReasonStatisticsReport> buildReports(Integer universityFiscalYear, String principalName, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
-        Collection<BudgetConstructionOrgReasonStatisticsReport> reportSet = new ArrayList();
-
+        Collection<BudgetConstructionOrgReasonStatisticsReport> reportSet = new ArrayList<BudgetConstructionOrgReasonStatisticsReport>();
 
         BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry;
         // build searchCriteria
-        Map searchCriteria = new HashMap();
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
         searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
 
         // build order list
         List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionSalaryTotal> reasonStatisticsList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalaryTotal.class, searchCriteria, orderList);
 
-        // get object codes  --> helper class?
+        // get object codes --> helper class?
         searchCriteria.clear();
         searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         Collection<BudgetConstructionObjectPick> objectCodePickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
@@ -86,17 +92,16 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         for (BudgetConstructionObjectPick objectCode : objectCodePickList) {
             objectCodes += objectCode.getFinancialObjectCode() + " ";
         }
-        
-        // get reason codes  --> helper class?
+
+        // get reason codes --> helper class?
         searchCriteria.clear();
         searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
-        Collection<BudgetConstructionObjectPick> reasonCodePickList = businessObjectService.findMatching(BudgetConstructionReasonCodePick.class, searchCriteria);
+        Collection<BudgetConstructionReasonCodePick> reasonCodePickList = businessObjectService.findMatching(BudgetConstructionReasonCodePick.class, searchCriteria);
         String reasonCodes = "";
-        for (BudgetConstructionObjectPick reasonCode : reasonCodePickList) {
-            reasonCodes += reasonCode.getFinancialObjectCode() + " ";
+        for (BudgetConstructionReasonCodePick reasonCode : reasonCodePickList) {
+            reasonCodes += reasonCode.getAppointmentFundingReasonCode() + " ";
         }
-        
-        
+
         // build reports
         for (BudgetConstructionSalaryTotal reasonStatisticsEntry : reasonStatisticsList) {
             orgReasonStatisticsReportEntry = new BudgetConstructionOrgReasonStatisticsReport();
@@ -104,6 +109,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
             buildReportsBody(orgReasonStatisticsReportEntry, reasonStatisticsEntry);
             reportSet.add(orgReasonStatisticsReportEntry);
         }
+
         return reportSet;
     }
 
@@ -117,8 +123,9 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         // set fiscal year
         Integer prevFiscalyear = universityFiscalYear - 1;
         orgReasonStatisticsReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        
         // get Chart with orgChartCode
-        Map searchCriteria = new HashMap();
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salaryTotalEntry.getOrganizationChartOfAccountsCode());
         Chart chart = (Chart) businessObjectService.findByPrimaryKey(Chart.class, searchCriteria);
 
@@ -142,25 +149,26 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         }
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
         orgReasonStatisticsReportEntry.setObjectCodes(objectCodes);
-        
-        if(budgetConstructionReportThresholdSettings.isUseThreshold()){
-            if(budgetConstructionReportThresholdSettings.isUseGreaterThanOperator()){
+
+        if (budgetConstructionReportThresholdSettings.isUseThreshold()) {
+            if (budgetConstructionReportThresholdSettings.isUseGreaterThanOperator()) {
                 orgReasonStatisticsReportEntry.setThresholdOrReason(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_GREATER + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
-            } else {
+            }
+            else {
                 orgReasonStatisticsReportEntry.setThresholdOrReason(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_LESS + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
             }
-        } else {
+        }
+        else {
             orgReasonStatisticsReportEntry.setThresholdOrReason(BCConstants.Report.SELECTED_REASONS + reasonCodes);
         }
-        
-    }
 
+    }
 
     public void buildReportsBody(BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry, BudgetConstructionSalaryTotal salaryTotalEntry) {
         orgReasonStatisticsReportEntry.setInitialRequestedFteQuantity(salaryTotalEntry.getInitialRequestedFteQuantity());
         BigDecimal requestedAmount = BudgetConstructionReportHelper.calculateDivide(salaryTotalEntry.getInitialRequestedAmount().bigDecimalValue(), salaryTotalEntry.getInitialRequestedFteQuantity());
         orgReasonStatisticsReportEntry.setTotalInitialRequestedAmount(new Integer(BudgetConstructionReportHelper.setDecimalDigit(requestedAmount, 0, false).intValue()));
-        
+
         orgReasonStatisticsReportEntry.setAppointmentRequestedFteQuantity(salaryTotalEntry.getAppointmentRequestedFteQuantity());
         orgReasonStatisticsReportEntry.setTotalCsfAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getCsfAmount()));
         orgReasonStatisticsReportEntry.setTotalAppointmentRequestedAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getAppointmentRequestedAmount()));
@@ -170,10 +178,8 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         orgReasonStatisticsReportEntry.setAverageCsfAmount(BudgetConstructionReportHelper.calculateDivide(decimaCsfAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()));
         orgReasonStatisticsReportEntry.setAverageAppointmentRequestedAmount(BudgetConstructionReportHelper.calculateDivide(decimalAppointmentRequestedAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()));
         orgReasonStatisticsReportEntry.setAverageChange(orgReasonStatisticsReportEntry.getAverageAppointmentRequestedAmount().subtract(orgReasonStatisticsReportEntry.getAverageCsfAmount()));
-      
+
         orgReasonStatisticsReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(orgReasonStatisticsReportEntry.getAverageChange(), orgReasonStatisticsReportEntry.getAverageCsfAmount()));
-
-
     }
 
     /**
@@ -182,28 +188,46 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
      * @return returnList
      */
     public List<String> buildOrderByList() {
-        List<String> returnList = new ArrayList();
+        List<String> returnList = new ArrayList<String>();
         returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
+
         return returnList;
     }
 
-    public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {
-        this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;
-    }
-
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
+    /**
+     * Sets the budgetConstructionReasonStatisticsReportDao attribute value.
+     * 
+     * @param budgetConstructionReasonStatisticsReportDao The budgetConstructionReasonStatisticsReportDao to set.
+     */
     public void setBudgetConstructionReasonStatisticsReportDao(BudgetConstructionReasonStatisticsReportDao budgetConstructionReasonStatisticsReportDao) {
         this.budgetConstructionReasonStatisticsReportDao = budgetConstructionReasonStatisticsReportDao;
     }
 
-}
+    /**
+     * Sets the budgetConstructionOrganizationReportsService attribute value.
+     * 
+     * @param budgetConstructionOrganizationReportsService The budgetConstructionOrganizationReportsService to set.
+     */
+    public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {
+        this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;
+    }
 
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * 
+     * @param kualiConfigurationService The kualiConfigurationService to set.
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+}

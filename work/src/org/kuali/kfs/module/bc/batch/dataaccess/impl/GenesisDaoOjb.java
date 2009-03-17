@@ -196,7 +196,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         String[] queryAttr = { KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR };
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(FiscalYearFunctionControl.class, queryAttr, criteriaID, true);
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        // TODO@ we need to create an exception, put a try around this block, and log errors
         Result = (Boolean) ((Object[]) Results.next())[0];
         return Result.booleanValue();
 
@@ -224,9 +223,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         if (resultRow.hasNext()) {
             currentFiscalYear = (Integer) ((Number) ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(resultRow))[0]).intValue();
         }
-        //TODO:
         LOG.debug(String.format("\nreturned from fiscalYearFromToday: %d", currentFiscalYear));
-        //TODO:
         return currentFiscalYear;
     }
 
@@ -831,7 +828,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    //@@TODO:  this method was added in October, 2007 in an attempt to speed things up
     private void saveBCDocumentInWorkflow(BudgetConstructionDocument bcDoc) throws WorkflowException {
         // first, fetch the DB version of the workflow document saved when Kuali checked for the correct document type 
         DocumentRouteHeaderValue ourWorkflowDoc = routeHeaderService.getRouteHeader(bcDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
@@ -894,7 +890,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // (which is called by complete above) and simply saving our document and its action log message directly
         // using workflowDocumentService routines
         saveBCDocumentInWorkflow(newBCHdr);
-        //@@TODO: end October 2007 additions
+        // end October 2007 additions
     }
 
 
@@ -1408,8 +1404,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
         Criteria lockID = new Criteria();
         Criteria tranLockID = new Criteria();
-        //@@TODO:  add these to the KFSPropertyConstants or at least to 
-        //         BudgetConstructionConstants?
         if (BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS == null) {
             //  make sure that a NULL test is used in case = NULL is not supported
             //  by the database
@@ -1436,13 +1430,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     public void initialLoadToPBGL(Integer BaseYear) {
-        // @@TODO: this is just here for testing purposes
-        //         it will be handled by the clearDBForGenesis method in production
-        // clearBothYearsPBGL(BaseYear);
-        // we have to clean out account reports to
-        // it is not fiscal year-specific
-        // this implies that last year's data can't be there, because the
-        // organization hierarchy will have changed
         readBCHeaderForDocNumber(BaseYear);
         readGLForPBGL(BaseYear);
         addNewGLRowsToPBGL(BaseYear);
@@ -1618,8 +1605,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     private void readGLForPBGL(Integer BaseYear) {
-        // we apparently need to configure the log file in order to use it
-        // @@TODO: should these be a "weak hash map", to optimize memory use?
         Integer RequestYear = BaseYear + 1;
         //
         //  set up a report query to fetch all the GL rows we are going to need

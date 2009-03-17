@@ -109,10 +109,17 @@ public class WorkflowAttributesBeanDefinitionParser extends KualiBeanDefinitionP
     protected WorkflowAttributeMetadata parseAttributeDefinition(Element workflowAttributeDefinitionElement) {
         WorkflowAttributeMetadata workflowAttributeMetadata = null;
         if(workflowAttributeDefinitionElement.getLocalName().equals(SEARCHING_ATTRIBUTE)){
-            workflowAttributeMetadata = new SearchingAttribute();
+            return parseSearchingAttribute(workflowAttributeDefinitionElement);
         }else if(workflowAttributeDefinitionElement.getLocalName().equals(ROUTING_ATTRIBUTE)){
-            workflowAttributeMetadata = new RoutingAttribute();
+            return parseRoutingAttribute(workflowAttributeDefinitionElement);
         }
+        return workflowAttributeMetadata;
+    }
+    
+    
+    protected WorkflowAttributeMetadata parseSearchingAttribute(Element workflowAttributeDefinitionElement) {
+        SearchingAttribute workflowAttributeMetadata = new SearchingAttribute();
+
         String businessObjectClassName = workflowAttributeDefinitionElement.getAttribute("businessObjectClassName");
         if (StringUtils.isNotBlank(businessObjectClassName)) {
             try {
@@ -130,6 +137,18 @@ public class WorkflowAttributesBeanDefinitionParser extends KualiBeanDefinitionP
         
         return workflowAttributeMetadata;
     }
+    
+    protected WorkflowAttributeMetadata parseRoutingAttribute(Element workflowAttributeDefinitionElement) {
+        RoutingAttribute workflowAttributeMetadata = new RoutingAttribute();
+
+        String attributeName = workflowAttributeDefinitionElement.getAttribute("qualificationAttributeName");
+        if (StringUtils.isNotBlank(attributeName)) {
+            workflowAttributeMetadata.setQualificationAttributeName(attributeName);
+        }
+        
+        return workflowAttributeMetadata;
+    }
+    
     protected List<String> parseDocumentValueAttributeDefinition(Element workflowAttributeDefinitionElement) {
 
         List<String>paths = new ArrayList<String>();

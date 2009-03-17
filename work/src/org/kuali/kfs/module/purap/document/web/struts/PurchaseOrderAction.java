@@ -63,6 +63,8 @@ import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.VendorConstants.AddressTypes;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -635,7 +637,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         List<SensitiveData> sds = poForm.getSensitiveDatasAssigned();
         SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
         
-        //FIXME this is broken KULPURAP-3297
         // check business rules
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAssignSensitiveDataEvent("", po, sds));
         if (!rulePassed) {
@@ -1555,9 +1556,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         message = StringUtils.replace(message, "{0}", tempRows);
 
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-
         if (question == null) {
-
             // ask question if not already asked
             return performQuestionWithoutInput(mapping, form, request, response, PODocumentsStrings.CONFIRM_AWARD_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, PODocumentsStrings.CONFIRM_AWARD_RETURN, "");
         }
@@ -1573,16 +1572,21 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 // PO vendor information updated with awarded vendor
                 document.setVendorName(awardedQuote.getVendorName());
                 document.setVendorNumber(awardedQuote.getVendorNumber());
-                document.setVendorHeaderGeneratedIdentifier(awardedQuote.getVendorHeaderGeneratedIdentifier());
-                document.setVendorDetailAssignedIdentifier(awardedQuote.getVendorDetailAssignedIdentifier());
-                document.setVendorLine1Address(awardedQuote.getVendorLine1Address());
-                document.setVendorLine2Address(awardedQuote.getVendorLine2Address());
-                document.setVendorCityName(awardedQuote.getVendorCityName());
-                document.setVendorStateCode(awardedQuote.getVendorStateCode());
-                document.setVendorPostalCode(awardedQuote.getVendorPostalCode());
-                document.setVendorCountryCode(awardedQuote.getVendorCountryCode());
-                document.setVendorPhoneNumber(awardedQuote.getVendorPhoneNumber());
-                document.setVendorFaxNumber(awardedQuote.getVendorFaxNumber());
+                Integer headID = awardedQuote.getVendorHeaderGeneratedIdentifier();
+                Integer detailID = awardedQuote.getVendorDetailAssignedIdentifier();
+                document.setVendorHeaderGeneratedIdentifier(headID);
+                document.setVendorDetailAssignedIdentifier(detailID);
+                
+                // use PO type address to fill in vendor address 
+                String campusCode = GlobalVariables.getUserSession().getPerson().getCampusCode();
+                VendorAddress pova = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(headID, detailID, AddressTypes.PURCHASE_ORDER, campusCode);
+                document.setVendorLine1Address(pova.getVendorLine1Address());
+                document.setVendorLine2Address(pova.getVendorLine2Address());
+                document.setVendorCityName(pova.getVendorCityName());
+                document.setVendorStateCode(pova.getVendorStateCode());
+                document.setVendorPostalCode(pova.getVendorZipCode());
+                document.setVendorCountryCode(pova.getVendorCountryCode());
+                document.setVendorFaxNumber(pova.getVendorFaxNumber());
 
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);

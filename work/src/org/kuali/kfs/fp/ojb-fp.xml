@@ -2359,7 +2359,7 @@
 	<field-descriptor name="capitalAssetTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="capitalAssetSerialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR" />
 	
-	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
     	<foreignkey field-ref="campusCode"/>
     </reference-descriptor>
 

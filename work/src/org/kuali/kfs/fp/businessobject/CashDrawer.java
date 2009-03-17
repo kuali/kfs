@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -1081,7 +1082,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     private Campus retrieveCampus() {
         Map<String, String> keys = new HashMap<String, String>();
         keys.put("campusCode", campusCode);
-        return (Campus)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Campus.class, keys);
+        return (Campus)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CampusImpl.class, keys);
     }
 
     /**

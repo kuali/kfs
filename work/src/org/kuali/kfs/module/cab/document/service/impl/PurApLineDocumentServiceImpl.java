@@ -56,6 +56,7 @@ import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -412,10 +413,9 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     private boolean checkCampusCodeValid(String campusCode) {
         Map<String, Object> pKeys = new HashMap<String, Object>();
         pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
-        Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(Campus.class, pKeys);
+        Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(CampusImpl.class, pKeys);
         return ObjectUtils.isNotNull(campus) && campus.isActive();
     }
-
 
     /**
      * Feeding data into assetGlobalDetail list from preTagDetail

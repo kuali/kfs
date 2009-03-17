@@ -83,6 +83,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -1307,7 +1308,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
             params = new HashMap<String, String>();
             params.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
-            Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(Campus.class, params);
+            Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(CampusImpl.class, params);
             if (ObjectUtils.isNull(campus)) {
                 valid = false;
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);

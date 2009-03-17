@@ -48,6 +48,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -235,7 +236,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isNotBlank(assetGlobalDetail.getCampusCode())) {
             Map objectKeys = new HashMap();
             objectKeys.put(CamsPropertyConstants.Asset.CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());
-            Campus campus = (Campus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Campus.class, objectKeys);
+            Campus campus = (Campus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CampusImpl.class, objectKeys);
 
             if (ObjectUtils.isNull(campus)) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());

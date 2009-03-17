@@ -40,12 +40,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -54,7 +51,6 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Business rule(s) applicable to Asset Barcode Inventory upload and Barcode inventory error document.
@@ -192,7 +188,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         Campus campus;
         HashMap<String, Object> fields = new HashMap<String, Object>();
         fields.put(KFSPropertyConstants.CAMPUS_CODE, detail.getCampusCode());
-        campus = (Campus) getBusinessObjectService().findByPrimaryKey(Campus.class, fields);
+        campus = (Campus) getBusinessObjectService().findByPrimaryKey(CampusImpl.class, fields);
 
         if (ObjectUtils.isNull(campus)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);

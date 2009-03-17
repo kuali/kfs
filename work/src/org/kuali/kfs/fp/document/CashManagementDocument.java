@@ -45,11 +45,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
-import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -574,6 +574,6 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     private Campus retrieveCampus() {
         Map<String, String> keys = new HashMap<String, String>();
         keys.put("campusCode", campusCode);
-        return (Campus)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Campus.class, keys);
+        return (Campus)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CampusImpl.class, keys);
     }
 }

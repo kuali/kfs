@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -76,7 +77,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @return True if the campus code provided is valid and exists, false otherwise.
      */
     private boolean verifyCampus(String campusCode) {
-        Iterator campiiIter = businessObjectService.findAll(Campus.class).iterator();
+        Iterator campiiIter = businessObjectService.findAll(CampusImpl.class).iterator();
         boolean foundCampus = false;
         while (campiiIter.hasNext() && !foundCampus) {
             Campus campus = (Campus)campiiIter.next();

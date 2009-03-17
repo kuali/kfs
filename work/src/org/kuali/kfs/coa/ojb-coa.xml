@@ -80,7 +80,7 @@
         <foreignkey field-ref="accountTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountPhysicalCampusCode" />
     </reference-descriptor>
 
@@ -688,7 +688,7 @@
     <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.kfs.coa.businessobject.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="responsibilityCenterCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="organizationPhysicalCampusCode" />
     </reference-descriptor>
     <reference-descriptor name="organizationType" class-ref="org.kuali.kfs.coa.businessobject.OrganizationType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -888,7 +888,7 @@
         <foreignkey field-ref="accountTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountPhysicalCampusCode" />
     </reference-descriptor>
 
@@ -1685,7 +1685,7 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="organizationPhysicalCampusCode" />
     </reference-descriptor>
     <reference-descriptor name="reportsToOrganization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -1763,7 +1763,7 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.rice.kns.bo.Campus" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="hrmsIuCampusCode" />
     </reference-descriptor>
 </class-descriptor>

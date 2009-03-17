@@ -134,7 +134,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="4" />
+            p:size="3" />
     </property>
     <property name="summary" value="appointmentFundingMonth" />
     <property name="description" value="appointmentFundingMonth description..." />
@@ -146,16 +146,16 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Amount" />
     <property name="shortLabel" value="Requested Salary" />
-    <property name="maxLength" value="16" />
+    <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern">
-      	<property name="allowNegative" value="true"/>
+      	<property name="allowNegative" value="false"/>
       </bean>
     </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="9" />
     </property>
     <property name="summary" value="appointmentRequestedAmount" />
     <property name="description" value="appointmentRequestedAmount description..." />
@@ -167,7 +167,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Requested Change Amount" />
     <property name="shortLabel" value="Change Percent" />
-    <property name="maxLength" value="8" />
+    <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" >
       	<property name="allowNegative" value="true"/>
@@ -187,15 +187,15 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Csf Amount" />
     <property name="shortLabel" value="Requested Csf Amount" />
-    <property name="maxLength" value="11" />
+    <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern">
-      	<property name="allowNegative" value="true"/>
+      	<property name="allowNegative" value="false"/>
       </bean>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="9" />
     </property>
     <property name="summary" value="appointmentRequestedCsfAmount" />
     <property name="description" value="appointmentRequestedCsfAmount description..." />
@@ -207,9 +207,12 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Csf Fte Quantity" />
     <property name="shortLabel" value="Requested Csf FTE" />
-    <property name="maxLength" value="11" />
+    <property name="maxLength" value="7" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+            p:precision="6"
+            p:scale="5"
+            p:allowNegative="false" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -225,13 +228,16 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Csf Time Percent" />
     <property name="shortLabel" value="Requested Csf Time Percent" />
-    <property name="maxLength" value="11" />
+    <property name="maxLength" value="6" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+            p:precision="5"
+            p:scale="2"
+            p:allowNegative="false" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="7" />
     </property>
     <property name="summary" value="appointmentRequestedCsfTimePercent" />
     <property name="description" value="appointmentRequestedCsfTimePercent description..." />
@@ -243,9 +249,12 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Fte Quantity" />
     <property name="shortLabel" value="Requested FTE" />
-    <property name="maxLength" value="11" />
+    <property name="maxLength" value="7" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+            p:precision="6"
+            p:scale="5"
+            p:allowNegative="false" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -261,13 +270,16 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Pay Rate" />
     <property name="shortLabel" value="Pay Rate" />
-    <property name="maxLength" value="11" />
+    <property name="maxLength" value="6" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+            p:precision="5"
+            p:scale="2"
+            p:allowNegative="false" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="8" />
+            p:size="7" />
     </property>
     <property name="summary" value="appointmentRequestedPayRate" />
     <property name="description" value="appointmentRequestedPayRate description..." />
@@ -279,13 +291,16 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Time Percent" />
     <property name="shortLabel" value="Requested Time Percent" />
-    <property name="maxLength" value="11" />
+    <property name="maxLength" value="6" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+            p:precision="5"
+            p:scale="2"
+            p:allowNegative="false" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="7" />
     </property>
     <property name="summary" value="appointmentRequestedTimePercent" />
     <property name="description" value="appointmentRequestedTimePercent description..." />
@@ -297,13 +312,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Total Intended Amount" />
     <property name="shortLabel" value="Total Intended" />
-    <property name="maxLength" value="16" />
+    <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="9" />
     </property>
     <property name="summary" value="appointmentTotalIntendedAmount" />
     <property name="description" value="appointmentTotalIntendedAmount description..." />
@@ -315,9 +330,12 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Total Intended FTE Quantity" />
     <property name="shortLabel" value="Total Intended FTE" />
-    <property name="maxLength" value="11" />
+    <property name="maxLength" value="7" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+            p:precision="6"
+            p:scale="5"
+            p:allowNegative="false" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

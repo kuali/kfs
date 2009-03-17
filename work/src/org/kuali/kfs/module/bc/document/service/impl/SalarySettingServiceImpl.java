@@ -109,7 +109,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         BigDecimal annualWorkingHours = BigDecimal.valueOf(BudgetParameterFinder.getAnnualWorkingHours());
         BigDecimal totalPayHoursForYear = fteQuantity.multiply(annualWorkingHours);
-        BigDecimal hourlyPayRate = requestedAmount.divide(totalPayHoursForYear).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        BigDecimal hourlyPayRate = requestedAmount.divide(totalPayHoursForYear).setScale(2, BigDecimal.ROUND_HALF_UP);
 
         return hourlyPayRate;
     }
@@ -192,11 +192,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         BigDecimal payMonthAsDecimal = BigDecimal.valueOf(payMonth);
         BigDecimal fundingMonthAsDecimal = BigDecimal.valueOf(fundingMonth);
-        BigDecimal fundingMonthPercent = fundingMonthAsDecimal.divide(payMonthAsDecimal, 4, BigDecimal.ROUND_HALF_EVEN);
+        BigDecimal fundingMonthPercent = fundingMonthAsDecimal.divide(payMonthAsDecimal, 5, BigDecimal.ROUND_HALF_UP);
 
         BigDecimal fteQuantity = requestedTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
 
-        return fteQuantity.setScale(4);
+        return fteQuantity.setScale(5,BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -231,11 +231,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         BigDecimal payMonthAsDecimal = BigDecimal.valueOf(payMonth);
         BigDecimal normalMonthAsDecimal = BigDecimal.valueOf(normalWorkMonth);
-        BigDecimal fundingMonthPercent = normalMonthAsDecimal.divide(payMonthAsDecimal, 4, BigDecimal.ROUND_HALF_EVEN);
+        BigDecimal fundingMonthPercent = normalMonthAsDecimal.divide(payMonthAsDecimal, 5, BigDecimal.ROUND_HALF_UP);
 
         BigDecimal fteQuantity = requestedCSFTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
 
-        return fteQuantity.setScale(4);
+        return fteQuantity.setScale(5,BigDecimal.ROUND_HALF_UP);
     }
 
     /**

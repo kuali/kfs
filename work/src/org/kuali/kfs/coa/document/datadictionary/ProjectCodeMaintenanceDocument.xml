@@ -72,11 +72,11 @@
 	</bean>
 	
 	<bean id="ProjectCodeMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="attributeName" value="chartOfAccountsCode"/>
+    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
 	<bean id="ProjectCodeMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="attributeName" value="organizationCode"/>
+    	<property name="qualificationAttributeName" value="organizationCode"/>
 	</bean>
 	
 	

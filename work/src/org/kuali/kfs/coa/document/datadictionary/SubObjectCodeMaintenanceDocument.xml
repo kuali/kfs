@@ -76,15 +76,15 @@
 	</bean>
 	
 	<bean id="SubObjectCodeMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="attributeName" value="chartOfAccountsCode"/>
+    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
 	</bean>
 	
 	<bean id="SubObjectCodeMaintenanceDocument-RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="attributeName" value="accountNumber"/>
+    	<property name="qualificationAttributeName" value="accountNumber"/>
 	</bean>
 	
 	<bean id="SubObjectCodeMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="attributeName" value="organizationCode"/>
+    	<property name="qualificationAttributeName" value="organizationCode"/>
 	</bean>
 	
 	<bean id="SubObjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">

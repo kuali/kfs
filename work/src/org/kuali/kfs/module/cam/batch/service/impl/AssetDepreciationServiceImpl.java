@@ -546,7 +546,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     explicitEntry.setTransactionDebitCreditCode(t.getTransactionType());
                     explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
                     explicitEntry.setFinancialDocumentTypeCode(financialSystemDocumentTypeCodeCode);
-                    explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.YES);
+                    explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
                     explicitEntry.setVersionNumber(new Long(1));
                     explicitEntry.setTransactionEntryProcessedTs(new java.sql.Timestamp(transactionTimestamp.getTime()));
 

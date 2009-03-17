@@ -199,6 +199,17 @@ public class GeneralLedgerConstants {
         static final public String SCRUBBER_ERROR_PREFIX = "scrberr1";
 
         static final public String BACKUP_FILE = "gl_glbackup";
+        
+        static final public String  COLLECTOR_BACKUP_FILE = "col_glbackup";
+        
+        static final public String COLLECTOR_SCRUBBER_INPUT_FILE = "col_sortscrb";
+        static final public String COLLECTOR_SCRUBBER_VALID_OUTPUT_FILE = "col_scrbout1";
+        static final public String COLLECTOR_SCRUBBER_ERROR_OUTPUT_FILE = "col_scrberr1";
+        static final public String COLLECTOR_SCRUBBER_EXPIRED_OUTPUT_FILE = "col_expaccts";
+        static final public String COLLECTOR_SCRUBBER_ERROR_SORTED_FILE = "col_sorterr1";
+        static final public String COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE = "gl_scrbout2";
+        static final public String COLLECTOR_DEMERGER_ERROR_OUTPUT_FILE = "gl_scrberr2";
+        
         static final public String PRE_SCRUBBER_FILE = "gl_prescrub";
         static final public String SCRUBBER_INPUT_FILE = "gl_sortscrb";
         static final public String SCRUBBER_VALID_OUTPUT_FILE = "gl_scrbout1";
@@ -221,6 +232,7 @@ public class GeneralLedgerConstants {
         static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "gl_icrerrs";
         
 		static final public String NIGHTLY_OUT_FILE = "gl_glentry_kfs";
+		static final public String EXTRACT_TRANSACTION_FILE = "gl_glentry_pdp";
 		
 		//year end part
 		static final public String ORGANIZATION_REVERSION_PRE_CLOSING_FILE = "gl_org_reversion_pre_closing";

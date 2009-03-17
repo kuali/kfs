@@ -48,7 +48,7 @@
 		</td>	             	
 		
 		<td style="text-align: right;">
-         	<fmt:formatNumber value="${KualiForm.csfFullTimeEmploymentQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
+         	<fmt:formatNumber value="${KualiForm.csfFullTimeEmploymentQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="5" />
 		</td>
 		
 		<td>&nbsp;</td>
@@ -72,7 +72,7 @@
 		</td>	             	
 		
 		<td style="text-align: right;">
-         	<fmt:formatNumber value="${KualiForm.appointmentRequestedFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />	
+         	<fmt:formatNumber value="${KualiForm.appointmentRequestedFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="5" />	
 		</td>
 		
 		<td>&nbsp;</td>
@@ -96,7 +96,7 @@
 		</td>
 
 		<td style="text-align: right;">             	
-         	<fmt:formatNumber value="${KualiForm.appointmentRequestedCsfFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
+         	<fmt:formatNumber value="${KualiForm.appointmentRequestedCsfFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="5" />
 		</td>
 		
 		<td>&nbsp;</td>

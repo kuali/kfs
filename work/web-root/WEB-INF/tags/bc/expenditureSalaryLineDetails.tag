@@ -175,7 +175,7 @@
     			</td>
 				
 				<fmt:formatNumber value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 
-					var="formattedCsfFTE" type="number" groupingUsed="true" minFractionDigits="4" />
+					var="formattedCsfFTE" type="number" groupingUsed="true" minFractionDigits="5" />
 				<td class="datacell" style="text-align: right;">${formattedCsfFTE}</td>
 			</c:when>
 			<c:otherwise>
@@ -209,7 +209,7 @@
 		        				
 		<!-- appointment Requested Fte Quantity -->
         <fmt:formatNumber value="${fundingLine.appointmentRequestedFteQuantity}" 
-        	var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="4" />	
+        	var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />	
 
 		<bc:pbglLineDataCell dataCellCssClass="datacell" 
 			accountingLine="${fundingLineName}" attributes="${pbcafAttributes}" 
@@ -291,7 +291,7 @@
 	    	cellProperty="csfAmountTotal" disableHiddenField="true"/>
 		
 		<fmt:formatNumber var="formattedCsfFTETotal" value="${KualiForm.csfFullTimeEmploymentQuantityTotal}" 
-        	type="number" groupingUsed="true" minFractionDigits="4" />
+        	type="number" groupingUsed="true" minFractionDigits="5" />
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
 			cellProperty="csfFullTimeEmploymentQuantityTotal" formattedNumberValue="${formattedCsfFTETotal}" disableHiddenField="true"/>
 	
@@ -299,7 +299,7 @@
 			cellProperty="appointmentRequestedAmountTotal" disableHiddenField="true"/>
 	
 		<fmt:formatNumber var="formattedRequestedFTETotal" value="${KualiForm.appointmentRequestedFteQuantityTotal}" 
-        	type="number" groupingUsed="true" minFractionDigits="4" />
+        	type="number" groupingUsed="true" minFractionDigits="5" />
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
 			cellProperty="appointmentRequestedFteQuantityTotal" formattedNumberValue="${formattedRequestedFTETotal}" disableHiddenField="true"/>
 	

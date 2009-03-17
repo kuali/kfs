@@ -78,7 +78,7 @@
 		<td class="datacell">&nbsp;</td>
 		
 		<fmt:formatNumber var="formattedCsfTimePercent" value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfTimePercent}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>		
+        		type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2"/>		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 cellProperty="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0].csfTimePercent"
@@ -89,7 +89,7 @@
                 rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedCsfTimePercent}">&nbsp;</bc:pbglLineDataCell>
         
         <fmt:formatNumber var="formattedCsfFteQuantity" value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>         
+        		type="number" groupingUsed="true" minFractionDigits="5" maxFractionDigits="5"/>         
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 cellProperty="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity"
@@ -135,7 +135,7 @@
                 rowSpan="1" dataFieldCssClass="amount" />
 		
 		<fmt:formatNumber var="formattedRequestedTimePercent" value="${fundingLine.appointmentRequestedTimePercent}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>	
+        		type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2"/>	
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
@@ -147,7 +147,7 @@
                 
         <td class="datacell" style="text-align: right;" rowSpan="1">
         	<fmt:formatNumber var="formattedFteQuantity" value="${fundingLine.appointmentRequestedFteQuantity}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>	
+        		type="number" groupingUsed="true" minFractionDigits="5" maxFractionDigits="5"/>	
         		
 		    <bc:pbglLineDataCellDetail detailField="appointmentRequestedFteQuantity" accountingLine="${fundingLineName}" 
 		    	dataFieldCssClass="nowrap" formattedNumberValue="${formattedFteQuantity}"/>
@@ -204,7 +204,7 @@
 		<td>&nbsp;</td>
 		
 		<fmt:formatNumber var="formattedReqCsfTimePercent" value="${fundingLine.appointmentRequestedCsfTimePercent}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/> 
+        		type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2"/> 
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
@@ -216,7 +216,7 @@
                 
         <td class="datacell" style="text-align: right;" rowSpan="1">
         	<fmt:formatNumber var="formattedReqCsfFteQuantity" value="${fundingLine.appointmentRequestedCsfFteQuantity}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>	
+        		type="number" groupingUsed="true" minFractionDigits="5" maxFractionDigits="5"/>	
         		
 		    <bc:pbglLineDataCellDetail detailField="appointmentRequestedCsfFteQuantity" accountingLine="${fundingLineName}" 
 		    	dataFieldCssClass="nowrap" formattedNumberValue="${formattedReqCsfFteQuantity}"/>
@@ -244,7 +244,7 @@
 		<td>&nbsp;</td>
         
         <fmt:formatNumber var="formattedIndendedFteQuantity" value="${fundingLine.appointmentTotalIntendedFteQuantity}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>          
+        		type="number" groupingUsed="true" minFractionDigits="5" maxFractionDigits="5"/>          
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"

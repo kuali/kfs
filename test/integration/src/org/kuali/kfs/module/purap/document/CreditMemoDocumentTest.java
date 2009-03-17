@@ -91,7 +91,6 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     }
     
     @ConfigureContext(session = appleton, shouldCommitTransactions=true)
-    @RelatesTo(JiraIssue.KULPURAP3598)
     public final void testSaveDocument() throws Exception {       
         creditMemoDocument = buildSimpleDocument();       
         creditMemoDocument.setAccountsPayableProcessorIdentifier("khuntley");

@@ -99,7 +99,7 @@ public class CollectorServiceImpl implements CollectorService {
 
      // ****************************************************************        
         
-        String collectorEachInputFileName = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE;
+        String collectorEachInputFileName = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String collectorFinalOutputFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_OUTPUT + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         //File collectorFinalOutputFile = new File(collectorFinalOutputFileName);
         PrintStream collectorFinalOutputFilePs = null;

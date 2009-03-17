@@ -1363,9 +1363,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         // 4000-PLANT-FUND-ACCT to 4000-PLANT-FUND-ACCT-EXIT in cobol
         
         liabilityEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-        OriginEntryFull scrubbedEntryVal = (OriginEntryFull)scrubbedEntry;
-        scrubbedEntryVal.refresh();
-        ObjectCode scrubbedEntryObjectCode = (scrubbedEntryVal).getFinancialObject();
+        ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
         Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
         scrubbedEntryAccount.setOrganization(referenceLookup.get().getOrg(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
 

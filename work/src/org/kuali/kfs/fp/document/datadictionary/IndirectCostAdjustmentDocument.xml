@@ -126,10 +126,9 @@
 				</bean>
 				<bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName"/>
 				<bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:unconditionallyReadOnly="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
-					
 					<property name="overrideFields">
 						<list>
-							<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride" p:unconditionallyReadOnly="false"/>
+							<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride" p:allowEditDespiteReadOnlyParentWhenAccoutingLineEditable="true"/>
 						</list>
 					</property>
 				</bean>

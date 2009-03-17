@@ -27,7 +27,6 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -246,8 +245,6 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
             return PurchaseOrderDocument.class;
         }else if (accountingDocument instanceof PaymentRequestDocument){
             return PaymentRequestDocument.class;
-        }else if (accountingDocument instanceof VendorCreditMemoDocument){
-            return VendorCreditMemoDocument.class;
         }else{
             return null;
         }

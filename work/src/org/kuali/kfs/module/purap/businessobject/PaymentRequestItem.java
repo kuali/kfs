@@ -75,7 +75,10 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
         // copy base attributes w/ extra array of fields not to be copied
         PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.PREQ_ITEM_UNCOPYABLE_FIELDS);
-
+        
+        //New Source Line should be set for PaymentRequestItem - KULPURAP-3498 - vpremcha
+        resetAccount();
+        
         //copy tax info
         this.setItemTaxAmount( poi.getItemTaxAmount() );
         

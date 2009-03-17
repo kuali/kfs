@@ -1213,6 +1213,7 @@
 				<entry key="nightlyOutJob" value="hardDependency" />
 				<entry key="clearLaborPendingEntriesJob" value="hardDependency" />
 				<entry key="pdpExtractGlTransactionsStepJob" value="hardDependency" />
+				<entry key="budgetConstructionGeneralLedgerLoadJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>	

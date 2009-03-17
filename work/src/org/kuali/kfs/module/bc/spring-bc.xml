@@ -53,6 +53,8 @@
 		<property name="jobNames">
 			<list>
 				<value>genesisBatchJob</value>
+				<value>budgetConstructionUpdateJob</value>
+				<value>budgetConstructionGeneralLedgerLoadJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -811,7 +813,11 @@
       </property>  
     </bean>
         
-    <bean id="budgetConstructionUpdateBatchStep" class="org.kuali.kfs.module.bc.batch.BudgetConstructionUpdateBatchStep" parent="step"> </bean>
+    <bean id="budgetConstructionUpdateBatchStep" class="org.kuali.kfs.module.bc.batch.BudgetConstructionUpdateBatchStep" parent="step"> 
+       <property name="genesisService">
+          <ref bean="genesisService"/>
+       </property>    
+    </bean>
         
     <bean id="genesisBatchStep" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step">
       <property name="genesisService">
@@ -829,6 +835,27 @@
     	<property name="steps">
     		<list>
     			<ref bean="genesisBatchStep" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="budgetConstructionUpdateJob" parent="scheduledJobDescriptor">
+    	<property name="steps">
+    		<list>
+    			<ref bean="budgetConstructionUpdateBatchStep" />
+    		</list>
+    	</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
+    </bean>
+    
+    <bean id="budgetConstructionGeneralLedgerLoadJob" parent="scheduledJobDescriptor">
+    	<property name="steps">
+    		<list>
+    			<ref bean="budgetConstructionGeneralLedgerLoadBatchStep" />
     		</list>
     	</property>
     </bean>

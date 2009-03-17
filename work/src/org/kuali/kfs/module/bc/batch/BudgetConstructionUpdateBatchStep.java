@@ -26,11 +26,20 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 public class BudgetConstructionUpdateBatchStep extends AbstractStep {
 
     private GenesisService genesisService;
-    
+
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        genesisService = SpringContext.getBean(GenesisService.class);    
         genesisService.bCUpdateStep(BudgetParameterFinder.getBaseFiscalYear());
+        
         return true;
+    }
+
+    /**
+     * Sets the genesisService attribute value.
+     * 
+     * @param genesisService The genesisService to set.
+     */
+    public void setGenesisService(GenesisService genesisService) {
+        this.genesisService = genesisService;
     }
 
 }

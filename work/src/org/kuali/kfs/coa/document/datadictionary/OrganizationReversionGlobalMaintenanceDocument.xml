@@ -136,7 +136,7 @@
 	</bean>
 	
 	<bean id="OrganizationReversionGlobalMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="attributeName" value="organizationCode"/>
+    	<property name="qualificationAttributeName" value="organizationCode"/>
 	</bean>
 	
 	<bean id="OrganizationReversionGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">

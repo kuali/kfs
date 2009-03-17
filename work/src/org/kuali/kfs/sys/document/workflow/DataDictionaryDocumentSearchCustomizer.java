@@ -135,31 +135,6 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
         SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
         return ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
     }
-//@Override
-//    public String generateSearchSql(DocSearchCriteriaDTO searchCriteria) {
-//        SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName(searchCriteria, "displayType");
-//       boolean meh =  searchCriteria.getSearchableAttributes().remove(displayCriteria);
-//        return super.generateSearchSql(searchCriteria);
-//    }
-
-//public SearchAttributeCriteriaComponent getSearchableAttributeByFieldName(DocSearchCriteriaDTO criteria, 
-//        String name) {
-//    if (StringUtils.isBlank(name)) {
-//        throw new IllegalArgumentException(
-//                "Attempted to find Searchable Attribute with blank Field name '"
-//                        + name + "'");
-//    }
-//    for (Iterator iter = criteria.getSearchableAttributes()
-//            .iterator(); iter.hasNext();) {
-//        SearchAttributeCriteriaComponent critComponent = (SearchAttributeCriteriaComponent) iter
-//                .next();
-//        if (name.equals(critComponent.getFormKey())) {
-//            return critComponent;
-//        }
-//    }
-//    return null;
-//}
-
 
     // SEARCHABLE ATTRIBUTE IMPLEMENTATION
     private FinancialSystemSearchableAttribute searchableAttribute = new FinancialSystemSearchableAttribute();
@@ -184,10 +159,10 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
         return searchableAttribute.validateUserSearchInputs(paramMap, searchContext);
     }
 
-//    @Override
-//    public DocSearchCriteriaDTO clearSearch(DocSearchCriteriaDTO searchCriteria) {
-//        DocSearchCriteriaDTO dscdto = new DocSearchCriteriaDTO();
-//        dscdto.setDocTypeFullName(searchCriteria.getDocTypeFullName());
-//        return dscdto;
-//    }
+    @Override
+    public DocSearchCriteriaDTO clearSearch(DocSearchCriteriaDTO searchCriteria) {
+        DocSearchCriteriaDTO dscdto = new DocSearchCriteriaDTO();
+        dscdto.setDocTypeFullName(searchCriteria.getDocTypeFullName());
+        return dscdto;
+    }
 }

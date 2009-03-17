@@ -53,7 +53,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     private boolean accountSummaryConsolidation;
     private boolean accountObjectDetailConsolidation;
-    private boolean monthObjectSummaryConsolidation = true; 
+    private boolean monthObjectSummaryConsolidation; 
     
     private String reportMode;    
     

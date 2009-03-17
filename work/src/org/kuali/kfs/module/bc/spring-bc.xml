@@ -54,7 +54,6 @@
 			<list>
 				<value>genesisBatchJob</value>
 				<value>budgetConstructionUpdateJob</value>
-				<value>budgetConstructionGeneralLedgerLoadJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -850,14 +849,6 @@
 				<entry key="posterJob" value="hardDependency" />
 			</map>
 		</property>
-    </bean>
-    
-    <bean id="budgetConstructionGeneralLedgerLoadJob" parent="scheduledJobDescriptor">
-    	<property name="steps">
-    		<list>
-    			<ref bean="budgetConstructionGeneralLedgerLoadBatchStep" />
-    		</list>
-    	</property>
     </bean>
     
     <bean id="genesisBatchJobTrigger" parent="simpleTrigger">

@@ -46,8 +46,6 @@ public class AssetLocationServiceTest extends KualiTestBase {
         fieldMap.put(LocationField.STATE_CODE, "stateCode");
         fieldMap.put(LocationField.ZIP_CODE, "zipCode");
         fieldMap.put(LocationField.COUNTRY_CODE, "countryCode");
-        fieldMap.put(LocationField.LOCATION_TAB_KEY, "tabKey");
-
     }
 
     public class MockBusinessObject extends BusinessObjectBase {
@@ -61,16 +59,6 @@ public class AssetLocationServiceTest extends KualiTestBase {
         private String stateCode;
         private String zipCode;
         private String countryCode;
-        private String tabKey;
-
-
-        public String getTabKey() {
-            return tabKey;
-        }
-
-        public void setTabKey(String tabKey) {
-            this.tabKey = tabKey;
-        }
 
         public String getCampusCode() {
             return campusCode;

@@ -368,8 +368,7 @@ public class CamsPropertyConstants {
     public static class AssetRepairHistory {
         public final static String INCIDENT_DATE = "incidentDate";
     }
-    
-    public static final String HIDDEN_FIELD_FOR_ERROR="hiddenFieldForError"; 
+    public static final String HIDDEN_FIELD_FOR_ERROR="hiddenFieldForError";    
     public static final String DOCUMENT_NUMBER="documentNumber"; 
 }
 

@@ -156,15 +156,11 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
         
         int nElements=assetRetirementGlobal.getAssetRetirementGlobalDetails().size() + rawValues.size();
-
-        String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
-         
         if (!getAssetService().isDocumentEnrouting(document) && !getAssetRetirementService().isAllowedRetireMultipleAssets(document) && nElements > new Integer(1)) {
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+              GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
         } else {
             GlobalVariables.getErrorMap().clear();
+
             //Adding the selected asset.
             super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
         }

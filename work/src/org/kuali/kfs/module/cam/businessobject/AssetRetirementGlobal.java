@@ -80,7 +80,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     // Non-persistent
     private KualiDecimal calculatedTotal;
-    private transient String hiddenFieldForError;
 
     /**
      * Default constructor.
@@ -860,26 +859,4 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         }
         return calculatedTotal;
     }
-
-
-    /**
-     * Gets the hiddenFieldForError attribute.
-     * 
-     * @return Returns the hiddenFieldForError.
-     */
-    public String getHiddenFieldForError() {
-        return hiddenFieldForError;
-    }
-
-
-    /**
-     * Sets the hiddenFieldForError attribute value.
-     * 
-     * @param hiddenFieldForError The hiddenFieldForError to set.
-     */
-    public void setHiddenFieldForError(String hiddenFieldForError) {
-        this.hiddenFieldForError = hiddenFieldForError;
-    }
-
-
 }

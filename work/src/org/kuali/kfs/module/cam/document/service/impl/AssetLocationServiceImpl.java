@@ -72,8 +72,6 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     public void updateOffCampusLocation(Asset asset) {
         List<AssetLocation> assetLocations = asset.getAssetLocations();
         AssetLocation offCampusLocation = asset.getOffCampusLocation();
-        //offCampusLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
-        //offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
         assetLocations.add(offCampusLocation);
     }
 
@@ -97,7 +95,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
 
         boolean valid = true;
         if (onCampus && offCampus) {
-            putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_LOCATION_INFO);
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_LOCATION_INFO);            
             valid &= false;
         }
         else {
@@ -115,18 +113,18 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     private boolean validateCapitalAssetLocation(AssetType assetType, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus) {
         boolean valid = true;
         if (ObjectUtils.isNull(assetType)) {
-            putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);                        
             valid &= false;
         }
         else {
             if (assetType.isRequiredBuildingIndicator() && offCampus) {
                 // off campus information not allowed
-                putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_OFF_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());
+                GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_LOCATION_OFF_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());                            
                 valid &= false;
             }
             else if (!assetType.isMovingIndicator() && !assetType.isRequiredBuildingIndicator() && onCampus) {
                 // land information cannot have on-campus
-                putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());
+                GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());
                 valid &= false;
             }
             else if (onCampus) {
@@ -136,7 +134,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
                 valid = validateOffCampusLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode);
             }
             else if (assetType.isMovingIndicator() || assetType.isRequiredBuildingIndicator()) {
-                putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
+                GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
                 valid &= false;
             }
         }

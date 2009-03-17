@@ -26,10 +26,6 @@
         <value>documentNumber</value>
       </list>
     </property>
-    
-    
-    
-    
     <property name="documentTypeName" value="AR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRetirementGlobalRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
@@ -68,7 +64,6 @@
     <property name="title" value="Retirement Information"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="hiddenFieldForError"/>
         <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Retirement Reason"/>
         <bean parent="MaintainableFieldDefinition" p:name="retirementReasonCode" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="retirementDate" p:unconditionallyReadOnly="true"/>
@@ -147,7 +142,6 @@
           </property>
           <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="hiddenFieldForError"/>
               <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" p:readOnlyAfterAdd="true" p:template="capitalAssetNumber"/>
               <bean parent="MaintainableFieldDefinition" p:name="asset.organizationOwnerChartOfAccountsCode" p:unconditionallyReadOnly="true" p:template="organizationOwnerChartOfAccountsCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="asset.organizationOwnerAccountNumber" p:unconditionallyReadOnly="true" p:template="organizationOwnerAccountNumber"/>

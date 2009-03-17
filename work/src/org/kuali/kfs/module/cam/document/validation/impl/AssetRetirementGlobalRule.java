@@ -206,17 +206,17 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         // not defined in Asset Object Code table
         if (StringUtils.isBlank(finObjectCode)) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { glPostingType, chartOfAccountsCode });
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_NOT_FOUND,new String[] { glPostingType, chartOfAccountsCode });            
             valid = false;
         }
         // check Object Code existing
         else if (ObjectUtils.isNull(finObject)) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID, new String[] { glPostingType, finObjectCode, chartOfAccountsCode });
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INVALID, new String[] { glPostingType, finObjectCode, chartOfAccountsCode });            
             valid = false;
         }
         // check Object Code active
         else if (!finObject.isActive()) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE, new String[] { glPostingType, finObjectCode, chartOfAccountsCode });
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.GLPosting.ERROR_OBJECT_CODE_FROM_ASSET_OBJECT_CODE_INACTIVE, new String[] { glPostingType, finObjectCode, chartOfAccountsCode });            
             valid = false;
         }
         return valid;
@@ -235,12 +235,12 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         // check Asset Object Code existing.
         if (ObjectUtils.isNull(assetObjectCode)) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.GLPosting.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });            
             valid = false;
         }
         // check Asset Object Code active
         else if (!assetObjectCode.isActive()) {
-            putFieldError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.GLPosting.ERROR_ASSET_OBJECT_CODE_INACTIVE, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.GLPosting.ERROR_ASSET_OBJECT_CODE_INACTIVE, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
             valid = false;
         }
 
@@ -286,7 +286,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (assetRetirementDetails.size() > maxNumber && !getAssetRetirementService().isAllowedRetireMultipleAssets(maintenanceDocument)) {
-            putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
             success = false;
         }
 
@@ -307,7 +307,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         if (assetRetirementGlobalDetails.size() == 0) {
             success = false;
-            putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_ASSET_RETIREMENT_GLOBAL_NO_ASSET);
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.Retirement.ERROR_ASSET_RETIREMENT_GLOBAL_NO_ASSET);
         }
         else {
             // validate each asset retirement detail
@@ -342,7 +342,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         if (ObjectUtils.isNull(asset)) {
             success = false;
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Retirement.ERROR_INVALID_CAPITAL_ASSET_NUMBER, assetRetirementGlobalDetail.getCapitalAssetNumber().toString());
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.Retirement.ERROR_INVALID_CAPITAL_ASSET_NUMBER,assetRetirementGlobalDetail.getCapitalAssetNumber().toString());
         }
         else {
             success &= validateActiveCapitalAsset(asset);

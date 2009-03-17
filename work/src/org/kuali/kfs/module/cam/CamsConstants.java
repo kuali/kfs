@@ -200,6 +200,7 @@ public class CamsConstants extends JSTLConstants {
     public static class AssetRetirementGlobal {
         public static final String ASSET_LOOKUPABLE_ID = "assetLookupable";
         public static final String DOCUMENT_HEADER = "documentHeader";
+        public static final String SECTION_ID_ASSET_DETAIL_INFORMATION="Asset Detail Information";
         public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
@@ -290,7 +291,8 @@ public class CamsConstants extends JSTLConstants {
     public static class AssetSeparate {
         public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
         public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
-        public static final String SEPARATE_AN_ASSET_DESCRIPTION = "Separate an Asset";        
+        public static final String SEPARATE_AN_ASSET_DESCRIPTION = "Separate an Asset";
+        public static final String LOCATION_SECTION_ID="Location Information";        
     }
 
     public static class GLPostingObjectCodeType {

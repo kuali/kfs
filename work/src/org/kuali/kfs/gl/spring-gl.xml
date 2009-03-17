@@ -617,6 +617,7 @@
 			<ref bean="originEntryLiteService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+		<property name="reportDirectoryName" value="${reports.directory}"/>
 	</bean>
 
 	<bean id="scrubberValidator" class="org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl">

@@ -60,6 +60,7 @@
             p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetCondition"
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+			p:includeBlankRow="true"            
             p:keyAttribute="assetConditionCode"
             p:labelAttribute="assetConditionName" />
     </property>

@@ -65,7 +65,7 @@ public enum GeneralLedgerEntryFixture {
     REC3 {
         public GeneralLedgerEntry newRecord() {
             GeneralLedgerEntry glEntry = new GeneralLedgerEntry();
-            glEntry.setGeneralLedgerAccountIdentifier(1001L);
+            glEntry.setGeneralLedgerAccountIdentifier(1002L);
             glEntry.setUniversityFiscalYear(2009);
             glEntry.setUniversityFiscalPeriodCode("02");
             glEntry.setChartOfAccountsCode("BL");
@@ -85,7 +85,7 @@ public enum GeneralLedgerEntryFixture {
     REC4 {
         public GeneralLedgerEntry newRecord() {
             GeneralLedgerEntry glEntry = new GeneralLedgerEntry();
-            glEntry.setGeneralLedgerAccountIdentifier(1001L);
+            glEntry.setGeneralLedgerAccountIdentifier(1003L);
             glEntry.setUniversityFiscalYear(2009);
             glEntry.setUniversityFiscalPeriodCode("02");
             glEntry.setChartOfAccountsCode("BL");
@@ -104,7 +104,7 @@ public enum GeneralLedgerEntryFixture {
     REC5 {
         public GeneralLedgerEntry newRecord() {
             GeneralLedgerEntry glEntry = new GeneralLedgerEntry();
-            glEntry.setGeneralLedgerAccountIdentifier(1001L);
+            glEntry.setGeneralLedgerAccountIdentifier(1004L);
             glEntry.setUniversityFiscalYear(2009);
             glEntry.setUniversityFiscalPeriodCode("02");
             glEntry.setChartOfAccountsCode("BL");

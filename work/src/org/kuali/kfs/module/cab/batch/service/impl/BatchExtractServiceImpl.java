@@ -42,9 +42,12 @@ import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
+import org.kuali.kfs.module.cab.document.service.PurApInfoService;
+import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
@@ -79,7 +82,51 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected ExtractDao extractDao;
     protected DateTimeService dateTimeService;
     protected ParameterService parameterService;
+    protected PurApLineService purApLineService;
+    protected PurApInfoService purApInfoService;
     protected PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao;
+
+    public void allocateAdditionalCharges(HashSet<PurchasingAccountsPayableDocument> purApDocuments) {
+        List<PurchasingAccountsPayableActionHistory> actionsTakenHistory = new ArrayList<PurchasingAccountsPayableActionHistory>();
+        List<PurchasingAccountsPayableDocument> candidateDocs = new ArrayList<PurchasingAccountsPayableDocument>();
+        List<PurchasingAccountsPayableItemAsset> allocateTargetLines = null;
+        List<PurchasingAccountsPayableItemAsset> initialItems = new ArrayList<PurchasingAccountsPayableItemAsset>();
+        boolean documentUpdated = false;
+
+        for (PurchasingAccountsPayableDocument purApDoc : purApDocuments) {
+            documentUpdated = false;
+            candidateDocs.add(purApDoc);
+            // Refresh to get the referenced GLEntry BO. This is required to call purApLineService.processAllocate().
+            purApDoc.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS);
+            // keep the original list of items for iteration since purApLineService.processAllocate() may remove the line item when
+            // it's additional charges line.
+            initialItems.addAll(purApDoc.getPurchasingAccountsPayableItemAssets());
+
+            // set additional charge indicator for each line item from PurAp. we need to set them before hand for use in
+            // purApLineService.getAllocateTargetLines(), in which method to select line items as the target allocating lines.
+            for (PurchasingAccountsPayableItemAsset ititialItem : initialItems) {
+                purApInfoService.setAccountsPayableItemsFromPurAp(ititialItem, purApDoc.getDocumentTypeCode());
+            }
+
+            // allocate additional charge lines if it's active line
+            for (PurchasingAccountsPayableItemAsset allocateSourceLine : initialItems) {
+                if (allocateSourceLine.isAdditionalChargeNonTradeInIndicator() && allocateSourceLine.isActive()) {
+                    // get the allocate additional charge target lines.
+                    allocateTargetLines = purApLineService.getAllocateTargetLines(allocateSourceLine, candidateDocs);
+                    if (allocateTargetLines != null && !allocateTargetLines.isEmpty()) {
+                        purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, actionsTakenHistory, candidateDocs);
+                        documentUpdated = true;
+                    }
+                }
+            }
+
+            if (documentUpdated) {
+                businessObjectService.save(purApDoc);
+            }
+            candidateDocs.clear();
+            initialItems.clear();
+        }
+    }
 
     /**
      * Creates a batch parameters object reading values from configured system parameters for CAB Extract
@@ -227,7 +274,8 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePOLines(java.util.List)
      */
-    public void savePOLines(List<Entry> poLines, ExtractProcessLog processLog) {
+    public HashSet<PurchasingAccountsPayableDocument> savePOLines(List<Entry> poLines, ExtractProcessLog processLog) {
+        HashSet<PurchasingAccountsPayableDocument> purApDocuments = new HashSet<PurchasingAccountsPayableDocument>();
         ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
         // This is a list of pending GL entries created after last GL process and Cab Batch extract
         // PurAp Account Line history comes from PURAP module
@@ -285,12 +333,14 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     }
                 }
                 businessObjectService.save(cabPurapDoc);
+                purApDocuments.add(cabPurapDoc);
             }
             else {
                 LOG.error("Could not create a valid PurchasingAccountsPayableDocument object for document number " + entry.getDocumentNumber());
             }
         }
         updateProcessLog(processLog, reconciliationService);
+        return purApDocuments;
     }
 
     /**
@@ -493,7 +543,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     public void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts) {
         HashSet<String> savedLines = new HashSet<String>();
         for (PurchaseOrderAccount purchaseOrderAccount : preTaggablePOAccounts) {
-            //TODO this could be removed if OJB comes with data and avoid this whole refresh
+            // TODO this could be removed if OJB comes with data and avoid this whole refresh
             purchaseOrderAccount.refresh();
             PurchaseOrderItem purapItem = purchaseOrderAccount.getPurapItem();
             PurchaseOrderDocument purchaseOrder = purapItem.getPurchaseOrder();
@@ -630,6 +680,42 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      */
     public void setPurchasingAccountsPayableItemAssetDao(PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao) {
         this.purchasingAccountsPayableItemAssetDao = purchasingAccountsPayableItemAssetDao;
+    }
+
+    /**
+     * Gets the purApLineService attribute.
+     * 
+     * @return Returns the purApLineService.
+     */
+    public PurApLineService getPurApLineService() {
+        return purApLineService;
+    }
+
+    /**
+     * Sets the purApLineService attribute value.
+     * 
+     * @param purApLineService The purApLineService to set.
+     */
+    public void setPurApLineService(PurApLineService purApLineService) {
+        this.purApLineService = purApLineService;
+    }
+
+    /**
+     * Gets the purApInfoService attribute.
+     * 
+     * @return Returns the purApInfoService.
+     */
+    public PurApInfoService getPurApInfoService() {
+        return purApInfoService;
+    }
+
+    /**
+     * Sets the purApInfoService attribute value.
+     * 
+     * @param purApInfoService The purApInfoService to set.
+     */
+    public void setPurApInfoService(PurApInfoService purApInfoService) {
+        this.purApInfoService = purApInfoService;
     }
 
 

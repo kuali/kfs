@@ -47,6 +47,7 @@ public class PurApLineServiceTest extends KualiTestBase {
     private String ERROR_PROCESS_SPLIT_SINGLE_ACCOUNT = "process split error happens when one item has one account";
     private String ERROR_PROCESS_SPLIT_MULTIPLE_ACCOUNT = "process split error happens when one item has multiple accounts";
     private String ERROR_PROCESS_MERGE = "process merge error";
+    private String ERROR_PROCESS_ALLOCATE = "process allocate error";
 
     @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     @Override
@@ -225,5 +226,42 @@ public class PurApLineServiceTest extends KualiTestBase {
 
         // check the actionsTakeHistory
         assertTrue(ERROR_PROCESS_MERGE, actionsTakeHistory.size() == 2);
+    }
+
+    public void testProcessAllocate_AllocateOneItemToAllTheOtherItems() {
+        List<PurchasingAccountsPayableActionHistory> actionsTakeHistory = new ArrayList<PurchasingAccountsPayableActionHistory>();
+        PurchasingAccountsPayableItemAsset sourceLineItem = preqDocumentWithSingleItemSingleAccount.getPurchasingAccountsPayableItemAssets().get(0);
+        List<PurchasingAccountsPayableItemAsset> allocateTargetLines = new ArrayList<PurchasingAccountsPayableItemAsset>();
+        // preserve the total cost before allocate.
+        KualiDecimal oldTotalCost = getTotalCost(sourceLineItem);
+        
+
+        // build the allocate target item list
+        for (PurchasingAccountsPayableItemAsset item : preqDocumentWithTwoItemsSingleAccount.getPurchasingAccountsPayableItemAssets()) {
+            allocateTargetLines.add(item);
+            oldTotalCost = oldTotalCost.add(getTotalCost(item));
+        }
+
+        for (PurchasingAccountsPayableItemAsset item : cmDocumentWithSingleItemTwoAccounts.getPurchasingAccountsPayableItemAssets()) {
+            allocateTargetLines.add(item);
+            oldTotalCost = oldTotalCost.add(getTotalCost(item));
+        }
+
+        purApLineService.processAllocate(sourceLineItem, allocateTargetLines, actionsTakeHistory, purApDocuments);
+
+        // check the source item is removed from the document
+        assertTrue(ERROR_PROCESS_ALLOCATE, preqDocumentWithSingleItemSingleAccount.getPurchasingAccountsPayableItemAssets().isEmpty());
+        // check the source is inactive
+        assertTrue(ERROR_PROCESS_ALLOCATE, !preqDocumentWithSingleItemSingleAccount.isActive());
+
+        // check total amount of all documents doesn't change after allocate
+        KualiDecimal newTotalCost = KualiDecimal.ZERO;
+        for (PurchasingAccountsPayableItemAsset item : allocateTargetLines) {
+            newTotalCost = newTotalCost.add(getTotalCost(item));
+        }
+        assertTrue(ERROR_PROCESS_ALLOCATE, oldTotalCost.equals(newTotalCost));
+        
+        // check the actionTakenHistory, allocate based on target account amount. so the number of actions taken equals the target accounts.
+        assertTrue(ERROR_PROCESS_ALLOCATE, actionsTakeHistory.size() == 4);
     }
 }

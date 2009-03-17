@@ -19,12 +19,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.batch.service.BatchExtractReportService;
 import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -66,7 +68,12 @@ public class ExtractStep extends AbstractStep {
                 // Save the Non-PO lines
                 batchExtractService.saveFPLines(fpLines, processLog);
                 // Save the PO lines
-                batchExtractService.savePOLines(purapLines, processLog);
+                HashSet<PurchasingAccountsPayableDocument> purApDocuments = batchExtractService.savePOLines(purapLines, processLog);
+                
+                // call allocate additional charges( not including trade-in lines) during batch. if comment out this line, CAB users
+                // will see them on the screen and they will have to manually allocate the additional charge lines.
+                batchExtractService.allocateAdditionalCharges(purApDocuments);
+                
                 // Set the log values
                 processLog.setTotalGlCount(elgibleGLEntries.size());
                 processLog.setNonPurApGlCount(fpLines.size());

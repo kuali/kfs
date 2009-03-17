@@ -272,16 +272,18 @@ public class PurApLineServiceImpl implements PurApLineService {
         KualiDecimal amountAllocated = KualiDecimal.ZERO;
         KualiDecimal additionalAmount = null;
 
-        // Calculate the targetAccountTotalAmount.
+        // Calculate the targetAccountTotalAmount. Ignore the sign of the account amount when proportionally allocate based on
+        // account amount
         for (PurchasingAccountsPayableLineAssetAccount targetAccount : targetAccounts) {
-            targetAccountsTotalAmount = targetAccountsTotalAmount.add(targetAccount.getItemAccountTotalAmount());
+            targetAccountsTotalAmount = targetAccountsTotalAmount.add(targetAccount.getItemAccountTotalAmount().abs());
         }
 
         for (Iterator<PurchasingAccountsPayableLineAssetAccount> iterator = targetAccounts.iterator(); iterator.hasNext();) {
             PurchasingAccountsPayableLineAssetAccount targetAccount = (PurchasingAccountsPayableLineAssetAccount) iterator.next();
             if (iterator.hasNext()) {
-                // Not working on the last node. Calculate additional charge amount by percentage
-                additionalAmount = targetAccount.getItemAccountTotalAmount().multiply(sourceAccountTotalAmount).divide(targetAccountsTotalAmount);
+                // Not working on the last node. Calculate additional charge amount by percentage. Ignore the sign of the account
+                // amount when proportionally allocate based on account amount
+                additionalAmount = targetAccount.getItemAccountTotalAmount().abs().multiply(sourceAccountTotalAmount).divide(targetAccountsTotalAmount);
                 amountAllocated = amountAllocated.add(additionalAmount);
             }
             else {
@@ -401,7 +403,7 @@ public class PurApLineServiceImpl implements PurApLineService {
                 if (ObjectUtils.isNotNull(candidateEntry)) {
                     allAccounts.add(account);
                     // For additional charge, select matching account when account number and object code both match.
-                    if (addtionalCharge && StringUtils.equalsIgnoreCase(sourceEntry.getAccountNumber(), candidateEntry.getAccountNumber()) && StringUtils.equalsIgnoreCase(sourceEntry.getFinancialObjectCode(), candidateEntry.getFinancialObjectCode())) {
+                    if (addtionalCharge && StringUtils.equalsIgnoreCase(sourceEntry.getChartOfAccountsCode(), candidateEntry.getChartOfAccountsCode()) && StringUtils.equalsIgnoreCase(sourceEntry.getAccountNumber(), candidateEntry.getAccountNumber()) && StringUtils.equalsIgnoreCase(sourceEntry.getFinancialObjectCode(), candidateEntry.getFinancialObjectCode())) {
                         matchingAccounts.add(account);
                     }
                 }
@@ -577,7 +579,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processMerge(java.util.List)
      */
-    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines,List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, boolean isMergeAll) {
+    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, boolean isMergeAll) {
         PurchasingAccountsPayableItemAsset sourceItem = null;
         PurchasingAccountsPayableLineAssetAccount targetAccount = null;
         // use the first item and its accounts as the target

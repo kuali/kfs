@@ -18,18 +18,26 @@ package org.kuali.kfs.module.cab.batch.service;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
  * Declares the service methods used by CAB batch program
  */
 public interface BatchExtractService {
+
+    /**
+     * Allocate additional charges during batch.
+     * 
+     * @param purApDocuments
+     */
+    void allocateAdditionalCharges(HashSet<PurchasingAccountsPayableDocument> purApDocuments);
 
     /**
      * Returns the list of CAB eligible GL entries, filter parameters are pre-configured
@@ -55,7 +63,7 @@ public interface BatchExtractService {
      * @param poLines Eligible GL Lines
      * @param processLog Process Log
      */
-    void savePOLines(List<Entry> poLines, ExtractProcessLog processLog);
+    HashSet<PurchasingAccountsPayableDocument> savePOLines(List<Entry> poLines, ExtractProcessLog processLog);
 
     /**
      * Separates out transaction lines associated with purchase order from the rest

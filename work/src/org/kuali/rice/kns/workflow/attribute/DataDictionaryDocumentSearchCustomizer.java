@@ -92,4 +92,14 @@ public class DataDictionaryDocumentSearchCustomizer extends StandardDocumentSear
     public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, String> paramMap, DocumentSearchContext searchContext) {
         return searchableAttribute.validateUserSearchInputs(paramMap, searchContext);
     }
+
+    public boolean isProcessResultSet() {
+        // TODO ahollamo 20090316 - Really implement these, I just put these here to stop build breakage
+        return false;
+    }
+
+    public void setProcessResultSet(boolean arg0) {
+        // TODO ahollamo 20090316 - Really implement these, I just put these here to stop build breakage
+    }
+
 }

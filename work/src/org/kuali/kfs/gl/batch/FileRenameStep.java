@@ -39,6 +39,11 @@ public class FileRenameStep extends AbstractStep {
         String filePath = batchFileDirectoryName + File.separator;
         List<String> fileNameList = new ArrayList();
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_VALID_OUTPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_OUTPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_EXPIRED_OUTPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_SORTED_FILE);
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE);
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.PRE_SCRUBBER_FILE);
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE);

@@ -180,6 +180,9 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         boolean isEditable = super.isGroupEditable(accountingDocument, accountingLineRenderingContexts, currentUser);
         
         if (isEditable){
+            if (accountingLineRenderingContexts.size() == 0) {
+                return false;
+            }
             isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLineRenderingContexts.get(0).getAccountingLine());
         }
         

@@ -75,7 +75,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
-    protected static final String GLCP_OUTPUT_PREFIX = "GLCP_OUTPUT";
+    protected static final String GLCP_OUTPUT_PREFIX = "glcp_output";
 
     protected CorrectionDocumentDao correctionDocumentDao;
     private String batchFileDirectoryName; 

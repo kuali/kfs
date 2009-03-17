@@ -140,6 +140,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         Set<String> editModes = super.getEditModes(document);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        String statusCode = poDocument.getStatusCode();
 
         editModes.add(PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA);
 
@@ -174,11 +175,11 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         // if not B2B requisition, users can edit the posting year if within a given amount of time set in a parameter
         if (!RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode()) && 
                 SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
-                (PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) || 
-                        PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(poDocument.getStatusCode()) ||
-                        PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()) ||
-                        PurchaseOrderStatuses.QUOTE.equals(poDocument.getStatusCode()) ||
-                        PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()))) {
+                (PurchaseOrderStatuses.IN_PROCESS.equals(statusCode) || 
+                        PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(statusCode) ||
+                        PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(statusCode) ||
+                        PurchaseOrderStatuses.QUOTE.equals(statusCode) ||
+                        PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(statusCode))) {
             editModes.add(PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY);
         }
 
@@ -202,7 +203,11 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
             
         // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
         // for ex, contract manager, manual status change, and quote etc
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+        //if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+        if (PurchaseOrderStatuses.IN_PROCESS.equals(statusCode) || 
+                PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(statusCode) ||
+                PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(statusCode) ||
+                PurchaseOrderStatuses.QUOTE.equals(statusCode)) {
             editModes.add(PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE);
         }
         

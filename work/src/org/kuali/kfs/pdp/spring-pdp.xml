@@ -294,6 +294,7 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="reportsDirectory" value="${reports.directory}/"/>
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 
 	<bean id="pdpAchBankService" class="org.kuali.kfs.pdp.service.impl.AchBankServiceImpl">

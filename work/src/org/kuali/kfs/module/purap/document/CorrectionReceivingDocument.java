@@ -9,7 +9,6 @@ import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
-import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -56,6 +55,7 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     
     @Override
     public void handleRouteStatusChange() {
+        
         if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(ReceivingService.class).completeCorrectionReceivingDocument(this);
         }
@@ -87,16 +87,39 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
      * @return Returns the lineItemReceivingDocument.
      */
     public LineItemReceivingDocument getLineItemReceivingDocument() {
-        if(lineItemReceivingDocument == null){
+        refreshLineReceivingDocument();
+        return lineItemReceivingDocument;
+    }
+
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        refreshLineReceivingDocument();
+    }
+    
+    private void refreshLineReceivingDocument(){
+        if(ObjectUtils.isNull(lineItemReceivingDocument) || lineItemReceivingDocument.getDocumentNumber() == null){
             this.refreshReferenceObject("lineItemReceivingDocument");
             if (ObjectUtils.isNull(lineItemReceivingDocument.getDocumentHeader().getDocumentNumber())) {
                 lineItemReceivingDocument.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
             }
+        }else{
+            if (ObjectUtils.isNull(lineItemReceivingDocument.getDocumentHeader().getDocumentNumber())) {
+                lineItemReceivingDocument.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
+            }
         }
-        
-        return lineItemReceivingDocument;
     }
-
+    
+    public Integer getPurchaseOrderIdentifier() { 
+        if (ObjectUtils.isNull(super.getPurchaseOrderIdentifier())){
+            refreshLineReceivingDocument();
+            if (ObjectUtils.isNotNull(lineItemReceivingDocument)){
+                setPurchaseOrderIdentifier(lineItemReceivingDocument.getPurchaseOrderIdentifier());
+            }
+        }
+        return super.getPurchaseOrderIdentifier();
+    }
+    
     /**
      * Sets the lineItemReceivingDocument attribute value.
      * @param lineItemReceivingDocument The lineItemReceivingDocument to set.

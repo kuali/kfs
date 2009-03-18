@@ -23,7 +23,6 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgets
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
  * @see org.kuali.module.budget.service.BudgetConctructionMonthlyBudgetsCreateDeleteService
  */
 
@@ -31,67 +30,47 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements BudgetConstructionMonthlyBudgetsCreateDeleteService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionMonthlyBudgetsCreateDeleteService.class);
 
-    
+
     private BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao;
 
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsRevenue(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsRevenue(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
         budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
         budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsRevenue(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsRevenue(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
         budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
         return (budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
 
     /**
-     * 
      * set method for the Dao
+     * 
      * @param budgetConstructionMonthlyBudgetsCreateDeleteDao
      */
-    public void setBudgetConstructionMonthlyBudgetsCreateDeleteDao(BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao)
-    {
+    public void setBudgetConstructionMonthlyBudgetsCreateDeleteDao(BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao) {
         this.budgetConstructionMonthlyBudgetsCreateDeleteDao = budgetConstructionMonthlyBudgetsCreateDeleteDao;
     }
-    
-    /**
-     * 
-     * @@TODO remove this method
-     */
-    public void testMethod(String document, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)
-    {
-          LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsExpenditure\n\n");
-          budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-          LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsRevenue\n\n"); 
-          budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-          LOG.warn("\n\nspreadBudgetConstructionMonthlyBudgetsRevenue\n\n"); 
-          budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-          LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsExpenditure returned %b for (%s,%b,%s,%s,%s): ",
-                  budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
-                               document, fiscalYear, chartCode, accountNumber, subAccountNumber));
-    }
-    
-
 }

@@ -181,6 +181,7 @@ public class ArPropertyConstants {
     public static class SystemInformationFields {
         public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
+        public static final String LOCKBOX_NUMBER = "lockboxNumber";
     }
     
     // CustomerInvoiceItemCodes

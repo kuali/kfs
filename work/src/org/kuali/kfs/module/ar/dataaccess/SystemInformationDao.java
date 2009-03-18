@@ -28,4 +28,6 @@ public interface SystemInformationDao {
     public SystemInformation getByLockboxNumber(String lockboxNumber, Integer universityFiscalYear);
     
     public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear);
+    
+    public int getCountByChartOrgAndLockboxNumber(String processingChartCode, String processingOrgCode, String lockboxNumber);
 }

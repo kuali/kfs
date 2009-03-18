@@ -20,10 +20,13 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class SystemInformationRule extends MaintenanceDocumentRuleBase {
@@ -66,6 +69,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         success &= checkClearingAccountIsActive();
         success &= checkWireAccountIsActive();
+        success &= checkLockboxNumberIsUnique();
 
         return success;
     }
@@ -89,6 +93,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         success &= checkClearingAccountIsActive();
         success &= checkWireAccountIsActive();
+        success &= checkLockboxNumberIsUnique();
 
         //return success;
         return true;
@@ -113,6 +118,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         success &= checkClearingAccountIsActive();
         success &= checkWireAccountIsActive();
+        success &= checkLockboxNumberIsUnique();
 
         return success;
         // TODO method never shows any errors even if returning false; just says 'Document was successfully saved'
@@ -160,6 +166,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNull(wireAccount)) {
             return false;
         }
+        
         if (!wireAccount.isActive()) {
             success &= false;
             putGlobalError(ArKeyConstants.SystemInformation.ERROR_WIRE_ACCOUNT_INACTIVE);
@@ -167,6 +174,29 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
+    
+    /**
+    *
+    * This checks to see if the lockbox number is unique
+    * @return true if the lockbox number is active or false otherwise
+    */
+   protected boolean checkLockboxNumberIsUnique() {
+
+       LOG.info("Entering checkLockboxNumberIsUnique()");
+       boolean success = true;
+
+      SystemInformationService systemInformationService = SpringContext.getBean(SystemInformationService.class);
+      int recordNumber = systemInformationService.getCountByChartOrgAndLockboxNumber(newSystemInformation.getProcessingChartOfAccountCode(),
+                                                                                     newSystemInformation.getProcessingOrganizationCode(),
+                                                                                     newSystemInformation.getLockboxNumber());
+      // if not unique
+      if (recordNumber > 0) {
+          success = false;
+          putFieldError(ArPropertyConstants.SystemInformationFields.LOCKBOX_NUMBER, ArKeyConstants.SystemInformation.ERROR_LOCKBOX_NUMBER_NOT_UNIQUE);
+      }
+
+      return success;
+   }
 
 
 

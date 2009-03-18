@@ -43,4 +43,12 @@ public class SystemInformationDaoOjb extends PlatformAwareDaoBaseOjb implements 
         return (SystemInformation) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SystemInformation.class, criteria));
     }
     
+    public int getCountByChartOrgAndLockboxNumber(String processingChartCode, String processingOrgCode, String lockboxNumber) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("lockboxNumber", lockboxNumber);
+        criteria.addNotEqualTo("processingChartOfAccountCode", processingChartCode);
+        criteria.addNotEqualTo("processingOrganizationCode", processingOrgCode);
+        return getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(SystemInformation.class, criteria));        
+    }
+    
 }

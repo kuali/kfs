@@ -43,6 +43,10 @@ public class SystemInformationServiceImpl implements SystemInformationService {
         return getSystemInformationDao().getByProcessingChartOrgAndFiscalYear(chartCode, orgCode, fiscalYear);
     }
     
+    public int getCountByChartOrgAndLockboxNumber(String processingChartCode, String processingOrgCode, String lockboxNumber) {
+        return getSystemInformationDao().getCountByChartOrgAndLockboxNumber(processingChartCode, processingOrgCode, lockboxNumber);
+    }
+    
     public SystemInformationDao getSystemInformationDao() {
         return systemInformationDao;
     }

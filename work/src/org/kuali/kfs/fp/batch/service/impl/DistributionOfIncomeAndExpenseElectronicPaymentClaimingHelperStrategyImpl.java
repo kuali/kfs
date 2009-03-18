@@ -213,11 +213,9 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
      */
     public boolean userMayUseToClaim(Person claimingUser) {
-        String namespaceCode = KFSConstants.ParameterNamespaces.FINANCIAL;
-        String documentTypeName = this.getClaimingDocumentWorkflowDocumentType();
+        final String documentTypeName = this.getClaimingDocumentWorkflowDocumentType();
 
-        boolean canClaim = electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, documentTypeName);       
-        canClaim |= electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, KFSConstants.ParameterNamespaces.KFS, null);
+        final boolean canClaim = electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, documentTypeName) || electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, null);       
         
         return canClaim;
     }

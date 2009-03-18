@@ -212,6 +212,7 @@ public class PurapConstants extends JSTLConstants {
         public static final String CXML_ERROR = "CXER";
         public static final String PENDING_CXML = "CXPE";
         public static final String PENDING_FAX = "FXPE";
+        public static final String FAX_ERROR = "FXER";
         public static final String PENDING_PRINT = "PRPE";
         public static final String QUOTE = "QUOT";
         public static final String VOID = "VOID";
@@ -229,12 +230,16 @@ public class PurapConstants extends JSTLConstants {
         public static final String PENDING_REMOVE_HOLD = "RHPE";
 
         public static final Set<String> INCOMPLETE_STATUSES = new HashSet<String>();
+        public static final Set<String> COMPLETE_STATUSES = new HashSet<String>();
+
         static {
             INCOMPLETE_STATUSES.add(AWAIT_TAX_REVIEW);
             INCOMPLETE_STATUSES.add(AWAIT_BUDGET_REVIEW);
             INCOMPLETE_STATUSES.add(AWAIT_CONTRACTS_GRANTS_REVIEW);
             INCOMPLETE_STATUSES.add(AWAIT_PURCHASING_REVIEW);
             INCOMPLETE_STATUSES.add(AWAIT_NEW_UNORDERED_ITEM_REVIEW);
+            INCOMPLETE_STATUSES.add(AWAIT_COMMODITY_CODE_REVIEW);
+            INCOMPLETE_STATUSES.add(FAX_ERROR);
             INCOMPLETE_STATUSES.add(QUOTE);
             INCOMPLETE_STATUSES.add(CXML_ERROR);
             INCOMPLETE_STATUSES.add(PENDING_CXML);
@@ -244,7 +249,34 @@ public class PurapConstants extends JSTLConstants {
             INCOMPLETE_STATUSES.add(PENDING_PRINT);
             INCOMPLETE_STATUSES.add(WAITING_FOR_VENDOR);
             INCOMPLETE_STATUSES.add(WAITING_FOR_DEPARTMENT);
+            
+            COMPLETE_STATUSES.add(AMENDMENT);
+            COMPLETE_STATUSES.add(CANCELLED);
+            COMPLETE_STATUSES.add(CHANGE_IN_PROCESS);
+            COMPLETE_STATUSES.add(CLOSED);
+            COMPLETE_STATUSES.add(PENDING_CLOSE);
+            COMPLETE_STATUSES.add(CANCELLED_CHANGE);
+            COMPLETE_STATUSES.add(CXML_ERROR);
+            COMPLETE_STATUSES.add(DISAPPROVED_CHANGE);
+            COMPLETE_STATUSES.add(DAPRVD_BUDGET);
+            COMPLETE_STATUSES.add(DAPRVD_CONTRACTS_GRANTS);
+            COMPLETE_STATUSES.add(DAPRVD_COMMODITY_CODE);
+            COMPLETE_STATUSES.add(DAPRVD_PURCHASING);
+            COMPLETE_STATUSES.add(DAPRVD_TAX);
+            COMPLETE_STATUSES.add(OPEN);
+            COMPLETE_STATUSES.add(PAYMENT_HOLD);
+            COMPLETE_STATUSES.add(PENDING_PAYMENT_HOLD);
+            COMPLETE_STATUSES.add(PENDING_REMOVE_HOLD);
+            COMPLETE_STATUSES.add(PENDING_REOPEN);
+            COMPLETE_STATUSES.add(PENDING_RETRANSMIT);
+            COMPLETE_STATUSES.add(RETIRED_VERSION);
+            COMPLETE_STATUSES.add(VOID);
+            COMPLETE_STATUSES.add(PENDING_VOID);
+
         }
+        
+       
+        
 
         /**
          * Do not include 'OPEN' status in this map. The 'OPEN' status is the default status that is set when no status exists for a

@@ -119,7 +119,7 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         orderList.add(KFSPropertyConstants.ORGANIZATION_CODE);
         orderList.add(KFSPropertyConstants.PERSON_NAME);
         orderList.add(KFSPropertyConstants.EMPLID);
-        //return (BudgetConstructionSalarySocialSecurityNumber) budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalarySocialSecurityNumber.class, searchCriteria, orderList);
+
         return (BudgetConstructionSalarySocialSecurityNumber) businessObjectService.findByPrimaryKey(BudgetConstructionSalarySocialSecurityNumber.class, searchCriteria);
     }
     

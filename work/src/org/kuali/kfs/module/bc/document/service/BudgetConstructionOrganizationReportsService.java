@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,6 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationRepo
  * This interface defines methods that an Budget Construction Organization Reports Service must provide.
  */
 public interface BudgetConstructionOrganizationReportsService {
-
 
     /**
      * This method retrieves a Budget Construction Organization Reports instance by its composite primary keys (parameters passed
@@ -37,10 +35,10 @@ public interface BudgetConstructionOrganizationReportsService {
      */
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode);
 
-    public Collection getBySearchCriteria(Class cls, Map searchCriteria);
-    
-    public Collection getBySearchCriteriaOrderByList(Class cls, Map searchCriteria, List<String> orderList);
-    
+    public List getBySearchCriteria(Class cls, Map searchCriteria);
+
+    public List getBySearchCriteriaOrderByList(Class cls, Map searchCriteria, List<String> orderList);
+
     /**
      * This method returns a list of child BC organization reports objects for the passed in org.
      * 

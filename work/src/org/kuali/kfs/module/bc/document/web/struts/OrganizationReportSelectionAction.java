@@ -152,10 +152,10 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward performReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
-        String principalName = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         BudgetConstructionReportMode reportMode = BudgetConstructionReportMode.getBudgetConstructionReportModeByName(organizationReportSelectionForm.getReportMode());
-        if (!storeCodeSelections(organizationReportSelectionForm, reportMode, principalName)) {
+        if (!storeCodeSelections(organizationReportSelectionForm, reportMode, principalId)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
@@ -166,7 +166,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
         }
 
         // build report data and populate report objects for rendering
-        Collection reportSet = buildReportData(reportMode, organizationReportSelectionForm.getUniversityFiscalYear(), principalName, organizationReportSelectionForm.isReportConsolidation(), organizationReportSelectionForm.getBudgetConstructionReportThresholdSettings());
+        Collection reportSet = buildReportData(reportMode, organizationReportSelectionForm.getUniversityFiscalYear(), principalId, organizationReportSelectionForm.isReportConsolidation(), organizationReportSelectionForm.getBudgetConstructionReportThresholdSettings());
 
         // build pdf and stream back
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -234,72 +234,72 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
      * 
      * @param reportMode - BudgetConstructionReportMode indicates which report we are running
      * @param universityFiscalYear - budget fiscal year
-     * @param principalName - user running report
+     * @param principalId - user running report
      * @param runConsolidated - indicates whether the report should be ran consolidated (if it has a consolidated option)
      * @param budgetConstructionReportThresholdSettings - contains threshold setting options
      * @return Collection - Reports objects that contain built data
      */
-    private Collection buildReportData(BudgetConstructionReportMode reportMode, Integer universityFiscalYear, String principalName, boolean runConsolidated, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    private Collection buildReportData(BudgetConstructionReportMode reportMode, Integer universityFiscalYear, String principalId, boolean runConsolidated, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         Collection reportData = new ArrayList();
 
         switch (reportMode) {
             case ACCOUNT_SUMMARY_REPORT:
-                SpringContext.getBean(BudgetConstructionAccountSummaryReportService.class).updateReportsAccountSummaryTable(principalName, runConsolidated);
-                reportData = SpringContext.getBean(BudgetConstructionAccountSummaryReportService.class).buildReports(universityFiscalYear, principalName, runConsolidated);
+                SpringContext.getBean(BudgetConstructionAccountSummaryReportService.class).updateReportsAccountSummaryTable(principalId, runConsolidated);
+                reportData = SpringContext.getBean(BudgetConstructionAccountSummaryReportService.class).buildReports(universityFiscalYear, principalId, runConsolidated);
                 break;
             case SUBFUND_SUMMARY_REPORT:
-                SpringContext.getBean(BudgetConstructionSubFundSummaryReportService.class).updateSubFundSummaryReport(principalName);
-                reportData = SpringContext.getBean(BudgetConstructionSubFundSummaryReportService.class).buildReports(universityFiscalYear, principalName);
+                SpringContext.getBean(BudgetConstructionSubFundSummaryReportService.class).updateSubFundSummaryReport(principalId);
+                reportData = SpringContext.getBean(BudgetConstructionSubFundSummaryReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
             case LEVEL_SUMMARY_REPORT:
-                SpringContext.getBean(BudgetConstructionLevelSummaryReportService.class).updateLevelSummaryReport(principalName);
-                reportData = SpringContext.getBean(BudgetConstructionLevelSummaryReportService.class).buildReports(universityFiscalYear, principalName);
+                SpringContext.getBean(BudgetConstructionLevelSummaryReportService.class).updateLevelSummaryReport(principalId);
+                reportData = SpringContext.getBean(BudgetConstructionLevelSummaryReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
             case OBJECT_SUMMARY_REPORT:
-                SpringContext.getBean(BudgetConstructionObjectSummaryReportService.class).updateObjectSummaryReport(principalName);
-                reportData = SpringContext.getBean(BudgetConstructionObjectSummaryReportService.class).buildReports(universityFiscalYear, principalName);
+                SpringContext.getBean(BudgetConstructionObjectSummaryReportService.class).updateObjectSummaryReport(principalId);
+                reportData = SpringContext.getBean(BudgetConstructionObjectSummaryReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
             case ACCOUNT_OBJECT_DETAIL_REPORT:
-                SpringContext.getBean(BudgetConstructionAccountObjectDetailReportService.class).updateAccountObjectDetailReport(principalName, runConsolidated);
-                reportData = SpringContext.getBean(BudgetConstructionAccountObjectDetailReportService.class).buildReports(universityFiscalYear, principalName, runConsolidated);
+                SpringContext.getBean(BudgetConstructionAccountObjectDetailReportService.class).updateAccountObjectDetailReport(principalId, runConsolidated);
+                reportData = SpringContext.getBean(BudgetConstructionAccountObjectDetailReportService.class).buildReports(universityFiscalYear, principalId, runConsolidated);
                 break;
             case ACCOUNT_FUNDING_DETAIL_REPORT:
-                SpringContext.getBean(BudgetConstructionAccountFundingDetailReportService.class).updateAccountFundingDetailTable(principalName);
-                reportData = SpringContext.getBean(BudgetConstructionAccountFundingDetailReportService.class).buildReports(universityFiscalYear, principalName);
+                SpringContext.getBean(BudgetConstructionAccountFundingDetailReportService.class).updateAccountFundingDetailTable(principalId);
+                reportData = SpringContext.getBean(BudgetConstructionAccountFundingDetailReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
             case MONTH_SUMMARY_REPORT:
-                SpringContext.getBean(BudgetConstructionMonthSummaryReportService.class).updateMonthSummaryReport(principalName, runConsolidated);
-                reportData = SpringContext.getBean(BudgetConstructionMonthSummaryReportService.class).buildReports(universityFiscalYear, principalName, runConsolidated);
+                SpringContext.getBean(BudgetConstructionMonthSummaryReportService.class).updateMonthSummaryReport(principalId, runConsolidated);
+                reportData = SpringContext.getBean(BudgetConstructionMonthSummaryReportService.class).buildReports(universityFiscalYear, principalId, runConsolidated);
                 break;
             case POSITION_FUNDING_DETAIL_REPORT:
-                SpringContext.getBean(BudgetConstructionPositionFundingDetailReportService.class).updatePositionFundingDetailReport(principalName, budgetConstructionReportThresholdSettings);
-                reportData = SpringContext.getBean(BudgetConstructionPositionFundingDetailReportService.class).buildReports(universityFiscalYear, principalName);
+                SpringContext.getBean(BudgetConstructionPositionFundingDetailReportService.class).updatePositionFundingDetailReport(principalId, budgetConstructionReportThresholdSettings);
+                reportData = SpringContext.getBean(BudgetConstructionPositionFundingDetailReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
             case SALARY_SUMMARY_REPORT:
-                SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).updateSalarySummaryReport(principalName, universityFiscalYear, budgetConstructionReportThresholdSettings);
-                reportData = SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).buildReports(universityFiscalYear, principalName, budgetConstructionReportThresholdSettings);
+                SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).updateSalarySummaryReport(principalId, universityFiscalYear, budgetConstructionReportThresholdSettings);
+                reportData = SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).buildReports(universityFiscalYear, principalId, budgetConstructionReportThresholdSettings);
                 break;
             case SALARY_STATISTICS_REPORT:
-                SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).updateSalaryStatisticsReport(principalName, universityFiscalYear);
-                reportData = SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).buildReports(universityFiscalYear, principalName);
+                SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).updateSalaryStatisticsReport(principalId, universityFiscalYear);
+                reportData = SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
             case REASON_SUMMARY_REPORT:
-                SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).updateReasonSummaryReport(principalName, universityFiscalYear, budgetConstructionReportThresholdSettings);
-                reportData = SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).buildReports(universityFiscalYear, principalName, budgetConstructionReportThresholdSettings);
+                SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).updateReasonSummaryReport(principalId, universityFiscalYear, budgetConstructionReportThresholdSettings);
+                reportData = SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).buildReports(universityFiscalYear, principalId, budgetConstructionReportThresholdSettings);
                 break;    
             case REASON_STATISTICS_REPORT:
-                SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).updateReasonStatisticsReport(principalName, universityFiscalYear, budgetConstructionReportThresholdSettings);
-                reportData = SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).buildReports(universityFiscalYear, principalName, budgetConstructionReportThresholdSettings);
+                SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).updateReasonStatisticsReport(principalId, universityFiscalYear, budgetConstructionReportThresholdSettings);
+                reportData = SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).buildReports(universityFiscalYear, principalId, budgetConstructionReportThresholdSettings);
                 break;
                 
             case TWOPLG_LIST_REPORT:
-                SpringContext.getBean(BudgetConstructionList2PLGReportService.class).updateList2PLGReport(principalName, universityFiscalYear);
-                reportData = SpringContext.getBean(BudgetConstructionList2PLGReportService.class).buildReports(universityFiscalYear, principalName);
+                SpringContext.getBean(BudgetConstructionList2PLGReportService.class).updateList2PLGReport(principalId, universityFiscalYear);
+                reportData = SpringContext.getBean(BudgetConstructionList2PLGReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
                 
             case SYNCHRONIZATION_PROBLEMS_REPORT:
-                SpringContext.getBean(BudgetConstructionSynchronizationProblemsReportService.class).updateSynchronizationProblemsReport(principalName);
-                reportData = SpringContext.getBean(BudgetConstructionSynchronizationProblemsReportService.class).buildReports(universityFiscalYear, principalName);
+                SpringContext.getBean(BudgetConstructionSynchronizationProblemsReportService.class).updateSynchronizationProblemsReport(principalId);
+                reportData = SpringContext.getBean(BudgetConstructionSynchronizationProblemsReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
                 
         }

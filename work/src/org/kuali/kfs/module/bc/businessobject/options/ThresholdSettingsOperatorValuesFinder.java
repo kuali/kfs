@@ -18,22 +18,31 @@ package org.kuali.kfs.module.bc.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Provides option values the threshold settings operator field.
  */
-public class ThresholdSettingsOperatorValuesFinder extends KeyValuesBase {
+public class ThresholdSettingsOperatorValuesFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List keyLabels = new ArrayList();
-        keyLabels.add(new KeyLabelPair("Y", "greater than or equal to threshold"));
-        keyLabels.add(new KeyLabelPair("N", "less than or equal to threshold"));
+        List<KeyLabelPair> keyLabels = new ArrayList<KeyLabelPair>();
+        keyLabels.add(new KeyLabelPair(KFSConstants.ParameterValues.YES, "greater than or equal to threshold"));
+        keyLabels.add(new KeyLabelPair(KFSConstants.ParameterValues.NO, "less than or equal to threshold"));
 
         return keyLabels;
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     */
+    public String getValue() {
+        return KFSConstants.ParameterValues.YES;
     }
 }

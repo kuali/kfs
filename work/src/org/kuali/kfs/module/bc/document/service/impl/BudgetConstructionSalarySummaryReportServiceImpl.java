@@ -139,7 +139,6 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             orgSalarySummaryReportEntry.setChartOfAccountDescription(chartDesc);
         }
 
-
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
         orgSalarySummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
         orgSalarySummaryReportEntry.setFinancialObjectCode(salaryFundingEntry.getFinancialObjectCode());

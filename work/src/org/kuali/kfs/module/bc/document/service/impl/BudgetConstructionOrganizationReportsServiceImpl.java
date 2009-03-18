@@ -47,12 +47,12 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
         return budgetConstructionOrganizationReportsDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
     }
     
-    public Collection getBySearchCriteria(Class cls, Map searchCriteria) {
-        return budgetConstructionOrganizationReportsDao.getBySearchCriteria(cls, searchCriteria);
+    public List getBySearchCriteria(Class cls, Map searchCriteria) {
+        return (List)budgetConstructionOrganizationReportsDao.getBySearchCriteria(cls, searchCriteria);
     }
   
-    public Collection getBySearchCriteriaOrderByList(Class cls, Map searchCriteria, List<String> orderList) {
-        return budgetConstructionOrganizationReportsDao.getBySearchCriteriaWithOrderByList(cls, searchCriteria, orderList);
+    public List getBySearchCriteriaOrderByList(Class cls, Map searchCriteria, List<String> orderList) {
+        return (List)budgetConstructionOrganizationReportsDao.getBySearchCriteriaWithOrderByList(cls, searchCriteria, orderList);
     }
  
     /**

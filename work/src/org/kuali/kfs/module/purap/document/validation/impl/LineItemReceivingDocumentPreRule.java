@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class LineItemReceivingDocumentPreRule extends MaintenancePreRulesBase{
 
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
         SpringContext.getBean(ReceivingService.class).createNoteForReturnedAndDamagedItems((ReceivingDocument)document);
         return true;
     }

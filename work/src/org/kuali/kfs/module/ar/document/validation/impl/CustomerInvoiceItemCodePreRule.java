@@ -24,16 +24,16 @@ import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class is used to ensure that default values are set accordingly if blank
  */
-public class CustomerInvoiceItemCodePreRule extends PreRulesContinuationBase { 
+public class CustomerInvoiceItemCodePreRule extends PromptBeforeValidationBase { 
 
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
 
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         CustomerInvoiceItemCode invoiceItemCode = (CustomerInvoiceItemCode) maintenanceDocument.getNewMaintainableObject().getBusinessObject();

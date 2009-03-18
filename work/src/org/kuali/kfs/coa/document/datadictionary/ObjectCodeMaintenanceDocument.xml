@@ -35,7 +35,7 @@
     <property name="documentTypeName" value="OBJT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodePreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodePreRules"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/ChartService.js</value>

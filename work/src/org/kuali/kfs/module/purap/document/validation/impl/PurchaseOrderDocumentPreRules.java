@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -42,15 +42,15 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBase {
 
     /**
-     * Overrides the method in PreRulesContinuationBase to also invoke the confirmNotToExceedOverride if the PreRulesCheckEvent is
+     * Overrides the method in PromptBeforeValidationBase to also invoke the confirmNotToExceedOverride if the PromptBeforeValidationEvent is
      * blank and the question matches with the OverrideNotToExceed
      * 
      * @param document The purchase order document upon which we're performing the prerules logic.
      * @return boolean true if it passes the pre rules conditions.
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
 
         boolean preRulesOK = true;
 

@@ -33,7 +33,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -41,11 +41,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * This prerule is ex..
  */
-public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
+public class AssetPaymentDocumentPreRules extends PromptBeforeValidationBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentPreRules.class);
 
-
-    public boolean doRules(Document document) {
+    @Override
+    public boolean doPrompts(Document document) {
         if (hasDifferentObjectSubTypes((AssetPaymentDocument) document)) {
             if (!isOkHavingDifferentObjectSubTypes()) {
                 event.setActionForwardName(KFSConstants.MAPPING_BASIC);

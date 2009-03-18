@@ -22,24 +22,24 @@ import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Business Prerules applicable to purchase order document.
  */
-public class PurchaseOrderAmendmentDocumentPreRules extends PreRulesContinuationBase {
+public class PurchaseOrderAmendmentDocumentPreRules extends PromptBeforeValidationBase {
 
     /**
-     * Overrides the method in PreRulesContinuationBase.
+     * Overrides the method in PromptBeforeValidationBase.
      * 
      * @param document The purchase order amendment document upon which we're performing the prerules logic.
      * @return boolean true if it passes the pre rules conditions.
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
 
         boolean preRulesOK = true;
 

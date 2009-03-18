@@ -21,15 +21,15 @@ import org.apache.struts.action.ActionForm;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.rule.PreRulesCheck;
-import org.kuali.rice.kns.rule.event.PreRulesCheckEvent;
+import org.kuali.rice.kns.rule.PromptBeforeValidation;
+import org.kuali.rice.kns.rule.event.PromptBeforeValidationEvent;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class executes specific pre-rules for the {@link DelegateGlobalMaintenanceDocument}
  */
-public class DelegateGlobalPreRules implements PreRulesCheck {
+public class DelegateGlobalPreRules implements PromptBeforeValidation {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegatePreRules.class);
 
@@ -41,9 +41,9 @@ public class DelegateGlobalPreRules implements PreRulesCheck {
      * This sets some defaults on the {@link DelegateGlobal} object
      * 
      * @see org.kuali.rice.kns.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm,
-     *      javax.servlet.http.HttpServletRequest, org.kuali.rice.kns.rule.event.PreRulesCheckEvent)
+     *      javax.servlet.http.HttpServletRequest, org.kuali.rice.kns.rule.event.PromptBeforeValidationEvent)
      */
-    public boolean processPreRuleChecks(ActionForm form, HttpServletRequest request, PreRulesCheckEvent event) {
+    public boolean processPrompts(ActionForm form, HttpServletRequest request, PromptBeforeValidationEvent event) {
         LOG.info("Entering processPreRuleChecks");
 
         // create some references to the relevant objects being looked at

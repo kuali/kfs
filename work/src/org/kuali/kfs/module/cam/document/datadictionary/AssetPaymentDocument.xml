@@ -10,7 +10,7 @@
     <property name="documentTypeName" value="MPAY"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetPaymentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentPreRules"/>    
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentPreRules"/>    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentPresentationController"/>
     <property name="workflowAttributes">

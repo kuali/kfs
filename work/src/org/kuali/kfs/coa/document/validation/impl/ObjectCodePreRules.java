@@ -27,14 +27,14 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * PreRules checks for the {@link ObjectCode} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
  * etc.
  */
-public class ObjectCodePreRules extends PreRulesContinuationBase {
+public class ObjectCodePreRules extends PromptBeforeValidationBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodePreRules.class);
 
     private static ChartService chartService;
@@ -61,9 +61,10 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
      * <p>
      * Additionally if the object level is null or inactive it confirms with the user that this
      * is actually the object level code they wish to use
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
-    public boolean doRules(Document document) {
+    @Override
+    public boolean doPrompts(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
 
         LOG.debug("doRules");

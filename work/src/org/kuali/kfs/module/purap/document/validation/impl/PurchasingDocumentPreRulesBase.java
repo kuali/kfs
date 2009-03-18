@@ -32,10 +32,10 @@ import org.kuali.rice.kns.service.ParameterService;
 public abstract class PurchasingDocumentPreRulesBase extends PurapDocumentPreRulesBase{
 
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
         
-        boolean preRulesValid=super.doRules(document);
+        boolean preRulesValid=super.doPrompts(document);
         
         if (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)) {
             preRulesValid &= confirmFixCapitalAssetWarningConditions(purapDocument);

@@ -37,7 +37,7 @@
     <property name="documentTypeName" value="AWRD"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardPreRules"/>
     <property name="displayTopicFieldInNotes" value="true"/>
     <property name="webScriptFiles">
       <list>

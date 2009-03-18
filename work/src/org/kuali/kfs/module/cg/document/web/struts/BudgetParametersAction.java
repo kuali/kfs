@@ -124,9 +124,10 @@ public class BudgetParametersAction extends BudgetAction {
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         // Logic for Cost Share question.
-        ActionForward preRulesForward = preRulesCheck(mapping, form, request, response, "saveParameters");
-        if (preRulesForward != null) {
-            return preRulesForward;
+        budgetForm.setDerivedValuesOnForm(request);
+        ActionForward promptForward = promptBeforeValidation(mapping, form, request, response, "saveParameters");
+        if (promptForward != null) {
+            return promptForward;
         }
 
         super.save(mapping, form, request, response);
@@ -208,9 +209,10 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward deletePeriodLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ((BudgetForm) form).getBudgetDocument().setPeriodToDelete(Integer.toString(getLineToDelete(request)));
-        ActionForward preRulesForward = preRulesCheck(mapping, form, request, response);
-        if (preRulesForward != null) {
-            return preRulesForward;
+        ((BudgetForm) form).setDerivedValuesOnForm(request);
+        ActionForward promptForward = promptBeforeValidation(mapping, form, request, response);
+        if (promptForward != null) {
+            return promptForward;
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -227,9 +229,11 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward deleteTaskLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ((BudgetForm) form).getBudgetDocument().setTaskToDelete(Integer.toString(getLineToDelete(request)));
-        ActionForward preRulesForward = preRulesCheck(mapping, form, request, response);
-        if (preRulesForward != null) {
-            return preRulesForward;
+        
+        ((BudgetForm) form).setDerivedValuesOnForm(request);
+        ActionForward promptForward = promptBeforeValidation(mapping, form, request, response);
+        if (promptForward != null) {
+            return promptForward;
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

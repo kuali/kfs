@@ -22,7 +22,7 @@
     
     <property name="documentTypeName" value="BCPS"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionPositionPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionPositionPreRules"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/BudgetConstructionPosition.js</value>

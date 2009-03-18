@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
@@ -43,7 +43,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 /**
  * Checks warnings and prompt conditions for dv document.
  */
-public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBase implements DisbursementVoucherConstants {
+public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationBase implements DisbursementVoucherConstants {
 
     /**
      * Executes pre-rules for Disbursement Voucher Document
@@ -51,9 +51,10 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
      * @param document submitted document
      * @return true if pre-rules execute successfully
      * 
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
-    public boolean doRules(Document document) {
+    @Override
+    public boolean doPrompts(Document document) {
         boolean preRulesOK = true;
 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;

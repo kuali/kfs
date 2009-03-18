@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -42,7 +42,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Checks warnings and prompt conditions for ba document.
  */
-public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
+public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase {
     private KualiConfigurationService kualiConfiguration;
 
 
@@ -51,9 +51,10 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
      * 
      * @document document with pre-rules being applied
      * @return true if pre-rules fire without problem
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
-    public boolean doRules(Document document) {
+    @Override
+    public boolean doPrompts(Document document) {
         boolean preRulesOK = true;
 
         BudgetAdjustmentDocument budgetDocument = (BudgetAdjustmentDocument) document;

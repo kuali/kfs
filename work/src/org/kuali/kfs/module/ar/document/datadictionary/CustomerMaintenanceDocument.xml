@@ -33,7 +33,7 @@
     
     <property name="documentTypeName" value="CUS"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerRule"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerPreRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerAuthorizer"/>
     <property name="webScriptFiles">
       <list>

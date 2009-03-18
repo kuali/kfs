@@ -26,7 +26,7 @@
     
     <property name="documentTypeName" value="PMRA"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.ReceivingAddressPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.ReceivingAddressPreRules"/>
     <property name="workflowAttributes">
     	<ref bean="ReceivingAddressMaintenanceDocument-workflowAttributes"/>
     </property>

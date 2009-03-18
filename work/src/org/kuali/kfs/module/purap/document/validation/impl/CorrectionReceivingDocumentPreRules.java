@@ -16,12 +16,12 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 
-public class CorrectionReceivingDocumentPreRules extends PreRulesContinuationBase {
+public class CorrectionReceivingDocumentPreRules extends PromptBeforeValidationBase {
 
     @Override
-    public boolean doRules(Document arg0) {
+    public boolean doPrompts(Document arg0) {
         // TODO Auto-generated method stub
         return true;
     }

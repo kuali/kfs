@@ -22,15 +22,15 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 
-public class CustomerInvoiceDocumentPreRules extends PreRulesContinuationBase {
+public class CustomerInvoiceDocumentPreRules extends PromptBeforeValidationBase {
 
     /**
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
 
         CustomerInvoiceDocument doc = (CustomerInvoiceDocument)document;
         CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);

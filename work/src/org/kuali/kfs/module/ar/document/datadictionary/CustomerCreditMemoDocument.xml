@@ -12,7 +12,7 @@
 <!-- the following businessRuleClass should be used for granular validations, if implemented
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
 -->
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentPreRules"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerCreditMemoDocumentPresentationController"/>
     <property name="attributes">
       <list>                                 

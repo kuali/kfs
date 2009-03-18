@@ -30,16 +30,16 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Performs warning checks and prompts for CashManagement.
  */
-public class CashManagementDocumentPreRules extends PreRulesContinuationBase {
+public class CashManagementDocumentPreRules extends PromptBeforeValidationBase {
 
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
         boolean preRulesOK = true;
 
         CashManagementDocument cmDocument = (CashManagementDocument) document;

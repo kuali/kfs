@@ -23,7 +23,7 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
@@ -40,7 +40,7 @@ public abstract class AccountsPayableDocumentPreRulesBase extends PurapDocumentP
      * Asks for an override if the document hasn't reached full entry and the entered amount does not
      * match the total amount of all items.
      * 
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     public boolean doRules(Document document) {
 

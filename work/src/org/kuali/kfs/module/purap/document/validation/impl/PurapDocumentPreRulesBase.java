@@ -26,21 +26,21 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public abstract class PurapDocumentPreRulesBase extends PreRulesContinuationBase {
+public abstract class PurapDocumentPreRulesBase extends PromptBeforeValidationBase {
 
     public PurapDocumentPreRulesBase() {
         super();
     }
 
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
         
         boolean preRulesValid=true;

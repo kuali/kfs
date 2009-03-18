@@ -50,7 +50,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
     /**
      * Main hook point to perform rules check.
      * 
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean doRules(Document document) {

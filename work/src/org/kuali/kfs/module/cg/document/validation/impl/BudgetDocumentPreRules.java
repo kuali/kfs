@@ -29,16 +29,17 @@ import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
-public class BudgetDocumentPreRules extends PreRulesContinuationBase {
+public class BudgetDocumentPreRules extends PromptBeforeValidationBase {
 
     /**
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
-    public boolean doRules(Document document) {
+    @Override
+    public boolean doPrompts(Document document) {
         boolean preRulesOK = true;
 
         BudgetDocument budgetDocument = (BudgetDocument) document;

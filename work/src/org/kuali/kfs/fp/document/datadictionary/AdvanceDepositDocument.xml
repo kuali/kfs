@@ -12,7 +12,7 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.AdvanceDepositDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules"/>
     <property name="sessionDocument" value="true"/>
     
     <property name="allowsCopy" value="true"/>

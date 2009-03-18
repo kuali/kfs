@@ -25,7 +25,7 @@
     <property name="documentTypeName" value="GDLG"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.DelegateGlobalRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.DelegateGlobalPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.DelegateGlobalPreRules"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AccountService.js</value>

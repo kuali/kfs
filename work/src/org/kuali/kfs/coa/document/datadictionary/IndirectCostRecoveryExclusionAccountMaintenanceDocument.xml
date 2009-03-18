@@ -33,7 +33,7 @@
     
     <property name="documentTypeName" value="ICRA"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryExclusionAccountPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryExclusionAccountPreRules"/>
     <property name="workflowAttributes">
     	<ref bean="IndirectCostRecoveryExclusionAccountMaintenanceDocument-workflowAttributes"/>
     </property>

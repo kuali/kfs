@@ -27,11 +27,11 @@ import org.kuali.rice.kns.document.Document;
 public class RequisitionDocumentPreRules extends PurchasingDocumentPreRulesBase {
 
     /**
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    public boolean doRules(Document document) {
-        boolean preRulesOK = super.doRules(document);
+    public boolean doPrompts(Document document) {
+        boolean preRulesOK = super.doPrompts(document);
         
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
         

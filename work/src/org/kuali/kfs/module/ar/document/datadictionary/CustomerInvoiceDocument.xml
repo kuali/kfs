@@ -9,7 +9,7 @@
     <property name="documentTypeName" value="INV"/>
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDocumentPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDocumentPreRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentPresentationController"/>
     <property name="allowsCopy" value="true"/>

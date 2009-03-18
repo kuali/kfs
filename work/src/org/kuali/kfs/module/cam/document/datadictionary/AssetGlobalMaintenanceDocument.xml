@@ -33,7 +33,7 @@
     
     <property name="documentTypeName" value="AA"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalPreRules"/>        
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalPreRules"/>        
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetGlobalPresentationController"/>
     <property name="workflowAttributes">

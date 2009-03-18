@@ -6,7 +6,7 @@
     <property name="documentTypeName" value="DV"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument"/>
 	   
-	<property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules"/>   
+	<property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules"/>   
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>

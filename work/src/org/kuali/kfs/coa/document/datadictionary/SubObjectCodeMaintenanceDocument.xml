@@ -35,7 +35,7 @@
     <property name="documentTypeName" value="SOBJ"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjCdRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjectPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjectPreRules"/>
     <property name="workflowAttributes">
     	<ref bean="SubObjectCodeMaintenanceDocument-workflowAttributes"/>
     </property>

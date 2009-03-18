@@ -1227,6 +1227,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         // retain error messages after a lookup
         WebUtils.reuseErrorMapFromPreviousRequest(budgetConstructionForm);
+        budgetConstructionForm.setDerivedValuesOnForm(request);
         
         // Do specific refresh stuff here based on refreshCaller parameter
         // typical refresh callers would be monthlyBudget or salarySetting or lookupable

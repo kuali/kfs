@@ -34,7 +34,7 @@
     <property name="documentTypeName" value="GOBJ"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeGlobalRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeGlobalPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeGlobalPreRules"/>
     <property name="workflowAttributes">
     	<ref bean="ObjectCodeGlobalMaintenanceDocument-workflowAttributes"/>
     </property>

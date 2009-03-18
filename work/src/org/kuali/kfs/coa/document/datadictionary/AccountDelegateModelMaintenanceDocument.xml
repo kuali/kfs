@@ -26,7 +26,7 @@
     <property name="documentTypeName" value="GDLM"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelPreRules"/>
     <property name="workflowAttributes">
     	<ref bean="AccountDelegateModelMaintenanceDocument-workflowAttributes"/>
     </property>

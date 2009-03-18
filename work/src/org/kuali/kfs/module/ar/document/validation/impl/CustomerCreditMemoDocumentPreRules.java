@@ -21,16 +21,16 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
-public class CustomerCreditMemoDocumentPreRules extends PreRulesContinuationBase {
+public class CustomerCreditMemoDocumentPreRules extends PromptBeforeValidationBase {
 
     /**
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
         boolean preRulesOK = conditionallyAskQuestion(document);
         return preRulesOK;
     }

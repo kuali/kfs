@@ -36,7 +36,7 @@
     <property name="documentTypeName" value="SACC"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountPreRules"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AccountService.js</value>

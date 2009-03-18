@@ -38,7 +38,7 @@
     <property name="documentTypeName" value="ECRD"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationReportDefinitionRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationReportDefinitionMaintenanceDocumentPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationReportDefinitionMaintenanceDocumentPreRules"/>
     <property name="workflowAttributes">
     	<ref bean="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes"/>
     </property>

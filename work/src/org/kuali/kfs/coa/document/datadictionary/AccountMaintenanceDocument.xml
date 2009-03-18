@@ -49,7 +49,7 @@
     <property name="documentTypeName" value="ACCT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.AccountPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.AccountPreRules"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/SubFundGroupService.js</value>

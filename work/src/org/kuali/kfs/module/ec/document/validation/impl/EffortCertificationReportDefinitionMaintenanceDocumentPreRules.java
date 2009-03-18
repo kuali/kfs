@@ -23,19 +23,19 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Checks warnings and prompts for EffortCertifictionReportDefinition Maintenance Document
  */
-public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules extends PreRulesContinuationBase {
+public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules extends PromptBeforeValidationBase {
 
     /**
-     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    public boolean doRules(Document arg0) {
+    public boolean doPrompts(Document arg0) {
         boolean preRulesFlag = true;
         EffortCertificationReportDefinition reportDefinition = (EffortCertificationReportDefinition) ((MaintenanceDocument) arg0).getNewMaintainableObject().getBusinessObject();
 

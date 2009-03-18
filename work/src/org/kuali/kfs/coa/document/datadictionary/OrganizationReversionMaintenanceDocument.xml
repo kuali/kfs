@@ -37,7 +37,7 @@
     <property name="documentTypeName" value="ORGR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionPreRules"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/ObjectCodeService.js</value>

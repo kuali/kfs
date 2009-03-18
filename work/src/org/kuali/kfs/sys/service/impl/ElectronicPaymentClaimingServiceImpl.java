@@ -199,8 +199,9 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isAuthorizedForClaimingElectronicPayment(org.kuali.rice.kim.bo.Person,
      *      java.lang.String, java.lang.String)
      */
-    public boolean isAuthorizedForClaimingElectronicPayment(Person user, String namespaceCode, String workflowDocumentTypeName) {
+    public boolean isAuthorizedForClaimingElectronicPayment(Person user, String workflowDocumentTypeName) {
         String principalId = user.getPrincipalId();
+        String namespaceCode = KFSConstants.ParameterNamespaces.KFS;
         String permissionTemplateName = KFSConstants.PermissionTemplate.CLAIM_ELECTRONIC_PAYMENT.name;
 
         AttributeSet permissionDetails = new AttributeSet();

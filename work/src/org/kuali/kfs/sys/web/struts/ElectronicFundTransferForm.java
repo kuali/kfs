@@ -143,9 +143,8 @@ public class ElectronicFundTransferForm extends KualiForm {
      */
     public boolean isAllowElectronicFundsTransferAdministration() {
         Person currentUser = GlobalVariables.getUserSession().getPerson();        
-        String namespaceCode = KFSConstants.ParameterNamespaces.KFS;
         
-        return SpringContext.getBean(ElectronicPaymentClaimingService.class).isAuthorizedForClaimingElectronicPayment(currentUser, namespaceCode, null);
+        return SpringContext.getBean(ElectronicPaymentClaimingService.class).isAuthorizedForClaimingElectronicPayment(currentUser, null);
     }
     
     /**

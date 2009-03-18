@@ -72,9 +72,7 @@ public class ElectronicPaymentClaimingDocumentGenerationStrategyImpl implements 
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
      */
     public boolean userMayUseToClaim(Person claimingUser) {
-        String namespaceCode = KFSConstants.ParameterNamespaces.KFS;
-        
-        return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, namespaceCode, null);
+        return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, null);
     }
 
     /**

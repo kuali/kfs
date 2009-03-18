@@ -100,6 +100,6 @@ public interface ElectronicPaymentClaimingService {
      * @param workflowDocumentTypeName the workflow document type name of the document being claimed
      * @return true if the user has permisson to claim electronic payment; otherwise, false
      */
-    public abstract boolean isAuthorizedForClaimingElectronicPayment(Person user, String namespaceCode, String workflowDocumentTypeName);
+    public abstract boolean isAuthorizedForClaimingElectronicPayment(Person user, String workflowDocumentTypeName);
 
 }

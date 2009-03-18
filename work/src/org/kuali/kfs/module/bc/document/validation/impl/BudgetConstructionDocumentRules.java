@@ -164,7 +164,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         isValid &= isDocumentAttributesValid(document, true);
 
         if (isValid) {
-            // TODO may need to add doc or bcdoc to error path?
             isValid &= processSaveBudgetDocumentRules((BudgetConstructionDocument) document, MonthSpreadDeleteType.NONE);
         }
 
@@ -183,7 +182,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         isValid &= isDocumentAttributesValid(budgetConstructionDocument, true);
 
         if (isValid) {
-            // TODO may need to add doc or bcdoc to error path?
             isValid &= processSaveBudgetDocumentRules(budgetConstructionDocument, monthSpreadDeleteType);
         }
 
@@ -211,11 +209,9 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         int originalErrorCount;
         int currentErrorCount;
 
-        // TODO move this to a method and replace with call
         // refresh only the doc refs we need
         List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
-        // budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
 
         errors.addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
@@ -267,7 +263,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         if (isValid) {
 
-            // TODO move this to a method and replace with call
             // refresh only the doc refs we need
             List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
@@ -394,7 +389,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                 }
             }
 
-            // TODO check for monthly total adding to zero (makes no sense)
+            // check for monthly total adding to zero (makes no sense)
             if (monthlyTotal.isZero()) {
                 boolean nonZeroMonthlyExists = false;
                 nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth1LineAmount().isNonZero();
@@ -424,9 +419,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     }
 
     /**
-     * Iterates existing revenue or expenditure lines. Checks if request amount is non-zero and runs business rules on the line.
-     * TODO In addition to using the non-zero request test add a previous request var to the PBGL BO and as a hidden in the JSP and
-     * test for differences as an indicator it was touched. update method comments when done here.
+     * Iterates existing revenue or expenditure lines. Checks if request amount is non-zero or has changed and runs business rules
+     * on the line.
      * 
      * @param budgetConstructionDocument
      * @param errors
@@ -463,13 +457,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
             // run dd required field and format checks on request amount only, since only it can be changed by user
             // no sanity checks on hiddens and readonly field params
-            // TODO may not need this since required/format check is done as part of form populate??
             validatePrimitiveFromDescriptor(element, TARGET_ERROR_PROPERTY_NAME, "", true);
-
-            // TODO can validateDocumentAttribute be used on non primitive instead of local validatePrimitiveFromDescriptor?? -
-            // remove when tested
-            // getDictionaryValidationService().validateDocumentAttribute(budgetConstructionDocument, TARGET_ERROR_PROPERTY_NAME,
-            // "");
 
             // check to see if any errors were reported
             currentErrorCount = errors.getErrorCount();
@@ -607,7 +595,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         // now make sure all the necessary business objects are fully populated
         // this refreshes any refs not done by populate for display purposes auto-update="none"
-        // TODO should this just refresh the refs we need?
         pendingBudgetConstructionGeneralLedger.refreshNonUpdateableReferences();
 
         isValid &= validatePBGLLine(pendingBudgetConstructionGeneralLedger, isAdd);
@@ -616,7 +603,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             // all lines must have objects defined with financialBudgetAggregation = 'O';
             isValid &= isBudgetAggregationAllowed(budgetAggregationCodesParamValues, pendingBudgetConstructionGeneralLedger, errors, isAdd);
 
-            // TODO add other generic restriction checks
             isValid &= this.isBudgetAllowed(budgetConstructionDocument, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, errors, isAdd, false);
 
             // revenue specific checks
@@ -660,8 +646,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         if (pendingBudgetConstructionGeneralLedger == null) {
             throw new IllegalStateException(getKualiConfigurationService().getPropertyString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
         }
-        // TODO needed for hack code only
-        // ErrorMap errors = GlobalVariables.getErrorMap();
 
         // grab the service instance that will be needed by all the validate methods
         DataDictionary dd = dataDictionaryService.getDataDictionary();
@@ -681,26 +665,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             valid &= isValidObjectCode(objectCode, pendingBudgetConstructionGeneralLedger.getFinancialObjectCode(), dd, TARGET_ERROR_PROPERTY_NAME);
         }
 
-        // TODO figure out which way to go to handle better error message
-        // // this code is a hack to add the bad value to the error message
-        // if (isAdd){
-        // if (!accountingLineRuleHelper.isValidObjectCode(objectCode, dd)){
-        // valid = false;
-        // errors.replaceError("financialObjectCode", "error.existence", "error.existence",
-        // "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
-        // errors.replaceError("financialObjectCode", "error.inactive", "error.inactive",
-        // "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
-        // }
-        // } else {
-        // if (!accountingLineRuleHelper.isValidObjectCode(objectCode, dd, TARGET_ERROR_PROPERTY_NAME)){
-        // valid = false;
-        // errors.replaceError(TARGET_ERROR_PROPERTY_NAME, "error.existence", "error.existence",
-        // "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
-        // errors.replaceError(TARGET_ERROR_PROPERTY_NAME, "error.inactive", "error.inactive",
-        // "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
-        // }
-        // }
-
         // sub object is not required
         if (StringUtils.isNotBlank(pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode()) && !pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode())) {
             SubObjectCode subObjectCode = pendingBudgetConstructionGeneralLedger.getFinancialSubObject();
@@ -713,39 +677,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             else {
                 valid &= isValidSubObjectCode(subObjectCode, pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode(), dd, TARGET_ERROR_PROPERTY_NAME);
             }
-
-            // TODO figure out which way to go to handle better error message
-            // // this code is a hack to add the bad value to the error message
-            // if (!accountingLineRuleHelper.isValidSubObjectCode(subObjectCode, dd)){
-            // valid = false;
-            // if (isAdd){
-            // errors.replaceError("financialSubObjectCode", "error.existence", "error.existence",
-            // "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
-            // errors.replaceError("financialSubObjectCode", "error.inactive", "error.inactive",
-            // "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
-            // } else {
-            // if (errors.fieldHasMessage(errors.getKeyPath((String) "financialSubObjectCode", true), "error.existence")){
-            // errors.remove(errors.getKeyPath((String) "financialSubObjectCode", true));
-            // errors.putError(TARGET_ERROR_PROPERTY_NAME, "error.existence",
-            // "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
-            //                        
-            // }
-            // if (errors.fieldHasMessage(errors.getKeyPath((String) "financialSubObjectCode", true), "error.inactive")){
-            // errors.remove(errors.getKeyPath((String) "financialSubObjectCode", true));
-            // errors.putError(TARGET_ERROR_PROPERTY_NAME, "error.inactive",
-            // "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
-            // }
-            // }
-            // }
         }
 
         return valid;
     }
 
     /**
-     * Validates a single primitive in a BO TODO May want to add this to DictionaryValidationService and change signature to pass in
-     * a subset list of attributeNames to validate in the BO. Also, may not need this if we can somehow get/use a
-     * BudgetConstructionDocument on expansion screens
+     * Validates a single primitive in a BO
      * 
      * @param object
      * @param attributeName
@@ -770,9 +708,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     }
 
     /**
-     * Validates a primitive in a BO TODO this is lifted from DictionaryValidationService since it is private. If the
-     * validatePrimitiveFromDescriptor using an attribute name is added to DictionaryValidationService, we won't need this Also, may
-     * not need this if we can somehow get/use a BudgetConstructionDocument on expansion screens
+     * Validates a primitive in a BO
      * 
      * @param entryName
      * @param object

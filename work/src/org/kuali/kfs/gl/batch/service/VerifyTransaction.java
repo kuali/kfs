@@ -18,6 +18,7 @@ package org.kuali.kfs.gl.batch.service;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.Message;
 
 /**
  * An interface declaring methods needed by the Poster to ascertain if a transaction is suitable for posting
@@ -29,5 +30,5 @@ public interface VerifyTransaction {
      * @param t Transaction to verify
      * @return List of error messages, empty list means no errors
      */
-    public List verifyTransaction(Transaction t);
+    public List<Message> verifyTransaction(Transaction t);
 }

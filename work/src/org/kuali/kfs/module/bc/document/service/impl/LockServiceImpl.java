@@ -133,7 +133,7 @@ public class LockServiceImpl implements LockService {
             return freshBcHeader.getBudgetLockUserIdentifier() != null;
         }
         else {
-            return false; // TODO should return not found or throw exception
+            return false; // unlikely, but not found still means not locked
         }
     }
 
@@ -195,7 +195,7 @@ public class LockServiceImpl implements LockService {
                 String nameB = bFlock.getAppointmentFundingLockUser().getName();
                 return nameA.compareTo(nameB);
             }
-        }); // TODO Can probably rip out once KualiUserService gets a comparator
+        });
 
         sortedFundingLocks.addAll(fundingLocks);
         return sortedFundingLocks;
@@ -380,7 +380,7 @@ public class LockServiceImpl implements LockService {
             }
         }
         else {
-            return false; // TODO should return not found?
+            return false; // unlikely, but still means not locked
         }
     }
 
@@ -497,7 +497,7 @@ public class LockServiceImpl implements LockService {
         // as a successful lock even though this is not how Uniface handled it.
         // The old FIS kept track of the issued locks and only called this once
         // even when multiple BCAF rows were being updated and saved
-        if (this.isTransactionLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, principalId)){
+        if (this.isTransactionLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, principalId)) {
             bcLockStatus.setLockStatus(LockStatus.SUCCESS);
             done = true;
         }
@@ -564,7 +564,7 @@ public class LockServiceImpl implements LockService {
             }
         }
         else {
-            return false; // TODO should return not found
+            return false; // unlikely, but still means not locked
         }
     }
 

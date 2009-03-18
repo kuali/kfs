@@ -759,6 +759,7 @@
 			<ref bean="businessObjectService"/>
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+		<property name="reportDirectoryName" value="${reports.directory}"/>
 		<property name="cachingDao">
 		  	<ref bean="cachingDao" />
 		</property>

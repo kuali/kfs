@@ -45,7 +45,7 @@ public class TaxRegionServiceImpl implements TaxRegionService {
 
         List<TaxRegion> salesTaxRegions = new ArrayList<TaxRegion>();
 
-        PostalCode postalCodeObj = postalCodeService.getByPrimaryId(postalCode);
+        PostalCode postalCodeObj = postalCodeService.getByPostalCodeInDefaultCountry(postalCode);
         if(ObjectUtils.isNotNull(postalCodeObj)) {
             salesTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getPostalCode(), postalCodeObj.getPostalCountryCode(), false));
             salesTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), false));
@@ -62,7 +62,7 @@ public class TaxRegionServiceImpl implements TaxRegionService {
 
         List<TaxRegion> useTaxRegions = new ArrayList<TaxRegion>();
 
-        PostalCode postalCodeObj = postalCodeService.getByPrimaryId(postalCode);
+        PostalCode postalCodeObj = postalCodeService.getByPostalCodeInDefaultCountry(postalCode);
         useTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getPostalCode(), postalCodeObj.getPostalCountryCode(), true));
         useTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), true));
         useTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), true));

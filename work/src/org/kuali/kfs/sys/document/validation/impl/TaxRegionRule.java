@@ -174,7 +174,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean isValidTaxRegionPostalCode(TaxRegionPostalCode taxRegionPostalCode) {
         boolean success = true;
 
-        PostalCode postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(taxRegionPostalCode.getPostalCode());
+        PostalCode postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountry(taxRegionPostalCode.getPostalCode());
         if (ObjectUtils.isNull(postalZipCode) || !postalZipCode.isActive()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_POSTAL_CODE, taxRegionPostalCode.getPostalCode());
             success = false;

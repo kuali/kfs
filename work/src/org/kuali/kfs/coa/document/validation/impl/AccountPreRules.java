@@ -208,7 +208,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         // acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up
         // the zip code and getting the state and city from that
         if (!StringUtils.isBlank(newAccount.getAccountZipCode())) {
-            PostalCode zip = postalZipCodeService.getByPrimaryId(newAccount.getAccountZipCode());
+            PostalCode zip = postalZipCodeService.getByPostalCodeInDefaultCountry(newAccount.getAccountZipCode());
 
             // If user enters a valid zip code, override city name and state code entered by user
             if (ObjectUtils.isNotNull(zip)) { // override old user inputs

@@ -1341,7 +1341,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @return Returns the postalZipCode.
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, accountZipCode, postalZipCode);
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this, accountZipCode, postalZipCode);
         return postalZipCode;
     }
 

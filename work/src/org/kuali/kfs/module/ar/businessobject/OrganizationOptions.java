@@ -575,7 +575,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 
     public PostalCode getOrgPostalZipCode() {
         if(ObjectUtils.isNull(orgPostalZipCode)) {
-            orgPostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(organizationPostalZipCode);
+            orgPostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountry(organizationPostalZipCode);
         }
         return orgPostalZipCode;
     }
@@ -586,7 +586,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 
     public PostalCode getOrgRemitToZipCode() {
         if(ObjectUtils.isNull(orgRemitToZipCode)) {
-            orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(organizationRemitToZipCode);
+            orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountry(organizationRemitToZipCode);
         }
         return orgRemitToZipCode;
     }

@@ -405,7 +405,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivate
      * @return Returns the postalCode.
      */
     public PostalCode getPostalCode() {
-        postalCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, bankZipCode, postalCode);
+        postalCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this, bankZipCode, postalCode);
         return postalCode;
     }
     

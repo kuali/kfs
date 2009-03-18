@@ -15,6 +15,7 @@
  */
 function updateLocation( postalCodeField, callbackFunction ) {
 	var postalCode = getElementValue( postalCodeField.name );
+	var postalCountryCode = getElementValue("document.newMaintainableObject.organizationCountryCode");
 	if ( postalCode != "" ) {
 		var dwrReply = {
 			callback:callbackFunction,
@@ -23,7 +24,7 @@ function updateLocation( postalCodeField, callbackFunction ) {
 				clearRecipients( "document.newMaintainableObject.organizationStateCode" );
 			}
 		};
-		PostalCodeService.getByPrimaryId( postalCode, dwrReply );
+		PostalCodeService.getByPrimaryId(postalCountryCode, postalCode, dwrReply );
 	}	
 }
 

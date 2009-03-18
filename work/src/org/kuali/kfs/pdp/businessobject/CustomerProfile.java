@@ -960,7 +960,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @return Returns the postalCode.
      */
     public PostalCode getPostalCode() {
-        postalCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, this.zipCode, this.postalCode);
+        postalCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this, this.zipCode, this.postalCode);
         return postalCode;
     }
 
